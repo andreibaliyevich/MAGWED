@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from .models import MWUser, Customer, OrganizerRole, Organizer, UserLink
+from .models import MWUser, Customer, OrganizerRole, Organizer, OrganizerLink
 
 
 class DateJoinedFilter(admin.SimpleListFilter):
@@ -40,8 +40,8 @@ class DateJoinedFilter(admin.SimpleListFilter):
             return queryset.filter(date_joined__lt=date)
 
 
-class UserLinkInline(admin.TabularInline):
-    model = UserLink
+class OrganizerLinkInline(admin.TabularInline):
+    model = OrganizerLink
     extra = 0
 
 
@@ -85,7 +85,6 @@ class MWUserAdmin(admin.ModelAdmin):
     )
     filter_horizontal = ('groups', 'user_permissions')
     readonly_fields = ('last_visit', 'last_login', 'date_joined')
-    inlines = (UserLinkInline,)
 
 
 class CustomerAdmin(admin.ModelAdmin):
@@ -102,6 +101,7 @@ class OrganizerAdmin(admin.ModelAdmin):
     """ Organizer Model for admin """
     list_display = ('user', 'rating', 'pro_time')
     autocomplete_fields = ['countries', 'cities', 'languages']
+    inlines = (OrganizerLinkInline,)
 
 
 admin.site.register(MWUser, MWUserAdmin)

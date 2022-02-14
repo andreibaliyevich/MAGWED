@@ -243,12 +243,12 @@ class Organizer(models.Model):
         ordering = ['user']
 
 
-class UserLink(models.Model):
-    """ User Link Model """
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+class OrganizerLink(models.Model):
+    """ Organizer Link Model """
+    organizer = models.ForeignKey(
+        Organizer,
         on_delete=models.CASCADE,
-        verbose_name=_('User'),
+        verbose_name=_('Organizer'),
     )
 
     class LinkType(models.TextChoices):
@@ -269,9 +269,9 @@ class UserLink(models.Model):
     link_url = models.URLField(verbose_name=_('URL of Link'))
 
     class Meta:
-        verbose_name = _('Link of User')
-        verbose_name_plural = _('Links of User')
-        ordering = ['user', 'id']
+        verbose_name = _('Link of Organizer')
+        verbose_name_plural = _('Links of Organizer')
+        ordering = ['organizer', 'id']
 
 
 @receiver(post_save, sender=Review)

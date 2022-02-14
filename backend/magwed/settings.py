@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'tinymce',
     'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
+    'portfolio.apps.PortfolioConfig',
     'social.apps.SocialConfig',
     'blog.apps.BlogConfig',
 ]
