@@ -1,0 +1,366 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-14 06:19+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: accounts/admin.py:8 accounts/models.py:100
+msgid "Date joined"
+msgstr "Дата регистрации"
+
+#: accounts/admin.py:13
+msgid "Last 3 days"
+msgstr "Последние 3 дня"
+
+#: accounts/admin.py:14
+msgid "Last week"
+msgstr "Последняя неделя"
+
+#: accounts/admin.py:15
+msgid "Last month"
+msgstr "Последний месяц"
+
+#: accounts/admin.py:16
+msgid "Last 6 months"
+msgstr "Последние 6 месяцев"
+
+#: accounts/admin.py:17
+msgid "Last year"
+msgstr "Последний год"
+
+#: accounts/admin.py:18
+msgid "More year"
+msgstr "Больше года"
+
+#: accounts/admin.py:64
+msgid "Personal info"
+msgstr "Персональная информация"
+
+#: accounts/admin.py:73
+msgid "Permissions"
+msgstr "Права доступа"
+
+#: accounts/admin.py:82
+msgid "Important dates"
+msgstr "Важные даты"
+
+#: accounts/apps.py:8
+msgid "Accounts"
+msgstr "Учетные записи"
+
+#: accounts/managers.py:11
+msgid "The Email must be set."
+msgstr "Электронная почта должна быть установлена."
+
+#: accounts/managers.py:26
+msgid "Superuser must have is_staff=True."
+msgstr "У суперпользователя должно быть is_staff=True."
+
+#: accounts/managers.py:28
+msgid "Superuser must have is_superuser=True."
+msgstr "У суперпользователя должно быть is_superuser=True."
+
+#: accounts/models.py:23
+msgid "Administrator"
+msgstr "Администратор"
+
+#: accounts/models.py:24 accounts/models.py:132
+msgid "Customer"
+msgstr "Клиент"
+
+#: accounts/models.py:25 accounts/models.py:240
+msgid "Organizer"
+msgstr "Организатор"
+
+#: accounts/models.py:30
+msgid "User type"
+msgstr "Тип пользователя"
+
+#: accounts/models.py:33
+msgid "Email address"
+msgstr "Адрес электронной почты"
+
+#: accounts/models.py:38 main/models.py:12 main/models.py:32 main/models.py:53
+msgid "Name"
+msgstr "Имя"
+
+#: accounts/models.py:50
+msgid "Avatar"
+msgstr "Аватар"
+
+#: accounts/models.py:58 main/models.py:19 main/models.py:29
+msgid "Country"
+msgstr "Страна"
+
+#: accounts/models.py:65 main/models.py:40
+msgid "City"
+msgstr "Город"
+
+#: accounts/models.py:74
+msgid "Wrong format!"
+msgstr "Неправильный формат!"
+
+#: accounts/models.py:77
+msgid "Phone"
+msgstr "Телефон"
+
+#: accounts/models.py:80
+msgid "Active"
+msgstr "Активный"
+
+#: accounts/models.py:83
+msgid "Staff status"
+msgstr "Статус персонала"
+
+#: accounts/models.py:87
+msgid "Superuser status"
+msgstr "Статус суперпользователя"
+
+#: accounts/models.py:92
+msgid "Last visit"
+msgstr "Последнее посещение"
+
+#: accounts/models.py:96
+msgid "Last login"
+msgstr "Последний вход"
+
+#: accounts/models.py:112 accounts/models.py:123 accounts/models.py:176
+#: accounts/models.py:250
+msgid "User"
+msgstr "Пользователь"
+
+#: accounts/models.py:113
+msgid "Users"
+msgstr "Пользователи"
+
+#: accounts/models.py:128
+msgid "Date of Wedding"
+msgstr "Дата свадьбы"
+
+#: accounts/models.py:133
+msgid "Customers"
+msgstr "Клиенты"
+
+#: accounts/models.py:141
+msgid "Photographer"
+msgstr "Фотограф"
+
+#: accounts/models.py:142
+msgid "Videographer"
+msgstr "Видеооператор"
+
+#: accounts/models.py:143
+msgid "Leading"
+msgstr "Ведущий"
+
+#: accounts/models.py:144
+msgid "Musician"
+msgstr "Музыкант"
+
+#: accounts/models.py:145
+msgid "DJ"
+msgstr "Диджей"
+
+#: accounts/models.py:146
+msgid "Agency"
+msgstr "Агентство"
+
+#: accounts/models.py:147
+msgid "Salon"
+msgstr "Салон"
+
+#: accounts/models.py:148
+msgid "Confectionery"
+msgstr "Кондитерская"
+
+#: accounts/models.py:149
+msgid "Decorator"
+msgstr "Декоратор"
+
+#: accounts/models.py:150
+msgid "Visagiste"
+msgstr "Визажист"
+
+#: accounts/models.py:151
+msgid "Hairdresser"
+msgstr "Парикмахер"
+
+#: accounts/models.py:153
+msgid "(Unknown)"
+msgstr "(Неизвестно)"
+
+#: accounts/models.py:158
+msgid "Identifier"
+msgstr "Идентификатор"
+
+#: accounts/models.py:165
+msgid "Role of Organizer"
+msgstr "Роль организатора"
+
+#: accounts/models.py:166
+msgid "Roles of Organizers"
+msgstr "Роли организаторов"
+
+#: accounts/models.py:180
+msgid "Roles"
+msgstr "Роли"
+
+#: accounts/models.py:187
+msgid "Cover"
+msgstr "Обложка"
+
+#: accounts/models.py:189
+msgid "Description"
+msgstr "Описание"
+
+#: accounts/models.py:194 main/models.py:20
+msgid "Countries"
+msgstr "Страны"
+
+#: accounts/models.py:199 main/models.py:41
+msgid "Cities"
+msgstr "Города"
+
+#: accounts/models.py:204 main/models.py:61
+msgid "Languages"
+msgstr "Языки"
+
+#: accounts/models.py:211
+msgid "Cost of work"
+msgstr "Стоимость работы"
+
+#: accounts/models.py:212
+msgid "Please enter in USD ($)"
+msgstr "Пожалуйста, введите в долларах США ($)"
+
+#: accounts/models.py:216
+msgid "Number of hours"
+msgstr "Количество часов"
+
+#: accounts/models.py:222
+msgid "Profile URL"
+msgstr "URL профиля"
+
+#: accounts/models.py:229
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: accounts/models.py:233
+msgid "Pro-account valid time"
+msgstr "Срок действия Pro-аккаунта"
+
+#: accounts/models.py:241
+msgid "Organizers"
+msgstr "Организаторы"
+
+#: accounts/models.py:254
+msgid "Website"
+msgstr "Интернет сайт"
+
+#: accounts/models.py:255
+msgid "Instagram"
+msgstr "Instagram"
+
+#: accounts/models.py:256
+msgid "Facebook"
+msgstr "Facebook"
+
+#: accounts/models.py:257
+msgid "Twitter"
+msgstr "Twitter"
+
+#: accounts/models.py:258
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: accounts/models.py:259
+msgid "VK"
+msgstr "ВКонтакте"
+
+#: accounts/models.py:265
+msgid "Type of Link"
+msgstr "Тип ссылки"
+
+#: accounts/models.py:268
+msgid "URL of Link"
+msgstr "URL ссылки"
+
+#: accounts/models.py:271
+msgid "Link of User"
+msgstr "Ссылка пользователя"
+
+#: accounts/models.py:272
+msgid "Links of User"
+msgstr "Ссылки пользователя"
+
+#: accounts/validators.py:17
+msgid "Error! Size of your image:"
+msgstr "Ошибка! Размер вашего изображения:"
+
+#: main/apps.py:8
+msgid "Main app"
+msgstr "Основное приложение"
+
+#: main/models.py:10 main/models.py:51
+msgid "Code"
+msgstr "Код"
+
+#: main/models.py:13 main/models.py:33 main/models.py:54
+msgid "Name (local)"
+msgstr "Название (местное)"
+
+#: main/models.py:34
+msgid "Slug"
+msgstr "Слаг"
+
+#: main/models.py:60
+msgid "Language"
+msgstr "Язык"
+
+#: templates/admin/base.html:40
+msgid "Welcome,"
+msgstr "Добро пожаловать,"
+
+#: templates/admin/base.html:45
+msgid "View site"
+msgstr "Посмотреть сайт"
+
+#: templates/admin/base.html:50
+msgid "Documentation"
+msgstr "Документация"
+
+#: templates/admin/base.html:54
+msgid "Change password"
+msgstr "Сменить пароль"
+
+#: templates/admin/base.html:56
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/admin/base.html:66
+msgid "Home"
+msgstr "Главная"
+
+#: templates/admin/base_site.html:3
+msgid "Django site admin"
+msgstr "Администратор сайта Django"
+
+#: templates/admin/base_site.html:6
+msgid "Django administration"
+msgstr "Администрирование Django"
