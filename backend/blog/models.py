@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from main.model_fields import TranslatedField
 from main.models import Hashtag
 from main.utilities import get_thumbnail_path
+from social.models import Comment
 from .utilities import get_article_path
 
 
@@ -136,6 +137,7 @@ class Article(models.Model):
         default=0,
         verbose_name=_('Number of views'),
     )
+    comments = GenericRelation(Comment)
 
     def __str__(self):
         return self.translated_title

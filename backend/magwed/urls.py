@@ -26,6 +26,7 @@ urlpatterns = i18n_patterns(
     path('tinymce/', include('tinymce.urls')),
     path('', include('main.urls', namespace='main')),
     path('', include('accounts.urls', namespace='accounts')),
+    path('', include('social.urls', namespace='social')),
     path('blog/', include('blog.urls', namespace='blog')),
 )
 
