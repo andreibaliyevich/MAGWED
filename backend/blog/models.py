@@ -125,7 +125,7 @@ class Article(models.Model):
     hashtags = models.ManyToManyField(
         Hashtag,
         blank=True,
-        verbose_name=_('Tags'),
+        verbose_name=_('Hashtags'),
     )
 
     published_at = models.DateTimeField(

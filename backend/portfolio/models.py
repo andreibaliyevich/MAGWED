@@ -42,7 +42,7 @@ class Album(models.Model):
     hashtags = models.ManyToManyField(
         Hashtag,
         blank=True,
-        verbose_name=_('Tags'),
+        verbose_name=_('Hashtags'),
     )
 
     created_at = models.DateTimeField(
@@ -149,7 +149,7 @@ class Photo(models.Model):
     hashtags = models.ManyToManyField(
         Hashtag,
         blank=True,
-        verbose_name=_('Tags'),
+        verbose_name=_('Hashtags'),
     )
 
     uploaded_at = models.DateTimeField(

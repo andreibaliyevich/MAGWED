@@ -58,7 +58,7 @@ class ArticleAdmin(admin.ModelAdmin):
         (_('Image and Thumbnail'), {
             'fields': ('image', 'thumbnail'),
         }),
-        (_('Content and Tags'), {
+        (_('Content and Hashtags'), {
             'fields': ('content', 'hashtags'),
         }),
         (_('Published and Views'), {
