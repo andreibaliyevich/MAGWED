@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'portfolio.apps.PortfolioConfig',
     'social.apps.SocialConfig',
+    'messenger.apps.MessengerConfig',
     'blog.apps.BlogConfig',
 ]
 

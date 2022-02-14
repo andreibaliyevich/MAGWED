@@ -28,6 +28,7 @@ urlpatterns = i18n_patterns(
     path('', include('accounts.urls', namespace='accounts')),
     path('', include('portfolio.urls', namespace='portfolio')),
     path('', include('social.urls', namespace='social')),
+    path('messenger/', include('messenger.urls', namespace='messenger')),
     path('blog/', include('blog.urls', namespace='blog')),
 )
 
