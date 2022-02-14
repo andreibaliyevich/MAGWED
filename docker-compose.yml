@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: magwed-postgres
+    restart: always
+    build:
+      context: ./postgres/
+      dockerfile: Dockerfile
+    volumes:
+      - ./postgres/data/:/var/lib/postgresql/data/
+    env_file:
+      - ./postgres/.env
+  redis:
+    container_name: magwed-redis
+    restart: always
+    image: redis:6.2.6
+    expose:
+      - 6379
+  backend:
+    container_name: magwed-backend
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+      - redis
+  frontend:
+    container_name: magwed-frontend
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    command: npm run dev
+    volumes:
+      - ./frontend/:/usr/src/app/
+      - /usr/src/app/node_modules/
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
