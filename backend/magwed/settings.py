@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'tinymce',
     'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [

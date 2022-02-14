@@ -23,8 +23,10 @@ from django.urls import path, include
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
+    path('tinymce/', include('tinymce.urls')),
     path('', include('main.urls', namespace='main')),
     path('', include('accounts.urls', namespace='accounts')),
+    path('blog/', include('blog.urls', namespace='blog')),
 )
 
 if settings.DEBUG:

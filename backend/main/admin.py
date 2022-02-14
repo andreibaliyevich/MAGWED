@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, City, Language
+from .models import Country, City, Language, Hashtag
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -22,6 +22,13 @@ class LanguageAdmin(admin.ModelAdmin):
     search_fields = ('code', 'name', 'name_local')
 
 
+class HashtagAdmin(admin.ModelAdmin):
+    """ Hashtag Model for admin """
+    list_display = ('__str__', 'created_at')
+    readonly_fields = ('created_at',)
+
+
 admin.site.register(Country, CountryAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Language, LanguageAdmin)
+admin.site.register(Hashtag, HashtagAdmin)

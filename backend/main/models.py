@@ -60,3 +60,21 @@ class Language(models.Model):
         verbose_name = _('Language')
         verbose_name_plural = _('Languages')
         ordering = ['name', 'code']
+
+
+class Hashtag(models.Model):
+    """ Hashtag Model """
+    name = models.SlugField(max_length=64, unique=True, verbose_name=_('Name'))
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_('Created at'),
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Hashtag')
+        verbose_name_plural = _('Hashtags')
+        ordering = ['-created_at', '-id']
