@@ -24,7 +24,8 @@ class LanguageAdmin(admin.ModelAdmin):
 
 class HashtagAdmin(admin.ModelAdmin):
     """ Hashtag Model for admin """
-    list_display = ('__str__', 'created_at')
+    list_display = ('__str__', 'slug', 'created_at')
+    prepopulated_fields = {'slug': ('name',)}
     readonly_fields = ('created_at',)
 
 
