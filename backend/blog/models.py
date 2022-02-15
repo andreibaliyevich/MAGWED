@@ -48,6 +48,7 @@ class CategoryTranslation(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
+        related_name='translations',
         verbose_name=_('Category'),
     )
     language = models.CharField(
@@ -156,6 +157,7 @@ class ArticleTranslation(models.Model):
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
+        related_name='translations',
         verbose_name=_('Article'),
     )
     language = models.CharField(
