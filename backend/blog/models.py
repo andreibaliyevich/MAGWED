@@ -4,9 +4,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from main.model_fields import TranslatedField
 from main.models import Hashtag
-from main.utilities import get_thumbnail_path
+from main.utilities import get_translated_field, get_thumbnail_path
 from social.models import Comment
 from .utilities import get_article_path
 
@@ -14,7 +13,6 @@ from .utilities import get_article_path
 class Category(models.Model):
     """ Category Model """
     name = models.CharField(max_length=64, verbose_name=_('Name'))
-    translated_name = TranslatedField('name')
     slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
 
     meta_description = models.CharField(
@@ -28,14 +26,21 @@ class Category(models.Model):
         help_text=_('Separate keywords with commas.'),
         verbose_name=_('Keywords'),
     )
-    translated_meta_description = TranslatedField('meta_description')
-    translated_meta_keywords = TranslatedField('meta_keywords')
 
-    def __str__(self):
-        return self.translated_name
+    def get_translated_name(self):
+        return get_translated_field(self, 'name')
+
+    def get_translated_meta_description(self):
+        return get_translated_field(self, 'meta_description')
+
+    def get_translated_meta_keywords(self):
+        return get_translated_field(self, 'meta_keywords')
 
     def get_absolute_url(self):
-        return reverse('blog:articles_by_category', args=[self.slug])
+        return reverse('blog:category_detail', args=[self.slug])
+
+    def __str__(self):
+        return self.get_translated_name()
 
     class Meta:
         verbose_name = _('Category')
@@ -88,7 +93,6 @@ class Article(models.Model):
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
-    translated_title = TranslatedField('title')
     slug = models.SlugField(max_length=128, unique=True, verbose_name=_('Slug'))
 
     meta_description = models.CharField(
@@ -102,8 +106,6 @@ class Article(models.Model):
         help_text=_('Separate keywords with commas.'),
         verbose_name=_('Keywords'),
     )
-    translated_meta_description = TranslatedField('meta_description')
-    translated_meta_keywords = TranslatedField('meta_keywords')
 
     image = models.ImageField(
         upload_to=get_article_path,
@@ -121,7 +123,6 @@ class Article(models.Model):
     )
 
     content = models.TextField(verbose_name=_('Content'))
-    translated_content = TranslatedField('content')
     
     hashtags = models.ManyToManyField(
         Hashtag,
@@ -140,11 +141,23 @@ class Article(models.Model):
     )
     comments = GenericRelation(Comment)
 
-    def __str__(self):
-        return self.translated_title
+    def get_translated_title(self):
+        return get_translated_field(self, 'title')
+
+    def get_translated_meta_description(self):
+        return get_translated_field(self, 'meta_description')
+
+    def get_translated_meta_keywords(self):
+        return get_translated_field(self, 'meta_keywords')
+
+    def get_translated_content(self):
+        return get_translated_field(self, 'content')
 
     def get_absolute_url(self):
-        return reverse('blog:article_detail', args=[self.id, self.slug])
+        return reverse('blog:article_detail', args=[self.slug])
+
+    def __str__(self):
+        return self.get_translated_title()
 
     class Meta:
         verbose_name = _('Article')
