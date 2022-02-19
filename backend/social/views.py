@@ -42,5 +42,5 @@ class CommentCreateView(APIView):
                     content_object=comment_obj,
                 )
             except IntegrityError:
-                return Response(status=405)
+                return Response(status=400)
         return Response(status=201)
