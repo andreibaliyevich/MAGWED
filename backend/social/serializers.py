@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from accounts.serializers import MWUserSerializer
 from accounts.models import MWUser
 from accounts.serializers import MWUserSerializer
 from portfolio.models import Album, Photo
@@ -20,7 +19,7 @@ class ContentObjectRelatedField(serializers.RelatedField):
         elif isinstance(value, Photo):
             serializer = PhotoListSerializer(value)
         else:
-            raise Exception('Unexpected type of tagged object')
+            raise Exception('Unexpected type of content object')
         return serializer.data
 
 
@@ -50,9 +49,10 @@ class CommentListSerializer(serializers.ModelSerializer):
             'comments',
         ]
 
-
-CommentListSerializer._declared_fields['comments'] = CommentListSerializer(
-    many=True)
+    def get_fields(self):
+        fields = super(CommentListSerializer, self).get_fields()
+        fields['comments'] = CommentListSerializer(many=True)
+        return fields
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):

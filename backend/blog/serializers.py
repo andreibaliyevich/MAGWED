@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from accounts.serializers import MWUserSerializer
 from social.serializers import CommentListSerializer
 from .models import Category, Article
 
@@ -50,7 +51,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
-    author = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    author = MWUserSerializer()
     categories = CategoryListSerializer(many=True)
     hashtags = serializers.SlugRelatedField(
         slug_field='name',
