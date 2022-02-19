@@ -1,9 +1,34 @@
 from rest_framework import serializers
 from accounts.models import MWUser
-from accounts.serializers import MWUserSerializer
+from accounts.serializers import MWUserSerializer, OrganizerSerializer
 from portfolio.models import Album, Photo
-from portfolio.serializers import AlbumListSerializer, PhotoListSerializer
+# from portfolio.serializers import AlbumShortSerializer, PhotoShortSerializer
 from .models import Notification, Comment
+
+
+class AlbumShortSerializer(serializers.ModelSerializer):
+    """ Album Short Serializer """
+    owner = OrganizerSerializer()
+
+    class Meta:
+        model = Album
+        fields = [
+            'owner',
+            'title',
+            'thumbnail',
+        ]
+
+
+class PhotoShortSerializer(serializers.ModelSerializer):
+    """ Photo Short Serializer """
+    owner = OrganizerSerializer()
+
+    class Meta:
+        model = Photo
+        fields = [
+            'owner',
+            'thumbnail',
+        ]
 
 
 class ContentObjectRelatedField(serializers.RelatedField):
@@ -15,9 +40,9 @@ class ContentObjectRelatedField(serializers.RelatedField):
         if isinstance(value, MWUser):
             serializer = MWUserSerializer(value)
         elif isinstance(value, Album):
-            serializer = AlbumListSerializer(value)
+            serializer = AlbumShortSerializer(value)
         elif isinstance(value, Photo):
-            serializer = PhotoListSerializer(value)
+            serializer = PhotoShortSerializer(value)
         else:
             raise Exception('Unexpected type of content object')
         return serializer.data
