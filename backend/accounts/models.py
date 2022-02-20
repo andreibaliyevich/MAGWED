@@ -3,16 +3,11 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import Avg, Value
-from django.db.models.functions import Coalesce
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
 from main.utilities import get_cover_path
-from social.models import Review
 from .managers import MWUserManager
 from .utilities import get_avatar_path
 
@@ -272,14 +267,3 @@ class OrganizerLink(models.Model):
         verbose_name = _('Link of Organizer')
         verbose_name_plural = _('Links of Organizer')
         ordering = ['organizer', 'id']
-
-
-@receiver(post_save, sender=Review)
-@receiver(post_delete, sender=Review)
-def update_organizer_rating(sender, **kwargs):
-    """ Update rating of organizer """
-    user = kwargs['instance'].user
-    organizer_rating = user.user_reviews.aggregate(
-        total_rating=Coalesce(Avg('rating'), Value(0.0)))
-    user.organizer.rating = organizer_rating['total_rating']
-    user.organizer.save()

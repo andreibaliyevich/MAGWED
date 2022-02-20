@@ -1,11 +1,16 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import Avg, Value
+from django.db.models.functions import Coalesce
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.contrib.contenttypes.fields import (
     GenericRelation,
     GenericForeignKey,
 )
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
+from accounts.models import Organizer
 
 
 class Notification(models.Model):
@@ -113,11 +118,11 @@ class Comment(models.Model):
 
 class Review(models.Model):
     """ Review Model """
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    organizer = models.ForeignKey(
+        Organizer,
         on_delete=models.CASCADE,
-        related_name='user_reviews',
-        verbose_name=_('User'),
+        related_name='organizer_reviews',
+        verbose_name=_('Organizer'),
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -150,4 +155,15 @@ class Review(models.Model):
         verbose_name = _('Review')
         verbose_name_plural = _('Reviews')
         ordering = ['-created_at', '-id']
-        unique_together = ['user', 'author']
+        unique_together = ['organizer', 'author']
+
+
+@receiver(post_save, sender=Review)
+@receiver(post_delete, sender=Review)
+def update_organizer_rating(sender, **kwargs):
+    """ Update rating of organizer """
+    organizer = kwargs['instance'].organizer
+    organizer_rating = organizer.organizer_reviews.aggregate(
+        total_rating=Coalesce(Avg('rating'), Value(0.0)))
+    organizer.rating = organizer_rating['total_rating']
+    organizer.save()

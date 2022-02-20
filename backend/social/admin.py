@@ -35,7 +35,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 class ReviewAdmin(admin.ModelAdmin):
     """ Review Model for admin """
-    list_display = ('id', 'user', 'author', 'rating', 'created_at')
+    list_display = ('id', 'organizer', 'author', 'rating', 'created_at')
     readonly_fields = ('created_at',)
 
 
