@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from accounts.serializers import OrganizerSerializer
-from social.serializers import CommentListSerializer
+from accounts.serializer_fields import OrganizerSerializerField
+from social.serializer_fields import CommentListSerializerField
 from .models import Album, Photo
 
 
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
-    owner = OrganizerSerializer()
+    owner = OrganizerSerializerField(read_only=True)
 
     class Meta:
         model = Album
@@ -25,8 +25,8 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
-    owner = OrganizerSerializer()
-    comments = CommentListSerializer(many=True)
+    owner = OrganizerSerializerField(read_only=True)
+    comments = CommentListSerializerField(read_only=True, many=True)
 
     class Meta:
         model = Album
@@ -48,7 +48,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
 
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
-    owner = OrganizerSerializer()
+    owner = OrganizerSerializerField(read_only=True)
 
     class Meta:
         model = Photo
@@ -66,8 +66,8 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
-    owner = OrganizerSerializer()
-    comments = CommentListSerializer(many=True)
+    owner = OrganizerSerializerField(read_only=True)
+    comments = CommentListSerializerField(read_only=True, many=True)
 
     class Meta:
         model = Photo

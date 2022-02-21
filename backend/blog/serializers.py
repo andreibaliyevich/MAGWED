@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from accounts.serializers import MWUserSerializer
-from social.serializers import CommentListSerializer
+from accounts.serializer_fields import UserSerializerField
+from social.serializer_fields import CommentListSerializerField
 from .models import Category, Article
 
 
@@ -18,7 +18,7 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
 class ArticleListSerializer(serializers.ModelSerializer):
     """ Article List Serializer """
-    categories = CategoryListSerializer(many=True)
+    categories = CategoryListSerializer(read_only=True, many=True)
 
     class Meta:
         model = Article
@@ -35,7 +35,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
     """ Category Detail Serializer """
-    article_set = ArticleListSerializer(many=True)
+    article_set = ArticleListSerializer(read_only=True, many=True)
 
     class Meta:
         model = Category
@@ -51,14 +51,14 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
-    author = MWUserSerializer()
-    categories = CategoryListSerializer(many=True)
+    author = UserSerializerField(read_only=True)
+    categories = CategoryListSerializer(read_only=True, many=True)
     hashtags = serializers.SlugRelatedField(
         slug_field='name',
         many=True,
         read_only=True,
     )
-    comments = CommentListSerializer(many=True)
+    comments = CommentListSerializerField(read_only=True, many=True)
 
     class Meta:
         model = Article
