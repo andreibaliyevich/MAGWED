@@ -1,12 +1,39 @@
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.shortcuts import render
+from .models import Country, City, Language
+from .serializers import (
+    CountryListSerializer,
+    CityListSerializer,
+    LanguageListSerializer,
+)
 
 
-def index(request):
-    """ Home page """
-    context = {
-        # 'title': _('index'),
-    }
-    return render(request, 'main/index.html', context)
+class CountryListView(APIView):
+    """ Country List View """
+
+    def get(self, request):
+        countries = Country.objects.all()
+        serializer = CountryListSerializer(countries, many=True)
+        return Response(serializer.data)
+
+
+class CityListView(APIView):
+    """ City List View """
+
+    def get(self, request):
+        cities = City.objects.all()
+        serializer = CityListSerializer(cities, many=True)
+        return Response(serializer.data)
+
+
+class LanguageListView(APIView):
+    """ Language List View """
+
+    def get(self, request):
+        languages = Language.objects.all()
+        serializer = LanguageListSerializer(languages, many=True)
+        return Response(serializer.data)
 
 
 def error_400(request, exception):

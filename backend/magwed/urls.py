@@ -24,7 +24,7 @@ from django.urls import path, include
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('tinymce/', include('tinymce.urls')),
-    path('', include('main.urls', namespace='main')),
+    path('main/', include('main.urls', namespace='main')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('portfolio/', include('portfolio.urls', namespace='portfolio')),
     path('social/', include('social.urls', namespace='social')),
