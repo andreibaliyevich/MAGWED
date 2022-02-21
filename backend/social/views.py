@@ -1,5 +1,5 @@
+from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from django.db import IntegrityError
 from blog.models import Article
 from portfolio.models import Album, Photo
@@ -10,37 +10,46 @@ from .serializers import (
 )
 
 
-class NotificationListView(APIView):
+class NotificationListView(generics.ListAPIView):
     """ Notification List View """
-
-    def get(self, request):
-        notifications = Notification.objects.all()
-        serializer = NotificationListSerializer(notifications, many=True)
-        return Response(serializer.data)
+    queryset = Notification.objects.all()
+    serializer_class = NotificationListSerializer
 
 
-class CommentCreateView(APIView):
+class CommentCreateView(generics.CreateAPIView):
     """ Comment Create View """
+    serializer_class = CommentCreateSerializer
 
-    def post(self, request, obj_type, obj_id):
-        comment = CommentCreateSerializer(data=request.data)
-        if comment.is_valid():
-            if obj_type == 'article':
-                comment_obj = Article.objects.get(id=obj_id)
-            elif obj_type == 'album':
-                comment_obj = Album.objects.get(id=obj_id)
-            elif obj_type == 'photo':
-                comment_obj = Photo.objects.get(id=obj_id)
-            elif obj_type == 'comment':
-                comment_obj = Comment.objects.get(id=obj_id)
+    def create(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+
+            if serializer.is_valid():
+                if kwargs['obj_type'] == 'article':
+                    comment_obj = Article.objects.get(id=kwargs['obj_id'])
+                elif kwargs['obj_type'] == 'album':
+                    comment_obj = Album.objects.get(id=kwargs['obj_id'])
+                elif kwargs['obj_type'] == 'photo':
+                    comment_obj = Photo.objects.get(id=kwargs['obj_id'])
+                elif kwargs['obj_type'] == 'comment':
+                    comment_obj = Comment.objects.get(id=kwargs['obj_id'])
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+                try:
+                    serializer.save(
+                        user=request.user,
+                        content_object=comment_obj,
+                    )
+                except IntegrityError:
+                    return Response(status=status.HTTP_409_CONFLICT)
+
+                headers = self.get_success_headers(serializer.data)
+                return Response(
+                    serializer.data,
+                    status=status.HTTP_201_CREATED,
+                    headers=headers)
             else:
-                return Response(status=400)
-
-            try:
-                new_comment = comment.save(
-                    user=request.user,
-                    content_object=comment_obj,
-                )
-            except IntegrityError:
-                return Response(status=400)
-        return Response(status=201)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
