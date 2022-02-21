@@ -1,5 +1,4 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -12,40 +11,30 @@ from .serializers import (
 )
 
 
-class CategoryListView(APIView):
+class CategoryListView(generics.ListAPIView):
     """ Category List View """
-
-    def get(self, request):
-        categories = Category.objects.all()
-        serializer = CategoryListSerializer(categories, many=True)
-        return Response(serializer.data)
+    queryset = Category.objects.all()
+    serializer_class = CategoryListSerializer
 
 
-class CategoryDetailView(APIView):
+class CategoryDetailView(generics.RetrieveAPIView):
     """ Category Detail View """
-
-    def get(self, request, slug):
-        category = Category.objects.get(slug=slug)
-        serializer = CategoryDetailSerializer(category)
-        return Response(serializer.data)
+    queryset = Category.objects.all()
+    lookup_field = 'slug'
+    serializer_class = CategoryDetailSerializer
 
 
-class ArticleListView(APIView):
+class ArticleListView(generics.ListAPIView):
     """ Article List View """
-
-    def get(self, request):
-        articles = Article.objects.all()
-        serializer = ArticleListSerializer(articles, many=True)
-        return Response(serializer.data)
+    queryset = Article.objects.all()
+    serializer_class = ArticleListSerializer
 
 
-class ArticleDetailView(APIView):
+class ArticleDetailView(generics.RetrieveAPIView):
     """ Article Detail View """
-
-    def get(self, request, slug):
-        article = Article.objects.get(slug=slug)
-        serializer = ArticleDetailSerializer(article)
-        return Response(serializer.data)
+    queryset = Article.objects.all()
+    lookup_field = 'slug'
+    serializer_class = ArticleDetailSerializer
 
 
 @require_POST
