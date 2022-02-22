@@ -14,11 +14,28 @@ class UserSerializerField(serializers.ModelSerializer):
 
 
 class OrganizerSerializerField(serializers.ModelSerializer):
-    """ Organizer Serializer """
+    """ Organizer Serializer Field """
     user = UserSerializerField(read_only=True)
 
     class Meta:
         model = Organizer
         fields = [
             'user',
+            'profile_url',
+        ]
+
+
+class UserDetailSerializerField(serializers.ModelSerializer):
+    """ User Detail Serializer Field """
+
+    class Meta:
+        model = MWUser
+        fields = [
+            'email',
+            'name',
+            'avatar',
+            'country',
+            'city',
+            'phone',
+            'last_visit',
         ]
