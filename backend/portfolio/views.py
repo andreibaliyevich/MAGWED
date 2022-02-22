@@ -1,5 +1,4 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 from .models import Album, Photo
 from .serializers import (
     AlbumListSerializer,
@@ -9,37 +8,25 @@ from .serializers import (
 )
 
 
-class AlbumListView(APIView):
+class AlbumListView(generics.ListAPIView):
     """ Album List View """
-
-    def get(self, request):
-        albums = Album.objects.all()
-        serializer = AlbumListSerializer(albums, many=True)
-        return Response(serializer.data)
+    queryset = Album.objects.all()
+    serializer_class = AlbumListSerializer
 
 
-class AlbumDetailView(APIView):
+class AlbumDetailView(generics.RetrieveAPIView):
     """ Album Detail View """
-
-    def get(self, request, album_id):
-        album = Album.objects.get(id=album_id)
-        serializer = AlbumDetailSerializer(album)
-        return Response(serializer.data)
+    queryset = Album.objects.all()
+    serializer_class = AlbumDetailSerializer
 
 
-class PhotoListView(APIView):
+class PhotoListView(generics.ListAPIView):
     """ Photo List View """
-
-    def get(self, request):
-        photos = Photo.objects.all()
-        serializer = PhotoListSerializer(photos, many=True)
-        return Response(serializer.data)
+    queryset = Photo.objects.all()
+    serializer_class = PhotoListSerializer
 
 
-class PhotoDetailView(APIView):
+class PhotoDetailView(generics.RetrieveAPIView):
     """ Photo Detail View """
-
-    def get(self, request, photo_id):
-        photo = Photo.objects.get(id=photo_id)
-        serializer = PhotoDetailSerializer(photo)
-        return Response(serializer.data)
+    queryset = Photo.objects.all()
+    serializer_class = PhotoDetailSerializer
