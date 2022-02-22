@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import MWUser, Organizer
+from .models import MWUser, Organizer, OrganizerLink
 
 
 class UserSerializerField(serializers.ModelSerializer):
@@ -38,4 +38,15 @@ class UserDetailSerializerField(serializers.ModelSerializer):
             'city',
             'phone',
             'last_visit',
+        ]
+
+
+class OrganizerLinkSerializerField(serializers.ModelSerializer):
+    """ Organizer Link Serializer Field """
+
+    class Meta:
+        model = OrganizerLink
+        fields = [
+            'link_type',
+            'link_url',
         ]
