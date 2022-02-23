@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'channels',
     'rest_framework',
+    'django_filters',
     'django_cleanup.apps.CleanupConfig',
     'easy_thumbnails',
     'tinymce',
@@ -231,6 +232,17 @@ CHANNEL_LAYERS = {
             'hosts': [('redis', 6379)],
         },
     },
+}
+
+
+# Django REST framework
+# https://www.django-rest-framework.org/#installation
+# https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
 
 
