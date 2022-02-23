@@ -13,7 +13,6 @@ class CategoryListSerializer(serializers.ModelSerializer):
         fields = [
             'slug',
             'get_translated_name',
-            'get_absolute_url',
         ]
 
 
@@ -30,7 +29,6 @@ class ArticleListSerializer(serializers.ModelSerializer):
             'thumbnail',
             'published_at',
             'num_views',
-            'get_absolute_url',
         ]
 
 
@@ -45,7 +43,6 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
             'get_translated_name',
             'get_translated_meta_description',
             'get_translated_meta_keywords',
-            'get_absolute_url',
             'article_set',
         ]
 
@@ -72,5 +69,4 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'published_at',
             'num_views',
             'comments',
-            'get_absolute_url',
         ]

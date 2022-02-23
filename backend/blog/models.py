@@ -2,7 +2,6 @@ from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from main.models import Hashtag
 from main.utilities import get_translated_field, get_thumbnail_path
@@ -35,9 +34,6 @@ class Category(models.Model):
 
     def get_translated_meta_keywords(self):
         return get_translated_field(self, 'meta_keywords')
-
-    def get_absolute_url(self):
-        return reverse('blog:category_detail', args=[self.slug])
 
     def __str__(self):
         return self.get_translated_name()
@@ -152,9 +148,6 @@ class Article(models.Model):
 
     def get_translated_content(self):
         return get_translated_field(self, 'content')
-
-    def get_absolute_url(self):
-        return reverse('blog:article_detail', args=[self.slug])
 
     def __str__(self):
         return self.get_translated_title()

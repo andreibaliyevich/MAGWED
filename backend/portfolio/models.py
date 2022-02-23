@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import RegexValidator
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from accounts.models import Organizer
 from main.models import Hashtag
@@ -68,9 +67,6 @@ class Album(models.Model):
     notifications = GenericRelation(Notification)
     favorites = GenericRelation(Favorite)
     comments = GenericRelation(Comment)
-
-    def get_absolute_url(self):
-        return reverse('portfolio:album_detail', args=[self.id])
 
     class Meta:
         verbose_name = _('Album')
@@ -175,9 +171,6 @@ class Photo(models.Model):
     notifications = GenericRelation(Notification)
     favorites = GenericRelation(Favorite)
     comments = GenericRelation(Comment)
-
-    def get_absolute_url(self):
-        return reverse('portfolio:photo_detail', args=[self.id])
 
     class Meta:
         verbose_name = _('Photo')

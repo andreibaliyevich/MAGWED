@@ -20,7 +20,6 @@ class AlbumListSerializer(serializers.ModelSerializer):
             'num_views',
             'likes',
             'rating',
-            'get_absolute_url',
         ]
 
 
@@ -44,7 +43,6 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'likes',
             'rating',
             'comments',
-            'get_absolute_url',
         ]
 
 
@@ -62,7 +60,6 @@ class PhotoListSerializer(serializers.ModelSerializer):
             'num_views',
             'likes',
             'rating',
-            'get_absolute_url',
         ]
 
 
@@ -91,5 +88,4 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'likes',
             'rating',
             'comments',
-            'get_absolute_url',
         ]

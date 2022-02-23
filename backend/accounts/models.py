@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import RegexValidator
 from django.db import models
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
@@ -228,9 +227,6 @@ class Organizer(models.Model):
         default=timezone.now,
         verbose_name=_('Pro-account valid time'),
     )
-
-    def get_absolute_url(self):
-        return reverse('accounts:organizer_detail', args=[self.profile_url])
 
     class Meta:
         verbose_name = _('Organizer')
