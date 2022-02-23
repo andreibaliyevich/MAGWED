@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from main.serializers import CountrySerializer, CitySerializer
 from .models import MWUser, Organizer, OrganizerLink
 
 
@@ -27,6 +28,8 @@ class OrganizerSerializerField(serializers.ModelSerializer):
 
 class UserDetailSerializerField(serializers.ModelSerializer):
     """ User Detail Serializer Field """
+    country = CountrySerializer(read_only=True)
+    city = CitySerializer(read_only=True)
 
     class Meta:
         model = MWUser
