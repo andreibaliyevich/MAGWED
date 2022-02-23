@@ -14,4 +14,7 @@ urlpatterns = [
     path('languages/',
         views.LanguageListView.as_view(),
         name='language_list'),
+    path('hashtags/',
+        views.HashtagListView.as_view(),
+        name='hashtag_list'),
 ]

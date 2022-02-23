@@ -1,39 +1,36 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 from django.shortcuts import render
-from .models import Country, City, Language
+from .models import Country, City, Language, Hashtag
 from .serializers import (
-    CountryListSerializer,
-    CityListSerializer,
-    LanguageListSerializer,
+    CountrySerializer,
+    CitySerializer,
+    LanguageSerializer,
+    HashtagSerializer,
 )
 
 
-class CountryListView(APIView):
+class CountryListView(generics.ListAPIView):
     """ Country List View """
-
-    def get(self, request):
-        countries = Country.objects.all()
-        serializer = CountryListSerializer(countries, many=True)
-        return Response(serializer.data)
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
 
 
-class CityListView(APIView):
+class CityListView(generics.ListAPIView):
     """ City List View """
-
-    def get(self, request):
-        cities = City.objects.all()
-        serializer = CityListSerializer(cities, many=True)
-        return Response(serializer.data)
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
 
 
-class LanguageListView(APIView):
+class LanguageListView(generics.ListAPIView):
     """ Language List View """
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
 
-    def get(self, request):
-        languages = Language.objects.all()
-        serializer = LanguageListSerializer(languages, many=True)
-        return Response(serializer.data)
+
+class HashtagListView(generics.ListAPIView):
+    """ Hashtag List View """
+    queryset = Hashtag.objects.all()
+    serializer_class = HashtagSerializer
 
 
 def error_400(request, exception):
