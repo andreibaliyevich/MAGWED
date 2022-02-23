@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import Country, City, Language
+from .models import Country, City, Language, Hashtag
 
 
-class CountryListSerializer(serializers.ModelSerializer):
-    """ Country List Serializer """
+class CountrySerializer(serializers.ModelSerializer):
+    """ Country Serializer """
 
     class Meta:
         model = Country
@@ -14,8 +14,8 @@ class CountryListSerializer(serializers.ModelSerializer):
         ]
 
 
-class CityListSerializer(serializers.ModelSerializer):
-    """ City List Serializer """
+class CitySerializer(serializers.ModelSerializer):
+    """ City Serializer """
 
     class Meta:
         model = City
@@ -26,8 +26,8 @@ class CityListSerializer(serializers.ModelSerializer):
         ]
 
 
-class LanguageListSerializer(serializers.ModelSerializer):
-    """ Language List Serializer """
+class LanguageSerializer(serializers.ModelSerializer):
+    """ Language Serializer """
 
     class Meta:
         model = Language
@@ -35,4 +35,15 @@ class LanguageListSerializer(serializers.ModelSerializer):
             'code',
             'name',
             'name_local',
+        ]
+
+
+class HashtagSerializer(serializers.ModelSerializer):
+    """ Hashtag Serializer """
+
+    class Meta:
+        model = Hashtag
+        fields = [
+            'name',
+            'slug',
         ]

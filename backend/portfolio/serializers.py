@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from accounts.serializer_fields import OrganizerSerializerField
-from main.serializer_fields import HashtagSerializerField
+from main.serializers import HashtagSerializer
 from social.serializer_fields import CommentListSerializerField
 from .models import Album, Photo
 
@@ -28,7 +28,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
     owner = OrganizerSerializerField(read_only=True)
     comments = CommentListSerializerField(read_only=True, many=True)
-    hashtags = HashtagSerializerField(read_only=True, many=True)
+    hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Album
@@ -70,7 +70,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
     owner = OrganizerSerializerField(read_only=True)
     comments = CommentListSerializerField(read_only=True, many=True)
-    hashtags = HashtagSerializerField(read_only=True, many=True)
+    hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Photo
@@ -93,6 +93,3 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'comments',
             'get_absolute_url',
         ]
-
-
-
