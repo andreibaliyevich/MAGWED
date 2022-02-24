@@ -26,20 +26,20 @@ class CommentCreateView(generics.CreateAPIView):
 
             if serializer.is_valid():
                 if kwargs['obj_type'] == 'article':
-                    comment_obj = Article.objects.get(id=kwargs['obj_id'])
+                    content_obj = Article.objects.get(id=kwargs['obj_id'])
                 elif kwargs['obj_type'] == 'album':
-                    comment_obj = Album.objects.get(id=kwargs['obj_id'])
+                    content_obj = Album.objects.get(id=kwargs['obj_id'])
                 elif kwargs['obj_type'] == 'photo':
-                    comment_obj = Photo.objects.get(id=kwargs['obj_id'])
+                    content_obj = Photo.objects.get(id=kwargs['obj_id'])
                 elif kwargs['obj_type'] == 'comment':
-                    comment_obj = Comment.objects.get(id=kwargs['obj_id'])
+                    content_obj = Comment.objects.get(id=kwargs['obj_id'])
                 else:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
 
                 try:
                     serializer.save(
                         user=request.user,
-                        content_object=comment_obj,
+                        content_object=content_obj,
                     )
                 except IntegrityError:
                     return Response(status=status.HTTP_409_CONFLICT)
