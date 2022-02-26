@@ -7,25 +7,20 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
 from main.utilities import get_cover_path
+from .choices import UserType, RoleChoices
 from .managers import MWUserManager
 from .utilities import get_avatar_path
 
 
 class MWUser(AbstractBaseUser, PermissionsMixin):
     """ User Model """
-
-    class UserType(models.IntegerChoices):
-        ADMIN = 1, _('Administrator')
-        CUSTOMER = 2, _('Customer')
-        ORGANIZER = 3, _('Organizer')
+    email = models.EmailField(unique=True, verbose_name=_('Email address'))
 
     user_type = models.IntegerField(
         choices=UserType.choices,
         default=UserType.CUSTOMER,
         verbose_name=_('User type'),
     )
-
-    email = models.EmailField(unique=True, verbose_name=_('Email address'))
 
     name = models.CharField(
         blank=True,
@@ -131,22 +126,6 @@ class Customer(models.Model):
 
 class OrganizerRole(models.Model):
     """ Role of Organizer Model """
-
-    class RoleChoices(models.IntegerChoices):
-        PHOTOGRAPHER = 1, _('Photographer')
-        VIDEOGRAPHER = 2, _('Videographer')
-        LEADING = 3, _('Leading')
-        MUSICIAN = 4, _('Musician')
-        DJ = 5, _('DJ')
-        AGENCY = 6, _('Agency')
-        SALON = 7, _('Salon')
-        CONFECTIONERY = 8, _('Confectionery')
-        DECORATOR = 9, _('Decorator')
-        VISAGISTE = 10, _('Visagiste')
-        HAIRDRESSER = 11, _('Hairdresser')
-
-        __empty__ = _('(Unknown)')
-
     role_id = models.PositiveSmallIntegerField(
         choices=RoleChoices.choices,
         primary_key=True,
