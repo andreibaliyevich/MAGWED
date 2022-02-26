@@ -1,7 +1,7 @@
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.validators import RegexValidator
+from django.core.validators import FileExtensionValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -10,6 +10,7 @@ from main.utilities import get_cover_path
 from .choices import UserType, RoleChoices
 from .managers import MWUserManager
 from .utilities import get_avatar_path
+from .validators import MinimumImageSizeValidator
 
 
 class MWUser(AbstractBaseUser, PermissionsMixin):
@@ -31,11 +32,22 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
         upload_to=get_avatar_path,
+        validators=[
+            FileExtensionValidator(allowed_extensions=('jpg', 'png')),
+            MinimumImageSizeValidator(800, 800),
+        ],
         resize_source={
-            'size': (512, 512),
+            'size': (800, 800),
             'crop': 'smart',
             'autocrop': True,
             'quality': 100,
+        },
+        help_text=_(
+            'Upload JPG or PNG image. '
+            'Required minimum of size %(width)d x %(height)d.'
+        ) % {
+            'width': 800,
+            'height': 800,
         },
         verbose_name=_('Avatar'),
     )
@@ -158,6 +170,17 @@ class Organizer(models.Model):
         null=True,
         blank=True,
         upload_to=get_cover_path,
+        validators=[
+            FileExtensionValidator(allowed_extensions=('jpg', 'png')),
+            MinimumImageSizeValidator(1900, 1200),
+        ],
+        help_text=_(
+            'Upload JPG or PNG image. '
+            'Required minimum of size %(width)d x %(height)d.'
+        ) % {
+            'width': 1900,
+            'height': 1200,
+        },
         verbose_name=_('Cover'),
     )
     description = models.TextField(blank=True, verbose_name=_('Description'))
