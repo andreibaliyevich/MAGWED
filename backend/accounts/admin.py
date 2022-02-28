@@ -40,26 +40,20 @@ class DateJoinedFilter(admin.SimpleListFilter):
             return queryset.filter(date_joined__lt=date)
 
 
-class OrganizerLinkInline(admin.TabularInline):
-    model = OrganizerLink
-    extra = 0
-
-
 class MWUserAdmin(admin.ModelAdmin):
     """ User Model for admin """
     list_display = (
         'email',
-        'name',
         'user_type',
+        'name',
         'is_active',
         'last_visit',
-        'date_joined',
     )
     search_fields = ('email', 'name')
     list_filter = ('user_type', 'is_active', DateJoinedFilter)
     fieldsets = (
         (None, {
-            'fields': ('user_type', 'email'),
+            'fields': ('username', 'email', 'user_type'),
         }),
         (_('Personal info'), {
             'fields': (
@@ -72,9 +66,9 @@ class MWUserAdmin(admin.ModelAdmin):
         }),
         (_('Permissions'), {
             'fields': (
-                'is_active',
-                'is_staff',
                 'is_superuser',
+                'is_staff',
+                'is_active',
                 'groups',
                 'user_permissions',
             ),
@@ -95,6 +89,11 @@ class CustomerAdmin(admin.ModelAdmin):
 class OrganizerRoleAdmin(admin.ModelAdmin):
     """ Role of Organizer Model for admin """
     list_display = ('__str__',)
+
+
+class OrganizerLinkInline(admin.TabularInline):
+    model = OrganizerLink
+    extra = 0
 
 
 class OrganizerAdmin(admin.ModelAdmin):

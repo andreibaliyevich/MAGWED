@@ -1,6 +1,9 @@
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.validators import ASCIIUsernameValidator
+from django.core.mail import send_mail
 from django.core.validators import FileExtensionValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
@@ -15,14 +18,34 @@ from .validators import MinimumImageSizeValidator
 
 class MWUser(AbstractBaseUser, PermissionsMixin):
     """ User Model """
-    email = models.EmailField(unique=True, verbose_name=_('Email address'))
+    username_validator = ASCIIUsernameValidator()
+
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        validators=[username_validator],
+        error_messages={
+            'unique': _('A user with that username already exists.'),
+        },
+        help_text=_(
+            'Required. 150 characters or fewer. '
+            'Letters, digits and @/./+/-/_ only.'
+        ),
+        verbose_name=_('Username'),
+    )
+    email = models.EmailField(
+        unique=True,
+        error_messages={
+            'unique': _('A user with that email address already exists.'),
+        },
+        verbose_name=_('Email address'),
+    )
 
     user_type = models.IntegerField(
         choices=UserType.choices,
         default=UserType.CUSTOMER,
         verbose_name=_('User type'),
     )
-
     name = models.CharField(
         blank=True,
         max_length=255,
@@ -66,7 +89,6 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         null=True,
         verbose_name=_('City'),
     )
-
     phone = models.CharField(
         blank=True,
         max_length=21,
@@ -79,36 +101,47 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('Phone'),
     )
 
-    is_active = models.BooleanField(default=False, verbose_name=_('Active'))
     is_staff = models.BooleanField(
         default=False,
+        help_text=_(
+            'Designates whether the user can log into this admin site.'
+        ),
         verbose_name=_('Staff status'),
     )
-    is_superuser = models.BooleanField(
+    is_active = models.BooleanField(
         default=False,
-        verbose_name=_('Superuser status'),
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+        verbose_name=_('Active'),
     )
 
     last_visit = models.DateTimeField(
         default=timezone.now,
         verbose_name=_('Last visit'),
     )
-    last_login = models.DateTimeField(
-        default=timezone.now,
-        verbose_name=_('Last login'),
-    )
     date_joined = models.DateTimeField(
         default=timezone.now,
         verbose_name=_('Date joined'),
     )
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
     objects = MWUserManager()
+
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         return self.email
+
+    def clean(self):
+        super().clean()
+        self.email = self.__class__.objects.normalize_email(self.email)
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """ Send an email to this user. """
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
     class Meta:
         verbose_name = _('User')
