@@ -20,7 +20,7 @@ class MWUserManager(BaseUserManager):
         password and user_type.
         """
         if not username:
-            raise ValueError('The given username must be set')
+            raise ValueError(_('The Username must be set.'))
 
         if not email:
             raise ValueError(_('The Email must be set.'))
