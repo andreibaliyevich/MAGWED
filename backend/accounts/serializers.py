@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.utils.translation import ugettext_lazy as _
 from main.serializers import (
     CountrySerializer,
     CitySerializer,
@@ -41,20 +42,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
             'name': {'required': True},
         }
 
-    def validate_user_type(self, value):
-        if value not in UserType.values[1:]:
-            raise serializers.ValidationError('Invalid user type.')
-        return value
-
     def validate_name(self, value):
         if not value:
-            raise serializers.ValidationError('This field may not be blank.')
+            raise serializers.ValidationError(_('This field may not be blank.'))
         return value
 
     def validate(self, data):
         if data['password'] != data['password2']:
             raise serializers.ValidationError({
-                'password': 'Password fields did not match.'})
+                'password': _('Password fields did not match.')})
         return data
 
     def create(self, validated_data):
