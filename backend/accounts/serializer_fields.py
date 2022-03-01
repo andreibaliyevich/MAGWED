@@ -1,13 +1,17 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from main.serializers import CountrySerializer, CitySerializer
-from .models import MWUser, Organizer, OrganizerLink
+from .models import Organizer, OrganizerLink
+
+
+UserModel = get_user_model()
 
 
 class UserSerializerField(serializers.ModelSerializer):
     """ User Serializer Field """
 
     class Meta:
-        model = MWUser
+        model = UserModel
         fields = [
             'name',
             'avatar',
@@ -32,7 +36,7 @@ class UserDetailSerializerField(serializers.ModelSerializer):
     city = CitySerializer(read_only=True)
 
     class Meta:
-        model = MWUser
+        model = UserModel
         fields = [
             'email',
             'name',
