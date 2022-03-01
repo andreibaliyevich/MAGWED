@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'channels',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'django_cleanup.apps.CleanupConfig',
     'easy_thumbnails',
@@ -113,6 +114,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.2/topics/auth/customizing/
 
 AUTH_USER_MODEL = 'accounts.MWUser'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailModelBackend',
+]
 
 
 # Password validation
@@ -240,6 +245,9 @@ CHANNEL_LAYERS = {
 # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),

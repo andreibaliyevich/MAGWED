@@ -23,6 +23,7 @@ from django.urls import path, include
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('main/', include('main.urls', namespace='main')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
