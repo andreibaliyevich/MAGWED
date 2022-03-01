@@ -43,7 +43,7 @@ class DateJoinedFilter(admin.SimpleListFilter):
 class MWUserAdmin(admin.ModelAdmin):
     """ User Model for admin """
     list_display = (
-        'email',
+        '__str__',
         'user_type',
         'name',
         'is_active',

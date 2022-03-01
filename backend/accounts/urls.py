@@ -8,6 +8,7 @@ app_name = 'accounts'
 urlpatterns = [
     path('auth/', include([
         path('token/', obtain_auth_token),
+        path('registration/', views.RegistrationView.as_view()),
     ])),
 
     path('organizers/', include([

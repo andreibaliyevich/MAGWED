@@ -43,14 +43,10 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
 
     user_type = models.IntegerField(
         choices=UserType.choices,
-        default=UserType.CUSTOMER,
         verbose_name=_('User type'),
     )
-    name = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Name'),
-    )
+
+    name = models.CharField(blank=True, max_length=255, verbose_name=_('Name'))
     avatar = ThumbnailerImageField(
         null=True,
         blank=True,
@@ -128,12 +124,12 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
 
     objects = MWUserManager()
 
-    EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['email']
 
     def __str__(self):
-        return self.email
+        return f'{ self.username } | { self.email }'
 
     def clean(self):
         super().clean()

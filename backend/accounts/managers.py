@@ -25,7 +25,7 @@ class MWUserManager(BaseUserManager):
         if not email:
             raise ValueError(_('The Email must be set.'))
 
-        if user_type not in UserType.values:
+        if not user_type or user_type not in UserType.values:
             raise ValueError(_('Invalid user type.'))
 
         GlobalUserModel = apps.get_model(

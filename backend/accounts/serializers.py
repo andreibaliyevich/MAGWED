@@ -1,15 +1,77 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
 from main.serializers import (
     CountrySerializer,
     CitySerializer,
     LanguageSerializer,
 )
-from .models import Organizer
+from .choices import UserType
+from .models import Customer, Organizer
 from .serializer_fields import (
     UserSerializerField,
     UserDetailSerializerField,
     OrganizerLinkSerializerField,
 )
+
+
+UserModel = get_user_model()
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    """ Registration Serializer """
+    password = serializers.CharField(
+        write_only=True,
+        validators=[validate_password],
+    )
+    password2 = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'username',
+            'email',
+            'password',
+            'password2',
+            'user_type',
+            'name',
+        ]
+        extra_kwargs = {
+            'user_type': {'choices': UserType.choices[1:]},
+            'name': {'required': True},
+        }
+
+    def validate_user_type(self, value):
+        if value not in UserType.values[1:]:
+            raise serializers.ValidationError('Invalid user type.')
+        return value
+
+    def validate_name(self, value):
+        if not value:
+            raise serializers.ValidationError('This field may not be blank.')
+        return value
+
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError({
+                'password': 'Password fields did not match.'})
+        return data
+
+    def create(self, validated_data):
+        user = UserModel.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            user_type=validated_data['user_type'],
+            name=validated_data['name'],
+        )
+
+        if user.user_type == UserType.CUSTOMER:
+            Customer.objects.create(user=user)
+        elif user.user_type == UserType.ORGANIZER:
+            Organizer.objects.create(user=user)
+
+        return user
 
 
 class OrganizerListSerializer(serializers.ModelSerializer):
