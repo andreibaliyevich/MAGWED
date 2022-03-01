@@ -192,6 +192,7 @@ class Organizer(models.Model):
     )
     roles = models.ManyToManyField(
         OrganizerRole,
+        blank=True,
         verbose_name=_('Roles'),
     )
 

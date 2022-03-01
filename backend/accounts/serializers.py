@@ -65,7 +65,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if user.user_type == UserType.CUSTOMER:
             Customer.objects.create(user=user)
         elif user.user_type == UserType.ORGANIZER:
-            Organizer.objects.create(user=user)
+            Organizer.objects.create(user=user, profile_url=user.username)
 
         return user
 
