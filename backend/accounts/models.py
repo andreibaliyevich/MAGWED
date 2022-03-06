@@ -114,7 +114,8 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
     )
 
     last_visit = models.DateTimeField(
-        default=timezone.now,
+        blank=True,
+        null=True,
         verbose_name=_('Last visit'),
     )
     date_joined = models.DateTimeField(
@@ -197,8 +198,8 @@ class Organizer(models.Model):
     )
 
     cover = models.ImageField(
-        null=True,
         blank=True,
+        null=True,
         upload_to=get_cover_path,
         validators=[
             FileExtensionValidator(allowed_extensions=('jpg', 'png')),
