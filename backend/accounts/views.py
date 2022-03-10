@@ -9,6 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model, user_logged_in, user_logged_out
 from .filters import OrganizerFilter
 from .models import Organizer
+from .pagination import OrganizerSetPagination
 from .serializers import (
     RegistrationSerializer,
     OrganizerListSerializer,
@@ -59,6 +60,7 @@ class OrganizerListView(generics.ListAPIView):
     """ Organizer List View """
     queryset = Organizer.objects.all()
     serializer_class = OrganizerListSerializer
+    pagination_class = OrganizerSetPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = OrganizerFilter
 
