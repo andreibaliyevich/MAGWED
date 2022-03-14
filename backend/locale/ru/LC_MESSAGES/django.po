@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-01 13:24+0000\n"
+"POT-Creation-Date: 2022-03-14 08:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: accounts/admin.py:8 accounts/models.py:122
+#: accounts/admin.py:8 accounts/models.py:123
 msgid "Date joined"
 msgstr "Дата регистрации"
 
@@ -68,11 +68,11 @@ msgstr "Учетные записи"
 msgid "Administrator"
 msgstr "Администратор"
 
-#: accounts/choices.py:7 accounts/models.py:163
+#: accounts/choices.py:7 accounts/models.py:164
 msgid "Customer"
 msgstr "Клиент"
 
-#: accounts/choices.py:8 accounts/models.py:263 accounts/models.py:273
+#: accounts/choices.py:8 accounts/models.py:265 accounts/models.py:275
 #: social/models.py:125
 msgid "Organizer"
 msgstr "Организатор"
@@ -133,7 +133,7 @@ msgstr "Имя пользователя должно быть установле
 msgid "The Email must be set."
 msgstr "Электронная почта должна быть установлена."
 
-#: accounts/managers.py:29 accounts/serializers.py:47
+#: accounts/managers.py:29
 msgid "Invalid user type."
 msgstr "Недопустимый тип пользователя."
 
@@ -166,7 +166,7 @@ msgstr "Тип пользователя"
 msgid "Name"
 msgstr "Имя"
 
-#: accounts/models.py:65 accounts/models.py:207
+#: accounts/models.py:65 accounts/models.py:209
 #, python-format
 msgid ""
 "Upload JPG or PNG image. Required minimum of size %(width)d x %(height)d."
@@ -214,131 +214,131 @@ msgstr ""
 msgid "Active"
 msgstr "Активный"
 
-#: accounts/models.py:118
+#: accounts/models.py:119
 msgid "Last visit"
 msgstr "Последнее посещение"
 
-#: accounts/models.py:143 accounts/models.py:154 accounts/models.py:191
+#: accounts/models.py:144 accounts/models.py:155 accounts/models.py:192
 #: social/models.py:25 social/models.py:53 social/models.py:73
 #: social/models.py:97
 msgid "User"
 msgstr "Пользователь"
 
-#: accounts/models.py:144
+#: accounts/models.py:145
 msgid "Users"
 msgstr "Пользователи"
 
-#: accounts/models.py:159
+#: accounts/models.py:160
 msgid "Date of Wedding"
 msgstr "Дата свадьбы"
 
-#: accounts/models.py:164
+#: accounts/models.py:165
 msgid "Customers"
 msgstr "Клиенты"
 
-#: accounts/models.py:173
+#: accounts/models.py:174
 msgid "Identifier"
 msgstr "Идентификатор"
 
-#: accounts/models.py:180
+#: accounts/models.py:181
 msgid "Role of Organizer"
 msgstr "Роль организатора"
 
-#: accounts/models.py:181
+#: accounts/models.py:182
 msgid "Roles of Organizers"
 msgstr "Роли организаторов"
 
-#: accounts/models.py:195
+#: accounts/models.py:197
 msgid "Roles"
 msgstr "Роли"
 
-#: accounts/models.py:213
+#: accounts/models.py:215
 msgid "Cover"
 msgstr "Обложка"
 
-#: accounts/models.py:215 blog/models.py:20 blog/models.py:66 blog/models.py:97
+#: accounts/models.py:217 blog/models.py:20 blog/models.py:66 blog/models.py:97
 #: blog/models.py:180 portfolio/models.py:39 portfolio/models.py:143
 msgid "Description"
 msgstr "Описание"
 
-#: accounts/models.py:220 main/models.py:20
+#: accounts/models.py:222 main/models.py:20
 msgid "Countries"
 msgstr "Страны"
 
-#: accounts/models.py:225 main/models.py:41
+#: accounts/models.py:227 main/models.py:41
 msgid "Cities"
 msgstr "Города"
 
-#: accounts/models.py:230 main/models.py:61
+#: accounts/models.py:232 main/models.py:61
 msgid "Languages"
 msgstr "Языки"
 
-#: accounts/models.py:237
+#: accounts/models.py:239
 msgid "Cost of work"
 msgstr "Стоимость работы"
 
-#: accounts/models.py:238
+#: accounts/models.py:240
 msgid "Please enter in USD ($)"
 msgstr "Пожалуйста, введите в долларах США ($)"
 
-#: accounts/models.py:242
+#: accounts/models.py:244
 msgid "Number of hours"
 msgstr "Количество часов"
 
-#: accounts/models.py:248
+#: accounts/models.py:250
 msgid "Profile URL"
 msgstr "URL профиля"
 
-#: accounts/models.py:255 portfolio/models.py:64 portfolio/models.py:168
+#: accounts/models.py:257 portfolio/models.py:64 portfolio/models.py:168
 #: social/models.py:145
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: accounts/models.py:259
+#: accounts/models.py:261
 msgid "Pro-account valid time"
 msgstr "Срок действия Pro-аккаунта"
 
-#: accounts/models.py:264
+#: accounts/models.py:266
 msgid "Organizers"
 msgstr "Организаторы"
 
-#: accounts/models.py:277
+#: accounts/models.py:279
 msgid "Website"
 msgstr "Интернет сайт"
 
-#: accounts/models.py:278
+#: accounts/models.py:280
 msgid "Instagram"
 msgstr "Instagram"
 
-#: accounts/models.py:279
+#: accounts/models.py:281
 msgid "Facebook"
 msgstr "Facebook"
 
-#: accounts/models.py:280
+#: accounts/models.py:282
 msgid "Twitter"
 msgstr "Twitter"
 
-#: accounts/models.py:281
+#: accounts/models.py:283
 msgid "Pinterest"
 msgstr "Pinterest"
 
-#: accounts/models.py:282
+#: accounts/models.py:284
 msgid "VK"
 msgstr "ВКонтакте"
 
-#: accounts/models.py:288
+#: accounts/models.py:290
 msgid "Type of Link"
 msgstr "Тип ссылки"
 
-#: accounts/models.py:291
+#: accounts/models.py:293
 msgid "URL of Link"
 msgstr "URL ссылки"
 
-#: accounts/models.py:294
+#: accounts/models.py:296
 msgid "Link of Organizer"
 msgstr "Ссылка организатора"
 
-#: accounts/models.py:295
+#: accounts/models.py:297
 msgid "Links of Organizer"
 msgstr "Ссылки организаторов"
 
@@ -350,6 +350,15 @@ msgstr "Это поле не может быть пустым."
 msgid "Password fields did not match."
 msgstr "Поля пароля не совпадают."
 
+#: accounts/serializers.py:109
+msgid "Invalid user id or user does not exist."
+msgstr ""
+"Недопустимый идентификатор пользователя или пользователь не существует."
+
+#: accounts/serializers.py:117
+msgid "Invalid token for given user."
+msgstr "Недопустимый токен для данного пользователя."
+
 #: accounts/validators.py:11
 #, python-format
 msgid ""
@@ -358,6 +367,10 @@ msgid ""
 msgstr ""
 "Ошибка! Размер вашего изображения: %(width)d x %(height)d. Требуется минимум "
 "%(min_width)d x %(min_height)d."
+
+#: accounts/views.py:72
+msgid "Stale token for given user."
+msgstr "Устаревший токен для данного пользователя."
 
 #: blog/admin.py:27 blog/admin.py:55
 msgid "Metadata"
@@ -694,3 +707,35 @@ msgstr "Администратор сайта Django"
 #: templates/admin/base_site.html:6
 msgid "Django administration"
 msgstr "Администрирование Django"
+
+#: templates/email/activation_html.html:4
+#: templates/email/activation_text.html:4
+msgid "Dear User!"
+msgstr "Дорогой пользователь!"
+
+#: templates/email/activation_html.html:7
+#: templates/email/activation_text.html:6
+msgid "Thank you for registering in the"
+msgstr "Спасибо за регистрацию в"
+
+#: templates/email/activation_html.html:10
+#: templates/email/activation_text.html:7
+msgid ""
+"You need to complete the activation in order to verify your identity. To do "
+"this, please follow the link:"
+msgstr ""
+"Вам необходимо завершить активацию, чтобы подтвердить свою личность. Для "
+"этого перейдите по ссылке:"
+
+#: templates/email/activation_html.html:11
+msgid "Confirm Email"
+msgstr "Подтвердите адрес электронной почты"
+
+#: templates/email/activation_html.html:20
+#: templates/email/activation_text.html:13
+msgid "This is an automatic letter, do not reply to it."
+msgstr "Это автоматическое письмо, не отвечайте на него."
+
+#: templates/email/activation_subject.txt:1
+msgid "User Activation"
+msgstr "Активация пользователя"
