@@ -1,6 +1,11 @@
 from rest_framework import serializers
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
 from main.serializers import (
     CountrySerializer,
@@ -67,7 +72,51 @@ class RegistrationSerializer(serializers.ModelSerializer):
         elif user.user_type == UserType.ORGANIZER:
             Organizer.objects.create(user=user, profile_url=user.username)
 
+        self.send_activation_email(user)
         return user
+
+    def send_activation_email(self, user):
+        context = {
+            'SITE_NAME': settings.SITE_NAME,
+            'SITE_HOST': settings.SITE_HOST,
+            'uid': force_str(urlsafe_base64_encode(force_bytes(user.pk))),
+            'token': default_token_generator.make_token(user),
+        }
+
+        subject = render_to_string('email/activation_subject.txt')
+        text_content = render_to_string('email/activation_text.html', context)
+        html_content = render_to_string('email/activation_html.html', context)
+
+        user.email_user(
+            subject=subject,
+            message=text_content,
+            from_email=settings.EMAIL_HOST_USER,
+            html_message=html_content,
+        )
+
+
+class ActivationSerializer(serializers.Serializer):
+    """ Activation Serializer """
+    uid = serializers.CharField()
+    token = serializers.CharField()
+
+    def validate(self, data):
+        try:
+            pk = force_str(urlsafe_base64_decode(data['uid']))
+            self.user = UserModel.objects.get(pk=pk)
+        except (UserModel.DoesNotExist, ValueError, TypeError, OverflowError):
+            raise serializers.ValidationError(
+                {'uid': _('Invalid user id or user does not exist.')},
+                code='invalid_uid',
+            )
+
+        if default_token_generator.check_token(self.user, data['token']):
+            return data
+        else:
+            raise serializers.ValidationError(
+                {'token': _('Invalid token for given user.')},
+                code='invalid_token',
+            )
 
 
 class OrganizerListSerializer(serializers.ModelSerializer):

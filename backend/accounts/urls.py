@@ -9,6 +9,7 @@ urlpatterns = [
         path('login/', views.LoginView.as_view()),
         path('logout/', views.LogoutView.as_view()),
         path('registration/', views.RegistrationView.as_view()),
+        path('activation/', views.ActivationView.as_view()),
     ])),
 
     path('organizers/', include([
