@@ -13,7 +13,8 @@ from .models import Organizer
 from .pagination import OrganizerSetPagination
 from .serializers import (
     RegistrationSerializer,
-    ActivationSerializer,
+    UidAndTokenSerializer,
+    PasswordChangeSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -63,7 +64,7 @@ class ActivationView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = ActivationSerializer(data=request.data)
+        serializer = UidAndTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
 
@@ -75,6 +76,23 @@ class ActivationView(APIView):
             user.is_active = True
             user.save(update_fields=['is_active'])
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PasswordChangeView(APIView):
+    """ Password Change View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PasswordChangeSerializer(
+            data=request.data,
+            context={'user': request.user},
+        )
+        serializer.is_valid(raise_exception=True)
+
+        request.user.set_password(serializer.validated_data['new_password'])
+        request.user.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class OrganizerListView(generics.ListAPIView):

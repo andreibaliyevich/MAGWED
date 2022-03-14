@@ -10,6 +10,9 @@ urlpatterns = [
         path('logout/', views.LogoutView.as_view()),
         path('registration/', views.RegistrationView.as_view()),
         path('activation/', views.ActivationView.as_view()),
+        path('password/', include([
+            path('change/', views.PasswordChangeView.as_view()),
+        ])),
     ])),
 
     path('organizers/', include([

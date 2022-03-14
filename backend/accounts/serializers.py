@@ -95,8 +95,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         )
 
 
-class ActivationSerializer(serializers.Serializer):
-    """ Activation Serializer """
+class UidAndTokenSerializer(serializers.Serializer):
+    """ Uid and Token Serializer """
     uid = serializers.CharField()
     token = serializers.CharField()
 
@@ -110,13 +110,34 @@ class ActivationSerializer(serializers.Serializer):
                 code='invalid_uid',
             )
 
-        if default_token_generator.check_token(self.user, data['token']):
-            return data
-        else:
+        if not default_token_generator.check_token(self.user, data['token']):
             raise serializers.ValidationError(
                 {'token': _('Invalid token for given user.')},
                 code='invalid_token',
             )
+
+        return data
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    """ Password Change Serializer """
+    current_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(
+        write_only=True,
+        validators=[validate_password],
+    )
+    new_password2 = serializers.CharField(write_only=True)
+
+    def validate_current_password(self, value):
+        if not self.context['user'].check_password(value):
+            raise serializers.ValidationError(_('Invalid current password'))
+        return value
+
+    def validate(self, data):
+        if data['new_password'] != data['new_password2']:
+            raise serializers.ValidationError({
+                'new_password': _('Password fields did not match.')})
+        return data
 
 
 class OrganizerListSerializer(serializers.ModelSerializer):
