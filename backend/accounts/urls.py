@@ -12,6 +12,9 @@ urlpatterns = [
         path('activation/', views.ActivationView.as_view()),
         path('password/', include([
             path('change/', views.PasswordChangeView.as_view()),
+            path('reset/', include([
+                path('', views.PasswordResetView.as_view()),
+            ])),
         ])),
     ])),
 

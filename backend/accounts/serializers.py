@@ -130,7 +130,7 @@ class PasswordChangeSerializer(serializers.Serializer):
 
     def validate_current_password(self, value):
         if not self.context['user'].check_password(value):
-            raise serializers.ValidationError(_('Invalid current password'))
+            raise serializers.ValidationError(_('Invalid current password.'))
         return value
 
     def validate(self, data):
@@ -138,6 +138,40 @@ class PasswordChangeSerializer(serializers.Serializer):
             raise serializers.ValidationError({
                 'new_password': _('Password fields did not match.')})
         return data
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    """ Password Reset Serializer """
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        try:
+            self.user = UserModel.objects.get(email=value, is_active=True)
+        except UserModel.DoesNotExist:
+            raise serializers.ValidationError(
+                _('User with given email does not exist.'))
+        return value
+
+    def send_password_reset_email(self):
+        context = {
+            'SITE_NAME': settings.SITE_NAME,
+            'SITE_HOST': settings.SITE_HOST,
+            'uid': force_str(urlsafe_base64_encode(force_bytes(self.user.pk))),
+            'token': default_token_generator.make_token(self.user),
+        }
+
+        subject = render_to_string('email/password_reset_subject.txt')
+        text_content = render_to_string(
+            'email/password_reset_text.html', context)
+        html_content = render_to_string(
+            'email/password_reset_html.html', context)
+
+        self.user.email_user(
+            subject=subject,
+            message=text_content,
+            from_email=settings.EMAIL_HOST_USER,
+            html_message=html_content,
+        )
 
 
 class OrganizerListSerializer(serializers.ModelSerializer):
