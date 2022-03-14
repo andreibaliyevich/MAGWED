@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-14 08:39+0000\n"
+"POT-Creation-Date: 2022-03-14 16:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -346,7 +346,7 @@ msgstr "Ссылки организаторов"
 msgid "This field may not be blank."
 msgstr "Это поле не может быть пустым."
 
-#: accounts/serializers.py:58
+#: accounts/serializers.py:58 accounts/serializers.py:139
 msgid "Password fields did not match."
 msgstr "Поля пароля не совпадают."
 
@@ -355,9 +355,17 @@ msgid "Invalid user id or user does not exist."
 msgstr ""
 "Недопустимый идентификатор пользователя или пользователь не существует."
 
-#: accounts/serializers.py:117
+#: accounts/serializers.py:115
 msgid "Invalid token for given user."
 msgstr "Недопустимый токен для данного пользователя."
+
+#: accounts/serializers.py:133
+msgid "Invalid current password."
+msgstr "Неверный текущий пароль."
+
+#: accounts/serializers.py:152
+msgid "User with given email does not exist."
+msgstr "Пользователь с указанным адресом электронной почты не существует."
 
 #: accounts/validators.py:11
 #, python-format
@@ -368,9 +376,13 @@ msgstr ""
 "Ошибка! Размер вашего изображения: %(width)d x %(height)d. Требуется минимум "
 "%(min_width)d x %(min_height)d."
 
-#: accounts/views.py:72
+#: accounts/views.py:74 accounts/views.py:129
 msgid "Stale token for given user."
 msgstr "Устаревший токен для данного пользователя."
+
+#: accounts/views.py:114
+msgid "The user does not have a password."
+msgstr "У пользователя нет пароля."
 
 #: blog/admin.py:27 blog/admin.py:55
 msgid "Metadata"
@@ -710,6 +722,8 @@ msgstr "Администрирование Django"
 
 #: templates/email/activation_html.html:4
 #: templates/email/activation_text.html:4
+#: templates/email/password_reset_html.html:4
+#: templates/email/password_reset_text.html:4
 msgid "Dear User!"
 msgstr "Дорогой пользователь!"
 
@@ -733,9 +747,35 @@ msgstr "Подтвердите адрес электронной почты"
 
 #: templates/email/activation_html.html:20
 #: templates/email/activation_text.html:13
+#: templates/email/password_reset_html.html:21
+#: templates/email/password_reset_text.html:15
 msgid "This is an automatic letter, do not reply to it."
 msgstr "Это автоматическое письмо, не отвечайте на него."
 
 #: templates/email/activation_subject.txt:1
 msgid "User Activation"
 msgstr "Активация пользователя"
+
+#: templates/email/password_reset_html.html:7
+#: templates/email/password_reset_text.html:6
+msgid ""
+"You are receiving this email because you requested a password reset for your "
+"user account at "
+msgstr ""
+"Вы получили это электронное письмо, потому что запросили сброс пароля для "
+"своей учетной записи пользователя на"
+
+#: templates/email/password_reset_html.html:9
+#: templates/email/password_reset_text.html:7
+msgid "Please go to the following page and choose a new password:"
+msgstr "Пожалуйста, перейдите на следующую страницу и выберите новый пароль:"
+
+#: templates/email/password_reset_html.html:10
+#: templates/email/password_reset_subject.txt:1
+msgid "Password Reset"
+msgstr "Сброс пароля"
+
+#: templates/email/password_reset_html.html:12
+#: templates/email/password_reset_text.html:10
+msgid "Thanks for using our site!"
+msgstr "Спасибо за использование нашего сайта!"
