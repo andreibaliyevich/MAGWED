@@ -174,6 +174,40 @@ class PasswordResetSerializer(serializers.Serializer):
         )
 
 
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    """ Password Reset Confirm Serializer """
+    uid = serializers.CharField()
+    token = serializers.CharField()
+
+    new_password = serializers.CharField(
+        write_only=True,
+        validators=[validate_password],
+    )
+    new_password2 = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        try:
+            pk = force_str(urlsafe_base64_decode(data['uid']))
+            self.user = UserModel.objects.get(pk=pk)
+        except (UserModel.DoesNotExist, ValueError, TypeError, OverflowError):
+            raise serializers.ValidationError(
+                {'uid': _('Invalid user id or user does not exist.')},
+                code='invalid_uid',
+            )
+
+        if not default_token_generator.check_token(self.user, data['token']):
+            raise serializers.ValidationError(
+                {'token': _('Invalid token for given user.')},
+                code='invalid_token',
+            )
+
+        if data['new_password'] != data['new_password2']:
+            raise serializers.ValidationError({
+                'new_password': _('Password fields did not match.')})
+
+        return data
+
+
 class OrganizerListSerializer(serializers.ModelSerializer):
     """ Organizer List Serializer """
     user = UserSerializerField(read_only=True)

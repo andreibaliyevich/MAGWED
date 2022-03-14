@@ -16,6 +16,7 @@ from .serializers import (
     UidAndTokenSerializer,
     PasswordChangeSerializer,
     PasswordResetSerializer,
+    PasswordResetConfirmSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -113,6 +114,21 @@ class PasswordResetView(APIView):
             return Response(
                 {'detail': _('The user does not have a password.')},
                 status=status.HTTP_403_FORBIDDEN)
+
+
+class PasswordResetConfirmView(APIView):
+    """ Password Reset Confirm View """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.user
+
+        user.set_password(serializer.validated_data['new_password'])
+        user.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class OrganizerListView(generics.ListAPIView):

@@ -14,6 +14,7 @@ urlpatterns = [
             path('change/', views.PasswordChangeView.as_view()),
             path('reset/', include([
                 path('', views.PasswordResetView.as_view()),
+                path('confirm/', views.PasswordResetConfirmView.as_view()),
             ])),
         ])),
     ])),
