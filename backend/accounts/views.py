@@ -97,7 +97,7 @@ class PasswordChangeView(APIView):
 
 class OrganizerListView(generics.ListAPIView):
     """ Organizer List View """
-    queryset = Organizer.objects.all()
+    queryset = Organizer.objects.filter(user__is_active=True)
     serializer_class = OrganizerListSerializer
     pagination_class = OrganizerSetPagination
     filter_backends = (DjangoFilterBackend,)
@@ -106,6 +106,6 @@ class OrganizerListView(generics.ListAPIView):
 
 class OrganizerDetailView(generics.RetrieveAPIView):
     """ Organizer Detail View """
-    queryset = Organizer.objects.all()
+    queryset = Organizer.objects.filter(user__is_active=True)
     lookup_field = 'profile_url'
     serializer_class = OrganizerDetailSerializer
