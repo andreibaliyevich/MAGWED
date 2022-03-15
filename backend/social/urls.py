@@ -6,6 +6,5 @@ app_name = 'social'
 
 urlpatterns = [    
     path('notifications/', views.NotificationListView.as_view()),
-    path('comment/create/<str:obj_type>/<int:obj_id>/',
-        views.CommentCreateView.as_view()),
+    path('comment/create/', views.CommentCreateView.as_view()),
 ]
