@@ -56,9 +56,9 @@ class LogoutView(APIView):
 
 class RegistrationView(generics.CreateAPIView):
     """ Registration View """
+    permission_classes = [AllowAny]
     queryset = UserModel.objects.all()
     serializer_class = RegistrationSerializer
-    permission_classes = [AllowAny]
 
 
 class ActivationView(APIView):
