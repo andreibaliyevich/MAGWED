@@ -65,5 +65,5 @@ class CommentCreateSerializer(serializers.ModelSerializer):
             )
         except IntegrityError:
             raise serializers.ValidationError({
-                'create': _('You have already commented here.')})
+                'create': _('You have already left a comment here.')})
         return comment
