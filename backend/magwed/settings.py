@@ -267,7 +267,7 @@ THUMBNAIL_BASEDIR = 'thumbnails'
 # https://pypi.org/project/django-tinymce4-lite/
 
 TINYMCE_DEFAULT_CONFIG = {
-    'height': 540,
+    'height': '80vh',
     'width': '80%',
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 20,
