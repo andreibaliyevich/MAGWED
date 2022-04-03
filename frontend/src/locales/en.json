@@ -1,0 +1,8 @@
+{
+    "router": {
+        "home": "Home",
+        "about": "About"
+    },
+    "hello": "Hello world",
+    "hello_name": "Hello {name}"
+}

@@ -1,14 +1,16 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import LanguageSwitcher from '@/components/base/LanguageSwitcher.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">{{ $t('router.home') }}</RouterLink>
+        <RouterLink to="/about">{{ $t('router.about') }}</RouterLink>
       </nav>
+      <LanguageSwitcher />
     </div>
   </header>
 
