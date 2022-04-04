@@ -1,8 +1,12 @@
 {
-    "router": {
+    "auth": {
+        "login": "Login",
+        "logout": "Logout",
+        "username": "Username or Email",
+        "password": "Password"
+    },
+    "nav": {
         "home": "Home",
         "about": "About"
-    },
-    "hello": "Hello world",
-    "hello_name": "Hello {name}"
+    }
 }

@@ -1,8 +1,12 @@
 {
-    "router": {
+    "auth": {
+        "login": "Войти",
+        "logout": "Выйти",
+        "username": "Имя пользователя или Email",
+        "password": "Пароль"
+    },
+    "nav": {
         "home": "Главная",
         "about": "О нас"
-    },
-    "hello": "Привет мир",
-    "hello_name": "Привет {name}"
+    }
 }
