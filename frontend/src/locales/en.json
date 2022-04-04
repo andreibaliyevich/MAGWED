@@ -8,5 +8,8 @@
     "nav": {
         "home": "Home",
         "about": "About"
+    },
+    "blog": {
+        "blog": "Blog"
     }
 }

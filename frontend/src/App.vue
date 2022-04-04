@@ -13,6 +13,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
         <RouterLink to="/">{{ $t('nav.home') }}</RouterLink>
         <RouterLink to="/about">{{ $t('nav.about') }}</RouterLink>
         <RouterLink to="/login">{{ $t('auth.login') }}</RouterLink>
+        <RouterLink to="/blog">{{ $t('blog.blog') }}</RouterLink>
       </nav>
       <LanguageSwitcher />
     </div>
