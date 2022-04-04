@@ -1,9 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import axios from 'axios'
 import LanguageSwitcher from '@/components/base/LanguageSwitcher.vue'
-
-axios.defaults.baseURL = 'http://localhost:8000';
 </script>
 
 <template>
