@@ -1,8 +1,10 @@
 <script>
+import i18n from '@/i18n.js'
+
 export default {
   methods: {
     changeOption(event) {
-      document.querySelector('html').setAttribute('lang', event.target.value);
+      this.$router.push({ params: { lang: event.target.value } });
     },
   }
 }
@@ -10,7 +12,7 @@ export default {
 
 <template>
   <div class="language-switcher">
-    <select v-model="$i18n.locale" @change="changeOption" class="form-select">
+    <select :value="$i18n.locale" @change="changeOption" class="form-select">
       <option value="en">English</option>
       <option value="ru">Русский</option>
       <option value="be">Беларуская</option>
