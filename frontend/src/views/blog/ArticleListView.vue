@@ -22,6 +22,11 @@ export default {
   },
   mounted() {
     this.getOrganizerList();
+  },
+  watch: {
+    '$i18n.locale'(newValue) {
+      this.getOrganizerList();
+    }
   }
 }
 </script>
