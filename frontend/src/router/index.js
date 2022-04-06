@@ -55,7 +55,7 @@ router.beforeEach(async (to, from) => {
     await loadLocaleMessages(i18n, to.params.locale)
   }
 
-  if (!(to.params.locale === from.params.locale)) {
+  if (!(to.params.locale === i18n.global.locale.value)) {
     setI18nLanguage(i18n, to.params.locale)
   }
 })
