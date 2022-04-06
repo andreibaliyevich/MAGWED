@@ -12,7 +12,6 @@ export default {
   methods: {
     async getOrganizerList() {
       try {
-        axios.defaults.headers.common['Accept-Language'] = this.$i18n.locale;
         const response = await axios.get('/blog/articles/');
         this.responseData = response.data;
       } catch (error) {

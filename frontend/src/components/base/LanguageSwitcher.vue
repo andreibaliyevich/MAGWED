@@ -1,10 +1,8 @@
 <script>
-import i18n from '@/i18n.js'
-
 export default {
   methods: {
     changeOption(event) {
-      this.$router.push({ params: { lang: event.target.value } });
+      this.$router.push({ params: { locale: event.target.value } });
     },
   }
 }

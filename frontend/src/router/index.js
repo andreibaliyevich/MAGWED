@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Root from './Root.vue'
-import i18n from '@/i18n.js'
+import i18n, {
+  SUPPORT_LOCALES,
+  loadLocaleMessages,
+  setI18nLanguage
+} from '@/i18n'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +14,7 @@ const router = createRouter({
       redirect: i18n.global.locale.value
     },
     {
-      path: '/:lang',
+      path: '/:locale',
       component: Root,
       children: [
         {
@@ -38,14 +42,21 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from) => {
-  if (!to.params.lang) {
-    return { name: 'home', params: { lang: i18n.global.locale.value }};
-  } else if (!i18n.global.availableLocales.includes(to.params.lang)) {
-    return '/' + i18n.global.locale.value + to.path;
-  } else if (!(to.params.lang === from.params.lang)) {
-    document.querySelector('html').setAttribute('lang', to.params.lang);
-    i18n.global.locale.value = to.params.lang;
+router.beforeEach(async (to, from) => {
+  if (!to.params.locale) {
+    return { name: 'home', params: { locale: i18n.global.locale.value }}
+  }
+
+  if (!SUPPORT_LOCALES.includes(to.params.locale)) {
+    return '/' + i18n.global.locale.value + to.path
+  }
+
+  if (!i18n.global.availableLocales.includes(to.params.locale)) {
+    await loadLocaleMessages(i18n, to.params.locale)
+  }
+
+  if (!(to.params.locale === from.params.locale)) {
+    setI18nLanguage(i18n, to.params.locale)
   }
 })
 

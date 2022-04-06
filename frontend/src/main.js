@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import App from './App.vue'
 import router from './router'
-import i18n from './i18n.js'
+import i18n from './i18n'
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
