@@ -6,9 +6,9 @@ export const SUPPORT_LOCALES = ['en', 'ru', 'be', 'uk']
 
 function getStartingLocale() {
   const navigatorLocale =
-    navigator.languages !== undefined
-      ? navigator.languages[0]
-      : navigator.language
+    window.navigator.languages !== undefined
+      ? window.navigator.languages[0]
+      : window.navigator.language
 
   if (!navigatorLocale) {
     return SUPPORT_LOCALES[0]
