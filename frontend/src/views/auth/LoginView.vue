@@ -1,29 +1,30 @@
 <script setup>
 import axios from 'axios'
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
 </script>
 
 <script>
 export default {
   data() {
     return {
-      authToken: '',
       username: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
-    async onSubmit() {
-      try {
-        const response = await axios.post('/en/accounts/auth/login/', {
-          username: this.username,
-          password: this.password
-        });
-        this.authToken = response.data.token;
-      } catch (error) {
-        console.error(error);
-      } finally {
-        console.log(this.authToken);
-      }
+    onSubmit() {
+      this.userStore.login({
+        username: this.username,
+        password: this.password
+      })
+      .then(() => {
+        this.$router.push({ name: 'home' })
+      })
+      .catch((error) => {
+        this.error = error
+      })
     }
   }
 }
@@ -38,6 +39,7 @@ export default {
         <input v-model="password" type="password" name="password" :placeholder="$t('auth.password')" class="form-control">
         <button type="submit" class="btn btn-primary">{{ $t('auth.login') }}</button>
       </form>
+      <p>{{ error }}</p>
     </div>
   </div>
 </template>
