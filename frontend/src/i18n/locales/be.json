@@ -2,8 +2,14 @@
     "auth": {
         "login": "Увайсці",
         "logout": "Выхад",
-        "username": "Імя карыстальніка або Email",
+        "registration": "Рэгістрацыя",
+        "username": "Імя карыстальніка",
+        "username_email": "Імя карыстальніка або Email",
+        "email": "Электронная пошта",
         "password": "Пароль",
+        "password2": "Пацвердзіце пароль",
+        "user_type": "Тып карыстальніка",
+        "name": "Імя",
         "profile": "Профіль"
     },
     "nav": {

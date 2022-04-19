@@ -2,8 +2,14 @@
     "auth": {
         "login": "Войти",
         "logout": "Выйти",
-        "username": "Имя пользователя или Email",
+        "registration": "Регистрация",
+        "username": "Имя пользователя",
+        "username_email": "Имя пользователя или Email",
+        "email": "Электронная почта",
         "password": "Пароль",
+        "password2": "Подтвердите пароль",
+        "user_type": "Тип пользователя",
+        "name": "Имя",
         "profile": "Профиль"
     },
     "nav": {

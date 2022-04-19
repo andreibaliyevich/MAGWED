@@ -2,8 +2,14 @@
     "auth": {
         "login": "Login",
         "logout": "Logout",
-        "username": "Username or Email",
+        "registration": "Registration",
+        "username": "Username",
+        "username_email": "Username or Email",
+        "email": "Email",
         "password": "Password",
+        "password2": "Confirm password",
+        "user_type": "User type",
+        "name": "Name",
         "profile": "Profile"
     },
     "nav": {
