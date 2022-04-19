@@ -1,5 +1,7 @@
 <script setup>
+import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
+const baseStore = useBaseStore()
 const userStore = useUserStore()
 </script>
 
@@ -10,7 +12,7 @@ const userStore = useUserStore()
       Username: {{ userStore.username }}<br>
       Email: {{ userStore.email }}<br>
       Name: {{ userStore.name }}<br>
-      <img v-if="userStore.avatar" :src="'http://localhost:8000' + userStore.avatar">
+      <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`">
       <img v-else src="/avatar.png">
     </div>
   </div>

@@ -5,7 +5,9 @@ import axios from 'axios'
 import AppNav from '@/components/base/AppNav.vue'
 import LanguageSwitcher from '@/components/base/LanguageSwitcher.vue'
 
+import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
+const baseStore = useBaseStore()
 const userStore = useUserStore()
 </script>
 
@@ -19,7 +21,7 @@ export default {
       this.userStore.setUserData(userData)
     }
 
-    axios.defaults.baseURL = 'http://localhost:8000'
+    axios.defaults.baseURL = this.baseStore.apiURL
     axios.interceptors.response.use(
       response => response,
       error => {
