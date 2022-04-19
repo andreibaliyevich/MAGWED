@@ -10,7 +10,8 @@ const userStore = useUserStore()
       Username: {{ userStore.username }}<br>
       Email: {{ userStore.email }}<br>
       Name: {{ userStore.name }}<br>
-      <img :src="'http://localhost:8000' + userStore.avatar">
+      <img v-if="userStore.avatar" :src="'http://localhost:8000' + userStore.avatar">
+      <img v-else src="/avatar.png">
     </div>
   </div>
 </template>
