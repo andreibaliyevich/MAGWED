@@ -2,21 +2,24 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const useUserStore = defineStore({
-  id: 'auth',
+  id: 'user',
   state: () => ({
-    token: null
+    user: null
   }),
   getters: {
-    loggedIn: (state) => state.token ? true : false
+    isLoggedIn: (state) => !!state.user
   },
   actions: {
+    setUser(value) {
+      this.user = value
+    },
     login(credentials) {
       return axios
         .post('/en/accounts/auth/login/', credentials)
         .then(({ data }) => {
-          this.token = data.token
-          window.localStorage.setItem('AUTH_TOKEN', data.token)
-          axios.defaults.headers.common['Authorization'] = 'Token ' + data.token
+          this.user = data
+          window.localStorage.setItem('AUTH_USER', JSON.stringify(data))
+          axios.defaults.headers.common['Authorization'] = `Token ${ data.token }`
         })
     },
     logout() {
@@ -26,8 +29,8 @@ export const useUserStore = defineStore({
           console.log(error)
         })
         .then(() => {
-          this.token = null
-          localStorage.removeItem('AUTH_TOKEN')
+          this.user = null
+          window.localStorage.removeItem('AUTH_USER')
           axios.defaults.headers.common['Authorization'] = undefined
         })
     }

@@ -20,7 +20,11 @@ export default {
         password: this.password
       })
       .then(() => {
-        this.$router.push({ name: 'home' })
+        if (this.$route.query.redirect) {
+          this.$router.push({ path: this.$route.query.redirect })
+        } else {
+          this.$router.push({ name: 'home', params: { locale: `${ this.$i18n.locale }` }})
+        }
       })
       .catch((error) => {
         this.error = error
@@ -36,7 +40,7 @@ export default {
     <div class="input-group">
       <form @submit.prevent="onSubmit">
         <input v-model="username" type="text" name="username" :placeholder="$t('auth.username')" class="form-control">
-        <input v-model="password" type="password" name="password" :placeholder="$t('auth.password')" class="form-control">
+        <input v-model="password" name="password" :placeholder="$t('auth.password')" class="form-control">
         <button type="submit" class="btn btn-primary">{{ $t('auth.login') }}</button>
       </form>
       <p>{{ error }}</p>

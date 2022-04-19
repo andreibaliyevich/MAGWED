@@ -33,6 +33,12 @@ const router = createRouter({
           component: () => import('@/views/auth/LoginView.vue')
         },
         {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('@/views/auth/ProfileView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
           path: 'blog',
           name: 'blog',
           component: () => import('@/views/blog/ArticleListView.vue')
@@ -57,6 +63,15 @@ router.beforeEach(async (to, from) => {
 
   if (!(to.params.locale === i18n.global.locale.value)) {
     setI18nLanguage(i18n, to.params.locale)
+  }
+
+  const loggedIn = window.localStorage.getItem('AUTH_USER')
+  if (to.meta.requiresAuth  && !loggedIn) {
+    return {
+      name: 'login',
+      params: { locale: i18n.global.locale.value },
+      query: { redirect: to.fullPath }
+    }
   }
 })
 
