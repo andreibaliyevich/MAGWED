@@ -27,10 +27,11 @@ export default {
     <RouterLink :to="{ name: 'blog', params: { locale: `${ $i18n.locale }` }}">{{ $t('blog.blog') }}</RouterLink>
     <div v-if="userStore.isLoggedIn">
       <RouterLink :to="{ name: 'profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
-      <button @click="logout" class="logoutButton">Logout</button>
+      <button @click="logout" class="logoutButton">{{ $t('auth.logout') }}</button>
     </div>
     <div v-else>
       <RouterLink :to="{ name: 'login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
+      <RouterLink :to="{ name: 'registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
     </div>
   </nav>
 </template>
