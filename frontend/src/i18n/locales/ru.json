@@ -3,7 +3,8 @@
         "login": "Войти",
         "logout": "Выйти",
         "username": "Имя пользователя или Email",
-        "password": "Пароль"
+        "password": "Пароль",
+        "profile": "Профиль"
     },
     "nav": {
         "home": "Главная",

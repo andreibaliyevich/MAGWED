@@ -3,7 +3,8 @@
         "login": "Login",
         "logout": "Logout",
         "username": "Username or Email",
-        "password": "Password"
+        "password": "Password",
+        "profile": "Profile"
     },
     "nav": {
         "home": "Home",
