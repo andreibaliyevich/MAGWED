@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import axios from 'axios'
+
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
 </script>
@@ -8,10 +10,11 @@ const userStore = useUserStore()
 export default {
   methods: {
     logout() {
-      this.userStore.logout()
-      .then(() => {
-        window.location.reload()
-      })
+      axios.post('/en/accounts/auth/logout/')
+        .then(() => {
+          window.localStorage.removeItem('user')
+          window.location.reload()
+        })
     }
   }
 }

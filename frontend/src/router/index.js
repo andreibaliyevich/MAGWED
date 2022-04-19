@@ -65,7 +65,7 @@ router.beforeEach(async (to, from) => {
     setI18nLanguage(i18n, to.params.locale)
   }
 
-  const loggedIn = window.localStorage.getItem('AUTH_USER')
+  const loggedIn = window.localStorage.getItem('user')
   if (to.meta.requiresAuth  && !loggedIn) {
     return {
       name: 'login',

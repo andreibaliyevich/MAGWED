@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
 </script>
@@ -14,12 +15,16 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      this.userStore.login({
+    login() {
+      axios.post('/en/accounts/auth/login/', {
         username: this.username,
         password: this.password
       })
-      .then(() => {
+      .then(({ data }) => {
+        window.localStorage.setItem('user', JSON.stringify(data))
+        axios.defaults.headers.common['Authorization'] = `Token ${ data.token }`
+        this.userStore.setUserData(data)
+
         if (this.$route.query.redirect) {
           this.$router.push({ path: this.$route.query.redirect })
         } else {
@@ -38,9 +43,9 @@ export default {
   <div class="login-view">
     <h4>{{ $t('auth.login') }}</h4>
     <div class="input-group">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="login">
         <input v-model="username" type="text" name="username" :placeholder="$t('auth.username')" class="form-control">
-        <input v-model="password" name="password" :placeholder="$t('auth.password')" class="form-control">
+        <input v-model="password" type="password" name="password" :placeholder="$t('auth.password')" class="form-control">
         <button type="submit" class="btn btn-primary">{{ $t('auth.login') }}</button>
       </form>
       <p>{{ error }}</p>
