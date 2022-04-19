@@ -208,6 +208,19 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         return data
 
 
+class UserSerializer(serializers.ModelSerializer):
+    """ User Serializer """
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'username',
+            'email',
+            'name',
+            'avatar',
+        ]
+
+
 class OrganizerListSerializer(serializers.ModelSerializer):
     """ Organizer List Serializer """
     user = UserSerializerField(read_only=True)

@@ -17,6 +17,7 @@ from .serializers import (
     PasswordChangeSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
+    UserSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -33,12 +34,18 @@ class LoginView(ObtainAuthToken):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+
         token, created = Token.objects.get_or_create(user=user)
         if created:
             user_logged_in.send(
                 sender=user.__class__, request=request, user=user
             )
-        return Response({'token': token.key})
+
+        response_data = { 'token': token.key }
+        user_serializer = UserSerializer(user)
+        response_data.update(user_serializer.data)
+
+        return Response(response_data)
 
 
 class LogoutView(APIView):
