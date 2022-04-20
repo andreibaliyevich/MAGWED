@@ -40,7 +40,7 @@ export default {
 
 <template>
   <div class="login-view">
-    <h4>{{ $t('auth.login') }}</h4>
+    <h4>{{ $t('auth.registration') }}</h4>
     <div class="input-group">
       <form @submit.prevent="login">
         <input v-model="username" type="text" name="username" :placeholder="$t('auth.username')" class="form-control">
