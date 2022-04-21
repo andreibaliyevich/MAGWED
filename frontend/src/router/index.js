@@ -10,70 +10,92 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      redirect: i18n.global.locale.value
-    },
-    {
       path: '/:locale',
+      name: 'root',
       component: Root,
       children: [
         {
           path: '',
-          name: 'home',
+          name: 'Home',
           component: () => import('@/views/HomeView.vue')
         },
         {
           path: 'about',
-          name: 'about',
+          name: 'About',
           component: () => import('@/views/AboutView.vue')
         },
         {
           path: 'login',
-          name: 'login',
+          name: 'Login',
           component: () => import('@/views/auth/LoginView.vue')
         },
         {
           path: 'registration',
-          name: 'registration',
+          name: 'Registration',
           component: () => import('@/views/auth/RegistrationView.vue')
         },
         {
+          path: 'activation/:uid/:token',
+          name: 'Activation',
+          component: () => import('@/views/auth/ActivationView.vue')
+        },
+        {
           path: 'profile',
-          name: 'profile',
+          name: 'Profile',
           component: () => import('@/views/auth/ProfileView.vue'),
           meta: { requiresAuth: true }
         },
         {
           path: 'blog',
-          name: 'blog',
+          name: 'Blog',
           component: () => import('@/views/blog/ArticleListView.vue')
-        }
+        },
       ]
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '404NotFound',
+      component: () => import('@/views/404NotFoundView.vue')
     }
   ]
 })
 
-router.beforeEach(async (to, from) => {
-  if (!to.params.locale) {
-    return { name: 'home', params: { locale: i18n.global.locale.value }}
-  }
+router.getRoutes().find(obj => obj.name == 'root').children.forEach(route => {
+  router.addRoute({
+    path: `/${ route.path }`,
+    redirect: to => {
+      to.params.locale = i18n.global.locale.value
+      return { name: route.name, meta: to.meta, params: to.params }
+    }
+  })
+})
 
-  if (!SUPPORT_LOCALES.includes(to.params.locale)) {
+router.beforeEach(async (to, from) => {
+  let to_locale = to.params.locale
+
+  if (!to_locale) {
+    const arg_from_path = to.path.split('/')[1]
+    if (SUPPORT_LOCALES.includes(arg_from_path)) {
+      to_locale = arg_from_path
+    } else {
+      return '/' + i18n.global.locale.value + to.path
+    }
+  } else if (!SUPPORT_LOCALES.includes(to_locale)) {
     return '/' + i18n.global.locale.value + to.path
   }
 
-  if (!i18n.global.availableLocales.includes(to.params.locale)) {
-    await loadLocaleMessages(i18n, to.params.locale)
+  if (!i18n.global.availableLocales.includes(to_locale)) {
+    await loadLocaleMessages(i18n, to_locale)
   }
 
-  if (!(to.params.locale === i18n.global.locale.value)) {
-    setI18nLanguage(i18n, to.params.locale)
+  if (!(to_locale === i18n.global.locale.value)) {
+    setI18nLanguage(i18n, to_locale)
   }
 
   const loggedIn = window.localStorage.getItem('user')
   if (to.meta.requiresAuth  && !loggedIn) {
     return {
-      name: 'login',
+      name: 'Login',
       params: { locale: i18n.global.locale.value },
       query: { redirect: to.fullPath }
     }

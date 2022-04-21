@@ -27,7 +27,7 @@ export default {
       })
       .then((response) => {
         if (response.status === 201) {
-          this.$router.push({ name: 'home', params: { locale: `${ this.$i18n.locale }` }})
+          this.$router.push({ name: 'Home', params: { locale: `${ this.$i18n.locale }` }})
         }
       })
       .catch((error) => {

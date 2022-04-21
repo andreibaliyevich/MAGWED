@@ -2,7 +2,7 @@
 export default {
   methods: {
     changeOption(event) {
-      this.$router.push({ params: { locale: event.target.value } });
+      this.$router.push({ params: { locale: event.target.value } })
     },
   }
 }
