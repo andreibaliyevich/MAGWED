@@ -1,6 +1,6 @@
 <template>
   <div class="page-not-found">
-    <h1>Page Not Found (404)</h1>
+    <h1>{{ $t('errors.page_not_found') }}</h1>
   </div>
 </template>
 
