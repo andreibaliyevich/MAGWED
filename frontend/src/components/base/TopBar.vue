@@ -115,5 +115,31 @@ export default {
 </template>
 
 <style scoped>
-
+.link-facebook:hover {
+  color: #1877f2 !important;
+}
+.link-twitter:hover {
+  color: #1da1f2 !important;
+}
+.link-instagram:hover {
+  color: #e1306c !important;
+}
+.link-spotify:hover {
+  color: #1db954 !important;
+}
+.link-youtube:hover {
+  color: #ff0000 !important;
+}
+.link-soundcloud:hover {
+  color: #ff8800 !important;
+}
+.link-pinterest:hover {
+  color: #e60023 !important;
+}
+.link-vk:hover {
+  color: #45668e !important;
+}
+.link-linkedin:hover {
+  color: #0077b5 !important;
+}
 </style>
