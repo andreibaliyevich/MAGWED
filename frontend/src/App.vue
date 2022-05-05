@@ -2,8 +2,8 @@
 import { RouterLink, RouterView } from 'vue-router'
 import axios from 'axios'
 
-import AppNav from '@/components/base/AppNav.vue'
-import LanguageSwitcher from '@/components/base/LanguageSwitcher.vue'
+import TopBar from '@/components/base/TopBar.vue'
+import NavBar from '@/components/base/NavBar.vue'
 
 import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
@@ -37,18 +37,18 @@ export default {
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <AppNav />
-      <LanguageSwitcher />
-    </div>
+  <header class="shadow-sm">
+    <TopBar />
+    <NavBar />
   </header>
-
-  <RouterView />
+  <main class="min-vh-100">
+    <RouterView />
+  </main>
+  <footer class="bg-dark text-white py-3">
+    <div>Footer</div>
+  </footer>
 </template>
 
 <style>
 @import '@/assets/base.css';
-
-
 </style>
