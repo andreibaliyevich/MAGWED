@@ -12,14 +12,15 @@ const userStore = useUserStore()
 export default {
   methods: {
     changeCurrency(event) {
+      window.localStorage.setItem('currency', event.target.value)
       this.baseStore.setCurrency(event.target.value)
     },
     logout() {
       axios.post('/en/accounts/auth/logout/')
-        .then(() => {
-          window.localStorage.removeItem('user')
-          window.location.reload()
-        })
+      .then(() => {
+        window.localStorage.removeItem('user')
+        window.location.reload()
+      })
     }
   }
 }
@@ -61,12 +62,12 @@ export default {
         <div class="d-flex">
           <div class="d-flex align-items-center dropdown me-3 d-none d-md-grid">
             <a class="d-flex align-items-center dropdown-toggle text-decoration-none text-white" href="#" role="button" id="dropdownLocale" data-bs-toggle="dropdown" aria-expanded="false">
-              <img :src="'/flags/' + this.$i18n.locale + '.png'" width="20" :alt="this.$i18n.locale">
-              <span class="text-uppercase ms-1">{{ this.$i18n.locale }} / {{ baseStore.currency }}</span>
+              <img :src="'/flags/' + $i18n.locale + '.png'" width="20" :alt="$i18n.locale">
+              <span class="text-uppercase ms-1">{{ $i18n.locale }} / {{ baseStore.currency }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLocale">
               <li class="dropdown-item">
-                <select :value="baseStore.currency" @change="changeCurrency" class="form-select">
+                <select class="form-select" :value="baseStore.currency" @change="changeCurrency">
                   <option value="USD">$ USD</option>
                   <option value="EUR">€ EUR</option>
                   <option value="RUB">₽ RUB</option>
@@ -102,11 +103,11 @@ export default {
           </div>
           <div class="d-flex align-items-center" v-if="userStore.isLoggedIn">
             <RouterLink class="btn btn-brand btn-sm rounded-pill px-3 me-1" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
-            <button class="btn btn-outline-brand btn-sm rounded-pill px-3" @click="logout">{{ $t('auth.logout') }}</button>
+            <button class="btn btn-outline-brand btn-sm text-white border-secondary rounded-pill px-3" @click="logout">{{ $t('auth.logout') }}</button>
           </div>
           <div class="d-flex align-items-center" v-else>
             <RouterLink class="btn btn-brand btn-sm rounded-pill px-3 me-1" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
-            <RouterLink class="btn btn-outline-brand btn-sm rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
+            <RouterLink class="btn btn-outline-brand btn-sm text-white border-secondary rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
           </div>
         </div>
       </div>

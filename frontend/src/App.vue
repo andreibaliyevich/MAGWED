@@ -32,6 +32,11 @@ export default {
         return Promise.reject(error)
       }
     )
+
+    const currencyString = window.localStorage.getItem('currency')
+    if (currencyString) {
+      this.baseStore.setCurrency(currencyString)
+    }
   }
 }
 </script>
