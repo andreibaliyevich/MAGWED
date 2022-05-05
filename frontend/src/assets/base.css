@@ -71,3 +71,14 @@
   color: #e72a26;
   background-color: transparent;
 }
+
+.dropdown-item:active {
+  color: #000000;
+  text-decoration: none;
+  background-color: #e9ecef;
+}
+
+.form-select:focus {
+  border-color: #e72a26;
+  box-shadow: none;
+}
