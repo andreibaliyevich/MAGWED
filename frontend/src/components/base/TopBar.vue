@@ -70,12 +70,12 @@ export default {
             </ul>
           </div>
           <div class="d-flex align-items-center" v-if="userStore.isLoggedIn">
-            <RouterLink class="btn btn-primary btn-sm rounded-pill px-3 me-1" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
-            <button class="btn btn-outline-primary btn-sm rounded-pill px-3" @click="logout">{{ $t('auth.logout') }}</button>
+            <RouterLink class="btn btn-brand btn-sm rounded-pill px-3 me-1" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
+            <button class="btn btn-outline-brand btn-sm rounded-pill px-3" @click="logout">{{ $t('auth.logout') }}</button>
           </div>
           <div class="d-flex align-items-center" v-else>
-            <RouterLink class="btn btn-primary btn-sm rounded-pill px-3 me-1" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
-            <RouterLink class="btn btn-outline-primary btn-sm rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
+            <RouterLink class="btn btn-brand btn-sm rounded-pill px-3 me-1" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
+            <RouterLink class="btn btn-outline-brand btn-sm rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
           </div>
         </div>
       </div>
