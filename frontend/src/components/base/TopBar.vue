@@ -2,15 +2,17 @@
 import { RouterLink } from 'vue-router'
 import axios from 'axios'
 
+import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
+const baseStore = useBaseStore()
 const userStore = useUserStore()
 </script>
 
 <script>
 export default {
   methods: {
-    changeLocale(event) {
-      this.$router.push({ params: { locale: event.target.value } })
+    changeCurrency(event) {
+      this.baseStore.setCurrency(event.target.value)
     },
     logout() {
       axios.post('/en/accounts/auth/logout/')
@@ -60,15 +62,16 @@ export default {
           <div class="d-flex align-items-center dropdown me-3 d-none d-md-grid">
             <a class="d-flex align-items-center dropdown-toggle text-decoration-none text-white" href="#" role="button" id="dropdownLocale" data-bs-toggle="dropdown" aria-expanded="false">
               <img :src="'/flags/' + this.$i18n.locale + '.png'" width="20" :alt="this.$i18n.locale">
-              <span class="text-uppercase ms-1">{{ this.$i18n.locale }} / $</span>
+              <span class="text-uppercase ms-1">{{ this.$i18n.locale }} / {{ baseStore.currency }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLocale">
               <li class="dropdown-item">
-                <select :value="$i18n.locale" @change="changeLocale" class="form-select">
-                  <option value="en">English</option>
-                  <option value="ru">Русский</option>
-                  <option value="be">Беларуская</option>
-                  <option value="uk">Українська</option>
+                <select :value="baseStore.currency" @change="changeCurrency" class="form-select">
+                  <option value="USD">$ USD</option>
+                  <option value="EUR">€ EUR</option>
+                  <option value="RUB">₽ RUB</option>
+                  <option value="BYN">Br BYN</option>
+                  <option value="UAH">₴ UAH</option>
                 </select>
               </li>
               <li>
