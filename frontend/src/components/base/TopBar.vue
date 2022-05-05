@@ -27,9 +27,37 @@ export default {
   <div class="bg-dark text-white py-1">
     <div class="container">
       <div class="d-flex justify-content-between">
-        <div class="d-flex align-items-center">Social icons</div>
+        <div class="d-flex align-items-center">
+          <a class="text-white link-facebook" href="https://www.facebook.com/" target="_blank">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a class="text-white link-twitter ms-2" href="https://twitter.com/" target="_blank">
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+          <a class="text-white link-instagram ms-2" href="https://www.instagram.com/" target="_blank">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a class="text-white link-spotify ms-2" href="https://www.spotify.com/" target="_blank">
+            <i class="fa-brands fa-spotify"></i>
+          </a>
+          <a class="text-white link-youtube ms-2" href="https://www.youtube.com/" target="_blank">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a class="text-white link-soundcloud ms-2" href="https://soundcloud.com/" target="_blank">
+            <i class="fa-brands fa-soundcloud"></i>
+          </a>
+          <a class="text-white link-pinterest ms-2" href="https://www.pinterest.com/" target="_blank">
+            <i class="fa-brands fa-pinterest"></i>
+          </a>
+          <a class="text-white link-vk ms-2" href="https://vk.com/" target="_blank">
+            <i class="fa-brands fa-vk"></i>
+          </a>
+          <a class="text-white link-linkedin ms-2" href="https://www.linkedin.com/" target="_blank">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        </div>
         <div class="d-flex">
-          <div class="d-flex align-items-center dropdown me-3">
+          <div class="d-flex align-items-center dropdown me-3 d-none d-md-grid">
             <a class="d-flex align-items-center dropdown-toggle text-decoration-none text-white" href="#" role="button" id="dropdownLocale" data-bs-toggle="dropdown" aria-expanded="false">
               <img :src="'/flags/' + this.$i18n.locale + '.png'" width="20" :alt="this.$i18n.locale">
               <span class="text-uppercase ms-1">{{ this.$i18n.locale }} / $</span>
