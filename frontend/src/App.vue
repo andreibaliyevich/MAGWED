@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import TopBar from '@/components/base/TopBar.vue'
 import NavBar from '@/components/base/NavBar.vue'
+import Footer from '@/components/base/Footer.vue'
 
 import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
@@ -49,9 +50,7 @@ export default {
   <main class="min-vh-100">
     <RouterView />
   </main>
-  <footer class="bg-dark text-white py-3">
-    <div>Footer</div>
-  </footer>
+  <Footer />
 </template>
 
 <style>

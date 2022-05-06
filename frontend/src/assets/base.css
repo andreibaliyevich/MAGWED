@@ -3,6 +3,39 @@
   padding: 0;
 }
 
+.nav-link:hover,
+.nav-link.active {
+  color: #e72a26 !important;
+}
+
+.link-facebook:hover {
+  color: #1877f2 !important;
+}
+.link-twitter:hover {
+  color: #1da1f2 !important;
+}
+.link-instagram:hover {
+  color: #e1306c !important;
+}
+.link-spotify:hover {
+  color: #1db954 !important;
+}
+.link-youtube:hover {
+  color: #ff0000 !important;
+}
+.link-soundcloud:hover {
+  color: #ff8800 !important;
+}
+.link-pinterest:hover {
+  color: #e60023 !important;
+}
+.link-vk:hover {
+  color: #45668e !important;
+}
+.link-linkedin:hover {
+  color: #0077b5 !important;
+}
+
 .btn-brand {
   color: #fff;
   background: linear-gradient(110deg, #d2094b, #f94900);
@@ -81,7 +114,10 @@
   background-color: #e9ecef;
 }
 
+.form-select:hover {
+  cursor: pointer;
+}
 .form-select:focus {
-  border-color: #e72a26;
-  box-shadow: none;
+  border-color: #e72a26 !important;
+  box-shadow: none !important;
 }

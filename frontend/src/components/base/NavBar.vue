@@ -37,26 +37,26 @@ export default {
         <div class="offcanvas-body">
           <div class="d-flex d-lg-none">
             <form class="input-group border border-muted rounded-pill d-flex align-items-center">
-              <label class="text-secondary ms-2" for="search-lg"><i class="fa-solid fa-magnifying-glass"></i></label>
-              <input class="form-control rounded-pill border-0 shadow-none m-1" id="search-lg" type="search" placeholder="Search..." aria-label="Search">
+              <label class="text-secondary ms-2" for="search-sm"><i class="fa-solid fa-magnifying-glass"></i></label>
+              <input class="form-control rounded-pill border-0 shadow-none m-1" id="search-sm" type="search" placeholder="Search..." aria-label="Search">
             </form>
           </div>
           <ul class="navbar-nav justify-content-end flex-grow-1 ms-1">
             <li class="nav-item text-uppercase fw-bold">
               <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Лучшие</RouterLink>
-              <RouterLink v-else class="nav-link" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Лучшие</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Лучшие</RouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-lg-3">
               <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Места</RouterLink>
-              <RouterLink v-else class="nav-link" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Места</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Места</RouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-lg-3">
               <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Awards</RouterLink>
-              <RouterLink v-else class="nav-link" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Awards</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Awards</RouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-lg-3">
               <RouterLink v-if="this.$route.name == 'Blog'" class="nav-link active" aria-current="page" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('blog.blog') }}</RouterLink>
-              <RouterLink v-else class="nav-link" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('blog.blog') }}</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('blog.blog') }}</RouterLink>
             </li>
           </ul>
         </div>
@@ -64,15 +64,3 @@ export default {
     </div>
   </nav>
 </template>
-
-<style scoped>
-.nav-link {
-  color: #000000 !important;
-}
-.nav-link:hover {
-  color: #e72a26 !important;
-}
-.nav-link.active {
-  color: #e72a26 !important;
-}
-</style>

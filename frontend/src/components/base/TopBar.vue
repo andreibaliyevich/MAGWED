@@ -14,6 +14,7 @@ export default {
     changeCurrency(event) {
       window.localStorage.setItem('currency', event.target.value)
       this.baseStore.setCurrency(event.target.value)
+      document.getElementById("currencyList").click()
     },
     logout() {
       axios.post('/en/accounts/auth/logout/')
@@ -66,7 +67,7 @@ export default {
               <span class="text-uppercase ms-1">{{ $i18n.locale }} / {{ baseStore.currency }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLocale">
-              <li class="dropdown-item">
+              <li id="currencyList" class="dropdown-item">
                 <select class="form-select" :value="baseStore.currency" @change="changeCurrency">
                   <option value="USD">$ USD</option>
                   <option value="EUR">€ EUR</option>
@@ -114,33 +115,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-.link-facebook:hover {
-  color: #1877f2 !important;
-}
-.link-twitter:hover {
-  color: #1da1f2 !important;
-}
-.link-instagram:hover {
-  color: #e1306c !important;
-}
-.link-spotify:hover {
-  color: #1db954 !important;
-}
-.link-youtube:hover {
-  color: #ff0000 !important;
-}
-.link-soundcloud:hover {
-  color: #ff8800 !important;
-}
-.link-pinterest:hover {
-  color: #e60023 !important;
-}
-.link-vk:hover {
-  color: #45668e !important;
-}
-.link-linkedin:hover {
-  color: #0077b5 !important;
-}
-</style>
