@@ -60,7 +60,7 @@ export default {
           </a>
         </div>
         <div class="d-flex">
-          <div class="d-flex align-items-center dropdown me-3 d-none d-md-grid">
+          <div class="d-flex align-items-center dropdown me-3 d-none d-md-inline-flex">
             <a class="d-flex align-items-center dropdown-toggle text-decoration-none text-white" href="#" role="button" id="dropdownLocale" data-bs-toggle="dropdown" aria-expanded="false">
               <img :src="'/flags/' + $i18n.locale + '.png'" width="20" :alt="$i18n.locale">
               <span class="text-uppercase ms-1">{{ $i18n.locale }} / {{ baseStore.currency }}</span>
@@ -102,11 +102,11 @@ export default {
             </ul>
           </div>
           <div class="d-flex align-items-center" v-if="userStore.isLoggedIn">
-            <RouterLink class="btn btn-brand btn-sm rounded-pill px-3 me-1" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
-            <button class="btn btn-outline-brand btn-sm text-white border-secondary rounded-pill px-3" @click="logout">{{ $t('auth.logout') }}</button>
+            <RouterLink class="btn btn-brand btn-sm rounded-pill px-3" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
+            <button class="btn btn-outline-brand btn-sm text-white border-secondary rounded-pill d-none d-sm-inline-flex px-3 ms-1" @click="logout">{{ $t('auth.logout') }}</button>
           </div>
           <div class="d-flex align-items-center" v-else>
-            <RouterLink class="btn btn-brand btn-sm rounded-pill px-3 me-1" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
+            <RouterLink class="btn btn-brand btn-sm rounded-pill d-none d-sm-inline-flex px-3 me-1" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
             <RouterLink class="btn btn-outline-brand btn-sm text-white border-secondary rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
           </div>
         </div>

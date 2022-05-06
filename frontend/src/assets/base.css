@@ -40,8 +40,8 @@
 }
 
 .btn-outline-brand {
-  color: #fff;
-  border-color: #5c636a;
+  color: #e72a26;
+  border-color: #e72a26;
 }
 .btn-outline-brand:hover {
   color: #fff;
@@ -72,6 +72,9 @@
   background-color: transparent;
 }
 
+.dropdown {
+  z-index: 1010;
+}
 .dropdown-item:active {
   color: #000000;
   text-decoration: none;
