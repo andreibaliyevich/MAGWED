@@ -122,7 +122,3 @@ export default {
     </div>
   </footer>
 </template>
-
-<style scoped>
-
-</style>

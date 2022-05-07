@@ -105,8 +105,8 @@
   background-color: transparent;
 }
 
-.dropdown {
-  z-index: 1010;
+.dropdown-menu {
+  z-index: 1050;
 }
 .dropdown-item:active {
   color: #000000;
@@ -114,8 +114,14 @@
   background-color: #e9ecef;
 }
 
+.input-group:hover,
+.input-group:focus-within {
+  border-color: #e72a26 !important;
+}
+
 .form-select:hover {
   cursor: pointer;
+  border-color: #e72a26 !important;
 }
 .form-select:focus {
   border-color: #e72a26 !important;

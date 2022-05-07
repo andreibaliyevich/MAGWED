@@ -13,7 +13,7 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container py-1 py-lg-3">
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -22,8 +22,8 @@ export default {
         <img width="190" src="/logo-navbar.png">
       </RouterLink>
 
-      <div class="w-100 d-flex d-none d-lg-inline-flex">
-        <form class="input-group border border-muted rounded-pill d-flex align-items-center">
+      <div class="w-100 d-flex d-none d-lg-inline-flex mx-3">
+        <form class="input-group border rounded-pill d-flex align-items-center">
           <label class="text-secondary ms-2" for="search-lg"><i class="fa-solid fa-magnifying-glass"></i></label>
           <input class="form-control rounded-pill border-0 shadow-none m-1" id="search-lg" type="search" placeholder="Search..." aria-label="Search">
         </form>
@@ -36,7 +36,7 @@ export default {
         </div>
         <div class="offcanvas-body">
           <div class="d-flex d-lg-none">
-            <form class="input-group border border-muted rounded-pill d-flex align-items-center">
+            <form class="input-group border rounded-pill d-flex align-items-center">
               <label class="text-secondary ms-2" for="search-sm"><i class="fa-solid fa-magnifying-glass"></i></label>
               <input class="form-control rounded-pill border-0 shadow-none m-1" id="search-sm" type="search" placeholder="Search..." aria-label="Search">
             </form>

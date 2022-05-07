@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import axios from 'axios'
 
-import TopBar from '@/components/base/TopBar.vue'
+import Header from '@/components/base/Header.vue'
 import NavBar from '@/components/base/NavBar.vue'
 import Footer from '@/components/base/Footer.vue'
 
@@ -43,10 +43,8 @@ export default {
 </script>
 
 <template>
-  <header class="shadow-sm">
-    <TopBar />
-    <NavBar />
-  </header>
+  <Header />
+  <NavBar />
   <main class="min-vh-100">
     <RouterView />
   </main>
