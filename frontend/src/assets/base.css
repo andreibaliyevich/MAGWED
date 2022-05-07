@@ -108,10 +108,12 @@
 .dropdown-menu {
   z-index: 1050;
 }
+.dropdown-item:hover {
+  cursor: pointer;
+}
+.dropdown-item.active,
 .dropdown-item:active {
-  color: #000000;
-  text-decoration: none;
-  background-color: #e9ecef;
+  background-color: #e72a26;
 }
 
 .input-group:hover,

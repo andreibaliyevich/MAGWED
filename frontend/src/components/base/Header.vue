@@ -112,10 +112,11 @@ export default {
                 <li><a class="dropdown-item" href="#">New project...</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li>
-                  <RouterLink class="dropdown-item" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
+                  <RouterLink v-if="this.$route.name == 'Profile'" class="dropdown-item active" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
+                  <RouterLink v-else class="dropdown-item" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
                 </li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" @click="logout">{{ $t('auth.logout') }}</a></li>
+                <li><div class="dropdown-item" @click="logout">{{ $t('auth.logout') }}</div></li>
               </ul>
             </div>
           </div>

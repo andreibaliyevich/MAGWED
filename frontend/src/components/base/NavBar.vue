@@ -15,12 +15,12 @@ export default {
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container py-1 py-lg-3">
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <RouterLink class="navbar-brand" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
         <img width="190" src="/logo-navbar.png">
       </RouterLink>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
       <div class="w-100 d-flex d-none d-lg-inline-flex mx-3">
         <form class="input-group border rounded-pill d-flex align-items-center">
@@ -29,7 +29,7 @@ export default {
         </form>
       </div>
 
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
           <button id="offcanvasClose" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
