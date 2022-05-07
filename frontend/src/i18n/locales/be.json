@@ -11,11 +11,27 @@
         "user_type": "Тып карыстальніка",
         "name": "Імя",
         "activation": "Актывацыя",
-        "profile": "Профіль"
+        "profile": "Профіль",
+        "notifications": "Апавяшчэнні",
+        "messages": "Паведамленні"
     },
     "nav": {
-        "home": "Галоўная",
-        "about": "Пра нас"
+        "best": "Лепшыя",
+        "places": "Месцы",
+        "awards": "Узнагароды",
+        "blog": "Блог"
+    },
+    "footer": {
+        "rules": "Правілы",
+        "advertising": "Рэклама",
+        "our_logos": "Нашы Лагатыпы",
+        "feedback": "Зваротная сувязь",
+        "more_about_magwed": "Падрабязней аб MAGWED",
+        "analytics": "Аналітыка",
+        "career_at_magwed": "Кар'ера ў MAGWED",
+        "terms_of_use": "Умовы выкарыстання",
+        "privacy_policy": "Палітыка прыватнасці",
+        "advertising_and_promotion": "Рэклама і прасоўванне"
     },
     "blog": {
         "blog": "Блог"

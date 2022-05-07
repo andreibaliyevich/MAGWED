@@ -43,20 +43,20 @@ export default {
           </div>
           <ul class="navbar-nav justify-content-end flex-grow-1 ms-1">
             <li class="nav-item text-uppercase fw-bold">
-              <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Лучшие</RouterLink>
-              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Лучшие</RouterLink>
+              <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.best') }}</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.best') }}</RouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-lg-3">
-              <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Места</RouterLink>
-              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Места</RouterLink>
+              <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.places') }}</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.places') }}</RouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-lg-3">
-              <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Awards</RouterLink>
-              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">Awards</RouterLink>
+              <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.awards') }}</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.awards') }}</RouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-lg-3">
-              <RouterLink v-if="this.$route.name == 'Blog'" class="nav-link active" aria-current="page" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('blog.blog') }}</RouterLink>
-              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('blog.blog') }}</RouterLink>
+              <RouterLink v-if="this.$route.name == 'Blog'" class="nav-link active" aria-current="page" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.blog') }}</RouterLink>
+              <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.blog') }}</RouterLink>
             </li>
           </ul>
         </div>

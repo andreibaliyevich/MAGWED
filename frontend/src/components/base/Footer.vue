@@ -29,38 +29,38 @@ export default {
         <div class="col-md-3 mt-3 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Правила</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.rules') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Реклама</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.advertising') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Наши Логотипы</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.our_logos') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Обратная связь</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.feedback') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Подробнее о MAGWED</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'About', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.more_about_magwed') }}</RouterLink>
             </li>
           </ul>
         </div>
         <div class="col-md-3">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Аналитика</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.analytics') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Карьера в MAGWED</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.career_at_magwed') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Условия использования</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.terms_of_use') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Политика конфиденциальности</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.privacy_policy') }}</RouterLink>
             </li>
             <li class="nav-item mb-2">
-              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">Реклама и продвижение</RouterLink>
+              <RouterLink class="nav-link p-0 text-white" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">{{ $t('footer.advertising_and_promotion') }}</RouterLink>
             </li>
           </ul>
         </div>

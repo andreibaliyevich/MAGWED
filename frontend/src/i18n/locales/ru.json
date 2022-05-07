@@ -11,11 +11,27 @@
         "user_type": "Тип пользователя",
         "name": "Имя",
         "activation": "Активация",
-        "profile": "Профиль"
+        "profile": "Профиль",
+        "notifications": "Уведомления",
+        "messages": "Сообщения"
     },
     "nav": {
-        "home": "Главная",
-        "about": "О нас"
+        "best": "Лучшие",
+        "places": "Места",
+        "awards": "Награды",
+        "blog": "Блог"
+    },
+    "footer": {
+        "rules": "Правила",
+        "advertising": "Реклама",
+        "our_logos": "Наши Логотипы",
+        "feedback": "Обратная связь",
+        "more_about_magwed": "Подробнее о MAGWED",
+        "analytics": "Аналитика",
+        "career_at_magwed": "Карьера в MAGWED",
+        "terms_of_use": "Условия использования",
+        "privacy_policy": "Политика конфиденциальности",
+        "advertising_and_promotion": "Реклама и продвижение"
     },
     "blog": {
         "blog": "Блог"

@@ -11,11 +11,27 @@
         "user_type": "Тип користувача",
         "name": "Ім'я",
         "activation": "Активація",
-        "profile": "Профіль"
+        "profile": "Профіль",
+        "notifications": "Сповіщення",
+        "messages": "Повідомлення"
     },
     "nav": {
-        "home": "Головна",
-        "about": "Про нас"
+        "best": "Найкращі",
+        "places": "Місця",
+        "awards": "Нагороди",
+        "blog": "Блог"
+    },
+    "footer": {
+        "rules": "Правила",
+        "advertising": "Реклама",
+        "our_logos": "Наші Логотипи",
+        "feedback": "Зворотній зв'язок",
+        "more_about_magwed": "Докладніше про MAGWED",
+        "analytics": "Аналітика",
+        "career_at_magwed": "Кар'єра в MAGWED",
+        "terms_of_use": "Умови використання",
+        "privacy_policy": "Політика конфіденційності",
+        "advertising_and_promotion": "Реклама та просування"
     },
     "blog": {
         "blog": "Блог"

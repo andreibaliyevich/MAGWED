@@ -112,21 +112,21 @@ export default {
                 <li>
                   <RouterLink v-if="this.$route.name == 'Notifications'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-bell"></i>
-                    Notifications
+                    {{ $t('auth.notifications') }}
                   </RouterLink>
                   <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-bell"></i>
-                    Notifications
+                    {{ $t('auth.notifications') }}
                   </RouterLink>
                 </li>
                 <li>
                   <RouterLink v-if="this.$route.name == 'Messages'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-message"></i>
-                    Messages
+                    {{ $t('auth.messages') }}
                   </RouterLink>
                   <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-message"></i>
-                    Messages
+                    {{ $t('auth.messages') }}
                   </RouterLink>
                 </li>
                 <li>
