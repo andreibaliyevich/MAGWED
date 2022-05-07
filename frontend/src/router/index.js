@@ -11,7 +11,7 @@ const router = createRouter({
   routes: [
     {
       path: '/:locale',
-      name: 'root',
+      name: 'Root',
       component: Root,
       children: [
         {
@@ -23,6 +23,11 @@ const router = createRouter({
           path: 'about',
           name: 'About',
           component: () => import('@/views/AboutView.vue')
+        },
+        {
+          path: 'blog',
+          name: 'Blog',
+          component: () => import('@/views/blog/ArticleListView.vue')
         },
         {
           path: 'login',
@@ -40,16 +45,28 @@ const router = createRouter({
           component: () => import('@/views/auth/ActivationView.vue')
         },
         {
-          path: 'profile',
-          name: 'Profile',
-          component: () => import('@/views/auth/ProfileView.vue'),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: 'blog',
-          name: 'Blog',
-          component: () => import('@/views/blog/ArticleListView.vue')
-        },
+          path: '',
+          name: 'BaseAuth',
+          component: () => import('@/views/auth/BaseAuthView.vue'),
+          meta: { requiresAuth: true },
+          children: [
+            {
+              path: 'profile',
+              name: 'Profile',
+              component: () => import('@/views/auth/ProfileView.vue'),
+            },
+            {
+              path: 'notifications',
+              name: 'Notifications',
+              component: () => import('@/views/auth/NotificationsView.vue'),
+            },
+            {
+              path: 'messages',
+              name: 'Messages',
+              component: () => import('@/views/auth/MessagesView.vue'),
+            }
+          ]
+        }
       ]
     },
     {
@@ -58,16 +75,6 @@ const router = createRouter({
       component: () => import('@/views/404NotFoundView.vue')
     }
   ]
-})
-
-router.getRoutes().find(obj => obj.name == 'root').children.forEach(route => {
-  router.addRoute({
-    path: `/${ route.path }`,
-    redirect: to => {
-      to.params.locale = i18n.global.locale.value
-      return { name: route.name, meta: to.meta, params: to.params }
-    }
-  })
 })
 
 router.beforeEach(async (to, from) => {

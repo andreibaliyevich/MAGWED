@@ -6,8 +6,8 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div class="profile">
-    <h1>This is a Profile page</h1>
+  <div class="messages">
+    <h1>This is a Messages page</h1>
     <div>
       Username: {{ userStore.username }}<br>
       Email: {{ userStore.email }}<br>

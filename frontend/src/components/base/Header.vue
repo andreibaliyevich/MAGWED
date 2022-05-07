@@ -109,14 +109,43 @@ export default {
                 <img v-else src="/avatar.png" class="rounded-circle" width="32" height="32" alt="avatar">
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li>
-                  <RouterLink v-if="this.$route.name == 'Profile'" class="dropdown-item active" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
-                  <RouterLink v-else class="dropdown-item" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.profile') }}</RouterLink>
+                  <RouterLink v-if="this.$route.name == 'Notifications'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
+                    <i class="fa-solid fa-bell"></i>
+                    Notifications
+                  </RouterLink>
+                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
+                    <i class="fa-solid fa-bell"></i>
+                    Notifications
+                  </RouterLink>
+                </li>
+                <li>
+                  <RouterLink v-if="this.$route.name == 'Messages'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
+                    <i class="fa-solid fa-message"></i>
+                    Messages
+                  </RouterLink>
+                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
+                    <i class="fa-solid fa-message"></i>
+                    Messages
+                  </RouterLink>
+                </li>
+                <li>
+                  <RouterLink v-if="this.$route.name == 'Profile'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
+                    <i class="fa-solid fa-user"></i>
+                    {{ $t('auth.profile') }}
+                  </RouterLink>
+                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
+                    <i class="fa-solid fa-user"></i>
+                    {{ $t('auth.profile') }}
+                  </RouterLink>
                 </li>
                 <li><hr class="dropdown-divider"></li>
-                <li><div class="dropdown-item" @click="logout">{{ $t('auth.logout') }}</div></li>
+                <li>
+                  <div class="dropdown-item d-flex gap-2 align-items-center" @click="logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    {{ $t('auth.logout') }}
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
