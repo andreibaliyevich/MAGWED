@@ -17,7 +17,7 @@ from .serializers import (
     PasswordChangeSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
-    UserSerializer,
+    UserLoginSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -42,7 +42,7 @@ class LoginView(ObtainAuthToken):
             )
 
         response_data = { 'token': token.key }
-        user_serializer = UserSerializer(user)
+        user_serializer = UserLoginSerializer(user)
         response_data.update(user_serializer.data)
 
         return Response(response_data)

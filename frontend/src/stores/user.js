@@ -6,6 +6,7 @@ export const useUserStore = defineStore({
     token: null,
     username: null,
     email: null,
+    user_type: null,
     name: null,
     avatar: null
   }),
@@ -17,6 +18,7 @@ export const useUserStore = defineStore({
       this.token = data.token
       this.username = data.username
       this.email = data.email
+      this.user_type = data.user_type
       this.name = data.name
       this.avatar = data.avatar
     }

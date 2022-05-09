@@ -208,14 +208,15 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         return data
 
 
-class UserSerializer(serializers.ModelSerializer):
-    """ User Serializer """
+class UserLoginSerializer(serializers.ModelSerializer):
+    """ User Login Serializer """
 
     class Meta:
         model = UserModel
         fields = [
             'username',
             'email',
+            'user_type',
             'name',
             'avatar',
         ]
