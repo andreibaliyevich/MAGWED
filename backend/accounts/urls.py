@@ -17,6 +17,7 @@ urlpatterns = [
                 path('confirm/', views.PasswordResetConfirmView.as_view()),
             ])),
         ])),
+        path('profile/', views.ProfileView.as_view()),
     ])),
 
     path('organizers/', include([

@@ -7,13 +7,14 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
+from main.models import Country, City, Language
 from main.serializers import (
     CountrySerializer,
     CitySerializer,
     LanguageSerializer,
 )
 from .choices import UserType
-from .models import Customer, Organizer
+from .models import Customer, OrganizerRole, Organizer
 from .serializer_fields import (
     UserSerializerField,
     UserDetailSerializerField,
@@ -22,6 +23,20 @@ from .serializer_fields import (
 
 
 UserModel = get_user_model()
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    """ User Login Serializer """
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'username',
+            'email',
+            'user_type',
+            'name',
+            'avatar',
+        ]
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -49,7 +64,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def validate_name(self, value):
         if not value:
-            raise serializers.ValidationError(_('This field may not be blank.'))
+            raise serializers.ValidationError(
+                _('This field may not be blank.'))
         return value
 
     def validate(self, data):
@@ -208,18 +224,116 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         return data
 
 
-class UserLoginSerializer(serializers.ModelSerializer):
-    """ User Login Serializer """
+class UserProfileSerializer(serializers.ModelSerializer):
+    """ User Profile Serializer """
+    username = serializers.CharField(read_only=True)
+    email = serializers.EmailField(read_only=True)
+    avatar = serializers.ImageField(read_only=True)
+    country = serializers.PrimaryKeyRelatedField(
+        queryset=Country.objects.all())
+    city = serializers.PrimaryKeyRelatedField(queryset=City.objects.all())
 
     class Meta:
         model = UserModel
         fields = [
             'username',
             'email',
-            'user_type',
             'name',
             'avatar',
+            'country',
+            'city',
+            'phone',
         ]
+
+
+class CustomerProfileSerializer(serializers.ModelSerializer):
+    """ Customer Profile Serializer """
+    user = UserProfileSerializer()
+
+    class Meta:
+        model = Customer
+        fields = [
+            'user',
+            'date_of_wedding',
+        ]
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        user = instance.user
+
+        user.name = user_data.get('name', user.name)
+        user.country = user_data.get('country', user.country)
+        user.city = user_data.get('city', user.city)
+        user.phone = user_data.get('phone', user.phone)
+        user.save()
+
+        instance.date_of_wedding = validated_data.get(
+            'date_of_wedding', instance.date_of_wedding)
+        instance.save()
+
+        return instance
+
+
+class OrganizerProfileSerializer(serializers.ModelSerializer):
+    """ Organizer Profile Serializer """
+    user = UserProfileSerializer()
+    roles = serializers.PrimaryKeyRelatedField(
+        queryset=OrganizerRole.objects.all(), many=True)
+    cover = serializers.ImageField(read_only=True)
+    countries = serializers.PrimaryKeyRelatedField(
+        queryset=Country.objects.all(), many=True)
+    cities = serializers.PrimaryKeyRelatedField(
+        queryset=City.objects.all(), many=True)
+    languages = serializers.PrimaryKeyRelatedField(
+        queryset=Language.objects.all(), many=True)
+    rating = serializers.DecimalField(
+        max_digits=2, decimal_places=1, read_only=True)
+    pro_time = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Organizer
+        fields = [
+            'user',
+            'roles',
+            'cover',
+            'description',
+            'countries',
+            'cities',
+            'languages',
+            'cost_work',
+            'number_hours',
+            'profile_url',
+            'rating',
+            'pro_time',
+        ]
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        user = instance.user
+
+        user.name = user_data.get('name', user.name)
+        user.country = user_data.get('country', user.country)
+        user.city = user_data.get('city', user.city)
+        user.phone = user_data.get('phone', user.phone)
+        user.save()
+
+        instance.roles.set(validated_data.get('roles', instance.roles))
+        instance.description = validated_data.get(
+            'description', instance.description)
+        instance.countries.set(
+            validated_data.get('countries', instance.countries))
+        instance.cities.set(validated_data.get('cities', instance.cities))
+        instance.languages.set(
+            validated_data.get('languages', instance.languages))
+        instance.cost_work = validated_data.get(
+            'cost_work', instance.cost_work)
+        instance.number_hours = validated_data.get(
+            'number_hours', instance.number_hours)
+        instance.profile_url = validated_data.get(
+            'profile_url', instance.profile_url)
+        instance.save()
+
+        return instance
 
 
 class OrganizerListSerializer(serializers.ModelSerializer):

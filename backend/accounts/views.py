@@ -7,17 +7,21 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model, user_logged_in, user_logged_out
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from .filters import OrganizerFilter
-from .models import Organizer
+from .models import Customer, Organizer
 from .pagination import OrganizerSetPagination
 from .serializers import (
+    UserLoginSerializer,
     RegistrationSerializer,
     UidAndTokenSerializer,
     PasswordChangeSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
-    UserLoginSerializer,
+    UserProfileSerializer,
+    CustomerProfileSerializer,
+    OrganizerProfileSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -41,7 +45,7 @@ class LoginView(ObtainAuthToken):
                 sender=user.__class__, request=request, user=user
             )
 
-        response_data = { 'token': token.key }
+        response_data = {'token': token.key}
         user_serializer = UserLoginSerializer(user)
         response_data.update(user_serializer.data)
 
@@ -136,6 +140,42 @@ class PasswordResetConfirmView(APIView):
         user.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProfileView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        if request.user.user_type == 1:
+            serializer = UserProfileSerializer(request.user)
+        elif request.user.user_type == 2:
+            customer = get_object_or_404(Customer, user=request.user)
+            serializer = CustomerProfileSerializer(customer)
+        elif request.user.user_type == 3:
+            organizer = get_object_or_404(Organizer, user=request.user)
+            serializer = OrganizerProfileSerializer(organizer)
+        else:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        if request.user.user_type == 1:
+            serializer = UserProfileSerializer(request.user, data=request.data)
+        elif request.user.user_type == 2:
+            customer = get_object_or_404(Customer, user=request.user)
+            serializer = CustomerProfileSerializer(customer, data=request.data)
+        elif request.user.user_type == 3:
+            organizer = get_object_or_404(Organizer, user=request.user)
+            serializer = OrganizerProfileSerializer(
+                organizer, data=request.data)
+        else:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OrganizerListView(generics.ListAPIView):
