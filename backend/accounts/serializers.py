@@ -32,9 +32,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = [
             'username',
-            'email',
             'user_type',
-            'name',
             'avatar',
         ]
 
@@ -226,9 +224,6 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """ User Profile Serializer """
-    username = serializers.CharField(read_only=True)
-    email = serializers.EmailField(read_only=True)
-    avatar = serializers.ImageField(read_only=True)
     country = serializers.PrimaryKeyRelatedField(
         queryset=Country.objects.all())
     city = serializers.PrimaryKeyRelatedField(queryset=City.objects.all())
@@ -236,10 +231,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
-            'username',
-            'email',
             'name',
-            'avatar',
             'country',
             'city',
             'phone',
