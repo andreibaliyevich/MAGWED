@@ -237,7 +237,7 @@ class Organizer(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0,
-        validators=[MinValueValidator(Decimal('0.01'))],
+        validators=[MinValueValidator(Decimal('0.00'))],
         verbose_name=_('Cost of work'),
         help_text=_('Please enter in USD ($)'),
     )
