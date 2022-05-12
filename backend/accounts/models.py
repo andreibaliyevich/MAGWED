@@ -1,10 +1,11 @@
+from decimal import Decimal
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.core.mail import send_mail
-from django.core.validators import FileExtensionValidator, RegexValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -236,6 +237,7 @@ class Organizer(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0.0,
+        validators=[MinValueValidator(Decimal('0.01'))],
         verbose_name=_('Cost of work'),
         help_text=_('Please enter in USD ($)'),
     )
