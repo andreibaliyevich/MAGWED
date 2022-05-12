@@ -11,7 +11,6 @@ class CountryAdmin(admin.ModelAdmin):
 class CityAdmin(admin.ModelAdmin):
     """ City Model for admin """
     list_display = ('name', 'name_local', 'country')
-    prepopulated_fields = {'slug': ('name',)}
     list_filter = ('country',)
     search_fields = ('name', 'name_local')
 

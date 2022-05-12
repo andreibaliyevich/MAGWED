@@ -28,10 +28,8 @@ class City(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Country'),
     )
-
     name = models.CharField(max_length=64, verbose_name=_('Name'))
     name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
-    slug = models.SlugField(max_length=64, verbose_name=_('Slug'))
 
     def __str__(self):
         return f'{ self.name_local } ({ self.name })'
@@ -40,7 +38,6 @@ class City(models.Model):
         verbose_name = _('City')
         verbose_name_plural = _('Cities')
         ordering = ['name', 'country']
-        unique_together = ['country', 'slug']
 
 
 class Language(models.Model):
