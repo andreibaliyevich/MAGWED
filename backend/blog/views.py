@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from .models import Category, Article, ArticleImage
+from .pagination import ArticleSetPagination
 from .serializers import (
     CategoryListSerializer,
     CategoryDetailSerializer,
@@ -28,6 +29,7 @@ class ArticleListView(generics.ListAPIView):
     """ Article List View """
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
+    pagination_class = ArticleSetPagination
 
 
 class ArticleDetailView(generics.RetrieveAPIView):
