@@ -54,10 +54,10 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         upload_to=get_avatar_path,
         validators=[
             FileExtensionValidator(allowed_extensions=('jpg', 'png')),
-            MinimumImageSizeValidator(800, 800),
+            MinimumImageSizeValidator(512, 512),
         ],
         resize_source={
-            'size': (800, 800),
+            'size': (512, 512),
             'crop': 'smart',
             'autocrop': True,
             'quality': 100,
@@ -66,8 +66,8 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
             'Upload JPG or PNG image. '
             'Required minimum of size %(width)d x %(height)d.'
         ) % {
-            'width': 800,
-            'height': 800,
+            'width': 512,
+            'height': 512,
         },
         verbose_name=_('Avatar'),
     )
