@@ -104,11 +104,11 @@ export default {
           </div>
           <div class="d-flex align-items-center" v-if="userStore.isLoggedIn">
             <div class="dropdown">
-              <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none text-decoration-none text-white" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none text-decoration-none text-white" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                 <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle p-1" width="32" height="32" alt="avatar">
                 <img v-else src="/avatar.jpg" class="rounded-circle p-1" width="32" height="32" alt="avatar">
               </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser1">
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                 <li>
                   <RouterLink v-if="this.$route.name == 'Notifications'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-bell"></i>
