@@ -9,10 +9,32 @@
         "password": "Password",
         "password2": "Confirm password",
         "user_type": "User type",
-        "name": "Name",
         "activation": "Activation",
-        "profile": "Profile",
+        "messenger": "Messenger",
         "notifications": "Notifications",
+        "followers": "Followers",
+        "following": "Following",
+        "favorites": "Favorites",
+        "profile": {
+            "profile": "Profile",
+            "name": "Name",
+            "country": "Country",
+            "city": "City",
+            "phone": "Phone",
+            "date_of_wedding": "Date of Wedding",
+            "roles": "Roles",
+            "description": "Description",
+            "countries": "Countries",
+            "cities": "Cities",
+            "languages": "Languages",
+            "cost_work": "Cost of work",
+            "number_hours": "Number of hours",
+            "profile_url": "Profile URL",
+            "update_profile": "Update profile"
+        },
+        "portfolio": "Portfolio",
+        "change_password": "Change password",
+        "delete_profile": "Delete profile",
         "messages": "Messages"
     },
     "nav": {
@@ -32,6 +54,19 @@
         "terms_of_use": "Terms of Use",
         "privacy_policy": "Privacy Policy",
         "advertising_and_promotion": "Advertising and promotion"
+    },
+    "roles": {
+        "photographer": "Photographer",
+        "videographer": "Videographer",
+        "leading": "Leading",
+        "musician": "Musician",
+        "dj": "DJ",
+        "agency": "Agency",
+        "salon": "Salon",
+        "confectionery": "Confectionery",
+        "decorator": "Decorator",
+        "visagiste": "Visagiste",
+        "hairdresser": "Hairdresser"
     },
     "blog": {
         "blog": "Blog"

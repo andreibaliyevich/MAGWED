@@ -9,10 +9,32 @@
         "password": "Пароль",
         "password2": "Подтвердите пароль",
         "user_type": "Тип пользователя",
-        "name": "Имя",
         "activation": "Активация",
-        "profile": "Профиль",
+        "messenger": "Мессенджер",
         "notifications": "Уведомления",
+        "followers": "Подписчики",
+        "following": "Последователи",
+        "favorites": "Избранное",
+        "profile": {
+            "profile": "Профиль",
+            "name": "Имя",
+            "country": "Страна",
+            "city": "Город",
+            "phone": "Телефон",
+            "date_of_wedding": "Дата свадьбы",
+            "roles": "Роли",
+            "description": "Описание",
+            "countries": "Страны",
+            "cities": "Города",
+            "languages": "Языки",
+            "cost_work": "Стоимость работы",
+            "number_hours": "Количество часов",
+            "profile_url": "URL профиля",
+            "update_profile": "Обновить профиль"
+        },
+        "portfolio": "Портфолио",
+        "change_password": "Сменить пароль",
+        "delete_profile": "Удалить профиль",
         "messages": "Сообщения"
     },
     "nav": {
@@ -32,6 +54,19 @@
         "terms_of_use": "Условия использования",
         "privacy_policy": "Политика конфиденциальности",
         "advertising_and_promotion": "Реклама и продвижение"
+    },
+    "roles": {
+        "photographer": "Фотограф",
+        "videographer": "Видеооператор",
+        "leading": "Ведущий",
+        "musician": "Музыкант",
+        "dj": "Диджей",
+        "agency": "Агентство",
+        "salon": "Салон",
+        "confectionery": "Кондитерская",
+        "decorator": "Декоратор",
+        "visagiste": "Визажист",
+        "hairdresser": "Парикмахер"
     },
     "blog": {
         "blog": "Блог"

@@ -9,10 +9,32 @@
         "password": "Пароль",
         "password2": "Підтвердьте пароль",
         "user_type": "Тип користувача",
-        "name": "Ім'я",
         "activation": "Активація",
-        "profile": "Профіль",
+        "messenger": "Месенджер",
         "notifications": "Сповіщення",
+        "followers": "Підписувачі",
+        "following": "Послідовники",
+        "favorites": "Вибране",
+        "profile": {
+            "profile": "Профіль",
+            "name": "Ім'я",
+            "country": "Країна",
+            "city": "Місто",
+            "phone": "Телефон",
+            "date_of_wedding": "Дата весілля",
+            "roles": "Ролі",
+            "description": "Опис",
+            "countries": "Країни",
+            "cities": "Міста",
+            "languages": "Мови",
+            "cost_work": "Вартість роботи",
+            "number_hours": "Кількість годин",
+            "profile_url": "URL профілю",
+            "update_profile": "Оновити профіль"
+        },
+        "portfolio": "Портфоліо",
+        "change_password": "Змінити пароль",
+        "delete_profile": "Видалити профіль",
         "messages": "Повідомлення"
     },
     "nav": {
@@ -32,6 +54,19 @@
         "terms_of_use": "Умови використання",
         "privacy_policy": "Політика конфіденційності",
         "advertising_and_promotion": "Реклама та просування"
+    },
+    "roles": {
+        "photographer": "Фотограф",
+        "videographer": "Відеооператор",
+        "leading": "Провідний",
+        "musician": "Музикант",
+        "dj": "Діджей",
+        "agency": "Агентство",
+        "salon": "Салон",
+        "confectionery": "Кондитерська",
+        "decorator": "Декоратор",
+        "visagiste": "Візажист",
+        "hairdresser": "Перукар"
     },
     "blog": {
         "blog": "Блог"

@@ -9,10 +9,32 @@
         "password": "Пароль",
         "password2": "Пацвердзіце пароль",
         "user_type": "Тып карыстальніка",
-        "name": "Імя",
         "activation": "Актывацыя",
-        "profile": "Профіль",
+        "messenger": "Месенджэр",
         "notifications": "Апавяшчэнні",
+        "followers": "Падпісчыкі",
+        "following": "Паслядоўнікі",
+        "favorites": "Выбранае",
+        "profile": {
+            "profile": "Профіль",
+            "name": "Імя",
+            "country": "Краіна",
+            "city": "Горад",
+            "phone": "Тэлефон",
+            "date_of_wedding": "Дата вяселля",
+            "roles": "Ролі",
+            "description": "Апісанне",
+            "countries": "Краіны",
+            "cities": "Гарады",
+            "languages": "Мовы",
+            "cost_work": "Кошт працы",
+            "number_hours": "Колькасць гадзін",
+            "profile_url": "URL профілю",
+            "update_profile": "Абнавіць профіль"
+        },
+        "portfolio": "Партфоліё",
+        "change_password": "Змяніць пароль",
+        "delete_profile": "Выдаліць профіль",
         "messages": "Паведамленні"
     },
     "nav": {
@@ -32,6 +54,19 @@
         "terms_of_use": "Умовы выкарыстання",
         "privacy_policy": "Палітыка прыватнасці",
         "advertising_and_promotion": "Рэклама і прасоўванне"
+    },
+    "roles": {
+        "photographer": "Фатограф",
+        "videographer": "Відэааператар",
+        "leading": "Вядучы",
+        "musician": "Музыкант",
+        "dj": "Дыджэй",
+        "agency": "Агенцтва",
+        "salon": "Салон",
+        "confectionery": "Кандытарская",
+        "decorator": "Дэкаратар",
+        "visagiste": "Візажыст",
+        "hairdresser": "Цырульнік"
     },
     "blog": {
         "blog": "Блог"
