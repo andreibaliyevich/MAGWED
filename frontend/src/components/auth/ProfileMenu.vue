@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <div class="w-100 shadow-sm rounded-3 d-none d-lg-inline-flex">
+  <div class="w-100 border shadow-sm rounded-3 d-none d-lg-inline-flex">
     <div class="w-100 p-4">
       <div class="text-uppercase fw-bolder text-secondary">Social</div>
       <ul class="nav nav-pills flex-column">
