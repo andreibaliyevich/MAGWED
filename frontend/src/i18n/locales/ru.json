@@ -1,4 +1,22 @@
 {
+    "nav": {
+        "best": "Лучшие",
+        "places": "Места",
+        "awards": "Награды",
+        "blog": "Блог"
+    },
+    "footer": {
+        "rules": "Правила",
+        "advertising": "Реклама",
+        "our_logos": "Наши Логотипы",
+        "feedback": "Обратная связь",
+        "more_about_magwed": "Подробнее о MAGWED",
+        "analytics": "Аналитика",
+        "career_at_magwed": "Карьера в MAGWED",
+        "terms_of_use": "Условия использования",
+        "privacy_policy": "Политика конфиденциальности",
+        "advertising_and_promotion": "Реклама и продвижение"
+    },
     "auth": {
         "login": "Войти",
         "logout": "Выйти",
@@ -30,30 +48,13 @@
             "cost_work": "Стоимость работы",
             "number_hours": "Количество часов",
             "profile_url": "URL профиля",
+            "profile_updated_successfully": "Профиль успешно обновлен!",
             "update_profile": "Обновить профиль"
         },
         "portfolio": "Портфолио",
         "change_password": "Сменить пароль",
         "delete_profile": "Удалить профиль",
         "messages": "Сообщения"
-    },
-    "nav": {
-        "best": "Лучшие",
-        "places": "Места",
-        "awards": "Награды",
-        "blog": "Блог"
-    },
-    "footer": {
-        "rules": "Правила",
-        "advertising": "Реклама",
-        "our_logos": "Наши Логотипы",
-        "feedback": "Обратная связь",
-        "more_about_magwed": "Подробнее о MAGWED",
-        "analytics": "Аналитика",
-        "career_at_magwed": "Карьера в MAGWED",
-        "terms_of_use": "Условия использования",
-        "privacy_policy": "Политика конфиденциальности",
-        "advertising_and_promotion": "Реклама и продвижение"
     },
     "roles": {
         "photographer": "Фотограф",
@@ -67,6 +68,9 @@
         "decorator": "Декоратор",
         "visagiste": "Визажист",
         "hairdresser": "Парикмахер"
+    },
+    "form_help": {
+        "multiple_select": "Удерживайте нажатой “Control” или “Command” на Mac, чтобы выбрать более одного."
     },
     "blog": {
         "blog": "Блог"

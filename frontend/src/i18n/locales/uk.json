@@ -1,4 +1,22 @@
 {
+    "nav": {
+        "best": "Найкращі",
+        "places": "Місця",
+        "awards": "Нагороди",
+        "blog": "Блог"
+    },
+    "footer": {
+        "rules": "Правила",
+        "advertising": "Реклама",
+        "our_logos": "Наші Логотипи",
+        "feedback": "Зворотній зв'язок",
+        "more_about_magwed": "Докладніше про MAGWED",
+        "analytics": "Аналітика",
+        "career_at_magwed": "Кар'єра в MAGWED",
+        "terms_of_use": "Умови використання",
+        "privacy_policy": "Політика конфіденційності",
+        "advertising_and_promotion": "Реклама та просування"
+    },
     "auth": {
         "login": "Увійти",
         "logout": "Вийти",
@@ -30,30 +48,13 @@
             "cost_work": "Вартість роботи",
             "number_hours": "Кількість годин",
             "profile_url": "URL профілю",
+            "profile_updated_successfully": "Профіль успішно оновлено!",
             "update_profile": "Оновити профіль"
         },
         "portfolio": "Портфоліо",
         "change_password": "Змінити пароль",
         "delete_profile": "Видалити профіль",
         "messages": "Повідомлення"
-    },
-    "nav": {
-        "best": "Найкращі",
-        "places": "Місця",
-        "awards": "Нагороди",
-        "blog": "Блог"
-    },
-    "footer": {
-        "rules": "Правила",
-        "advertising": "Реклама",
-        "our_logos": "Наші Логотипи",
-        "feedback": "Зворотній зв'язок",
-        "more_about_magwed": "Докладніше про MAGWED",
-        "analytics": "Аналітика",
-        "career_at_magwed": "Кар'єра в MAGWED",
-        "terms_of_use": "Умови використання",
-        "privacy_policy": "Політика конфіденційності",
-        "advertising_and_promotion": "Реклама та просування"
     },
     "roles": {
         "photographer": "Фотограф",
@@ -67,6 +68,9 @@
         "decorator": "Декоратор",
         "visagiste": "Візажист",
         "hairdresser": "Перукар"
+    },
+    "form_help": {
+        "multiple_select": "Утримуйте “Control” або “Command” на Mac, щоб вибрати більше одного."
     },
     "blog": {
         "blog": "Блог"

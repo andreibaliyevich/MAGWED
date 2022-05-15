@@ -1,4 +1,22 @@
 {
+    "nav": {
+        "best": "Лепшыя",
+        "places": "Месцы",
+        "awards": "Узнагароды",
+        "blog": "Блог"
+    },
+    "footer": {
+        "rules": "Правілы",
+        "advertising": "Рэклама",
+        "our_logos": "Нашы Лагатыпы",
+        "feedback": "Зваротная сувязь",
+        "more_about_magwed": "Падрабязней аб MAGWED",
+        "analytics": "Аналітыка",
+        "career_at_magwed": "Кар'ера ў MAGWED",
+        "terms_of_use": "Умовы выкарыстання",
+        "privacy_policy": "Палітыка прыватнасці",
+        "advertising_and_promotion": "Рэклама і прасоўванне"
+    },
     "auth": {
         "login": "Увайсці",
         "logout": "Выхад",
@@ -30,30 +48,13 @@
             "cost_work": "Кошт працы",
             "number_hours": "Колькасць гадзін",
             "profile_url": "URL профілю",
+            "profile_updated_successfully": "Профіль паспяхова абноўлены!",
             "update_profile": "Абнавіць профіль"
         },
         "portfolio": "Партфоліё",
         "change_password": "Змяніць пароль",
         "delete_profile": "Выдаліць профіль",
         "messages": "Паведамленні"
-    },
-    "nav": {
-        "best": "Лепшыя",
-        "places": "Месцы",
-        "awards": "Узнагароды",
-        "blog": "Блог"
-    },
-    "footer": {
-        "rules": "Правілы",
-        "advertising": "Рэклама",
-        "our_logos": "Нашы Лагатыпы",
-        "feedback": "Зваротная сувязь",
-        "more_about_magwed": "Падрабязней аб MAGWED",
-        "analytics": "Аналітыка",
-        "career_at_magwed": "Кар'ера ў MAGWED",
-        "terms_of_use": "Умовы выкарыстання",
-        "privacy_policy": "Палітыка прыватнасці",
-        "advertising_and_promotion": "Рэклама і прасоўванне"
     },
     "roles": {
         "photographer": "Фатограф",
@@ -67,6 +68,9 @@
         "decorator": "Дэкаратар",
         "visagiste": "Візажыст",
         "hairdresser": "Цырульнік"
+    },
+    "form_help": {
+        "multiple_select": "Утрымлівайце “Control” або “Command” на Mac, каб выбраць некалькі."
     },
     "blog": {
         "blog": "Блог"

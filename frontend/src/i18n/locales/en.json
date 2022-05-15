@@ -1,4 +1,22 @@
 {
+    "nav": {
+        "best": "Best",
+        "places": "Places",
+        "awards": "Awards",
+        "blog": "Blog"
+    },
+    "footer": {
+        "rules": "Rules",
+        "advertising": "Advertising",
+        "our_logos": "Our Logos",
+        "feedback": "Feedback",
+        "more_about_magwed": "More about MAGWED",
+        "analytics": "Analytics",
+        "career_at_magwed": "Career at MAGWED",
+        "terms_of_use": "Terms of Use",
+        "privacy_policy": "Privacy Policy",
+        "advertising_and_promotion": "Advertising and promotion"
+    },
     "auth": {
         "login": "Login",
         "logout": "Logout",
@@ -30,30 +48,13 @@
             "cost_work": "Cost of work",
             "number_hours": "Number of hours",
             "profile_url": "Profile URL",
+            "profile_updated_successfully": "Profile updated successfully!",
             "update_profile": "Update profile"
         },
         "portfolio": "Portfolio",
         "change_password": "Change password",
         "delete_profile": "Delete profile",
         "messages": "Messages"
-    },
-    "nav": {
-        "best": "Best",
-        "places": "Places",
-        "awards": "Awards",
-        "blog": "Blog"
-    },
-    "footer": {
-        "rules": "Rules",
-        "advertising": "Advertising",
-        "our_logos": "Our Logos",
-        "feedback": "Feedback",
-        "more_about_magwed": "More about MAGWED",
-        "analytics": "Analytics",
-        "career_at_magwed": "Career at MAGWED",
-        "terms_of_use": "Terms of Use",
-        "privacy_policy": "Privacy Policy",
-        "advertising_and_promotion": "Advertising and promotion"
     },
     "roles": {
         "photographer": "Photographer",
@@ -67,6 +68,9 @@
         "decorator": "Decorator",
         "visagiste": "Visagiste",
         "hairdresser": "Hairdresser"
+    },
+    "form_help": {
+        "multiple_select": "Hold down “Control”, or “Command” on a Mac, to select more than one."
     },
     "blog": {
         "blog": "Blog"
