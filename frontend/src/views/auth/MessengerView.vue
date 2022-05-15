@@ -8,8 +8,8 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div class="notifications">
-    <h1>This is a Notifications page</h1>
+  <div class="messenger">
+    <h1>This is a Messenger page</h1>
     <div>
       Username: {{ userStore.username }}<br>
       Email: {{ userStore.email }}<br>

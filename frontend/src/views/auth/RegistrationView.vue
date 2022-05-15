@@ -39,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <div class="login-view">
+  <div class="registration">
     <h4>{{ $t('auth.registration') }}</h4>
     <div class="input-group">
       <form @submit.prevent="login">

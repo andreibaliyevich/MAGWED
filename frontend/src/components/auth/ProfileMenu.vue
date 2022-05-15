@@ -26,11 +26,11 @@ export default {
       <div class="text-uppercase fw-bolder text-secondary">Social</div>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <RouterLink v-if="this.$route.name == 'Messages'" class="nav-link active" aria-current="page" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
+          <RouterLink v-if="this.$route.name == 'Messenger'" class="nav-link active" aria-current="page" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-comments"></i>
             {{ $t('auth.messenger') }}
           </RouterLink>
-          <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
+          <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-comments"></i>
             {{ $t('auth.messenger') }}
           </RouterLink>

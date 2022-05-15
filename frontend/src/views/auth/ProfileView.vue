@@ -1,8 +1,6 @@
 <script setup>
 import axios from 'axios'
 
-import ProfileMenu from '@/components/auth/ProfileMenu.vue'
-
 import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
 const baseStore = useBaseStore()
@@ -134,6 +132,10 @@ export default {
       .catch((error) => {
         this.errors = error.response.data
       })
+      .then(() => {
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
+      })
     },
     async getCountriesData() {
       try {
@@ -170,131 +172,124 @@ export default {
 </script>
 
 <template>
-  <div class="container my-5">
-    <div class="row">
-      <div class="col-lg-4">
-        <ProfileMenu />
-      </div>
-      <div class="col-lg-8 px-5">
-        <h1>{{ $t('auth.profile.profile') }}</h1>
+  <div class="profile">
+    <h1>{{ $t('auth.profile.profile') }}</h1>
 
-        <div>
-          <p>Username: {{ userStore.username }}</p>
+    <div>
+      <p>Username: {{ userStore.username }}</p>
 
-          <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" width="100" height="100" class="rounded-circle">
-          <img v-else src="/avatar.jpg" width="100" height="100" class="rounded-circle">
+      <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" width="100" height="100" class="rounded-circle">
+      <img v-else src="/avatar.jpg" width="100" height="100" class="rounded-circle">
 
-          <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" width="300" height="189">
-          <img v-else src="/cover.jpg" width="300" height="100">
-        </div>
+      <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" width="300" height="189">
+      <img v-else src="/cover.jpg" width="300" height="100">
+    </div>
 
-        <div v-if="status" id="status">
-          <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
-            <i class="fa-solid fa-circle-check"></i>
-            <div class="ms-3">{{ $t('auth.profile.profile_updated_successfully') }}</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        </div>
-        <form @submit.prevent="updateProfile" class="row g-3 mt-3">
-          <div class="col-md-12">
-            <label for="id_name" class="form-label">{{ $t('auth.profile.name') }}</label>
-            <input v-model="name" :placeholder="$t('auth.profile.name')" type="text" name="name" maxlength="255" id="id_name" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label for="id_country" class="form-label">{{ $t('auth.profile.country') }}</label>
-            <select v-model="country" name="country" id="id_country" class="form-select">
-              <option value="" selected="">---------</option>
-              <option v-for="main_country in main_countries" :value="main_country.code" :key="main_country.code">
-                {{ main_country.name_local }} ({{ main_country.name }})
-              </option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label for="id_city" class="form-label">{{ $t('auth.profile.city') }}</label>
-            <select v-model="city" name="city" id="id_city" class="form-select">
-              <option value="" selected="">---------</option>
-              <option v-for="main_city in main_cities" :value="main_city.id" :key="main_city.id">
-                {{ main_city.name_local }} ({{ main_city.name }})
-              </option>
-            </select>
-          </div>
-          <div class="col-md-12">
-            <label for="id_phone" class="form-label">{{ $t('auth.profile.phone') }}</label>
-            <input  v-model="phone" type="text" name="phone" maxlength="21" id="id_phone" class="form-control">
-          </div>
-          <div v-if="userStore.user_type == 2" class="col-md-12">
-            <label for="id_date_of_wedding" class="form-label">{{ $t('auth.profile.date_of_wedding') }}</label>
-            <input v-model="date_of_wedding" type="text" name="date_of_wedding" size="10" id="id_date_of_wedding" class="form-control">
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-12">
-            <label for="id_roles" class="form-label">{{ $t('auth.profile.roles') }}</label>
-            <select v-model="roles" name="roles" id="id_roles" multiple="" class="form-select">
-              <option value="1">{{ $t('roles.photographer') }}</option>
-              <option value="2">{{ $t('roles.videographer') }}</option>
-              <option value="3">{{ $t('roles.leading') }}</option>
-              <option value="4">{{ $t('roles.musician') }}</option>
-              <option value="5">{{ $t('roles.dj') }}</option>
-              <option value="6">{{ $t('roles.agency') }}</option>
-              <option value="7">{{ $t('roles.salon') }}</option>
-              <option value="8">{{ $t('roles.confectionery') }}</option>
-              <option value="9">{{ $t('roles.decorator') }}</option>
-              <option value="10">{{ $t('roles.visagiste') }}</option>
-              <option value="11">{{ $t('roles.hairdresser') }}</option>
-            </select>
-            <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-12">
-            <label for="id_description" class="form-label">{{ $t('auth.profile.description') }}</label>
-            <textarea v-model="description" name="description" cols="40" rows="10" id="id_description" class="form-control"></textarea>
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-6">
-            <label for="id_countries" class="form-label">{{ $t('auth.profile.countries') }}</label>
-            <select v-model="countries" name="countries" id="id_countries" multiple="" class="form-select">
-              <option v-for="main_country in main_countries" :value="main_country.code" :key="main_country.code">
-                {{ main_country.name_local }} ({{ main_country.name }})
-              </option>
-            </select>
-            <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-6">
-            <label for="id_cities" class="form-label">{{ $t('auth.profile.cities') }}</label>
-            <select v-model="cities" name="cities" id="id_cities" multiple="" class="form-select">
-              <option v-for="main_city in main_cities" :value="main_city.id" :key="main_city.id">
-                {{ main_city.name_local }} ({{ main_city.name }})
-              </option>
-            </select>
-            <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-12">
-            <label for="id_languages" class="form-label">{{ $t('auth.profile.languages') }}</label>
-            <select v-model="languages" name="languages" id="id_languages" multiple="" class="form-select">
-              <option v-for="main_language in main_languages" :value="main_language.code" :key="main_language.code">
-                {{ main_language.name_local }} ({{ main_language.name }})
-              </option>
-            </select>
-            <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-6">
-            <label for="id_cost_work" class="form-label">{{ $t('auth.profile.cost_work') }}</label>
-            <input v-model="cost_work" type="number" name="cost_work" min="0.00" step="0.01" required="" id="id_cost_work" class="form-control">
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-6">
-            <label for="id_number_hours" class="form-label">{{ $t('auth.profile.number_hours') }}</label>
-            <input v-model="number_hours" type="number" name="number_hours" min="0" required="" id="id_number_hours" class="form-control">
-          </div>
-          <div v-if="userStore.user_type == 3" class="col-md-12">
-            <label for="id_profile_url" class="form-label">{{ $t('auth.profile.profile_url') }}</label>
-            <div v-if="errors && errors.profile_url">
-              <input v-model="profile_url" type="text" name="profile_url" maxlength="64" required="" id="id_profile_url" class="form-control is-invalid">
-              <div v-for="error in errors.profile_url" class="invalid-feedback">{{ error }}</div>
-            </div>
-            <input v-else v-model="profile_url" type="text" name="profile_url" maxlength="64" required="" id="id_profile_url" class="form-control">
-          </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">{{ $t('auth.profile.update_profile') }}</button>
-          </div>
-        </form>
+    <div v-if="status" id="status">
+      <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-check"></i>
+        <div class="ms-3">{{ $t('auth.profile.profile_updated_successfully') }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
+    <form @submit.prevent="updateProfile" class="row g-3 mt-3">
+      <div class="col-md-12">
+        <label for="id_name" class="form-label">{{ $t('auth.profile.name') }}</label>
+        <input v-model="name" :placeholder="$t('auth.profile.name')" type="text" name="name" maxlength="255" id="id_name" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label for="id_country" class="form-label">{{ $t('auth.profile.country') }}</label>
+        <select v-model="country" name="country" id="id_country" class="form-select">
+          <option value="" selected="">---------</option>
+          <option v-for="main_country in main_countries" :value="main_country.code" :key="main_country.code">
+            {{ main_country.name_local }} ({{ main_country.name }})
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="id_city" class="form-label">{{ $t('auth.profile.city') }}</label>
+        <select v-model="city" name="city" id="id_city" class="form-select">
+          <option value="" selected="">---------</option>
+          <option v-for="main_city in main_cities" :value="main_city.id" :key="main_city.id">
+            {{ main_city.name_local }} ({{ main_city.name }})
+          </option>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <label for="id_phone" class="form-label">{{ $t('auth.profile.phone') }}</label>
+        <input  v-model="phone" type="text" name="phone" maxlength="21" id="id_phone" class="form-control">
+      </div>
+      <div v-if="userStore.user_type == 2" class="col-md-12">
+        <label for="id_date_of_wedding" class="form-label">{{ $t('auth.profile.date_of_wedding') }}</label>
+        <input v-model="date_of_wedding" type="text" name="date_of_wedding" size="10" id="id_date_of_wedding" class="form-control">
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-12">
+        <label for="id_roles" class="form-label">{{ $t('auth.profile.roles') }}</label>
+        <select v-model="roles" name="roles" id="id_roles" multiple="" class="form-select">
+          <option value="1">{{ $t('roles.photographer') }}</option>
+          <option value="2">{{ $t('roles.videographer') }}</option>
+          <option value="3">{{ $t('roles.leading') }}</option>
+          <option value="4">{{ $t('roles.musician') }}</option>
+          <option value="5">{{ $t('roles.dj') }}</option>
+          <option value="6">{{ $t('roles.agency') }}</option>
+          <option value="7">{{ $t('roles.salon') }}</option>
+          <option value="8">{{ $t('roles.confectionery') }}</option>
+          <option value="9">{{ $t('roles.decorator') }}</option>
+          <option value="10">{{ $t('roles.visagiste') }}</option>
+          <option value="11">{{ $t('roles.hairdresser') }}</option>
+        </select>
+        <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-12">
+        <label for="id_description" class="form-label">{{ $t('auth.profile.description') }}</label>
+        <textarea v-model="description" name="description" cols="40" rows="10" id="id_description" class="form-control"></textarea>
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-6">
+        <label for="id_countries" class="form-label">{{ $t('auth.profile.countries') }}</label>
+        <select v-model="countries" name="countries" id="id_countries" multiple="" class="form-select">
+          <option v-for="main_country in main_countries" :value="main_country.code" :key="main_country.code">
+            {{ main_country.name_local }} ({{ main_country.name }})
+          </option>
+        </select>
+        <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-6">
+        <label for="id_cities" class="form-label">{{ $t('auth.profile.cities') }}</label>
+        <select v-model="cities" name="cities" id="id_cities" multiple="" class="form-select">
+          <option v-for="main_city in main_cities" :value="main_city.id" :key="main_city.id">
+            {{ main_city.name_local }} ({{ main_city.name }})
+          </option>
+        </select>
+        <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-12">
+        <label for="id_languages" class="form-label">{{ $t('auth.profile.languages') }}</label>
+        <select v-model="languages" name="languages" id="id_languages" multiple="" class="form-select">
+          <option v-for="main_language in main_languages" :value="main_language.code" :key="main_language.code">
+            {{ main_language.name_local }} ({{ main_language.name }})
+          </option>
+        </select>
+        <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-6">
+        <label for="id_cost_work" class="form-label">{{ $t('auth.profile.cost_work') }}</label>
+        <input v-model="cost_work" type="number" name="cost_work" min="0.00" step="0.01" required="" id="id_cost_work" class="form-control">
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-6">
+        <label for="id_number_hours" class="form-label">{{ $t('auth.profile.number_hours') }}</label>
+        <input v-model="number_hours" type="number" name="number_hours" min="0" required="" id="id_number_hours" class="form-control">
+      </div>
+      <div v-if="userStore.user_type == 3" class="col-md-12">
+        <label for="id_profile_url" class="form-label">{{ $t('auth.profile.profile_url') }}</label>
+        <div v-if="errors && errors.profile_url">
+          <input v-model="profile_url" type="text" name="profile_url" maxlength="64" required="" id="id_profile_url" class="form-control is-invalid">
+          <div v-for="error in errors.profile_url" class="invalid-feedback">{{ error }}</div>
+        </div>
+        <input v-else v-model="profile_url" type="text" name="profile_url" maxlength="64" required="" id="id_profile_url" class="form-control">
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">{{ $t('auth.profile.update_profile') }}</button>
+      </div>
+    </form>
   </div>
 </template>

@@ -56,14 +56,14 @@ const router = createRouter({
               component: () => import('@/views/auth/ProfileView.vue'),
             },
             {
+              path: 'messenger',
+              name: 'Messenger',
+              component: () => import('@/views/auth/MessengerView.vue'),
+            },
+            {
               path: 'notifications',
               name: 'Notifications',
               component: () => import('@/views/auth/NotificationsView.vue'),
-            },
-            {
-              path: 'messages',
-              name: 'Messages',
-              component: () => import('@/views/auth/MessagesView.vue'),
             }
           ]
         }

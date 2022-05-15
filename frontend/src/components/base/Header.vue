@@ -120,13 +120,13 @@ export default {
                   </RouterLink>
                 </li>
                 <li>
-                  <RouterLink v-if="this.$route.name == 'Messages'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
+                  <RouterLink v-if="this.$route.name == 'Messenger'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-comments"></i>
-                    {{ $t('auth.messages') }}
+                    {{ $t('auth.messenger') }}
                   </RouterLink>
-                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Messages', params: { locale: `${ $i18n.locale }` }}">
+                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
                     <i class="fa-solid fa-comments"></i>
-                    {{ $t('auth.messages') }}
+                    {{ $t('auth.messenger') }}
                   </RouterLink>
                 </li>
                 <li>
