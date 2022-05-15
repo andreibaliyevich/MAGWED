@@ -225,8 +225,9 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     """ User Profile Serializer """
     country = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all())
-    city = serializers.PrimaryKeyRelatedField(queryset=City.objects.all())
+        queryset=Country.objects.all(), allow_null=True)
+    city = serializers.PrimaryKeyRelatedField(
+        queryset=City.objects.all(), allow_null=True)
 
     class Meta:
         model = UserModel
