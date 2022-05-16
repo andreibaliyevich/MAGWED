@@ -125,9 +125,7 @@ export default {
 
       axios.put('/accounts/auth/profile/', data)
       .then((response) => {
-        if (response.status === 204) {
-          this.status = '204'
-        }
+        this.status = 'updated_profile'
       })
       .catch((error) => {
         this.errors = error.response.data
@@ -160,6 +158,44 @@ export default {
       } catch (error) {
         this.errors = error.response.data
       }
+    },
+    updateAvatar(event) {
+      const avatarData = new FormData()
+      avatarData.append('avatar', event.target.files[0], event.target.files[0].name)
+
+      axios.put('/accounts/auth/avatar/', avatarData)
+      .then((response) => {
+        this.status = 'updated_avatar'
+        this.userStore.updateAvatar(response.data.avatar)
+        window.localStorage.setItem('user', JSON.stringify({
+          'token': this.userStore.token,
+          'username': this.userStore.username,
+          'user_type': this.userStore.user_type,
+          'avatar': response.data.avatar
+        }))
+        document.getElementById('avatarInput').value = ''
+      })
+      .catch((error) => {
+        this.errors = error.response.data
+      })
+    },
+    removeAvatar(event) {
+      if (confirm(this.$t('auth.profile.remove_avatar'))) {
+        axios.delete('/accounts/auth/avatar/')
+        .then((response) => {
+          this.status = 'removed_avatar'
+          this.userStore.updateAvatar(null)
+          window.localStorage.setItem('user', JSON.stringify({
+            'token': this.userStore.token,
+            'username': this.userStore.username,
+            'user_type': this.userStore.user_type,
+            'avatar': null
+          }))
+        })
+        .catch((error) => {
+          this.errors = error.response.data
+        })
+      }
     }
   },
   mounted() {
@@ -181,11 +217,16 @@ export default {
       <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" width="100" height="100" class="rounded-circle">
       <img v-else src="/avatar.jpg" width="100" height="100" class="rounded-circle">
 
-      <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" width="300" height="189">
-      <img v-else src="/cover.jpg" width="300" height="100">
+      <input @change="updateAvatar" type="file" accept="image/*" id="avatarInput">
+      <button v-if="userStore.avatar" @click="removeAvatar">Remove avatar</button>
+
+      <div v-if="userStore.user_type == 3">
+        <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" width="300" height="189">
+        <img v-else src="/cover.jpg" width="300" height="100">
+      </div>
     </div>
 
-    <div v-if="status" id="status">
+    <div v-if="status == 'updated_profile'" id="status">
       <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
         <i class="fa-solid fa-circle-check"></i>
         <div class="ms-3">{{ $t('auth.profile.profile_updated_successfully') }}</div>
