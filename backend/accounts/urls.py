@@ -18,6 +18,7 @@ urlpatterns = [
             ])),
         ])),
         path('profile/', views.ProfileView.as_view()),
+        path('avatar/', views.AvatarProfileView.as_view()),
     ])),
 
     path('organizers/', include([

@@ -329,6 +329,14 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
+class AvatarProfileSerializer(serializers.ModelSerializer):
+    """ Avatar Profile Serializer """
+
+    class Meta:
+        model = UserModel
+        fields = ['avatar']
+
+
 class OrganizerListSerializer(serializers.ModelSerializer):
     """ Organizer List Serializer """
     user = UserSerializerField(read_only=True)
