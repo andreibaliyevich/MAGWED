@@ -196,6 +196,32 @@ export default {
           this.errors = error.response.data
         })
       }
+    },
+    updateCover(event) {
+      const coverData = new FormData()
+      coverData.append('cover', event.target.files[0], event.target.files[0].name)
+
+      axios.put('/accounts/auth/cover/', coverData)
+      .then((response) => {
+        this.status = 'updated_cover'
+        this.cover = response.data.cover
+        document.getElementById('coverInput').value = ''
+      })
+      .catch((error) => {
+        this.errors = error.response.data
+      })
+    },
+    removeCover(event) {
+      if (confirm(this.$t('auth.profile.remove_cover'))) {
+        axios.delete('/accounts/auth/cover/')
+        .then((response) => {
+          this.status = 'removed_cover'
+          this.cover = null
+        })
+        .catch((error) => {
+          this.errors = error.response.data
+        })
+      }
     }
   },
   mounted() {
@@ -223,6 +249,9 @@ export default {
       <div v-if="userStore.user_type == 3">
         <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" width="300" height="189">
         <img v-else src="/cover.jpg" width="300" height="100">
+
+        <input @change="updateCover" type="file" accept="image/*" id="coverInput">
+        <button v-if="cover" @click="removeCover">Remove cover</button>
       </div>
     </div>
 
