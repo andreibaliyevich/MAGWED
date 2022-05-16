@@ -35,6 +35,7 @@
         "favorites": "Favorites",
         "profile": {
             "profile": "Profile",
+            "remove_avatar": "Are you sure you want to reset your current avatar?",
             "name": "Name",
             "country": "Country",
             "city": "City",
@@ -53,8 +54,7 @@
         },
         "portfolio": "Portfolio",
         "change_password": "Change password",
-        "delete_profile": "Delete profile",
-        "messages": "Messages"
+        "delete_profile": "Delete profile"
     },
     "roles": {
         "photographer": "Photographer",

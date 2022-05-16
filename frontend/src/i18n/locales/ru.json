@@ -35,6 +35,7 @@
         "favorites": "Избранное",
         "profile": {
             "profile": "Профиль",
+            "remove_avatar": "Вы уверены, что хотите сбросить свой текущий аватар?",
             "name": "Имя",
             "country": "Страна",
             "city": "Город",
@@ -53,8 +54,7 @@
         },
         "portfolio": "Портфолио",
         "change_password": "Сменить пароль",
-        "delete_profile": "Удалить профиль",
-        "messages": "Сообщения"
+        "delete_profile": "Удалить профиль"
     },
     "roles": {
         "photographer": "Фотограф",
