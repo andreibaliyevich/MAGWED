@@ -337,6 +337,14 @@ class AvatarProfileSerializer(serializers.ModelSerializer):
         fields = ['avatar']
 
 
+class CoverOrganizerSerializer(serializers.ModelSerializer):
+    """ Cover Organizer Serializer """
+
+    class Meta:
+        model = Organizer
+        fields = ['cover']
+
+
 class OrganizerListSerializer(serializers.ModelSerializer):
     """ Organizer List Serializer """
     user = UserSerializerField(read_only=True)

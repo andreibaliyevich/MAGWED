@@ -22,6 +22,7 @@ from .serializers import (
     UserProfileSerializer,
     CustomerProfileSerializer,
     AvatarProfileSerializer,
+    CoverOrganizerSerializer,
     OrganizerProfileSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
@@ -194,6 +195,25 @@ class AvatarProfileView(APIView):
 
     def delete(self, request, *args, **kwargs):
         request.user.avatar.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CoverOrganizerView(APIView):
+    """ Cover Organizer View """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, *args, **kwargs):
+        organizer = get_object_or_404(Organizer, user=request.user)
+        serializer = CoverOrganizerSerializer(organizer, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        organizer = get_object_or_404(Organizer, user=request.user)
+        organizer.cover.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
