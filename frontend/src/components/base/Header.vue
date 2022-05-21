@@ -1,11 +1,8 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import axios from 'axios'
 
 import { useBaseStore } from '@/stores/base.js'
-import { useUserStore } from '@/stores/user.js'
 const baseStore = useBaseStore()
-const userStore = useUserStore()
 </script>
 
 <script>
@@ -15,20 +12,13 @@ export default {
       window.localStorage.setItem('currency', event.target.value)
       this.baseStore.setCurrency(event.target.value)
       document.getElementById("currencyList").click()
-    },
-    logout() {
-      axios.post('/en/accounts/auth/logout/')
-      .then(() => {
-        window.localStorage.removeItem('user')
-        window.location.reload()
-      })
     }
   }
 }
 </script>
 
 <template>
-  <header class="bg-dark text-white py-1">
+  <header class="bg-dark text-white py-2">
     <div class="container">
       <div class="d-flex justify-content-between">
         <div class="d-flex align-items-center">
@@ -61,7 +51,7 @@ export default {
           </a>
         </div>
         <div class="d-flex">
-          <div class="dropdown d-flex align-items-center d-none d-sm-inline-flex me-3">
+          <div class="dropdown d-flex align-items-center">
             <a class="dropdown-toggle d-flex align-items-center text-decoration-none text-white" href="#" role="button" id="dropdownLocale" data-bs-toggle="dropdown" aria-expanded="false">
               <img :src="'/flags/' + $i18n.locale + '.png'" width="20" :alt="$i18n.locale">
               <span class="text-uppercase ms-1">{{ $i18n.locale }} / {{ baseStore.currency }}</span>
@@ -101,57 +91,6 @@ export default {
                 </RouterLink>
               </li>
             </ul>
-          </div>
-          <div class="d-flex align-items-center" v-if="userStore.isLoggedIn">
-            <div class="dropdown">
-              <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none text-decoration-none text-white" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle p-1" width="32" height="32" alt="avatar">
-                <img v-else src="/avatar.jpg" class="rounded-circle p-1" width="32" height="32" alt="avatar">
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                <li>
-                  <RouterLink v-if="this.$route.name == 'Notifications'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
-                    <i class="fa-solid fa-bell"></i>
-                    {{ $t('auth.notifications') }}
-                  </RouterLink>
-                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
-                    <i class="fa-solid fa-bell"></i>
-                    {{ $t('auth.notifications') }}
-                  </RouterLink>
-                </li>
-                <li>
-                  <RouterLink v-if="this.$route.name == 'Messenger'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
-                    <i class="fa-solid fa-comments"></i>
-                    {{ $t('auth.messenger') }}
-                  </RouterLink>
-                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
-                    <i class="fa-solid fa-comments"></i>
-                    {{ $t('auth.messenger') }}
-                  </RouterLink>
-                </li>
-                <li>
-                  <RouterLink v-if="this.$route.name == 'Profile'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
-                    <i class="fa-solid fa-user"></i>
-                    {{ $t('auth.profile.profile') }}
-                  </RouterLink>
-                  <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
-                    <i class="fa-solid fa-user"></i>
-                    {{ $t('auth.profile.profile') }}
-                  </RouterLink>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                  <div class="dropdown-item d-flex gap-2 align-items-center" @click="logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    {{ $t('auth.logout') }}
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="d-flex align-items-center" v-else>
-            <RouterLink class="btn btn-brand btn-sm rounded-pill d-none d-md-inline-flex px-3 me-1" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.registration') }}</RouterLink>
-            <RouterLink class="btn btn-outline-brand btn-sm text-white border-secondary rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.login') }}</RouterLink>
           </div>
         </div>
       </div>
