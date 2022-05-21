@@ -129,8 +129,8 @@
   background-color: #e72a26;
 }
 
-.input-group:hover,
-.input-group:focus-within {
+.hf-within:hover,
+.hf-within:focus-within {
   border-color: #e72a26 !important;
 }
 
