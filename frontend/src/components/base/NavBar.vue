@@ -79,33 +79,39 @@ export default {
           </div>
         </div>
       </div>
-      <div v-if="userStore.isLoggedIn" class="d-flex align-items-center ms-lg-3">
-        <div class="dropdown">
+      <div v-if="userStore.isLoggedIn" class="d-flex align-items-center">
+        <div class="ms-lg-3">
+          <RouterLink class="link-secondary position-relative" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
+            <i class="fa-solid fa-message fa-lg"></i>
+            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle">
+              <span class="visually-hidden">New messages</span>
+            </span>
+          </RouterLink>
+        </div>
+        <div class="dropdown ms-3">
+          <a class="link-secondary position-relative" href="#" role="button" id="dropdownNotifications" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bell fa-lg"></i>
+            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle">
+              <span class="visually-hidden">New notifications</span>
+            </span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow w-100 overflow-auto" aria-labelledby="dropdownNotifications">
+            <li><a class="dropdown-item" href="#">Notifications 1</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 2</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 3</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 4</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 5 (Extended, Extended, Extended)</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 6</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 7</a></li>
+            <li><a class="dropdown-item" href="#">Notifications 8</a></li>
+          </ul>
+        </div>
+        <div class="dropdown ms-3">
           <a href="#" class="d-flex align-items-center text-decoration-none text-decoration-none text-dark" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
             <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle" width="32" height="32" alt="avatar">
             <img v-else src="/avatar.jpg" class="rounded-circle" width="32" height="32" alt="avatar">
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-            <li>
-              <RouterLink v-if="this.$route.name == 'Notifications'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
-                <i class="fa-solid fa-bell"></i>
-                {{ $t('auth.notifications') }}
-              </RouterLink>
-              <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
-                <i class="fa-solid fa-bell"></i>
-                {{ $t('auth.notifications') }}
-              </RouterLink>
-            </li>
-            <li>
-              <RouterLink v-if="this.$route.name == 'Messenger'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
-                <i class="fa-solid fa-comments"></i>
-                {{ $t('auth.messenger') }}
-              </RouterLink>
-              <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
-                <i class="fa-solid fa-comments"></i>
-                {{ $t('auth.messenger') }}
-              </RouterLink>
-            </li>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser">
             <li>
               <RouterLink v-if="this.$route.name == 'Profile'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
                 <i class="fa-solid fa-user"></i>
