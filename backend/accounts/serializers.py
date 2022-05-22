@@ -57,14 +57,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             'user_type': {'choices': UserType.choices[1:]},
-            'name': {'required': True},
         }
-
-    def validate_name(self, value):
-        if not value:
-            raise serializers.ValidationError(
-                _('This field may not be blank.'))
-        return value
 
     def validate(self, data):
         if data['password'] != data['password2']:

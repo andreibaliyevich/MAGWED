@@ -5,7 +5,11 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.core.mail import send_mail
-from django.core.validators import FileExtensionValidator, MinValueValidator, RegexValidator
+from django.core.validators import (
+    FileExtensionValidator,
+    MinValueValidator,
+    RegexValidator,
+)
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -47,7 +51,7 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('User type'),
     )
 
-    name = models.CharField(blank=True, max_length=255, verbose_name=_('Name'))
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
     avatar = ThumbnailerImageField(
         null=True,
         blank=True,
@@ -128,7 +132,7 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email', 'name']
 
     def __str__(self):
         return f'{ self.username } | { self.email }'
