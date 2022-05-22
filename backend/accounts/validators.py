@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from django.core.files.images import ImageFile
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
@@ -18,8 +17,6 @@ class MinimumImageSizeValidator:
         self.min_height = min_height
 
     def __call__(self, image):
-        image = ImageFile(image)
-
         if image.width < self.min_width or image.height < self.min_height:
             raise ValidationError(
                 self.message,
