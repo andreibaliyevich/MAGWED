@@ -61,15 +61,27 @@ export default {
               <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Blog', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('nav.blog') }}</RouterLink>
             </li>
           </ul>
-          <form class="hf-within border rounded-pill d-flex align-items-center mt-3 mt-lg-0">
-            <label class="text-secondary ms-2" for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
-            <input class="form-control rounded-pill border-0 shadow-none m-1" id="search" type="search" placeholder="Search..." aria-label="Search">
-          </form>
+          <div class="dropdown mt-3 mt-lg-0">
+            <form class="d-flex align-items-center border rounded-pill" id="dropdownSearch" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="text-secondary ms-2"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input class="form-control rounded-pill border-0 shadow-none m-1" id="search" type="search" placeholder="Search..." aria-label="Search" autocomplete="off">
+            </form>
+            <ul class="dropdown-menu shadow w-100 overflow-auto" aria-labelledby="dropdownSearch">
+              <li><a class="dropdown-item" href="#">Search Result 1</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 2</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 3</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 4</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 5 (Extended, Extended, Extended)</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 6</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 7</a></li>
+              <li><a class="dropdown-item" href="#">Search Result 8</a></li>
+            </ul>
+          </div>
         </div>
       </div>
       <div v-if="userStore.isLoggedIn" class="d-flex align-items-center ms-lg-3">
         <div class="dropdown">
-          <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none text-decoration-none text-dark" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+          <a href="#" class="d-flex align-items-center text-decoration-none text-decoration-none text-dark" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
             <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle" width="32" height="32" alt="avatar">
             <img v-else src="/avatar.jpg" class="rounded-circle" width="32" height="32" alt="avatar">
           </a>
