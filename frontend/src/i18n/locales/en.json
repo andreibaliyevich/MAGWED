@@ -35,6 +35,7 @@
         "favorites": "Favorites",
         "profile": {
             "profile": "Profile",
+            "edit_profile": "Edit Profile",
             "remove_avatar": "Are you sure you want to reset your current avatar?",
             "remove_cover": "Are you sure you want to reset current cover?",
             "name": "Name",

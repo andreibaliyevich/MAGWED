@@ -14,6 +14,9 @@ export default {
     hideOffcanvas() {
       document.getElementById("offcanvasClose").click()
     },
+    hideDropdownMenu(idDropdown) {
+      document.getElementById(idDropdown).click()
+    },
     logout() {
       axios.post('/en/accounts/auth/logout/')
       .then(() => {
@@ -107,19 +110,40 @@ export default {
           </ul>
         </div>
         <div class="dropdown ms-3">
-          <a href="#" class="d-flex align-items-center text-decoration-none text-decoration-none text-dark" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+          <a href="#" class="d-flex align-items-center text-decoration-none text-decoration-none text-dark" id="dropdownUser" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
             <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle" width="32" height="32" alt="avatar">
             <img v-else src="/avatar.jpg" class="rounded-circle" width="32" height="32" alt="avatar">
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser">
-            <li>
-              <RouterLink v-if="this.$route.name == 'Profile'" class="dropdown-item d-flex gap-2 align-items-center active" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
-                <i class="fa-solid fa-user"></i>
-                {{ $t('auth.profile.profile') }}
+            <li class="px-3 pt-2 pb-3">
+              <div class="d-flex gap-2 align-items-center mb-1">
+                <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle" width="48" height="48" alt="avatar">
+                <img v-else src="/avatar.jpg" class="rounded-circle" width="48" height="48" alt="avatar">
+                <div class="ms-1">
+                  <span class="d-flex flex-nowrap fw-bolder">{{ userStore.name }}</span>
+                  <small class="text-muted">{{ userStore.email }}</small>
+                </div>
+              </div>
+              <RouterLink class="w-100 btn btn-light-brand btn-sm text-center" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+                {{ $t('auth.profile.edit_profile') }}
               </RouterLink>
-              <RouterLink v-else class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
-                <i class="fa-solid fa-user"></i>
-                {{ $t('auth.profile.profile') }}
+            </li>
+            <li>
+              <RouterLink v-if="userStore.user_type == 3" class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+                <i class="fa-solid fa-users"></i>
+                {{ $t('auth.followers') }}
+              </RouterLink>
+              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+                <i class="fa-solid fa-user-group"></i>
+                {{ $t('auth.following') }}
+              </RouterLink>
+              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+                <i class="fa-solid fa-star"></i>
+                {{ $t('auth.favorites') }}
+              </RouterLink>
+              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+                <i class="fa-solid fa-comment-dots"></i>
+                {{ $t('footer.feedback') }}
               </RouterLink>
             </li>
             <li><hr class="dropdown-divider"></li>
