@@ -32,7 +32,9 @@ class UserLoginSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = [
             'username',
+            'email',
             'user_type',
+            'name',
             'avatar',
         ]
 
