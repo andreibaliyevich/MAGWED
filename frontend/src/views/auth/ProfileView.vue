@@ -126,6 +126,15 @@ export default {
       axios.put('/accounts/auth/profile/', data)
       .then((response) => {
         this.status = 'updated_profile'
+        this.userStore.updateName(this.name)
+        window.localStorage.setItem('user', JSON.stringify({
+          'token': this.userStore.token,
+          'username': this.userStore.username,
+          'email': this.userStore.email,
+          'user_type': this.userStore.user_type,
+          'name': this.name,
+          'avatar': this.userStore.avatar
+        }))
       })
       .catch((error) => {
         this.errors = error.response.data
@@ -170,7 +179,9 @@ export default {
         window.localStorage.setItem('user', JSON.stringify({
           'token': this.userStore.token,
           'username': this.userStore.username,
+          'email': this.userStore.email,
           'user_type': this.userStore.user_type,
+          'name': this.userStore.name,
           'avatar': response.data.avatar
         }))
         document.getElementById('avatarInput').value = ''
@@ -188,7 +199,9 @@ export default {
           window.localStorage.setItem('user', JSON.stringify({
             'token': this.userStore.token,
             'username': this.userStore.username,
+            'email': this.userStore.email,
             'user_type': this.userStore.user_type,
+            'name': this.userStore.name,
             'avatar': null
           }))
         })
