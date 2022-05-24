@@ -21,9 +21,13 @@ export default {
 </script>
 
 <template>
-  <div class="w-100 border shadow-sm rounded-3 d-none d-lg-inline-flex">
-    <div class="w-100 p-4">
-      <div class="text-uppercase fw-bolder text-secondary">Social</div>
+  <div class="position-sticky" style="top: 120px;">
+    <button class="btn btn-secondary w-100 d-lg-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#account-menu" aria-expanded="false" aria-label="Account menu">
+      {{ $t('auth.account_menu') }}
+      <i class="fa-solid fa-caret-down ms-1"></i>
+    </button>
+    <div id="account-menu" class="collapse d-lg-block">
+      <div class="text-uppercase fw-bolder text-secondary">{{ $t('auth.social') }}</div>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
           <RouterLink v-if="this.$route.name == 'Messenger'" class="nav-link active" aria-current="page" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
@@ -76,7 +80,7 @@ export default {
           </RouterLink>
         </li>
       </ul>
-      <div class="text-uppercase fw-bolder text-secondary mt-3">Account</div>
+      <div class="text-uppercase fw-bolder text-secondary mt-3">{{ $t('auth.account') }}</div>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
           <RouterLink v-if="this.$route.name == 'Profile'" class="nav-link active" aria-current="page" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">

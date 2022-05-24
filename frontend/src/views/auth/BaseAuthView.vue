@@ -1,15 +1,15 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import ProfileMenu from '@/components/auth/ProfileMenu.vue'
+import AccountMenu from '@/components/auth/AccountMenu.vue'
 </script>
 
 <template>
-  <div class="container my-5">
+  <div class="container">
     <div class="row">
-      <div class="col-lg-4">
-        <ProfileMenu />
+      <div class="col-lg-4 border-end py-5">
+        <AccountMenu />
       </div>
-      <div class="col-lg-8 px-5">
+      <div class="col-lg-8 pb-5 p-lg-5">
         <RouterView />
       </div>
     </div>
