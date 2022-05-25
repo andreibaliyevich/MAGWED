@@ -38,9 +38,19 @@
         "favorites": "Избранное",
         "profile": {
             "profile": "Профиль",
+            "profile_settings": "Настройки профиля",
             "edit_profile": "Редактировать профиль",
-            "remove_avatar": "Вы уверены, что хотите сбросить свой текущий аватар?",
-            "remove_cover": "Вы уверены, что хотите сбросить текущую обложку?",
+            "profile_updated_successfully": "Профиль успешно обновлен!",
+            "avatar_updated_successfully": "Аватар успешно обновлен!",
+            "avatar_removed_successfully": "Аватар успешно удален!",
+            "cover_updated_successfully": "Обложка успешно обновлена!",
+            "cover_removed_successfully": "Обложка успешно удалена!",
+            "upload_avatar": "Загрузить аватар",
+            "remove_avatar": "Удалить аватар",
+            "you_want_remove_avatar": "Вы уверены, что хотите сбросить свой текущий аватар?",
+            "upload_cover": "Загрузить обложку",
+            "remove_cover": "Удалить обложку",
+            "you_want_remove_cover": "Вы уверены, что хотите сбросить текущую обложку?",
             "name": "Имя",
             "country": "Страна",
             "city": "Город",
@@ -54,7 +64,6 @@
             "cost_work": "Стоимость работы",
             "number_hours": "Количество часов",
             "profile_url": "URL профиля",
-            "profile_updated_successfully": "Профиль успешно обновлен!",
             "update_profile": "Обновить профиль"
         },
         "portfolio": "Портфолио",
@@ -75,6 +84,7 @@
         "hairdresser": "Парикмахер"
     },
     "form_help": {
+        "input_img": "Загрузите изображение в формате JPG или PNG. Требуемый минимальный размер {width} x {height}.",
         "multiple_select": "Удерживайте нажатой “Control” или “Command” на Mac, чтобы выбрать более одного."
     },
     "blog": {

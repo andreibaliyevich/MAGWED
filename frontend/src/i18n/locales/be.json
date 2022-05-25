@@ -38,9 +38,19 @@
         "favorites": "Выбранае",
         "profile": {
             "profile": "Профіль",
+            "profile_settings": "Наладкі профілю",
             "edit_profile": "Рэдагаваць профіль",
-            "remove_avatar": "Вы ўпэўнены, што хочаце скінуць свой бягучы аватар?",
-            "remove_cover": "Вы ўпэўнены, што хочаце скінуць бягучую вокладку?",
+            "profile_updated_successfully": "Профіль паспяхова абноўлены!",
+            "avatar_updated_successfully": "Аватар паспяхова абноўлены!",
+            "avatar_removed_successfully": "Аватар паспяхова выдалены!",
+            "cover_updated_successfully": "Вокладка паспяхова абноўлена!",
+            "cover_removed_successfully": "Вокладка паспяхова выдалена!",
+            "upload_avatar": "Загрузіць аватар",
+            "remove_avatar": "Выдаліць аватар",
+            "you_want_remove_avatar": "Вы ўпэўнены, што хочаце скінуць свой бягучы аватар?",
+            "upload_cover": "Загрузіць вокладку",
+            "remove_cover": "Выдаліць вокладку",
+            "you_want_remove_cover": "Вы ўпэўнены, што хочаце скінуць бягучую вокладку?",
             "name": "Імя",
             "country": "Краіна",
             "city": "Горад",
@@ -54,7 +64,6 @@
             "cost_work": "Кошт працы",
             "number_hours": "Колькасць гадзін",
             "profile_url": "URL профілю",
-            "profile_updated_successfully": "Профіль паспяхова абноўлены!",
             "update_profile": "Абнавіць профіль"
         },
         "portfolio": "Партфоліё",
@@ -75,6 +84,7 @@
         "hairdresser": "Цырульнік"
     },
     "form_help": {
+        "input_img": "Загрузіце малюнак у фармаце JPG або PNG. Неабходны мінімальны памер {width} x {height}.",
         "multiple_select": "Утрымлівайце “Control” або “Command” на Mac, каб выбраць некалькі."
     },
     "blog": {

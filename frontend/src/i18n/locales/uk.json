@@ -38,9 +38,19 @@
         "favorites": "Вибране",
         "profile": {
             "profile": "Профіль",
+            "profile_settings": "Налаштування профілю",
             "edit_profile": "Редагувати профіль",
-            "remove_avatar": "Ви впевнені, що хочете скинути свій поточний аватар?",
-            "remove_cover": "Ви впевнені, що хочете скинути поточну обкладинку?",
+            "profile_updated_successfully": "Профіль успішно оновлено!",
+            "avatar_updated_successfully": "Аватар успішно оновлено!",
+            "avatar_removed_successfully": "Аватар успішно вилучено!",
+            "cover_updated_successfully": "Обкладинка успішно оновлена!",
+            "cover_removed_successfully": "Обкладинка успішно видалена!",
+            "upload_avatar": "Завантажити аватар",
+            "remove_avatar": "Видалити аватар",
+            "you_want_remove_avatar": "Ви впевнені, що хочете скинути свій поточний аватар?",
+            "upload_cover": "Завантажити обкладинку",
+            "remove_cover": "Видалити обкладинку",
+            "you_want_remove_cover": "Ви впевнені, що хочете скинути поточну обкладинку?",
             "name": "Ім'я",
             "country": "Країна",
             "city": "Місто",
@@ -54,7 +64,6 @@
             "cost_work": "Вартість роботи",
             "number_hours": "Кількість годин",
             "profile_url": "URL профілю",
-            "profile_updated_successfully": "Профіль успішно оновлено!",
             "update_profile": "Оновити профіль"
         },
         "portfolio": "Портфоліо",
@@ -75,6 +84,7 @@
         "hairdresser": "Перукар"
     },
     "form_help": {
+        "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",
         "multiple_select": "Утримуйте “Control” або “Command” на Mac, щоб вибрати більше одного."
     },
     "blog": {

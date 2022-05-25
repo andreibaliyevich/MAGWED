@@ -38,9 +38,19 @@
         "favorites": "Favorites",
         "profile": {
             "profile": "Profile",
+            "profile_settings": "Profile settings",
             "edit_profile": "Edit Profile",
-            "remove_avatar": "Are you sure you want to reset your current avatar?",
-            "remove_cover": "Are you sure you want to reset current cover?",
+            "profile_updated_successfully": "Profile updated successfully!",
+            "avatar_updated_successfully": "Avatar updated successfully!",
+            "avatar_removed_successfully": "Avatar removed successfully!",
+            "cover_updated_successfully": "Cover updated successfully!",
+            "cover_removed_successfully": "Cover removed successfully!",
+            "upload_avatar": "Upload avatar",
+            "remove_avatar": "Remove avatar",
+            "you_want_remove_avatar": "Are you sure you want to reset your current avatar?",
+            "upload_cover": "Upload cover",
+            "remove_cover": "Remove cover",
+            "you_want_remove_cover": "Are you sure you want to reset current cover?",
             "name": "Name",
             "country": "Country",
             "city": "City",
@@ -54,7 +64,6 @@
             "cost_work": "Cost of work",
             "number_hours": "Number of hours",
             "profile_url": "Profile URL",
-            "profile_updated_successfully": "Profile updated successfully!",
             "update_profile": "Update profile"
         },
         "portfolio": "Portfolio",
@@ -75,6 +84,7 @@
         "hairdresser": "Hairdresser"
     },
     "form_help": {
+        "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
         "multiple_select": "Hold down “Control”, or “Command” on a Mac, to select more than one."
     },
     "blog": {
