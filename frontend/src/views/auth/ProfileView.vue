@@ -70,6 +70,30 @@ export default {
         this.errors = error.response.data
       }
     },
+    async getCountriesData() {
+      try {
+        const response = await axios.get('/main/countries/')
+        this.main_countries = response.data
+      } catch (error) {
+        this.errors = error.response.data
+      }
+    },
+    async getCitiesData() {
+      try {
+        const response = await axios.get('/main/cities/')
+        this.main_cities = response.data
+      } catch (error) {
+        this.errors = error.response.data
+      }
+    },
+    async getLanguagesData() {
+      try {
+        const response = await axios.get('/main/languages/')
+        this.main_languages = response.data
+      } catch (error) {
+        this.errors = error.response.data
+      }
+    },
     updateProfile() {
       this.status = null
       this.errors = null
@@ -125,7 +149,6 @@ export default {
 
       axios.put('/accounts/auth/profile/', data)
       .then((response) => {
-        this.status = 'updated_profile'
         this.userStore.updateName(this.name)
         window.localStorage.setItem('user', JSON.stringify({
           'token': this.userStore.token,
@@ -135,8 +158,11 @@ export default {
           'name': this.name,
           'avatar': this.userStore.avatar
         }))
+        this.status = 'updated_profile'
+        this.errors = null
       })
       .catch((error) => {
+        this.status = null
         this.errors = error.response.data
       })
       .then(() => {
@@ -144,29 +170,8 @@ export default {
         document.documentElement.scrollTop = 0
       })
     },
-    async getCountriesData() {
-      try {
-        const response = await axios.get('/main/countries/')
-        this.main_countries = response.data
-      } catch (error) {
-        this.errors = error.response.data
-      }
-    },
-    async getCitiesData() {
-      try {
-        const response = await axios.get('/main/cities/')
-        this.main_cities = response.data
-      } catch (error) {
-        this.errors = error.response.data
-      }
-    },
-    async getLanguagesData() {
-      try {
-        const response = await axios.get('/main/languages/')
-        this.main_languages = response.data
-      } catch (error) {
-        this.errors = error.response.data
-      }
+    openAvatarInput() {
+      document.getElementById("avatarInput").click()
     },
     updateAvatar(event) {
       const avatarData = new FormData()
@@ -174,7 +179,6 @@ export default {
 
       axios.put('/accounts/auth/avatar/', avatarData)
       .then((response) => {
-        this.status = 'updated_avatar'
         this.userStore.updateAvatar(response.data.avatar)
         window.localStorage.setItem('user', JSON.stringify({
           'token': this.userStore.token,
@@ -185,16 +189,21 @@ export default {
           'avatar': response.data.avatar
         }))
         document.getElementById('avatarInput').value = ''
+        this.status = 'updated_avatar'
+        this.errors = null
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
       })
       .catch((error) => {
+        document.getElementById('avatarInput').value = ''
+        this.status = null
         this.errors = error.response.data
       })
     },
     removeAvatar(event) {
-      if (confirm(this.$t('auth.profile.remove_avatar'))) {
+      if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
         axios.delete('/accounts/auth/avatar/')
         .then((response) => {
-          this.status = 'removed_avatar'
           this.userStore.updateAvatar(null)
           window.localStorage.setItem('user', JSON.stringify({
             'token': this.userStore.token,
@@ -204,11 +213,17 @@ export default {
             'name': this.userStore.name,
             'avatar': null
           }))
+          this.status = 'removed_avatar'
+          this.errors = null
         })
         .catch((error) => {
+          this.status = null
           this.errors = error.response.data
         })
       }
+    },
+    openCoverInput() {
+      document.getElementById("coverInput").click()
     },
     updateCover(event) {
       const coverData = new FormData()
@@ -216,22 +231,29 @@ export default {
 
       axios.put('/accounts/auth/cover/', coverData)
       .then((response) => {
-        this.status = 'updated_cover'
         this.cover = response.data.cover
         document.getElementById('coverInput').value = ''
+        this.status = 'updated_cover'
+        this.errors = null
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
       })
       .catch((error) => {
+        document.getElementById('coverInput').value = ''
+        this.status = null
         this.errors = error.response.data
       })
     },
     removeCover(event) {
-      if (confirm(this.$t('auth.profile.remove_cover'))) {
+      if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
         axios.delete('/accounts/auth/cover/')
         .then((response) => {
-          this.status = 'removed_cover'
           this.cover = null
+          this.status = 'removed_cover'
+          this.errors = null
         })
         .catch((error) => {
+          this.status = null
           this.errors = error.response.data
         })
       }
@@ -247,38 +269,66 @@ export default {
 </script>
 
 <template>
-  <div class="profile">
-    <h1>{{ $t('auth.profile.profile') }}</h1>
+  <div class="profile-settings">
+    <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
 
-    <div>
-      <p>Username: {{ userStore.username }}</p>
-
-      <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" width="100" height="100" class="rounded-circle">
-      <img v-else src="/avatar.jpg" width="100" height="100" class="rounded-circle">
-
-      <input @change="updateAvatar" type="file" accept="image/*" id="avatarInput">
-      <button v-if="userStore.avatar" @click="removeAvatar">Remove avatar</button>
-
-      <div v-if="userStore.user_type == 3">
-        <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" width="300" height="189">
-        <img v-else src="/cover.jpg" width="300" height="100">
-
-        <input @change="updateCover" type="file" accept="image/*" id="coverInput">
-        <button v-if="cover" @click="removeCover">Remove cover</button>
-      </div>
-    </div>
-
-    <div v-if="status == 'updated_profile'" id="status">
+    <div v-if="status" id="status">
       <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
         <i class="fa-solid fa-circle-check"></i>
-        <div class="ms-3">{{ $t('auth.profile.profile_updated_successfully') }}</div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div v-if="status == 'updated_profile'" class="ms-3">{{ $t('auth.profile.profile_updated_successfully') }}</div>
+        <div v-if="status == 'updated_avatar'" class="ms-3">{{ $t('auth.profile.avatar_updated_successfully') }}</div>
+        <div v-if="status == 'removed_avatar'" class="ms-3">{{ $t('auth.profile.avatar_removed_successfully') }}</div>
+        <div v-if="status == 'updated_cover'" class="ms-3">{{ $t('auth.profile.cover_updated_successfully') }}</div>
+        <div v-if="status == 'removed_cover'" class="ms-3">{{ $t('auth.profile.cover_removed_successfully') }}</div>
+        <button @click="status = null" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
+
+    <div v-if="userStore.user_type == 3" class="card mb-2">
+      <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" class="card-img-top">
+      <img v-else src="/cover.jpg" class="card-img-top">
+      <div class="card-body text-center">
+        <div v-if="errors && errors.cover">
+          <small v-for="error in errors.cover" class="text-danger">{{ error }}</small>
+        </div>
+        <div class="d-flex justify-content-center">
+          <input @change="updateCover" type="file" accept="image/*" id="coverInput" class="visually-hidden">
+          <button @click="openCoverInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_cover') }}</button>
+          <button v-if="cover" @click="removeCover" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_cover') }}</button>
+        </div>
+        <small class="text-muted">{{ $t('form_help.input_img', { width: '1900', height: '1200' }) }}</small>
+      </div>
+    </div>
+    <div class="card mb-5">
+      <div class="row d-flex align-items-center">
+        <div class="col-md-3">
+          <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
+          <img v-else src="/avatar.jpg" class="img-fluid rounded-start">
+        </div>
+        <div class="col-md-9">
+          <div class="card-body text-center">
+            <div v-if="errors && errors.avatar">
+              <small v-for="error in errors.avatar" class="text-danger">{{ error }}</small>
+            </div>
+            <div class="d-flex justify-content-center">
+              <input @change="updateAvatar" type="file" accept="image/*" id="avatarInput" class="visually-hidden">
+              <button @click="openAvatarInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_avatar') }}</button>
+              <button v-if="userStore.avatar" @click="removeAvatar" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_avatar') }}</button>
+            </div>
+            <small class="text-muted">{{ $t('form_help.input_img', { width: '512', height: '512' }) }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form @submit.prevent="updateProfile" class="row g-3 mt-3">
       <div class="col-md-12">
         <label for="id_name" class="form-label">{{ $t('auth.profile.name') }}</label>
-        <input v-model="name" :placeholder="$t('auth.profile.name')" type="text" name="name" maxlength="255" id="id_name" class="form-control">
+        <div v-if="errors && errors.user && errors.user.name">
+          <input v-model="name" :placeholder="$t('auth.profile.name')" type="text" name="name" maxlength="255" id="id_name" class="form-control is-invalid">
+          <div v-for="error in errors.user.name" class="invalid-feedback">{{ error }}</div>
+        </div>
+        <input v-else v-model="name" :placeholder="$t('auth.profile.name')" type="text" name="name" maxlength="255" id="id_name" class="form-control">
       </div>
       <div class="col-md-6">
         <label for="id_country" class="form-label">{{ $t('auth.profile.country') }}</label>
