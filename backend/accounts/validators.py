@@ -25,8 +25,8 @@ class MinimumImageSizeValidator:
                 self.message,
                 code=self.code,
                 params={
-                    'width': image.width,
-                    'height': image.height,
+                    'width': width,
+                    'height': height,
                     'min_width': self.min_width,
                     'min_height': self.min_height,
                 },
