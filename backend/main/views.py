@@ -1,5 +1,7 @@
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
+from .filters import CityFilter
 from .models import Country, City, Language, Hashtag
 from .serializers import (
     CountrySerializer,
@@ -19,6 +21,8 @@ class CityListView(generics.ListAPIView):
     """ City List View """
     queryset = City.objects.all()
     serializer_class = CitySerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = CityFilter
 
 
 class LanguageListView(generics.ListAPIView):
