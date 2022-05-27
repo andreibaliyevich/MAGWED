@@ -123,11 +123,7 @@ export default {
           </RouterLink>
         </li>
         <li class="nav-item">
-          <div v-if="this.$route.name == 'Home'" @click="logout" class="nav-link active" aria-current="page">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            {{ $t('auth.logout') }}
-          </div>
-          <div v-else @click="logout" class="nav-link text-dark">
+          <div @click="logout" class="nav-link text-dark">
             <i class="fa-solid fa-right-from-bracket"></i>
             {{ $t('auth.logout') }}
           </div>
