@@ -11,6 +11,8 @@ const userStore = useUserStore()
 export default {
   data() {
     return {
+      isAvatarLoading: false,
+      isCoverLoading: false,
       name: '',
       country: null,
       city: null,
@@ -167,6 +169,7 @@ export default {
       document.getElementById("avatarInput").click()
     },
     updateAvatar(event) {
+      this.isAvatarLoading = true
       const avatarData = new FormData()
       avatarData.append('avatar', event.target.files[0], event.target.files[0].name)
 
@@ -192,6 +195,7 @@ export default {
         this.status = null
         this.errors = error.response.data
       })
+      .then(() => this.isAvatarLoading = false)
     },
     removeAvatar(event) {
       if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
@@ -219,6 +223,7 @@ export default {
       document.getElementById("coverInput").click()
     },
     updateCover(event) {
+      this.isCoverLoading = true
       const coverData = new FormData()
       coverData.append('cover', event.target.files[0], event.target.files[0].name)
 
@@ -236,6 +241,7 @@ export default {
         this.status = null
         this.errors = error.response.data
       })
+      .then(() => this.isCoverLoading = false)
     },
     removeCover(event) {
       if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
@@ -321,8 +327,15 @@ export default {
     </div>
 
     <div v-if="userStore.user_type == 3" class="card mb-2">
-      <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" class="card-img-top">
-      <img v-else src="/cover.jpg" class="card-img-top">
+      <div v-if="isCoverLoading" class="d-flex justify-content-center">
+        <div class="spinner-border text-dark m-5" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <div v-else>
+        <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" class="card-img-top">
+        <img v-else src="/cover.jpg" class="card-img-top">
+      </div>
       <div class="card-body text-center">
         <div v-if="errors && errors.cover">
           <small v-for="error in errors.cover" class="text-danger">{{ error }}</small>
@@ -338,8 +351,15 @@ export default {
     <div class="card mb-5">
       <div class="row d-flex align-items-center">
         <div class="col-md-3">
-          <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
-          <img v-else src="/avatar.jpg" class="img-fluid rounded-start">
+          <div v-if="isAvatarLoading" class="d-flex justify-content-center">
+            <div class="spinner-border text-dark" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div v-else>
+            <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
+            <img v-else src="/avatar.jpg" class="img-fluid rounded-start">
+          </div>
         </div>
         <div class="col-md-9">
           <div class="card-body text-center">
