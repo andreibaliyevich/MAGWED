@@ -27,9 +27,10 @@ export default {
       profile_url: '',
       rating: 0.0,
       pro_time: null,
-      main_countries: [],
-      main_cities: [],
-      main_languages: [],
+      countries_list: [],
+      cities_list1: [],
+      cities_list2: [],
+      languages_list: [],
       status: null,
       errors: null
     }
@@ -73,15 +74,7 @@ export default {
     async getCountriesData() {
       try {
         const response = await axios.get('/main/countries/')
-        this.main_countries = response.data
-      } catch (error) {
-        this.errors = error.response.data
-      }
-    },
-    async getCitiesData() {
-      try {
-        const response = await axios.get('/main/cities/')
-        this.main_cities = response.data
+        this.countries_list = response.data
       } catch (error) {
         this.errors = error.response.data
       }
@@ -89,7 +82,7 @@ export default {
     async getLanguagesData() {
       try {
         const response = await axios.get('/main/languages/')
-        this.main_languages = response.data
+        this.languages_list = response.data
       } catch (error) {
         this.errors = error.response.data
       }
@@ -259,10 +252,53 @@ export default {
       }
     }
   },
+  watch: {
+    country(newValue, oldValue) {
+      if (oldValue) {
+        this.city = null
+      }
+      if (newValue) {
+        axios.get('/main/cities/', {
+          params: {
+            country: this.country
+          }
+        })
+        .then((response) => {
+          this.cities_list1 = response.data
+        })
+        .catch((error) => {
+          this.errors = error.response.data
+        })
+      } else {
+        this.cities_list1 = []
+      }
+    },
+    countries(newValue) {
+      if (newValue.length > 0) {
+        let params = new URLSearchParams()
+        this.countries.forEach(item => params.append('country', item))
+        axios.get('/main/cities/', { params: params })
+        .then((response) => {
+          this.cities_list2 = response.data
+        })
+        .catch((error) => {
+          this.errors = error.response.data
+        })
+      } else {
+        this.cities_list2 = []
+      }
+    },
+    cities_list2(newValue, oldValue) {
+      if (newValue.length < oldValue.length) {
+        const new_cities_list2 = []
+        newValue.forEach(item => new_cities_list2.push(item.id))
+        this.cities = this.cities.filter(item => new_cities_list2.includes(item))
+      }
+    }
+  },
   mounted() {
     this.getProfileData()
     this.getCountriesData()
-    this.getCitiesData()
     this.getLanguagesData()
   }
 }
@@ -334,8 +370,8 @@ export default {
         <label for="id_country" class="form-label">{{ $t('auth.profile.country') }}</label>
         <select v-model="country" name="country" id="id_country" class="form-select">
           <option value="" selected="">---------</option>
-          <option v-for="main_country in main_countries" :value="main_country.code" :key="main_country.code">
-            {{ main_country.name_local }} ({{ main_country.name }})
+          <option v-for="country_list in countries_list" :value="country_list.code" :key="country_list.code">
+            {{ country_list.name_local }} ({{ country_list.name }})
           </option>
         </select>
       </div>
@@ -343,8 +379,8 @@ export default {
         <label for="id_city" class="form-label">{{ $t('auth.profile.city') }}</label>
         <select v-model="city" name="city" id="id_city" class="form-select">
           <option value="" selected="">---------</option>
-          <option v-for="main_city in main_cities" :value="main_city.id" :key="main_city.id">
-            {{ main_city.name_local }} ({{ main_city.name }})
+          <option v-for="city_list in cities_list1" :value="city_list.id" :key="city_list.id">
+            {{ city_list.name_local }} ({{ city_list.name }})
           </option>
         </select>
       </div>
@@ -380,8 +416,8 @@ export default {
       <div v-if="userStore.user_type == 3" class="col-md-6">
         <label for="id_countries" class="form-label">{{ $t('auth.profile.countries') }}</label>
         <select v-model="countries" name="countries" id="id_countries" multiple="" class="form-select">
-          <option v-for="main_country in main_countries" :value="main_country.code" :key="main_country.code">
-            {{ main_country.name_local }} ({{ main_country.name }})
+          <option v-for="country_list in countries_list" :value="country_list.code" :key="country_list.code">
+            {{ country_list.name_local }} ({{ country_list.name }})
           </option>
         </select>
         <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
@@ -389,8 +425,8 @@ export default {
       <div v-if="userStore.user_type == 3" class="col-md-6">
         <label for="id_cities" class="form-label">{{ $t('auth.profile.cities') }}</label>
         <select v-model="cities" name="cities" id="id_cities" multiple="" class="form-select">
-          <option v-for="main_city in main_cities" :value="main_city.id" :key="main_city.id">
-            {{ main_city.name_local }} ({{ main_city.name }})
+          <option v-for="city_list in cities_list2" :value="city_list.id" :key="city_list.id">
+            {{ city_list.name_local }} ({{ city_list.name }})
           </option>
         </select>
         <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
@@ -398,8 +434,8 @@ export default {
       <div v-if="userStore.user_type == 3" class="col-md-12">
         <label for="id_languages" class="form-label">{{ $t('auth.profile.languages') }}</label>
         <select v-model="languages" name="languages" id="id_languages" multiple="" class="form-select">
-          <option v-for="main_language in main_languages" :value="main_language.code" :key="main_language.code">
-            {{ main_language.name_local }} ({{ main_language.name }})
+          <option v-for="language_list in languages_list" :value="language_list.code" :key="language_list.code">
+            {{ language_list.name_local }} ({{ language_list.name }})
           </option>
         </select>
         <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
