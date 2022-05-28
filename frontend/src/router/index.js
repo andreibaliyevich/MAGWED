@@ -53,17 +53,17 @@ const router = createRouter({
             {
               path: 'profile',
               name: 'Profile',
-              component: () => import('@/views/auth/ProfileView.vue'),
+              component: () => import('@/views/auth/ProfileView.vue')
             },
             {
               path: 'messenger',
               name: 'Messenger',
-              component: () => import('@/views/auth/MessengerView.vue'),
+              component: () => import('@/views/auth/MessengerView.vue')
             },
             {
               path: 'notifications',
               name: 'Notifications',
-              component: () => import('@/views/auth/NotificationsView.vue'),
+              component: () => import('@/views/auth/NotificationsView.vue')
             }
           ]
         }

@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div class="login-view">
+  <div class="login">
     <h4>{{ $t('auth.login') }}</h4>
     <div class="input-group">
       <form @submit.prevent="login">
@@ -54,7 +54,7 @@ export default {
 </template>
 
 <style>
-.login-view {
+.login {
   width: 300px;
   margin: 0 auto;
 }

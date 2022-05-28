@@ -129,7 +129,7 @@ export default {
               </RouterLink>
             </li>
             <li>
-              <RouterLink v-if="userStore.user_type == 3" class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+              <RouterLink v-if="userStore.userType == 3" class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
                 <i class="fa-solid fa-users"></i>
                 {{ $t('auth.followers') }}
               </RouterLink>

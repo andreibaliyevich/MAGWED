@@ -49,7 +49,7 @@ export default {
             {{ $t('auth.notifications') }}
           </RouterLink>
         </li>
-        <li v-if="userStore.user_type == 3" class="nav-item">
+        <li v-if="userStore.userType == 3" class="nav-item">
           <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-users"></i>
             {{ $t('auth.followers') }}
@@ -92,7 +92,7 @@ export default {
             {{ $t('auth.profile.profile') }}
           </RouterLink>
         </li>
-        <li v-if="userStore.user_type == 3" class="nav-item">
+        <li v-if="userStore.userType == 3" class="nav-item">
           <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-briefcase"></i>
             {{ $t('auth.portfolio') }}

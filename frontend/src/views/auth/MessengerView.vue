@@ -1,6 +1,4 @@
 <script setup>
-import ProfileMenu from '@/components/auth/ProfileMenu.vue'
-
 import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
 const baseStore = useBaseStore()
