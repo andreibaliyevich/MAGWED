@@ -1,4 +1,4 @@
-from django.db.models import IntegerChoices
+from django.db.models import IntegerChoices, TextChoices
 from django.utils.translation import gettext_lazy as _
 
 
@@ -22,3 +22,12 @@ class RoleChoices(IntegerChoices):
     HAIRDRESSER = 11, _('Hairdresser')
 
     __empty__ = _('(Unknown)')
+
+
+class LinkType(TextChoices):
+    WEBSITE = 'WE', _('Website')
+    INSTAGRAM = 'IM', _('Instagram')
+    FACEBOOK = 'FK', _('Facebook')
+    TWITTER = 'TR', _('Twitter')
+    PINTEREST = 'PT', _('Pinterest')
+    VK = 'VK', _('VK')

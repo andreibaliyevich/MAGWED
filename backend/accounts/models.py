@@ -15,7 +15,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
 from main.utilities import get_cover_path
-from .choices import UserType, RoleChoices
+from .choices import UserType, RoleChoices, LinkType
 from .managers import MWUserManager
 from .utilities import get_avatar_path
 from .validators import MinimumImageSizeValidator
@@ -281,21 +281,12 @@ class OrganizerLink(models.Model):
         verbose_name=_('Organizer'),
     )
 
-    class LinkType(models.TextChoices):
-        WEBSITE = 'WE', _('Website')
-        INSTAGRAM = 'IM', _('Instagram')
-        FACEBOOK = 'FK', _('Facebook')
-        TWITTER = 'TR', _('Twitter')
-        PINTEREST = 'PT', _('Pinterest')
-        VK = 'VK', _('VK')
-
     link_type = models.CharField(
         max_length=2,
         choices=LinkType.choices,
         default=LinkType.WEBSITE,
         verbose_name=_('Type of Link'),
     )
-
     link_url = models.URLField(verbose_name=_('URL of Link'))
 
     class Meta:
