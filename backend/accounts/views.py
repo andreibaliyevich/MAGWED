@@ -1,5 +1,4 @@
 from rest_framework import generics, status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -9,9 +8,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model, user_logged_in, user_logged_out
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
+from .choices import UserType
 from .filters import OrganizerFilter
-from .models import Customer, Organizer
+from .models import Customer, Organizer, OrganizerLink
 from .pagination import OrganizerSetPagination
+from .permissions import OrganizerPermission, OrganizerPermission2
 from .serializers import (
     UserLoginSerializer,
     RegistrationSerializer,
@@ -21,8 +22,9 @@ from .serializers import (
     PasswordResetConfirmSerializer,
     UserProfileSerializer,
     CustomerProfileSerializer,
-    AvatarProfileSerializer,
-    CoverOrganizerSerializer,
+    ProfileAvatarSerializer,
+    OrganizerCoverSerializer,
+    OrganizerLinkSerializer,
     OrganizerProfileSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
@@ -34,7 +36,6 @@ UserModel = get_user_model()
 
 class LoginView(ObtainAuthToken):
     """ Login View """
-    authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -56,10 +57,9 @@ class LoginView(ObtainAuthToken):
 
 class LogoutView(APIView):
     """ Logout View """
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         Token.objects.filter(user=request.user).delete()
         user_logged_out.send(
             sender=request.user.__class__, request=request, user=request.user
@@ -78,7 +78,7 @@ class ActivationView(APIView):
     """ Activation View """
     permission_classes = [AllowAny]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = UidAndTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
@@ -95,10 +95,9 @@ class ActivationView(APIView):
 
 class PasswordChangeView(APIView):
     """ Password Change View """
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = PasswordChangeSerializer(
             data=request.data,
             context={'user': request.user},
@@ -115,7 +114,7 @@ class PasswordResetView(APIView):
     """ Password Reset View """
     permission_classes = [AllowAny]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = PasswordResetSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
@@ -133,7 +132,7 @@ class PasswordResetConfirmView(APIView):
     """ Password Reset Confirm View """
     permission_classes = [AllowAny]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = PasswordResetConfirmSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
@@ -146,16 +145,15 @@ class PasswordResetConfirmView(APIView):
 
 class ProfileView(APIView):
     """ Profile View """
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if request.user.user_type == 1:
+        if request.user.user_type == UserType.ADMIN:
             serializer = UserProfileSerializer(request.user)
-        elif request.user.user_type == 2:
+        elif request.user.user_type == UserType.CUSTOMER:
             customer = get_object_or_404(Customer, user=request.user)
             serializer = CustomerProfileSerializer(customer)
-        elif request.user.user_type == 3:
+        elif request.user.user_type == UserType.ORGANIZER:
             organizer = get_object_or_404(Organizer, user=request.user)
             serializer = OrganizerProfileSerializer(organizer)
         else:
@@ -163,12 +161,12 @@ class ProfileView(APIView):
         return Response(serializer.data)
 
     def put(self, request, *args, **kwargs):
-        if request.user.user_type == 1:
+        if request.user.user_type == UserType.ADMIN:
             serializer = UserProfileSerializer(request.user, data=request.data)
-        elif request.user.user_type == 2:
+        elif request.user.user_type == UserType.CUSTOMER:
             customer = get_object_or_404(Customer, user=request.user)
             serializer = CustomerProfileSerializer(customer, data=request.data)
-        elif request.user.user_type == 3:
+        elif request.user.user_type == UserType.ORGANIZER:
             organizer = get_object_or_404(Organizer, user=request.user)
             serializer = OrganizerProfileSerializer(
                 organizer, data=request.data)
@@ -181,13 +179,12 @@ class ProfileView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AvatarProfileView(APIView):
-    """ Avatar Profile View """
-    authentication_classes = [TokenAuthentication]
+class ProfileAvatarView(APIView):
+    """ Profile Avatar View """
     permission_classes = [IsAuthenticated]
-    
+
     def put(self, request, *args, **kwargs):
-        serializer = AvatarProfileSerializer(request.user, data=request.data)
+        serializer = ProfileAvatarSerializer(request.user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -198,14 +195,13 @@ class AvatarProfileView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class CoverOrganizerView(APIView):
-    """ Cover Organizer View """
-    authentication_classes = [TokenAuthentication]
+class OrganizerCoverView(APIView):
+    """ Organizer Cover View """
     permission_classes = [IsAuthenticated]
-    
+
     def put(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
-        serializer = CoverOrganizerSerializer(organizer, data=request.data)
+        serializer = OrganizerCoverSerializer(organizer, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
