@@ -14,7 +14,7 @@ from main.serializers import (
     LanguageSerializer,
 )
 from .choices import UserType
-from .models import Customer, OrganizerRole, Organizer
+from .models import Customer, OrganizerRole, Organizer, OrganizerLink
 from .serializer_fields import (
     UserSerializerField,
     UserDetailSerializerField,
@@ -246,8 +246,8 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
         ]
 
     def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')
         user = instance.user
+        user_data = validated_data.pop('user')
 
         user.name = user_data.get('name', user.name)
         user.country = user_data.get('country', user.country)
@@ -296,8 +296,8 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
         ]
 
     def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')
         user = instance.user
+        user_data = validated_data.pop('user')
 
         user.name = user_data.get('name', user.name)
         user.country = user_data.get('country', user.country)
@@ -324,20 +324,32 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
-class AvatarProfileSerializer(serializers.ModelSerializer):
-    """ Avatar Profile Serializer """
+class ProfileAvatarSerializer(serializers.ModelSerializer):
+    """ Profile Avatar Serializer """
 
     class Meta:
         model = UserModel
         fields = ['avatar']
 
 
-class CoverOrganizerSerializer(serializers.ModelSerializer):
-    """ Cover Organizer Serializer """
+class OrganizerCoverSerializer(serializers.ModelSerializer):
+    """ Organizer Cover Serializer """
 
     class Meta:
         model = Organizer
         fields = ['cover']
+
+
+class OrganizerLinkSerializer(serializers.ModelSerializer):
+    """ Organizer Link Serializer """
+
+    class Meta:
+        model = OrganizerLink
+        fields = [
+            'id',
+            'link_type',
+            'link_url',
+        ]
 
 
 class OrganizerListSerializer(serializers.ModelSerializer):

@@ -213,6 +213,21 @@ class OrganizerCoverView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class OrganizerLinkListCreateView(generics.ListCreateAPIView):
+    """ Organizer Link List or Create View """
+    permission_classes = [IsAuthenticated, OrganizerPermission]
+    serializer_class = OrganizerLinkSerializer
+
+    def get_queryset(self):
+        organizer = get_object_or_404(Organizer, user=self.request.user)
+        queryset = OrganizerLink.objects.filter(organizer=organizer)
+        return queryset
+
+    def perform_create(self, serializer):
+        organizer = get_object_or_404(Organizer, user=self.request.user)
+        serializer.save(organizer=organizer)
+
+
 class OrganizerListView(generics.ListAPIView):
     """ Organizer List View """
     queryset = Organizer.objects.filter(user__is_active=True)

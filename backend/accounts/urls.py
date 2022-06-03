@@ -18,8 +18,9 @@ urlpatterns = [
             ])),
         ])),
         path('profile/', views.ProfileView.as_view()),
-        path('avatar/', views.AvatarProfileView.as_view()),
-        path('cover/', views.CoverOrganizerView.as_view()),
+        path('avatar/', views.ProfileAvatarView.as_view()),
+        path('cover/', views.OrganizerCoverView.as_view()),
+        path('links/', views.OrganizerLinkListCreateView.as_view()),
     ])),
 
     path('organizers/', include([
