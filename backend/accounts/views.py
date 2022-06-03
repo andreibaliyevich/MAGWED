@@ -12,7 +12,7 @@ from .choices import UserType
 from .filters import OrganizerFilter
 from .models import Customer, Organizer, OrganizerLink
 from .pagination import OrganizerSetPagination
-from .permissions import OrganizerPermission, OrganizerIsOwnerPermission
+from .permissions import UserIsOrganizer
 from .serializers import (
     UserLoginSerializer,
     RegistrationSerializer,
@@ -197,7 +197,7 @@ class ProfileAvatarView(APIView):
 
 class OrganizerCoverView(APIView):
     """ Organizer Cover View """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
 
     def put(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
@@ -215,7 +215,7 @@ class OrganizerCoverView(APIView):
 
 class OrganizerLinkListCreateView(generics.ListCreateAPIView):
     """ Organizer Link List or Create View """
-    permission_classes = [IsAuthenticated, OrganizerPermission]
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
     serializer_class = OrganizerLinkSerializer
 
     def get_queryset(self):
@@ -230,7 +230,7 @@ class OrganizerLinkListCreateView(generics.ListCreateAPIView):
 
 class OrganizerLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Organizer Link Retrieve Update Destroy View """
-    permission_classes = [IsAuthenticated, OrganizerPermission]
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
     serializer_class = OrganizerLinkSerializer
 
     def get_queryset(self):
