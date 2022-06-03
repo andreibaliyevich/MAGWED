@@ -474,6 +474,7 @@ export default {
         <div v-if="userStore.userType == 3" class="col-md-6">
           <label for="id_cost_work" class="form-label">{{ $t('auth.profile.cost_work') }}</label>
           <input v-model="costWork" type="number" name="cost_work" min="0.00" step="0.01" required="" id="id_cost_work" class="form-control">
+          <div class="form-text">{{ $t('form_help.cost_work') }}</div>
         </div>
         <div v-if="userStore.userType == 3" class="col-md-6">
           <label for="id_number_hours" class="form-label">{{ $t('auth.profile.number_hours') }}</label>

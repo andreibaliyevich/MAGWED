@@ -85,7 +85,8 @@
     },
     "form_help": {
         "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",
-        "multiple_select": "Утримуйте “Control” або “Command” на Mac, щоб вибрати більше одного."
+        "multiple_select": "Утримуйте “Control” або “Command” на Mac, щоб вибрати більше одного.",
+        "cost_work": "Будь ласка, введіть у доларах США ($)"
     },
     "blog": {
         "blog": "Блог"

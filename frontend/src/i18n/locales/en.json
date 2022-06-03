@@ -85,7 +85,8 @@
     },
     "form_help": {
         "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
-        "multiple_select": "Hold down “Control”, or “Command” on a Mac, to select more than one."
+        "multiple_select": "Hold down “Control”, or “Command” on a Mac, to select more than one.",
+        "cost_work": "Please enter in USD ($)"
     },
     "blog": {
         "blog": "Blog"
