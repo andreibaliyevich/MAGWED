@@ -400,7 +400,7 @@ export default {
         <div class="col-md-6">
           <label for="id_country" class="form-label">{{ $t('auth.profile.country') }}</label>
           <select v-model="country" name="country" id="id_country" class="form-select">
-            <option value="" selected="">---------</option>
+            <option value=""></option>
             <option v-for="countryList in countriesList" :value="countryList.code" :key="countryList.code">
               {{ countryList.name_local }} ({{ countryList.name }})
             </option>
@@ -409,7 +409,7 @@ export default {
         <div class="col-md-6">
           <label for="id_city" class="form-label">{{ $t('auth.profile.city') }}</label>
           <select v-model="city" name="city" id="id_city" class="form-select">
-            <option value="" selected="">---------</option>
+            <option value=""></option>
             <option v-for="cityList in citiesList1" :value="cityList.id" :key="cityList.id">
               {{ cityList.name_local }} ({{ cityList.name }})
             </option>
