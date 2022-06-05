@@ -66,6 +66,17 @@
             "profile_url": "Profile URL",
             "update_profile": "Update profile"
         },
+        "externallinks": {
+            "external_links": "External links",
+            "add_link": "Add link",
+            "adding_a_link": "Adding a link",
+            "changing_the_link": "Changing the link",
+            "type_of_link": "Type of Link",
+            "url_of_link": "URL of Link",
+            "close": "Close",
+            "add": "Add",
+            "update": "Update"
+        },
         "portfolio": "Portfolio",
         "change_password": "Change password",
         "delete_profile": "Delete profile"

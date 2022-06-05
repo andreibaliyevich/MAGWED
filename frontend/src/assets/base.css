@@ -31,6 +31,37 @@
   color: #0077b5 !important;
 }
 
+.bg-facebook {
+  background-color: #1877f2 !important;
+}
+.bg-twitter {
+  background-color: #1da1f2 !important;
+}
+.bg-instagram {
+  background-color: #e1306c !important;
+}
+.bg-spotify {
+  background-color: #1db954 !important;
+}
+.bg-youtube {
+  background-color: #ff0000 !important;
+}
+.bg-soundcloud {
+  background-color: #ff8800 !important;
+}
+.bg-pinterest {
+  background-color: #e60023 !important;
+}
+.bg-vk {
+  background-color: #45668e !important;
+}
+.bg-linkedin {
+  background-color: #0077b5 !important;
+}
+.bg-website {
+  background-color: #6c757d !important;
+}
+
 .btn-brand {
   color: #fff;
   background: linear-gradient(110deg, #d2094b, #f94900);

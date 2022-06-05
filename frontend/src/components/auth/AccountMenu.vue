@@ -93,6 +93,16 @@ export default {
           </RouterLink>
         </li>
         <li v-if="userStore.userType == 3" class="nav-item">
+          <RouterLink v-if="this.$route.name == 'ExternalLinks'" class="nav-link active" aria-current="page" :to="{ name: 'ExternalLinks', params: { locale: `${ $i18n.locale }` }}">
+            <i class="fa-solid fa-link"></i>
+            {{ $t('auth.externallinks.external_links') }}
+          </RouterLink>
+          <RouterLink v-else class="w-100 nav-link text-dark" :to="{ name: 'ExternalLinks', params: { locale: `${ $i18n.locale }` }}">
+            <i class="fa-solid fa-link"></i>
+            {{ $t('auth.externallinks.external_links') }}
+          </RouterLink>
+        </li>
+        <li v-if="userStore.userType == 3" class="nav-item">
           <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-briefcase"></i>
             {{ $t('auth.portfolio') }}

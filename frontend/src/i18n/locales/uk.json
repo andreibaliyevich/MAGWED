@@ -66,6 +66,17 @@
             "profile_url": "URL профілю",
             "update_profile": "Оновити профіль"
         },
+        "externallinks": {
+            "external_links": "Зовнішні посилання",
+            "add_link": "Додати посилання",
+            "adding_a_link": "Додавання посилання",
+            "changing_the_link": "Зміна посилання",
+            "type_of_link": "Тип посилання",
+            "url_of_link": "URL посилання",
+            "close": "Закрити",
+            "add": "Додати",
+            "update": "Оновити"
+        },
         "portfolio": "Портфоліо",
         "change_password": "Змінити пароль",
         "delete_profile": "Видалити профіль"

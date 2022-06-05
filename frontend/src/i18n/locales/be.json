@@ -66,6 +66,17 @@
             "profile_url": "URL профілю",
             "update_profile": "Абнавіць профіль"
         },
+        "externallinks": {
+            "external_links": "Знешнія спасылкі",
+            "add_link": "Дадаць спасылку",
+            "adding_a_link": "Даданне спасылкі",
+            "changing_the_link": "Змяненне спасылкі",
+            "type_of_link": "Тып спасылкі",
+            "url_of_link": "URL спасылкі",
+            "close": "Закрыць",
+            "add": "Дадаць",
+            "update": "Абнавіць"
+        },
         "portfolio": "Партфоліё",
         "change_password": "Змяніць пароль",
         "delete_profile": "Выдаліць профіль"

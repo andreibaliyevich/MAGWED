@@ -56,6 +56,11 @@ const router = createRouter({
               component: () => import('@/views/auth/ProfileView.vue')
             },
             {
+              path: 'externallinks',
+              name: 'ExternalLinks',
+              component: () => import('@/views/auth/ExternalLinksView.vue')
+            },
+            {
               path: 'messenger',
               name: 'Messenger',
               component: () => import('@/views/auth/MessengerView.vue')
