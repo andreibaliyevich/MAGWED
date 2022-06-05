@@ -11,6 +11,18 @@ export default {
       organizerLinkId: null,
       organizerLinkType: '',
       organizerLinkUrl: '',
+      linkTypeOptions: [
+        { value: 'WE', text: 'Website' },
+        { value: 'FK', text: 'Facebook' },
+        { value: 'TR', text: 'Twitter' },
+        { value: 'IM', text: 'Instagram' },
+        { value: 'SY', text: 'Spotify' },
+        { value: 'YE', text: 'YouTube' },
+        { value: 'SD', text: 'SoundCloud' },
+        { value: 'PT', text: 'Pinterest' },
+        { value: 'VK', text: 'VK' },
+        { value: 'LN', text: 'LinkedIn' }
+      ],
       status: null,
       errors: null
     }
@@ -111,11 +123,15 @@ export default {
           <div class="row">
             <div class="col-3 col-md-2">
               <span v-if="organizerLink.link_type == 'WE'" class="badge bg-website">Website</span>
-              <span v-if="organizerLink.link_type == 'IM'" class="badge bg-instagram">Instagram</span>
-              <span v-if="organizerLink.link_type == 'FK'" class="badge bg-facebook">Facebook</span>
-              <span v-if="organizerLink.link_type == 'TR'" class="badge bg-twitter">Twitter</span>
-              <span v-if="organizerLink.link_type == 'PT'" class="badge bg-pinterest">Pinterest</span>
-              <span v-if="organizerLink.link_type == 'VK'" class="badge bg-vk">VK</span>
+              <span v-else-if="organizerLink.link_type == 'FK'" class="badge bg-facebook">Facebook</span>
+              <span v-else-if="organizerLink.link_type == 'TR'" class="badge bg-twitter">Twitter</span>
+              <span v-else-if="organizerLink.link_type == 'IM'" class="badge bg-instagram">Instagram</span>
+              <span v-else-if="organizerLink.link_type == 'SY'" class="badge bg-spotify">Spotify</span>
+              <span v-else-if="organizerLink.link_type == 'YE'" class="badge bg-youtube">YouTube</span>
+              <span v-else-if="organizerLink.link_type == 'SD'" class="badge bg-soundcloud">SoundCloud</span>
+              <span v-else-if="organizerLink.link_type == 'PT'" class="badge bg-pinterest">Pinterest</span>
+              <span v-else-if="organizerLink.link_type == 'VK'" class="badge bg-vk">VK</span>
+              <span v-else-if="organizerLink.link_type == 'LN'" class="badge bg-linkedin">LinkedIn</span>
             </div>
             <div class="col-6 col-md-8 overflow-hidden">
               <a :href="organizerLink.link_url" target="_blank">{{ organizerLink.link_url }}</a>
@@ -145,24 +161,18 @@ export default {
                   <label for="id_link_type" class="col-form-label">{{ $t('auth.externallinks.type_of_link') }}:</label>
                   <div v-if="errors && errors.link_type">
                     <select v-model="organizerLinkType" class="form-select is-invalid" name="link_type" id="id_link_type">
-                      <option value="" selected="">---------</option>
-                      <option value="WE">Website</option>
-                      <option value="IM">Instagram</option>
-                      <option value="FK">Facebook</option>
-                      <option value="TR">Twitter</option>
-                      <option value="PT" selected="">Pinterest</option>
-                      <option value="VK">VK</option>
+                      <option disabled value="">---------</option>
+                      <option v-for="option in linkTypeOptions" :value="option.value">
+                        {{ option.text }}
+                      </option>
                     </select>
                     <div v-for="error in errors.link_type" class="invalid-feedback">{{ error }}</div>
                   </div>
                   <select v-else v-model="organizerLinkType" class="form-select" name="link_type" id="id_link_type">
-                    <option value="" selected="">---------</option>
-                    <option value="WE">Website</option>
-                    <option value="IM">Instagram</option>
-                    <option value="FK">Facebook</option>
-                    <option value="TR">Twitter</option>
-                    <option value="PT" selected="">Pinterest</option>
-                    <option value="VK">VK</option>
+                    <option disabled value="">---------</option>
+                    <option v-for="option in linkTypeOptions" :value="option.value">
+                      {{ option.text }}
+                    </option>
                   </select>
                 </div>
                 <div class="mb-3">
