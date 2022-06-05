@@ -26,8 +26,12 @@ class RoleChoices(IntegerChoices):
 
 class LinkType(TextChoices):
     WEBSITE = 'WE', _('Website')
-    INSTAGRAM = 'IM', _('Instagram')
     FACEBOOK = 'FK', _('Facebook')
     TWITTER = 'TR', _('Twitter')
+    INSTAGRAM = 'IM', _('Instagram')
+    SPOTIFY = 'SY', _('Spotify')
+    YOUTUBE = 'YE', _('YouTube')
+    SOUNDCLOUD = 'SD', _('SoundCloud')
     PINTEREST = 'PT', _('Pinterest')
     VK = 'VK', _('VK')
+    LINKEDIN = 'LN', _('LinkedIn')
