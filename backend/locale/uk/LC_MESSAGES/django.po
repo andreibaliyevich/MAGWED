@@ -16,66 +16,67 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #: accounts/admin.py:8 accounts/models.py:128
 msgid "Date joined"
-msgstr "Дата регистрации"
+msgstr "Дата реєстрації"
 
 #: accounts/admin.py:13
 msgid "Last 3 days"
-msgstr "Последние 3 дня"
+msgstr "Останні 3 дні"
 
 #: accounts/admin.py:14
 msgid "Last week"
-msgstr "Последняя неделя"
+msgstr "Останній тиждень"
 
 #: accounts/admin.py:15
 msgid "Last month"
-msgstr "Последний месяц"
+msgstr "Останній місяць"
 
 #: accounts/admin.py:16
 msgid "Last 6 months"
-msgstr "Последние 6 месяцев"
+msgstr "Останні 6 місяців"
 
 #: accounts/admin.py:17
 msgid "Last year"
-msgstr "Последний год"
+msgstr "Останній рік"
 
 #: accounts/admin.py:18
 msgid "More year"
-msgstr "Больше года"
+msgstr "Більше року"
 
 #: accounts/admin.py:58
 msgid "Personal info"
-msgstr "Персональная информация"
+msgstr "Персональна інформація"
 
 #: accounts/admin.py:67
 msgid "Permissions"
-msgstr "Права доступа"
+msgstr "Права доступу"
 
 #: accounts/admin.py:76
 msgid "Important dates"
-msgstr "Важные даты"
+msgstr "Важливі дати"
 
 #: accounts/apps.py:8
 msgid "Accounts"
-msgstr "Учетные записи"
+msgstr "Облікові записи"
 
 #: accounts/choices.py:6
 msgid "Administrator"
-msgstr "Администратор"
+msgstr "Адміністратор"
 
 #: accounts/choices.py:7 accounts/models.py:169
 msgid "Customer"
-msgstr "Клиент"
+msgstr "Клієнт"
 
 #: accounts/choices.py:8 accounts/models.py:271 accounts/models.py:281
 #: social/models.py:125
 msgid "Organizer"
-msgstr "Организатор"
+msgstr "Організатор"
 
 #: accounts/choices.py:12
 msgid "Photographer"
@@ -83,19 +84,19 @@ msgstr "Фотограф"
 
 #: accounts/choices.py:13
 msgid "Videographer"
-msgstr "Видеооператор"
+msgstr "Відеооператор"
 
 #: accounts/choices.py:14
 msgid "Leading"
-msgstr "Ведущий"
+msgstr "Провідний"
 
 #: accounts/choices.py:15
 msgid "Musician"
-msgstr "Музыкант"
+msgstr "Музикант"
 
 #: accounts/choices.py:16
 msgid "DJ"
-msgstr "Диджей"
+msgstr "Діджей"
 
 #: accounts/choices.py:17
 msgid "Agency"
@@ -107,7 +108,7 @@ msgstr "Салон"
 
 #: accounts/choices.py:19
 msgid "Confectionery"
-msgstr "Кондитерская"
+msgstr "Кондитерська"
 
 #: accounts/choices.py:20
 msgid "Decorator"
@@ -115,19 +116,19 @@ msgstr "Декоратор"
 
 #: accounts/choices.py:21
 msgid "Visagiste"
-msgstr "Визажист"
+msgstr "Візажист"
 
 #: accounts/choices.py:22
 msgid "Hairdresser"
-msgstr "Парикмахер"
+msgstr "Перукар"
 
 #: accounts/choices.py:24
 msgid "(Unknown)"
-msgstr "(Неизвестно)"
+msgstr "(Невідомо)"
 
 #: accounts/choices.py:28
 msgid "Website"
-msgstr "Интернет сайт"
+msgstr "Інтернет сайт"
 
 #: accounts/choices.py:29
 msgid "Facebook"
@@ -159,7 +160,7 @@ msgstr "Pinterest"
 
 #: accounts/choices.py:36
 msgid "VK"
-msgstr "ВКонтакте"
+msgstr "VK"
 
 #: accounts/choices.py:37
 msgid "LinkedIn"
@@ -167,23 +168,23 @@ msgstr "LinkedIn"
 
 #: accounts/managers.py:23
 msgid "The Username must be set."
-msgstr "Имя пользователя должно быть установлено."
+msgstr "Ім'я користувача має бути встановлене."
 
 #: accounts/managers.py:26
 msgid "The Email must be set."
-msgstr "Электронная почта должна быть установлена."
+msgstr "Електронна пошта має бути встановлена."
 
 #: accounts/managers.py:29
 msgid "Invalid user type."
-msgstr "Недопустимый тип пользователя."
+msgstr "Неприпустимий тип користувача."
 
 #: accounts/models.py:33
 msgid "A user with that username already exists."
-msgstr "Пользователь с таким username уже существует."
+msgstr "Користувач із таким username вже існує."
 
 #: accounts/models.py:36
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-msgstr "Требуется. 150 символов или меньше. Только буквы, цифры и @/./+/-/_."
+msgstr "Потрібно. 150 символів або менше. Тільки літери, цифри та @/./+/-/_."
 
 #: accounts/models.py:39
 msgid "Username"
@@ -191,27 +192,27 @@ msgstr "Username"
 
 #: accounts/models.py:44
 msgid "A user with that email address already exists."
-msgstr "Пользователь с таким адресом электронной почты уже существует."
+msgstr "Користувач із такою адресою електронної пошти вже існує."
 
 #: accounts/models.py:46
 msgid "Email address"
-msgstr "Адрес электронной почты"
+msgstr "Адреса електронної пошти"
 
 #: accounts/models.py:51
 msgid "User type"
-msgstr "Тип пользователя"
+msgstr "Тип користувача"
 
 #: accounts/models.py:54 blog/models.py:14 blog/models.py:61 main/models.py:12
 #: main/models.py:31 main/models.py:50 main/models.py:64
 msgid "Name"
-msgstr "Имя"
+msgstr "Ім'я"
 
 #: accounts/models.py:70 accounts/models.py:214
 #, python-format
 msgid ""
 "Upload JPG or PNG image. Required minimum of size %(width)d x %(height)d."
 msgstr ""
-"Загрузите изображение в формате JPG или PNG. Требуемый минимальный размер "
+"Завантажте зображення у форматі JPG або PNG. Необхідний мінімальний розмір "
 "%(width)d x %(height)d."
 
 #: accounts/models.py:76
@@ -220,15 +221,15 @@ msgstr "Аватар"
 
 #: accounts/models.py:84 main/models.py:19 main/models.py:29
 msgid "Country"
-msgstr "Страна"
+msgstr "Країна"
 
 #: accounts/models.py:91 main/models.py:38
 msgid "City"
-msgstr "Город"
+msgstr "Місто"
 
 #: accounts/models.py:99
 msgid "Wrong format!"
-msgstr "Неправильный формат!"
+msgstr "Неправильний формат!"
 
 #: accounts/models.py:102
 msgid "Phone"
@@ -236,98 +237,98 @@ msgstr "Телефон"
 
 #: accounts/models.py:108
 msgid "Designates whether the user can log into this admin site."
-msgstr "Определяет, может ли пользователь войти на этот сайт администратора."
+msgstr "Визначає, чи користувач може увійти на цей сайт адміністратора."
 
 #: accounts/models.py:110
 msgid "Staff status"
-msgstr "Статус персонала"
+msgstr "Статус персоналу"
 
 #: accounts/models.py:115
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
-"Указывает, следует ли считать этого пользователя активным. Отмените выбор "
-"вместо удаления учетных записей."
+"Вказує, чи слід вважати цього користувача активним. Скасуйте вибір замість "
+"видалення облікових записів."
 
 #: accounts/models.py:118
 msgid "Active"
-msgstr "Активный"
+msgstr "Активний"
 
 #: accounts/models.py:124
 msgid "Last visit"
-msgstr "Последнее посещение"
+msgstr "Останнє відвідування"
 
 #: accounts/models.py:149 accounts/models.py:160 accounts/models.py:197
 #: social/models.py:25 social/models.py:53 social/models.py:73
 #: social/models.py:97
 msgid "User"
-msgstr "Пользователь"
+msgstr "Користувач"
 
 #: accounts/models.py:150
 msgid "Users"
-msgstr "Пользователи"
+msgstr "Користувачі"
 
 #: accounts/models.py:165
 msgid "Date of Wedding"
-msgstr "Дата свадьбы"
+msgstr "Дата весілля"
 
 #: accounts/models.py:170
 msgid "Customers"
-msgstr "Клиенты"
+msgstr "Клієнти"
 
 #: accounts/models.py:179
 msgid "Identifier"
-msgstr "Идентификатор"
+msgstr "Ідентифікатор"
 
 #: accounts/models.py:186
 msgid "Role of Organizer"
-msgstr "Роль организатора"
+msgstr "Роль організатора"
 
 #: accounts/models.py:187
 msgid "Roles of Organizers"
-msgstr "Роли организаторов"
+msgstr "Ролі організаторів"
 
 #: accounts/models.py:202
 msgid "Roles"
-msgstr "Роли"
+msgstr "Ролі"
 
 #: accounts/models.py:220
 msgid "Cover"
-msgstr "Обложка"
+msgstr "Обкладинка"
 
 #: accounts/models.py:222 blog/models.py:20 blog/models.py:66 blog/models.py:97
 #: blog/models.py:180 portfolio/models.py:39 portfolio/models.py:143
 msgid "Description"
-msgstr "Описание"
+msgstr "Опис"
 
 #: accounts/models.py:227 main/models.py:20
 msgid "Countries"
-msgstr "Страны"
+msgstr "Країни"
 
 #: accounts/models.py:232 main/models.py:39
 msgid "Cities"
-msgstr "Города"
+msgstr "Міста"
 
 #: accounts/models.py:237 main/models.py:58
 msgid "Languages"
-msgstr "Языки"
+msgstr "Мови"
 
 #: accounts/models.py:245
 msgid "Cost of work"
-msgstr "Стоимость работы"
+msgstr "Вартість роботи"
 
 #: accounts/models.py:246
 msgid "Please enter in USD ($)"
-msgstr "Пожалуйста, введите в долларах США ($)"
+msgstr "Будь ласка, введіть у доларах США ($)"
 
 #: accounts/models.py:250
 msgid "Number of hours"
-msgstr "Количество часов"
+msgstr "Кількість годин"
 
 #: accounts/models.py:256
 msgid "Profile URL"
-msgstr "URL профиля"
+msgstr "URL профілю"
 
 #: accounts/models.py:263 portfolio/models.py:64 portfolio/models.py:168
 #: social/models.py:145
@@ -336,53 +337,52 @@ msgstr "Рейтинг"
 
 #: accounts/models.py:267
 msgid "Pro-account valid time"
-msgstr "Срок действия Pro-аккаунта"
+msgstr "Термін дії Pro-акаунта"
 
 #: accounts/models.py:272
 msgid "Organizers"
-msgstr "Организаторы"
+msgstr "Організатори"
 
 #: accounts/models.py:288
 msgid "Type of Link"
-msgstr "Тип ссылки"
+msgstr "Тип посилання"
 
 #: accounts/models.py:290
 msgid "URL of Link"
-msgstr "URL ссылки"
+msgstr "URL посилання"
 
 #: accounts/models.py:293
 msgid "Link of Organizer"
-msgstr "Ссылка организатора"
+msgstr "Посилання організатора"
 
 #: accounts/models.py:294
 msgid "Links of Organizer"
-msgstr "Ссылки организаторов"
+msgstr "Посилання організаторів"
 
 #: accounts/permissions.py:8
 msgid "Only organizers have permission."
-msgstr "Разрешение есть только у организаторов."
+msgstr "Дозвіл є лише у організаторів."
 
 #: accounts/serializers.py:67 accounts/serializers.py:148
 #: accounts/serializers.py:215
 msgid "Password fields did not match."
-msgstr "Поля пароля не совпадают."
+msgstr "Поля пароля не співпадають."
 
 #: accounts/serializers.py:118 accounts/serializers.py:203
 msgid "Invalid user id or user does not exist."
-msgstr ""
-"Недопустимый идентификатор пользователя или пользователь не существует."
+msgstr "Неприпустимий ідентифікатор користувача або не існує."
 
 #: accounts/serializers.py:124 accounts/serializers.py:209
 msgid "Invalid token for given user."
-msgstr "Недопустимый токен для данного пользователя."
+msgstr "Неприпустимий токен для користувача."
 
 #: accounts/serializers.py:142
 msgid "Invalid current password."
-msgstr "Неверный текущий пароль."
+msgstr "Неправильний поточний пароль."
 
 #: accounts/serializers.py:161
 msgid "User with given email does not exist."
-msgstr "Пользователь с указанным адресом электронной почты не существует."
+msgstr "Користувач із вказаною адресою електронної пошти не існує."
 
 #: accounts/validators.py:11
 #, python-format
@@ -390,32 +390,32 @@ msgid ""
 "Error! Size of your image: %(width)d x %(height)d. Required minimum "
 "%(min_width)d x %(min_height)d."
 msgstr ""
-"Ошибка! Размер вашего изображения: %(width)d x %(height)d. Требуется минимум "
+"Помилка! Розмір зображення: %(width)d x %(height)d. Потрібно мінімум "
 "%(min_width)d x %(min_height)d."
 
 #: accounts/views.py:88
 msgid "Stale token for given user."
-msgstr "Устаревший токен для данного пользователя."
+msgstr "Застарілий токен для цього користувача."
 
 #: accounts/views.py:127
 msgid "The user does not have a password."
-msgstr "У пользователя нет пароля."
+msgstr "Користувач не має пароля."
 
 #: blog/admin.py:27 blog/admin.py:55
 msgid "Metadata"
-msgstr "Метаданные"
+msgstr "Метадані"
 
 #: blog/admin.py:58
 msgid "Image and Thumbnail"
-msgstr "Изображение и эскиз"
+msgstr "Зображення та ескіз"
 
 #: blog/admin.py:61
 msgid "Content and Hashtags"
-msgstr "Контент и хэштеги"
+msgstr "Контент та хештеги"
 
 #: blog/admin.py:64
 msgid "Published and Views"
-msgstr "Опубликовано и просмотры"
+msgstr "Опубліковано та перегляди"
 
 #: blog/apps.py:8
 msgid "Blog"
@@ -427,31 +427,31 @@ msgstr "Слаг"
 
 #: blog/models.py:25 blog/models.py:71 blog/models.py:102 blog/models.py:185
 msgid "Separate keywords with commas."
-msgstr "Разделяйте ключевые слова запятыми."
+msgstr "Розділяйте ключові слова комами."
 
 #: blog/models.py:26 blog/models.py:72 blog/models.py:103 blog/models.py:186
 msgid "Keywords"
-msgstr "Ключевые слова"
+msgstr "Ключові слова"
 
 #: blog/models.py:42 blog/models.py:53
 msgid "Category"
-msgstr "Категория"
+msgstr "Категорія"
 
 #: blog/models.py:43 blog/models.py:89
 msgid "Categories"
-msgstr "Категории"
+msgstr "Категорії"
 
 #: blog/models.py:58 blog/models.py:172 main/models.py:57
 msgid "Language"
-msgstr "Язык"
+msgstr "Мова"
 
 #: blog/models.py:76
 msgid "Category Translation"
-msgstr "Перевод категории"
+msgstr "Переклад категорії"
 
 #: blog/models.py:77
 msgid "Category Translations"
-msgstr "Переводы категорий"
+msgstr "Переклади категорій"
 
 #: blog/models.py:87 social/models.py:131
 msgid "Author"
@@ -459,49 +459,49 @@ msgstr "Автор"
 
 #: blog/models.py:91 blog/models.py:175 portfolio/models.py:22
 msgid "Title"
-msgstr "Название"
+msgstr "Назва"
 
 #: blog/models.py:108 portfolio/models.py:24 portfolio/models.py:92
 msgid "Image"
-msgstr "Изображение"
+msgstr "Зображення"
 
 #: blog/models.py:118 portfolio/models.py:33 portfolio/models.py:101
 msgid "Thumbnail"
-msgstr "Эскиз"
+msgstr "Ескіз"
 
 #: blog/models.py:121 blog/models.py:189 messenger/models.py:45
 #: social/models.py:104
 msgid "Content"
-msgstr "Содержание"
+msgstr "Зміст"
 
 #: blog/models.py:126 main/models.py:77 portfolio/models.py:44
 #: portfolio/models.py:148
 msgid "Hashtags"
-msgstr "Хэштеги"
+msgstr "Хештегі"
 
 #: blog/models.py:131
 msgid "Published at"
-msgstr "Опубликовано в"
+msgstr "Опубліковано в"
 
 #: blog/models.py:136 portfolio/models.py:54 portfolio/models.py:158
 msgid "Number of views"
-msgstr "Количество просмотров"
+msgstr "Кількість переглядів"
 
 #: blog/models.py:156 blog/models.py:167
 msgid "Article"
-msgstr "Статья"
+msgstr "Стаття"
 
 #: blog/models.py:157
 msgid "Articles"
-msgstr "Статьи"
+msgstr "Статті"
 
 #: blog/models.py:192
 msgid "Article Translation"
-msgstr "Перевод статьи"
+msgstr "Переклад статті"
 
 #: blog/models.py:193
 msgid "Article Translations"
-msgstr "Переводы статей"
+msgstr "Переклади статей"
 
 #: blog/models.py:200
 msgid "File"
@@ -509,19 +509,19 @@ msgstr "Файл"
 
 #: blog/models.py:203
 msgid "Image of Article"
-msgstr "Изображение статьи"
+msgstr "Зображення статті"
 
 #: blog/models.py:204
 msgid "Images of Articles"
-msgstr "Изображения статей"
+msgstr "Зображення статей"
 
 #: blog/views.py:52
 msgid "Form not valid!"
-msgstr "Форма недействительна!"
+msgstr "Форма недійсна!"
 
 #: main/apps.py:8
 msgid "Main app"
-msgstr "Основное приложение"
+msgstr "Основний додаток"
 
 #: main/models.py:10 main/models.py:48
 msgid "Code"
@@ -529,29 +529,29 @@ msgstr "Код"
 
 #: main/models.py:13 main/models.py:32 main/models.py:51
 msgid "Name (local)"
-msgstr "Название (местное)"
+msgstr "Назва (місцева)"
 
 #: main/models.py:69 messenger/models.py:49 portfolio/models.py:49
 #: social/models.py:31 social/models.py:58 social/models.py:82
 #: social/models.py:107 social/models.py:151
 msgid "Created at"
-msgstr "Создано в"
+msgstr "Створено в"
 
 #: main/models.py:76
 msgid "Hashtag"
-msgstr "Хэштег"
+msgstr "Хештег"
 
 #: messenger/apps.py:8
 msgid "Messenger"
-msgstr "Мессенджер"
+msgstr "Месенджер"
 
 #: messenger/models.py:11
 msgid "Members"
-msgstr "Члены"
+msgstr "Члени"
 
 #: messenger/models.py:20
 msgid "Last message"
-msgstr "Последнее сообщение"
+msgstr "Останнє повідомлення"
 
 #: messenger/models.py:27 messenger/models.py:37
 msgid "Chat"
@@ -559,31 +559,31 @@ msgstr "Чат"
 
 #: messenger/models.py:28
 msgid "Chats"
-msgstr "Чаты"
+msgstr "Чати"
 
 #: messenger/models.py:42
 msgid "Sender"
-msgstr "Отправитель"
+msgstr "Відправник"
 
 #: messenger/models.py:46 social/models.py:28
 msgid "Viewed"
-msgstr "Просмотрено"
+msgstr "Переглянуто"
 
 #: messenger/models.py:53
 msgid "Message"
-msgstr "Сообщение"
+msgstr "Повідомлення"
 
 #: messenger/models.py:54
 msgid "Messages"
-msgstr "Сообщения"
+msgstr "Повідомлення"
 
 #: portfolio/apps.py:8
 msgid "Portfolio"
-msgstr "Портфолио"
+msgstr "Портфоліо"
 
 #: portfolio/models.py:19 portfolio/models.py:82
 msgid "Owner"
-msgstr "Владелец"
+msgstr "Власник"
 
 #: portfolio/models.py:60 portfolio/models.py:164
 msgid "Likes"
@@ -595,35 +595,35 @@ msgstr "Альбом"
 
 #: portfolio/models.py:73
 msgid "Albums"
-msgstr "Альбомы"
+msgstr "Альбоми"
 
 #: portfolio/models.py:107
 msgid "Device"
-msgstr "Устройство"
+msgstr "Пристрій"
 
 #: portfolio/models.py:114
 msgid "F-number (f/)"
-msgstr "Диафрагма (f/)"
+msgstr "Діафрагма (f/)"
 
 #: portfolio/models.py:122
 msgid "Must be entered in the format: 1/123456789."
-msgstr "Необходимо ввести в формате: 1/123456789."
+msgstr "Потрібно ввести у форматі: 1/123456789."
 
 #: portfolio/models.py:125
 msgid "Exposure time (s)"
-msgstr "Выдержка (s)"
+msgstr "Витримка (s)"
 
 #: portfolio/models.py:132
 msgid "Focal length (mm)"
-msgstr "Фокусное расстояние (mm)"
+msgstr "Фокусна відстань (mm)"
 
 #: portfolio/models.py:137
 msgid "Photographic sensitivity (ISO)"
-msgstr "Фото-чувствительность (ISO)"
+msgstr "Фоточутливість (ISO)"
 
 #: portfolio/models.py:153
 msgid "Uploaded at"
-msgstr "Загружено в"
+msgstr "Завантажено в"
 
 #: portfolio/models.py:176
 msgid "Photo"
@@ -631,135 +631,135 @@ msgstr "Фото"
 
 #: portfolio/models.py:177
 msgid "Photos"
-msgstr "Фотографии"
+msgstr "Фотографії"
 
 #: social/apps.py:8
 msgid "Social"
-msgstr "Социальное"
+msgstr "Соціальне"
 
 #: social/models.py:35
 msgid "Notification"
-msgstr "Уведомление"
+msgstr "Сповіщення"
 
 #: social/models.py:36
 msgid "Notifications"
-msgstr "Уведомления"
+msgstr "Сповіщення"
 
 #: social/models.py:47
 msgid "Follower"
-msgstr "Подписчик"
+msgstr "Передплатник"
 
 #: social/models.py:62
 msgid "Follow object"
-msgstr "Объект Follow"
+msgstr "Об'єкт Follow"
 
 #: social/models.py:63
 msgid "Follow objects"
-msgstr "Объекты Follow"
+msgstr "Об'єкти Follow"
 
 #: social/models.py:86
 msgid "Favorite"
-msgstr "Избранное"
+msgstr "Вибране"
 
 #: social/models.py:87
 msgid "Favorites"
-msgstr "Избранные"
+msgstr "Вибрані"
 
 #: social/models.py:113 social/models.py:148
 msgid "Comment"
-msgstr "Комментарий"
+msgstr "Коментарій"
 
 #: social/models.py:114
 msgid "Comments"
-msgstr "Комментарии"
+msgstr "Коментарі"
 
 #: social/models.py:135
 msgid "5 stars"
-msgstr "5 звезд"
+msgstr "5 зірок"
 
 #: social/models.py:136
 msgid "4 stars"
-msgstr "4 звезды"
+msgstr "4 зірки"
 
 #: social/models.py:137
 msgid "3 stars"
-msgstr "3 звезды"
+msgstr "3 зірки"
 
 #: social/models.py:138
 msgid "2 stars"
-msgstr "2 звезды"
+msgstr "2 зірки"
 
 #: social/models.py:139
 msgid "1 star"
-msgstr "1 звезда"
+msgstr "1 зірка"
 
 #: social/models.py:141
 msgid "Choose rating"
-msgstr "Выберите рейтинг"
+msgstr "Оберіть рейтинг"
 
 #: social/models.py:155
 msgid "Review"
-msgstr "Отзыв"
+msgstr "Відгук"
 
 #: social/models.py:156
 msgid "Reviews"
-msgstr "Отзывы"
+msgstr "Відгуки"
 
 #: social/serializers.py:49
 msgid "Invalid object type."
-msgstr "Недопустимый тип объекта."
+msgstr "Неприпустимий тип об'єкту."
 
 #: social/serializers.py:55
 msgid "Object does not exist."
-msgstr "Объект не существует."
+msgstr "Об'єкт немає."
 
 #: social/serializers.py:68
 msgid "You have already left a comment here."
-msgstr "Вы уже оставляли комментарий здесь."
+msgstr "Ви вже залишали коментар тут."
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
-msgstr "Добро пожаловать,"
+msgstr "Ласкаво просимо,"
 
 #: templates/admin/base.html:45
 msgid "View site"
-msgstr "Посмотреть сайт"
+msgstr "Переглянути сайт"
 
 #: templates/admin/base.html:50
 msgid "Documentation"
-msgstr "Документация"
+msgstr "Документація"
 
 #: templates/admin/base.html:54
 msgid "Change password"
-msgstr "Сменить пароль"
+msgstr "Змінити пароль"
 
 #: templates/admin/base.html:56
 msgid "Log out"
-msgstr "Выйти"
+msgstr "Вийти"
 
 #: templates/admin/base.html:66
 msgid "Home"
-msgstr "Главная"
+msgstr "Головна"
 
 #: templates/admin/base_site.html:3
 msgid "Django site admin"
-msgstr "Администратор сайта Django"
+msgstr "Адміністратор сайту Django"
 
 #: templates/admin/base_site.html:6
 msgid "Django administration"
-msgstr "Администрирование Django"
+msgstr "Адміністрація Django"
 
 #: templates/email/activation_html.html:4
 #: templates/email/activation_text.html:4
 #: templates/email/password_reset_html.html:4
 #: templates/email/password_reset_text.html:4
 msgid "Dear User!"
-msgstr "Дорогой пользователь!"
+msgstr "Дорогий користувач!"
 
 #: templates/email/activation_html.html:7
 #: templates/email/activation_text.html:6
 msgid "Thank you for registering in the"
-msgstr "Спасибо за регистрацию в"
+msgstr "Дякуємо за реєстрацію в"
 
 #: templates/email/activation_html.html:10
 #: templates/email/activation_text.html:7
@@ -767,23 +767,23 @@ msgid ""
 "You need to complete the activation in order to verify your identity. To do "
 "this, please follow the link:"
 msgstr ""
-"Вам необходимо завершить активацию, чтобы подтвердить свою личность. Для "
-"этого перейдите по ссылке:"
+"Вам необхідно завершити активацію, щоб підтвердити свою особу. Для цього "
+"перейдіть за посиланням:"
 
 #: templates/email/activation_html.html:11
 msgid "Confirm Email"
-msgstr "Подтвердите адрес электронной почты"
+msgstr "Підтвердіть адресу електронної пошти"
 
 #: templates/email/activation_html.html:20
 #: templates/email/activation_text.html:13
 #: templates/email/password_reset_html.html:21
 #: templates/email/password_reset_text.html:15
 msgid "This is an automatic letter, do not reply to it."
-msgstr "Это автоматическое письмо, не отвечайте на него."
+msgstr "Це автоматичний лист, не відповідайте на нього."
 
 #: templates/email/activation_subject.txt:1
 msgid "User Activation"
-msgstr "Активация пользователя"
+msgstr "Активація користувача"
 
 #: templates/email/password_reset_html.html:7
 #: templates/email/password_reset_text.html:6
@@ -791,20 +791,20 @@ msgid ""
 "You are receiving this email because you requested a password reset for your "
 "user account at "
 msgstr ""
-"Вы получили это электронное письмо, потому что запросили сброс пароля для "
-"своей учетной записи пользователя на"
+"Ви отримали цей електронний лист, тому що запросили скидання пароля для "
+"свого облікового запису користувача на"
 
 #: templates/email/password_reset_html.html:9
 #: templates/email/password_reset_text.html:7
 msgid "Please go to the following page and choose a new password:"
-msgstr "Пожалуйста, перейдите на следующую страницу и выберите новый пароль:"
+msgstr "Будь ласка, перейдіть на наступну сторінку та виберіть новий пароль:"
 
 #: templates/email/password_reset_html.html:10
 #: templates/email/password_reset_subject.txt:1
 msgid "Password Reset"
-msgstr "Сброс пароля"
+msgstr "Скидання пароля"
 
 #: templates/email/password_reset_html.html:12
 #: templates/email/password_reset_text.html:10
 msgid "Thanks for using our site!"
-msgstr "Спасибо за использование нашего сайта!"
+msgstr "Дякуємо за використання нашого сайту!"
