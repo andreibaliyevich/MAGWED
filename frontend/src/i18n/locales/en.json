@@ -78,7 +78,19 @@
             "update": "Update"
         },
         "portfolio": "Portfolio",
-        "change_password": "Change password",
+        "passwordchange": {
+            "change_password": "Change password",
+            "password_change": "Password change",
+            "password_updated_successfully": "Password updated successfully.",
+            "current_password": "Current password",
+            "new_password": "New password",
+            "new_password2": "New password confirmation",
+            "advice1": "Your password can’t be too similar to your other personal information.",
+            "advice2": "Your password must contain at least 8 characters.",
+            "advice3": "Your password can’t be a commonly used password.",
+            "advice4": "Your password can’t be entirely numeric.",
+            "change": "Change"
+        },
         "delete_profile": "Delete profile"
     },
     "roles": {
