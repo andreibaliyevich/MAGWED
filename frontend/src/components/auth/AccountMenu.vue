@@ -115,11 +115,11 @@ export default {
         <li class="nav-item">
           <RouterLink v-if="this.$route.name == 'PasswordChange'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-key"></i>
-            {{ $t('auth.passwordchange.change_password') }}
+            {{ $t('auth.password.change_password') }}
           </RouterLink>
           <RouterLink v-else class="nav-link text-dark" :to="{ name: 'PasswordChange', params: { locale: `${ $i18n.locale }` }}">
             <i class="fa-solid fa-key"></i>
-            {{ $t('auth.passwordchange.change_password') }}
+            {{ $t('auth.password.change_password') }}
           </RouterLink>
         </li>
         <li class="nav-item">

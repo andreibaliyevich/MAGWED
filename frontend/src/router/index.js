@@ -6,6 +6,16 @@ import i18n, {
   setI18nLanguage
 } from '@/i18n'
 
+function onlyNotLoggedIn(to) {
+  const isLoggedIn = window.localStorage.getItem('user')
+  if (isLoggedIn) {
+    return {
+      name: 'Profile',
+      params: { locale: i18n.global.locale.value }
+    }
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,23 +42,53 @@ const router = createRouter({
         {
           path: 'login',
           name: 'Login',
-          component: () => import('@/views/auth/LoginView.vue')
+          component: () => import('@/views/auth/LoginView.vue'),
+          beforeEnter: [onlyNotLoggedIn],
         },
         {
           path: 'registration',
           name: 'Registration',
-          component: () => import('@/views/auth/RegistrationView.vue')
+          component: () => import('@/views/auth/RegistrationView.vue'),
+          beforeEnter: [onlyNotLoggedIn],
         },
         {
           path: 'activation/:uid/:token',
           name: 'Activation',
-          component: () => import('@/views/auth/ActivationView.vue')
+          component: () => import('@/views/auth/ActivationView.vue'),
+          beforeEnter: [onlyNotLoggedIn],
+        },
+        {
+          path: 'password/reset',
+          name: 'BasePassword',
+          component: () => import('@/views/auth/BasePasswordView.vue'),
+          beforeEnter: [onlyNotLoggedIn],
+          children: [
+            {
+              path: '',
+              name: 'PasswordReset',
+              component: () => import('@/views/auth/PasswordResetView.vue')
+            },
+            {
+              path: ':uid/:token',
+              name: 'PasswordResetConfirm',
+              component: () => import('@/views/auth/PasswordResetConfirmView.vue')
+            }
+          ]
         },
         {
           path: '',
           name: 'BaseAuth',
           component: () => import('@/views/auth/BaseAuthView.vue'),
-          meta: { requiresAuth: true },
+          beforeEnter: (to, from) => {
+            const isLoggedIn = window.localStorage.getItem('user')
+            if (!isLoggedIn) {
+              return {
+                name: 'Login',
+                params: { locale: i18n.global.locale.value },
+                query: { redirect: to.fullPath }
+              }
+            }
+          },
           children: [
             {
               path: 'profile',
@@ -107,15 +147,6 @@ router.beforeEach(async (to, from) => {
 
   if (!(to_locale === i18n.global.locale.value)) {
     setI18nLanguage(i18n, to_locale)
-  }
-
-  const loggedIn = window.localStorage.getItem('user')
-  if (to.meta.requiresAuth  && !loggedIn) {
-    return {
-      name: 'Login',
-      params: { locale: i18n.global.locale.value },
-      query: { redirect: to.fullPath }
-    }
   }
 })
 
