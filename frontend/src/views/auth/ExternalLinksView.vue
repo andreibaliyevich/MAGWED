@@ -97,9 +97,11 @@ export default {
       })
     },
     resetOrganizerLink() {
-      this.organizerLinkId = null
-      this.organizerLinkType = ''
-      this.organizerLinkUrl = ''
+      setTimeout(() => {
+        this.organizerLinkId = null
+        this.organizerLinkType = ''
+        this.organizerLinkUrl = ''
+      }, 500)
     }
   },
   mounted() {
