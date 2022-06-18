@@ -61,6 +61,11 @@ const router = createRouter({
               component: () => import('@/views/auth/ExternalLinksView.vue')
             },
             {
+              path: 'password/change',
+              name: 'PasswordChange',
+              component: () => import('@/views/auth/PasswordChangeView.vue')
+            },
+            {
               path: 'messenger',
               name: 'Messenger',
               component: () => import('@/views/auth/MessengerView.vue')
