@@ -120,7 +120,7 @@ class PasswordResetView(APIView):
         user = serializer.user
 
         if user.has_usable_password():
-            serializer.send_password_reset_email()
+            serializer.send_password_reset_email(request.LANGUAGE_CODE)
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(

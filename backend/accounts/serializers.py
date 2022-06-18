@@ -88,6 +88,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         context = {
             'SITE_NAME': settings.SITE_NAME,
             'SITE_HOST': settings.SITE_HOST,
+            'LANG_CODE': self.context['request'].LANGUAGE_CODE,
             'uid': force_str(urlsafe_base64_encode(force_bytes(user.pk))),
             'token': default_token_generator.make_token(user),
         }
@@ -161,10 +162,11 @@ class PasswordResetSerializer(serializers.Serializer):
                 _('User with given email does not exist.'))
         return value
 
-    def send_password_reset_email(self):
+    def send_password_reset_email(self, lang_code):
         context = {
             'SITE_NAME': settings.SITE_NAME,
             'SITE_HOST': settings.SITE_HOST,
+            'LANG_CODE': lang_code,
             'uid': force_str(urlsafe_base64_encode(force_bytes(self.user.pk))),
             'token': default_token_generator.make_token(self.user),
         }
