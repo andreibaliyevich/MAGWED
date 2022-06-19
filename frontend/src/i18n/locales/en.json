@@ -18,16 +18,68 @@
         "advertising_and_promotion": "Advertising and promotion"
     },
     "auth": {
-        "login": "Login",
+        "signin": "Sign in",
+        "signup": "Sign up",
+        "login": {
+            "login": "Login",
+            "have_account": "Don't have an account?",
+            "username_email": "Username or Email",
+            "forgot_your_password": "Forgot your password?"
+        },
+        "registration": {
+            "registration": "Registration",
+            "have_account": "Already have an account?",
+            "username": "Username",
+            "email": "Email",
+            "password2": "Confirm password",
+            "user_type": "User type",
+            "please_select_user_type": "Please select a User type",
+            "customer": "Customer",
+            "organizer": "Organizer",
+            "name": "Name",
+            "success1": "You have successfully registered!",
+            "success2": "Please check your email.",
+            "success3": "You have been sent an email with a link that you need to click on to activate your account.",
+            "help": "By clicking Sign up, you agree to the terms of use."
+        },
+        "activation": {
+            "activation": "Activation",
+            "success1": "Activation was successful!",
+            "success2": "Account activation completed successfully.",
+            "success3": "You can login using your credentials.",
+            "error": "Activation error!"
+        },
+        "password": {
+            "password": "Password",
+            "reset_password": "Reset password",
+            "change_password": "Change password",
+            "new_password": "New password",
+            "new_password2": "New password confirmation",
+            "advice1": "Your password can’t be too similar to your other personal information.",
+            "advice2": "Your password must contain at least 8 characters.",
+            "advice3": "Your password can’t be a commonly used password.",
+            "advice4": "Your password can’t be entirely numeric."
+        },
+        "passwordreset": {
+            "password_reset": "Password reset",
+            "help": "Change your password in three easy steps. This helps to keep your new password secure.",
+            "step1": "Fill in your email address below.",
+            "step2": "We’ll email you a temporary link.",
+            "step3": "Go to the link to change your password.",
+            "email": "Enter your email address",
+            "back_to_login": "Back to Login",
+            "success1": "Password reset done!",
+            "success2": "Please check your email.",
+            "success3": "An email has been sent to you with a link to follow to set a new password."
+        },
+        "passwordresetconfirm": {
+            "password_reset_confirm": "Password reset confirmation",
+            "confirm_password_reset": "Confirm password reset",
+            "success1": "Password reset complete!",
+            "success2": "New password set.",
+            "success3": "You can sign in using the new password."
+        },
         "logout": "Logout",
-        "registration": "Registration",
-        "username": "Username",
-        "username_email": "Username or Email",
-        "email": "Email",
-        "password": "Password",
-        "password2": "Confirm password",
-        "user_type": "User type",
-        "activation": "Activation",
         "account_menu": "Account menu",
         "social": "Social",
         "account": "Account",
@@ -79,17 +131,9 @@
         },
         "portfolio": "Portfolio",
         "passwordchange": {
-            "change_password": "Change password",
             "password_change": "Password change",
-            "password_updated_successfully": "Password updated successfully.",
             "current_password": "Current password",
-            "new_password": "New password",
-            "new_password2": "New password confirmation",
-            "advice1": "Your password can’t be too similar to your other personal information.",
-            "advice2": "Your password must contain at least 8 characters.",
-            "advice3": "Your password can’t be a commonly used password.",
-            "advice4": "Your password can’t be entirely numeric.",
-            "change": "Change"
+            "success": "Your password has been successfully changed."
         },
         "delete_profile": "Delete profile"
     },
