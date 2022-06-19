@@ -64,7 +64,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['password2']:
             raise serializers.ValidationError({
-                'password': _('Password fields did not match.')})
+                'password2': _('Password fields did not match.')})
         return data
 
     def create(self, validated_data):
@@ -214,7 +214,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
         if data['new_password'] != data['new_password2']:
             raise serializers.ValidationError({
-                'new_password': _('Password fields did not match.')})
+                'new_password2': _('Password fields did not match.')})
 
         return data
 
