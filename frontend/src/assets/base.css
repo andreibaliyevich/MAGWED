@@ -62,6 +62,10 @@
   background-color: #6c757d !important;
 }
 
+.rounded-4 {
+  border-radius: 0.5rem !important;
+}
+
 .btn-brand {
   color: #fff;
   background: linear-gradient(110deg, #d2094b, #f94900);

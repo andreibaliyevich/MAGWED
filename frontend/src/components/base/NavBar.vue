@@ -157,8 +157,8 @@ export default {
         </div>
       </div>
       <div v-else class="d-flex align-items-center ms-lg-3">
-        <RouterLink class="btn btn-outline-brand border-secondary rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('auth.login') }}</RouterLink>
-        <RouterLink class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('auth.registration') }}</RouterLink>
+        <RouterLink class="btn btn-outline-brand border-secondary rounded-pill px-3" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('auth.signin') }}</RouterLink>
+        <RouterLink class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}" @click="hideOffcanvas">{{ $t('auth.signup') }}</RouterLink>
       </div>
     </div>
   </nav>

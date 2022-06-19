@@ -12,12 +12,13 @@ export default {
       password2: '',
       userType: '',
       name: '',
-      error: null
+      status: null,
+      errors: null
     }
   },
   methods: {
-    login() {
-      axios.post('/en/accounts/auth/registration/', {
+    registration() {
+      axios.post('/' + this.$i18n.locale + '/accounts/auth/registration/', {
         username: this.username,
         email: this.email,
         password: this.password,
@@ -27,11 +28,17 @@ export default {
       })
       .then((response) => {
         if (response.status === 201) {
-          this.$router.push({ name: 'Home', params: { locale: `${ this.$i18n.locale }` }})
+          this.status = '201'
+          this.errors = null
         }
       })
       .catch((error) => {
-        this.error = error.response.data
+        this.status = null
+        this.errors = error.response.data
+      })
+      .then(() => {
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
       })
     }
   }
@@ -39,30 +46,96 @@ export default {
 </script>
 
 <template>
-  <div class="registration">
-    <h4>{{ $t('auth.registration') }}</h4>
-    <div class="input-group">
-      <form @submit.prevent="login">
-        <input v-model="username" type="text" name="username" :placeholder="$t('auth.username')" class="form-control">
-        <input v-model="email" type="email" name="email" :placeholder="$t('auth.email')" class="form-control">
-        <input v-model="password" type="password" name="password" :placeholder="$t('auth.password')" class="form-control">
-        <input v-model="password2" type="password" name="password2" :placeholder="$t('auth.password2')" class="form-control">        
-        <select v-model="userType" name="user_type" id="pet-select" class="form-select">
-          <option disabled value="">Please select a User Type</option>
-          <option value="2">Customer</option>
-          <option value="3">Organizer</option>
-        </select>
-        <input v-model="name" type="text" name="name" :placeholder="$t('auth.name')" class="form-control">
-        <button type="submit" class="btn btn-primary">{{ $t('auth.registration') }}</button>
-      </form>
-      <p>{{ error }}</p>
+  <div class="registration-view">
+    <h1 class="display-6 text-center mb-4">{{ $t('auth.registration.registration') }}</h1>
+
+    <div v-if="status == '201'" id="status">
+      <p class="lead fs-3 text-muted">{{ $t('auth.registration.success1') }}</p>
+      <p class="lead fs-5">
+        {{ $t('auth.registration.success2') }}<br>
+        {{ $t('auth.registration.success3') }}
+      </p>
     </div>
+
+    <form v-else @submit.prevent="registration">
+      <p class="fs-6 text-muted">
+        {{ $t('auth.registration.have_account') }}
+        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signin') }}</RouterLink>
+      </p>
+
+      <div v-if="errors && errors.username" class="form-floating mb-3">
+        <input v-model="username" id="id_username" name="username" type="text" required="" :placeholder="$t('auth.registration.username')" class="form-control is-invalid">
+        <label for="id_username">{{ $t('auth.registration.username') }}</label>
+        <div v-for="error in errors.username" class="invalid-feedback">{{ error }}</div>
+      </div>
+      <div v-else class="form-floating mb-3">
+        <input v-model="username" id="id_username" name="username" type="text" required="" :placeholder="$t('auth.registration.username')" class="form-control">
+        <label for="id_username">{{ $t('auth.registration.username') }}</label>
+      </div>
+
+      <div v-if="errors && errors.email" class="form-floating mb-3">
+        <input v-model="email" id="id_email" name="email" type="email" maxlength="254" required="" :placeholder="$t('auth.registration.email')" class="form-control is-invalid">
+        <label for="id_email">{{ $t('auth.registration.email') }}</label>
+        <div v-for="error in errors.email" class="invalid-feedback">{{ error }}</div>
+      </div>
+      <div v-else class="form-floating mb-3">
+        <input v-model="email" id="id_email" name="email" type="email" maxlength="254" required="" :placeholder="$t('auth.registration.email')" class="form-control">
+        <label for="id_email">{{ $t('auth.registration.email') }}</label>
+      </div>
+
+      <div v-if="errors && errors.password" class="form-floating mb-3">
+        <input v-model="password" id="id_password" name="password" type="password" required="" :placeholder="$t('auth.password.password')" class="form-control is-invalid">
+        <label for="id_password">{{ $t('auth.password.password') }}</label>
+        <div v-for="error in errors.password" class="invalid-feedback">{{ error }}</div>
+      </div>
+      <div v-else class="form-floating mb-3">
+        <input v-model="password" id="id_password" name="password" type="password" required="" :placeholder="$t('auth.password.password')" class="form-control">
+        <label for="id_password">{{ $t('auth.password.password') }}</label>
+      </div>
+
+      <div v-if="errors && errors.password2" class="form-floating mb-3">
+        <input v-model="password2" id="id_password2" name="password2" type="password" required="" :placeholder="$t('auth.registration.password2')" class="form-control is-invalid">
+        <label for="id_password">{{ $t('auth.registration.password2') }}</label>
+        <div v-for="error in errors.password2" class="invalid-feedback">{{ error }}</div>
+      </div>
+      <div v-else class="form-floating mb-3">
+        <input v-model="password2" id="id_password2" name="password2" type="password" required="" :placeholder="$t('auth.registration.password2')" class="form-control">
+        <label for="id_password">{{ $t('auth.registration.password2') }}</label>
+      </div>
+
+      <div v-if="errors && errors.user_type" class="form-floating mb-3">
+        <select v-model="userType" id="id_user_type" name="user_type" required="" class="form-select is-invalid">
+          <option disabled value="">{{ $t('auth.registration.please_select_user_type') }}</option>
+          <option value="2">{{ $t('auth.registration.customer') }}</option>
+          <option value="3">{{ $t('auth.registration.organizer') }}</option>
+        </select>
+        <label for="id_user_type">{{ $t('auth.registration.user_type') }}</label>
+        <div v-for="error in errors.user_type" class="invalid-feedback">{{ error }}</div>
+      </div>
+      <div v-else class="form-floating mb-3">
+        <select v-model="userType" id="id_user_type" name="user_type" required="" class="form-select">
+          <option disabled value="">{{ $t('auth.registration.please_select_user_type') }}</option>
+          <option value="2">{{ $t('auth.registration.customer') }}</option>
+          <option value="3">{{ $t('auth.registration.organizer') }}</option>
+        </select>
+        <label for="id_user_type">{{ $t('auth.registration.user_type') }}</label>
+      </div>
+
+      <div v-if="errors && errors.name" class="form-floating mb-3">
+        <input v-model="name" id="id_name" name="name" type="text" required="" :placeholder="$t('auth.registration.name')" class="form-control is-invalid">
+        <label for="id_username">{{ $t('auth.registration.name') }}</label>
+        <div v-for="error in errors.name" class="invalid-feedback">{{ error }}</div>
+      </div>
+      <div v-else class="form-floating mb-3">
+        <input v-model="name" id="id_name" name="name" type="text" required="" :placeholder="$t('auth.registration.name')" class="form-control">
+        <label for="id_username">{{ $t('auth.registration.name') }}</label>
+      </div>
+
+      <button type="submit" class="btn btn-brand btn-lg w-100">{{ $t('auth.signup') }}</button>
+      <hr class="my-4">
+      <div class="fs-6 text-muted">
+        {{ $t('auth.registration.help') }}
+      </div>
+    </form>
   </div>
 </template>
-
-<style>
-.registration {
-  width: 300px;
-  margin: 0 auto;
-}
-</style>

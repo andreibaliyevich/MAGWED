@@ -6,36 +6,52 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      status: null
+      status: null,
+      errors: null
     }
   },
   mounted() {
-    axios.post('/en/accounts/auth/activation/', {
+    axios.post('/' + this.$i18n.locale + '/accounts/auth/activation/', {
       uid: this.$route.params.uid,
       token: this.$route.params.token
     })
     .then((response) => {
       if (response.status === 204) {
         this.status = '204'
+        this.errors = null
       }
     })
     .catch((error) => {
-      this.status = error.response.data
+      this.status = null
+      this.errors = error.response.data
     })
   }
 }
 </script>
 
 <template>
-  <div class="login-view">
-    <h4>{{ $t('auth.activation') }}</h4>
-    <p>{{ status }}</p>
+  <div class="password-reset-confirm-view">
+    <h1 class="display-6 text-center mb-4">{{ $t('auth.activation.activation') }}</h1>
+
+    <div v-if="status == '204'" id="status">
+      <p class="lead fs-3 text-muted">{{ $t('auth.activation.success1') }}</p>
+      <p class="lead fs-5">
+        {{ $t('auth.activation.success2') }}<br>
+        {{ $t('auth.activation.success3') }}
+      </p>
+      <div class="fs-6 text-center">
+        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signin') }}</RouterLink>
+      </div>
+    </div>
+
+    <div v-else-if="errors" id="errors">
+      <p class="lead fs-3 text-danger">{{ $t('auth.activation.error') }}</p>
+      <p v-if="errors.detail" class="lead fs-5">{{ errors.detail }}</p>
+      <p v-if="errors.uid" v-for="error in errors.uid" class="lead fs-5">{{ error }}</p>
+      <p v-if="errors.token" v-for="error in errors.token" class="lead fs-5">{{ error }}</p>
+      <div class="fs-6 text-center">
+        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signup') }}</RouterLink>
+      </div>
+    </div>
   </div>
 </template>
-
-<style>
-.login-view {
-  width: 300px;
-  margin: 0 auto;
-}
-</style>

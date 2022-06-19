@@ -45,7 +45,7 @@ export default {
 <template>
   <Header />
   <NavBar />
-  <main class="min-vh-100">
+  <main>
     <RouterView />
   </main>
   <Footer />

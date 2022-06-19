@@ -1,17 +1,23 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import AccountMenu from '@/components/auth/AccountMenu.vue'
 </script>
 
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4 border-end py-5">
-        <AccountMenu />
-      </div>
-      <div class="col-lg-8 pb-5 p-lg-5">
+  <div class="container-fluid">
+    <section id="section-bg" class="row justify-content-center align-items-center py-5">
+      <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 bg-light border rounded-4 p-4 p-md-5">
         <RouterView />
       </div>
-    </div>
+    </section>
   </div>
 </template>
+
+<style scoped>
+#section-bg {
+  background-image: url('/bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 85vh;
+}
+</style>

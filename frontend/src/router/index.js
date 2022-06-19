@@ -6,16 +6,6 @@ import i18n, {
   setI18nLanguage
 } from '@/i18n'
 
-function onlyNotLoggedIn(to) {
-  const isLoggedIn = window.localStorage.getItem('user')
-  if (isLoggedIn) {
-    return {
-      name: 'Profile',
-      params: { locale: i18n.global.locale.value }
-    }
-  }
-}
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -40,36 +30,41 @@ const router = createRouter({
           component: () => import('@/views/blog/ArticleListView.vue')
         },
         {
-          path: 'login',
-          name: 'Login',
-          component: () => import('@/views/auth/LoginView.vue'),
-          beforeEnter: [onlyNotLoggedIn],
-        },
-        {
-          path: 'registration',
-          name: 'Registration',
-          component: () => import('@/views/auth/RegistrationView.vue'),
-          beforeEnter: [onlyNotLoggedIn],
-        },
-        {
-          path: 'activation/:uid/:token',
-          name: 'Activation',
-          component: () => import('@/views/auth/ActivationView.vue'),
-          beforeEnter: [onlyNotLoggedIn],
-        },
-        {
-          path: 'password/reset',
-          name: 'BasePassword',
-          component: () => import('@/views/auth/BasePasswordView.vue'),
-          beforeEnter: [onlyNotLoggedIn],
+          path: '',
+          name: 'BaseAuth',
+          component: () => import('@/views/auth/BaseAuthView.vue'),
+          beforeEnter: (to, from) => {
+            const isLoggedIn = window.localStorage.getItem('user')
+            if (isLoggedIn) {
+              return {
+                name: 'Profile',
+                params: { locale: i18n.global.locale.value }
+              }
+            }
+          },
           children: [
             {
-              path: '',
+              path: 'login',
+              name: 'Login',
+              component: () => import('@/views/auth/LoginView.vue')
+            },
+            {
+              path: 'registration',
+              name: 'Registration',
+              component: () => import('@/views/auth/RegistrationView.vue')
+            },
+            {
+              path: 'activation/:uid/:token',
+              name: 'Activation',
+              component: () => import('@/views/auth/ActivationView.vue')
+            },
+            {
+              path: 'password/reset',
               name: 'PasswordReset',
               component: () => import('@/views/auth/PasswordResetView.vue')
             },
             {
-              path: ':uid/:token',
+              path: 'password/reset/:uid/:token',
               name: 'PasswordResetConfirm',
               component: () => import('@/views/auth/PasswordResetConfirmView.vue')
             }
@@ -77,8 +72,8 @@ const router = createRouter({
         },
         {
           path: '',
-          name: 'BaseAuth',
-          component: () => import('@/views/auth/BaseAuthView.vue'),
+          name: 'BaseAccount',
+          component: () => import('@/views/auth/BaseAccountView.vue'),
           beforeEnter: (to, from) => {
             const isLoggedIn = window.localStorage.getItem('user')
             if (!isLoggedIn) {

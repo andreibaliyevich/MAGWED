@@ -42,43 +42,49 @@ export default {
 </script>
 
 <template>
-  <div class="container">
-    <h1 class="display-6 mb-5">{{ $t('auth.password.password_reset_confirmation') }}</h1>
+  <div class="password-reset-confirm-view">
+    <h1 class="display-6 text-center mb-4">{{ $t('auth.passwordresetconfirm.password_reset_confirm') }}</h1>
 
-    <div v-if="status" id="status">
-      <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
-        <i class="fa-solid fa-circle-check"></i>
-        <div v-if="status == '204'" class="ms-3">{{ $t('auth.password.success.reset_confirm') }}</div>
-        <button @click="status = null" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div v-if="status == '204'" id="status">
+      <p class="lead fs-3 text-muted">{{ $t('auth.passwordresetconfirm.success1') }}</p>
+      <p class="lead fs-5">
+        {{ $t('auth.passwordresetconfirm.success2') }}<br>
+        {{ $t('auth.passwordresetconfirm.success3') }}
+      </p>
+      <div class="fs-6 text-center">
+        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signin') }}</RouterLink>
       </div>
     </div>
 
-    <form @submit.prevent="confirmPasswordReset" class="px-md-5">
-      <div class="mb-3">
-        <label for="id_new_password" class="form-label">{{ $t('auth.password.new_password') }}</label>
-        <div v-if="errors && errors.new_password">
-          <input v-model="newPassword" id="id_new_password" name="new_password" type="password" required="" class="form-control is-invalid">
-          <div v-for="error in errors.new_password" class="invalid-feedback">{{ error }}</div>
-        </div>
-        <input v-else v-model="newPassword" id="id_new_password" name="new_password" type="password" required="" class="form-control">
+    <form v-else @submit.prevent="confirmPasswordReset">
+      <div v-if="errors && errors.new_password" class="form-floating mb-3">
+        <input v-model="newPassword" id="id_new_password" name="new_password" type="password" required="" :placeholder="$t('auth.password.new_password')" class="form-control is-invalid">
+        <label for="id_new_password">{{ $t('auth.password.new_password') }}</label>
+        <div v-for="error in errors.new_password" class="invalid-feedback">{{ error }}</div>
       </div>
+      <div v-else class="form-floating mb-3">
+        <input v-model="newPassword" id="id_new_password" name="new_password" type="password" required="" :placeholder="$t('auth.password.new_password')" class="form-control">
+        <label for="id_new_password">{{ $t('auth.password.new_password') }}</label>
+      </div>
+
       <ul class="fs-6">
         <li>{{ $t('auth.password.advice1') }}</li>
         <li>{{ $t('auth.password.advice2') }}</li>
         <li>{{ $t('auth.password.advice3') }}</li>
         <li>{{ $t('auth.password.advice4') }}</li>
       </ul>
-      <div class="mb-3">
-        <label for="id_new_password2" class="form-label">{{ $t('auth.password.new_password2') }}</label>
-        <div v-if="errors && errors.new_password2">
-          <input v-model="newPassword2" id="id_new_password2" name="new_password2" type="password" required="" class="form-control is-invalid">
-          <div v-for="error in errors.new_password2" class="invalid-feedback">{{ error }}</div>
-        </div>
-        <input v-else v-model="newPassword2" id="id_new_password2" name="new_password2" type="password" required="" class="form-control">
+
+      <div v-if="errors && errors.new_password2" class="form-floating mb-3">
+        <input v-model="newPassword2" id="id_new_password2" name="new_password2" type="password" required="" :placeholder="$t('auth.password.new_password2')" class="form-control is-invalid">
+        <label for="id_new_password2">{{ $t('auth.password.new_password2') }}</label>
+        <div v-for="error in errors.new_password2" class="invalid-feedback">{{ error }}</div>
       </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">{{ $t('auth.password.confirm_password_reset') }}</button>
+      <div v-else class="form-floating mb-3">
+        <input v-model="newPassword2" id="id_new_password2" name="new_password2" type="password" required="" :placeholder="$t('auth.password.new_password2')" class="form-control">
+        <label for="id_new_password2">{{ $t('auth.password.new_password2') }}</label>
       </div>
+
+      <button type="submit" class="btn btn-brand btn-lg w-100">{{ $t('auth.passwordresetconfirm.confirm_password_reset') }}</button>
     </form>
   </div>
 </template>
