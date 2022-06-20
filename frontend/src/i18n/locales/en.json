@@ -77,7 +77,8 @@
             "confirm_password_reset": "Confirm password reset",
             "success1": "Password reset complete!",
             "success2": "New password set.",
-            "success3": "You can sign in using the new password."
+            "success3": "You can sign in using the new password.",
+            "error": "Password reset error!"
         },
         "logout": "Logout",
         "account_menu": "Account menu",
