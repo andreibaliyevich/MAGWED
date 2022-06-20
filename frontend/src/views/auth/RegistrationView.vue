@@ -12,12 +12,14 @@ export default {
       password2: '',
       userType: '',
       name: '',
+      isLoading: false,
       status: null,
       errors: null
     }
   },
   methods: {
     registration() {
+      this.isLoading = true
       axios.post('/' + this.$i18n.locale + '/accounts/auth/registration/', {
         username: this.username,
         email: this.email,
@@ -37,6 +39,7 @@ export default {
         this.errors = error.response.data
       })
       .then(() => {
+        this.isLoading = false
         document.body.scrollTop = 0
         document.documentElement.scrollTop = 0
       })
@@ -48,6 +51,12 @@ export default {
 <template>
   <div class="registration-view">
     <h1 class="display-6 text-center mb-4">{{ $t('auth.registration.registration') }}</h1>
+
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
     <div v-if="status == '201'" id="status">
       <p class="lead fs-3 text-muted">{{ $t('auth.registration.success1') }}</p>
