@@ -31,6 +31,7 @@ export default {
       .catch((error) => {
         this.status = null
         this.errors = error.response.data
+        console.log(this.errors)
       })
       .then(() => {
         document.body.scrollTop = 0
@@ -53,6 +54,16 @@ export default {
       </p>
       <div class="fs-6 text-center">
         <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signin') }}</RouterLink>
+      </div>
+    </div>
+
+    <div v-else-if="errors" id="errors">
+      <p class="lead fs-3 text-danger">{{ $t('auth.passwordresetconfirm.error') }}</p>
+      <p v-if="errors.detail" class="lead fs-5">{{ errors.detail }}</p>
+      <p v-if="errors.uid" v-for="error in errors.uid" class="lead fs-5">{{ error }}</p>
+      <p v-if="errors.token" v-for="error in errors.token" class="lead fs-5">{{ error }}</p>
+      <div class="fs-6 text-center">
+        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'PasswordReset', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.password.reset_password') }}</RouterLink>
       </div>
     </div>
 
