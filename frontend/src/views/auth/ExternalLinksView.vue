@@ -30,7 +30,7 @@ export default {
   methods: {
     async getOrganizerLinkListData() {
       try {
-        const response = await axios.get('/accounts/auth/links/')
+        const response = await axios.get('/' + this.$i18n.locale + '/accounts/auth/links/')
         this.organizerLinkList = response.data
       } catch (error) {
         this.errors = error.response.data
@@ -55,7 +55,7 @@ export default {
       })
     },
     getOrganizerLinkData(olId) {
-      axios.get('/accounts/auth/links/' + olId +'/')
+      axios.get('/' + this.$i18n.locale + '/accounts/auth/links/' + olId +'/')
       .then((response) => {
         this.organizerLinkId = response.data.id
         this.organizerLinkType = response.data.link_type
@@ -67,7 +67,7 @@ export default {
       })
     },
     updateOrganizerLink() {
-      axios.put('/accounts/auth/links/' + this.organizerLinkId +'/', {
+      axios.put('/' + this.$i18n.locale + '/accounts/auth/links/' + this.organizerLinkId +'/', {
         link_type: this.organizerLinkType,
         link_url: this.organizerLinkUrl
       })
@@ -84,7 +84,7 @@ export default {
       })
     },
     removeOrganizerLink(olId) {
-      axios.delete('/accounts/auth/links/' + olId +'/')
+      axios.delete('/' + this.$i18n.locale + '/accounts/auth/links/' + olId +'/')
       .then((response) => {
         const foundIndex = this.organizerLinkList.findIndex(item => item.id == olId)
         this.organizerLinkList.splice(foundIndex, 1)

@@ -41,7 +41,7 @@ export default {
   methods: {
     async getProfileData() {
       try {
-        const response = await axios.get('/accounts/auth/profile/')
+        const response = await axios.get('/' + this.$i18n.locale + '/accounts/auth/profile/')
         if (this.userStore.userType == 1) {
           this.name = response.data.name
           this.country = response.data.country
@@ -78,7 +78,7 @@ export default {
     },
     async getCountriesData() {
       try {
-        const response = await axios.get('/main/countries/')
+        const response = await axios.get('/' + this.$i18n.locale + '/main/countries/')
         this.countriesList = response.data
       } catch (error) {
         this.errors = error.response.data
@@ -88,7 +88,7 @@ export default {
     },
     async getLanguagesData() {
       try {
-        const response = await axios.get('/main/languages/')
+        const response = await axios.get('/' + this.$i18n.locale + '/main/languages/')
         this.languagesList = response.data
       } catch (error) {
         this.errors = error.response.data
@@ -147,7 +147,7 @@ export default {
         }
       }
 
-      axios.put('/accounts/auth/profile/', data)
+      axios.put('/' + this.$i18n.locale + '/accounts/auth/profile/', data)
       .then((response) => {
         this.userStore.updateName(this.name)
         window.localStorage.setItem('user', JSON.stringify({
@@ -178,7 +178,7 @@ export default {
       const avatarData = new FormData()
       avatarData.append('avatar', event.target.files[0], event.target.files[0].name)
 
-      axios.put('/accounts/auth/avatar/', avatarData)
+      axios.put('/' + this.$i18n.locale + '/accounts/auth/avatar/', avatarData)
       .then((response) => {
         this.userStore.updateAvatar(response.data.avatar)
         window.localStorage.setItem('user', JSON.stringify({
@@ -204,7 +204,7 @@ export default {
     },
     removeAvatar(event) {
       if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
-        axios.delete('/accounts/auth/avatar/')
+        axios.delete('/' + this.$i18n.locale + '/accounts/auth/avatar/')
         .then((response) => {
           this.userStore.updateAvatar(null)
           window.localStorage.setItem('user', JSON.stringify({
@@ -232,7 +232,7 @@ export default {
       const coverData = new FormData()
       coverData.append('cover', event.target.files[0], event.target.files[0].name)
 
-      axios.put('/accounts/auth/cover/', coverData)
+      axios.put('/' + this.$i18n.locale + '/accounts/auth/cover/', coverData)
       .then((response) => {
         this.cover = response.data.cover
         document.getElementById('coverInput').value = ''
@@ -250,7 +250,7 @@ export default {
     },
     removeCover(event) {
       if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
-        axios.delete('/accounts/auth/cover/')
+        axios.delete('/' + this.$i18n.locale + '/accounts/auth/cover/')
         .then((response) => {
           this.cover = null
           this.status = 'removed_cover'
@@ -269,7 +269,7 @@ export default {
         this.city = null
       }
       if (newValue) {
-        axios.get('/main/cities/', {
+        axios.get('/' + this.$i18n.locale + '/main/cities/', {
           params: {
             country: this.country
           }
@@ -288,7 +288,7 @@ export default {
       if (newValue.length > 0) {
         let params = new URLSearchParams()
         this.countries.forEach(item => params.append('country', item))
-        axios.get('/main/cities/', { params: params })
+        axios.get('/' + this.$i18n.locale + '/main/cities/', { params: params })
         .then((response) => {
           this.citiesList2 = response.data
         })
@@ -388,7 +388,7 @@ export default {
         </div>
       </div>
 
-      <form @submit.prevent="updateProfile" class="row g-3 mt-3">
+      <form @submit.prevent="updateProfile" class="row g-3">
         <div class="col-md-12">
           <label for="id_name" class="form-label">{{ $t('auth.profile.name') }}</label>
           <div v-if="errors && errors.user && errors.user.name">

@@ -12,7 +12,7 @@ export default {
   methods: {
     async getOrganizerList() {
       try {
-        const response = await axios.get('/blog/articles/');
+        const response = await axios.get('/' + this.$i18n.locale + '/blog/articles/');
         this.responseData = response.data;
       } catch (error) {
         console.error(error);
