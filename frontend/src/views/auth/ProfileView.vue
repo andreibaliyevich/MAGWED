@@ -171,7 +171,7 @@ export default {
       })
     },
     openAvatarInput() {
-      document.getElementById("avatarInput").click()
+      document.getElementById('avatarInput').click()
     },
     updateAvatar(event) {
       this.isAvatarLoading = true
@@ -225,7 +225,7 @@ export default {
       }
     },
     openCoverInput() {
-      document.getElementById("coverInput").click()
+      document.getElementById('coverInput').click()
     },
     updateCover(event) {
       this.isCoverLoading = true
@@ -316,7 +316,7 @@ export default {
 </script>
 
 <template>
-  <div class="profile-settings">
+  <div class="profile-settings px-5">
     <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
 
     <div v-if="status" id="status">

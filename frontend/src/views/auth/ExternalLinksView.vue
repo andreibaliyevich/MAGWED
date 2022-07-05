@@ -45,7 +45,7 @@ export default {
       })
       .then((response) => {
         this.organizerLinkList.push(response.data)
-        document.getElementById("btnClose").click()
+        document.getElementById('btnClose').click()
         this.status = 'added_organizer_link'
         this.errors = null
       })
@@ -74,7 +74,7 @@ export default {
       .then((response) => {
         const foundIndex = this.organizerLinkList.findIndex(item => item.id == this.organizerLinkId)
         this.organizerLinkList[foundIndex] = response.data
-        document.getElementById("btnClose").click()
+        document.getElementById('btnClose').click()
         this.status = 'updated_organizer_link'
         this.errors = null
       })
@@ -111,7 +111,7 @@ export default {
 </script>
 
 <template>
-  <div class="organizer-links">
+  <div class="organizer-links px-5">
     <h1 class="display-6 mb-5">{{ $t('auth.externallinks.external_links') }}</h1>
 
     <div v-if="pageLoading" class="d-flex justify-content-center">

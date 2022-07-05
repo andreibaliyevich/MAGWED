@@ -12,20 +12,20 @@ export default {
   methods: {
     async getOrganizerList() {
       try {
-        const response = await axios.get('/' + this.$i18n.locale + '/blog/articles/');
-        this.responseData = response.data;
+        const response = await axios.get('/' + this.$i18n.locale + '/blog/articles/')
+        this.responseData = response.data
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
   },
-  mounted() {
-    this.getOrganizerList();
-  },
   watch: {
     '$i18n.locale'(newValue) {
-      this.getOrganizerList();
+      this.getOrganizerList()
     }
+  },
+  mounted() {
+    this.getOrganizerList()
   }
 }
 </script>
