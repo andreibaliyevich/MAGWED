@@ -22,6 +22,7 @@ urlpatterns = [
         path('cover/', views.OrganizerCoverView.as_view()),
         path('links/', views.OrganizerLinkListCreateView.as_view()),
         path('links/<int:pk>/', views.OrganizerLinkRUDView.as_view()),
+        path('wstoken/', views.WebSocketAuthTokenView.as_view()),
     ])),
 
     path('organizers/', include([

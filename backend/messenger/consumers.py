@@ -1,96 +1,105 @@
 import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.core.cache import caches
 from .models import Chat, Message
+from .serializers import MessageSerializer
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
-    """ Chat Consumer """
+class MessengerConsumer(AsyncWebsocketConsumer):
+    """ Messenger Consumer """
+
     async def connect(self):
         self.user = self.scope['user']
         self.chat_id = self.scope['url_route']['kwargs']['chat_id']
         self.chat_group_name = 'chat_%s' % self.chat_id
+        self.chat = await self.get_chat()
 
-        if await self.check_is_member():
-            # Join room group
+        if self.chat and await self.check_is_member():
             await self.channel_layer.group_add(
                 self.chat_group_name,
-                self.channel_name
+                self.channel_name,
             )
-
             await self.accept()
 
+            await self.send(text_data=json.dumps({
+                'messages': await self.get_messages(),
+            }))
+
     async def disconnect(self, close_code):
-        # Leave room group
+        wstokens_cache = caches['wstokens']
+        wstokens_cache.delete(self.scope['wstoken'])
+
         await self.channel_layer.group_discard(
             self.chat_group_name,
-            self.channel_name
+            self.channel_name,
         )
 
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        msg_content = text_data_json['msg_content']
-        msg_id, msg_created_at = await self.save_message(msg_content)
+        content = text_data_json['content']
+        msg_id, created_at = await self.save_message(content)
 
-        # Send message to room group
+        # Send message to chat group
         await self.channel_layer.group_send(
             self.chat_group_name,
             {
                 'type': 'chat_message',
-                'sender_id': self.user.id,
                 'msg_id': msg_id,
-                'msg_content': msg_content,
-                'msg_created_at': msg_created_at
+                'sender': self.user.id,
+                'content': content,
+                'created_at': created_at,
             }
         )
 
-    # Receive message from room group
+    # Receive message from chat group
     async def chat_message(self, event):
-        sender_id = event['sender_id']
         msg_id = event['msg_id']
-        msg_content = event['msg_content']
-        msg_created_at = event['msg_created_at']
+        sender = event['sender']
+        content = event['content']
+        created_at = event['created_at']
 
-        if self.user.id != sender_id:
+        if self.user.id != sender:
             await self.set_message_viewed(msg_id)
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'sender_id': sender_id,
-            'msg_content': msg_content,
-            'msg_created_at': msg_created_at
+            'sender': sender,
+            'content': content,
+            'created_at': created_at,
         }))
 
     @database_sync_to_async
-    def check_is_member(self):
+    def get_chat(self):
         try:
-            chat = Chat.objects.get(id=self.chat_id)
+            return Chat.objects.get(id=self.chat_id)
         except Chat.DoesNotExist:
-            return False
-        else:
-            if self.user in chat.members.all():
-                return True
-            else:
-                return False
+            return None
 
     @database_sync_to_async
-    def save_message(self, msg_content):
-        try:
-            chat = Chat.objects.get(id=self.chat_id)
-        except Chat.DoesNotExist:
-            return (None, None)
+    def check_is_member(self):
+        if self.user in self.chat.members.all():
+            return True
         else:
-            new_msg = Message.objects.create(
-                chat=chat,
-                sender=self.user,
-                content=msg_content
-            )
+            return False
 
-            chat.last_message = new_msg
-            chat.save(update_fields=['last_message'])
+    @database_sync_to_async
+    def get_messages(self):
+        return MessageSerializer(self.chat.message_set.all(), many=True).data
 
-            return (new_msg.id, new_msg.created_at.isoformat())
+    @database_sync_to_async
+    def save_message(self, content):
+        new_msg = Message.objects.create(
+            chat=self.chat,
+            sender=self.user,
+            content=content,
+        )
+
+        self.chat.last_message = new_msg
+        self.chat.save(update_fields=['last_message'])
+
+        return (new_msg.id, new_msg.created_at.isoformat())
 
     @database_sync_to_async
     def set_message_viewed(self, msg_id):

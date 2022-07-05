@@ -20,9 +20,6 @@ class Chat(models.Model):
         verbose_name=_('Last message'),
     )
 
-    def get_absolute_url(self):
-        return reverse('messenger:chat_detail', args=[self.id])
-
     class Meta:
         verbose_name = _('Chat')
         verbose_name_plural = _('Chats')

@@ -13,6 +13,7 @@ class UserSerializerField(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
+            'id',
             'name',
             'avatar',
         ]

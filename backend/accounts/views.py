@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model, user_logged_in, user_logged_out
+from django.core.cache import caches
 from django.shortcuts import get_object_or_404
+from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from .choices import UserType
 from .filters import OrganizerFilter
@@ -237,6 +239,19 @@ class OrganizerLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
         organizer = get_object_or_404(Organizer, user=self.request.user)
         queryset = OrganizerLink.objects.filter(organizer=organizer)
         return queryset
+
+
+class WebSocketAuthTokenView(APIView):
+    """ WebSocket Auth Token View """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        wstoken = get_random_string(length=32)
+
+        wstokens_cache = caches['wstokens']
+        wstokens_cache.set(wstoken, request.user.id)
+
+        return Response({'wstoken': wstoken})
 
 
 class OrganizerListView(generics.ListAPIView):
