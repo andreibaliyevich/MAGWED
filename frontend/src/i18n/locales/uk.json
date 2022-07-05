@@ -87,7 +87,7 @@
         "messenger": "Месенджер",
         "notifications": "Сповіщення",
         "followers": "Підписувачі",
-        "following": "Послідовники",
+        "following": "Підписки",
         "favorites": "Вибране",
         "profile": {
             "profile": "Профіль",
@@ -150,6 +150,12 @@
         "decorator": "Декоратор",
         "visagiste": "Візажист",
         "hairdresser": "Перукар"
+    },
+    "messenger": {
+        "chats": "Чати",
+        "select_chat": "Виберіть чат",
+        "type_message": "Введіть повідомлення",
+        "send": "Відправити"
     },
     "form_help": {
         "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",

@@ -201,6 +201,7 @@
   background-color: #e72a26;
 }
 
+#dropdownSearch:hover,
 #dropdownSearch:focus-within {
   border-color: #e72a26 !important;
 }

@@ -87,7 +87,7 @@
         "messenger": "Мессенджер",
         "notifications": "Уведомления",
         "followers": "Подписчики",
-        "following": "Последователи",
+        "following": "Подписки",
         "favorites": "Избранное",
         "profile": {
             "profile": "Профиль",
@@ -150,6 +150,12 @@
         "decorator": "Декоратор",
         "visagiste": "Визажист",
         "hairdresser": "Парикмахер"
+    },
+    "messenger": {
+        "chats": "Чаты",
+        "select_chat": "Выберите чат",
+        "type_message": "Введите сообщение",
+        "send": "Отправить"
     },
     "form_help": {
         "input_img": "Загрузите изображение в формате JPG или PNG. Требуемый минимальный размер {width} x {height}.",

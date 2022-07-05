@@ -4,6 +4,7 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     token: null,
+    id: null,
     username: null,
     email: null,
     userType: null,
@@ -16,6 +17,7 @@ export const useUserStore = defineStore({
   actions: {
     setUserData(data) {
       this.token = data.token
+      this.id = data.id
       this.username = data.username
       this.email = data.email
       this.userType = data.user_type

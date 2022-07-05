@@ -151,6 +151,12 @@
         "visagiste": "Visagiste",
         "hairdresser": "Hairdresser"
     },
+    "messenger": {
+        "chats": "Chats",
+        "select_chat": "Select a chat",
+        "type_message": "Type a message",
+        "send": "Send"
+    },
     "form_help": {
         "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
         "multiple_select": "Hold down “Control”, or “Command” on a Mac, to select more than one.",

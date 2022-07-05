@@ -87,7 +87,7 @@
         "messenger": "Месенджэр",
         "notifications": "Апавяшчэнні",
         "followers": "Падпісчыкі",
-        "following": "Паслядоўнікі",
+        "following": "Падпіскі",
         "favorites": "Выбранае",
         "profile": {
             "profile": "Профіль",
@@ -150,6 +150,12 @@
         "decorator": "Дэкаратар",
         "visagiste": "Візажыст",
         "hairdresser": "Цырульнік"
+    },
+    "messenger": {
+        "chats": "Чаты",
+        "select_chat": "Абярыце чат",
+        "type_message": "Увядзіце паведамленне",
+        "send": "Адправіць"
     },
     "form_help": {
         "input_img": "Загрузіце малюнак у фармаце JPG або PNG. Неабходны мінімальны памер {width} x {height}.",

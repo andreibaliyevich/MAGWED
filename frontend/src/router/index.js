@@ -6,6 +6,17 @@ import i18n, {
   setI18nLanguage
 } from '@/i18n'
 
+function isAuthenticated(to, from) {
+  const isLoggedIn = window.localStorage.getItem('user')
+  if (!isLoggedIn) {
+    return {
+      name: 'Login',
+      params: { locale: i18n.global.locale.value },
+      query: { redirect: to.fullPath }
+    }
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -74,16 +85,7 @@ const router = createRouter({
           path: '',
           name: 'BaseAccount',
           component: () => import('@/views/auth/BaseAccountView.vue'),
-          beforeEnter: (to, from) => {
-            const isLoggedIn = window.localStorage.getItem('user')
-            if (!isLoggedIn) {
-              return {
-                name: 'Login',
-                params: { locale: i18n.global.locale.value },
-                query: { redirect: to.fullPath }
-              }
-            }
-          },
+          beforeEnter: [isAuthenticated],
           children: [
             {
               path: 'profile',
@@ -101,17 +103,18 @@ const router = createRouter({
               component: () => import('@/views/auth/PasswordChangeView.vue')
             },
             {
-              path: 'messenger',
-              name: 'Messenger',
-              component: () => import('@/views/auth/MessengerView.vue')
-            },
-            {
               path: 'notifications',
               name: 'Notifications',
               component: () => import('@/views/auth/NotificationsView.vue')
             }
           ]
-        }
+        },
+        {
+          path: 'messenger',
+          name: 'Messenger',
+          component: () => import('@/views/auth/MessengerView.vue'),
+          beforeEnter: [isAuthenticated],
+        },
       ]
     },
     {
@@ -119,7 +122,10 @@ const router = createRouter({
       name: '404NotFound',
       component: () => import('@/views/404NotFoundView.vue')
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  }
 })
 
 router.beforeEach(async (to, from) => {
