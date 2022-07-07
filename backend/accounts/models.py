@@ -46,7 +46,7 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('Email address'),
     )
 
-    user_type = models.IntegerField(
+    user_type = models.PositiveSmallIntegerField(
         choices=UserType.choices,
         verbose_name=_('User type'),
     )
