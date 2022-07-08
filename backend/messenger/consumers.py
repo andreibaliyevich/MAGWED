@@ -2,7 +2,7 @@ import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import caches
-from .models import Chat, Message
+from .models import Conversation, Message
 from .serializers import MessageSerializer
 
 
@@ -11,13 +11,15 @@ class MessengerConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope['user']
-        self.chat_id = self.scope['url_route']['kwargs']['chat_id']
-        self.chat_group_name = 'chat_%s' % self.chat_id
-        self.chat = await self.get_chat()
+        self.convo_id = self.scope['url_route']['kwargs']['convo_id']
+        self.convo_group_name = 'conversation_%s' % self.convo_id
+        self.conversation = await self.get_conversation()
 
-        if self.chat and await self.check_is_member():
+        # print(self.channel_name)
+
+        if self.conversation and await self.check_is_member():
             await self.channel_layer.group_add(
-                self.chat_group_name,
+                self.convo_group_name,
                 self.channel_name,
             )
             await self.accept()
@@ -29,23 +31,22 @@ class MessengerConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         wstokens_cache = caches['wstokens']
         wstokens_cache.delete(self.scope['wstoken'])
+        # print('!!!!!!!!disconnect!!!!!!!!!!!')
 
         await self.channel_layer.group_discard(
-            self.chat_group_name,
+            self.convo_group_name,
             self.channel_name,
         )
 
-    # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         content = text_data_json['content']
         msg_id, created_at = await self.save_message(content)
 
-        # Send message to chat group
         await self.channel_layer.group_send(
-            self.chat_group_name,
+            self.convo_group_name,
             {
-                'type': 'chat_message',
+                'type': 'conversation_message',
                 'msg_id': msg_id,
                 'sender': self.user.id,
                 'content': content,
@@ -53,8 +54,7 @@ class MessengerConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    # Receive message from chat group
-    async def chat_message(self, event):
+    async def conversation_message(self, event):
         msg_id = event['msg_id']
         sender = event['sender']
         content = event['content']
@@ -63,7 +63,6 @@ class MessengerConsumer(AsyncWebsocketConsumer):
         if self.user.id != sender:
             await self.set_message_viewed(msg_id)
 
-        # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'sender': sender,
             'content': content,
@@ -71,34 +70,33 @@ class MessengerConsumer(AsyncWebsocketConsumer):
         }))
 
     @database_sync_to_async
-    def get_chat(self):
+    def get_conversation(self):
         try:
-            return Chat.objects.get(id=self.chat_id)
-        except Chat.DoesNotExist:
+            return Conversation.objects.get(id=self.convo_id)
+        except Conversation.DoesNotExist:
             return None
 
     @database_sync_to_async
     def check_is_member(self):
-        if self.user in self.chat.members.all():
+        if self.user in self.conversation.members.all():
             return True
         else:
             return False
 
     @database_sync_to_async
     def get_messages(self):
-        return MessageSerializer(self.chat.message_set.all(), many=True).data
+        return MessageSerializer(
+            self.conversation.messages.all(),
+            many=True,
+        ).data
 
     @database_sync_to_async
     def save_message(self, content):
         new_msg = Message.objects.create(
-            chat=self.chat,
+            conversation=self.conversation,
             sender=self.user,
             content=content,
         )
-
-        self.chat.last_message = new_msg
-        self.chat.save(update_fields=['last_message'])
-
         return (new_msg.id, new_msg.created_at.isoformat())
 
     @database_sync_to_async
