@@ -15,10 +15,10 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
 from main.utilities import get_cover_path
+from main.validators import MinimumImageSizeValidator
 from .choices import UserType, RoleChoices, LinkType
 from .managers import MWUserManager
 from .utilities import get_avatar_path
-from .validators import MinimumImageSizeValidator
 
 
 class MWUser(AbstractBaseUser, PermissionsMixin):
