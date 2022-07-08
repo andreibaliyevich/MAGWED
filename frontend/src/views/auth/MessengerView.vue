@@ -11,41 +11,41 @@ const userStore = useUserStore()
 export default {
   data() {
     return {
-      chatList: [],
-      chatId: null,
-      chatSocket: null,
-      chatUser: {},
-      chatMessages: [],
-      cardBody: null,
+      convoList: [],
+      convoId: null,
+      convoType: null,
+      convoDetails: {},
+      convoSocket: null,
+      convoMessages: [],
+      // cardBody: null,
       status: null,
       errors: null
     }
   },
   methods: {
-    openChat(chatId) {
-      this.chatId = chatId
+    openConversation(convo) {
+      this.convoId = convo.id
+      this.convoType = convo.convo_type
+      this.convoDetails = convo.details
 
-      if (this.chatSocket) {
-        this.chatSocket.close(1000, 'unmounted')
+      if (this.convoSocket) {
+        this.convoSocket.close(1000, 'unmounted')
       }
-
-      const chat = this.chatList.find(obj => obj.id == chatId)
-      this.chatUser = chat.members.find(obj => obj.id != this.userStore.id)
 
       axios.get('/' + this.$i18n.locale + '/accounts/auth/wstoken/')
       .then((response) => {
-        this.chatSocket = new WebSocket(
+        this.convoSocket = new WebSocket(
           this.baseStore.wsURL
-          + '/ws/messenger/' + this.chatId
+          + '/ws/messenger/' + this.convoId
           + '/?' + response.data.wstoken
         )
 
-        this.chatSocket.onmessage = (e) => {
+        this.convoSocket.onmessage = (e) => {
           const data = JSON.parse(e.data)
           if (data.messages) {
-            this.chatMessages = data.messages
+            this.convoMessages = data.messages
           } else {
-            this.chatMessages.push(data)
+            this.convoMessages.push(data)
           }
         }
 
@@ -58,9 +58,9 @@ export default {
       })
     },
     sendMessage() {
-      const msgTextarea = this.$el.querySelector('#msg-textarea')
+      const msgTextarea = this.$el.querySelector('#msgTextarea')
 
-      this.chatSocket.send(JSON.stringify({
+      this.convoSocket.send(JSON.stringify({
         'content': msgTextarea.value
       }))
 
@@ -73,10 +73,26 @@ export default {
       return localeDateTime
     }
   },
+  // watch: {
+  //   convoMessages(newValue) {
+  //     // console.log(this.$el)
+  //     console.log('hey1')
+  //     const cardBody = document.querySelector('#cardBody')
+  //     // const cardBody = this.$el.getElementById('cardBody')
+  //     console.log(cardBody.scrollHeight)
+  //     cardBody.scrollTop = cardBody.scrollHeight
+  //     console.log('hey3')
+  //     // cardBody.scrollIntoView({behavior: 'smooth'})
+  //     // console.log(cardBody)
+  //     // console.log(cardBody.scrollTop)
+  //     // console.log(cardBody.scrollHeight)
+  //     // console.log('hey2')
+  //   }
+  // },
   mounted() {
-    axios.get('/' + this.$i18n.locale + '/messenger/chats/')
+    axios.get('/' + this.$i18n.locale + '/messenger/conversations/')
     .then((response) => {
-      this.chatList = response.data
+      this.convoList = response.data
       this.status = 'gotten_chats'
       this.errors = null
     })
@@ -86,8 +102,8 @@ export default {
     })
   },
   unmounted() {
-    if (this.chatSocket) {
-      this.chatSocket.close(1000, 'unmounted')
+    if (this.convoSocket) {
+      this.convoSocket.close(1000, 'unmounted')
     }
   }
 }
@@ -101,46 +117,62 @@ export default {
         <h4 class="mb-3">{{ $t('messenger.chats') }}</h4>
 
         <ul class="nav nav-pills flex-column">
-          <li v-for="chat in chatList" class="nav-item">
-            <a v-if="chat.id == chatId" class="nav-link active" aria-current="true" href="#">
+          <li v-for="convo in convoList" class="nav-item">
+            <a v-if="convo.id == convoId" class="nav-link active" aria-current="true" href="#">
               <div class="d-flex align-items-center">
                 <div class="flex-shrink-0">
-                  <div v-for="member in chat.members">
-                    <div v-if="member.id != userStore.id" >
-                      <img v-if="member.avatar" :src="`${ member.avatar }`" class="rounded-circle" width="50" height="50">
-                      <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
-                    </div>
+                  <div v-if="convo.convo_type == 1">
+                    <img v-if="convo.details.avatar" :src="`${ convo.details.avatar }`" class="rounded-circle" width="50" height="50">
+                    <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  </div>
+                  <div v-else-if="convo.convo_type == 2">
+                    <img v-if="convo.details.image" :src="`${ convo.details.image }`" class="rounded-circle" width="50" height="50">
+                    <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  </div>
+                  <div v-else>
+                    <img src="/avatar.jpg" class="rounded-circle" width="50" height="50">
                   </div>
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <div class="d-flex w-100 justify-content-between">
-                    <div v-for="member in chat.members">
-                      <strong v-if="member.id != userStore.id" class="mb-1">{{ member.name }}</strong>
+                    <div v-if="convo.convo_type == 2" class="d-flex align-items-center">
+                      <i class="fa-solid fa-user-group"></i>
+                      &nbsp;
+                      <strong class="mb-1">{{ convo.details.name }}</strong>
                     </div>
-                    <small>{{ toLocaleDateTimeString(chat.last_message.created_at) }}</small>
+                    <strong v-else class="mb-1">{{ convo.details.name }}</strong>
+                    <small>{{ toLocaleDateTimeString(convo.last_message.created_at) }}</small>
                   </div>
-                  <div class="my-1 small">{{ chat.last_message.content }}</div>
+                  <div class="my-1 small">{{ convo.last_message.content }}</div>
                 </div>
               </div>
             </a>
-            <a v-else @click="openChat(chat.id)" class="nav-link text-dark" href="#">
+            <a v-else @click="openConversation(convo)" class="nav-link text-dark" href="#">
               <div class="d-flex align-items-center">
                 <div class="flex-shrink-0">
-                  <div v-for="member in chat.members">
-                    <div v-if="member.id != userStore.id" >
-                      <img v-if="member.avatar" :src="`${ member.avatar }`" class="rounded-circle" width="50" height="50">
-                      <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
-                    </div>
+                  <div v-if="convo.convo_type == 1">
+                    <img v-if="convo.details.avatar" :src="`${ convo.details.avatar }`" class="rounded-circle" width="50" height="50">
+                    <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  </div>
+                  <div v-else-if="convo.convo_type == 2">
+                    <img v-if="convo.details.image" :src="`${ convo.details.image }`" class="rounded-circle" width="50" height="50">
+                    <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  </div>
+                  <div v-else>
+                    <img src="/avatar.jpg" class="rounded-circle" width="50" height="50">
                   </div>
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <div class="d-flex w-100 justify-content-between">
-                    <div v-for="member in chat.members">
-                      <strong v-if="member.id != userStore.id" class="mb-1">{{ member.name }}</strong>
+                    <div v-if="convo.convo_type == 2" class="d-flex align-items-center">
+                      <i class="fa-solid fa-user-group"></i>
+                      &nbsp;
+                      <strong class="mb-1">{{ convo.details.name }}</strong>
                     </div>
-                    <small>{{ toLocaleDateTimeString(chat.last_message.created_at) }}</small>
+                    <strong v-else class="mb-1">{{ convo.details.name }}</strong>
+                    <small>{{ toLocaleDateTimeString(convo.last_message.created_at) }}</small>
                   </div>
-                  <div class="my-1 small">{{ chat.last_message.content }}</div>
+                  <div class="my-1 small">{{ convo.last_message.content }}</div>
                 </div>
               </div>
             </a>
@@ -149,20 +181,29 @@ export default {
 
       </div>
       <div class="col-lg-8 pb-5 p-lg-5">
-        <div v-if="chatId" class="card border-0">
+        <div v-if="convoId" class="card border-0">
           <div class="card-header bg-white">
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0">
-                <img v-if="this.chatUser.avatar" :src="`${ this.chatUser.avatar }`" class="rounded-circle" width="50" height="50">
-                <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                <div v-if="convoType == 1">
+                  <img v-if="convoDetails.avatar" :src="`${ convoDetails.avatar }`" class="rounded-circle" width="50" height="50">
+                  <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                </div>
+                <div v-else-if="convoType == 2">
+                  <img v-if="convoDetails.image" :src="`${ convoDetails.image }`" class="rounded-circle" width="50" height="50">
+                  <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                </div>
+                <div v-else>
+                  <img src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                </div>
               </div>
               <div class="flex-grow-1 ms-3">
-                <strong>{{ this.chatUser.name }}</strong>
+                <strong>{{ this.convoDetails.name }}</strong>
               </div>
             </div>
           </div>
-          <div id="card-body" class="card-body overflow-auto">
-            <div v-for="msg in chatMessages" class="mt-1">
+          <div id="cardBody" class="card-body overflow-auto">
+            <div v-for="msg in convoMessages" class="mt-1">
               <div v-if="msg.sender == userStore.id" class="d-flex justify-content-end">
                 <div class="my-0">
                   <div class="bg-primary rounded p-2 mb-2">
@@ -187,7 +228,7 @@ export default {
           </div>
           <div class="card-footer bg-white">
             <div class="d-sm-flex align-items-end">
-              <textarea id="msg-textarea" class="form-control" :placeholder="$t('messenger.type_message')" rows="1"></textarea>
+              <textarea id="msgTextarea" class="form-control" :placeholder="$t('messenger.type_message')" rows="1"></textarea>
               <button @click="sendMessage" type="button" class="btn btn-primary ms-2">{{ $t('messenger.send') }}</button>
             </div>
           </div>
