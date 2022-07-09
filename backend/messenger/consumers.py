@@ -15,8 +15,6 @@ class MessengerConsumer(AsyncWebsocketConsumer):
         self.convo_group_name = 'conversation_%s' % self.convo_id
         self.conversation = await self.get_conversation()
 
-        # print(self.channel_name)
-
         if self.conversation and await self.check_is_member():
             await self.channel_layer.group_add(
                 self.convo_group_name,
@@ -31,7 +29,6 @@ class MessengerConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         wstokens_cache = caches['wstokens']
         wstokens_cache.delete(self.scope['wstoken'])
-        # print('!!!!!!!!disconnect!!!!!!!!!!!')
 
         await self.channel_layer.group_discard(
             self.convo_group_name,
@@ -48,19 +45,24 @@ class MessengerConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'conversation_message',
                 'msg_id': msg_id,
-                'sender': self.user.id,
+                'sender': {
+                    'id': self.user.id,
+                    'name': self.user.name,
+                    'avatar': self.user.avatar.url,
+                },
                 'content': content,
                 'created_at': created_at,
             }
         )
 
     async def conversation_message(self, event):
+        print(event)
         msg_id = event['msg_id']
         sender = event['sender']
         content = event['content']
         created_at = event['created_at']
 
-        if self.user.id != sender:
+        if self.user.id != sender['id']:
             await self.set_message_viewed(msg_id)
 
         await self.send(text_data=json.dumps({

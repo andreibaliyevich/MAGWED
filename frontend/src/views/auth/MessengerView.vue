@@ -73,22 +73,6 @@ export default {
       return localeDateTime
     }
   },
-  // watch: {
-  //   convoMessages(newValue) {
-  //     // console.log(this.$el)
-  //     console.log('hey1')
-  //     const cardBody = document.querySelector('#cardBody')
-  //     // const cardBody = this.$el.getElementById('cardBody')
-  //     console.log(cardBody.scrollHeight)
-  //     cardBody.scrollTop = cardBody.scrollHeight
-  //     console.log('hey3')
-  //     // cardBody.scrollIntoView({behavior: 'smooth'})
-  //     // console.log(cardBody)
-  //     // console.log(cardBody.scrollTop)
-  //     // console.log(cardBody.scrollHeight)
-  //     // console.log('hey2')
-  //   }
-  // },
   mounted() {
     axios.get('/' + this.$i18n.locale + '/messenger/conversations/')
     .then((response) => {
@@ -204,7 +188,7 @@ export default {
           </div>
           <div id="cardBody" class="card-body overflow-auto">
             <div v-for="msg in convoMessages" class="mt-1">
-              <div v-if="msg.sender == userStore.id" class="d-flex justify-content-end">
+              <div v-if="msg.sender.id == userStore.id" class="d-flex justify-content-end">
                 <div class="my-0">
                   <div class="bg-primary rounded p-2 mb-2">
                     <p class="text-sm mb-0 text-white">{{ msg.content }}</p>
@@ -216,7 +200,15 @@ export default {
               </div>
               <div v-else class="d-flex justify-content-start">
                 <div class="my-0">
-                  <div class="bg-light rounded p-2 mb-2">
+                  <div v-if="convoType == 2" class="d-flex align-items-start">
+                    <img v-if="msg.sender.avatar" :src="`${ baseStore.apiURL }${ msg.sender.avatar }`" class="rounded-circle" width="35" height="35">
+                    <img v-else src="/avatar.jpg" class="rounded-circle" width="35" height="35">
+                    <div class="bg-light rounded p-2 ms-2 mb-2">
+                      <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
+                      <p class="text-sm mb-0">{{ msg.content }}</p>
+                    </div>
+                  </div>
+                  <div v-else class="bg-light rounded p-2 mb-2">
                     <p class="text-sm mb-0">{{ msg.content }}</p>
                   </div>
                   <p class="small text-muted">
@@ -250,13 +242,13 @@ export default {
   scrollbar-width: thin;
 }
 ::-webkit-scrollbar {
-  width: 0.4em;
-  height: 0.4em;
+  width: 0.3em;
+  height: 0.3em;
   background-color: #f5f5f5;
 }
 ::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
-  border-radius: 4em;
+  border-radius: 3em;
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: #808080;

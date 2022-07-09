@@ -47,6 +47,7 @@ class ConversationSerializer(serializers.ModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
     """ Message Serializer """
+    sender = UserSerializerField(read_only=True)
 
     class Meta:
         model = Message
