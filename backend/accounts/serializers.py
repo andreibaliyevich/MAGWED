@@ -48,20 +48,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
     )
     password2 = serializers.CharField(write_only=True)
 
-    class Meta:
-        model = UserModel
-        fields = [
-            'username',
-            'email',
-            'password',
-            'password2',
-            'user_type',
-            'name',
-        ]
-        extra_kwargs = {
-            'user_type': {'choices': UserType.choices[1:]},
-        }
-
     def validate(self, data):
         if data['password'] != data['password2']:
             raise serializers.ValidationError({
@@ -104,6 +90,20 @@ class RegistrationSerializer(serializers.ModelSerializer):
             from_email=settings.EMAIL_HOST_USER,
             html_message=html_content,
         )
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'username',
+            'email',
+            'password',
+            'password2',
+            'user_type',
+            'name',
+        ]
+        extra_kwargs = {
+            'user_type': {'choices': UserType.choices[1:]},
+        }
 
 
 class UidAndTokenSerializer(serializers.Serializer):
@@ -241,13 +241,6 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
     """ Customer Profile Serializer """
     user = UserProfileSerializer()
 
-    class Meta:
-        model = Customer
-        fields = [
-            'user',
-            'date_of_wedding',
-        ]
-
     def update(self, instance, validated_data):
         user = instance.user
         user_data = validated_data.pop('user')
@@ -263,6 +256,13 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+    class Meta:
+        model = Customer
+        fields = [
+            'user',
+            'date_of_wedding',
+        ]
 
 
 class OrganizerProfileSerializer(serializers.ModelSerializer):
@@ -280,23 +280,6 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
     rating = serializers.DecimalField(
         max_digits=2, decimal_places=1, read_only=True)
     pro_time = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = Organizer
-        fields = [
-            'user',
-            'roles',
-            'cover',
-            'description',
-            'countries',
-            'cities',
-            'languages',
-            'cost_work',
-            'number_hours',
-            'profile_url',
-            'rating',
-            'pro_time',
-        ]
 
     def update(self, instance, validated_data):
         user = instance.user
@@ -325,6 +308,23 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+    class Meta:
+        model = Organizer
+        fields = [
+            'user',
+            'roles',
+            'cover',
+            'description',
+            'countries',
+            'cities',
+            'languages',
+            'cost_work',
+            'number_hours',
+            'profile_url',
+            'rating',
+            'pro_time',
+        ]
 
 
 class ProfileAvatarSerializer(serializers.ModelSerializer):
