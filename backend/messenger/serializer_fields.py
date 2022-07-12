@@ -20,7 +20,7 @@ class MessageSerializerField(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = [
-            'content',
             'is_viewed',
             'created_at',
+            'get_content',
         ]

@@ -1,7 +1,13 @@
 from rest_framework import serializers
 from accounts.serializer_fields import UserSerializerField
-from .choices import ConversationType
-from .models import Conversation, Message
+from .choices import ConversationType, MessageType
+from .models import (
+    Conversation,
+    Message,
+    TextMessage,
+    ImageMessage,
+    FileMessage,
+)
 from .serializer_fields import (
     GroupConversationSerializerField,
     MessageSerializerField,
@@ -45,15 +51,41 @@ class ConversationSerializer(serializers.ModelSerializer):
         ]
 
 
-class MessageSerializer(serializers.ModelSerializer):
-    """ Message Serializer """
+class MessageReadSerializer(serializers.ModelSerializer):
+    """ Message Read Serializer """
     sender = UserSerializerField(read_only=True)
 
     class Meta:
         model = Message
         fields = [
+            'id',
+            'sender',
+            'created_at',
+            'is_viewed',
+            'get_content',
+        ]
+
+
+class MessageWriteSerializer(serializers.ModelSerializer):
+    """ Message Write Serializer """
+    content = serializers.CharField(write_only=True)
+
+    def create(self, validated_data):
+        msg = Message.objects.create(
+            conversation=validated_data['conversation'],
+            sender=validated_data['sender'],
+            msg_type=MessageType.TEXT,
+        )
+        TextMessage.objects.create(
+            message=msg,
+            content=validated_data['content']
+        )
+        return msg
+
+    class Meta:
+        model = Message
+        fields = [
+            'conversation',
             'sender',
             'content',
-            'is_viewed',
-            'created_at',
         ]
