@@ -3,7 +3,7 @@ from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import caches
 from .models import Conversation, Message
-from .serializers import MessageSerializer
+from .serializers import MessageReadSerializer, MessageWriteSerializer
 
 
 class MessengerConsumer(AsyncWebsocketConsumer):
@@ -38,38 +38,24 @@ class MessengerConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         content = text_data_json['content']
-        msg_id, created_at = await self.save_message(content)
+        msg_data = await self.save_message(content)
 
         await self.channel_layer.group_send(
             self.convo_group_name,
             {
                 'type': 'conversation_message',
-                'msg_id': msg_id,
-                'sender': {
-                    'id': self.user.id,
-                    'name': self.user.name,
-                    'avatar': self.user.avatar.url,
-                },
-                'content': content,
-                'created_at': created_at,
+                'msg_data': msg_data,
             }
         )
 
     async def conversation_message(self, event):
-        print(event)
-        msg_id = event['msg_id']
-        sender = event['sender']
-        content = event['content']
-        created_at = event['created_at']
+        msg_id = event['msg_data']['id']
+        sender_id = event['msg_data']['sender']['id']
 
-        if self.user.id != sender['id']:
+        if self.user.id != sender_id:
             await self.set_message_viewed(msg_id)
 
-        await self.send(text_data=json.dumps({
-            'sender': sender,
-            'content': content,
-            'created_at': created_at,
-        }))
+        await self.send(text_data=json.dumps(event['msg_data']))
 
     @database_sync_to_async
     def get_conversation(self):
@@ -87,19 +73,21 @@ class MessengerConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_messages(self):
-        return MessageSerializer(
+        return MessageReadSerializer(
             self.conversation.messages.all(),
             many=True,
         ).data
 
     @database_sync_to_async
     def save_message(self, content):
-        new_msg = Message.objects.create(
-            conversation=self.conversation,
-            sender=self.user,
-            content=content,
-        )
-        return (new_msg.id, new_msg.created_at.isoformat())
+        serializer = MessageWriteSerializer(data={
+            'conversation': self.conversation.id,
+            'sender': self.user.id,
+            'content': content
+        })
+        serializer.is_valid(raise_exception=True)
+        msg = serializer.save()
+        return MessageReadSerializer(msg).data
 
     @database_sync_to_async
     def set_message_viewed(self, msg_id):
