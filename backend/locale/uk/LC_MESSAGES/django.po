@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-06 06:54+0000\n"
+"POT-Creation-Date: 2022-07-10 10:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -203,11 +203,11 @@ msgid "User type"
 msgstr "Тип користувача"
 
 #: accounts/models.py:54 blog/models.py:14 blog/models.py:61 main/models.py:12
-#: main/models.py:31 main/models.py:50 main/models.py:64
+#: main/models.py:31 main/models.py:50 main/models.py:64 messenger/models.py:48
 msgid "Name"
 msgstr "Ім'я"
 
-#: accounts/models.py:70 accounts/models.py:214
+#: accounts/models.py:70 accounts/models.py:214 messenger/models.py:64
 #, python-format
 msgid ""
 "Upload JPG or PNG image. Required minimum of size %(width)d x %(height)d."
@@ -363,41 +363,32 @@ msgstr "Посилання організаторів"
 msgid "Only organizers have permission."
 msgstr "Дозвіл є лише у організаторів."
 
-#: accounts/serializers.py:67 accounts/serializers.py:148
-#: accounts/serializers.py:215
+#: accounts/serializers.py:68 accounts/serializers.py:150
+#: accounts/serializers.py:218
 msgid "Password fields did not match."
 msgstr "Поля пароля не співпадають."
 
-#: accounts/serializers.py:118 accounts/serializers.py:203
+#: accounts/serializers.py:120 accounts/serializers.py:206
 msgid "Invalid user id or user does not exist."
 msgstr "Неприпустимий ідентифікатор користувача або не існує."
 
-#: accounts/serializers.py:124 accounts/serializers.py:209
+#: accounts/serializers.py:126 accounts/serializers.py:212
 msgid "Invalid token for given user."
 msgstr "Неприпустимий токен для користувача."
 
-#: accounts/serializers.py:142
+#: accounts/serializers.py:144
 msgid "Invalid current password."
 msgstr "Неправильний поточний пароль."
 
-#: accounts/serializers.py:161
+#: accounts/serializers.py:163
 msgid "User with given email does not exist."
 msgstr "Користувач із вказаною адресою електронної пошти не існує."
 
-#: accounts/validators.py:11
-#, python-format
-msgid ""
-"Error! Size of your image: %(width)d x %(height)d. Required minimum "
-"%(min_width)d x %(min_height)d."
-msgstr ""
-"Помилка! Розмір зображення: %(width)d x %(height)d. Потрібно мінімум "
-"%(min_width)d x %(min_height)d."
-
-#: accounts/views.py:88
+#: accounts/views.py:90
 msgid "Stale token for given user."
 msgstr "Застарілий токен для цього користувача."
 
-#: accounts/views.py:127
+#: accounts/views.py:129
 msgid "The user does not have a password."
 msgstr "Користувач не має пароля."
 
@@ -461,7 +452,8 @@ msgstr "Автор"
 msgid "Title"
 msgstr "Назва"
 
-#: blog/models.py:108 portfolio/models.py:24 portfolio/models.py:92
+#: blog/models.py:108 messenger/choices.py:12 messenger/models.py:70
+#: portfolio/models.py:24 portfolio/models.py:92
 msgid "Image"
 msgstr "Зображення"
 
@@ -469,8 +461,7 @@ msgstr "Зображення"
 msgid "Thumbnail"
 msgstr "Ескіз"
 
-#: blog/models.py:121 blog/models.py:189 messenger/models.py:45
-#: social/models.py:104
+#: blog/models.py:121 blog/models.py:189 social/models.py:104
 msgid "Content"
 msgstr "Зміст"
 
@@ -503,7 +494,7 @@ msgstr "Переклад статті"
 msgid "Article Translations"
 msgstr "Переклади статей"
 
-#: blog/models.py:200
+#: blog/models.py:200 messenger/choices.py:13
 msgid "File"
 msgstr "Файл"
 
@@ -531,7 +522,7 @@ msgstr "Код"
 msgid "Name (local)"
 msgstr "Назва (місцева)"
 
-#: main/models.py:69 messenger/models.py:49 portfolio/models.py:49
+#: main/models.py:69 messenger/models.py:100 portfolio/models.py:49
 #: social/models.py:31 social/models.py:58 social/models.py:82
 #: social/models.py:107 social/models.py:151
 msgid "Created at"
@@ -541,49 +532,123 @@ msgstr "Створено в"
 msgid "Hashtag"
 msgstr "Хештег"
 
+#: main/validators.py:11
+#, python-format
+msgid ""
+"Error! Size of your image: %(width)d x %(height)d. Required minimum "
+"%(min_width)d x %(min_height)d."
+msgstr ""
+"Помилка! Розмір зображення: %(width)d x %(height)d. Потрібно мінімум "
+"%(min_width)d x %(min_height)d."
+
 #: messenger/apps.py:8
 msgid "Messenger"
 msgstr "Месенджер"
 
-#: messenger/models.py:11
+#: messenger/choices.py:6
+msgid "Dialog"
+msgstr "Діалог"
+
+#: messenger/choices.py:7
+msgid "Group"
+msgstr "Група"
+
+#: messenger/choices.py:11
+msgid "Text"
+msgstr "Текст"
+
+#: messenger/models.py:19
+msgid "Conversation type"
+msgstr "Тип розмови"
+
+#: messenger/models.py:23
 msgid "Members"
 msgstr "Члени"
 
-#: messenger/models.py:20
-msgid "Last message"
-msgstr "Останнє повідомлення"
-
-#: messenger/models.py:27 messenger/models.py:37
-msgid "Chat"
-msgstr "Чат"
+#: messenger/models.py:27 messenger/models.py:39 messenger/models.py:85
+msgid "Conversation"
+msgstr "Бесіда"
 
 #: messenger/models.py:28
-msgid "Chats"
-msgstr "Чати"
+msgid "Conversations"
+msgstr "Бесіди"
 
-#: messenger/models.py:42
+#: messenger/models.py:45 portfolio/models.py:19 portfolio/models.py:82
+msgid "Owner"
+msgstr "Власник"
+
+#: messenger/models.py:74
+msgid "Group Conversation"
+msgstr "Групова бесіда"
+
+#: messenger/models.py:75
+msgid "Group Conversations"
+msgstr "Гуртові бесіди"
+
+#: messenger/models.py:90
 msgid "Sender"
 msgstr "Відправник"
 
-#: messenger/models.py:46 social/models.py:28
+#: messenger/models.py:95
+msgid "Message type"
+msgstr "Тип повідомлення"
+
+#: messenger/models.py:104
+msgid "Updated at"
+msgstr "Оновлено у"
+
+#: messenger/models.py:107 social/models.py:28
 msgid "Viewed"
 msgstr "Переглянуто"
 
-#: messenger/models.py:53
+#: messenger/models.py:110 messenger/models.py:122 messenger/models.py:139
+#: messenger/models.py:159
 msgid "Message"
 msgstr "Повідомлення"
 
-#: messenger/models.py:54
+#: messenger/models.py:111
 msgid "Messages"
 msgstr "Повідомлення"
+
+#: messenger/models.py:124
+msgid "Text content"
+msgstr "Текстовий вміст"
+
+#: messenger/models.py:127
+msgid "Text Message"
+msgstr "Текстове повідомлення"
+
+#: messenger/models.py:128
+msgid "Text Messages"
+msgstr "Текстові повідомлення"
+
+#: messenger/models.py:143
+msgid "Image content"
+msgstr "Зміст зображення"
+
+#: messenger/models.py:147
+msgid "Image Message"
+msgstr "Зображення повідомлення"
+
+#: messenger/models.py:148
+msgid "Image Messages"
+msgstr "Зображення повідомлень"
+
+#: messenger/models.py:163
+msgid "File content"
+msgstr "Вміст файлу"
+
+#: messenger/models.py:167
+msgid "File Message"
+msgstr "Файлове повідомлення"
+
+#: messenger/models.py:168
+msgid "File Messages"
+msgstr "Файлові повідомлення"
 
 #: portfolio/apps.py:8
 msgid "Portfolio"
 msgstr "Портфоліо"
-
-#: portfolio/models.py:19 portfolio/models.py:82
-msgid "Owner"
-msgstr "Власник"
 
 #: portfolio/models.py:60 portfolio/models.py:164
 msgid "Likes"
