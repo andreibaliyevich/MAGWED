@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-10 10:22+0000\n"
+"POT-Creation-Date: 2022-07-13 20:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -363,7 +363,7 @@ msgstr "Посилання організаторів"
 msgid "Only organizers have permission."
 msgstr "Дозвіл є лише у організаторів."
 
-#: accounts/serializers.py:68 accounts/serializers.py:150
+#: accounts/serializers.py:54 accounts/serializers.py:150
 #: accounts/serializers.py:218
 msgid "Password fields did not match."
 msgstr "Поля пароля не співпадають."
@@ -452,8 +452,8 @@ msgstr "Автор"
 msgid "Title"
 msgstr "Назва"
 
-#: blog/models.py:108 messenger/choices.py:12 messenger/models.py:70
-#: portfolio/models.py:24 portfolio/models.py:92
+#: blog/models.py:108 messenger/models.py:70 portfolio/models.py:24
+#: portfolio/models.py:92
 msgid "Image"
 msgstr "Зображення"
 
@@ -494,7 +494,7 @@ msgstr "Переклад статті"
 msgid "Article Translations"
 msgstr "Переклади статей"
 
-#: blog/models.py:200 messenger/choices.py:13
+#: blog/models.py:200
 msgid "File"
 msgstr "Файл"
 
@@ -557,6 +557,14 @@ msgstr "Група"
 msgid "Text"
 msgstr "Текст"
 
+#: messenger/choices.py:12
+msgid "Images"
+msgstr "Зображення"
+
+#: messenger/choices.py:13
+msgid "Files"
+msgstr "Файли"
+
 #: messenger/models.py:19
 msgid "Conversation type"
 msgstr "Тип розмови"
@@ -601,8 +609,8 @@ msgstr "Оновлено у"
 msgid "Viewed"
 msgstr "Переглянуто"
 
-#: messenger/models.py:110 messenger/models.py:122 messenger/models.py:139
-#: messenger/models.py:159
+#: messenger/models.py:110 messenger/models.py:122 messenger/models.py:138
+#: messenger/models.py:157
 msgid "Message"
 msgstr "Повідомлення"
 
@@ -622,27 +630,27 @@ msgstr "Текстове повідомлення"
 msgid "Text Messages"
 msgstr "Текстові повідомлення"
 
-#: messenger/models.py:143
+#: messenger/models.py:142
 msgid "Image content"
 msgstr "Зміст зображення"
 
-#: messenger/models.py:147
+#: messenger/models.py:146
 msgid "Image Message"
 msgstr "Зображення повідомлення"
 
-#: messenger/models.py:148
+#: messenger/models.py:147
 msgid "Image Messages"
 msgstr "Зображення повідомлень"
 
-#: messenger/models.py:163
+#: messenger/models.py:161
 msgid "File content"
 msgstr "Вміст файлу"
 
-#: messenger/models.py:167
+#: messenger/models.py:165
 msgid "File Message"
 msgstr "Файлове повідомлення"
 
-#: messenger/models.py:168
+#: messenger/models.py:166
 msgid "File Messages"
 msgstr "Файлові повідомлення"
 
