@@ -9,5 +9,5 @@ class ConversationType(IntegerChoices):
 
 class MessageType(IntegerChoices):
     TEXT = 1, _('Text')
-    IMAGE = 2, _('Image')
-    FILE = 3, _('File')
+    IMAGES = 2, _('Images')
+    FILES = 3, _('Files')

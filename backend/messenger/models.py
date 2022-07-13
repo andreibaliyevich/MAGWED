@@ -106,16 +106,6 @@ class Message(models.Model):
 
     is_viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
 
-    def get_content(self):
-        if self.msg_type == MessageType.TEXT:
-            return self.text.content
-        elif self.msg_type == MessageType.IMAGE:
-            return self.images.all()
-        elif self.msg_type == MessageType.FILE:
-            return self.files.all()
-        else:
-            return None
-
     class Meta:
         verbose_name = _('Message')
         verbose_name_plural = _('Messages')
