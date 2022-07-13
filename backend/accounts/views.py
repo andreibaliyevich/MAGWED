@@ -187,10 +187,9 @@ class ProfileAvatarView(APIView):
 
     def put(self, request, *args, **kwargs):
         serializer = ProfileAvatarSerializer(request.user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
         request.user.avatar.delete()
@@ -204,10 +203,9 @@ class OrganizerCoverView(APIView):
     def put(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
         serializer = OrganizerCoverSerializer(organizer, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
