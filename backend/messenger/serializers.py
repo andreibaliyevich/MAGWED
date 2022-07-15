@@ -3,15 +3,112 @@ from accounts.serializer_fields import UserSerializerField
 from .choices import ConversationType, MessageType
 from .models import (
     Conversation,
+    GroupConversation,
     Message,
     TextMessage,
     ImageMessage,
     FileMessage,
 )
-from .serializer_fields import (
-    GroupConversationSerializerField,
-    MessageSerializerField,
-)
+
+
+class MessageCreateSerializer(serializers.ModelSerializer):
+    """ Message Create Serializer """
+
+    class Meta:
+        model = Message
+        fields = ['conversation']
+
+
+class TextMessageSerializer(serializers.ModelSerializer):
+    """ Text Message Serializer """
+
+    class Meta:
+        model = TextMessage
+        fields = ['content']
+
+
+class ImageMessageSerializer(serializers.ModelSerializer):
+    """ Image Message Serializer """
+
+    class Meta:
+        model = ImageMessage
+        fields = [
+            'id',
+            'content',
+        ]
+
+
+class FileMessageSerializer(serializers.ModelSerializer):
+    """ File Message Serializer """
+
+    class Meta:
+        model = FileMessage
+        fields = [
+            'id',
+            'content',
+        ]
+
+
+class MessageFullReadSerializer(serializers.ModelSerializer):
+    """ Message Full Read Serializer """
+    sender = UserSerializerField(read_only=True)
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        if obj.msg_type == MessageType.TEXT:
+            return TextMessageSerializer(obj.text).data['content']
+        elif obj.msg_type == MessageType.IMAGES:
+            return ImageMessageSerializer(obj.images.all(), many=True).data
+        elif obj.msg_type == MessageType.FILES:
+            return FileMessageSerializer(obj.files.all(), many=True).data
+        else:
+            return None
+
+    class Meta:
+        model = Message
+        fields = [
+            'id',
+            'sender',
+            'msg_type',
+            'created_at',
+            'is_viewed',
+            'content',
+        ]
+
+
+class MessageShortReadSerializer(serializers.ModelSerializer):
+    """ Message Short Read Serializer """
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        if obj.msg_type == MessageType.TEXT:
+            return TextMessageSerializer(obj.text).data['content']
+        elif obj.msg_type == MessageType.IMAGES:
+            return ImageMessageSerializer(obj.images.all(), many=True).data
+        elif obj.msg_type == MessageType.FILES:
+            return FileMessageSerializer(obj.files.all(), many=True).data
+        else:
+            return None
+
+    class Meta:
+        model = Message
+        fields = [
+            'is_viewed',
+            'created_at',
+            'content',
+        ]
+
+
+class GroupConversationSerializer(serializers.ModelSerializer):
+    """ GroupConversation Serializer """
+
+    class Meta:
+        model = GroupConversation
+        fields = [
+            'owner',
+            'name',
+            'image',
+        ]
 
 
 class ConversationSerializer(serializers.ModelSerializer):
@@ -28,7 +125,7 @@ class ConversationSerializer(serializers.ModelSerializer):
                 context={'request': request},
             ).data
         elif obj.convo_type == ConversationType.GROUP:
-            return GroupConversationSerializerField(
+            return GroupConversationSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
@@ -36,7 +133,7 @@ class ConversationSerializer(serializers.ModelSerializer):
             return None
 
     def get_last_message(self, obj):
-        return MessageSerializerField(
+        return MessageShortReadSerializer(
             obj.messages.order_by('created_at').last(),
         ).data
 
@@ -48,44 +145,4 @@ class ConversationSerializer(serializers.ModelSerializer):
             'members',
             'details',
             'last_message',
-        ]
-
-
-class MessageReadSerializer(serializers.ModelSerializer):
-    """ Message Read Serializer """
-    sender = UserSerializerField(read_only=True)
-
-    class Meta:
-        model = Message
-        fields = [
-            'id',
-            'sender',
-            'created_at',
-            'is_viewed',
-            'get_content',
-        ]
-
-
-class MessageWriteSerializer(serializers.ModelSerializer):
-    """ Message Write Serializer """
-    content = serializers.CharField(write_only=True)
-
-    def create(self, validated_data):
-        msg = Message.objects.create(
-            conversation=validated_data['conversation'],
-            sender=validated_data['sender'],
-            msg_type=MessageType.TEXT,
-        )
-        TextMessage.objects.create(
-            message=msg,
-            content=validated_data['content']
-        )
-        return msg
-
-    class Meta:
-        model = Message
-        fields = [
-            'conversation',
-            'sender',
-            'content',
         ]

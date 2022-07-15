@@ -2,8 +2,9 @@ import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import caches
+from .choices import MessageType
 from .models import Conversation, Message
-from .serializers import MessageReadSerializer, MessageWriteSerializer
+from .serializers import MessageFullReadSerializer, TextMessageSerializer
 
 
 class MessengerConsumer(AsyncWebsocketConsumer):
@@ -73,21 +74,22 @@ class MessengerConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_messages(self):
-        return MessageReadSerializer(
+        return MessageFullReadSerializer(
             self.conversation.messages.all(),
             many=True,
         ).data
 
     @database_sync_to_async
     def save_message(self, content):
-        serializer = MessageWriteSerializer(data={
-            'conversation': self.conversation.id,
-            'sender': self.user.id,
-            'content': content
-        })
+        serializer = TextMessageSerializer(data={'content': content})
         serializer.is_valid(raise_exception=True)
-        msg = serializer.save()
-        return MessageReadSerializer(msg).data
+        msg = Message.objects.create(
+            conversation=self.conversation,
+            sender=self.user,
+            msg_type=MessageType.TEXT,
+        )
+        serializer.save(message=msg)
+        return MessageFullReadSerializer(msg).data
 
     @database_sync_to_async
     def set_message_viewed(self, msg_id):
