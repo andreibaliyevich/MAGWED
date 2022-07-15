@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from accounts.serializer_fields import UserSerializerField
+from accounts.serializers import UserShortReadSerializer
 from main.serializers import HashtagSerializer
-from social.serializer_fields import CommentListSerializerField
 from .models import Category, Article
 
 
@@ -49,10 +48,9 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
-    author = UserSerializerField(read_only=True)
+    author = UserShortReadSerializer(read_only=True)
     categories = CategoryListSerializer(read_only=True, many=True)
     hashtags = HashtagSerializer(read_only=True, many=True)
-    comments = CommentListSerializerField(read_only=True, many=True)
 
     class Meta:
         model = Article
@@ -68,5 +66,4 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'hashtags',
             'published_at',
             'num_views',
-            'comments',
         ]

@@ -15,11 +15,6 @@ from main.serializers import (
 )
 from .choices import UserType
 from .models import Customer, OrganizerRole, Organizer, OrganizerLink
-from .serializer_fields import (
-    UserSerializerField,
-    UserDetailSerializerField,
-    OrganizerLinkSerializerField,
-)
 
 
 UserModel = get_user_model()
@@ -355,10 +350,63 @@ class OrganizerLinkSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserShortReadSerializer(serializers.ModelSerializer):
+    """ User Short Read Serializer """
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'id',
+            'name',
+            'avatar',
+        ]
+
+
+class OrganizerShortReadSerializer(serializers.ModelSerializer):
+    """ Organizer Short Read Serializer """
+    user = UserShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Organizer
+        fields = [
+            'user',
+            'profile_url',
+        ]
+
+
+class UserDetailReadSerializer(serializers.ModelSerializer):
+    """ User Detail Read Serializer """
+    country = CountrySerializer(read_only=True)
+    city = CitySerializer(read_only=True)
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'email',
+            'name',
+            'avatar',
+            'country',
+            'city',
+            'phone',
+            'last_visit',
+        ]
+
+
+class OrganizerLinkReadSerializer(serializers.ModelSerializer):
+    """ Organizer Link Read Serializer """
+
+    class Meta:
+        model = OrganizerLink
+        fields = [
+            'link_type',
+            'link_url',
+        ]
+
+
 class OrganizerListSerializer(serializers.ModelSerializer):
     """ Organizer List Serializer """
-    user = UserSerializerField(read_only=True)
-    organizerlink_set = OrganizerLinkSerializerField(read_only=True, many=True)
+    user = UserShortReadSerializer(read_only=True)
+    organizerlink_set = OrganizerLinkReadSerializer(read_only=True, many=True)
 
     class Meta:
         model = Organizer
@@ -371,11 +419,11 @@ class OrganizerListSerializer(serializers.ModelSerializer):
 
 class OrganizerDetailSerializer(serializers.ModelSerializer):
     """ Organizer Detail Serializer """
-    user = UserDetailSerializerField(read_only=True)
+    user = UserDetailReadSerializer(read_only=True)
     countries = CountrySerializer(read_only=True, many=True)
     cities = CitySerializer(read_only=True, many=True)
     languages = LanguageSerializer(read_only=True, many=True)
-    organizerlink_set = OrganizerLinkSerializerField(read_only=True, many=True)
+    organizerlink_set = OrganizerLinkReadSerializer(read_only=True, many=True)
 
     class Meta:
         model = Organizer

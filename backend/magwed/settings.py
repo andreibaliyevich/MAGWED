@@ -55,9 +55,9 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
     'portfolio.apps.PortfolioConfig',
+    'blog.apps.BlogConfig',
     'social.apps.SocialConfig',
     'messenger.apps.MessengerConfig',
-    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [

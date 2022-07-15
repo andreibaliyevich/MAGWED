@@ -1,13 +1,25 @@
 from rest_framework import serializers
-from accounts.serializer_fields import OrganizerSerializerField
+from accounts.serializers import OrganizerShortReadSerializer
 from main.serializers import HashtagSerializer
-from social.serializer_fields import CommentListSerializerField
 from .models import Album, Photo
+
+
+class AlbumShortReadSerializer(serializers.ModelSerializer):
+    """ Album Short Read Serializer """
+    owner = OrganizerShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Album
+        fields = [
+            'owner',
+            'title',
+            'thumbnail',
+        ]
 
 
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
-    owner = OrganizerSerializerField(read_only=True)
+    owner = OrganizerShortReadSerializer(read_only=True)
 
     class Meta:
         model = Album
@@ -25,8 +37,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
-    owner = OrganizerSerializerField(read_only=True)
-    comments = CommentListSerializerField(read_only=True, many=True)
+    owner = OrganizerShortReadSerializer(read_only=True)
     hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
@@ -42,13 +53,24 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'num_views',
             'likes',
             'rating',
-            'comments',
+        ]
+
+
+class PhotoShortReadSerializer(serializers.ModelSerializer):
+    """ Photo Short Read Serializer """
+    owner = OrganizerShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Photo
+        fields = [
+            'owner',
+            'thumbnail',
         ]
 
 
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
-    owner = OrganizerSerializerField(read_only=True)
+    owner = OrganizerShortReadSerializer(read_only=True)
 
     class Meta:
         model = Photo
@@ -65,8 +87,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
-    owner = OrganizerSerializerField(read_only=True)
-    comments = CommentListSerializerField(read_only=True, many=True)
+    owner = OrganizerShortReadSerializer(read_only=True)
     hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
@@ -87,5 +108,4 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'num_views',
             'likes',
             'rating',
-            'comments',
         ]

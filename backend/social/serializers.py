@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
+from accounts.serializers import UserShortReadSerializer
 from blog.models import Article
 from portfolio.models import Album, Photo
 from .models import Notification, Comment
@@ -18,6 +19,29 @@ class NotificationListSerializer(serializers.ModelSerializer):
             'viewed',
             'created_at',
         ]
+
+
+class CommentReadSerializer(serializers.ModelSerializer):
+    """ Comment Read Serializer """
+    user = UserShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = [
+            'id',
+            'user',
+            'content',
+            'created_at',
+            'comments',
+        ]
+
+    def get_fields(self):
+        fields = super().get_fields()
+        fields['comments'] = CommentListSerializerField(
+            read_only=True,
+            many=True,
+        )
+        return fields
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):

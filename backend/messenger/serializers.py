@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.serializer_fields import UserSerializerField
+from accounts.serializers import UserShortReadSerializer
 from .choices import ConversationType, MessageType
 from .models import (
     Conversation,
@@ -51,7 +51,7 @@ class FileMessageSerializer(serializers.ModelSerializer):
 
 class MessageFullReadSerializer(serializers.ModelSerializer):
     """ Message Full Read Serializer """
-    sender = UserSerializerField(read_only=True)
+    sender = UserShortReadSerializer(read_only=True)
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
@@ -120,7 +120,7 @@ class ConversationSerializer(serializers.ModelSerializer):
         request = self.context['request']
 
         if obj.convo_type == ConversationType.DIALOG:
-            return UserSerializerField(
+            return UserShortReadSerializer(
                 obj.members.exclude(id=request.user.id).first(),
                 context={'request': request},
             ).data
