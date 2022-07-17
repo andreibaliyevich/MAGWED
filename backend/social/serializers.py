@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
-from .models import Notification, Comment
+from .models import Notification, Comment, Review
 from .serializer_fields import NotificationObjectRelatedField
 
 
@@ -29,14 +29,6 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
             read_only=True, many=True)
         return fields
 
-    def create(self, validated_data):
-        try:
-            comment = Comment.objects.create(**validated_data)
-        except IntegrityError:
-            raise serializers.ValidationError({
-                'create': _('You have already left a comment here.')})
-        return comment
-
     class Meta:
         model = Comment
         fields = [
@@ -56,4 +48,39 @@ class CommentRUDSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'content',
+        ]
+
+
+class ReviewListCreateSerializer(serializers.ModelSerializer):
+    """ Review List Create Serializer """
+    author = UserShortReadSerializer(read_only=True)
+
+    def create(self, validated_data):
+        try:
+            instance = Review.objects.create(**validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError({
+                'create': _('You have already left a review here.')})
+        return instance
+
+    class Meta:
+        model = Review
+        fields = [
+            'id',
+            'author',
+            'rating',
+            'comment',
+            'created_at',
+        ]
+
+
+class ReviewRUDSerializer(serializers.ModelSerializer):
+    """ Review Retrieve Update Destroy Serializer """
+
+    class Meta:
+        model = Review
+        fields = [
+            'id',
+            'rating',
+            'comment',
         ]
