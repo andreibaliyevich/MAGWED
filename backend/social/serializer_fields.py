@@ -8,7 +8,7 @@ from portfolio.serializers import (
 )
 
 
-class ContentObjectRelatedField(serializers.RelatedField):
+class NotificationObjectRelatedField(serializers.RelatedField):
     """
     A custom field to use for the 'content_object' generic relationship.
     """
