@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-13 20:40+0000\n"
+"POT-Creation-Date: 2022-07-17 12:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgid "Customer"
 msgstr "Кліент"
 
 #: accounts/choices.py:8 accounts/models.py:271 accounts/models.py:281
-#: social/models.py:125
+#: social/models.py:130
 msgid "Organizer"
 msgstr "Арганізатар"
 
@@ -259,8 +259,7 @@ msgid "Last visit"
 msgstr "Апошняе наведванне"
 
 #: accounts/models.py:149 accounts/models.py:160 accounts/models.py:197
-#: social/models.py:25 social/models.py:53 social/models.py:73
-#: social/models.py:97
+#: social/models.py:26 social/models.py:54 social/models.py:74
 msgid "User"
 msgstr "Карыстальнік"
 
@@ -330,7 +329,7 @@ msgid "Profile URL"
 msgstr "URL профілю"
 
 #: accounts/models.py:263 portfolio/models.py:64 portfolio/models.py:168
-#: social/models.py:145
+#: social/models.py:141
 msgid "Rating"
 msgstr "Рэйтынг"
 
@@ -362,24 +361,24 @@ msgstr "Спасылкі арганізатараў"
 msgid "Only organizers have permission."
 msgstr "Дазвол ёсць толькі ў арганізатараў."
 
-#: accounts/serializers.py:54 accounts/serializers.py:150
-#: accounts/serializers.py:218
+#: accounts/serializers.py:49 accounts/serializers.py:145
+#: accounts/serializers.py:213
 msgid "Password fields did not match."
 msgstr "Палі пароля не супадаюць."
 
-#: accounts/serializers.py:120 accounts/serializers.py:206
+#: accounts/serializers.py:115 accounts/serializers.py:201
 msgid "Invalid user id or user does not exist."
 msgstr "Недапушчальны ідэнтыфікатар карыстальніка ці карыстач не існуе."
 
-#: accounts/serializers.py:126 accounts/serializers.py:212
+#: accounts/serializers.py:121 accounts/serializers.py:207
 msgid "Invalid token for given user."
 msgstr "Недапушчальны токен для дадзенага карыстальніка."
 
-#: accounts/serializers.py:144
+#: accounts/serializers.py:139
 msgid "Invalid current password."
 msgstr "Няправільны бягучы пароль."
 
-#: accounts/serializers.py:163
+#: accounts/serializers.py:158
 msgid "User with given email does not exist."
 msgstr "Карыстальнік з указаным адрасам электроннай пошты не існуе."
 
@@ -443,7 +442,7 @@ msgstr "Пераклад катэгорыі"
 msgid "Category Translations"
 msgstr "Пераклады катэгорый"
 
-#: blog/models.py:87 social/models.py:131
+#: blog/models.py:87 social/models.py:102 social/models.py:136
 msgid "Author"
 msgstr "Аўтар"
 
@@ -460,7 +459,7 @@ msgstr "Малюнак"
 msgid "Thumbnail"
 msgstr "Эскіз"
 
-#: blog/models.py:121 blog/models.py:189 social/models.py:104
+#: blog/models.py:121 blog/models.py:189 social/models.py:105
 msgid "Content"
 msgstr "Змест"
 
@@ -522,8 +521,8 @@ msgid "Name (local)"
 msgstr "Назва (мясцовая)"
 
 #: main/models.py:69 messenger/models.py:100 portfolio/models.py:49
-#: social/models.py:31 social/models.py:58 social/models.py:82
-#: social/models.py:107 social/models.py:151
+#: social/models.py:32 social/models.py:59 social/models.py:83
+#: social/models.py:109 social/models.py:148
 msgid "Created at"
 msgstr "Створана ў"
 
@@ -600,11 +599,11 @@ msgstr "Адпраўнік"
 msgid "Message type"
 msgstr "Тып паведамлення"
 
-#: messenger/models.py:104
+#: messenger/models.py:104 social/models.py:113 social/models.py:152
 msgid "Updated at"
 msgstr "Абноўлена ў"
 
-#: messenger/models.py:107 social/models.py:28
+#: messenger/models.py:107 social/models.py:29
 msgid "Viewed"
 msgstr "Прагледжана"
 
@@ -709,85 +708,86 @@ msgstr "Фатаграфіі"
 msgid "Social"
 msgstr "Сацыяльнае"
 
-#: social/models.py:35
-msgid "Notification"
-msgstr "Апавяшчэнне"
-
-#: social/models.py:36
-msgid "Notifications"
-msgstr "Апавяшчэнні"
-
-#: social/models.py:47
-msgid "Follower"
-msgstr "Падпісчык"
-
-#: social/models.py:62
-msgid "Follow object"
-msgstr "Аб'ект Follow"
-
-#: social/models.py:63
-msgid "Follow objects"
-msgstr "Аб'екты Follow"
-
-#: social/models.py:86
-msgid "Favorite"
-msgstr "Абранае"
-
-#: social/models.py:87
-msgid "Favorites"
-msgstr "Выбраныя"
-
-#: social/models.py:113 social/models.py:148
-msgid "Comment"
-msgstr "Каментарый"
-
-#: social/models.py:114
-msgid "Comments"
-msgstr "Каментары"
-
-#: social/models.py:135
+#: social/choices.py:6
 msgid "5 stars"
 msgstr "5 зорак"
 
-#: social/models.py:136
+#: social/choices.py:7
 msgid "4 stars"
 msgstr "4 зоркі"
 
-#: social/models.py:137
+#: social/choices.py:8
 msgid "3 stars"
 msgstr "3 зоркі"
 
-#: social/models.py:138
+#: social/choices.py:9
 msgid "2 stars"
 msgstr "2 зоркі"
 
-#: social/models.py:139
+#: social/choices.py:10
 msgid "1 star"
 msgstr "1 зорка"
 
-#: social/models.py:141
+#: social/choices.py:12
 msgid "Choose rating"
 msgstr "Абярыце рэйтынг"
 
-#: social/models.py:155
+#: social/models.py:36
+msgid "Notification"
+msgstr "Апавяшчэнне"
+
+#: social/models.py:37
+msgid "Notifications"
+msgstr "Апавяшчэнні"
+
+#: social/models.py:48
+msgid "Follower"
+msgstr "Падпісчык"
+
+#: social/models.py:63
+msgid "Follow object"
+msgstr "Аб'ект Follow"
+
+#: social/models.py:64
+msgid "Follow objects"
+msgstr "Аб'екты Follow"
+
+#: social/models.py:87
+msgid "Favorite"
+msgstr "Абранае"
+
+#: social/models.py:88
+msgid "Favorites"
+msgstr "Выбраныя"
+
+#: social/models.py:119 social/models.py:144
+msgid "Comment"
+msgstr "Каментарый"
+
+#: social/models.py:120
+msgid "Comments"
+msgstr "Каментары"
+
+#: social/models.py:156
 msgid "Review"
 msgstr "Водгук"
 
-#: social/models.py:156
+#: social/models.py:157
 msgid "Reviews"
 msgstr "Водгукі"
 
-#: social/serializers.py:49
-msgid "Invalid object type."
-msgstr "Недапушчальны тып аб'екта."
+#: social/permissions.py:7
+msgid "Only author have permission."
+msgstr "Дазвол ёсць толькі ў аўтара."
 
-#: social/serializers.py:55
-msgid "Object does not exist."
-msgstr "Аб'ект не існуе."
+#: social/serializers.py:63
+msgid "You have already left a review here."
+msgstr "Вы ўжо пакідалі водгук тут."
 
-#: social/serializers.py:68
-msgid "You have already left a comment here."
-msgstr "Вы ўжо пакідалі каментар тут."
+#: social/views.py:69 social/views.py:76 social/views.py:113
+#: social/views.py:120
+msgid "Not found."
+msgstr "Не знойдзена."
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
