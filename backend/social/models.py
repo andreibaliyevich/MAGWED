@@ -92,15 +92,15 @@ class Favorite(models.Model):
 
 class Comment(models.Model):
     """ Comment Model """
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name=_('Author'),
     )
-
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     content = models.CharField(max_length=255, verbose_name=_('Content'))
 
@@ -119,7 +119,6 @@ class Comment(models.Model):
         verbose_name = _('Comment')
         verbose_name_plural = _('Comments')
         ordering = ['created_at', 'id']
-        unique_together = ['author', 'content_type', 'object_id']
 
 
 class Review(models.Model):
