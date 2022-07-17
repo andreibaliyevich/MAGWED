@@ -29,14 +29,14 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     """ Comment Model for admin """
-    list_display = ('id', 'user', 'content_type', 'object_id', 'created_at')
-    readonly_fields = ('created_at',)
+    list_display = ('id', 'author', 'content_type', 'object_id', 'created_at')
+    readonly_fields = ('created_at', 'updated_at')
 
 
 class ReviewAdmin(admin.ModelAdmin):
     """ Review Model for admin """
     list_display = ('id', 'organizer', 'author', 'rating', 'created_at')
-    readonly_fields = ('created_at',)
+    readonly_fields = ('created_at', 'updated_at')
 
 
 admin.site.register(Notification, NotificationAdmin)

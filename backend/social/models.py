@@ -11,6 +11,7 @@ from django.contrib.contenttypes.fields import (
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
 from accounts.models import Organizer
+from .choices import ReviewChoices
 
 
 class Notification(models.Model):
@@ -91,10 +92,10 @@ class Favorite(models.Model):
 
 class Comment(models.Model):
     """ Comment Model """
-    user = models.ForeignKey(
+    author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        verbose_name=_('User'),
+        verbose_name=_('Author'),
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -102,9 +103,14 @@ class Comment(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     content = models.CharField(max_length=255, verbose_name=_('Content'))
+
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_('Created at'),
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_('Updated at'),
     )
 
     comments = GenericRelation('self')
@@ -113,7 +119,7 @@ class Comment(models.Model):
         verbose_name = _('Comment')
         verbose_name_plural = _('Comments')
         ordering = ['created_at', 'id']
-        unique_together = ['user', 'content_type', 'object_id']
+        unique_together = ['author', 'content_type', 'object_id']
 
 
 class Review(models.Model):
@@ -131,24 +137,20 @@ class Review(models.Model):
         verbose_name=_('Author'),
     )
 
-    class ReviewChoices(models.IntegerChoices):
-        FIVE = 5, _('5 stars')
-        FOUR = 4, _('4 stars')
-        THREE = 3, _('3 stars')
-        TWO = 2, _('2 stars')
-        ONE = 1, _('1 star')
-
-        __empty__ = _('Choose rating')
-
     rating = models.IntegerField(
         choices=ReviewChoices.choices,
         verbose_name=_('Rating'),
     )
 
     comment = models.TextField(verbose_name=_('Comment'))
+
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_('Created at'),
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_('Updated at'),
     )
 
     class Meta:
@@ -166,4 +168,4 @@ def update_organizer_rating(sender, **kwargs):
     organizer_rating = organizer.organizer_reviews.aggregate(
         total_rating=Coalesce(Avg('rating'), Value(0.0)))
     organizer.rating = organizer_rating['total_rating']
-    organizer.save()
+    organizer.save(update_fields=['rating'])
