@@ -27,7 +27,6 @@ urlpatterns = [
         ])),
         path('wstoken/', views.WebSocketAuthTokenView.as_view()),
     ])),
-
     path('organizers/', include([
         path('', views.OrganizerListView.as_view()),
         path('<slug:profile_url>/', views.OrganizerDetailView.as_view()),

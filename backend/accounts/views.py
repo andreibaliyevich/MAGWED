@@ -18,7 +18,7 @@ from .permissions import UserIsOrganizer
 from .serializers import (
     UserLoginSerializer,
     RegistrationSerializer,
-    UidAndTokenSerializer,
+    ActivationSerializer,
     PasswordChangeSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
@@ -31,6 +31,7 @@ from .serializers import (
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
+from .services import send_activation_email, send_password_reset_email
 
 
 UserModel = get_user_model()
@@ -75,13 +76,17 @@ class RegistrationView(generics.CreateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = RegistrationSerializer
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+        send_activation_email(user, self.request.LANGUAGE_CODE)
+
 
 class ActivationView(APIView):
     """ Activation View """
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        serializer = UidAndTokenSerializer(data=request.data)
+        serializer = ActivationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
 
@@ -122,7 +127,7 @@ class PasswordResetView(APIView):
         user = serializer.user
 
         if user.has_usable_password():
-            serializer.send_password_reset_email(request.LANGUAGE_CODE)
+            send_password_reset_email(user, request.LANGUAGE_CODE)
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(

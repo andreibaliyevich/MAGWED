@@ -1,11 +1,6 @@
 from rest_framework import serializers
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.tokens import default_token_generator
-from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
 from main.models import Country, City, Language
 from main.serializers import (
@@ -15,6 +10,7 @@ from main.serializers import (
 )
 from .choices import UserType
 from .models import Customer, OrganizerRole, Organizer, OrganizerLink
+from .utilities import decode_uid, check_token
 
 
 UserModel = get_user_model()
@@ -63,28 +59,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         elif user.user_type == UserType.ORGANIZER:
             Organizer.objects.create(user=user, profile_url=user.username)
 
-        self.send_activation_email(user)
         return user
-
-    def send_activation_email(self, user):
-        context = {
-            'SITE_NAME': settings.SITE_NAME,
-            'SITE_HOST': settings.SITE_HOST,
-            'LANG_CODE': self.context['request'].LANGUAGE_CODE,
-            'uid': force_str(urlsafe_base64_encode(force_bytes(user.pk))),
-            'token': default_token_generator.make_token(user),
-        }
-
-        subject = render_to_string('email/activation_subject.txt')
-        text_content = render_to_string('email/activation_text.html', context)
-        html_content = render_to_string('email/activation_html.html', context)
-
-        user.email_user(
-            subject=subject,
-            message=text_content,
-            from_email=settings.EMAIL_HOST_USER,
-            html_message=html_content,
-        )
 
     class Meta:
         model = UserModel
@@ -101,22 +76,22 @@ class RegistrationSerializer(serializers.ModelSerializer):
         }
 
 
-class UidAndTokenSerializer(serializers.Serializer):
-    """ Uid and Token Serializer """
+class ActivationSerializer(serializers.Serializer):
+    """ Activation Serializer """
     uid = serializers.CharField()
     token = serializers.CharField()
 
     def validate(self, data):
         try:
-            pk = force_str(urlsafe_base64_decode(data['uid']))
-            self.user = UserModel.objects.get(pk=pk)
+            user_id = decode_uid(data['uid'])
+            self.user = UserModel.objects.get(id=user_id)
         except (UserModel.DoesNotExist, ValueError, TypeError, OverflowError):
             raise serializers.ValidationError(
                 {'uid': _('Invalid user id or user does not exist.')},
                 code='invalid_uid',
             )
 
-        if not default_token_generator.check_token(self.user, data['token']):
+        if not check_token(self.user, data['token']):
             raise serializers.ValidationError(
                 {'token': _('Invalid token for given user.')},
                 code='invalid_token',
@@ -158,28 +133,6 @@ class PasswordResetSerializer(serializers.Serializer):
                 _('User with given email does not exist.'))
         return value
 
-    def send_password_reset_email(self, lang_code):
-        context = {
-            'SITE_NAME': settings.SITE_NAME,
-            'SITE_HOST': settings.SITE_HOST,
-            'LANG_CODE': lang_code,
-            'uid': force_str(urlsafe_base64_encode(force_bytes(self.user.pk))),
-            'token': default_token_generator.make_token(self.user),
-        }
-
-        subject = render_to_string('email/password_reset_subject.txt')
-        text_content = render_to_string(
-            'email/password_reset_text.html', context)
-        html_content = render_to_string(
-            'email/password_reset_html.html', context)
-
-        self.user.email_user(
-            subject=subject,
-            message=text_content,
-            from_email=settings.EMAIL_HOST_USER,
-            html_message=html_content,
-        )
-
 
 class PasswordResetConfirmSerializer(serializers.Serializer):
     """ Password Reset Confirm Serializer """
@@ -194,15 +147,15 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
     def validate(self, data):
         try:
-            pk = force_str(urlsafe_base64_decode(data['uid']))
-            self.user = UserModel.objects.get(pk=pk)
+            user_id = decode_uid(data['uid'])
+            self.user = UserModel.objects.get(id=user_id)
         except (UserModel.DoesNotExist, ValueError, TypeError, OverflowError):
             raise serializers.ValidationError(
                 {'uid': _('Invalid user id or user does not exist.')},
                 code='invalid_uid',
             )
 
-        if not default_token_generator.check_token(self.user, data['token']):
+        if not check_token(self.user, data['token']):
             raise serializers.ValidationError(
                 {'token': _('Invalid token for given user.')},
                 code='invalid_token',
