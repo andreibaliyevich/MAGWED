@@ -45,7 +45,7 @@ export default {
       })
       .then((response) => {
         this.organizerLinkList.push(response.data)
-        document.getElementById('btnClose').click()
+        this.$refs.btnClose.click()
         this.status = 'added_organizer_link'
         this.errors = null
       })
@@ -74,7 +74,7 @@ export default {
       .then((response) => {
         const foundIndex = this.organizerLinkList.findIndex(item => item.id == this.organizerLinkId)
         this.organizerLinkList[foundIndex] = response.data
-        document.getElementById('btnClose').click()
+        this.$refs.btnClose.click()
         this.status = 'updated_organizer_link'
         this.errors = null
       })
@@ -111,7 +111,7 @@ export default {
 </script>
 
 <template>
-  <div class="organizer-links px-5">
+  <div class="organizer-links px-1 px-lg-3 px-xl-5">
     <h1 class="display-6 mb-5">{{ $t('auth.externallinks.external_links') }}</h1>
 
     <div v-if="pageLoading" class="d-flex justify-content-center">
@@ -188,7 +188,7 @@ export default {
               </form>
             </div>
             <div class="modal-footer">
-              <button @click="resetOrganizerLink" id="btnClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $t('auth.externallinks.close') }}</button>
+              <button ref="btnClose" @click="resetOrganizerLink" type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $t('auth.externallinks.close') }}</button>
               <button v-if="!organizerLinkId" @click="addOrganizerLink" type="button" class="btn btn-primary">{{ $t('auth.externallinks.add') }}</button>
               <button v-else @click="updateOrganizerLink" type="button" class="btn btn-primary">{{ $t('auth.externallinks.update') }}</button>
             </div>

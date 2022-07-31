@@ -11,7 +11,7 @@ export default {
     changeCurrency(event) {
       window.localStorage.setItem('currency', event.target.value)
       this.baseStore.setCurrency(event.target.value)
-      document.getElementById("currencyList").click()
+      this.$refs.currencyList.click()
     }
   }
 }
@@ -57,7 +57,7 @@ export default {
               <span class="text-uppercase ms-1">{{ $i18n.locale }} / {{ baseStore.currency }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLocale">
-              <li id="currencyList" class="dropdown-item">
+              <li ref="currencyList" class="dropdown-item">
                 <select class="form-select" :value="baseStore.currency" @change="changeCurrency">
                   <option value="USD">$ USD</option>
                   <option value="EUR">€ EUR</option>

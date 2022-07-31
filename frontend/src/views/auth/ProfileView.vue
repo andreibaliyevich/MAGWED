@@ -171,7 +171,7 @@ export default {
       })
     },
     openAvatarInput() {
-      document.getElementById('avatarInput').click()
+      this.$refs.avatarInput.click()
     },
     updateAvatar(event) {
       this.isAvatarLoading = true
@@ -189,14 +189,14 @@ export default {
           'name': this.userStore.name,
           'avatar': response.data.avatar
         }))
-        document.getElementById('avatarInput').value = ''
+        this.$refs.avatarInput.value = ''
         this.status = 'updated_avatar'
         this.errors = null
         document.body.scrollTop = 0
         document.documentElement.scrollTop = 0
       })
       .catch((error) => {
-        document.getElementById('avatarInput').value = ''
+        this.$refs.avatarInput.value = ''
         this.status = null
         this.errors = error.response.data
       })
@@ -225,7 +225,7 @@ export default {
       }
     },
     openCoverInput() {
-      document.getElementById('coverInput').click()
+      this.$refs.coverInput.click()
     },
     updateCover(event) {
       this.isCoverLoading = true
@@ -235,14 +235,14 @@ export default {
       axios.put('/' + this.$i18n.locale + '/accounts/auth/cover/', coverData)
       .then((response) => {
         this.cover = response.data.cover
-        document.getElementById('coverInput').value = ''
+        this.$refs.coverInput.value = ''
         this.status = 'updated_cover'
         this.errors = null
         document.body.scrollTop = 0
         document.documentElement.scrollTop = 0
       })
       .catch((error) => {
-        document.getElementById('coverInput').value = ''
+        this.$refs.coverInput.value = ''
         this.status = null
         this.errors = error.response.data
       })
@@ -316,7 +316,7 @@ export default {
 </script>
 
 <template>
-  <div class="profile-settings px-5">
+  <div class="profile-settings px-1 px-lg-3 px-xl-5">
     <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
 
     <div v-if="status" id="status">
@@ -352,7 +352,7 @@ export default {
             <small v-for="error in errors.cover" class="text-danger">{{ error }}</small>
           </div>
           <div class="d-flex justify-content-center">
-            <input @change="updateCover" type="file" accept="image/*" id="coverInput" class="visually-hidden">
+            <input ref="coverInput" @change="updateCover" type="file" accept="image/*" class="visually-hidden">
             <button @click="openCoverInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_cover') }}</button>
             <button v-if="cover" @click="removeCover" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_cover') }}</button>
           </div>
@@ -378,7 +378,7 @@ export default {
                 <small v-for="error in errors.avatar" class="text-danger">{{ error }}</small>
               </div>
               <div class="d-flex justify-content-center">
-                <input @change="updateAvatar" type="file" accept="image/*" id="avatarInput" class="visually-hidden">
+                <input ref="avatarInput" @change="updateAvatar" type="file" accept="image/*" class="visually-hidden">
                 <button @click="openAvatarInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_avatar') }}</button>
                 <button v-if="userStore.avatar" @click="removeAvatar" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_avatar') }}</button>
               </div>

@@ -12,10 +12,10 @@ const userStore = useUserStore()
 export default {
   methods: {
     hideOffcanvas() {
-      document.getElementById("offcanvasClose").click()
+      this.$refs.offcanvasClose.click()
     },
-    hideDropdownMenu(idDropdown) {
-      document.getElementById(idDropdown).click()
+    hideDropdownUser() {
+      this.$refs.dropdownUser.click()
     },
     logout() {
       axios.post('/en/accounts/auth/logout/')
@@ -43,7 +43,7 @@ export default {
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-          <button id="offcanvasClose" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button ref="offcanvasClose" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav d-flex align-items-lg-center flex-grow-1 mx-3">
@@ -110,7 +110,7 @@ export default {
           </ul>
         </div>
         <div class="dropdown ms-3">
-          <a href="#" class="d-flex align-items-center text-decoration-none text-decoration-none text-dark" id="dropdownUser" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+          <a ref="dropdownUser" id="dropdownUser" href="#" class="d-flex align-items-center text-decoration-none text-decoration-none text-dark" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
             <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="rounded-circle" width="32" height="32" alt="avatar">
             <img v-else src="/avatar.jpg" class="rounded-circle" width="32" height="32" alt="avatar">
           </a>
@@ -124,24 +124,24 @@ export default {
                   <small class="text-muted">{{ userStore.email }}</small>
                 </div>
               </div>
-              <RouterLink class="w-100 btn btn-light-brand btn-sm text-center" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+              <RouterLink class="w-100 btn btn-light-brand btn-sm text-center" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownUser">
                 {{ $t('auth.profile.edit_profile') }}
               </RouterLink>
             </li>
             <li>
-              <RouterLink v-if="userStore.userType == 3" class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+              <RouterLink v-if="userStore.userType == 3" class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownUser">
                 <i class="fa-solid fa-users"></i>
                 {{ $t('auth.followers') }}
               </RouterLink>
-              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownUser">
                 <i class="fa-solid fa-user-group"></i>
                 {{ $t('auth.following') }}
               </RouterLink>
-              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownUser">
                 <i class="fa-solid fa-star"></i>
                 {{ $t('auth.favorites') }}
               </RouterLink>
-              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownMenu('dropdownUser')">
+              <RouterLink class="dropdown-item d-flex gap-2 align-items-center" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}" @click="hideDropdownUser">
                 <i class="fa-solid fa-comment-dots"></i>
                 {{ $t('footer.feedback') }}
               </RouterLink>
