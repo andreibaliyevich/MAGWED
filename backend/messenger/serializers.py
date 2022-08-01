@@ -93,6 +93,7 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = [
+            'msg_type',
             'is_viewed',
             'created_at',
             'content',
