@@ -154,8 +154,7 @@
     "messenger": {
         "chats": "Чати",
         "select_chat": "Виберіть чат",
-        "type_message": "Введіть повідомлення",
-        "send": "Відправити"
+        "type_message": "Введіть повідомлення..."
     },
     "form_help": {
         "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",

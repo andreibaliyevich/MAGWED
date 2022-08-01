@@ -154,8 +154,7 @@
     "messenger": {
         "chats": "Чаты",
         "select_chat": "Абярыце чат",
-        "type_message": "Увядзіце паведамленне",
-        "send": "Адправіць"
+        "type_message": "Увядзіце паведамленне..."
     },
     "form_help": {
         "input_img": "Загрузіце малюнак у фармаце JPG або PNG. Неабходны мінімальны памер {width} x {height}.",
