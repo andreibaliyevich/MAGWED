@@ -132,14 +132,14 @@ export default {
             <div v-if="convo.id == convoId" class="d-flex gap-3 p-3 text-dark" style="background-color: #efefef;">
               <div v-if="convo.convo_type == 1">
                 <img v-if="convo.details.avatar" :src="`${ convo.details.avatar }`" class="rounded-circle" width="48" height="48">
-                <img v-else src="/avatar.jpg" class="rounded-circle" width="48" height="48">
+                <img v-else src="/user-avatar.jpg" class="rounded-circle" width="48" height="48">
               </div>
               <div v-else-if="convo.convo_type == 2">
                 <img v-if="convo.details.image" :src="`${ convo.details.image }`" class="rounded-circle" width="48" height="48">
-                <img v-else src="/avatar.jpg" class="rounded-circle" width="48" height="48">
+                <img v-else src="/group-avatar.jpg" class="rounded-circle" width="48" height="48">
               </div>
               <div v-else>
-                <img src="/avatar.jpg" class="rounded-circle" width="48" height="48">
+                <img src="/conversation.jpg" class="rounded-circle" width="48" height="48">
               </div>
               <div class="flex-grow-1 ms-3">
                 <div class="d-flex justify-content-between">
@@ -159,14 +159,14 @@ export default {
             <div v-else @click="openConversation(convo)" class="d-flex gap-3 p-3">
               <div v-if="convo.convo_type == 1">
                 <img v-if="convo.details.avatar" :src="`${ convo.details.avatar }`" class="rounded-circle" width="48" height="48">
-                <img v-else src="/avatar.jpg" class="rounded-circle" width="48" height="48">
+                <img v-else src="/user-avatar.jpg" class="rounded-circle" width="48" height="48">
               </div>
               <div v-else-if="convo.convo_type == 2">
                 <img v-if="convo.details.image" :src="`${ convo.details.image }`" class="rounded-circle" width="48" height="48">
-                <img v-else src="/avatar.jpg" class="rounded-circle" width="48" height="48">
+                <img v-else src="/group-avatar.jpg" class="rounded-circle" width="48" height="48">
               </div>
               <div v-else>
-                <img src="/avatar.jpg" class="rounded-circle" width="48" height="48">
+                <img src="/conversation.jpg" class="rounded-circle" width="48" height="48">
               </div>
               <div class="flex-grow-1 ms-3">
                 <div class="d-flex justify-content-between">
@@ -194,14 +194,14 @@ export default {
               <div class="flex-shrink-0">
                 <div v-if="convoType == 1">
                   <img v-if="convoDetails.avatar" :src="`${ convoDetails.avatar }`" class="rounded-circle" width="50" height="50">
-                  <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  <img v-else src="/user-avatar.jpg" class="rounded-circle" width="50" height="50">
                 </div>
                 <div v-else-if="convoType == 2">
                   <img v-if="convoDetails.image" :src="`${ convoDetails.image }`" class="rounded-circle" width="50" height="50">
-                  <img v-else src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  <img v-else src="/group-avatar.jpg" class="rounded-circle" width="50" height="50">
                 </div>
                 <div v-else>
-                  <img src="/avatar.jpg" class="rounded-circle" width="50" height="50">
+                  <img src="/conversation.jpg" class="rounded-circle" width="50" height="50">
                 </div>
               </div>
               <div class="flex-grow-1 ms-3">
@@ -230,7 +230,7 @@ export default {
                 <div class="my-0">
                   <div v-if="convoType == 2" class="d-flex align-items-start">
                     <img v-if="msg.sender.avatar" :src="`${ baseStore.apiURL }${ msg.sender.avatar }`" class="rounded-circle" width="35" height="35">
-                    <img v-else src="/avatar.jpg" class="rounded-circle" width="35" height="35">
+                    <img v-else src="/user-avatar.jpg" class="rounded-circle" width="35" height="35">
                     <div class="bg-light rounded p-2 ms-2 mb-2">
                       <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                       <p class="text-sm mb-0">{{ msg.content }}</p>

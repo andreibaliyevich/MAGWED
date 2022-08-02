@@ -369,7 +369,7 @@ export default {
             </div>
             <div v-else>
               <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
-              <img v-else src="/avatar.jpg" class="img-fluid rounded-start">
+              <img v-else src="/user-avatar.jpg" class="img-fluid rounded-start">
             </div>
           </div>
           <div class="col-md-9">
