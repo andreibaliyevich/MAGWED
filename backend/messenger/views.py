@@ -28,9 +28,10 @@ class ImageMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        msg_serializer = MessageCreateSerializer(data={
-            'conversation': request.data['conversation'],
-        })
+        msg_serializer = MessageCreateSerializer(
+            data={'conversation': request.data['conversation']},
+            context={'request': request},
+        )
         msg_serializer.is_valid(raise_exception=True)
         msg = msg_serializer.save(
             sender=request.user,
@@ -52,9 +53,10 @@ class FileMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        msg_serializer = MessageCreateSerializer(data={
-            'conversation': request.data['conversation'],
-        })
+        msg_serializer = MessageCreateSerializer(
+            data={'conversation': request.data['conversation']},
+            context={'request': request},
+        )
         msg_serializer.is_valid(raise_exception=True)
         msg = msg_serializer.save(
             sender=request.user,

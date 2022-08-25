@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
 from .choices import ConversationType, MessageType
 from .models import (
@@ -13,6 +14,17 @@ from .models import (
 
 class MessageCreateSerializer(serializers.ModelSerializer):
     """ Message Create Serializer """
+
+    def validate(self, data):
+        user = self.context['request'].user
+        members = data['conversation'].members.all()
+
+        if not user in members:
+            raise serializers.ValidationError({
+                'conversation': _('You are not a member of the conversation.')
+            })
+
+        return data
 
     class Meta:
         model = Message
