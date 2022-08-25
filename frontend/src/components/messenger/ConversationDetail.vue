@@ -84,9 +84,40 @@ export default {
     },
     sendMessage() {
       this.convoSocket.send(JSON.stringify({
+        'msg_type': 1,
         'content': this.message
       }))
       this.message = ''
+    },
+    sendImages(event) {
+      const imagesData = new FormData()
+      imagesData.append('conversation', this.conversation.id)
+      for (let i = 0; i < event.target.files.length; i++) {
+        imagesData.append('content', event.target.files[i], event.target.files[i].name)
+      }
+
+      axios.post('/' + this.$i18n.locale + '/messenger/message/images/', imagesData)
+      .then((response) => {
+        this.convoSocket.send(JSON.stringify({
+          'msg_type': 2,
+          'msg_data': response.data
+        }))
+      })
+    },
+    sendFiles(event) {
+      const filesData = new FormData()
+      filesData.append('conversation', this.conversation.id)
+      for (let i = 0; i < event.target.files.length; i++) {
+        filesData.append('content', event.target.files[i], event.target.files[i].name)
+      }
+
+      axios.post('/' + this.$i18n.locale + '/messenger/message/files/', filesData)
+      .then((response) => {
+        this.convoSocket.send(JSON.stringify({
+          'msg_type': 3,
+          'msg_data': response.data
+        }))
+      })
     }
   },
   watch: {
@@ -177,11 +208,13 @@ export default {
               <i class="fa-solid fa-paper-plane"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li class="dropdown-item">
+              <input ref="imagesInput" @change="sendImages" type="file" accept="image/*" multiple class="visually-hidden">
+              <li @click="$refs.imagesInput.click()" class="dropdown-item">
                 <i class="fa-solid fa-file-image"></i>
                 Images
               </li>
-              <li class="dropdown-item">
+              <input ref="filesInput" @change="sendFiles" type="file" multiple class="visually-hidden">
+              <li @click="$refs.filesInput.click()" class="dropdown-item">
                 <i class="fa-solid fa-file"></i>
                 Files
               </li>

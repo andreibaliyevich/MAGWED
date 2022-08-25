@@ -38,8 +38,13 @@ class MessengerConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        content = text_data_json['content']
-        msg_data = await self.save_message(content)
+        msg_type = text_data_json['msg_type']
+
+        if msg_type == MessageType.TEXT:
+            content = text_data_json['content']
+            msg_data = await self.save_message(content)
+        else:
+            msg_data = text_data_json['msg_data']
 
         await self.channel_layer.group_send(
             self.convo_group_name,
