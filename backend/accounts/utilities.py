@@ -23,6 +23,6 @@ def check_token(user, token):
 
 def get_avatar_path(instance, filename):
     """ Get path of avatar """
-    path_name = timezone.now().strftime('%Y/%m/%d/%H%M%S%f')
+    filepath = timezone.now().strftime('%Y/%m/%d/%H%M%S%f')
     file_ext = splitext(filename)[1].lower()
-    return f'avatars/{ path_name }{ file_ext }'
+    return f'avatars/{ filepath }{ file_ext }'
