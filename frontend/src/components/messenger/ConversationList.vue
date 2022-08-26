@@ -8,6 +8,14 @@ import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 export default {
   mixins: [ToLocaleDateTimeString],
   props: {
+    conversationType: {
+      type: Object,
+      required: true
+    },
+    messageType: {
+      type: Object,
+      required: true
+    },
     convoId: {
       type: Number,
       default: 0
@@ -42,11 +50,11 @@ export default {
     <div class="list-group list-group-flush">
       <a v-for="convo in convoList" href="#" class="list-group-item list-group-item-action p-0">
         <div v-if="convo.id == convoId" class="d-flex gap-3 p-3 text-dark" style="background-color: #efefef;">
-          <div v-if="convo.convo_type == 1">
+          <div v-if="convo.convo_type == conversationType.DIALOG">
             <img v-if="convo.details.avatar" :src="`${ convo.details.avatar }`" class="rounded-circle" width="48" height="48">
             <img v-else src="/user-avatar.jpg" class="rounded-circle" width="48" height="48">
           </div>
-          <div v-else-if="convo.convo_type == 2">
+          <div v-else-if="convo.convo_type == conversationType.GROUP">
             <img v-if="convo.details.image" :src="`${ convo.details.image }`" class="rounded-circle" width="48" height="48">
             <img v-else src="/group-avatar.jpg" class="rounded-circle" width="48" height="48">
           </div>
@@ -55,7 +63,7 @@ export default {
           </div>
           <div class="flex-grow-1 ms-3">
             <div class="d-flex justify-content-between">
-              <div v-if="convo.convo_type == 2" class="d-flex align-items-center">
+              <div v-if="convo.convo_type == conversationType.GROUP" class="d-flex align-items-center">
                 <i class="fa-solid fa-user-group"></i>
                 &nbsp;
                 <strong class="mb-0">{{ convo.details.name }}</strong>
@@ -63,17 +71,17 @@ export default {
               <strong v-else class="mb-0">{{ convo.details.name }}</strong>
               <small v-if="convo.last_message.created_at">{{ toLocaleDateTimeString(convo.last_message.created_at) }}</small>
             </div>
-            <p v-if="convo.last_message.msg_type == 1" class="mb-0 opacity-75">{{ convo.last_message.content }}</p>
-            <p v-else-if="convo.last_message.msg_type == 2" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Images</p>
-            <p v-else-if="convo.last_message.msg_type == 3" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Files</p>
+            <p v-if="convo.last_message.msg_type == messageType.TEXT" class="mb-0 opacity-75">{{ convo.last_message.content }}</p>
+            <p v-else-if="convo.last_message.msg_type == messageType.IMAGES" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Images</p>
+            <p v-else-if="convo.last_message.msg_type == messageType.FILES" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Files</p>
           </div>
         </div>
         <div v-else @click="$emit('setConversation', convo)" class="d-flex gap-3 p-3">
-          <div v-if="convo.convo_type == 1">
+          <div v-if="convo.convo_type == conversationType.DIALOG">
             <img v-if="convo.details.avatar" :src="`${ convo.details.avatar }`" class="rounded-circle" width="48" height="48">
             <img v-else src="/user-avatar.jpg" class="rounded-circle" width="48" height="48">
           </div>
-          <div v-else-if="convo.convo_type == 2">
+          <div v-else-if="convo.convo_type == conversationType.GROUP">
             <img v-if="convo.details.image" :src="`${ convo.details.image }`" class="rounded-circle" width="48" height="48">
             <img v-else src="/group-avatar.jpg" class="rounded-circle" width="48" height="48">
           </div>
@@ -82,7 +90,7 @@ export default {
           </div>
           <div class="flex-grow-1 ms-3">
             <div class="d-flex justify-content-between">
-              <div v-if="convo.convo_type == 2" class="d-flex align-items-center">
+              <div v-if="convo.convo_type == conversationType.GROUP" class="d-flex align-items-center">
                 <i class="fa-solid fa-user-group"></i>
                 &nbsp;
                 <strong class="mb-0">{{ convo.details.name }}</strong>
@@ -90,9 +98,9 @@ export default {
               <strong v-else class="mb-0">{{ convo.details.name }}</strong>
               <small v-if="convo.last_message.created_at">{{ toLocaleDateTimeString(convo.last_message.created_at) }}</small>
             </div>
-            <p v-if="convo.last_message.msg_type == 1" class="mb-0 opacity-75">{{ convo.last_message.content }}</p>
-            <p v-else-if="convo.last_message.msg_type == 2" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Images</p>
-            <p v-else-if="convo.last_message.msg_type == 3" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Files</p>
+            <p v-if="convo.last_message.msg_type == messageType.TEXT" class="mb-0 opacity-75">{{ convo.last_message.content }}</p>
+            <p v-else-if="convo.last_message.msg_type == messageType.IMAGES" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Images</p>
+            <p v-else-if="convo.last_message.msg_type == messageType.FILES" class="mb-0 opacity-75">{{ convo.last_message.content.length }} Files</p>
           </div>
         </div>
       </a>

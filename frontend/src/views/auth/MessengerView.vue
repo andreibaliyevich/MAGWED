@@ -7,6 +7,15 @@ import ConversationDetail from '@/components/messenger/ConversationDetail.vue'
 export default {
   data() {
     return {
+      conversationType: {
+        DIALOG: 1,
+        GROUP: 2
+      },
+      messageType: {
+        TEXT: 1,
+        IMAGES: 2,
+        FILES: 3
+      },
       conversation: {}
     }
   },
@@ -23,6 +32,8 @@ export default {
     <div class="row d-lg-none">
       <div v-if="!conversation.id" class="col py-4">
         <ConversationList
+          :conversationType="conversationType"
+          :messageType="messageType"
           @setConversation="setConversation"
         />
       </div>
@@ -31,6 +42,8 @@ export default {
           <i class="fa-solid fa-arrow-left-long"></i>
         </button>
         <ConversationDetail
+          :conversationType="conversationType"
+          :messageType="messageType"
           :conversation="conversation"
         />
       </div>
@@ -38,6 +51,8 @@ export default {
     <div class="row d-none d-lg-flex">
       <div class="col-4 border-end py-4">
         <ConversationList
+          :conversationType="conversationType"
+          :messageType="messageType"
           :convoId="conversation.id"
           @setConversation="setConversation"
         />
@@ -45,6 +60,8 @@ export default {
       <div class="col-8 p-3">
         <ConversationDetail
           v-if="conversation.id" 
+          :conversationType="conversationType"
+          :messageType="messageType"
           :conversation="conversation"
         />
         <div v-else class="text-center h-100" style="min-height: 60vh;">

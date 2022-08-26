@@ -14,6 +14,14 @@ const userStore = useUserStore()
 export default {
   mixins: [ToLocaleDateTimeString],
   props: {
+    conversationType: {
+      type: Object,
+      required: true
+    },
+    messageType: {
+      type: Object,
+      required: true
+    },
     conversation: {
       type: Object,
       required: true
@@ -143,11 +151,11 @@ export default {
       <div class="card-header bg-white">
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
-            <div v-if="conversation.convo_type == 1">
+            <div v-if="conversation.convo_type == conversationType.DIALOG">
               <img v-if="conversation.details.avatar" :src="`${ conversation.details.avatar }`" class="rounded-circle" width="50" height="50">
               <img v-else src="/user-avatar.jpg" class="rounded-circle" width="50" height="50">
             </div>
-            <div v-else-if="conversation.convo_type == 2">
+            <div v-else-if="conversation.convo_type == conversationType.GROUP">
               <img v-if="conversation.details.image" :src="`${ conversation.details.image }`" class="rounded-circle" width="50" height="50">
               <img v-else src="/group-avatar.jpg" class="rounded-circle" width="50" height="50">
             </div>
@@ -179,7 +187,7 @@ export default {
           </div>
           <div v-else class="d-flex justify-content-start">
             <div class="my-0">
-              <div v-if="conversation.convo_type == 2" class="d-flex align-items-start">
+              <div v-if="conversation.convo_type == conversationType.GROUP" class="d-flex align-items-start">
                 <img v-if="msg.sender.avatar" :src="`${ baseStore.apiURL }${ msg.sender.avatar }`" class="rounded-circle" width="35" height="35">
                 <img v-else src="/user-avatar.jpg" class="rounded-circle" width="35" height="35">
                 <div class="bg-light rounded p-2 ms-2 mb-2">
