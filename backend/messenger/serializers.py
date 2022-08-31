@@ -41,23 +41,33 @@ class TextMessageSerializer(serializers.ModelSerializer):
 
 class ImageMessageSerializer(serializers.ModelSerializer):
     """ Image Message Serializer """
+    size = serializers.SerializerMethodField()
+
+    def get_size(self, obj):
+        return obj.content.size
 
     class Meta:
         model = ImageMessage
         fields = [
             'id',
             'content',
+            'size',
         ]
 
 
 class FileMessageSerializer(serializers.ModelSerializer):
     """ File Message Serializer """
+    size = serializers.SerializerMethodField()
+
+    def get_size(self, obj):
+        return obj.content.size
 
     class Meta:
         model = FileMessage
         fields = [
             'id',
             'content',
+            'size',
         ]
 
 
