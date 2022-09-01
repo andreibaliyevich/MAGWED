@@ -221,3 +221,12 @@
   border-color: #e72a26 !important;
   box-shadow: none !important;
 }
+
+.text-white > div > div > div > a,
+.text-white > div > div > div > h6 > a {
+  color: #ffffff;
+}
+.text-dark > div > div > div > a,
+.text-dark > div > div > div > h6 > a {
+  color: #000000;
+}
