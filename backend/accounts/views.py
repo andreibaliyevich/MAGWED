@@ -205,6 +205,11 @@ class OrganizerCoverView(APIView):
     """ Organizer Cover View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
 
+    def get(self, request, *args, **kwargs):
+        organizer = get_object_or_404(Organizer, user=request.user)
+        serializer = OrganizerCoverSerializer(organizer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def put(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
         serializer = OrganizerCoverSerializer(organizer, data=request.data)

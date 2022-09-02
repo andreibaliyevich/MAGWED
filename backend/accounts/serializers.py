@@ -218,7 +218,6 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
     user = UserProfileSerializer()
     roles = serializers.PrimaryKeyRelatedField(
         queryset=OrganizerRole.objects.all(), many=True)
-    cover = serializers.ImageField(read_only=True)
     countries = serializers.PrimaryKeyRelatedField(
         queryset=Country.objects.all(), many=True)
     cities = serializers.PrimaryKeyRelatedField(
@@ -262,7 +261,6 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
         fields = [
             'user',
             'roles',
-            'cover',
             'description',
             'countries',
             'cities',
