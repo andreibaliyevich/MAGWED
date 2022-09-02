@@ -1,6 +1,9 @@
 <script setup>
 import axios from 'axios'
 
+import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
+import ProfileCover from '@/components/auth/ProfileCover.vue'
+
 import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
 const baseStore = useBaseStore()
@@ -12,15 +15,12 @@ export default {
   data() {
     return {
       pageLoading: 0,
-      isAvatarLoading: false,
-      isCoverLoading: false,
       name: '',
       country: null,
       city: null,
       phone: '',
       dateOfWedding: null,
       roles: [],
-      cover: null,
       description: '',
       countries: [],
       cities: [],
@@ -169,98 +169,6 @@ export default {
         document.body.scrollTop = 0
         document.documentElement.scrollTop = 0
       })
-    },
-    openAvatarInput() {
-      this.$refs.avatarInput.click()
-    },
-    updateAvatar(event) {
-      this.isAvatarLoading = true
-      const avatarData = new FormData()
-      avatarData.append('avatar', event.target.files[0], event.target.files[0].name)
-
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/avatar/', avatarData)
-      .then((response) => {
-        this.userStore.updateAvatar(response.data.avatar)
-        window.localStorage.setItem('user', JSON.stringify({
-          'token': this.userStore.token,
-          'username': this.userStore.username,
-          'email': this.userStore.email,
-          'user_type': this.userStore.userType,
-          'name': this.userStore.name,
-          'avatar': response.data.avatar
-        }))
-        this.$refs.avatarInput.value = ''
-        this.status = 'updated_avatar'
-        this.errors = null
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-      .catch((error) => {
-        this.$refs.avatarInput.value = ''
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => this.isAvatarLoading = false)
-    },
-    removeAvatar(event) {
-      if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
-        axios.delete('/' + this.$i18n.locale + '/accounts/auth/avatar/')
-        .then((response) => {
-          this.userStore.updateAvatar(null)
-          window.localStorage.setItem('user', JSON.stringify({
-            'token': this.userStore.token,
-            'username': this.userStore.username,
-            'email': this.userStore.email,
-            'user_type': this.userStore.userType,
-            'name': this.userStore.name,
-            'avatar': null
-          }))
-          this.status = 'removed_avatar'
-          this.errors = null
-        })
-        .catch((error) => {
-          this.status = null
-          this.errors = error.response.data
-        })
-      }
-    },
-    openCoverInput() {
-      this.$refs.coverInput.click()
-    },
-    updateCover(event) {
-      this.isCoverLoading = true
-      const coverData = new FormData()
-      coverData.append('cover', event.target.files[0], event.target.files[0].name)
-
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/cover/', coverData)
-      .then((response) => {
-        this.cover = response.data.cover
-        this.$refs.coverInput.value = ''
-        this.status = 'updated_cover'
-        this.errors = null
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-      .catch((error) => {
-        this.$refs.coverInput.value = ''
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => this.isCoverLoading = false)
-    },
-    removeCover(event) {
-      if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
-        axios.delete('/' + this.$i18n.locale + '/accounts/auth/cover/')
-        .then((response) => {
-          this.cover = null
-          this.status = 'removed_cover'
-          this.errors = null
-        })
-        .catch((error) => {
-          this.status = null
-          this.errors = error.response.data
-        })
-      }
     }
   },
   watch: {
@@ -323,10 +231,6 @@ export default {
       <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
         <i class="fa-solid fa-circle-check"></i>
         <div v-if="status == 'updated_profile'" class="ms-3">{{ $t('auth.profile.profile_updated_successfully') }}</div>
-        <div v-if="status == 'updated_avatar'" class="ms-3">{{ $t('auth.profile.avatar_updated_successfully') }}</div>
-        <div v-if="status == 'removed_avatar'" class="ms-3">{{ $t('auth.profile.avatar_removed_successfully') }}</div>
-        <div v-if="status == 'updated_cover'" class="ms-3">{{ $t('auth.profile.cover_updated_successfully') }}</div>
-        <div v-if="status == 'removed_cover'" class="ms-3">{{ $t('auth.profile.cover_removed_successfully') }}</div>
         <button @click="status = null" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
@@ -337,58 +241,10 @@ export default {
       </div>
     </div>
     <div v-else>
-      <div v-if="userStore.userType == 3" class="card mb-2">
-        <div v-if="isCoverLoading" class="d-flex justify-content-center">
-          <div class="spinner-border text-dark m-5" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-        <div v-else>
-          <img v-if="cover" :src="`${ baseStore.apiURL }${ cover }`" class="card-img-top">
-          <img v-else src="/cover.jpg" class="card-img-top">
-        </div>
-        <div class="card-body text-center">
-          <div v-if="errors && errors.cover">
-            <small v-for="error in errors.cover" class="text-danger">{{ error }}</small>
-          </div>
-          <div class="d-flex justify-content-center">
-            <input ref="coverInput" @change="updateCover" type="file" accept="image/*" class="visually-hidden">
-            <button @click="openCoverInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_cover') }}</button>
-            <button v-if="cover" @click="removeCover" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_cover') }}</button>
-          </div>
-          <small class="text-muted">{{ $t('form_help.input_img', { width: '1900', height: '1200' }) }}</small>
-        </div>
-      </div>
-      <div class="card mb-5">
-        <div class="row d-flex align-items-center">
-          <div class="col-md-3">
-            <div v-if="isAvatarLoading" class="d-flex justify-content-center">
-              <div class="spinner-border text-dark" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <div v-else>
-              <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
-              <img v-else src="/user-avatar.jpg" class="img-fluid rounded-start">
-            </div>
-          </div>
-          <div class="col-md-9">
-            <div class="card-body text-center">
-              <div v-if="errors && errors.avatar">
-                <small v-for="error in errors.avatar" class="text-danger">{{ error }}</small>
-              </div>
-              <div class="d-flex justify-content-center">
-                <input ref="avatarInput" @change="updateAvatar" type="file" accept="image/*" class="visually-hidden">
-                <button @click="openAvatarInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_avatar') }}</button>
-                <button v-if="userStore.avatar" @click="removeAvatar" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_avatar') }}</button>
-              </div>
-              <small class="text-muted">{{ $t('form_help.input_img', { width: '512', height: '512' }) }}</small>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProfileCover />
+      <ProfileAvatar />
 
-      <form @submit.prevent="updateProfile" class="row g-3">
+      <form @submit.prevent="updateProfile" class="row g-3 mt-3">
         <div class="col-md-12">
           <label for="id_name" class="form-label">{{ $t('auth.profile.name') }}</label>
           <div v-if="errors && errors.user && errors.user.name">
