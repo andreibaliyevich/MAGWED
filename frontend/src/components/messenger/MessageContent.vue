@@ -46,7 +46,10 @@ export default {
     >
   </div>
   <div v-else-if="msgType == messageType.FILES">
-    <div v-for="file in msgContent" class="row align-items-center gx-3">
+    <div
+      v-for="file in msgContent"
+      class="row align-items-center gx-3"
+    >
       <div class="col-auto">
         <a
           :href="`${ baseStore.apiURL }${ file.content }`"

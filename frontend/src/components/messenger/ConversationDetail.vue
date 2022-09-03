@@ -154,15 +154,44 @@ export default {
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
             <div v-if="conversation.convo_type == conversationType.DIALOG">
-              <img v-if="conversation.details.avatar" :src="`${ conversation.details.avatar }`" class="rounded-circle" width="50" height="50">
-              <img v-else src="/user-avatar.jpg" class="rounded-circle" width="50" height="50">
+              <img
+                v-if="conversation.details.avatar"
+                :src="`${ conversation.details.avatar }`"
+                class="rounded-circle"
+                width="50"
+                height="50"
+              >
+              <img
+                v-else
+                src="/user-avatar.jpg"
+                class="rounded-circle"
+                width="50"
+                height="50"
+              >
             </div>
             <div v-else-if="conversation.convo_type == conversationType.GROUP">
-              <img v-if="conversation.details.image" :src="`${ conversation.details.image }`" class="rounded-circle" width="50" height="50">
-              <img v-else src="/group-avatar.jpg" class="rounded-circle" width="50" height="50">
+              <img
+                v-if="conversation.details.image"
+                :src="`${ conversation.details.image }`"
+                class="rounded-circle"
+                width="50"
+                height="50"
+              >
+              <img
+                v-else
+                src="/group-avatar.jpg"
+                class="rounded-circle"
+                width="50"
+                height="50"
+              >
             </div>
             <div v-else>
-              <img src="/conversation.jpg" class="rounded-circle" width="50" height="50">
+              <img
+                src="/conversation.jpg"
+                class="rounded-circle"
+                width="50"
+                height="50"
+              >
             </div>
           </div>
           <div class="flex-grow-1 ms-3">
@@ -170,14 +199,30 @@ export default {
           </div>
         </div>
       </div>
-      <div ref="cardBody" class="card-body overflow-auto">
-        <div v-if="isMessagesLoading" class="text-center h-100">
-          <div class="spinner-grow text-dark" role="status">
+      <div
+        ref="cardBody"
+        class="card-body overflow-auto"
+      >
+        <div
+          v-if="isMessagesLoading"
+          class="text-center h-100"
+        >
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+          >
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <div v-else v-for="msg in messages" class="mt-1">
-          <div v-if="msg.sender.id == userStore.id" class="d-flex justify-content-end">
+        <div
+          v-else
+          v-for="msg in messages"
+          class="mt-1"
+        >
+          <div
+            v-if="msg.sender.id == userStore.id"
+            class="d-flex justify-content-end"
+          >
             <div class="my-0">
               <div class="bg-primary rounded p-2 mb-2">
                 <p class="text-sm mb-0 text-white">
@@ -193,11 +238,29 @@ export default {
               </p>
             </div>
           </div>
-          <div v-else class="d-flex justify-content-start">
+          <div
+            v-else
+            class="d-flex justify-content-start"
+          >
             <div class="my-0">
-              <div v-if="conversation.convo_type == conversationType.GROUP" class="d-flex align-items-start">
-                <img v-if="msg.sender.avatar" :src="`${ baseStore.apiURL }${ msg.sender.avatar }`" class="rounded-circle" width="35" height="35">
-                <img v-else src="/user-avatar.jpg" class="rounded-circle" width="35" height="35">
+              <div
+                v-if="conversation.convo_type == conversationType.GROUP"
+                class="d-flex align-items-start"
+              >
+                <img
+                  v-if="msg.sender.avatar"
+                  :src="`${ baseStore.apiURL }${ msg.sender.avatar }`"
+                  class="rounded-circle"
+                  width="35"
+                  height="35"
+                >
+                <img
+                  v-else
+                  src="/user-avatar.jpg"
+                  class="rounded-circle"
+                  width="35"
+                  height="35"
+                >
                 <div class="bg-light rounded p-2 ms-2 mb-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <p class="text-sm mb-0">
@@ -209,7 +272,10 @@ export default {
                   </p>
                 </div>
               </div>
-              <div v-else class="bg-light rounded p-2 mb-2">
+              <div
+                v-else
+                class="bg-light rounded p-2 mb-2"
+              >
                 <p class="text-sm mb-0 text-dark">
                   <MessageContent
                     :messageType="messageType"
@@ -227,22 +293,60 @@ export default {
       </div>
       <div class="card-footer bg-white">
         <div class="hstack gap-2">
-          <textarea ref="msgTextarea" v-model="message" class="form-control me-auto" :placeholder="$t('messenger.type_message')" rows="1"></textarea>
-          <button v-if="message" @click="sendMessage" type="button" class="btn btn-primary">
+          <textarea
+            ref="msgTextarea"
+            v-model="message"
+            class="form-control me-auto"
+            :placeholder="$t('messenger.type_message')"
+            rows="1"
+          ></textarea>
+          <button
+            v-if="message"
+            @click="sendMessage"
+            type="button"
+            class="btn btn-primary"
+          >
             <i class="fa-solid fa-paper-plane"></i>
           </button>
-          <div v-else class="dropup">
-            <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
+          <div
+            v-else
+            class="dropup"
+          >
+            <button
+              type="button"
+              class="btn btn-light"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               <i class="fa-solid fa-paper-plane"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <input ref="imagesInput" @change="sendImages" type="file" accept="image/*" multiple class="visually-hidden">
-              <li @click="$refs.imagesInput.click()" class="dropdown-item">
+              <input
+                ref="imagesInput"
+                @change="sendImages"
+                type="file"
+                accept="image/*"
+                multiple
+                class="visually-hidden"
+              >
+              <li
+                @click="$refs.imagesInput.click()"
+                class="dropdown-item"
+              >
                 <i class="fa-solid fa-file-image"></i>
                 Images
               </li>
-              <input ref="filesInput" @change="sendFiles" type="file" multiple class="visually-hidden">
-              <li @click="$refs.filesInput.click()" class="dropdown-item">
+              <input
+                ref="filesInput"
+                @change="sendFiles"
+                type="file"
+                multiple
+                class="visually-hidden"
+              >
+              <li
+                @click="$refs.filesInput.click()"
+                class="dropdown-item"
+              >
                 <i class="fa-solid fa-file"></i>
                 Files
               </li>
