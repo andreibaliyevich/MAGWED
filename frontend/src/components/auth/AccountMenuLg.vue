@@ -1,6 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router'
 import axios from 'axios'
+
+import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -22,113 +23,191 @@ export default {
 
 <template>
   <div class="position-sticky" style="top: 120px;">
-    <div class="text-uppercase fw-bolder text-secondary">{{ $t('auth.social') }}</div>
+    <div class="text-uppercase fw-bolder text-secondary">
+      {{ $t('auth.social') }}
+    </div>
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Messenger'" class="nav-link active" aria-current="page" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
-          <i class="fa-solid fa-comments"></i>
-          {{ $t('auth.messenger') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Messenger', params: { locale: `${ $i18n.locale }` }}">
-          <i class="fa-solid fa-comments"></i>
-          {{ $t('auth.messenger') }}
-        </RouterLink>
-      </li>
-      <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Notifications'" class="nav-link active" aria-current="page" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Notifications'"
+          :toName="'Notifications'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-bell"></i>
           {{ $t('auth.notifications') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Notifications', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Notifications'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-bell"></i>
           {{ $t('auth.notifications') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li v-if="userStore.userType == 3" class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Home'"
+          :toName="'Home'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-users"></i>
           {{ $t('auth.followers') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Home'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-users"></i>
           {{ $t('auth.followers') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Home'"
+          :toName="'Home'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-user-group"></i>
           {{ $t('auth.following') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Home'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-user-group"></i>
           {{ $t('auth.following') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Home'"
+          :toName="'Home'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-star"></i>
           {{ $t('auth.favorites') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Home'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-star"></i>
           {{ $t('auth.favorites') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
     </ul>
-    <div class="text-uppercase fw-bolder text-secondary mt-3">{{ $t('auth.account') }}</div>
+    <div class="text-uppercase fw-bolder text-secondary mt-3">
+      {{ $t('auth.account') }}
+    </div>
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Profile'" class="nav-link active" aria-current="page" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Profile'"
+          :toName="'Profile'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-user"></i>
           {{ $t('auth.profile.profile') }}
-        </RouterLink>
-        <RouterLink v-else class="w-100 nav-link text-dark" :to="{ name: 'Profile', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Profile'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-user"></i>
           {{ $t('auth.profile.profile') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li v-if="userStore.userType == 3" class="nav-item">
-        <RouterLink v-if="this.$route.name == 'ExternalLinks'" class="nav-link active" aria-current="page" :to="{ name: 'ExternalLinks', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'ExternalLinks'"
+          :toName="'ExternalLinks'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-link"></i>
           {{ $t('auth.externallinks.external_links') }}
-        </RouterLink>
-        <RouterLink v-else class="w-100 nav-link text-dark" :to="{ name: 'ExternalLinks', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'ExternalLinks'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-link"></i>
           {{ $t('auth.externallinks.external_links') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li v-if="userStore.userType == 3" class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Home'"
+          :toName="'Home'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-briefcase"></i>
           {{ $t('auth.portfolio') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Home'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-briefcase"></i>
           {{ $t('auth.portfolio') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'PasswordChange'" class="nav-link active" aria-current="page" :to="{ name: 'PasswordChange', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'PasswordChange'"
+          :toName="'PasswordChange'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-key"></i>
           {{ $t('auth.password.change_password') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'PasswordChange', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'PasswordChange'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-key"></i>
           {{ $t('auth.password.change_password') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink v-if="this.$route.name == 'Home'" class="nav-link active" aria-current="page" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        <LocaleRouterLink
+          v-if="this.$route.name == 'Home'"
+          :toName="'Home'"
+          class="nav-link active"
+          aria-current="page"
+        >
           <i class="fa-solid fa-user-xmark"></i>
           {{ $t('auth.delete_profile') }}
-        </RouterLink>
-        <RouterLink v-else class="nav-link text-dark" :to="{ name: 'Home', params: { locale: `${ $i18n.locale }` }}">
+        </LocaleRouterLink>
+        <LocaleRouterLink
+          v-else
+          :toName="'Home'"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-user-xmark"></i>
           {{ $t('auth.delete_profile') }}
-        </RouterLink>
+        </LocaleRouterLink>
       </li>
       <li class="nav-item">
-        <div @click="logout" class="nav-link text-dark">
+        <div
+          @click="logout"
+          class="nav-link text-dark"
+        >
           <i class="fa-solid fa-right-from-bracket"></i>
           {{ $t('auth.logout') }}
         </div>
