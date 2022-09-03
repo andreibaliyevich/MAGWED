@@ -112,7 +112,7 @@ const router = createRouter({
         {
           path: 'messenger',
           name: 'Messenger',
-          component: () => import('@/views/auth/MessengerView.vue'),
+          component: () => import('@/views/MessengerView.vue'),
           beforeEnter: [isAuthenticated],
         },
       ]
