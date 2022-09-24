@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-17 12:03+0000\n"
+"POT-Creation-Date: 2022-09-24 18:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,43 +21,43 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: accounts/admin.py:8 accounts/models.py:128
+#: accounts/admin.py:15 accounts/models.py:123
 msgid "Date joined"
 msgstr "Дата реєстрації"
 
-#: accounts/admin.py:13
+#: accounts/admin.py:20
 msgid "Last 3 days"
 msgstr "Останні 3 дні"
 
-#: accounts/admin.py:14
+#: accounts/admin.py:21
 msgid "Last week"
 msgstr "Останній тиждень"
 
-#: accounts/admin.py:15
+#: accounts/admin.py:22
 msgid "Last month"
 msgstr "Останній місяць"
 
-#: accounts/admin.py:16
+#: accounts/admin.py:23
 msgid "Last 6 months"
 msgstr "Останні 6 місяців"
 
-#: accounts/admin.py:17
+#: accounts/admin.py:24
 msgid "Last year"
 msgstr "Останній рік"
 
-#: accounts/admin.py:18
+#: accounts/admin.py:25
 msgid "More year"
 msgstr "Більше року"
 
-#: accounts/admin.py:58
+#: accounts/admin.py:69
 msgid "Personal info"
 msgstr "Персональна інформація"
 
-#: accounts/admin.py:67
+#: accounts/admin.py:78
 msgid "Permissions"
 msgstr "Права доступу"
 
-#: accounts/admin.py:76
+#: accounts/admin.py:87
 msgid "Important dates"
 msgstr "Важливі дати"
 
@@ -69,11 +69,11 @@ msgstr "Облікові записи"
 msgid "Administrator"
 msgstr "Адміністратор"
 
-#: accounts/choices.py:7 accounts/models.py:169
+#: accounts/choices.py:7 accounts/models.py:190
 msgid "Customer"
 msgstr "Клієнт"
 
-#: accounts/choices.py:8 accounts/models.py:271 accounts/models.py:281
+#: accounts/choices.py:8 accounts/models.py:292 accounts/models.py:302
 #: social/models.py:130
 msgid "Organizer"
 msgstr "Організатор"
@@ -207,7 +207,7 @@ msgstr "Тип користувача"
 msgid "Name"
 msgstr "Ім'я"
 
-#: accounts/models.py:70 accounts/models.py:214 messenger/models.py:64
+#: accounts/models.py:70 accounts/models.py:235 messenger/models.py:64
 #, python-format
 msgid ""
 "Upload JPG or PNG image. Required minimum of size %(width)d x %(height)d."
@@ -255,106 +255,127 @@ msgstr ""
 msgid "Active"
 msgstr "Активний"
 
-#: accounts/models.py:124
-msgid "Last visit"
-msgstr "Останнє відвідування"
-
-#: accounts/models.py:149 accounts/models.py:160 accounts/models.py:197
-#: social/models.py:26 social/models.py:54 social/models.py:74
+#: accounts/models.py:144 accounts/models.py:154 accounts/models.py:181
+#: accounts/models.py:218 social/models.py:26 social/models.py:54
+#: social/models.py:74
 msgid "User"
 msgstr "Користувач"
 
-#: accounts/models.py:150
+#: accounts/models.py:145
 msgid "Users"
 msgstr "Користувачі"
 
-#: accounts/models.py:165
+#: accounts/models.py:157
+msgid "Device ID"
+msgstr "Ідентифікатор пристрою"
+
+#: accounts/models.py:158
+msgid "Online"
+msgstr "Онлайн"
+
+#: accounts/models.py:162
+msgid "First login"
+msgstr "Перший вхід"
+
+#: accounts/models.py:166
+msgid "Last visit"
+msgstr "Останнє відвідування"
+
+#: accounts/models.py:170
+msgid "Connection History"
+msgstr "Історія підключення"
+
+#: accounts/models.py:171
+msgid "Connection Histories"
+msgstr "Історії підключень"
+
+#: accounts/models.py:186
 msgid "Date of Wedding"
 msgstr "Дата весілля"
 
-#: accounts/models.py:170
+#: accounts/models.py:191
 msgid "Customers"
 msgstr "Клієнти"
 
-#: accounts/models.py:179
+#: accounts/models.py:200
 msgid "Identifier"
 msgstr "Ідентифікатор"
 
-#: accounts/models.py:186
+#: accounts/models.py:207
 msgid "Role of Organizer"
 msgstr "Роль організатора"
 
-#: accounts/models.py:187
+#: accounts/models.py:208
 msgid "Roles of Organizers"
 msgstr "Ролі організаторів"
 
-#: accounts/models.py:202
+#: accounts/models.py:223
 msgid "Roles"
 msgstr "Ролі"
 
-#: accounts/models.py:220
+#: accounts/models.py:241
 msgid "Cover"
 msgstr "Обкладинка"
 
-#: accounts/models.py:222 blog/models.py:20 blog/models.py:66 blog/models.py:97
+#: accounts/models.py:243 blog/models.py:20 blog/models.py:66 blog/models.py:97
 #: blog/models.py:180 portfolio/models.py:39 portfolio/models.py:143
 msgid "Description"
 msgstr "Опис"
 
-#: accounts/models.py:227 main/models.py:20
+#: accounts/models.py:248 main/models.py:20
 msgid "Countries"
 msgstr "Країни"
 
-#: accounts/models.py:232 main/models.py:39
+#: accounts/models.py:253 main/models.py:39
 msgid "Cities"
 msgstr "Міста"
 
-#: accounts/models.py:237 main/models.py:58
+#: accounts/models.py:258 main/models.py:58
 msgid "Languages"
 msgstr "Мови"
 
-#: accounts/models.py:245
+#: accounts/models.py:266
 msgid "Cost of work"
 msgstr "Вартість роботи"
 
-#: accounts/models.py:246
+#: accounts/models.py:267
 msgid "Please enter in USD ($)"
 msgstr "Будь ласка, введіть у доларах США ($)"
 
-#: accounts/models.py:250
+#: accounts/models.py:271
 msgid "Number of hours"
 msgstr "Кількість годин"
 
-#: accounts/models.py:256
+#: accounts/models.py:277
 msgid "Profile URL"
 msgstr "URL профілю"
 
-#: accounts/models.py:263 portfolio/models.py:64 portfolio/models.py:168
+#: accounts/models.py:284 portfolio/models.py:64 portfolio/models.py:168
 #: social/models.py:141
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: accounts/models.py:267
+#: accounts/models.py:288
 msgid "Pro-account valid time"
 msgstr "Термін дії Pro-акаунта"
 
-#: accounts/models.py:272
+#: accounts/models.py:293
 msgid "Organizers"
 msgstr "Організатори"
 
-#: accounts/models.py:288
+#: accounts/models.py:309
 msgid "Type of Link"
 msgstr "Тип посилання"
 
-#: accounts/models.py:290
+#: accounts/models.py:311
 msgid "URL of Link"
 msgstr "URL посилання"
 
-#: accounts/models.py:293
+#: accounts/models.py:314
 msgid "Link of Organizer"
 msgstr "Посилання організатора"
 
-#: accounts/models.py:294
+#: accounts/models.py:315
 msgid "Links of Organizer"
 msgstr "Посилання організаторів"
 
@@ -362,32 +383,32 @@ msgstr "Посилання організаторів"
 msgid "Only organizers have permission."
 msgstr "Дозвіл є лише у організаторів."
 
-#: accounts/serializers.py:49 accounts/serializers.py:145
-#: accounts/serializers.py:213
+#: accounts/serializers.py:45 accounts/serializers.py:120
+#: accounts/serializers.py:166
 msgid "Password fields did not match."
 msgstr "Поля пароля не співпадають."
 
-#: accounts/serializers.py:115 accounts/serializers.py:201
+#: accounts/serializers.py:90 accounts/serializers.py:154
 msgid "Invalid user id or user does not exist."
 msgstr "Неприпустимий ідентифікатор користувача або не існує."
 
-#: accounts/serializers.py:121 accounts/serializers.py:207
+#: accounts/serializers.py:96 accounts/serializers.py:160
 msgid "Invalid token for given user."
 msgstr "Неприпустимий токен для користувача."
 
-#: accounts/serializers.py:139
+#: accounts/serializers.py:114
 msgid "Invalid current password."
 msgstr "Неправильний поточний пароль."
 
-#: accounts/serializers.py:158
+#: accounts/serializers.py:133
 msgid "User with given email does not exist."
 msgstr "Користувач із вказаною адресою електронної пошти не існує."
 
-#: accounts/views.py:90
+#: accounts/views.py:95
 msgid "Stale token for given user."
 msgstr "Застарілий токен для цього користувача."
 
-#: accounts/views.py:129
+#: accounts/views.py:134
 msgid "The user does not have a password."
 msgstr "Користувач не має пароля."
 
@@ -652,6 +673,10 @@ msgstr "Файлове повідомлення"
 #: messenger/models.py:166
 msgid "File Messages"
 msgstr "Файлові повідомлення"
+
+#: messenger/serializers.py:24
+msgid "You are not a member of the conversation."
+msgstr "Ви не є учасником розмови."
 
 #: portfolio/apps.py:8
 msgid "Portfolio"
