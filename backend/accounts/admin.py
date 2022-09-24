@@ -1,7 +1,14 @@
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from .models import MWUser, Customer, OrganizerRole, Organizer, OrganizerLink
+from .models import (
+    MWUser,
+    ConnectionHistory,
+    Customer,
+    OrganizerRole,
+    Organizer,
+    OrganizerLink,
+)
 
 
 class DateJoinedFilter(admin.SimpleListFilter):
@@ -40,6 +47,13 @@ class DateJoinedFilter(admin.SimpleListFilter):
             return queryset.filter(date_joined__lt=date)
 
 
+class ConnectionHistoryInline(admin.TabularInline):
+    model = ConnectionHistory
+    fields = ('device_id', 'online', 'first_login', 'last_visit')
+    readonly_fields = ('first_login', 'last_visit')
+    extra = 0
+
+
 class MWUserAdmin(admin.ModelAdmin):
     """ User Model for admin """
     list_display = (
@@ -47,7 +61,6 @@ class MWUserAdmin(admin.ModelAdmin):
         'user_type',
         'name',
         'is_active',
-        'last_visit',
     )
     search_fields = ('email', 'name')
     list_filter = ('user_type', 'is_active', DateJoinedFilter)
@@ -74,11 +87,12 @@ class MWUserAdmin(admin.ModelAdmin):
             ),
         }),
         (_('Important dates'), {
-            'fields': ('last_visit', 'last_login', 'date_joined'),
+            'fields': ('last_login', 'date_joined'),
         }),
     )
     filter_horizontal = ('groups', 'user_permissions')
-    readonly_fields = ('last_visit', 'last_login', 'date_joined')
+    readonly_fields = ('last_login', 'date_joined')
+    inlines = (ConnectionHistoryInline,)
 
 
 class CustomerAdmin(admin.ModelAdmin):

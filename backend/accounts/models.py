@@ -118,11 +118,6 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('Active'),
     )
 
-    last_visit = models.DateTimeField(
-        blank=True,
-        null=True,
-        verbose_name=_('Last visit'),
-    )
     date_joined = models.DateTimeField(
         default=timezone.now,
         verbose_name=_('Date joined'),
@@ -149,6 +144,32 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('User')
         verbose_name_plural = _('Users')
         ordering = ['email']
+
+
+class ConnectionHistory(models.Model):
+    """ Connection History Model """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
+    )
+
+    device_id = models.CharField(max_length=100, verbose_name=_('Device ID'))
+    online = models.BooleanField(default=False, verbose_name=_('Online'))
+
+    first_login = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_('First login'),
+    )
+    last_visit = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_('Last visit'),
+    )
+
+    class Meta:
+        verbose_name = _('Connection History')
+        verbose_name_plural = _('Connection Histories')
+        ordering = ['user', 'device_id']
 
 
 class Customer(models.Model):
