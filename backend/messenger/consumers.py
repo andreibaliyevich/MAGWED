@@ -1,13 +1,12 @@
-import json
 from channels.db import database_sync_to_async
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.core.cache import caches
 from .choices import MessageType
 from .models import Conversation, Message
 from .serializers import MessageFullReadSerializer, TextMessageSerializer
 
 
-class MessengerConsumer(AsyncWebsocketConsumer):
+class MessengerConsumer(AsyncJsonWebsocketConsumer):
     """ Messenger Consumer """
 
     async def connect(self):
@@ -23,9 +22,9 @@ class MessengerConsumer(AsyncWebsocketConsumer):
             )
             await self.accept()
 
-            await self.send(text_data=json.dumps({
+            await self.send_json({
                 'messages': await self.get_messages(),
-            }))
+            })
 
     async def disconnect(self, close_code):
         wstokens_cache = caches['wstokens']
@@ -36,15 +35,12 @@ class MessengerConsumer(AsyncWebsocketConsumer):
             self.channel_name,
         )
 
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        msg_type = text_data_json['msg_type']
-
-        if msg_type == MessageType.TEXT:
-            content = text_data_json['content']
+    async def receive_json(self, content):
+        if content['msg_type'] == MessageType.TEXT:
+            content = content['content']
             msg_data = await self.save_message(content)
         else:
-            msg_data = text_data_json['msg_data']
+            msg_data = content['msg_data']
 
         await self.channel_layer.group_send(
             self.convo_group_name,
@@ -61,7 +57,7 @@ class MessengerConsumer(AsyncWebsocketConsumer):
         if self.user.id != sender_id:
             await self.set_message_viewed(msg_id)
 
-        await self.send(text_data=json.dumps(event['msg_data']))
+        await self.send_json(event['msg_data'])
 
     @database_sync_to_async
     def get_conversation(self):

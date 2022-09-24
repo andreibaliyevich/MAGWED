@@ -238,19 +238,6 @@ CACHES = {
 }
 
 
-# Channels
-# https://channels.readthedocs.io/en/stable/introduction.html
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('redis', 6379)],
-        },
-    },
-}
-
-
 # Django REST framework
 # https://www.django-rest-framework.org/#installation
 # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
@@ -274,6 +261,19 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]
+
+
+# Channels
+# https://channels.readthedocs.io/en/stable/introduction.html
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('redis', 6379)],
+        },
+    },
+}
 
 
 # Easy Thumbnails
