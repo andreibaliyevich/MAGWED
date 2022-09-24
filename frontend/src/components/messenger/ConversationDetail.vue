@@ -94,7 +94,7 @@ export default {
     },
     sendMessage() {
       this.convoSocket.send(JSON.stringify({
-        'msg_type': 1,
+        'msg_type': this.messageType.TEXT,
         'content': this.message
       }))
       this.message = ''

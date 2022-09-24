@@ -37,8 +37,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
 
     async def receive_json(self, content):
         if content['msg_type'] == MessageType.TEXT:
-            content = content['content']
-            msg_data = await self.save_message(content)
+            msg_data = await self.save_message(content['content'])
         else:
             msg_data = content['msg_data']
 
@@ -81,8 +80,8 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         ).data
 
     @database_sync_to_async
-    def save_message(self, content):
-        serializer = TextMessageSerializer(data={'content': content})
+    def save_message(self, text_data):
+        serializer = TextMessageSerializer(data={'content': text_data})
         serializer.is_valid(raise_exception=True)
         msg = Message.objects.create(
             conversation=self.conversation,
