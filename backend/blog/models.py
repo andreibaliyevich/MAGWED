@@ -84,9 +84,14 @@ class Article(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='articles',
         verbose_name=_('Author'),
     )
-    categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
+    categories = models.ManyToManyField(
+        Category,
+        related_name='articles',
+        verbose_name=_('Categories'),
+    )
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     slug = models.SlugField(max_length=128, unique=True, verbose_name=_('Slug'))
