@@ -16,6 +16,7 @@ class Album(models.Model):
     owner = models.ForeignKey(
         Organizer,
         on_delete=models.CASCADE,
+        related_name='albums',
         verbose_name=_('Owner'),
     )
 
@@ -79,6 +80,7 @@ class Photo(models.Model):
     owner = models.ForeignKey(
         Organizer,
         on_delete=models.CASCADE,
+        related_name='photos',
         verbose_name=_('Owner'),
     )
     album = models.ForeignKey(
@@ -86,6 +88,7 @@ class Photo(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True,
+        related_name='photos',
         verbose_name=_('Album'),
     )
 
