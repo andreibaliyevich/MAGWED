@@ -357,14 +357,14 @@ class OrganizerLinkReadSerializer(serializers.ModelSerializer):
 class OrganizerListSerializer(serializers.ModelSerializer):
     """ Organizer List Serializer """
     user = UserShortReadSerializer(read_only=True)
-    organizerlink_set = OrganizerLinkReadSerializer(read_only=True, many=True)
+    organizer_links = OrganizerLinkReadSerializer(read_only=True, many=True)
 
     class Meta:
         model = Organizer
         fields = [
             'user',
             'profile_url',
-            'organizerlink_set',
+            'organizer_links',
         ]
 
 
@@ -374,7 +374,7 @@ class OrganizerDetailSerializer(serializers.ModelSerializer):
     countries = CountrySerializer(read_only=True, many=True)
     cities = CitySerializer(read_only=True, many=True)
     languages = LanguageSerializer(read_only=True, many=True)
-    organizerlink_set = OrganizerLinkReadSerializer(read_only=True, many=True)
+    organizer_links = OrganizerLinkReadSerializer(read_only=True, many=True)
 
     class Meta:
         model = Organizer
@@ -390,5 +390,5 @@ class OrganizerDetailSerializer(serializers.ModelSerializer):
             'number_hours',
             'rating',
             'profile_url',
-            'organizerlink_set',
+            'organizer_links',
         ]

@@ -1,3 +1,4 @@
+import uuid
 from decimal import Decimal
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
@@ -151,10 +152,11 @@ class ConnectionHistory(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='connection_histories',
         verbose_name=_('User'),
     )
 
-    device_id = models.CharField(max_length=100, verbose_name=_('Device ID'))
+    device_id = models.CharField(max_length=64, verbose_name=_('Device ID'))
     online = models.BooleanField(default=False, verbose_name=_('Online'))
 
     first_login = models.DateTimeField(
@@ -170,6 +172,12 @@ class ConnectionHistory(models.Model):
         verbose_name = _('Connection History')
         verbose_name_plural = _('Connection Histories')
         ordering = ['user', 'device_id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'device_id'],
+                name='unique_connectionhistory',
+            )
+        ]
 
 
 class Customer(models.Model):
@@ -178,6 +186,7 @@ class Customer(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         primary_key=True,
+        related_name='customer',
         verbose_name=_('User'),
     )
     date_of_wedding = models.DateField(
@@ -215,6 +224,7 @@ class Organizer(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         primary_key=True,
+        related_name='organizer',
         verbose_name=_('User'),
     )
     roles = models.ManyToManyField(
@@ -299,6 +309,7 @@ class OrganizerLink(models.Model):
     organizer = models.ForeignKey(
         Organizer,
         on_delete=models.CASCADE,
+        related_name='organizer_links',
         verbose_name=_('Organizer'),
     )
 
