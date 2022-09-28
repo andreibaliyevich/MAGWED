@@ -20,6 +20,7 @@ class Conversation(models.Model):
     )
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
+        related_name='conversations',
         verbose_name=_('Members'),
     )
 
