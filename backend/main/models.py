@@ -26,6 +26,7 @@ class City(models.Model):
     country = models.ForeignKey(
         Country,
         on_delete=models.CASCADE,
+        related_name='cities',
         verbose_name=_('Country'),
     )
     name = models.CharField(max_length=64, verbose_name=_('Name'))
