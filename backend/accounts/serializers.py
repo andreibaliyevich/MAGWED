@@ -333,6 +333,7 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
+            'id',
             'email',
             'name',
             'avatar',

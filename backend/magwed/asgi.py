@@ -12,6 +12,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 from accounts.middleware import WebSocketAuthMiddleware
+import accounts.routing
 import messenger.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'magwed.settings')
@@ -22,7 +23,8 @@ application = ProtocolTypeRouter({
     "websocket": AllowedHostsOriginValidator(
         WebSocketAuthMiddleware(
             URLRouter(
-                messenger.routing.websocket_urlpatterns
+                accounts.routing.websocket_urlpatterns
+                + messenger.routing.websocket_urlpatterns
             )
         )
     ),
