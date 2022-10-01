@@ -1,6 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
+import { RouterLink, RouterView } from 'vue-router'
 
 import Header from '@/components/base/Header.vue'
 import NavBar from '@/components/base/NavBar.vue'
@@ -15,13 +16,6 @@ const userStore = useUserStore()
 <script>
 export default {
   created() {
-    const userString = window.localStorage.getItem('user')
-    if (userString) {
-      const userData = JSON.parse(userString)
-      axios.defaults.headers.common['Authorization'] = `Token ${ userData.token }`
-      this.userStore.setUserData(userData)
-    }
-
     axios.defaults.baseURL = this.baseStore.apiURL
     axios.interceptors.response.use(
       response => response,
@@ -34,9 +28,53 @@ export default {
       }
     )
 
+    const deviceId = window.localStorage.getItem('deviceId')
+    if (deviceId) {
+      this.baseStore.setDeviceId(deviceId)
+    } else {
+      const deviceUuid = uuidv4()
+      window.localStorage.setItem('deviceId', deviceUuid)
+      this.baseStore.setDeviceId(deviceUuid)
+    }
+
     const currencyString = window.localStorage.getItem('currency')
     if (currencyString) {
       this.baseStore.setCurrency(currencyString)
+    }
+
+    const userString = window.localStorage.getItem('user')
+    if (userString) {
+      const userData = JSON.parse(userString)
+      axios.defaults.headers.common['Authorization'] = `Token ${ userData.token }`
+      this.userStore.setUserData(userData)
+    }
+  },
+  mounted() {
+    if (this.userStore.isLoggedIn) {
+      axios.get('/' + this.$i18n.locale + '/accounts/auth/wstoken/')
+      .then((response) => {
+        this.connectionSocket = new WebSocket(
+          this.baseStore.wsURL
+          + '/ws/connection/' + this.baseStore.deviceId
+          + '/?' + response.data.wstoken
+        )
+        this.connectionSocket.onmessage = (event) => {
+          this.socketOnMessage(event)
+        }
+      })
+    } else {
+      this.connectionSocket = new WebSocket(
+        this.baseStore.wsURL
+        + '/ws/connection/' + this.baseStore.deviceId + '/'
+      )
+      this.connectionSocket.onmessage = (event) => {
+        this.socketOnMessage(event)
+      }
+    }
+  },
+  methods: {
+    socketOnMessage(event) {
+      console.log(`[message] Данные получены с сервера: ${event.data}`)
     }
   }
 }
