@@ -141,8 +141,8 @@ export default {
             </li>
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
-                v-if="this.$route.name == 'Home'"
-                :toName="'Home'"
+                v-if="this.$route.name == 'Blog'"
+                :toName="'Blog'"
                 @click="hideOffcanvas"
                 class="nav-link active"
                 aria-current="page"
@@ -151,7 +151,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 v-else
-                :toName="'Home'"
+                :toName="'Blog'"
                 @click="hideOffcanvas"
                 class="nav-link text-dark"
               >
