@@ -171,7 +171,7 @@ class ConnectionHistory(models.Model):
     class Meta:
         verbose_name = _('Connection History')
         verbose_name_plural = _('Connection Histories')
-        ordering = ['user', 'device_id']
+        ordering = ['user', '-last_visit']
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'device_id'],
