@@ -303,6 +303,13 @@ class OrganizerLinkSerializer(serializers.ModelSerializer):
 
 class UserShortReadSerializer(serializers.ModelSerializer):
     """ User Short Read Serializer """
+    online = serializers.SerializerMethodField()
+
+    def get_online(self, obj):
+        if obj.connection_histories.filter(online=True).count() > 0:
+            return True
+        else:
+            return False
 
     class Meta:
         model = UserModel
@@ -310,6 +317,7 @@ class UserShortReadSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'avatar',
+            'online',
         ]
 
 
@@ -329,6 +337,13 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
     """ User Detail Read Serializer """
     country = CountrySerializer(read_only=True)
     city = CitySerializer(read_only=True)
+    online = serializers.SerializerMethodField()
+
+    def get_online(self, obj):
+        if obj.connection_histories.filter(online=True).count() > 0:
+            return True
+        else:
+            return False
 
     class Meta:
         model = UserModel
