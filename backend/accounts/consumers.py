@@ -28,8 +28,8 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         )
 
         if self.user.is_authenticated:
-            await self.update_user_status(False)
-            await self.send_status(False)
+            user_status = await self.update_user_status(False)
+            await self.send_status(user_status)
 
     async def send_status(self, status):
         await self.channel_layer.group_send(
@@ -55,3 +55,9 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         )
         ch_obj.online = status
         ch_obj.save(update_fields=['online', 'last_visit'])
+
+        if not status:
+            if self.user.connection_histories.filter(online=True).count() > 0:
+                return True
+            else:
+                return False
