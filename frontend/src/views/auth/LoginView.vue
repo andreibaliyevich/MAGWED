@@ -1,8 +1,5 @@
 <script setup>
 import axios from 'axios'
-
-import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
 </script>
 
 <script>
@@ -22,13 +19,11 @@ export default {
       })
       .then(({ data }) => {
         window.localStorage.setItem('user', JSON.stringify(data))
-        axios.defaults.headers.common['Authorization'] = `Token ${ data.token }`
-        this.userStore.setUserData(data)
 
         if (this.$route.query.redirect) {
-          this.$router.push({ path: this.$route.query.redirect })
+          window.location.assign(`${ this.$route.query.redirect }`)
         } else {
-          this.$router.push({ name: 'Home', params: { locale: `${ this.$i18n.locale }` }})
+          window.location.assign('/')
         }
       })
       .catch((error) => {
