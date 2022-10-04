@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios'
+
+import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
 </script>
 
 <script>
@@ -30,27 +32,56 @@ export default {
 </script>
 
 <template>
-  <div class="password-reset-confirm-view">
-    <h1 class="display-6 text-center mb-4">{{ $t('auth.activation.activation') }}</h1>
+  <div class="activation-view">
+    <h1 class="display-6 text-center mb-4">
+      {{ $t('auth.activation.activation') }}
+    </h1>
 
-    <div v-if="status == '204'" id="status">
+    <div v-if="status == '204'">
       <p class="lead fs-3 text-muted">{{ $t('auth.activation.success1') }}</p>
       <p class="lead fs-5">
         {{ $t('auth.activation.success2') }}<br>
         {{ $t('auth.activation.success3') }}
       </p>
       <div class="fs-6 text-center">
-        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Login', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signin') }}</RouterLink>
+        <LocaleRouterLink
+          :toName="'Login'"
+          class="link-primary text-decoration-none"
+        >
+          {{ $t('auth.signin') }}
+        </LocaleRouterLink>
       </div>
     </div>
 
-    <div v-else-if="errors" id="errors">
+    <div v-else-if="errors">
       <p class="lead fs-3 text-danger">{{ $t('auth.activation.error') }}</p>
-      <p v-if="errors.detail" class="lead fs-5">{{ errors.detail }}</p>
-      <p v-if="errors.uid" v-for="error in errors.uid" class="lead fs-5">{{ error }}</p>
-      <p v-if="errors.token" v-for="error in errors.token" class="lead fs-5">{{ error }}</p>
+      <p
+        v-if="errors.detail"
+        class="lead fs-5"
+      >
+        {{ errors.detail }}
+      </p>
+      <p
+        v-if="errors.uid"
+        v-for="error in errors.uid"
+        class="lead fs-5"
+      >
+        {{ error }}
+      </p>
+      <p
+        v-if="errors.token"
+        v-for="error in errors.token"
+        class="lead fs-5"
+      >
+        {{ error }}
+      </p>
       <div class="fs-6 text-center">
-        <RouterLink class="link-primary text-decoration-none" :to="{ name: 'Registration', params: { locale: `${ $i18n.locale }` }}">{{ $t('auth.signup') }}</RouterLink>
+        <LocaleRouterLink
+          :toName="'Registration'"
+          class="link-primary text-decoration-none"
+        >
+          {{ $t('auth.signup') }}
+        </LocaleRouterLink>
       </div>
     </div>
   </div>
