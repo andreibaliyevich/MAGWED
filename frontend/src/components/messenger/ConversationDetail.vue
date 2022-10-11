@@ -5,6 +5,7 @@ import { nextTick } from 'vue'
 import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
+import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 
 import { useBaseStore } from '@/stores/base.js'
@@ -163,20 +164,11 @@ export default {
               />
             </div>
             <div v-else-if="conversation.convo_type == conversationType.GROUP">
-              <img
-                v-if="conversation.details.image"
+              <GroupAvatar
                 :src="conversation.details.image"
-                class="rounded-circle"
-                width="50"
-                height="50"
-              >
-              <img
-                v-else
-                src="/group-avatar.jpg"
-                class="rounded-circle"
-                width="50"
-                height="50"
-              >
+                :width="50"
+                :height="50"
+              />
             </div>
             <div v-else>
               <img

@@ -4,6 +4,7 @@ import axios from 'axios'
 import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
+import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 </script>
 
 <script>
@@ -42,10 +43,6 @@ export default {
         this.status = null
         this.errors = error.response.data
       })
-    },
-    updateUserStatus(e) {
-      console.log('updateUserStatus')
-      console.log(e.detail)
     }
   },
   mounted() {
@@ -78,20 +75,11 @@ export default {
             />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <img
-              v-if="convo.details.image"
-              :src="`${ convo.details.image }`"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-            <img
-              v-else
-              src="/group-avatar.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
+            <GroupAvatar
+              :src="convo.details.image"
+              :width="48"
+              :height="48"
+            />
           </div>
           <div v-else>
             <img
@@ -155,20 +143,11 @@ export default {
             />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <img
-              v-if="convo.details.image"
-              :src="`${ convo.details.image }`"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-            <img
-              v-else
-              src="/group-avatar.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
+            <GroupAvatar
+              :src="convo.details.image"
+              :width="48"
+              :height="48"
+            />
           </div>
           <div v-else>
             <img
