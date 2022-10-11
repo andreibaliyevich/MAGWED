@@ -4,6 +4,7 @@ import { nextTick } from 'vue'
 
 import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 
+import UserAvatar from '@/components/auth/UserAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 
 import { useBaseStore } from '@/stores/base.js'
@@ -154,25 +155,17 @@ export default {
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
             <div v-if="conversation.convo_type == conversationType.DIALOG">
-              <img
-                v-if="conversation.details.avatar"
-                :src="`${ conversation.details.avatar }`"
-                class="rounded-circle"
-                width="50"
-                height="50"
-              >
-              <img
-                v-else
-                src="/user-avatar.jpg"
-                class="rounded-circle"
-                width="50"
-                height="50"
-              >
+              <UserAvatar
+                :src="conversation.details.avatar"
+                :width="50"
+                :height="50"
+                :online="conversation.details.online"
+              />
             </div>
             <div v-else-if="conversation.convo_type == conversationType.GROUP">
               <img
                 v-if="conversation.details.image"
-                :src="`${ conversation.details.image }`"
+                :src="conversation.details.image"
                 class="rounded-circle"
                 width="50"
                 height="50"
@@ -247,20 +240,12 @@ export default {
                 v-if="conversation.convo_type == conversationType.GROUP"
                 class="d-flex align-items-start"
               >
-                <img
-                  v-if="msg.sender.avatar"
+                <UserAvatar
                   :src="`${ baseStore.apiURL }${ msg.sender.avatar }`"
-                  class="rounded-circle"
-                  width="35"
-                  height="35"
-                >
-                <img
-                  v-else
-                  src="/user-avatar.jpg"
-                  class="rounded-circle"
-                  width="35"
-                  height="35"
-                >
+                  :width="35"
+                  :height="35"
+                  :online="msg.sender.online"
+                />
                 <div class="bg-light rounded p-2 ms-2 mb-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <p class="text-sm mb-0">

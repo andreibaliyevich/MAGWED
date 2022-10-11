@@ -2,6 +2,8 @@
 import axios from 'axios'
 
 import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
+
+import UserAvatar from '@/components/auth/UserAvatar.vue'
 </script>
 
 <script>
@@ -28,17 +30,26 @@ export default {
       errors: null
     }
   },
+  methods: {
+    getConversation() {
+      axios.get('/' + this.$i18n.locale + '/messenger/conversations/')
+      .then((response) => {
+        this.convoList = response.data
+        this.status = 'gotten_chats'
+        this.errors = null
+      })
+      .catch((error) => {
+        this.status = null
+        this.errors = error.response.data
+      })
+    },
+    updateUserStatus(e) {
+      console.log('updateUserStatus')
+      console.log(e.detail)
+    }
+  },
   mounted() {
-    axios.get('/' + this.$i18n.locale + '/messenger/conversations/')
-    .then((response) => {
-      this.convoList = response.data
-      this.status = 'gotten_chats'
-      this.errors = null
-    })
-    .catch((error) => {
-      this.status = null
-      this.errors = error.response.data
-    })
+    this.getConversation()
   }
 }
 </script>
@@ -59,20 +70,12 @@ export default {
           style="background-color: #efefef;"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <img
-              v-if="convo.details.avatar"
-              :src="`${ convo.details.avatar }`"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-            <img
-              v-else
-              src="/user-avatar.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
+            <UserAvatar
+              :src="convo.details.avatar"
+              :width="48"
+              :height="48"
+              :online="convo.details.online"
+            />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
             <img
@@ -144,20 +147,12 @@ export default {
           class="d-flex gap-3 p-3"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <img
-              v-if="convo.details.avatar"
-              :src="`${ convo.details.avatar }`"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-            <img
-              v-else
-              src="/user-avatar.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
+            <UserAvatar
+              :src="convo.details.avatar"
+              :width="48"
+              :height="48"
+              :online="convo.details.online"
+            />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
             <img
