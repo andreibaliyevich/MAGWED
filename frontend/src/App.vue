@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 
 import Header from '@/components/base/Header.vue'
 import NavBar from '@/components/base/NavBar.vue'
@@ -37,9 +37,9 @@ export default {
       this.baseStore.setDeviceId(deviceUuid)
     }
 
-    const currencyString = window.localStorage.getItem('currency')
-    if (currencyString) {
-      this.baseStore.setCurrency(currencyString)
+    const currency = window.localStorage.getItem('currency')
+    if (currency) {
+      this.baseStore.setCurrency(currency)
     }
 
     const userString = window.localStorage.getItem('user')
