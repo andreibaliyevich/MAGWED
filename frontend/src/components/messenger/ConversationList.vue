@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    getConversation() {
+    getConversations() {
       axios.get('/' + this.$i18n.locale + '/messenger/conversations/')
       .then((response) => {
         this.convoList = response.data
@@ -59,7 +59,7 @@ export default {
     }
   },
   mounted() {
-    this.getConversation()
+    this.getConversations()
     this.connectionBusStore.$subscribe(this.updateUserStatus)
   }
 }
