@@ -10,8 +10,10 @@ import MessageContent from '@/components/messenger/MessageContent.vue'
 
 import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 const mainStore = useMainStore()
 const userStore = useUserStore()
+const connectionBusStore = useConnectionBusStore()
 </script>
 
 <script>
@@ -130,6 +132,13 @@ export default {
           'msg_data': response.data
         }))
       })
+    },
+    updateUserStatus(mutation, state) {
+      this.messages.forEach((element) => {
+        if (element.sender.id == state.user_id) {
+          element.sender.online = state.online
+        }
+      })
     }
   },
   watch: {
@@ -142,6 +151,7 @@ export default {
   },
   mounted() {
     this.openConversation()
+    this.connectionBusStore.$subscribe(this.updateUserStatus)
   },
   unmounted() {
     this.closeConversation()
