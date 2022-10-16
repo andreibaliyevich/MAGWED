@@ -17,6 +17,11 @@ const connectionBusStore = useConnectionBusStore()
 
 <script>
 export default {
+  data() {
+    return {
+      deviceId: null
+    }
+  },
   created() {
     axios.defaults.baseURL = this.mainStore.apiURL
     axios.interceptors.response.use(
@@ -30,13 +35,11 @@ export default {
       }
     )
 
-    const deviceId = window.localStorage.getItem('deviceId')
-    if (deviceId) {
-      this.mainStore.setDeviceId(deviceId)
-    } else {
+    this.deviceId = window.localStorage.getItem('deviceId')
+    if (!this.deviceId) {
       const deviceUuid = uuidv4()
       window.localStorage.setItem('deviceId', deviceUuid)
-      this.mainStore.setDeviceId(deviceUuid)
+      this.deviceId = deviceUuid
     }
 
     const currency = window.localStorage.getItem('currency')
@@ -57,7 +60,7 @@ export default {
       .then((response) => {
         this.connectionSocket = new WebSocket(
           this.mainStore.wsURL
-          + '/ws/connection/' + this.mainStore.deviceId
+          + '/ws/connection/' + this.deviceId
           + '/?' + response.data.wstoken
         )
         this.connectionSocket.onmessage = (event) => {
@@ -67,7 +70,7 @@ export default {
     } else {
       this.connectionSocket = new WebSocket(
         this.mainStore.wsURL
-        + '/ws/connection/' + this.mainStore.deviceId + '/'
+        + '/ws/connection/' + this.deviceId + '/'
       )
       this.connectionSocket.onmessage = (event) => {
         this.connectionBusStore.setUserStatus(JSON.parse(event.data))
