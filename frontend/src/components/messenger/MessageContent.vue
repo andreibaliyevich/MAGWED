@@ -1,6 +1,6 @@
 <script setup>
-import { useBaseStore } from '@/stores/base.js'
-const baseStore = useBaseStore()
+import { useMainStore } from '@/stores/main.js'
+const mainStore = useMainStore()
 </script>
 
 <script>
@@ -40,7 +40,7 @@ export default {
   <div v-else-if="msgType == messageType.IMAGES">
     <img
       v-for="img in msgContent"
-      :src="`${ baseStore.apiURL }${ img.content }`"
+      :src="`${ mainStore.apiURL }${ img.content }`"
       :alt="`${ getSize(img.size) }`"
       width="150"
     >
@@ -52,7 +52,7 @@ export default {
     >
       <div class="col-auto">
         <a
-          :href="`${ baseStore.apiURL }${ file.content }`"
+          :href="`${ mainStore.apiURL }${ file.content }`"
           class="text-decoration-none"
           target="_blank"
         >
@@ -62,7 +62,7 @@ export default {
       <div class="col overflow-hidden">
         <h6 class="text-truncate mb-0">
           <a
-            :href="`${ baseStore.apiURL }${ file.content }`"
+            :href="`${ mainStore.apiURL }${ file.content }`"
             class="text-decoration-none"
             target="_blank"
           >

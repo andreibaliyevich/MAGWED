@@ -1,8 +1,8 @@
 <script setup>
 import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
 
-import { useBaseStore } from '@/stores/base.js'
-const baseStore = useBaseStore()
+import { useMainStore } from '@/stores/main.js'
+const mainStore = useMainStore()
 </script>
 
 <script>
@@ -10,7 +10,7 @@ export default {
   methods: {
     changeCurrency(event) {
       window.localStorage.setItem('currency', event.target.value)
-      this.baseStore.setCurrency(event.target.value)
+      this.mainStore.setCurrency(event.target.value)
     },
     changeLocale(event) {
       this.$router.push({ params: { locale: event.target.value } })
@@ -123,7 +123,7 @@ export default {
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <select
-                :value="baseStore.currency"
+                :value="mainStore.currency"
                 @change="changeCurrency"
                 class="form-select bg-dark text-white border-secondary"
               >

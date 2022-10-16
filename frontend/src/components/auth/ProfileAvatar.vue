@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios'
 
-import { useBaseStore } from '@/stores/base.js'
+import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
-const baseStore = useBaseStore()
+const mainStore = useMainStore()
 const userStore = useUserStore()
 </script>
 
@@ -85,7 +85,7 @@ export default {
           </div>
         </div>
         <div v-else>
-          <img v-if="userStore.avatar" :src="`${ baseStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
+          <img v-if="userStore.avatar" :src="`${ mainStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
           <img v-else src="/user-avatar.jpg" class="img-fluid rounded-start">
         </div>
       </div>

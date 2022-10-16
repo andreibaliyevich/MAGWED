@@ -7,10 +7,10 @@ import Header from '@/components/base/Header.vue'
 import NavBar from '@/components/base/NavBar.vue'
 import Footer from '@/components/base/Footer.vue'
 
-import { useBaseStore } from '@/stores/base.js'
+import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const baseStore = useBaseStore()
+const mainStore = useMainStore()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 </script>
@@ -18,7 +18,7 @@ const connectionBusStore = useConnectionBusStore()
 <script>
 export default {
   created() {
-    axios.defaults.baseURL = this.baseStore.apiURL
+    axios.defaults.baseURL = this.mainStore.apiURL
     axios.interceptors.response.use(
       response => response,
       error => {
@@ -32,16 +32,16 @@ export default {
 
     const deviceId = window.localStorage.getItem('deviceId')
     if (deviceId) {
-      this.baseStore.setDeviceId(deviceId)
+      this.mainStore.setDeviceId(deviceId)
     } else {
       const deviceUuid = uuidv4()
       window.localStorage.setItem('deviceId', deviceUuid)
-      this.baseStore.setDeviceId(deviceUuid)
+      this.mainStore.setDeviceId(deviceUuid)
     }
 
     const currency = window.localStorage.getItem('currency')
     if (currency) {
-      this.baseStore.setCurrency(currency)
+      this.mainStore.setCurrency(currency)
     }
 
     const userString = window.localStorage.getItem('user')
@@ -56,8 +56,8 @@ export default {
       axios.get('/' + this.$i18n.locale + '/accounts/auth/wstoken/')
       .then((response) => {
         this.connectionSocket = new WebSocket(
-          this.baseStore.wsURL
-          + '/ws/connection/' + this.baseStore.deviceId
+          this.mainStore.wsURL
+          + '/ws/connection/' + this.mainStore.deviceId
           + '/?' + response.data.wstoken
         )
         this.connectionSocket.onmessage = (event) => {
@@ -66,8 +66,8 @@ export default {
       })
     } else {
       this.connectionSocket = new WebSocket(
-        this.baseStore.wsURL
-        + '/ws/connection/' + this.baseStore.deviceId + '/'
+        this.mainStore.wsURL
+        + '/ws/connection/' + this.mainStore.deviceId + '/'
       )
       this.connectionSocket.onmessage = (event) => {
         this.connectionBusStore.setUserStatus(JSON.parse(event.data))

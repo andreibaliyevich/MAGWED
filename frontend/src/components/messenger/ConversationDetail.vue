@@ -8,9 +8,9 @@ import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 
-import { useBaseStore } from '@/stores/base.js'
+import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
-const baseStore = useBaseStore()
+const mainStore = useMainStore()
 const userStore = useUserStore()
 </script>
 
@@ -51,7 +51,7 @@ export default {
       axios.get('/' + this.$i18n.locale + '/accounts/auth/wstoken/')
       .then((response) => {
         this.convoSocket = new WebSocket(
-          this.baseStore.wsURL
+          this.mainStore.wsURL
           + '/ws/messenger/' + this.conversation.id
           + '/?' + response.data.wstoken
         )
@@ -233,7 +233,7 @@ export default {
                 class="d-flex align-items-start"
               >
                 <UserAvatar
-                  :src="`${ baseStore.apiURL }${ msg.sender.avatar }`"
+                  :src="`${ mainStore.apiURL }${ msg.sender.avatar }`"
                   :width="35"
                   :height="35"
                   :online="msg.sender.online"

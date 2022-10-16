@@ -4,9 +4,7 @@ import axios from 'axios'
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
 import ProfileCover from '@/components/auth/ProfileCover.vue'
 
-import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
-const baseStore = useBaseStore()
 const userStore = useUserStore()
 </script>
 
