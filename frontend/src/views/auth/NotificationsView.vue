@@ -1,7 +1,7 @@
 <script setup>
-import { useBaseStore } from '@/stores/base.js'
+import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
-const mainStore = useBaseStore()
+const mainStore = useMainStore()
 const userStore = useUserStore()
 </script>
 
