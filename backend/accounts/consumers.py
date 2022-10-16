@@ -37,14 +37,14 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
             {
                 'type': 'ch_message',
                 'user_id': self.user.id,
-                'status': status,
+                'online': status,
             }
         )
 
     async def ch_message(self, event):
         await self.send_json({
             'user_id': event['user_id'],
-            'status': event['status'],
+            'online': event['online'],
         })
 
     @database_sync_to_async
