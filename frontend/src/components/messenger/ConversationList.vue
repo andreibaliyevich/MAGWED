@@ -5,6 +5,9 @@ import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
+
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
+const connectionBusStore = useConnectionBusStore()
 </script>
 
 <script>
@@ -43,10 +46,21 @@ export default {
         this.status = null
         this.errors = error.response.data
       })
+    },
+    updateUserStatus(mutation, state) {
+      this.convoList.forEach((element) => {
+        if (
+          element.convo_type == this.conversationType.DIALOG &&
+          element.details.id == state.user_id
+        ) {
+          element.details.online = state.online
+        }
+      })
     }
   },
   mounted() {
     this.getConversation()
+    this.connectionBusStore.$subscribe(this.updateUserStatus)
   }
 }
 </script>

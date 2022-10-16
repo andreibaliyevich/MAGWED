@@ -9,8 +9,10 @@ import Footer from '@/components/base/Footer.vue'
 
 import { useBaseStore } from '@/stores/base.js'
 import { useUserStore } from '@/stores/user.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 const baseStore = useBaseStore()
 const userStore = useUserStore()
+const connectionBusStore = useConnectionBusStore()
 </script>
 
 <script>
@@ -59,7 +61,7 @@ export default {
           + '/?' + response.data.wstoken
         )
         this.connectionSocket.onmessage = (event) => {
-          this.socketOnMessage(event)
+          this.connectionBusStore.setUserStatus(JSON.parse(event.data))
         }
       })
     } else {
@@ -68,13 +70,8 @@ export default {
         + '/ws/connection/' + this.baseStore.deviceId + '/'
       )
       this.connectionSocket.onmessage = (event) => {
-        this.socketOnMessage(event)
+        this.connectionBusStore.setUserStatus(JSON.parse(event.data))
       }
-    }
-  },
-  methods: {
-    socketOnMessage(event) {
-      console.log(`[message] Данные получены с сервера: ${event.data}`)
     }
   }
 }
