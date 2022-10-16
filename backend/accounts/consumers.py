@@ -31,13 +31,13 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
             user_status = await self.update_user_status(False)
             await self.send_status(user_status)
 
-    async def send_status(self, status):
+    async def send_status(self, online):
         await self.channel_layer.group_send(
             self.ch_group_name,
             {
                 'type': 'ch_message',
                 'user_id': self.user.id,
-                'online': status,
+                'online': online,
             }
         )
 
@@ -48,15 +48,15 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         })
 
     @database_sync_to_async
-    def update_user_status(self, status):
+    def update_user_status(self, online):
         ch_obj, created = ConnectionHistory.objects.get_or_create(
             user=self.user,
             device_id=self.device_id,
         )
-        ch_obj.online = status
+        ch_obj.online = online
         ch_obj.save(update_fields=['online', 'last_visit'])
 
-        if not status:
+        if not online:
             if self.user.connection_histories.filter(online=True).count() > 0:
                 return True
             else:
