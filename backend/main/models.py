@@ -1,5 +1,9 @@
+from easy_thumbnails.fields import ThumbnailerImageField
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
+from .utilities import get_magazine_path
+from .validators import MinimumImageSizeValidator
 
 
 class Country(models.Model):
@@ -77,3 +81,51 @@ class Hashtag(models.Model):
         verbose_name = _('Hashtag')
         verbose_name_plural = _('Hashtags')
         ordering = ['-created_at', '-id']
+
+
+class Magazine(models.Model):
+    """ Magazine Model """
+    title = models.CharField(max_length=128, verbose_name=_('Title'))
+    slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
+
+    image = ThumbnailerImageField(
+        upload_to=get_magazine_path,
+        validators=[
+            FileExtensionValidator(allowed_extensions=('jpg', 'png')),
+            MinimumImageSizeValidator(500, 650),
+        ],
+        resize_source={
+            'size': (500, 650),
+            'crop': 'smart',
+            'autocrop': True,
+            'quality': 100,
+        },
+        help_text=_(
+            'Upload JPG or PNG image. '
+            'Required minimum of size %(width)d x %(height)d.'
+        ) % {
+            'width': 500,
+            'height': 650,
+        },
+        verbose_name=_('Image'),
+    )
+    file = models.FileField(
+        upload_to=get_magazine_path,
+        validators=[
+            FileExtensionValidator(allowed_extensions=('pdf',)),
+        ],
+        verbose_name=_('File'),
+    )
+
+    published_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_('Published at'),
+    )
+
+    def __str__(self):
+        return f'{ self.title } | { self.published_at }'
+
+    class Meta:
+        verbose_name = _('Magazine')
+        verbose_name_plural = _('Magazines')
+        ordering = ['-published_at', '-id']

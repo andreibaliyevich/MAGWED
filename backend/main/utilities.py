@@ -27,3 +27,10 @@ def get_thumbnail_path(instance, filename):
     filepath = timezone.now().strftime('%Y/%m/%d/%H%M%S%f')
     file_ext = splitext(filename)[1].lower()
     return f'thumbnails/{ filepath }{ file_ext }'
+
+
+def get_magazine_path(instance, filename):
+    """ Get path of Magazine """
+    filepath = timezone.now().strftime('%Y/%m-%d-%H%M%S%f')
+    file_ext = splitext(filename)[1].lower()
+    return f'magazines/{ filepath }{ file_ext }'
