@@ -3,9 +3,9 @@ import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { RouterView } from 'vue-router'
 
-import Header from '@/components/base/Header.vue'
-import NavBar from '@/components/base/NavBar.vue'
-import Footer from '@/components/base/Footer.vue'
+import Header from '@/components/main/Header.vue'
+import NavBar from '@/components/main/NavBar.vue'
+import Footer from '@/components/main/Footer.vue'
 
 import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
