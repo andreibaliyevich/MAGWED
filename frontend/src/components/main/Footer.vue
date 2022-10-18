@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
 
 import { useMainStore } from '@/stores/main.js'
@@ -7,7 +8,24 @@ const mainStore = useMainStore()
 
 <script>
 export default {
+  data() {
+    return {
+      magazineData: {}
+    }
+  },
   methods: {
+    async getMagazine() {
+      try {
+        const response = await axios.get(
+          '/'
+          + this.$i18n.locale
+          + '/main/magazine/'
+        )
+        this.magazineData = response.data
+      } catch (error) {
+        console.error(error)
+      }
+    },
     changeCurrency(event) {
       window.localStorage.setItem('currency', event.target.value)
       this.mainStore.setCurrency(event.target.value)
@@ -15,6 +33,9 @@ export default {
     changeLocale(event) {
       this.$router.push({ params: { locale: event.target.value } })
     }
+  },
+  mounted() {
+    this.getMagazine()
   }
 }
 </script>
@@ -24,10 +45,14 @@ export default {
     <div class="container pt-5">
       <div class="row">
         <div class="col-md-3">
-          <a href="/">
+          <a
+            :href="magazineData.file"
+            :title="magazineData.title"
+            target="_blank"
+          >
             <img
               height="160"
-              src="/for-footer.jpg"
+              :src="magazineData.image"
             >
           </a>
         </div>
