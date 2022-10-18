@@ -51,7 +51,7 @@ class MagazineView(APIView):
 
     def get(self, request, *args, **kwargs):
         obj = Magazine.objects.last()
-        serializer = MagazineSerializer(obj)
+        serializer = MagazineSerializer(obj, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
