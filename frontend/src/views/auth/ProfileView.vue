@@ -4,6 +4,7 @@ import axios from 'axios'
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
 import ProfileCover from '@/components/auth/ProfileCover.vue'
 import BaseInput from '@/components/UI/BaseInput.vue'
+import BaseSelect from '@/components/UI/BaseSelect.vue'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -79,7 +80,12 @@ export default {
     async getCountriesData() {
       try {
         const response = await axios.get('/' + this.$i18n.locale + '/main/countries/')
-        this.countriesList = response.data
+        response.data.forEach((element) => {
+          this.countriesList.push({
+            'value': element.code,
+            'name': `${ element.name_local } (${ element.name })`
+          })
+        })
       } catch (error) {
         this.errors = error.response.data
       } finally {
@@ -183,7 +189,13 @@ export default {
           }
         })
         .then((response) => {
-          this.citiesList1 = response.data
+          this.citiesList1 = []
+          response.data.forEach((element) => {
+            this.citiesList1.push({
+              'value': element.id,
+              'name': `${ element.name_local } (${ element.name })`
+            })
+          })
         })
         .catch((error) => {
           this.errors = error.response.data
@@ -288,50 +300,22 @@ export default {
           />
         </div>
         <div class="col-md-6">
-          <label
-            for="id_country"
-            class="form-label"
-          >
-            {{ $t('auth.profile.country') }}
-          </label>
-          <select
+          <BaseSelect
             v-model="profile.country"
-            name="country"
+            :label="$t('auth.profile.country')"
+            :options="countriesList"
             id="id_country"
-            class="form-select"
-          >
-            <option value=""></option>
-            <option
-              v-for="countryList in countriesList"
-              :value="countryList.code"
-              :key="countryList.code"
-            >
-              {{ countryList.name_local }} ({{ countryList.name }})
-            </option>
-          </select>
+            name="country"
+          />
         </div>
         <div class="col-md-6">
-          <label
-            for="id_city"
-            class="form-label"
-          >
-            {{ $t('auth.profile.city') }}
-          </label>
-          <select
+          <BaseSelect
             v-model="profile.city"
-            name="city"
-            id="id_city"
-            class="form-select"
-          >
-            <option value=""></option>
-            <option
-              v-for="cityList in citiesList1"
-              :value="cityList.id"
-              :key="cityList.id"
-            >
-              {{ cityList.name_local }} ({{ cityList.name }})
-            </option>
-          </select>
+            :label="$t('auth.profile.city')"
+            :options="citiesList1"
+            id="id_country"
+            name="country"
+          />
         </div>
         <div class="col-md-12">
           <BaseInput
