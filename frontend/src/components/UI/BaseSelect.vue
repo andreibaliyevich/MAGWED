@@ -39,7 +39,7 @@ export default {
         :key="option.value"
         :selected="option.value === modelValue"
       >
-        {{ option.name }}
+        {{ option.text }}
       </option>
     </select>
     <label v-if="label" :for="id">{{ label }}</label>

@@ -81,7 +81,7 @@ export default {
         response.data.forEach((element) => {
           this.countriesList.push({
             'value': element.code,
-            'name': `${ element.name_local } (${ element.name })`
+            'text': `${ element.name_local } (${ element.name })`
           })
         })
       } catch (error) {
@@ -191,7 +191,7 @@ export default {
           response.data.forEach((element) => {
             this.citiesList1.push({
               'value': element.id,
-              'name': `${ element.name_local } (${ element.name })`
+              'text': `${ element.name_local } (${ element.name })`
             })
           })
         })
@@ -205,10 +205,18 @@ export default {
     'profile.countries'(newValue) {
       if (newValue.length > 0) {
         let params = new URLSearchParams()
-        this.profile.countries.forEach(item => params.append('country', item))
+        this.profile.countries.forEach((element) => {
+          params.append('country', element)
+        })
         axios.get('/' + this.$i18n.locale + '/main/cities/', { params: params })
         .then((response) => {
-          this.citiesList2 = response.data
+          this.citiesList2 = []
+          response.data.forEach((element) => {
+            this.citiesList2.push({
+              'value': element.id,
+              'text': `${ element.name_local } (${ element.name })`
+            })
+          })
         })
         .catch((error) => {
           this.errors = error.response.data
@@ -219,9 +227,11 @@ export default {
     },
     citiesList2(newValue, oldValue) {
       if (newValue.length < oldValue.length) {
-        const newCitiesList2 = []
-        newValue.forEach(item => newCitiesList2.push(item.id))
-        this.cities = this.cities.filter(item => newCitiesList2.includes(item))
+        const newCities = []
+        newValue.forEach(element => newCities.push(element.value))
+        this.profile.cities = this.profile.cities.filter((element) => {
+          return newCities.includes(element)
+        })
       }
     }
   },
@@ -430,7 +440,7 @@ export default {
               :value="countryList.value"
               :key="countryList.value"
             >
-              {{ countryList.name }}
+              {{ countryList.text }}
             </option>
           </select>
           <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
@@ -454,10 +464,10 @@ export default {
           >
             <option
               v-for="cityList in citiesList2"
-              :value="cityList.id"
-              :key="cityList.id"
+              :value="cityList.value"
+              :key="cityList.value"
             >
-              {{ cityList.name_local }} ({{ cityList.name }})
+              {{ cityList.text }}
             </option>
           </select>
           <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
