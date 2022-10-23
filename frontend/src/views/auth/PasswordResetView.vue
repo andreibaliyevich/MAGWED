@@ -125,7 +125,7 @@ export default {
       <hr class="my-4">
       <div class="fs-6 text-center">
         <LocaleRouterLink
-          :toName="'Login'"
+          toName="Login"
           class="link-primary text-decoration-none"
         >
           <i class="fa-solid fa-angle-left"></i>

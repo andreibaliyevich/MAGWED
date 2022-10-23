@@ -81,7 +81,7 @@ export default {
       <p class="fs-6 text-muted">
         {{ $t('auth.registration.have_account') }}
         <LocaleRouterLink
-          :toName="'Login'"
+          toName="Login"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.signin') }}

@@ -43,7 +43,7 @@ export default {
       </p>
       <div class="fs-6 text-center">
         <LocaleRouterLink
-          :toName="'Login'"
+          toName="Login"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.signin') }}
@@ -75,7 +75,7 @@ export default {
       </p>
       <div class="fs-6 text-center">
         <LocaleRouterLink
-          :toName="'Registration'"
+          toName="Registration"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.signup') }}

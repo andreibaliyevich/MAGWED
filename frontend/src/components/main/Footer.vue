@@ -59,7 +59,7 @@ export default {
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.rules') }}
@@ -67,7 +67,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.advertising') }}
@@ -75,7 +75,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.our_logos') }}
@@ -83,7 +83,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.feedback') }}
@@ -91,7 +91,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.more_about_magwed') }}
@@ -103,7 +103,7 @@ export default {
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.analytics') }}
@@ -111,7 +111,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.career_at_magwed') }}
@@ -119,7 +119,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.terms_of_use') }}
@@ -127,7 +127,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.privacy_policy') }}
@@ -135,7 +135,7 @@ export default {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                :toName="'Home'"
+                toName="Home"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.advertising_and_promotion') }}

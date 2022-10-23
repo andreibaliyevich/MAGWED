@@ -28,7 +28,7 @@ export default {
       <li class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Notifications'"
-          :toName="'Notifications'"
+          toName="Notifications"
           class="nav-link active"
           aria-current="page"
         >
@@ -37,7 +37,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Notifications'"
+          toName="Notifications"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-bell"></i>
@@ -47,7 +47,7 @@ export default {
       <li v-if="userStore.userType == 3" class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Home'"
-          :toName="'Home'"
+          toName="Home"
           class="nav-link active"
           aria-current="page"
         >
@@ -56,7 +56,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Home'"
+          toName="Home"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-users"></i>
@@ -66,7 +66,7 @@ export default {
       <li class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Home'"
-          :toName="'Home'"
+          toName="Home"
           class="nav-link active"
           aria-current="page"
         >
@@ -75,7 +75,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Home'"
+          toName="Home"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-user-group"></i>
@@ -85,7 +85,7 @@ export default {
       <li class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Home'"
-          :toName="'Home'"
+          toName="Home"
           class="nav-link active"
           aria-current="page"
         >
@@ -94,7 +94,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Home'"
+          toName="Home"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-star"></i>
@@ -109,7 +109,7 @@ export default {
       <li class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Profile'"
-          :toName="'Profile'"
+          toName="Profile"
           class="nav-link active"
           aria-current="page"
         >
@@ -118,7 +118,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Profile'"
+          toName="Profile"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-user"></i>
@@ -128,7 +128,7 @@ export default {
       <li v-if="userStore.userType == 3" class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'ExternalLinks'"
-          :toName="'ExternalLinks'"
+          toName="ExternalLinks"
           class="nav-link active"
           aria-current="page"
         >
@@ -137,7 +137,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'ExternalLinks'"
+          toName="ExternalLinks"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-link"></i>
@@ -147,7 +147,7 @@ export default {
       <li v-if="userStore.userType == 3" class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Home'"
-          :toName="'Home'"
+          toName="Home"
           class="nav-link active"
           aria-current="page"
         >
@@ -156,7 +156,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Home'"
+          toName="Home"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-briefcase"></i>
@@ -166,7 +166,7 @@ export default {
       <li class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'PasswordChange'"
-          :toName="'PasswordChange'"
+          toName="PasswordChange"
           class="nav-link active"
           aria-current="page"
         >
@@ -175,7 +175,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'PasswordChange'"
+          toName="PasswordChange"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-key"></i>
@@ -185,7 +185,7 @@ export default {
       <li class="nav-item">
         <LocaleRouterLink
           v-if="this.$route.name == 'Home'"
-          :toName="'Home'"
+          toName="Home"
           class="nav-link active"
           aria-current="page"
         >
@@ -194,7 +194,7 @@ export default {
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          :toName="'Home'"
+          toName="Home"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-user-xmark"></i>

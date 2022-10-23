@@ -12,7 +12,7 @@ export default {
     },
     toParams: {
       type: Object,
-      required: false
+      default: {}
     }
   }
 }
@@ -21,9 +21,9 @@ export default {
 <template>
   <RouterLink
     :to="{
-      name: `${ toName }`,
+      name: toName,
       params: {
-        locale: `${ $i18n.locale }`,
+        locale: $i18n.locale,
         ...toParams
       }
     }"
