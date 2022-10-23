@@ -260,7 +260,7 @@ export default {
       </div>
     </div>
     <div v-else>
-      <ProfileCover />
+      <ProfileCover v-if="userStore.userType == 3" />
       <ProfileAvatar />
 
       <form

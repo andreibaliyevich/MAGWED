@@ -2,9 +2,7 @@
 import axios from 'axios'
 
 import { useMainStore } from '@/stores/main.js'
-import { useUserStore } from '@/stores/user.js'
 const mainStore = useMainStore()
-const userStore = useUserStore()
 </script>
 
 <script>
@@ -74,7 +72,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="userStore.userType == 3" class="card mb-2">
+  <div class="card mb-2">
     <div v-if="isCoverLoading" class="d-flex justify-content-center">
       <div class="spinner-border text-dark m-5" role="status">
         <span class="visually-hidden">Loading...</span>
