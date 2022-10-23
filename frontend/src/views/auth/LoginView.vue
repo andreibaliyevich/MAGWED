@@ -1,7 +1,5 @@
 <script setup>
 import axios from 'axios'
-
-import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
 </script>
 
 <script>

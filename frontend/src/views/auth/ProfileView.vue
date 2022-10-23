@@ -427,10 +427,10 @@ export default {
           >
             <option
               v-for="countryList in countriesList"
-              :value="countryList.code"
-              :key="countryList.code"
+              :value="countryList.value"
+              :key="countryList.value"
             >
-              {{ countryList.name_local }} ({{ countryList.name }})
+              {{ countryList.name }}
             </option>
           </select>
           <div class="form-text">{{ $t('form_help.multiple_select') }}</div>

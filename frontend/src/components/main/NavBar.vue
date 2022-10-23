@@ -1,8 +1,6 @@
 <script setup>
 import axios from 'axios'
 
-import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
-
 import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
 const mainStore = useMainStore()
