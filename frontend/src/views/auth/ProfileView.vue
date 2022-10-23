@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
 import ProfileCover from '@/components/auth/ProfileCover.vue'
+import BaseInput from '@/components/UI/BaseInput.vue'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -267,39 +268,23 @@ export default {
         class="row g-3 mt-3"
       >
         <div class="col-md-12">
-          <label
-            for="id_name"
-            class="form-label"
-          >
-            {{ $t('auth.profile.name') }}
-          </label>
-          <div v-if="errors && errors.user && errors.user.name">
-            <input
-              v-model="name"
-              :placeholder="$t('auth.profile.name')"
-              type="text"
-              name="name"
-              maxlength="255"
-              id="id_name"
-              class="form-control is-invalid"
-            >
-            <div
-              v-for="error in errors.user.name"
-              class="invalid-feedback"
-            >
-              {{ error }}
-            </div>
-          </div>
-          <input
+          <BaseInput
+            v-if="errors && errors.user && errors.user.name"
+            v-model="name"
+            :label="$t('auth.profile.name')"
+            :errors="errors.user.name"
+            id="id_name"
+            name="name"
+            type="text"
+          />
+          <BaseInput
             v-else
             v-model="name"
-            :placeholder="$t('auth.profile.name')"
-            type="text"
-            name="name"
-            maxlength="255"
+            :label="$t('auth.profile.name')"
             id="id_name"
-            class="form-control"
-          >
+            name="name"
+            type="text"
+          />
         </div>
         <div class="col-md-6">
           <label
@@ -348,39 +333,47 @@ export default {
           </select>
         </div>
         <div class="col-md-12">
-          <label
-            for="id_phone"
-            class="form-label"
-          >
-            {{ $t('auth.profile.phone') }}
-          </label>
-          <input
+          <BaseInput
+            v-if="errors && errors.user && errors.user.phone"
             v-model="phone"
-            type="text"
-            name="phone"
-            maxlength="21"
+            :label="$t('auth.profile.phone')"
+            :errors="errors.user.phone"
             id="id_phone"
-            class="form-control"
-          >
+            name="phone"
+            type="text"
+            maxlength="21"
+          />
+          <BaseInput
+            v-else
+            v-model="phone"
+            :label="$t('auth.profile.phone')"
+            id="id_phone"
+            name="phone"
+            type="text"
+            maxlength="21"
+          />
         </div>
         <div
           v-if="userStore.userType == 2"
           class="col-md-12"
         >
-          <label
-            for="id_date_of_wedding"
-            class="form-label"
-          >
-            {{ $t('auth.profile.date_of_wedding') }}
-          </label>
-          <input
+          <BaseInput
+            v-if="errors && errors.date_of_wedding"
             v-model="dateOfWedding"
-            type="text"
-            name="date_of_wedding"
-            size="10"
+            :label="$t('auth.profile.date_of_wedding')"
+            :errors="errors.date_of_wedding"
             id="id_date_of_wedding"
-            class="form-control"
-          >
+            name="date_of_wedding"
+            type="date"
+          />
+          <BaseInput
+            v-else
+            v-model="dateOfWedding"
+            :label="$t('auth.profile.date_of_wedding')"
+            id="id_date_of_wedding"
+            name="date_of_wedding"
+            type="date"
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
@@ -517,81 +510,82 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-6"
         >
-          <label
-            for="id_cost_work"
-            class="form-label"
-          >
-            {{ $t('auth.profile.cost_work') }}
-          </label>
-          <input
+          <BaseInput
+            v-if="errors && errors.cost_work"
             v-model="costWork"
-            type="number"
+            :label="$t('auth.profile.cost_work')"
+            :errors="errors.cost_work"
+            id="id_cost_work"
             name="cost_work"
+            type="number"
             min="0.00"
             step="0.01"
             required=""
+          />
+          <BaseInput
+            v-else
+            v-model="costWork"
+            :label="$t('auth.profile.cost_work')"
             id="id_cost_work"
-            class="form-control"
-          >
+            name="cost_work"
+            type="number"
+            min="0.00"
+            step="0.01"
+            required=""
+          />
           <div class="form-text">{{ $t('form_help.cost_work') }}</div>
         </div>
         <div
           v-if="userStore.userType == 3"
           class="col-md-6"
         >
-          <label
-            for="id_number_hours"
-            class="form-label"
-          >
-            {{ $t('auth.profile.number_hours') }}
-          </label>
-          <input
+          <BaseInput
+            v-if="errors && errors.number_hours"
             v-model="numberHours"
-            type="number"
+            :label="$t('auth.profile.number_hours')"
+            :errors="errors.number_hours"
+            id="id_number_hours"
             name="number_hours"
+            type="number"
             min="0"
             required=""
+          />
+          <BaseInput
+            v-else
+            v-model="numberHours"
+            :label="$t('auth.profile.number_hours')"
             id="id_number_hours"
-            class="form-control"
-          >
+            name="number_hours"
+            type="number"
+            min="0"
+            required=""
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <label
-            for="id_profile_url"
-            class="form-label"
-          >
-            {{ $t('auth.profile.profile_url') }}
-          </label>
-          <div v-if="errors && errors.profile_url">
-            <input
-              v-model="profileURL"
-              type="text"
-              name="profile_url"
-              maxlength="64"
-              required=""
-              id="id_profile_url"
-              class="form-control is-invalid"
-            >
-            <div
-              v-for="error in errors.profile_url"
-              class="invalid-feedback"
-            >
-              {{ error }}
-            </div>
-          </div>
-          <input
-            v-else
+          <BaseInput
+            v-if="errors && errors.profile_url"
             v-model="profileURL"
-            type="text"
+            :label="$t('auth.profile.profile_url')"
+            :errors="errors.profile_url"
+            id="id_profile_url"
             name="profile_url"
+            type="text"
             maxlength="64"
             required=""
+          />
+          <BaseInput
+            v-else
+            v-model="profileURL"
+            :label="$t('auth.profile.profile_url')"
             id="id_profile_url"
-            class="form-control"
-          >
+            name="profile_url"
+            type="text"
+            maxlength="64"
+            required=""
+          />
         </div>
         <div class="col-12">
           <button
