@@ -1,6 +1,7 @@
 <script>
 export default {
   name: 'BaseInput',
+  inheritAttrs: false,
   props: {
     modelValue: {
       type: [String, Number],
