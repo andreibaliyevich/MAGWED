@@ -3,8 +3,6 @@ import axios from 'axios'
 
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
 import ProfileCover from '@/components/auth/ProfileCover.vue'
-import BaseInput from '@/components/UI/BaseInput.vue'
-import BaseSelect from '@/components/UI/BaseSelect.vue'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
