@@ -14,21 +14,23 @@ export default {
   data() {
     return {
       pageLoading: 0,
-      name: '',
-      country: null,
-      city: null,
-      phone: '',
-      dateOfWedding: null,
-      roles: [],
-      description: '',
-      countries: [],
-      cities: [],
-      languages: [],
-      costWork: 0.00,
-      numberHours: 0,
-      profileURL: '',
-      rating: 0.0,
-      proTime: null,
+      profile: {
+        name: '',
+        country: null,
+        city: null,
+        phone: '',
+        dateOfWedding: null,
+        roles: [],
+        description: '',
+        countries: [],
+        cities: [],
+        languages: [],
+        costWork: 0.00,
+        numberHours: 0,
+        profileURL: '',
+        rating: 0.0,
+        proTime: null,
+      },
       countriesList: [],
       citiesList1: [],
       citiesList2: [],
@@ -42,32 +44,31 @@ export default {
       try {
         const response = await axios.get('/' + this.$i18n.locale + '/accounts/auth/profile/')
         if (this.userStore.userType == 1) {
-          this.name = response.data.name
-          this.country = response.data.country
-          this.city = response.data.city
-          this.phone = response.data.phone
+          this.profile.name = response.data.name
+          this.profile.country = response.data.country
+          this.profile.city = response.data.city
+          this.profile.phone = response.data.phone
         } else if (this.userStore.userType == 2) {
-          this.name = response.data.user.name
-          this.country = response.data.user.country
-          this.city = response.data.user.city
-          this.phone = response.data.user.phone
-          this.dateOfWedding = response.data.date_of_wedding
+          this.profile.name = response.data.user.name
+          this.profile.country = response.data.user.country
+          this.profile.city = response.data.user.city
+          this.profile.phone = response.data.user.phone
+          this.profile.dateOfWedding = response.data.date_of_wedding
         } else if (this.userStore.userType == 3) {
-          this.name = response.data.user.name
-          this.country = response.data.user.country
-          this.city = response.data.user.city
-          this.phone = response.data.user.phone
-          this.roles = response.data.roles
-          this.cover = response.data.cover
-          this.description = response.data.description
-          this.countries = response.data.countries
-          this.cities = response.data.cities
-          this.languages = response.data.languages
-          this.costWork = response.data.cost_work
-          this.numberHours = response.data.number_hours
-          this.profileURL = response.data.profile_url
-          this.rating = response.data.rating
-          this.proTime = response.data.pro_time
+          this.profile.name = response.data.user.name
+          this.profile.country = response.data.user.country
+          this.profile.city = response.data.user.city
+          this.profile.phone = response.data.user.phone
+          this.profile.roles = response.data.roles
+          this.profile.description = response.data.description
+          this.profile.countries = response.data.countries
+          this.profile.cities = response.data.cities
+          this.profile.languages = response.data.languages
+          this.profile.costWork = response.data.cost_work
+          this.profile.numberHours = response.data.number_hours
+          this.profile.profileURL = response.data.profile_url
+          this.profile.rating = response.data.rating
+          this.profile.proTime = response.data.pro_time
         }
       } catch (error) {
         this.errors = error.response.data
@@ -99,50 +100,50 @@ export default {
       this.status = null
       this.errors = null
 
-      if (!this.country) {
-        this.country = null
+      if (!this.profile.country) {
+        this.profile.country = null
       }
-      if (!this.city) {
-        this.city = null
+      if (!this.profile.city) {
+        this.profile.city = null
       }
-      if (!this.dateOfWedding) {
-        this.dateOfWedding = null
+      if (!this.profile.dateOfWedding) {
+        this.profile.dateOfWedding = null
       }
 
       let data = {}
       if (this.userStore.userType == 1) {
         data = {
-          'name': this.name,
-          'country': this.country,
-          'city': this.city,
-          'phone': this.phone
+          'name': this.profile.name,
+          'country': this.profile.country,
+          'city': this.profile.city,
+          'phone': this.profile.phone
         }
       } else if (this.userStore.userType == 2) {
         data = {
           'user': {
-            'name': this.name,
-            'country': this.country,
-            'city': this.city,
-            'phone': this.phone
+            'name': this.profile.name,
+            'country': this.profile.country,
+            'city': this.profile.city,
+            'phone': this.profile.phone
           },
-          'date_of_wedding': this.dateOfWedding
+          'date_of_wedding': this.profile.dateOfWedding
         }
       } else if (this.userStore.userType == 3) {
         data = {
           'user': {
-            'name': this.name,
-            'country': this.country,
-            'city': this.city,
-            'phone': this.phone
+            'name': this.profile.name,
+            'country': this.profile.country,
+            'city': this.profile.city,
+            'phone': this.profile.phone
           },
-          'roles': this.roles,
-          'description': this.description,
-          'countries': this.countries,
-          'cities': this.cities,
-          'languages': this.languages,
-          'cost_work': this.costWork,
-          'number_hours': this.numberHours,
-          'profile_url': this.profileURL
+          'roles': this.profile.roles,
+          'description': this.profile.description,
+          'countries': this.profile.countries,
+          'cities': this.profile.cities,
+          'languages': this.profile.languages,
+          'cost_work': this.profile.costWork,
+          'number_hours': this.profile.numberHours,
+          'profile_url': this.profile.profileURL
         }
       }
 
@@ -154,7 +155,7 @@ export default {
           'username': this.userStore.username,
           'email': this.userStore.email,
           'user_type': this.userStore.userType,
-          'name': this.name,
+          'name': this.profile.name,
           'avatar': this.userStore.avatar
         }))
         this.status = 'updated_profile'
@@ -171,14 +172,14 @@ export default {
     }
   },
   watch: {
-    country(newValue, oldValue) {
+    'profile.country'(newValue, oldValue) {
       if (oldValue) {
-        this.city = null
+        this.profile.city = null
       }
       if (newValue) {
         axios.get('/' + this.$i18n.locale + '/main/cities/', {
           params: {
-            country: this.country
+            country: this.profile.country
           }
         })
         .then((response) => {
@@ -191,10 +192,10 @@ export default {
         this.citiesList1 = []
       }
     },
-    countries(newValue) {
+    'profile.countries'(newValue) {
       if (newValue.length > 0) {
         let params = new URLSearchParams()
-        this.countries.forEach(item => params.append('country', item))
+        this.profile.countries.forEach(item => params.append('country', item))
         axios.get('/' + this.$i18n.locale + '/main/cities/', { params: params })
         .then((response) => {
           this.citiesList2 = response.data
@@ -270,7 +271,7 @@ export default {
         <div class="col-md-12">
           <BaseInput
             v-if="errors && errors.user && errors.user.name"
-            v-model="name"
+            v-model="profile.name"
             :label="$t('auth.profile.name')"
             :errors="errors.user.name"
             id="id_name"
@@ -279,7 +280,7 @@ export default {
           />
           <BaseInput
             v-else
-            v-model="name"
+            v-model="profile.name"
             :label="$t('auth.profile.name')"
             id="id_name"
             name="name"
@@ -294,7 +295,7 @@ export default {
             {{ $t('auth.profile.country') }}
           </label>
           <select
-            v-model="country"
+            v-model="profile.country"
             name="country"
             id="id_country"
             class="form-select"
@@ -317,7 +318,7 @@ export default {
             {{ $t('auth.profile.city') }}
           </label>
           <select
-            v-model="city"
+            v-model="profile.city"
             name="city"
             id="id_city"
             class="form-select"
@@ -335,7 +336,7 @@ export default {
         <div class="col-md-12">
           <BaseInput
             v-if="errors && errors.user && errors.user.phone"
-            v-model="phone"
+            v-model="profile.phone"
             :label="$t('auth.profile.phone')"
             :errors="errors.user.phone"
             id="id_phone"
@@ -345,7 +346,7 @@ export default {
           />
           <BaseInput
             v-else
-            v-model="phone"
+            v-model="profile.phone"
             :label="$t('auth.profile.phone')"
             id="id_phone"
             name="phone"
@@ -359,7 +360,7 @@ export default {
         >
           <BaseInput
             v-if="errors && errors.date_of_wedding"
-            v-model="dateOfWedding"
+            v-model="profile.dateOfWedding"
             :label="$t('auth.profile.date_of_wedding')"
             :errors="errors.date_of_wedding"
             id="id_date_of_wedding"
@@ -368,7 +369,7 @@ export default {
           />
           <BaseInput
             v-else
-            v-model="dateOfWedding"
+            v-model="profile.dateOfWedding"
             :label="$t('auth.profile.date_of_wedding')"
             id="id_date_of_wedding"
             name="date_of_wedding"
@@ -386,7 +387,7 @@ export default {
             {{ $t('auth.profile.roles') }}
           </label>
           <select
-            v-model="roles"
+            v-model="profile.roles"
             name="roles"
             id="id_roles"
             multiple=""
@@ -417,7 +418,7 @@ export default {
             {{ $t('auth.profile.description') }}
           </label>
           <textarea
-            v-model="description"
+            v-model="profile.description"
             name="description"
             cols="40"
             rows="10"
@@ -436,7 +437,7 @@ export default {
             {{ $t('auth.profile.countries') }}
           </label>
           <select
-            v-model="countries"
+            v-model="profile.countries"
             name="countries"
             id="id_countries"
             multiple=""
@@ -463,7 +464,7 @@ export default {
             {{ $t('auth.profile.cities') }}
           </label>
           <select
-            v-model="cities"
+            v-model="profile.cities"
             name="cities"
             id="id_cities"
             multiple=""
@@ -490,7 +491,7 @@ export default {
             {{ $t('auth.profile.languages') }}
           </label>
           <select
-            v-model="languages"
+            v-model="profile.languages"
             name="languages"
             id="id_languages"
             multiple=""
@@ -512,7 +513,7 @@ export default {
         >
           <BaseInput
             v-if="errors && errors.cost_work"
-            v-model="costWork"
+            v-model="profile.costWork"
             :label="$t('auth.profile.cost_work')"
             :errors="errors.cost_work"
             id="id_cost_work"
@@ -524,7 +525,7 @@ export default {
           />
           <BaseInput
             v-else
-            v-model="costWork"
+            v-model="profile.costWork"
             :label="$t('auth.profile.cost_work')"
             id="id_cost_work"
             name="cost_work"
@@ -541,7 +542,7 @@ export default {
         >
           <BaseInput
             v-if="errors && errors.number_hours"
-            v-model="numberHours"
+            v-model="profile.numberHours"
             :label="$t('auth.profile.number_hours')"
             :errors="errors.number_hours"
             id="id_number_hours"
@@ -552,7 +553,7 @@ export default {
           />
           <BaseInput
             v-else
-            v-model="numberHours"
+            v-model="profile.numberHours"
             :label="$t('auth.profile.number_hours')"
             id="id_number_hours"
             name="number_hours"
@@ -567,7 +568,7 @@ export default {
         >
           <BaseInput
             v-if="errors && errors.profile_url"
-            v-model="profileURL"
+            v-model="profile.profileURL"
             :label="$t('auth.profile.profile_url')"
             :errors="errors.profile_url"
             id="id_profile_url"
@@ -578,7 +579,7 @@ export default {
           />
           <BaseInput
             v-else
-            v-model="profileURL"
+            v-model="profile.profileURL"
             :label="$t('auth.profile.profile_url')"
             id="id_profile_url"
             name="profile_url"
