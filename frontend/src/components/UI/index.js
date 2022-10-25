@@ -1,7 +1,6 @@
-import BaseInput from '@/components/UI/BaseInput.vue'
-import BaseSelect from '@/components/UI/BaseSelect.vue'
-import LocaleRouterLink from '@/components/UI/LocaleRouterLink.vue'
-
+import BaseInput from './BaseInput.vue'
+import BaseSelect from './BaseSelect.vue'
+import LocaleRouterLink from './LocaleRouterLink.vue'
 
 export default [
   BaseInput,
