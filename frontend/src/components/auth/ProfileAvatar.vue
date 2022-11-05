@@ -100,7 +100,7 @@ export default {
           </div>
           <div class="d-flex justify-content-center">
             <input ref="avatarInput" @change="updateAvatar" type="file" accept="image/*" class="visually-hidden">
-            <button @click="openAvatarInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_avatar') }}</button>
+            <button @click="openAvatarInput" type="button" class="btn btn-light-brand m-1">{{ $t('auth.profile.upload_avatar') }}</button>
             <button v-if="userStore.avatar" @click="removeAvatar" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_avatar') }}</button>
           </div>
           <small class="text-muted">{{ $t('form_help.input_img', { width: '512', height: '512' }) }}</small>

@@ -92,7 +92,7 @@ export default {
       </div>
       <div class="d-flex justify-content-center">
         <input ref="coverInput" @change="updateCover" type="file" accept="image/*" class="visually-hidden">
-        <button @click="openCoverInput" type="button" class="btn btn-primary m-1">{{ $t('auth.profile.upload_cover') }}</button>
+        <button @click="openCoverInput" type="button" class="btn btn-light-brand m-1">{{ $t('auth.profile.upload_cover') }}</button>
         <button v-if="cover" @click="removeCover" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_cover') }}</button>
       </div>
       <small class="text-muted">{{ $t('form_help.input_img', { width: '1900', height: '1200' }) }}</small>

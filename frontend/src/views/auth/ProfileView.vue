@@ -536,7 +536,7 @@ export default {
         <div class="col-12">
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-brand btn-lg"
           >
             {{ $t('auth.profile.update_profile') }}
           </button>

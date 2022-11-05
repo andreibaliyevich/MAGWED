@@ -231,7 +231,7 @@ export default {
     <div class="mt-4">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-brand"
         data-bs-toggle="modal"
         data-bs-target="#organizerLinkModal"
       >
