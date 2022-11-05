@@ -409,24 +409,16 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <label
-            for="id_description"
-            class="form-label"
-          >
-            {{ $t('auth.profile.description') }}
-          </label>
-          <textarea
+          <BaseTextarea
             v-model="profile.description"
-            name="description"
-            cols="40"
-            rows="10"
+            :label="$t('auth.profile.description')"
             id="id_description"
-            class="form-control"
-          ></textarea>
+            name="description"
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
-          class="col-md-6"
+          class="col-md-12"
         >
           <BaseMultipleSelect
             v-model="profile.countries"
@@ -438,7 +430,7 @@ export default {
         </div>
         <div
           v-if="userStore.userType == 3"
-          class="col-md-6"
+          class="col-md-12"
         >
           <BaseMultipleSelect
             v-model="profile.cities"
