@@ -272,30 +272,30 @@ export default {
   <div class="profile-settings px-1 px-lg-3 px-xl-5">
     <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
 
-    <div v-if="status">
-      <div
-        class="alert alert-success d-flex align-items-center alert-dismissible fade show"
-        role="alert"
-      >
-        <i class="fa-solid fa-circle-check"></i>
-        <div
-          v-if="status == 'updated_profile'"
-          class="ms-3"
-        >
-          {{ $t('auth.profile.profile_updated_successfully') }}
-        </div>
-        <button
-          @click="status = null"
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
-
     <PageLoadingIndicator v-if="pageLoading < 3" />
     <div v-else>
+      <div v-if="status">
+        <div
+          class="alert alert-success d-flex align-items-center alert-dismissible fade show"
+          role="alert"
+        >
+          <i class="fa-solid fa-circle-check"></i>
+          <div
+            v-if="status == 'updated_profile'"
+            class="ms-3"
+          >
+            {{ $t('auth.profile.profile_updated_successfully') }}
+          </div>
+          <button
+            @click="status = null"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
       <ProfileCover v-if="userStore.userType == 3" />
       <ProfileAvatar />
 
@@ -387,7 +387,7 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <BaseMultipleSelect
+          <MultipleSelect
             v-model="profile.roles"
             :label="$t('auth.profile.roles')"
             :options="roleChoices"
@@ -410,7 +410,7 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <BaseMultipleSelect
+          <MultipleSelect
             v-model="profile.countries"
             :label="$t('auth.profile.countries')"
             :options="countriesList"
@@ -422,7 +422,7 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <BaseMultipleSelect
+          <MultipleSelect
             v-model="profile.cities"
             :label="$t('auth.profile.cities')"
             :options="citiesList2"
@@ -434,7 +434,7 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <BaseMultipleSelect
+          <MultipleSelect
             v-model="profile.languages"
             :label="$t('auth.profile.languages')"
             :options="languagesList"
