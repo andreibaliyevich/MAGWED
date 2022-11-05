@@ -93,7 +93,12 @@ export default {
     async getLanguagesData() {
       try {
         const response = await axios.get('/' + this.$i18n.locale + '/main/languages/')
-        this.languagesList = response.data
+        response.data.forEach((element) => {
+          this.languagesList.push({
+            'value': element.code,
+            'text': `${ element.name_local } (${ element.name })`
+          })
+        })
       } catch (error) {
         this.errors = error.response.data
       } finally {
@@ -422,82 +427,37 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-6"
         >
-          <label
-            for="id_countries"
-            class="form-label"
-          >
-            {{ $t('auth.profile.countries') }}
-          </label>
-          <select
+          <BaseMultipleSelect
             v-model="profile.countries"
-            name="countries"
+            :label="$t('auth.profile.countries')"
+            :options="countriesList"
             id="id_countries"
-            multiple=""
-            class="form-select"
-          >
-            <option
-              v-for="countryList in countriesList"
-              :value="countryList.value"
-              :key="countryList.value"
-            >
-              {{ countryList.text }}
-            </option>
-          </select>
-          <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+            name="countries"
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
           class="col-md-6"
         >
-          <label
-            for="id_cities"
-            class="form-label"
-          >
-            {{ $t('auth.profile.cities') }}
-          </label>
-          <select
+          <BaseMultipleSelect
             v-model="profile.cities"
-            name="cities"
+            :label="$t('auth.profile.cities')"
+            :options="citiesList2"
             id="id_cities"
-            multiple=""
-            class="form-select"
-          >
-            <option
-              v-for="cityList in citiesList2"
-              :value="cityList.value"
-              :key="cityList.value"
-            >
-              {{ cityList.text }}
-            </option>
-          </select>
-          <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+            name="cities"
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <label
-            for="id_languages"
-            class="form-label"
-          >
-            {{ $t('auth.profile.languages') }}
-          </label>
-          <select
+          <BaseMultipleSelect
             v-model="profile.languages"
-            name="languages"
+            :label="$t('auth.profile.languages')"
+            :options="languagesList"
             id="id_languages"
-            multiple=""
-            class="form-select"
-          >
-            <option
-              v-for="languageList in languagesList"
-              :value="languageList.code"
-              :key="languageList.code"
-            >
-              {{ languageList.name_local }} ({{ languageList.name }})
-            </option>
-          </select>
-          <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+            name="languages"
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
