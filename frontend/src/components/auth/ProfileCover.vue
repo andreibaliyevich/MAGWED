@@ -16,9 +16,6 @@ export default {
     }
   },
   methods: {
-    openCoverInput() {
-      this.$refs.coverInput.click()
-    },
     getCover() {
       axios.get('/' + this.$i18n.locale + '/accounts/auth/cover/')
       .then((response) => {
@@ -29,15 +26,14 @@ export default {
         this.errors = error.response.data
       })
     },
-    updateCover(event) {
+    updateCover(filelist) {
       this.coverLoading = true
       const coverData = new FormData()
-      coverData.append('cover', event.target.files[0], event.target.files[0].name)
+      coverData.append('cover', filelist[0], filelist[0].name)
 
       axios.put('/' + this.$i18n.locale + '/accounts/auth/cover/', coverData)
       .then((response) => {
         this.cover = response.data.cover
-        this.$refs.coverInput.value = ''
         this.status = 'updated_cover'
         this.errors = null
         document.body.scrollTop = 0
@@ -50,7 +46,7 @@ export default {
       })
       .then(() => this.coverLoading = false)
     },
-    removeCover(event) {
+    removeCover() {
       if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
         axios.delete('/' + this.$i18n.locale + '/accounts/auth/cover/')
         .then((response) => {
@@ -110,20 +106,12 @@ export default {
         </small>
       </div>
       <div class="d-flex justify-content-center">
-        <input
-          ref="coverInput"
-          @change="updateCover"
-          type="file"
+        <FileInputButton
+          @updateFile="updateCover"
           accept="image/*"
-          class="visually-hidden"
-        >
-        <button
-          @click="openCoverInput"
-          type="button"
-          class="btn btn-light-brand m-1"
         >
           {{ $t('auth.profile.upload_cover') }}
-        </button>
+        </FileInputButton>
         <button
           v-if="cover"
           @click="removeCover"

@@ -17,13 +17,10 @@ export default {
     }
   },
   methods: {
-    openAvatarInput() {
-      this.$refs.avatarInput.click()
-    },
-    updateAvatar(event) {
+    updateAvatar(filelist) {
       this.avatarLoading = true
       const avatarData = new FormData()
-      avatarData.append('avatar', event.target.files[0], event.target.files[0].name)
+      avatarData.append('avatar', filelist[0], filelist[0].name)
 
       axios.put('/' + this.$i18n.locale + '/accounts/auth/avatar/', avatarData)
       .then((response) => {
@@ -36,7 +33,6 @@ export default {
           'name': this.userStore.name,
           'avatar': response.data.avatar
         }))
-        this.$refs.avatarInput.value = ''
         this.status = 'updated_avatar'
         this.errors = null
         document.body.scrollTop = 0
@@ -49,7 +45,7 @@ export default {
       })
       .then(() => this.avatarLoading = false)
     },
-    removeAvatar(event) {
+    removeAvatar() {
       if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
         axios.delete('/' + this.$i18n.locale + '/accounts/auth/avatar/')
         .then((response) => {
@@ -118,20 +114,12 @@ export default {
             </small>
           </div>
           <div class="d-flex justify-content-center">
-            <input
-              ref="avatarInput"
-              @change="updateAvatar"
-              type="file"
+            <FileInputButton
+              @updateFile="updateAvatar"
               accept="image/*"
-              class="visually-hidden"
-            >
-            <button
-              @click="openAvatarInput"
-              type="button"
-              class="btn btn-light-brand m-1"
             >
               {{ $t('auth.profile.upload_avatar') }}
-            </button>
+            </FileInputButton>
             <button
               v-if="userStore.avatar"
               @click="removeAvatar"
