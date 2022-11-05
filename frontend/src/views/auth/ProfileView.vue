@@ -294,17 +294,7 @@ export default {
       </div>
     </div>
 
-    <div
-      v-if="pageLoading < 3"
-      class="d-flex justify-content-center"
-    >
-      <div
-        class="spinner-grow text-dark"
-        role="status"
-      >
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
+    <PageLoadingIndicator v-if="pageLoading < 3" />
     <div v-else>
       <ProfileCover v-if="userStore.userType == 3" />
       <ProfileAvatar />
