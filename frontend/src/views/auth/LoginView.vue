@@ -23,7 +23,7 @@ export default {
         if (this.$route.query.redirect) {
           window.location.assign(`${ this.$route.query.redirect }`)
         } else {
-          window.location.assign('/')
+          window.location.assign(`/${ this.$i18n.locale }`)
         }
       })
       .catch((error) => {
