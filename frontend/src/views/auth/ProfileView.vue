@@ -13,6 +13,19 @@ export default {
   data() {
     return {
       pageLoading: 0,
+      roleChoices: [
+        { value: 1, text: this.$t('roles.photographer') },
+        { value: 2, text: this.$t('roles.videographer') },
+        { value: 3, text: this.$t('roles.leading') },
+        { value: 4, text: this.$t('roles.musician') },
+        { value: 5, text: this.$t('roles.dj') },
+        { value: 6, text: this.$t('roles.agency') },
+        { value: 7, text: this.$t('roles.salon') },
+        { value: 8, text: this.$t('roles.confectionery') },
+        { value: 9, text: this.$t('roles.decorator') },
+        { value: 10, text: this.$t('roles.visagiste') },
+        { value: 11, text: this.$t('roles.hairdresser') }
+      ],
       profile: {
         name: '',
         country: null,
@@ -377,32 +390,13 @@ export default {
           v-if="userStore.userType == 3"
           class="col-md-12"
         >
-          <label
-            for="id_roles"
-            class="form-label"
-          >
-            {{ $t('auth.profile.roles') }}
-          </label>
-          <select
+          <BaseMultipleSelect
             v-model="profile.roles"
-            name="roles"
+            :label="$t('auth.profile.roles')"
+            :options="roleChoices"
             id="id_roles"
-            multiple=""
-            class="form-select"
-          >
-            <option value="1">{{ $t('roles.photographer') }}</option>
-            <option value="2">{{ $t('roles.videographer') }}</option>
-            <option value="3">{{ $t('roles.leading') }}</option>
-            <option value="4">{{ $t('roles.musician') }}</option>
-            <option value="5">{{ $t('roles.dj') }}</option>
-            <option value="6">{{ $t('roles.agency') }}</option>
-            <option value="7">{{ $t('roles.salon') }}</option>
-            <option value="8">{{ $t('roles.confectionery') }}</option>
-            <option value="9">{{ $t('roles.decorator') }}</option>
-            <option value="10">{{ $t('roles.visagiste') }}</option>
-            <option value="11">{{ $t('roles.hairdresser') }}</option>
-          </select>
-          <div class="form-text">{{ $t('form_help.multiple_select') }}</div>
+            name="roles"
+          />
         </div>
         <div
           v-if="userStore.userType == 3"
