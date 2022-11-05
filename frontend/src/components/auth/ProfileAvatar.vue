@@ -73,21 +73,25 @@ export default {
 
 <template>
   <div class="card mb-2">
-    <div class="row d-flex align-items-center">
+    <ActionProcessingIndicator
+      v-if="avatarLoading"
+      :actionInfo="$t('auth.profile.uploading_avatar')"
+    />
+    <div
+      v-else
+      class="row d-flex align-items-center"
+    >
       <div class="col-md-3">
-        <ActionProcessingIndicator v-if="avatarLoading" />
-        <div v-else>
-          <img
-            v-if="userStore.avatar"
-            :src="`${ mainStore.apiURL }${ userStore.avatar }`"
-            class="img-fluid rounded-start"
-          >
-          <img
-            v-else
-            src="/user-avatar.jpg"
-            class="img-fluid rounded-start"
-          >
-        </div>
+        <img
+          v-if="userStore.avatar"
+          :src="`${ mainStore.apiURL }${ userStore.avatar }`"
+          class="img-fluid rounded-start"
+        >
+        <img
+          v-else
+          src="/user-avatar.jpg"
+          class="img-fluid rounded-start"
+        >
       </div>
       <div class="col-md-9">
         <div class="card-body text-center">
