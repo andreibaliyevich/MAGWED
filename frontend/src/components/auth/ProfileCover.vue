@@ -73,29 +73,81 @@ export default {
 
 <template>
   <div class="card mb-2">
-    <div v-if="isCoverLoading" class="d-flex justify-content-center">
-      <div class="spinner-border text-dark m-5" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div
+      v-if="isCoverLoading"
+      class="d-flex justify-content-center p-5"
+    >
+      <div
+        class="spinner-border text-dark"
+        role="status"
+      >
+        <span class="visually-hidden">
+          Loading...
+        </span>
       </div>
     </div>
     <div v-else>
-      <img v-if="cover" :src="`${ mainStore.apiURL }${ cover }`" class="card-img-top">
-      <img v-else src="/cover.jpg" class="card-img-top">
+      <img
+        v-if="cover"
+        :src="`${ mainStore.apiURL }${ cover }`"
+        class="card-img-top"
+      >
+      <img
+        v-else
+        src="/cover.jpg"
+        class="card-img-top"
+      >
     </div>
     <div class="card-body text-center">
       <div v-if="status">
-        <small v-if="status == 'updated_cover'" class="text-success">{{ $t('auth.profile.cover_updated_successfully') }}</small>
-        <small v-if="status == 'removed_cover'" class="text-success">{{ $t('auth.profile.cover_removed_successfully') }}</small>
+        <small
+          v-if="status == 'updated_cover'"
+          class="text-success"
+        >
+          {{ $t('auth.profile.cover_updated_successfully') }}
+        </small>
+        <small
+          v-if="status == 'removed_cover'"
+          class="text-success"
+        >
+          {{ $t('auth.profile.cover_removed_successfully') }}
+        </small>
       </div>
       <div v-if="errors && errors.cover">
-        <small v-for="error in errors.cover" class="text-danger">{{ error }}</small>
+        <small
+          v-for="error in errors.cover"
+          class="text-danger"
+        >
+          {{ error }}
+        </small>
       </div>
       <div class="d-flex justify-content-center">
-        <input ref="coverInput" @change="updateCover" type="file" accept="image/*" class="visually-hidden">
-        <button @click="openCoverInput" type="button" class="btn btn-light-brand m-1">{{ $t('auth.profile.upload_cover') }}</button>
-        <button v-if="cover" @click="removeCover" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_cover') }}</button>
+        <input
+          ref="coverInput"
+          @change="updateCover"
+          type="file"
+          accept="image/*"
+          class="visually-hidden"
+        >
+        <button
+          @click="openCoverInput"
+          type="button"
+          class="btn btn-light-brand m-1"
+        >
+          {{ $t('auth.profile.upload_cover') }}
+        </button>
+        <button
+          v-if="cover"
+          @click="removeCover"
+          type="button"
+          class="btn btn-outline-dark m-1"
+        >
+          {{ $t('auth.profile.remove_cover') }}
+        </button>
       </div>
-      <small class="text-muted">{{ $t('form_help.input_img', { width: '1900', height: '1200' }) }}</small>
+      <small class="text-muted">
+        {{ $t('form_help.input_img', { width: '1900', height: '1200' }) }}
+      </small>
     </div>
   </div>
 </template>

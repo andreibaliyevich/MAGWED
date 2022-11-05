@@ -79,31 +79,83 @@ export default {
   <div class="card mb-2">
     <div class="row d-flex align-items-center">
       <div class="col-md-3">
-        <div v-if="isAvatarLoading" class="d-flex justify-content-center">
-          <div class="spinner-border text-dark" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div
+          v-if="isAvatarLoading"
+          class="d-flex justify-content-center"
+        >
+          <div
+            class="spinner-border text-dark"
+            role="status"
+          >
+            <span class="visually-hidden">
+              Loading...
+            </span>
           </div>
         </div>
         <div v-else>
-          <img v-if="userStore.avatar" :src="`${ mainStore.apiURL }${ userStore.avatar }`" class="img-fluid rounded-start">
-          <img v-else src="/user-avatar.jpg" class="img-fluid rounded-start">
+          <img
+            v-if="userStore.avatar"
+            :src="`${ mainStore.apiURL }${ userStore.avatar }`"
+            class="img-fluid rounded-start"
+          >
+          <img
+            v-else
+            src="/user-avatar.jpg"
+            class="img-fluid rounded-start"
+          >
         </div>
       </div>
       <div class="col-md-9">
         <div class="card-body text-center">
           <div v-if="status">
-            <small v-if="status == 'updated_avatar'" class="text-success">{{ $t('auth.profile.avatar_updated_successfully') }}</small>
-            <small v-if="status == 'removed_avatar'" class="text-success">{{ $t('auth.profile.avatar_removed_successfully') }}</small>
+            <small
+              v-if="status == 'updated_avatar'"
+              class="text-success"
+            >
+              {{ $t('auth.profile.avatar_updated_successfully') }}
+            </small>
+            <small
+              v-if="status == 'removed_avatar'"
+              class="text-success"
+            >
+              {{ $t('auth.profile.avatar_removed_successfully') }}
+            </small>
           </div>
           <div v-if="errors && errors.avatar">
-            <small v-for="error in errors.avatar" class="text-danger">{{ error }}</small>
+            <small
+              v-for="error in errors.avatar"
+              class="text-danger"
+            >
+              {{ error }}
+            </small>
           </div>
           <div class="d-flex justify-content-center">
-            <input ref="avatarInput" @change="updateAvatar" type="file" accept="image/*" class="visually-hidden">
-            <button @click="openAvatarInput" type="button" class="btn btn-light-brand m-1">{{ $t('auth.profile.upload_avatar') }}</button>
-            <button v-if="userStore.avatar" @click="removeAvatar" type="button" class="btn btn-outline-dark m-1">{{ $t('auth.profile.remove_avatar') }}</button>
+            <input
+              ref="avatarInput"
+              @change="updateAvatar"
+              type="file"
+              accept="image/*"
+              class="visually-hidden"
+            >
+            <button
+              @click="openAvatarInput"
+              type="button"
+              class="btn btn-light-brand m-1"
+            >
+              {{ $t('auth.profile.upload_avatar') }}
+            </button>
+            <button
+              v-if="userStore.avatar"
+              @click="removeAvatar"
+              type="button"
+              class="btn btn-outline-dark m-1"
+            >
+              {{ $t('auth.profile.remove_avatar') }}
+            </button>
           </div>
-          <small class="text-muted">{{ $t('form_help.input_img', { width: '512', height: '512' }) }}</small>
+          <small class="text-muted">
+            {{ $t('form_help.input_img', { width: '512', height: '512' }) }}
+          </small>
         </div>
       </div>
     </div>
