@@ -148,6 +148,7 @@ export default {
     >
       <ul class="list-group list-group-flush">
         <li
+          v-if="searchOptions.length > 0"
           v-for="option in searchOptions"
           @click="updateModelValue(option.value)"
           :class="[
@@ -155,7 +156,19 @@ export default {
             { 'list-group-item-primary': modelValue.includes(option.value) }
           ]"
         >
-          {{ option.text }}
+          <div class="d-flex align-items-center justify-content-between">
+            {{ option.text }}
+            <i
+              v-if="modelValue.includes(option.value)"
+              class="fa-solid fa-check"
+            ></i>
+          </div>
+        </li>
+        <li
+          v-else
+          class="list-group-item py-3"
+        >
+          {{ $t('form_help.no_options_available') }}
         </li>
       </ul>
     </div>
@@ -211,7 +224,7 @@ input:focus-visible {
 .position-absolute.overflow-auto.show {
   display: block;
 }
-.list-group-item:hover {
+.list-group-item.py-1:hover {
   color: #e72a26 !important;
   cursor: pointer;
 }
