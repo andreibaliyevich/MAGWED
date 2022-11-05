@@ -1,11 +1,25 @@
 <script>
 export default {
-  name: 'ActionProcessingIndicator'
+  name: 'ActionProcessingIndicator',
+  props: {
+    actionInfo : {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 
 <template>
-  <div class="d-flex justify-content-center p-5">
+  <div v-if="actionInfo" class="d-flex align-items-center p-5">
+    <strong>{{ actionInfo }}</strong>
+    <div
+      class="spinner-border text-dark ms-auto"
+      role="status"
+      aria-hidden="true"
+    ></div>
+  </div>
+  <div v-else class="d-flex justify-content-center p-5">
     <div
       class="spinner-border text-dark"
       role="status"
