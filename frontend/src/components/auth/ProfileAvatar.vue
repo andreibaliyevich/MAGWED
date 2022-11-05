@@ -11,7 +11,7 @@ const userStore = useUserStore()
 export default {
   data() {
     return {
-      isAvatarLoading: false,
+      avatarLoading: false,
       status: null,
       errors: null
     }
@@ -21,7 +21,7 @@ export default {
       this.$refs.avatarInput.click()
     },
     updateAvatar(event) {
-      this.isAvatarLoading = true
+      this.avatarLoading = true
       const avatarData = new FormData()
       avatarData.append('avatar', event.target.files[0], event.target.files[0].name)
 
@@ -47,7 +47,7 @@ export default {
         this.status = null
         this.errors = error.response.data
       })
-      .then(() => this.isAvatarLoading = false)
+      .then(() => this.avatarLoading = false)
     },
     removeAvatar(event) {
       if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
@@ -79,19 +79,7 @@ export default {
   <div class="card mb-2">
     <div class="row d-flex align-items-center">
       <div class="col-md-3">
-        <div
-          v-if="isAvatarLoading"
-          class="d-flex justify-content-center"
-        >
-          <div
-            class="spinner-border text-dark"
-            role="status"
-          >
-            <span class="visually-hidden">
-              Loading...
-            </span>
-          </div>
-        </div>
+        <ActionProcessingIndicator v-if="avatarLoading" />
         <div v-else>
           <img
             v-if="userStore.avatar"

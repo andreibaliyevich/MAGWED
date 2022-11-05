@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       cover: null,
-      isCoverLoading: false,
+      coverLoading: false,
       status: null,
       errors: null
     }
@@ -30,7 +30,7 @@ export default {
       })
     },
     updateCover(event) {
-      this.isCoverLoading = true
+      this.coverLoading = true
       const coverData = new FormData()
       coverData.append('cover', event.target.files[0], event.target.files[0].name)
 
@@ -48,7 +48,7 @@ export default {
         this.status = null
         this.errors = error.response.data
       })
-      .then(() => this.isCoverLoading = false)
+      .then(() => this.coverLoading = false)
     },
     removeCover(event) {
       if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
@@ -73,19 +73,7 @@ export default {
 
 <template>
   <div class="card mb-2">
-    <div
-      v-if="isCoverLoading"
-      class="d-flex justify-content-center p-5"
-    >
-      <div
-        class="spinner-border text-dark"
-        role="status"
-      >
-        <span class="visually-hidden">
-          Loading...
-        </span>
-      </div>
-    </div>
+    <ActionProcessingIndicator v-if="coverLoading" />
     <div v-else>
       <img
         v-if="cover"

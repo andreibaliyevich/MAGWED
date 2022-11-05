@@ -7,14 +7,14 @@ export default {
   data() {
     return {
       email: '',
-      isLoading: false,
+      actionProcessing: false,
       status: null,
       errors: null
     }
   },
   methods: {
     resetPassword() {
-      this.isLoading = true
+      this.actionProcessing = true
       axios.post('/' + this.$i18n.locale + '/accounts/auth/password/reset/', {
         email: this.email
       })
@@ -29,7 +29,7 @@ export default {
         this.errors = error.response.data
       })
       .then(() => {
-        this.isLoading = false
+        this.actionProcessing = false
         document.body.scrollTop = 0
         document.documentElement.scrollTop = 0
       })
@@ -40,23 +40,16 @@ export default {
 
 <template>
   <div class="password-reset-view">
-    <h1 class="display-6 text-center mb-4">
+    <h1 class="display-6 text-center">
       {{ $t('auth.passwordreset.password_reset') }}
     </h1>
 
-    <div
-      v-if="isLoading"
-      class="d-flex justify-content-center mb-3"
-    >
-      <div
-        class="spinner-border"
-        role="status"
-      >
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
+    <ActionProcessingIndicator v-if="actionProcessing" />
 
-    <div v-if="status == '204'">
+    <div
+      v-if="status == '204'"
+      class="mt-4"
+    >
       <p class="lead fs-3 text-muted">
         {{ $t('auth.passwordreset.success1') }}
       </p>
@@ -69,6 +62,7 @@ export default {
     <form
       v-else
       @submit.prevent="resetPassword"
+      :class="{ 'mt-4': !actionProcessing }"
     >
       <p class="fs-6">{{ $t('auth.passwordreset.help') }}</p>
       <ul class="fs-6">
