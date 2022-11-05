@@ -42,6 +42,11 @@ export default {
         {{ option.text }}
       </option>
     </select>
-    <label v-if="label" :for="id">{{ label }}</label>
+    <label
+      v-if="label"
+      :for="id"
+    >
+      {{ label }}
+    </label>
   </div>
 </template>

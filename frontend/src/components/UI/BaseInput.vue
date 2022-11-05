@@ -56,6 +56,11 @@ export default {
       v-bind="$attrs"
       class="form-control"
     >
-    <label v-if="label" :for="id">{{ label }}</label>
+    <label
+      v-if="label"
+      :for="id"
+    >
+      {{ label }}
+    </label>
   </div>
 </template>

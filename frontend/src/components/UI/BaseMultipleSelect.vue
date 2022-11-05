@@ -82,7 +82,12 @@ export default {
 </script>
 
 <template>
-  <label v-if="label" :for="id">{{ label }}</label>
+  <label
+    v-if="label"
+    :for="id"
+  >
+    {{ label }}
+  </label>
   <div
     ref="divSelect"
     :id="id"
