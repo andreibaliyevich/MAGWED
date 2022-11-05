@@ -13,19 +13,7 @@ export default {
   data() {
     return {
       pageLoading: 0,
-      roleChoices: [
-        { value: 1, text: this.$t('roles.photographer') },
-        { value: 2, text: this.$t('roles.videographer') },
-        { value: 3, text: this.$t('roles.leading') },
-        { value: 4, text: this.$t('roles.musician') },
-        { value: 5, text: this.$t('roles.dj') },
-        { value: 6, text: this.$t('roles.agency') },
-        { value: 7, text: this.$t('roles.salon') },
-        { value: 8, text: this.$t('roles.confectionery') },
-        { value: 9, text: this.$t('roles.decorator') },
-        { value: 10, text: this.$t('roles.visagiste') },
-        { value: 11, text: this.$t('roles.hairdresser') }
-      ],
+      roleChoices: [],
       profile: {
         name: '',
         country: null,
@@ -52,6 +40,21 @@ export default {
     }
   },
   methods: {
+    setRoleChoices() {
+      this.roleChoices = [
+        { value: 1, text: this.$t('roles.photographer') },
+        { value: 2, text: this.$t('roles.videographer') },
+        { value: 3, text: this.$t('roles.leading') },
+        { value: 4, text: this.$t('roles.musician') },
+        { value: 5, text: this.$t('roles.dj') },
+        { value: 6, text: this.$t('roles.agency') },
+        { value: 7, text: this.$t('roles.salon') },
+        { value: 8, text: this.$t('roles.confectionery') },
+        { value: 9, text: this.$t('roles.decorator') },
+        { value: 10, text: this.$t('roles.visagiste') },
+        { value: 11, text: this.$t('roles.hairdresser') }
+      ]
+    },
     async getProfileData() {
       try {
         const response = await axios.get('/' + this.$i18n.locale + '/accounts/auth/profile/')
@@ -194,6 +197,9 @@ export default {
     }
   },
   watch: {
+    '$i18n.locale'() {
+      this.setRoleChoices()
+    },
     'profile.country'(newValue, oldValue) {
       if (oldValue) {
         this.profile.city = null
@@ -254,6 +260,7 @@ export default {
     }
   },
   mounted() {
+    this.setRoleChoices()
     this.getProfileData()
     this.getCountriesData()
     this.getLanguagesData()
