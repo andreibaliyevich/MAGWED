@@ -159,8 +159,8 @@
     },
     "form_help": {
         "select_option": "Будь ласка, оберіть",
+        "no_options_available": "Немає доступних варіантів",
         "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",
-        "multiple_select": "Утримуйте “Control” або “Command” на Mac, щоб вибрати більше одного.",
         "cost_work": "Будь ласка, введіть у доларах США ($)"
     },
     "blog": {

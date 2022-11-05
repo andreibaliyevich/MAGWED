@@ -159,8 +159,8 @@
     },
     "form_help": {
         "select_option": "Калі ласка абярыце",
+        "no_options_available": "Няма даступных варыянтаў",
         "input_img": "Загрузіце малюнак у фармаце JPG або PNG. Неабходны мінімальны памер {width} x {height}.",
-        "multiple_select": "Утрымлівайце “Control” або “Command” на Mac, каб выбраць некалькі.",
         "cost_work": "Калі ласка, увядзіце ў далярах ЗША ($)"
     },
     "blog": {

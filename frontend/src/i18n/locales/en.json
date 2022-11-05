@@ -159,8 +159,8 @@
     },
     "form_help": {
         "select_option": "Please select",
+        "no_options_available": "No options available",
         "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
-        "multiple_select": "Hold down “Control”, or “Command” on a Mac, to select more than one.",
         "cost_work": "Please enter in USD ($)"
     },
     "blog": {
