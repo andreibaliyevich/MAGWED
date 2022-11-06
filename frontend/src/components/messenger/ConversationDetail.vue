@@ -37,7 +37,7 @@ export default {
     return {
       convoSocket: null,
       messages: [],
-      isMessagesLoading: false,
+      messagesLoading: false,
       message: ''
     }
   },
@@ -59,14 +59,14 @@ export default {
         )
 
         this.convoSocket.onopen = (event) => {
-          this.isMessagesLoading = true
+          this.messagesLoading = true
         }
 
         this.convoSocket.onmessage = (event) => {
           const data = JSON.parse(event.data)
           if (data.messages) {
             this.messages = data.messages
-            this.isMessagesLoading = false
+            this.messagesLoading = false
             nextTick(() => {
               this.$refs.cardBody.scrollTop = this.$refs.cardBody.scrollHeight
               this.$refs.msgTextarea.focus()
@@ -103,11 +103,11 @@ export default {
       }))
       this.message = ''
     },
-    sendImages(event) {
+    sendImages(filelist) {
       const imagesData = new FormData()
       imagesData.append('conversation', this.conversation.id)
-      for (let i = 0; i < event.target.files.length; i++) {
-        imagesData.append('content', event.target.files[i], event.target.files[i].name)
+      for (let i = 0; i < filelist.length; i++) {
+        imagesData.append('content', filelist[i], filelist[i].name)
       }
 
       axios.post('/' + this.$i18n.locale + '/messenger/message/images/', imagesData)
@@ -118,11 +118,11 @@ export default {
         }))
       })
     },
-    sendFiles(event) {
+    sendFiles(filelist) {
       const filesData = new FormData()
       filesData.append('conversation', this.conversation.id)
-      for (let i = 0; i < event.target.files.length; i++) {
-        filesData.append('content', event.target.files[i], event.target.files[i].name)
+      for (let i = 0; i < filelist.length; i++) {
+        filesData.append('content', filelist[i], filelist[i].name)
       }
 
       axios.post('/' + this.$i18n.locale + '/messenger/message/files/', filesData)
@@ -198,17 +198,7 @@ export default {
         ref="cardBody"
         class="card-body overflow-auto"
       >
-        <div
-          v-if="isMessagesLoading"
-          class="text-center h-100"
-        >
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-          >
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
+        <ActionProcessingIndicator v-if="messagesLoading" />
         <div
           v-else
           v-for="msg in messages"
@@ -280,6 +270,21 @@ export default {
       </div>
       <div class="card-footer bg-white">
         <div class="hstack gap-2">
+          <FileInputButton
+            @updateFile="sendImages"
+            accept="image/*"
+            multiple
+            classButton="btn btn-light"
+          >
+            <i class="fa-solid fa-file-image"></i>
+          </FileInputButton>
+          <FileInputButton
+            @updateFile="sendFiles"
+            multiple
+            classButton="btn btn-light"
+          >
+            <i class="fa-solid fa-file"></i>
+          </FileInputButton>
           <textarea
             ref="msgTextarea"
             v-model="message"
@@ -295,50 +300,14 @@ export default {
           >
             <i class="fa-solid fa-paper-plane"></i>
           </button>
-          <div
+          <button
             v-else
-            class="dropup"
+            type="button"
+            class="btn btn-primary"
+            disabled
           >
-            <button
-              type="button"
-              class="btn btn-light"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <input
-                ref="imagesInput"
-                @change="sendImages"
-                type="file"
-                accept="image/*"
-                multiple
-                class="visually-hidden"
-              >
-              <li
-                @click="$refs.imagesInput.click()"
-                class="dropdown-item"
-              >
-                <i class="fa-solid fa-file-image"></i>
-                Images
-              </li>
-              <input
-                ref="filesInput"
-                @change="sendFiles"
-                type="file"
-                multiple
-                class="visually-hidden"
-              >
-              <li
-                @click="$refs.filesInput.click()"
-                class="dropdown-item"
-              >
-                <i class="fa-solid fa-file"></i>
-                Files
-              </li>
-            </ul>
-          </div>
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
         </div>
       </div>
     </div>
