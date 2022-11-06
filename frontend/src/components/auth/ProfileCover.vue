@@ -111,6 +111,7 @@ export default {
           <FileInputButton
             @updateFile="updateCover"
             accept="image/*"
+            classButton="btn btn-light-brand m-1"
           >
             {{ $t('auth.profile.upload_cover') }}
           </FileInputButton>
