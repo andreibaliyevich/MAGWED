@@ -5,7 +5,7 @@ export default {
   props: {
     classButton: {
       type: String,
-      default: ''
+      default: 'btn'
     }
   },
   methods: {
