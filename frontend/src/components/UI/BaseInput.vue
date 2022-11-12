@@ -32,6 +32,8 @@ export default {
       :placeholder="label"
       v-bind="$attrs"
       :class="['form-control', { 'is-invalid': errors }]"
+      :aria-invalid="errors ? true : null"
+      :aria-describedby="errors ? `${id}-error` : null"
     >
     <label
       v-if="label"
@@ -42,7 +44,9 @@ export default {
     <div
       v-if="errors"
       v-for="error in errors"
+      :id="`${id}-errors`"
       class="invalid-feedback"
+      aria-live="assertive"
     >
       {{ error }}
     </div>
