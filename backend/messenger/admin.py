@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from .models import (
     Conversation,
     GroupConversation,
@@ -31,6 +33,11 @@ class ImageMessageInline(admin.TabularInline):
     """ ImageMessage in line for ConversationAdmin """
     model = ImageMessage
     extra = 0
+    readonly_fields = ('get_preview',)
+
+    def get_preview(self, obj):
+        return mark_safe(f'<img src="{ obj.content.url }" height="100">')
+    get_preview.short_description = _('Preview')
 
 
 class FileMessageInline(admin.TabularInline):

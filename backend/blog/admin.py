@@ -1,6 +1,7 @@
 from tinymce.widgets import TinyMCE
 from django.contrib import admin
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from .models import (
     Category,
@@ -56,7 +57,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': ('meta_description', 'meta_keywords'),
         }),
         (_('Image and Thumbnail'), {
-            'fields': ('image', 'thumbnail'),
+            'fields': ('image', 'thumbnail', 'get_preview'),
         }),
         (_('Content and Hashtags'), {
             'fields': ('content', 'hashtags'),
@@ -68,13 +69,22 @@ class ArticleAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE()},
     }
-    readonly_fields = ('published_at', 'num_views')
+    readonly_fields = ('published_at', 'num_views', 'get_preview')
     inlines = (ArticleTranslationInline,)
+
+    def get_preview(self, obj):
+        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="200">')
+    get_preview.short_description = _('Preview')
 
 
 class ArticleImageAdmin(admin.ModelAdmin):
     """ Article Image Model for admin """
-    list_display = ('id', 'file')
+    list_display = ('id', 'file', 'get_preview')
+    readonly_fields = ('get_preview',)
+
+    def get_preview(self, obj):
+        return mark_safe(f'<img src="{ obj.file.url }" height="100">')
+    get_preview.short_description = _('Preview')
 
 
 admin.site.register(Category, CategoryAdmin)
