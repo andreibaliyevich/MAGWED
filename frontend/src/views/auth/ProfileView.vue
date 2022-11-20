@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       pageLoading: 0,
-      roleChoices: [],
+      roleTypeOptions: [],
       profile: {
         name: '',
         country: null,
@@ -31,17 +31,17 @@ export default {
         rating: 0.0,
         proTime: null,
       },
-      countriesList: [],
-      citiesList1: [],
-      citiesList2: [],
-      languagesList: [],
+      countriesOptions: [],
+      citiesOptions1: [],
+      citiesOptions2: [],
+      languagesOptions: [],
       status: null,
       errors: null
     }
   },
   methods: {
-    setRoleChoices() {
-      this.roleChoices = [
+    setRoleTypeOptions() {
+      this.roleTypeOptions = [
         { value: 1, text: this.$t('roles.photographer') },
         { value: 2, text: this.$t('roles.videographer') },
         { value: 3, text: this.$t('roles.leading') },
@@ -95,7 +95,7 @@ export default {
       try {
         const response = await axios.get('/' + this.$i18n.locale + '/main/countries/')
         response.data.forEach((element) => {
-          this.countriesList.push({
+          this.countriesOptions.push({
             'value': element.code,
             'text': `${ element.name_local } (${ element.name })`
           })
@@ -110,7 +110,7 @@ export default {
       try {
         const response = await axios.get('/' + this.$i18n.locale + '/main/languages/')
         response.data.forEach((element) => {
-          this.languagesList.push({
+          this.languagesOptions.push({
             'value': element.code,
             'text': `${ element.name_local } (${ element.name })`
           })
@@ -198,7 +198,7 @@ export default {
   },
   watch: {
     '$i18n.locale'() {
-      this.setRoleChoices()
+      this.setRoleTypeOptions()
     },
     'profile.country'(newValue, oldValue) {
       if (oldValue) {
@@ -211,9 +211,9 @@ export default {
           }
         })
         .then((response) => {
-          this.citiesList1 = []
+          this.citiesOptions1 = []
           response.data.forEach((element) => {
-            this.citiesList1.push({
+            this.citiesOptions1.push({
               'value': element.id,
               'text': `${ element.name_local } (${ element.name })`
             })
@@ -223,7 +223,7 @@ export default {
           this.errors = error.response.data
         })
       } else {
-        this.citiesList1 = []
+        this.citiesOptions1 = []
       }
     },
     'profile.countries'(newValue) {
@@ -234,9 +234,9 @@ export default {
         })
         axios.get('/' + this.$i18n.locale + '/main/cities/', { params: params })
         .then((response) => {
-          this.citiesList2 = []
+          this.citiesOptions2 = []
           response.data.forEach((element) => {
-            this.citiesList2.push({
+            this.citiesOptions2.push({
               'value': element.id,
               'text': `${ element.name_local } (${ element.name })`
             })
@@ -246,10 +246,10 @@ export default {
           this.errors = error.response.data
         })
       } else {
-        this.citiesList2 = []
+        this.citiesOptions2 = []
       }
     },
-    citiesList2(newValue, oldValue) {
+    citiesOptions2(newValue, oldValue) {
       if (newValue.length < oldValue.length) {
         const newCities = []
         newValue.forEach(element => newCities.push(element.value))
@@ -260,7 +260,7 @@ export default {
     }
   },
   mounted() {
-    this.setRoleChoices()
+    this.setRoleTypeOptions()
     this.getProfileData()
     this.getCountriesData()
     this.getLanguagesData()
@@ -326,7 +326,7 @@ export default {
           <BaseSelect
             v-model="profile.country"
             :label="$t('auth.profile.country')"
-            :options="countriesList"
+            :options="countriesOptions"
             id="id_country"
             name="country"
           />
@@ -335,7 +335,7 @@ export default {
           <BaseSelect
             v-model="profile.city"
             :label="$t('auth.profile.city')"
-            :options="citiesList1"
+            :options="citiesOptions1"
             id="id_country"
             name="country"
           />
@@ -348,7 +348,7 @@ export default {
             :errors="errors.user.phone"
             id="id_phone"
             name="phone"
-            type="text"
+            type="tel"
             maxlength="21"
           />
           <BaseInput
@@ -357,7 +357,7 @@ export default {
             :label="$t('auth.profile.phone')"
             id="id_phone"
             name="phone"
-            type="text"
+            type="tel"
             maxlength="21"
           />
         </div>
@@ -390,7 +390,7 @@ export default {
           <MultipleSelect
             v-model="profile.roles"
             :label="$t('auth.profile.roles')"
-            :options="roleChoices"
+            :options="roleTypeOptions"
             id="id_roles"
             name="roles"
           />
@@ -413,7 +413,7 @@ export default {
           <MultipleSelect
             v-model="profile.countries"
             :label="$t('auth.profile.countries')"
-            :options="countriesList"
+            :options="countriesOptions"
             id="id_countries"
             name="countries"
           />
@@ -425,7 +425,7 @@ export default {
           <MultipleSelect
             v-model="profile.cities"
             :label="$t('auth.profile.cities')"
-            :options="citiesList2"
+            :options="citiesOptions2"
             id="id_cities"
             name="cities"
           />
@@ -437,7 +437,7 @@ export default {
           <MultipleSelect
             v-model="profile.languages"
             :label="$t('auth.profile.languages')"
-            :options="languagesList"
+            :options="languagesOptions"
             id="id_languages"
             name="languages"
           />
