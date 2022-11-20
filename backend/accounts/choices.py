@@ -8,7 +8,7 @@ class UserType(IntegerChoices):
     ORGANIZER = 3, _('Organizer')
 
 
-class RoleChoices(IntegerChoices):
+class RoleType(IntegerChoices):
     PHOTOGRAPHER = 1, _('Photographer')
     VIDEOGRAPHER = 2, _('Videographer')
     LEADING = 3, _('Leading')

@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
 from main.utilities import get_cover_path
 from main.validators import MinimumImageSizeValidator
-from .choices import UserType, RoleChoices, LinkType
+from .choices import UserType, RoleType, LinkType
 from .managers import MWUserManager
 from .utilities import get_avatar_path
 
@@ -204,7 +204,7 @@ class Customer(models.Model):
 class OrganizerRole(models.Model):
     """ Role of Organizer Model """
     role_id = models.PositiveSmallIntegerField(
-        choices=RoleChoices.choices,
+        choices=RoleType.choices,
         primary_key=True,
         verbose_name=_('Identifier'),
     )
