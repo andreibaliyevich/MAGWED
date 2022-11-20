@@ -8,9 +8,11 @@ export default {
     return {
       pageLoading: true,
       organizerLinkList: [],
-      organizerLinkId: null,
-      organizerLinkType: '',
-      organizerLinkUrl: '',
+      organizerLink: {
+        id: null,
+        type: '',
+        url: ''
+      },
       linkTypeOptions: [
         { value: 'WE', text: 'Website' },
         { value: 'FK', text: 'Facebook' },
@@ -40,8 +42,8 @@ export default {
     },
     addOrganizerLink() {
       axios.post('/' + this.$i18n.locale + '/accounts/auth/links/', {
-        link_type: this.organizerLinkType,
-        link_url: this.organizerLinkUrl
+        link_type: this.organizerLink.type,
+        link_url: this.organizerLink.url
       })
       .then((response) => {
         this.organizerLinkList.push(response.data)
@@ -57,9 +59,9 @@ export default {
     getOrganizerLinkData(olId) {
       axios.get('/' + this.$i18n.locale + '/accounts/auth/links/' + olId +'/')
       .then((response) => {
-        this.organizerLinkId = response.data.id
-        this.organizerLinkType = response.data.link_type
-        this.organizerLinkUrl = response.data.link_url
+        this.organizerLink.id = response.data.id
+        this.organizerLink.type = response.data.link_type
+        this.organizerLink.url = response.data.link_url
       })
       .catch((error) => {
         this.status = null
@@ -67,12 +69,12 @@ export default {
       })
     },
     updateOrganizerLink() {
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/links/' + this.organizerLinkId +'/', {
-        link_type: this.organizerLinkType,
-        link_url: this.organizerLinkUrl
+      axios.put('/' + this.$i18n.locale + '/accounts/auth/links/' + this.organizerLink.id +'/', {
+        link_type: this.organizerLink.type,
+        link_url: this.organizerLink.url
       })
       .then((response) => {
-        const foundIndex = this.organizerLinkList.findIndex(item => item.id == this.organizerLinkId)
+        const foundIndex = this.organizerLinkList.findIndex(item => item.id == this.organizerLink.id)
         this.organizerLinkList[foundIndex] = response.data
         this.$refs.btnClose.click()
         this.status = 'updated_organizer_link'
@@ -98,9 +100,11 @@ export default {
     },
     resetOrganizerLink() {
       setTimeout(() => {
-        this.organizerLinkId = null
-        this.organizerLinkType = ''
-        this.organizerLinkUrl = ''
+        this.organizerLink.id = null
+        this.organizerLink.type = ''
+        this.organizerLink.url = ''
+        this.status = null
+        this.errors = null
       }, 500)
     }
   },
@@ -239,7 +243,7 @@ export default {
             <div class="modal-content">
               <div class="modal-header">
                 <h5
-                  v-if="!organizerLinkId"
+                  v-if="!organizerLink.id"
                   class="modal-title"
                   id="organizerLinkModalLabel"
                 >
@@ -271,7 +275,7 @@ export default {
                     </label>
                     <div v-if="errors && errors.link_type">
                       <select
-                        v-model="organizerLinkType"
+                        v-model="organizerLink.type"
                         class="form-select is-invalid"
                         name="link_type"
                         id="id_link_type"
@@ -298,7 +302,7 @@ export default {
                     </div>
                     <select
                       v-else
-                      v-model="organizerLinkType"
+                      v-model="organizerLink.type"
                       class="form-select"
                       name="link_type"
                       id="id_link_type"
@@ -326,7 +330,7 @@ export default {
                     </label>
                     <div v-if="errors && errors.link_url">
                       <input
-                        v-model="organizerLinkUrl"
+                        v-model="organizerLink.url"
                         type="url"
                         name="link_url"
                         class="form-control is-invalid"
@@ -342,7 +346,7 @@ export default {
                     </div>
                     <input
                       v-else
-                      v-model="organizerLinkUrl"
+                      v-model="organizerLink.url"
                       type="url"
                       name="link_url"
                       class="form-control"
@@ -363,20 +367,20 @@ export default {
                   {{ $t('auth.externallinks.close') }}
                 </button>
                 <button
-                  v-if="!organizerLinkId"
-                  @click="addOrganizerLink"
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  {{ $t('auth.externallinks.add') }}
-                </button>
-                <button
-                  v-else
+                  v-if="organizerLink.id"
                   @click="updateOrganizerLink"
                   type="button"
                   class="btn btn-primary"
                 >
                   {{ $t('auth.externallinks.update') }}
+                </button>
+                <button
+                  v-else
+                  @click="addOrganizerLink"
+                  type="button"
+                  class="btn btn-primary"
+                >
+                  {{ $t('auth.externallinks.add') }}
                 </button>
               </div>
             </div>
