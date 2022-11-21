@@ -57,7 +57,7 @@ export default {
     },
     async getProfileData() {
       try {
-        const response = await axios.get('/' + this.$i18n.locale + '/accounts/auth/profile/')
+        const response = await axios.get('/accounts/auth/profile/')
         if (this.userStore.userType == 1) {
           this.profile.name = response.data.name
           this.profile.country = response.data.country
@@ -93,7 +93,7 @@ export default {
     },
     async getCountriesData() {
       try {
-        const response = await axios.get('/' + this.$i18n.locale + '/main/countries/')
+        const response = await axios.get('/main/countries/')
         response.data.forEach((element) => {
           this.countriesOptions.push({
             'value': element.code,
@@ -108,7 +108,7 @@ export default {
     },
     async getLanguagesData() {
       try {
-        const response = await axios.get('/' + this.$i18n.locale + '/main/languages/')
+        const response = await axios.get('/main/languages/')
         response.data.forEach((element) => {
           this.languagesOptions.push({
             'value': element.code,
@@ -172,7 +172,7 @@ export default {
         }
       }
 
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/profile/', data)
+      axios.put('/accounts/auth/profile/', data)
       .then((response) => {
         this.userStore.updateName(this.name)
         window.localStorage.setItem('user', JSON.stringify({
@@ -197,7 +197,8 @@ export default {
     }
   },
   watch: {
-    '$i18n.locale'() {
+    '$i18n.locale'(newValue) {
+      console.log('newValue')
       this.setRoleTypeOptions()
     },
     'profile.country'(newValue, oldValue) {
@@ -205,7 +206,7 @@ export default {
         this.profile.city = null
       }
       if (newValue) {
-        axios.get('/' + this.$i18n.locale + '/main/cities/', {
+        axios.get('/main/cities/', {
           params: {
             country: this.profile.country
           }
@@ -232,7 +233,7 @@ export default {
         this.profile.countries.forEach((element) => {
           params.append('country', element)
         })
-        axios.get('/' + this.$i18n.locale + '/main/cities/', { params: params })
+        axios.get('/main/cities/', { params: params })
         .then((response) => {
           this.citiesOptions2 = []
           response.data.forEach((element) => {

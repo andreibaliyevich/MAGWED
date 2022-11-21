@@ -13,13 +13,12 @@ export default {
   },
   methods: {
     login() {
-      axios.post('/' + this.$i18n.locale + '/accounts/auth/login/', {
+      axios.post('/accounts/auth/login/', {
         username: this.username,
         password: this.password
       })
       .then(({ data }) => {
         window.localStorage.setItem('user', JSON.stringify(data))
-
         if (this.$route.query.redirect) {
           window.location.assign(`${ this.$route.query.redirect }`)
         } else {

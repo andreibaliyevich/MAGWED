@@ -3,6 +3,8 @@ import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { RouterView } from 'vue-router'
 
+import config from '@/config.js'
+
 import Header from '@/components/main/Header.vue'
 import NavBar from '@/components/main/NavBar.vue'
 import Footer from '@/components/main/Footer.vue'
@@ -19,11 +21,11 @@ const connectionBusStore = useConnectionBusStore()
 export default {
   data() {
     return {
-      deviceId: null
+      deviceId: null,
+      connectionSocket: null
     }
   },
   created() {
-    axios.defaults.baseURL = this.mainStore.apiURL
     axios.interceptors.response.use(
       response => response,
       error => {
@@ -37,9 +39,8 @@ export default {
 
     this.deviceId = window.localStorage.getItem('deviceId')
     if (!this.deviceId) {
-      const deviceUuid = uuidv4()
-      window.localStorage.setItem('deviceId', deviceUuid)
-      this.deviceId = deviceUuid
+      this.deviceId = uuidv4()
+      window.localStorage.setItem('deviceId', this.deviceId)
     }
 
     const currency = window.localStorage.getItem('currency')
@@ -56,10 +57,10 @@ export default {
   },
   mounted() {
     if (this.userStore.isLoggedIn) {
-      axios.get('/' + this.$i18n.locale + '/accounts/auth/wstoken/')
+      axios.get('/accounts/auth/wstoken/')
       .then((response) => {
         this.connectionSocket = new WebSocket(
-          this.mainStore.wsURL
+          config.wsURL
           + '/ws/connection/' + this.deviceId
           + '/?' + response.data.wstoken
         )
@@ -69,7 +70,7 @@ export default {
       })
     } else {
       this.connectionSocket = new WebSocket(
-        this.mainStore.wsURL
+        config.wsURL
         + '/ws/connection/' + this.deviceId + '/'
       )
       this.connectionSocket.onmessage = (event) => {

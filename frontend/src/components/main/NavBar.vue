@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios'
 
-import { useMainStore } from '@/stores/main.js'
+import config from '@/config.js'
+
 import { useUserStore } from '@/stores/user.js'
-const mainStore = useMainStore()
 const userStore = useUserStore()
 </script>
 
@@ -17,7 +17,7 @@ export default {
       this.$refs.dropdownUser.click()
     },
     logout() {
-      axios.post('/en/accounts/auth/logout/')
+      axios.post('/accounts/auth/logout/')
       .then(() => {
         window.localStorage.removeItem('user')
         window.location.reload()
@@ -247,7 +247,7 @@ export default {
           >
             <img
               v-if="userStore.avatar"
-              :src="`${ mainStore.apiURL }${ userStore.avatar }`"
+              :src="`${ config.apiURL }${ userStore.avatar }`"
               class="rounded-circle"
               width="32"
               height="32"
@@ -270,7 +270,7 @@ export default {
               <div class="d-flex gap-2 align-items-center mb-1">
                 <img
                   v-if="userStore.avatar"
-                  :src="`${ mainStore.apiURL }${ userStore.avatar }`"
+                  :src="`${ config.apiURL }${ userStore.avatar }`"
                   class="rounded-circle"
                   width="48"
                   height="48"

@@ -20,7 +20,7 @@ export default {
   methods: {
     registration() {
       this.actionProcessing = true
-      axios.post('/' + this.$i18n.locale + '/accounts/auth/registration/', {
+      axios.post('/accounts/auth/registration/', {
         username: this.username,
         email: this.email,
         password: this.password,

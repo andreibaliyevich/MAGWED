@@ -15,11 +15,7 @@ export default {
   methods: {
     async getMagazine() {
       try {
-        const response = await axios.get(
-          '/'
-          + this.$i18n.locale
-          + '/main/magazine/'
-        )
+        const response = await axios.get('/main/magazine/')
         this.magazineData = response.data
       } catch (error) {
         console.error(error)

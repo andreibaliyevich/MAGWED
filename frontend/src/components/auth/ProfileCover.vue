@@ -1,8 +1,7 @@
 <script setup>
 import axios from 'axios'
 
-import { useMainStore } from '@/stores/main.js'
-const mainStore = useMainStore()
+import config from '@/config.js'
 </script>
 
 <script>
@@ -17,7 +16,7 @@ export default {
   },
   methods: {
     getCover() {
-      axios.get('/' + this.$i18n.locale + '/accounts/auth/cover/')
+      axios.get('/accounts/auth/cover/')
       .then((response) => {
         this.cover = response.data.cover
       })
@@ -31,7 +30,7 @@ export default {
       const coverData = new FormData()
       coverData.append('cover', filelist[0], filelist[0].name)
 
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/cover/', coverData)
+      axios.put('/accounts/auth/cover/', coverData)
       .then((response) => {
         this.cover = response.data.cover
         this.status = 'updated_cover'
@@ -48,7 +47,7 @@ export default {
     },
     removeCover() {
       if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
-        axios.delete('/' + this.$i18n.locale + '/accounts/auth/cover/')
+        axios.delete('/accounts/auth/cover/')
         .then((response) => {
           this.cover = null
           this.status = 'removed_cover'
@@ -76,7 +75,7 @@ export default {
     <div v-else>
       <img
         v-if="cover"
-        :src="`${ mainStore.apiURL }${ cover }`"
+        :src="`${ config.apiURL }${ cover }`"
         class="card-img-top"
       >
       <img

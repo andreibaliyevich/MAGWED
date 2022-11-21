@@ -1,7 +1,7 @@
 <script setup>
-import { useMainStore } from '@/stores/main.js'
+import config from '@/config.js'
+
 import { useUserStore } from '@/stores/user.js'
-const mainStore = useMainStore()
 const userStore = useUserStore()
 </script>
 
@@ -12,7 +12,7 @@ const userStore = useUserStore()
       Username: {{ userStore.username }}<br>
       Email: {{ userStore.email }}<br>
       Name: {{ userStore.name }}<br>
-      <img v-if="userStore.avatar" :src="`${ mainStore.apiURL }${ userStore.avatar }`" width="100" height="100" class="bg-dark">
+      <img v-if="userStore.avatar" :src="`${ config.apiURL }${ userStore.avatar }`" width="100" height="100" class="bg-dark">
       <img v-else src="/avatar.png" width="100" height="100" class="bg-dark">
     </div>
   </div>

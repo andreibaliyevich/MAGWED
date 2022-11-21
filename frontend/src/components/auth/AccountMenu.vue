@@ -12,7 +12,7 @@ export default {
       this.$refs.buttonAaccountMenu.click()
     },
     logout() {
-      axios.post('/en/accounts/auth/logout/')
+      axios.post('/accounts/auth/logout/')
       .then(() => {
         window.localStorage.removeItem('user')
         window.location.reload()

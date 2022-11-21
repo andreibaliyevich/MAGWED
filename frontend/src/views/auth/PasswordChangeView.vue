@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     changePassword() {
-      axios.post('/' + this.$i18n.locale + '/accounts/auth/password/change/', {
+      axios.post('/accounts/auth/password/change/', {
         current_password: this.currentPassword,
         new_password: this.newPassword,
         new_password2: this.newPassword2

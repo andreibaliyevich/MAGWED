@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios'
 
-import { useMainStore } from '@/stores/main.js'
+import config from '@/config.js'
+
 import { useUserStore } from '@/stores/user.js'
-const mainStore = useMainStore()
 const userStore = useUserStore()
 </script>
 
@@ -22,7 +22,7 @@ export default {
       const avatarData = new FormData()
       avatarData.append('avatar', filelist[0], filelist[0].name)
 
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/avatar/', avatarData)
+      axios.put('/accounts/auth/avatar/', avatarData)
       .then((response) => {
         this.userStore.updateAvatar(response.data.avatar)
         window.localStorage.setItem('user', JSON.stringify({
@@ -47,7 +47,7 @@ export default {
     },
     removeAvatar() {
       if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
-        axios.delete('/' + this.$i18n.locale + '/accounts/auth/avatar/')
+        axios.delete('/accounts/auth/avatar/')
         .then((response) => {
           this.userStore.updateAvatar(null)
           window.localStorage.setItem('user', JSON.stringify({
@@ -84,7 +84,7 @@ export default {
       <div class="col-md-3">
         <img
           v-if="userStore.avatar"
-          :src="`${ mainStore.apiURL }${ userStore.avatar }`"
+          :src="`${ config.apiURL }${ userStore.avatar }`"
           class="img-fluid rounded-start"
         >
         <img

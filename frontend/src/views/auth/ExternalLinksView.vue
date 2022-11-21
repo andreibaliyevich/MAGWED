@@ -10,8 +10,8 @@ export default {
       organizerLinkList: [],
       organizerLink: {
         id: null,
-        type: '',
-        url: ''
+        link_type: '',
+        link_url: ''
       },
       linkTypeOptions: [
         { value: 'WE', text: 'Website' },
@@ -32,7 +32,7 @@ export default {
   methods: {
     async getOrganizerLinkListData() {
       try {
-        const response = await axios.get('/' + this.$i18n.locale + '/accounts/auth/links/')
+        const response = await axios.get('/accounts/auth/links/')
         this.organizerLinkList = response.data
       } catch (error) {
         this.errors = error.response.data
@@ -41,9 +41,9 @@ export default {
       }
     },
     addOrganizerLink() {
-      axios.post('/' + this.$i18n.locale + '/accounts/auth/links/', {
-        link_type: this.organizerLink.type,
-        link_url: this.organizerLink.url
+      axios.post('/accounts/auth/links/', {
+        link_type: this.organizerLink.link_type,
+        link_url: this.organizerLink.link_url
       })
       .then((response) => {
         this.organizerLinkList.push(response.data)
@@ -57,11 +57,9 @@ export default {
       })
     },
     getOrganizerLinkData(olId) {
-      axios.get('/' + this.$i18n.locale + '/accounts/auth/links/' + olId +'/')
+      axios.get('/accounts/auth/links/' + olId +'/')
       .then((response) => {
-        this.organizerLink.id = response.data.id
-        this.organizerLink.type = response.data.link_type
-        this.organizerLink.url = response.data.link_url
+        this.organizerLink = response.data
       })
       .catch((error) => {
         this.status = null
@@ -69,12 +67,14 @@ export default {
       })
     },
     updateOrganizerLink() {
-      axios.put('/' + this.$i18n.locale + '/accounts/auth/links/' + this.organizerLink.id +'/', {
-        link_type: this.organizerLink.type,
-        link_url: this.organizerLink.url
+      axios.put('/accounts/auth/links/' + this.organizerLink.id +'/', {
+        link_type: this.organizerLink.link_type,
+        link_url: this.organizerLink.link_url
       })
       .then((response) => {
-        const foundIndex = this.organizerLinkList.findIndex(item => item.id == this.organizerLink.id)
+        const foundIndex = this.organizerLinkList.findIndex((element) => {
+          return element.id == this.organizerLink.id
+        })
         this.organizerLinkList[foundIndex] = response.data
         this.$refs.btnClose.click()
         this.status = 'updated_organizer_link'
@@ -86,10 +86,11 @@ export default {
       })
     },
     removeOrganizerLink(olId) {
-      axios.delete('/' + this.$i18n.locale + '/accounts/auth/links/' + olId +'/')
+      axios.delete('/accounts/auth/links/' + olId +'/')
       .then((response) => {
-        const foundIndex = this.organizerLinkList.findIndex(item => item.id == olId)
-        this.organizerLinkList.splice(foundIndex, 1)
+        this.organizerLinkList = this.organizerLinkList.filter((element) => {
+          return element.id != olId
+        })
         this.status = 'removed_organizer_link'
         this.errors = null
       })
@@ -100,9 +101,11 @@ export default {
     },
     resetOrganizerLink() {
       setTimeout(() => {
-        this.organizerLink.id = null
-        this.organizerLink.type = ''
-        this.organizerLink.url = ''
+        this.organizerLink = {
+          id: null,
+          link_type: '',
+          link_url: ''
+        }
         this.status = null
         this.errors = null
       }, 500)
@@ -124,68 +127,68 @@ export default {
     <div v-else>
       <ul class="list-group list-group-flush">
         <li
-          v-for="organizerLink in organizerLinkList"
-          :key="organizerLink.id"
+          v-for="organizerLinkItem in organizerLinkList"
+          :key="organizerLinkItem.id"
           class="list-group-item"
         >
           <div class="row">
             <div class="col-3 col-md-2">
               <span
-                v-if="organizerLink.link_type == 'WE'"
+                v-if="organizerLinkItem.link_type == 'WE'"
                 class="badge bg-website"
               >
                 Website
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'FK'"
+                v-else-if="organizerLinkItem.link_type == 'FK'"
                 class="badge bg-facebook"
               >
                 Facebook
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'TR'"
+                v-else-if="organizerLinkItem.link_type == 'TR'"
                 class="badge bg-twitter"
               >
                 Twitter
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'IM'"
+                v-else-if="organizerLinkItem.link_type == 'IM'"
                 class="badge bg-instagram"
               >
                 Instagram
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'SY'"
+                v-else-if="organizerLinkItem.link_type == 'SY'"
                 class="badge bg-spotify"
               >
                 Spotify
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'YE'"
+                v-else-if="organizerLinkItem.link_type == 'YE'"
                 class="badge bg-youtube"
               >
                 YouTube
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'SD'"
+                v-else-if="organizerLinkItem.link_type == 'SD'"
                 class="badge bg-soundcloud"
               >
                 SoundCloud
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'PT'"
+                v-else-if="organizerLinkItem.link_type == 'PT'"
                 class="badge bg-pinterest"
               >
                 Pinterest
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'VK'"
+                v-else-if="organizerLinkItem.link_type == 'VK'"
                 class="badge bg-vk"
               >
                 VK
               </span>
               <span
-                v-else-if="organizerLink.link_type == 'LN'"
+                v-else-if="organizerLinkItem.link_type == 'LN'"
                 class="badge bg-linkedin"
               >
                 LinkedIn
@@ -193,15 +196,15 @@ export default {
             </div>
             <div class="col-6 col-md-8 overflow-hidden">
               <a
-                :href="organizerLink.link_url"
+                :href="organizerLinkItem.link_url"
                 target="_blank"
               >
-                {{ organizerLink.link_url }}
+                {{ organizerLinkItem.link_url }}
               </a>
             </div>
             <div class="col-3 col-md-2 d-flex justify-content-end">
               <button
-                @click="getOrganizerLinkData(organizerLink.id)"
+                @click="getOrganizerLinkData(organizerLinkItem.id)"
                 type="button"
                 class="btn btn-light btn-sm"
                 data-bs-toggle="modal"
@@ -210,7 +213,7 @@ export default {
                 <i class="fa-solid fa-pen fa-sm"></i>
               </button>
               <button
-                @click="removeOrganizerLink(organizerLink.id)"
+                @click="removeOrganizerLink(organizerLinkItem.id)"
                 type="button"
                 class="btn btn-danger btn-sm ms-1"
               >
@@ -275,7 +278,7 @@ export default {
                     </label>
                     <div v-if="errors && errors.link_type">
                       <select
-                        v-model="organizerLink.type"
+                        v-model="organizerLink.link_type"
                         class="form-select is-invalid"
                         name="link_type"
                         id="id_link_type"
@@ -302,7 +305,7 @@ export default {
                     </div>
                     <select
                       v-else
-                      v-model="organizerLink.type"
+                      v-model="organizerLink.link_type"
                       class="form-select"
                       name="link_type"
                       id="id_link_type"
@@ -330,7 +333,7 @@ export default {
                     </label>
                     <div v-if="errors && errors.link_url">
                       <input
-                        v-model="organizerLink.url"
+                        v-model="organizerLink.link_url"
                         type="url"
                         name="link_url"
                         class="form-control is-invalid"
@@ -346,7 +349,7 @@ export default {
                     </div>
                     <input
                       v-else
-                      v-model="organizerLink.url"
+                      v-model="organizerLink.link_url"
                       type="url"
                       name="link_url"
                       class="form-control"

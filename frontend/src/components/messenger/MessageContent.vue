@@ -1,6 +1,5 @@
 <script setup>
-import { useMainStore } from '@/stores/main.js'
-const mainStore = useMainStore()
+import config from '@/config.js'
 </script>
 
 <script>
@@ -40,7 +39,7 @@ export default {
   <div v-else-if="msgType == messageType.IMAGES">
     <img
       v-for="img in msgContent"
-      :src="`${ mainStore.apiURL }${ img.content }`"
+      :src="`${ config.apiURL }${ img.content }`"
       :alt="`${ getSize(img.size) }`"
       width="150"
     >
@@ -52,7 +51,7 @@ export default {
     >
       <div class="col-auto">
         <a
-          :href="`${ mainStore.apiURL }${ file.content }`"
+          :href="`${ config.apiURL }${ file.content }`"
           class="text-decoration-none"
           target="_blank"
         >
@@ -62,7 +61,7 @@ export default {
       <div class="col overflow-hidden">
         <h6 class="text-truncate mb-0">
           <a
-            :href="`${ mainStore.apiURL }${ file.content }`"
+            :href="`${ config.apiURL }${ file.content }`"
             class="text-decoration-none"
             target="_blank"
           >

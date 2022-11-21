@@ -15,7 +15,7 @@ export default {
   methods: {
     resetPassword() {
       this.actionProcessing = true
-      axios.post('/' + this.$i18n.locale + '/accounts/auth/password/reset/', {
+      axios.post('/accounts/auth/password/reset/', {
         email: this.email
       })
       .then((response) => {

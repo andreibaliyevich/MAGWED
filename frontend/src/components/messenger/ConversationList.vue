@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     getConversations() {
-      axios.get('/' + this.$i18n.locale + '/messenger/conversations/')
+      axios.get('/messenger/conversations/')
       .then((response) => {
         this.convoList = response.data
         this.status = 'gotten_chats'

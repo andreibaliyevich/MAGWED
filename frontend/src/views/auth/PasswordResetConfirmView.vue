@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     confirmPasswordReset() {
-      axios.post('/' + this.$i18n.locale + '/accounts/auth/password/reset/confirm/', {
+      axios.post('/accounts/auth/password/reset/confirm/', {
         uid: this.$route.params.uid,
         token: this.$route.params.token,
         new_password: this.newPassword,

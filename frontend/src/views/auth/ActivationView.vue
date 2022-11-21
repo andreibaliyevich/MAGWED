@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted() {
-    axios.post('/' + this.$i18n.locale + '/accounts/auth/activation/', {
+    axios.post('/accounts/auth/activation/', {
       uid: this.$route.params.uid,
       token: this.$route.params.token
     })

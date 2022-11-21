@@ -2,16 +2,16 @@
 import axios from 'axios'
 import { nextTick } from 'vue'
 
+import config from '@/config.js'
+
 import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 
-import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const mainStore = useMainStore()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 </script>
@@ -49,11 +49,10 @@ export default {
     },
     openConversation() {
       this.closeConversation()
-
-      axios.get('/' + this.$i18n.locale + '/accounts/auth/wstoken/')
+      axios.get('/accounts/auth/wstoken/')
       .then((response) => {
         this.convoSocket = new WebSocket(
-          this.mainStore.wsURL
+          config.wsURL
           + '/ws/messenger/' + this.conversation.id
           + '/?' + response.data.wstoken
         )
@@ -93,7 +92,7 @@ export default {
       })
       .catch((error) => {
         this.status = null
-        this.errors = error.response.data
+        this.errors = error.data
       })
     },
     sendMessage() {
@@ -110,7 +109,7 @@ export default {
         imagesData.append('content', filelist[i], filelist[i].name)
       }
 
-      axios.post('/' + this.$i18n.locale + '/messenger/message/images/', imagesData)
+      axios.post('/messenger/message/images/', imagesData)
       .then((response) => {
         this.convoSocket.send(JSON.stringify({
           'msg_type': 2,
@@ -125,7 +124,7 @@ export default {
         filesData.append('content', filelist[i], filelist[i].name)
       }
 
-      axios.post('/' + this.$i18n.locale + '/messenger/message/files/', filesData)
+      axios.post('/messenger/message/files/', filesData)
       .then((response) => {
         this.convoSocket.send(JSON.stringify({
           'msg_type': 3,
@@ -233,7 +232,7 @@ export default {
                 class="d-flex align-items-start"
               >
                 <UserAvatar
-                  :src="`${ mainStore.apiURL }${ msg.sender.avatar }`"
+                  :src="`${ config.apiURL }${ msg.sender.avatar }`"
                   :width="35"
                   :height="35"
                   :online="msg.sender.online"
