@@ -106,6 +106,7 @@ export default {
       >
         <span
           v-for="modelValueSingle in modelValueDetail"
+          :key="modelValueSingle.value"
           class="badge text-bg-light fw-normal m-1"
         >
           <div class="d-flex align-items-center">
@@ -150,6 +151,7 @@ export default {
         <li
           v-if="searchOptions.length > 0"
           v-for="option in searchOptions"
+          :key="option.value"
           @click="updateModelValue(option.value)"
           :class="[
             'list-group-item py-1',
