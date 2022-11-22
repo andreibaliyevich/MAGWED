@@ -3,7 +3,7 @@ import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { RouterView } from 'vue-router'
 
-import config from '@/config.js'
+import { WS_URL } from '@/config.js'
 
 import Header from '@/components/main/Header.vue'
 import NavBar from '@/components/main/NavBar.vue'
@@ -51,7 +51,7 @@ export default {
     const userString = window.localStorage.getItem('user')
     if (userString) {
       const userData = JSON.parse(userString)
-      axios.defaults.headers.common['Authorization'] = `Token ${ userData.token }`
+      axios.defaults.headers.common['Authorization'] = `Token ${userData.token}`
       this.userStore.setUserData(userData)
     }
   },
@@ -60,9 +60,11 @@ export default {
       axios.get('/accounts/auth/wstoken/')
       .then((response) => {
         this.connectionSocket = new WebSocket(
-          config.wsURL
-          + '/ws/connection/' + this.deviceId
-          + '/?' + response.data.wstoken
+          WS_URL
+          + '/ws/connection/'
+          + this.deviceId
+          + '/?'
+          + response.data.wstoken
         )
         this.connectionSocket.onmessage = (event) => {
           this.connectionBusStore.setUserStatus(JSON.parse(event.data))
@@ -70,8 +72,10 @@ export default {
       })
     } else {
       this.connectionSocket = new WebSocket(
-        config.wsURL
-        + '/ws/connection/' + this.deviceId + '/'
+        WS_URL
+        + '/ws/connection/'
+        + this.deviceId
+        + '/'
       )
       this.connectionSocket.onmessage = (event) => {
         this.connectionBusStore.setUserStatus(JSON.parse(event.data))

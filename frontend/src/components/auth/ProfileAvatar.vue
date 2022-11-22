@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 
-import config from '@/config.js'
+import { API_URL } from '@/config.js'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -84,7 +84,7 @@ export default {
       <div class="col-md-3">
         <img
           v-if="userStore.avatar"
-          :src="`${ config.apiURL }${ userStore.avatar }`"
+          :src="`${ API_URL }${ userStore.avatar }`"
           class="img-fluid rounded-start"
         >
         <img

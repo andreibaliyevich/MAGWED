@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { nextTick } from 'vue'
 
-import config from '@/config.js'
+import { API_URL, WS_URL } from '@/config.js'
 
 import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
 
@@ -52,9 +52,11 @@ export default {
       axios.get('/accounts/auth/wstoken/')
       .then((response) => {
         this.convoSocket = new WebSocket(
-          config.wsURL
-          + '/ws/messenger/' + this.conversation.id
-          + '/?' + response.data.wstoken
+          WS_URL
+          + '/ws/messenger/'
+          + this.conversation.id
+          + '/?'
+          + response.data.wstoken
         )
 
         this.convoSocket.onopen = (event) => {
@@ -232,7 +234,7 @@ export default {
                 class="d-flex align-items-start"
               >
                 <UserAvatar
-                  :src="`${ config.apiURL }${ msg.sender.avatar }`"
+                  :src="`${ API_URL }${ msg.sender.avatar }`"
                   :width="35"
                   :height="35"
                   :online="msg.sender.online"

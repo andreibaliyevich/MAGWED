@@ -2,7 +2,7 @@ import axios from 'axios'
 import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import config from '@/config.js'
+import { API_URL } from '@/config.js'
 
 export const SUPPORT_LOCALES = ['en', 'ru', 'be', 'uk']
 
@@ -33,7 +33,7 @@ export async function loadLocaleMessages(i18n, locale) {
 
 export function setI18nLanguage(i18n, locale) {
   i18n.global.locale.value = locale
-  axios.defaults.baseURL = `${config.apiURL}/${locale}`
+  axios.defaults.baseURL = `${API_URL}/${locale}`
   axios.defaults.headers.common['Accept-Language'] = locale
   document.querySelector('html').setAttribute('lang', locale)
 }

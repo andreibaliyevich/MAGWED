@@ -1,4 +1,7 @@
-export default {
-  apiURL: 'http://localhost:8000',
-  wsURL: 'ws://localhost:8000'
+const API_URL = 'http://localhost:8000'
+const WS_URL = 'ws://localhost:8000'
+
+export {
+  API_URL,
+  WS_URL
 }

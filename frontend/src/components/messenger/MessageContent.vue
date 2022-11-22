@@ -1,5 +1,5 @@
 <script setup>
-import config from '@/config.js'
+import { API_URL } from '@/config.js'
 </script>
 
 <script>
@@ -39,7 +39,7 @@ export default {
   <div v-else-if="msgType == messageType.IMAGES">
     <img
       v-for="img in msgContent"
-      :src="`${ config.apiURL }${ img.content }`"
+      :src="`${ API_URL }${ img.content }`"
       :alt="`${ getSize(img.size) }`"
       width="150"
     >
@@ -51,7 +51,7 @@ export default {
     >
       <div class="col-auto">
         <a
-          :href="`${ config.apiURL }${ file.content }`"
+          :href="`${ API_URL }${ file.content }`"
           class="text-decoration-none"
           target="_blank"
         >
@@ -61,7 +61,7 @@ export default {
       <div class="col overflow-hidden">
         <h6 class="text-truncate mb-0">
           <a
-            :href="`${ config.apiURL }${ file.content }`"
+            :href="`${ API_URL }${ file.content }`"
             class="text-decoration-none"
             target="_blank"
           >

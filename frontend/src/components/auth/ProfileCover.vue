@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 
-import config from '@/config.js'
+import { API_URL } from '@/config.js'
 </script>
 
 <script>
@@ -75,7 +75,7 @@ export default {
     <div v-else>
       <img
         v-if="cover"
-        :src="`${ config.apiURL }${ cover }`"
+        :src="`${ API_URL }${ cover }`"
         class="card-img-top"
       >
       <img

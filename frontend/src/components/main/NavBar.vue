@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 
-import config from '@/config.js'
+import { API_URL } from '@/config.js'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -247,7 +247,7 @@ export default {
           >
             <img
               v-if="userStore.avatar"
-              :src="`${ config.apiURL }${ userStore.avatar }`"
+              :src="`${ API_URL }${ userStore.avatar }`"
               class="rounded-circle"
               width="32"
               height="32"
@@ -270,7 +270,7 @@ export default {
               <div class="d-flex gap-2 align-items-center mb-1">
                 <img
                   v-if="userStore.avatar"
-                  :src="`${ config.apiURL }${ userStore.avatar }`"
+                  :src="`${ API_URL }${ userStore.avatar }`"
                   class="rounded-circle"
                   width="48"
                   height="48"
