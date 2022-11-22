@@ -1,5 +1,5 @@
 <script setup>
-import config from '@/config.js'
+import { API_URL } from '@/config.js'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -12,7 +12,7 @@ const userStore = useUserStore()
       Username: {{ userStore.username }}<br>
       Email: {{ userStore.email }}<br>
       Name: {{ userStore.name }}<br>
-      <img v-if="userStore.avatar" :src="`${ config.apiURL }${ userStore.avatar }`" width="100" height="100" class="bg-dark">
+      <img v-if="userStore.avatar" :src="`${ API_URL }${ userStore.avatar }`" width="100" height="100" class="bg-dark">
       <img v-else src="/avatar.png" width="100" height="100" class="bg-dark">
     </div>
   </div>
