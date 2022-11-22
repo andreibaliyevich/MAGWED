@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios'
 
+import { userType } from '@/config.js'
+
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
 import ProfileCover from '@/components/auth/ProfileCover.vue'
 
@@ -58,18 +60,18 @@ export default {
     async getProfileData() {
       try {
         const response = await axios.get('/accounts/auth/profile/')
-        if (this.userStore.userType == 1) {
+        if (this.userStore.userType == userType.ADMIN) {
           this.profile.name = response.data.name
           this.profile.country = response.data.country
           this.profile.city = response.data.city
           this.profile.phone = response.data.phone
-        } else if (this.userStore.userType == 2) {
+        } else if (this.userStore.userType == userType.CUSTOMER) {
           this.profile.name = response.data.user.name
           this.profile.country = response.data.user.country
           this.profile.city = response.data.user.city
           this.profile.phone = response.data.user.phone
           this.profile.dateOfWedding = response.data.date_of_wedding
-        } else if (this.userStore.userType == 3) {
+        } else if (this.userStore.userType == userType.ORGANIZER) {
           this.profile.name = response.data.user.name
           this.profile.country = response.data.user.country
           this.profile.city = response.data.user.city
@@ -136,14 +138,14 @@ export default {
       }
 
       let data = {}
-      if (this.userStore.userType == 1) {
+      if (this.userStore.userType == userType.ADMIN) {
         data = {
           'name': this.profile.name,
           'country': this.profile.country,
           'city': this.profile.city,
           'phone': this.profile.phone
         }
-      } else if (this.userStore.userType == 2) {
+      } else if (this.userStore.userType == userType.CUSTOMER) {
         data = {
           'user': {
             'name': this.profile.name,
@@ -153,7 +155,7 @@ export default {
           },
           'date_of_wedding': this.profile.dateOfWedding
         }
-      } else if (this.userStore.userType == 3) {
+      } else if (this.userStore.userType == userType.ORGANIZER) {
         data = {
           'user': {
             'name': this.profile.name,
@@ -297,7 +299,7 @@ export default {
         </div>
       </div>
 
-      <ProfileCover v-if="userStore.userType == 3" />
+      <ProfileCover v-if="userStore.userType == userType.ORGANIZER" />
       <ProfileAvatar />
 
       <form
@@ -363,7 +365,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 2"
+          v-if="userStore.userType == userType.CUSTOMER"
           class="col-md-12"
         >
           <BaseInput
@@ -385,7 +387,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-12"
         >
           <MultipleSelect
@@ -397,7 +399,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-12"
         >
           <BaseTextarea
@@ -408,7 +410,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-12"
         >
           <MultipleSelect
@@ -420,7 +422,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-12"
         >
           <MultipleSelect
@@ -432,7 +434,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-12"
         >
           <MultipleSelect
@@ -444,7 +446,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-6"
         >
           <BaseInput
@@ -473,7 +475,7 @@ export default {
           <div class="form-text">{{ $t('form_help.cost_work') }}</div>
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-6"
         >
           <BaseInput
@@ -499,7 +501,7 @@ export default {
           />
         </div>
         <div
-          v-if="userStore.userType == 3"
+          v-if="userStore.userType == userType.ORGANIZER"
           class="col-md-12"
         >
           <BaseInput

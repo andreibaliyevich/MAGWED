@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios'
 
+import { userType } from '@/config.js'
+
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
 </script>
@@ -62,7 +64,7 @@ export default {
             {{ $t('auth.notifications') }}
           </LocaleRouterLink>
         </li>
-        <li v-if="userStore.userType == 3" class="nav-item">
+        <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
           <LocaleRouterLink
             v-if="this.$route.name == 'Home'"
             toName="Home"
@@ -151,7 +153,7 @@ export default {
             {{ $t('auth.profile.profile') }}
           </LocaleRouterLink>
         </li>
-        <li v-if="userStore.userType == 3" class="nav-item">
+        <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
           <LocaleRouterLink
             v-if="this.$route.name == 'ExternalLinks'"
             toName="ExternalLinks"
@@ -172,7 +174,7 @@ export default {
             {{ $t('auth.externallinks.external_links') }}
           </LocaleRouterLink>
         </li>
-        <li v-if="userStore.userType == 3" class="nav-item">
+        <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
           <LocaleRouterLink
             v-if="this.$route.name == 'Home'"
             toName="Home"

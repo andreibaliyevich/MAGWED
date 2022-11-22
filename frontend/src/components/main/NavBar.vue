@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 
-import { API_URL } from '@/config.js'
+import { API_URL, userType } from '@/config.js'
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -303,7 +303,7 @@ export default {
             </li>
             <li>
               <LocaleRouterLink
-                v-if="userStore.userType == 3"
+                v-if="userStore.userType == userType.ORGANIZER"
                 toName="Home"
                 @click="hideDropdownUser"
                 class="dropdown-item d-flex gap-2 align-items-center"
