@@ -16,7 +16,7 @@ export default {
       default: ''
     },
     errors: {
-      type: Object,
+      type: Array,
       default: null
     }
   }
@@ -33,7 +33,7 @@ export default {
       v-bind="$attrs"
       :class="['form-control', { 'is-invalid': errors }]"
       :aria-invalid="errors ? true : null"
-      :aria-describedby="errors ? `${id}-error` : null"
+      :aria-describedby="errors ? `${id}-errors` : null"
     >
     <label
       v-if="label"
@@ -43,12 +43,13 @@ export default {
     </label>
     <div
       v-if="errors"
-      v-for="error in errors"
       :id="`${id}-errors`"
       class="invalid-feedback"
       aria-live="assertive"
     >
-      {{ error }}
+      <div v-for="error in errors">
+        {{ error }}
+      </div>
     </div>
   </div>
 </template>
