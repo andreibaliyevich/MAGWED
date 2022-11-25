@@ -4,21 +4,22 @@ import { nextTick } from 'vue'
 
 import { API_URL, WS_URL } from '@/config.js'
 
-import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
+import useLocaleDateTime from '@/composables/useLocaleDateTime.js'
+const getLocaleDateTimeString = useLocaleDateTime()
+
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
+
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
+const connectionBusStore = useConnectionBusStore()
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
-
-import { useUserStore } from '@/stores/user.js'
-import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const userStore = useUserStore()
-const connectionBusStore = useConnectionBusStore()
 </script>
 
 <script>
 export default {
-  mixins: [ToLocaleDateTimeString],
   props: {
     conversationType: {
       type: Object,
@@ -220,7 +221,7 @@ export default {
                 </p>
               </div>
               <p class="d-flex justify-content-end small text-muted">
-                {{ toLocaleDateTimeString(msg.created_at) }}
+                {{ getLocaleDateTimeString($i18n.locale, msg.created_at) }}
               </p>
             </div>
           </div>
@@ -263,7 +264,7 @@ export default {
                 </p>
               </div>
               <p class="small text-muted">
-                {{ toLocaleDateTimeString(msg.created_at) }}
+                {{ getLocaleDateTimeString($i18n.locale, msg.created_at) }}
               </p>
             </div>
           </div>

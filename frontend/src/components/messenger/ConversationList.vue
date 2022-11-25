@@ -1,18 +1,18 @@
 <script setup>
 import axios from 'axios'
 
-import ToLocaleDateTimeString from '@/mixins/ToLocaleDateTimeString.js'
-
-import UserAvatar from '@/components/auth/UserAvatar.vue'
-import GroupAvatar from '@/components/auth/GroupAvatar.vue'
+import useLocaleDateTime from '@/composables/useLocaleDateTime.js'
+const getLocaleDateTimeString = useLocaleDateTime()
 
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 const connectionBusStore = useConnectionBusStore()
+
+import UserAvatar from '@/components/auth/UserAvatar.vue'
+import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 </script>
 
 <script>
 export default {
-  mixins: [ToLocaleDateTimeString],
   props: {
     conversationType: {
       type: Object,
@@ -120,7 +120,7 @@ export default {
                 {{ convo.details.name }}
               </strong>
               <small v-if="convo.last_message.created_at">
-                {{ toLocaleDateTimeString(convo.last_message.created_at) }}
+                {{ getLocaleDateTimeString($i18n.locale, convo.last_message.created_at) }}
               </small>
             </div>
             <p
@@ -188,7 +188,7 @@ export default {
                 {{ convo.details.name }}
               </strong>
               <small v-if="convo.last_message.created_at">
-                {{ toLocaleDateTimeString(convo.last_message.created_at) }}
+                {{ getLocaleDateTimeString($i18n.locale, convo.last_message.created_at) }}
               </small>
             </div>
             <p
