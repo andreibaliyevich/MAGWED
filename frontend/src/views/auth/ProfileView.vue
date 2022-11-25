@@ -3,11 +3,11 @@ import axios from 'axios'
 
 import { userType } from '@/config.js'
 
-import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
-import ProfileCover from '@/components/auth/ProfileCover.vue'
-
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
+
+import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
+import ProfileCover from '@/components/auth/ProfileCover.vue'
 </script>
 
 <script>

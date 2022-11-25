@@ -5,16 +5,18 @@ import { RouterView } from 'vue-router'
 
 import { WS_URL } from '@/config.js'
 
+import { useMainStore } from '@/stores/main.js'
+const mainStore = useMainStore()
+
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
+
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
+const connectionBusStore = useConnectionBusStore()
+
 import Header from '@/components/main/Header.vue'
 import NavBar from '@/components/main/NavBar.vue'
 import Footer from '@/components/main/Footer.vue'
-
-import { useMainStore } from '@/stores/main.js'
-import { useUserStore } from '@/stores/user.js'
-import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const mainStore = useMainStore()
-const userStore = useUserStore()
-const connectionBusStore = useConnectionBusStore()
 </script>
 
 <script>
