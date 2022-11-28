@@ -120,7 +120,7 @@ export default {
                 {{ convo.details.name }}
               </strong>
               <small v-if="convo.last_message.created_at">
-                {{ getLocaleDateTimeString($i18n.locale, convo.last_message.created_at) }}
+                {{ getLocaleDateTimeString(convo.last_message.created_at) }}
               </small>
             </div>
             <p
@@ -188,7 +188,7 @@ export default {
                 {{ convo.details.name }}
               </strong>
               <small v-if="convo.last_message.created_at">
-                {{ getLocaleDateTimeString($i18n.locale, convo.last_message.created_at) }}
+                {{ getLocaleDateTimeString(convo.last_message.created_at) }}
               </small>
             </div>
             <p

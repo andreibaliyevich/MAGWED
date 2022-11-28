@@ -1,11 +1,16 @@
+import { useI18n } from 'vue-i18n'
+
 export default function useLocaleDateTime() {
-  const getLocaleDateTimeString = (locale, dateTimeString) => {
+  const { locale } = useI18n({ useScope: 'global' })
+
+  const getLocaleDateTimeString = (dateTimeString) => {
     const dateTime = new Date(dateTimeString)
-    return dateTime.toLocaleTimeString(locale, {
+    return dateTime.toLocaleTimeString(locale.value, {
       timeStyle: 'short'
-    }) + " | " + dateTime.toLocaleDateString(locale, {
+    }) + " | " + dateTime.toLocaleDateString(locale.value, {
       dateStyle: 'medium'
     })
   }
+
   return getLocaleDateTimeString
 }

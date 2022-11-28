@@ -221,7 +221,7 @@ export default {
                 </p>
               </div>
               <p class="d-flex justify-content-end small text-muted">
-                {{ getLocaleDateTimeString($i18n.locale, msg.created_at) }}
+                {{ getLocaleDateTimeString(msg.created_at) }}
               </p>
             </div>
           </div>
@@ -264,7 +264,7 @@ export default {
                 </p>
               </div>
               <p class="small text-muted">
-                {{ getLocaleDateTimeString($i18n.locale, msg.created_at) }}
+                {{ getLocaleDateTimeString(msg.created_at) }}
               </p>
             </div>
           </div>
