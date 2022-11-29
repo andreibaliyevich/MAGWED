@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM postgres:14.1
+FROM postgres:14.6
 
 RUN apt-get update \
     && apt-get install wget -y \
