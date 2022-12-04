@@ -4,7 +4,7 @@ import { nextTick } from 'vue'
 
 import { API_URL, WS_URL } from '@/config.js'
 
-import useLocaleDateTime from '@/composables/useLocaleDateTime.js'
+import { useLocaleDateTime } from '@/composables/useLocaleDateTime.js'
 const getLocaleDateTimeString = useLocaleDateTime()
 
 import { useUserStore } from '@/stores/user.js'
