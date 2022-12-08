@@ -70,70 +70,42 @@ export default {
       class="px-md-5"
     >
       <div class="mb-3">
-        <label
-          for="id_current_password"
-          class="form-label"
-        >
-          {{ $t('auth.passwordchange.current_password') }}
-        </label>
-        <div v-if="errors && errors.current_password">
-          <input
-            v-model="currentPassword"
-            id="id_current_password"
-            name="current_password"
-            type="password"
-            required=""
-            class="form-control is-invalid"
-          >
-          <div
-            v-for="error in errors.current_password"
-            class="invalid-feedback"
-          >
-            {{ error }}
-          </div>
-        </div>
-        <input
-          v-else
+        <BaseInput
+          v-if="errors && errors.current_password"
           v-model="currentPassword"
+          :label="$t('auth.passwordchange.current_password')"
+          :errors="errors.current_password"
           id="id_current_password"
           name="current_password"
           type="password"
-          required=""
-          class="form-control"
-        >
+        />
+        <BaseInput
+          v-else
+          v-model="currentPassword"
+          :label="$t('auth.passwordchange.current_password')"
+          id="id_current_password"
+          name="current_password"
+          type="password"
+        />
       </div>
       <div class="mb-3">
-        <label
-          for="id_new_password"
-          class="form-label"
-        >
-          {{ $t('auth.password.new_password') }}
-        </label>
-        <div v-if="errors && errors.new_password">
-          <input
-            v-model="newPassword"
-            id="id_new_password"
-            name="new_password"
-            type="password"
-            required=""
-            class="form-control is-invalid"
-          >
-          <div
-            v-for="error in errors.new_password"
-            class="invalid-feedback"
-          >
-            {{ error }}
-          </div>
-        </div>
-        <input
-          v-else
+        <BaseInput
+          v-if="errors && errors.new_password"
           v-model="newPassword"
+          :label="$t('auth.password.new_password')"
+          :errors="errors.new_password"
           id="id_new_password"
           name="new_password"
           type="password"
-          required=""
-          class="form-control"
-        >
+        />
+        <BaseInput
+          v-else
+          v-model="newPassword"
+          :label="$t('auth.password.new_password')"
+          id="id_new_password"
+          name="new_password"
+          type="password"
+        />
       </div>
       <ul class="fs-6">
         <li>{{ $t('auth.password.advice1') }}</li>
@@ -142,37 +114,23 @@ export default {
         <li>{{ $t('auth.password.advice4') }}</li>
       </ul>
       <div class="mb-3">
-        <label
-          for="id_new_password2"
-          class="form-label"
-        >
-          {{ $t('auth.password.new_password2') }}
-        </label>
-        <div v-if="errors && errors.new_password2">
-          <input
-            v-model="newPassword2"
-            id="id_new_password2"
-            name="new_password2"
-            type="password"
-            required=""
-            class="form-control is-invalid"
-          >
-          <div
-            v-for="error in errors.new_password2"
-            class="invalid-feedback"
-          >
-            {{ error }}
-          </div>
-        </div>
-        <input
-          v-else
+        <BaseInput
+          v-if="errors && errors.new_password2"
           v-model="newPassword2"
+          :label="$t('auth.password.new_password2')"
+          :errors="errors.new_password2"
           id="id_new_password2"
           name="new_password2"
           type="password"
-          required=""
-          class="form-control"
-        >
+        />
+        <BaseInput
+          v-else
+          v-model="newPassword2"
+          :label="$t('auth.password.new_password2')"
+          id="id_new_password2"
+          name="new_password2"
+          type="password"
+        />
       </div>
       <button
         type="submit"
