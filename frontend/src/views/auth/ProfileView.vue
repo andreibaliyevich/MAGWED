@@ -200,7 +200,6 @@ export default {
   },
   watch: {
     '$i18n.locale'(newValue) {
-      console.log('newValue')
       this.setRoleTypeOptions()
     },
     'profile.country'(newValue, oldValue) {
