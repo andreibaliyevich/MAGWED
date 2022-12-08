@@ -34,7 +34,6 @@
             "email": "Email",
             "password2": "Confirm password",
             "user_type": "User type",
-            "please_select_user_type": "Please select a User type",
             "customer": "Customer",
             "organizer": "Organizer",
             "name": "Name",
