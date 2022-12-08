@@ -66,7 +66,7 @@ export default {
       </div>
     </div>
 
-    <div v-else-if="errors">
+    <div v-else-if="errors && (errors.detail || errors.uid || errors.token)">
       <p class="lead fs-3 text-danger">
         {{ $t('auth.passwordresetconfirm.error') }}
       </p>
@@ -104,96 +104,50 @@ export default {
       v-else
       @submit.prevent="confirmPasswordReset"
     >
-      <div
-        v-if="errors && errors.new_password"
-        class="form-floating mb-3"
-      >
-        <input
+      <div class="mb-3">
+        <BaseInput
+          v-if="errors && errors.new_password"
           v-model="newPassword"
+          :label="$t('auth.password.new_password')"
+          :errors="errors.new_password"
           id="id_new_password"
           name="new_password"
           type="password"
-          required=""
-          :placeholder="$t('auth.password.new_password')"
-          class="form-control is-invalid"
-
-        >
-        <label for="id_new_password">
-          {{ $t('auth.password.new_password') }}
-        </label>
-        <div
-          v-for="error in errors.new_password"
-          class="invalid-feedback"
-        >
-          {{ error }}
-        </div>
-      </div>
-      <div
-        v-else
-        class="form-floating mb-3"
-      >
-        <input
+        />
+        <BaseInput
+          v-else
           v-model="newPassword"
+          :label="$t('auth.password.new_password')"
           id="id_new_password"
           name="new_password"
           type="password"
-          required=""
-          :placeholder="$t('auth.password.new_password')"
-          class="form-control"
-        >
-        <label for="id_new_password">
-          {{ $t('auth.password.new_password') }}
-        </label>
+        />
       </div>
-
       <ul class="fs-6">
         <li>{{ $t('auth.password.advice1') }}</li>
         <li>{{ $t('auth.password.advice2') }}</li>
         <li>{{ $t('auth.password.advice3') }}</li>
         <li>{{ $t('auth.password.advice4') }}</li>
       </ul>
-
-      <div
-        v-if="errors && errors.new_password2"
-        class="form-floating mb-3"
-      >
-        <input
+      <div class="mb-3">
+        <BaseInput
+          v-if="errors && errors.new_password2"
           v-model="newPassword2"
+          :label="$t('auth.password.new_password2')"
+          :errors="errors.new_password2"
           id="id_new_password2"
           name="new_password2"
           type="password"
-          required=""
-          :placeholder="$t('auth.password.new_password2')"
-          class="form-control is-invalid"
-        >
-        <label for="id_new_password2">
-          {{ $t('auth.password.new_password2') }}
-        </label>
-        <div
-          v-for="error in errors.new_password2"
-          class="invalid-feedback"
-        >
-          {{ error }}
-        </div>
-      </div>
-      <div
-        v-else
-        class="form-floating mb-3"
-      >
-        <input
+        />
+        <BaseInput
+          v-else
           v-model="newPassword2"
+          :label="$t('auth.password.new_password2')"
           id="id_new_password2"
           name="new_password2"
           type="password"
-          required=""
-          :placeholder="$t('auth.password.new_password2')"
-          class="form-control"
-        >
-        <label for="id_new_password2">
-          {{ $t('auth.password.new_password2') }}
-        </label>
+        />
       </div>
-
       <button
         type="submit"
         class="btn btn-brand btn-lg w-100"
