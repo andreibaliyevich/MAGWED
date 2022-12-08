@@ -18,6 +18,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    errors: {
+      type: Array,
+      default: []
     }
   }
 }
@@ -30,7 +34,9 @@ export default {
       @change="$emit('update:modelValue', $event.target.value)"
       :id="id"
       v-bind="$attrs"
-      class="form-select"
+      :class="['form-select', { 'is-invalid': errors.length }]"
+      :aria-invalid="errors.length ? true : null"
+      :aria-describedby="errors.length ? `${id}-errors` : null"
     >
       <option disabled value="">{{ $t('form_help.select_option') }}</option>
       <option
@@ -48,5 +54,15 @@ export default {
     >
       {{ label }}
     </label>
+    <div
+      v-if="errors.length"
+      :id="`${id}-errors`"
+      class="invalid-feedback"
+      aria-live="assertive"
+    >
+      <div v-for="error in errors">
+        {{ error }}
+      </div>
+    </div>
   </div>
 </template>
