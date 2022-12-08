@@ -70,78 +70,45 @@ export default {
         </LocaleRouterLink>
       </p>
 
-      <div
-        v-if="errors && errors.username"
-        class="form-floating mb-3"
-      >
-        <input
-          v-model="username"
-          id="id_username"
-          name="username"
-          type="text"
-          required=""
-          :placeholder="$t('auth.login.username_email')"
-          class="form-control is-invalid"
-        >
-        <label for="id_username">{{ $t('auth.login.username_email') }}</label>
-        <div
-          v-for="error in errors.username"
-          class="invalid-feedback"
-        >
-          {{ error }}
+      <div class="row g-3 mb-3">
+        <div class="col-md-12">
+          <BaseInput
+            v-if="errors && errors.username"
+            v-model="username"
+            :label="$t('auth.login.username_email')"
+            :errors="errors.username"
+            id="id_username"
+            name="username"
+            type="text"
+          />
+          <BaseInput
+            v-else
+            v-model="username"
+            :label="$t('auth.login.username_email')"
+            id="id_username"
+            name="username"
+            type="text"
+          />
         </div>
-      </div>
-      <div
-        v-else
-        class="form-floating mb-3"
-      >
-        <input
-          v-model="username"
-          id="id_username"
-          name="username"
-          type="text"
-          required=""
-          :placeholder="$t('auth.login.username_email')"
-          class="form-control"
-        >
-        <label for="id_username">{{ $t('auth.login.username_email') }}</label>
-      </div>
-
-      <div
-        v-if="errors && errors.password"
-        class="form-floating mb-3"
-      >
-        <input
-          v-model="password"
-          id="id_password"
-          name="password"
-          type="password"
-          required=""
-          :placeholder="$t('auth.password.password')"
-          class="form-control is-invalid"
-        >
-        <label for="id_password">{{ $t('auth.password.password') }}</label>
-        <div
-          v-for="error in errors.password"
-          class="invalid-feedback"
-        >
-          {{ error }}
+        <div class="col-md-12">
+          <BaseInput
+            v-if="errors && errors.password"
+            v-model="password"
+            :label="$t('auth.password.password')"
+            :errors="errors.password"
+            id="id_password"
+            name="password"
+            type="password"
+          />
+          <BaseInput
+            v-else
+            v-model="password"
+            :label="$t('auth.password.password')"
+            id="id_password"
+            name="password"
+            type="password"
+          />
         </div>
-      </div>
-      <div
-        v-else
-        class="form-floating mb-3"
-      >
-        <input
-          v-model="password"
-          id="id_password"
-          name="password"
-          type="password"
-          required=""
-          :placeholder="$t('auth.password.password')"
-          class="form-control"
-        >
-        <label for="id_password">{{ $t('auth.password.password') }}</label>
       </div>
 
       <button
@@ -150,6 +117,7 @@ export default {
       >
         {{ $t('auth.signin') }}
       </button>
+
       <hr class="my-4">
       <div class="fs-6 text-muted">
         {{ $t('auth.login.forgot_your_password') }}
