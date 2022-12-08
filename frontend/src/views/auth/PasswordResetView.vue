@@ -71,51 +71,33 @@ export default {
         <li>{{ $t('auth.passwordreset.step3') }}</li>
       </ul>
 
-      <div
+      <BaseInput
         v-if="errors && errors.email"
-        class="form-floating mb-3"
-      >
-        <input
-          v-model="email"
-          id="id_email"
-          name="email"
-          type="email"
-          maxlength="254"
-          required=""
-          :placeholder="$t('auth.passwordreset.email')"
-          class="form-control is-invalid"
-        >
-        <label for="id_email">{{ $t('auth.passwordreset.email') }}</label>
-        <div
-          v-for="error in errors.email"
-          class="invalid-feedback"
-        >
-          {{ error }}
-        </div>
-      </div>
-      <div
+        v-model="email"
+        :label="$t('auth.passwordreset.email')"
+        :errors="errors.email"
+        id="id_email"
+        name="email"
+        type="email"
+        maxlength="254"
+      />
+      <BaseInput
         v-else
-        class="form-floating mb-3"
-      >
-        <input
-          v-model="email"
-          id="id_email"
-          name="email"
-          type="email"
-          maxlength="254"
-          required=""
-          :placeholder="$t('auth.passwordreset.email')"
-          class="form-control"
-        >
-        <label for="id_email">{{ $t('auth.passwordreset.email') }}</label>
-      </div>
+        v-model="email"
+        :label="$t('auth.passwordreset.email')"
+        id="id_email"
+        name="email"
+        type="email"
+        maxlength="254"
+      />
 
       <button
         type="submit"
-        class="btn btn-brand btn-lg w-100"
+        class="btn btn-brand btn-lg w-100 mt-3"
       >
         {{ $t('auth.password.reset_password') }}
       </button>
+
       <hr class="my-4">
       <div class="fs-6 text-center">
         <LocaleRouterLink
