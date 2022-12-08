@@ -270,92 +270,44 @@ export default {
               <div class="modal-body">
                 <form>
                   <div class="mb-3">
-                    <label
-                      for="id_link_type"
-                      class="col-form-label"
-                    >
-                      {{ $t('auth.externallinks.type_of_link') }}:
-                    </label>
-                    <div v-if="errors && errors.link_type">
-                      <select
-                        v-model="organizerLink.link_type"
-                        class="form-select is-invalid"
-                        name="link_type"
-                        id="id_link_type"
-                      >
-                        <option
-                          disabled
-                          value=""
-                        >
-                          ---------
-                        </option>
-                        <option
-                          v-for="option in linkTypeOptions"
-                          :value="option.value"
-                        >
-                          {{ option.text }}
-                        </option>
-                      </select>
-                      <div
-                        v-for="error in errors.link_type"
-                        class="invalid-feedback"
-                      >
-                        {{ error }}
-                      </div>
-                    </div>
-                    <select
+                    <BaseSelect
+                      v-if="errors && errors.link_type"
+                      v-model="organizerLink.link_type"
+                      :label="$t('auth.externallinks.type_of_link')"
+                      :options="linkTypeOptions"
+                      :errors="errors.link_type"
+                      id="id_link_type"
+                      name="link_type"
+                    />
+                    <BaseSelect
                       v-else
                       v-model="organizerLink.link_type"
-                      class="form-select"
-                      name="link_type"
+                      :label="$t('auth.externallinks.type_of_link')"
+                      :options="linkTypeOptions"
                       id="id_link_type"
-                    >
-                      <option
-                        disabled
-                        value=""
-                      >
-                        ---------
-                      </option>
-                      <option
-                        v-for="option in linkTypeOptions"
-                        :value="option.value"
-                      >
-                        {{ option.text }}
-                      </option>
-                    </select>
+                      name="link_type"
+                    />
                   </div>
                   <div class="mb-3">
-                    <label
-                      for="id_link_url"
-                      class="col-form-label"
-                    >
-                      {{ $t('auth.externallinks.url_of_link') }}:
-                    </label>
-                    <div v-if="errors && errors.link_url">
-                      <input
-                        v-model="organizerLink.link_url"
-                        type="url"
-                        name="link_url"
-                        class="form-control is-invalid"
-                        maxlength="200"
-                        id="id_link_url"
-                      >
-                      <div
-                        v-for="error in errors.link_url"
-                        class="invalid-feedback"
-                      >
-                        {{ error }}
-                      </div>
-                    </div>
-                    <input
+                    <BaseInput
+                      v-if="errors && errors.link_url"
+                      v-model="organizerLink.link_url"
+                      :label="$t('auth.externallinks.url_of_link')"
+                      :errors="errors.link_url"
+                      id="id_link_url"
+                      name="link_url"
+                      type="url"
+                      maxlength="200"
+                    />
+                    <BaseInput
                       v-else
                       v-model="organizerLink.link_url"
-                      type="url"
-                      name="link_url"
-                      class="form-control"
-                      maxlength="200"
+                      :label="$t('auth.externallinks.url_of_link')"
                       id="id_link_url"
-                    >
+                      name="link_url"
+                      type="url"
+                      maxlength="200"
+                    />
                   </div>
                 </form>
               </div>
