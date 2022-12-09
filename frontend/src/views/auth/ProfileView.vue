@@ -326,6 +326,16 @@ export default {
         </div>
         <div class="col-md-6">
           <BaseSelect
+            v-if="errors && errors.user && errors.user.country"
+            v-model="profile.country"
+            :label="$t('auth.profile.country')"
+            :options="countriesOptions"
+            :errors="errors.user.country"
+            id="id_country"
+            name="country"
+          />
+          <BaseSelect
+            v-else
             v-model="profile.country"
             :label="$t('auth.profile.country')"
             :options="countriesOptions"
@@ -335,11 +345,21 @@ export default {
         </div>
         <div class="col-md-6">
           <BaseSelect
+            v-if="errors && errors.user && errors.user.city"
             v-model="profile.city"
             :label="$t('auth.profile.city')"
             :options="citiesOptions1"
-            id="id_country"
-            name="country"
+            :errors="errors.user.city"
+            id="id_city"
+            name="city"
+          />
+          <BaseSelect
+            v-else
+            v-model="profile.city"
+            :label="$t('auth.profile.city')"
+            :options="citiesOptions1"
+            id="id_city"
+            name="city"
           />
         </div>
         <div class="col-md-12">
@@ -390,6 +410,16 @@ export default {
           class="col-md-12"
         >
           <MultipleSelect
+            v-if="errors && errors.roles"
+            v-model="profile.roles"
+            :label="$t('auth.profile.roles')"
+            :options="roleTypeOptions"
+            :errors="errors.roles"
+            id="id_roles"
+            name="roles"
+          />
+          <MultipleSelect
+            v-else
             v-model="profile.roles"
             :label="$t('auth.profile.roles')"
             :options="roleTypeOptions"
@@ -402,6 +432,15 @@ export default {
           class="col-md-12"
         >
           <BaseTextarea
+            v-if="errors && errors.description"
+            v-model="profile.description"
+            :label="$t('auth.profile.description')"
+            :errors="errors.description"
+            id="id_description"
+            name="description"
+          />
+          <BaseTextarea
+            v-else
             v-model="profile.description"
             :label="$t('auth.profile.description')"
             id="id_description"
@@ -413,6 +452,16 @@ export default {
           class="col-md-12"
         >
           <MultipleSelect
+            v-if="errors && errors.countries"
+            v-model="profile.countries"
+            :label="$t('auth.profile.countries')"
+            :options="countriesOptions"
+            :errors="errors.countries"
+            id="id_countries"
+            name="countries"
+          />
+          <MultipleSelect
+            v-else
             v-model="profile.countries"
             :label="$t('auth.profile.countries')"
             :options="countriesOptions"
@@ -425,6 +474,16 @@ export default {
           class="col-md-12"
         >
           <MultipleSelect
+            v-if="errors && errors.cities"
+            v-model="profile.cities"
+            :label="$t('auth.profile.cities')"
+            :options="citiesOptions2"
+            :errors="errors.cities"
+            id="id_cities"
+            name="cities"
+          />
+          <MultipleSelect
+            v-else
             v-model="profile.cities"
             :label="$t('auth.profile.cities')"
             :options="citiesOptions2"
@@ -437,6 +496,16 @@ export default {
           class="col-md-12"
         >
           <MultipleSelect
+            v-if="errors && errors.languages"
+            v-model="profile.languages"
+            :label="$t('auth.profile.languages')"
+            :options="languagesOptions"
+            :errors="errors.languages"
+            id="id_languages"
+            name="languages"
+          />
+          <MultipleSelect
+            v-else
             v-model="profile.languages"
             :label="$t('auth.profile.languages')"
             :options="languagesOptions"
