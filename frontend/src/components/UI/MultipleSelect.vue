@@ -18,6 +18,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    errors: {
+      type: Array,
+      default: []
     }
   },
   data() {
@@ -93,11 +97,14 @@ export default {
     :id="id"
     v-bind="$attrs"
     class="position-relative"
+    :aria-invalid="errors.length ? true : null"
+    :aria-describedby="errors.length ? `${id}-errors` : null"
   >
     <div
       :class="[
         'd-flex align-items-stretch border rounded',
-        { 'active': isActive }
+        { 'active': isActive },
+        { 'is-invalid': errors.length }
       ]"
     >
       <div
@@ -175,6 +182,16 @@ export default {
       </ul>
     </div>
   </div>
+  <div
+    v-if="errors.length"
+    :id="`${id}-errors`"
+    class="invalid-feedback"
+    aria-live="assertive"
+  >
+    <div v-for="error in errors">
+      {{ error }}
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -229,5 +246,16 @@ input:focus-visible {
 .list-group-item.py-1:hover {
   color: #e72a26 !important;
   cursor: pointer;
+}
+
+.d-flex.align-items-stretch.is-invalid {
+  border-color: #dc3545 !important;
+}
+.position-relative ~ .invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545;
 }
 </style>
