@@ -14,6 +14,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    errors: {
+      type: Array,
+      default: []
     }
   }
 }
@@ -27,7 +31,9 @@ export default {
       :id="id"
       :placeholder="label"
       v-bind="$attrs"
-      class="form-control"
+      :class="['form-control', { 'is-invalid': errors.length }]"
+      :aria-invalid="errors.length ? true : null"
+      :aria-describedby="errors.length ? `${id}-errors` : null"
       style="height: 100px"
     ></textarea>
     <label
@@ -36,5 +42,15 @@ export default {
     >
       {{ label }}
     </label>
+    <div
+      v-if="errors.length"
+      :id="`${id}-errors`"
+      class="invalid-feedback"
+      aria-live="assertive"
+    >
+      <div v-for="error in errors">
+        {{ error }}
+      </div>
+    </div>
   </div>
 </template>
