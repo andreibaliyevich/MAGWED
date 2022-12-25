@@ -170,24 +170,24 @@ export default {
             <div v-if="conversation.convo_type == conversationType.DIALOG">
               <UserAvatar
                 :src="conversation.details.avatar"
-                :width="50"
-                :height="50"
+                :width="48"
+                :height="48"
                 :online="conversation.details.online"
               />
             </div>
             <div v-else-if="conversation.convo_type == conversationType.GROUP">
               <GroupAvatar
                 :src="conversation.details.image"
-                :width="50"
-                :height="50"
+                :width="48"
+                :height="48"
               />
             </div>
             <div v-else>
               <img
                 src="/conversation.jpg"
                 class="rounded-circle"
-                width="50"
-                height="50"
+                width="48"
+                height="48"
               >
             </div>
           </div>
@@ -236,8 +236,8 @@ export default {
               >
                 <UserAvatar
                   :src="`${ API_URL }${ msg.sender.avatar }`"
-                  :width="35"
-                  :height="35"
+                  :width="32"
+                  :height="32"
                   :online="msg.sender.online"
                 />
                 <div class="bg-light rounded p-2 ms-2 mb-2">
