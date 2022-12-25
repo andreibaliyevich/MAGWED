@@ -1,6 +1,5 @@
 import uuid
 from decimal import Decimal
-from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -53,26 +52,20 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
     )
 
     name = models.CharField(max_length=255, verbose_name=_('Name'))
-    avatar = ThumbnailerImageField(
-        null=True,
+    avatar = models.ImageField(
         blank=True,
+        null=True,
         upload_to=get_avatar_path,
         validators=[
             FileExtensionValidator(allowed_extensions=('jpg', 'png')),
-            MinimumImageSizeValidator(512, 512),
+            MinimumImageSizeValidator(500, 500),
         ],
-        resize_source={
-            'size': (512, 512),
-            'crop': 'smart',
-            'autocrop': True,
-            'quality': 100,
-        },
         help_text=_(
             'Upload JPG or PNG image. '
             'Required minimum of size %(width)d x %(height)d.'
         ) % {
-            'width': 512,
-            'height': 512,
+            'width': 500,
+            'height': 500,
         },
         verbose_name=_('Avatar'),
     )
@@ -239,14 +232,14 @@ class Organizer(models.Model):
         upload_to=get_cover_path,
         validators=[
             FileExtensionValidator(allowed_extensions=('jpg', 'png')),
-            MinimumImageSizeValidator(1900, 1200),
+            MinimumImageSizeValidator(1500, 500),
         ],
         help_text=_(
             'Upload JPG or PNG image. '
             'Required minimum of size %(width)d x %(height)d.'
         ) % {
-            'width': 1900,
-            'height': 1200,
+            'width': 1500,
+            'height': 500,
         },
         verbose_name=_('Cover'),
     )

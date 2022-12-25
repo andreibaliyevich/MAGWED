@@ -124,7 +124,7 @@ export default {
           </button>
         </div>
         <small class="text-muted">
-          {{ $t('form_help.input_img', { width: '1900', height: '1200' }) }}
+          {{ $t('form_help.input_img', { width: '1500', height: '500' }) }}
         </small>
       </div>
     </div>
