@@ -1,4 +1,3 @@
-from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -47,26 +46,20 @@ class GroupConversation(models.Model):
     )
 
     name = models.CharField(max_length=150, verbose_name=_('Name'))
-    image = ThumbnailerImageField(
-        null=True,
+    image = models.ImageField(
         blank=True,
+        null=True,
         upload_to=get_conversation_path,
         validators=[
             FileExtensionValidator(allowed_extensions=('jpg', 'png')),
-            MinimumImageSizeValidator(360, 360),
+            MinimumImageSizeValidator(500, 500),
         ],
-        resize_source={
-            'size': (360, 360),
-            'crop': 'smart',
-            'autocrop': True,
-            'quality': 100,
-        },
         help_text=_(
             'Upload JPG or PNG image. '
             'Required minimum of size %(width)d x %(height)d.'
         ) % {
-            'width': 360,
-            'height': 360,
+            'width': 500,
+            'height': 500,
         },
         verbose_name=_('Image'),
     )
