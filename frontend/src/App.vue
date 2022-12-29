@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
 import { RouterView } from 'vue-router'
 
 import { WS_URL } from '@/config.js'
@@ -41,7 +40,7 @@ export default {
 
     this.deviceId = window.localStorage.getItem('deviceId')
     if (!this.deviceId) {
-      this.deviceId = uuidv4()
+      this.deviceId = crypto.randomUUID()
       window.localStorage.setItem('deviceId', this.deviceId)
     }
 
