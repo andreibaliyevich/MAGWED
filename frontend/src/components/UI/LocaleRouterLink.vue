@@ -7,11 +7,11 @@ export default {
   name: 'LocaleRouterLink',
   inheritAttrs: false,
   props: {
-    toName: {
+    routeName: {
       type: String,
       required: true
     },
-    toParams: {
+    routeParams: {
       type: Object,
       default: {}
     }
@@ -23,10 +23,10 @@ export default {
   <div class="locale-router-link">
     <RouterLink
       :to="{
-        name: toName,
+        name: routeName,
         params: {
           locale: $i18n.locale,
-          ...toParams
+          ...routeParams
         }
       }"
       v-bind="$attrs"

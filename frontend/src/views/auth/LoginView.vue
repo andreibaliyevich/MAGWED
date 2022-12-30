@@ -63,7 +63,7 @@ export default {
       <p class="fs-6 text-muted">
         {{ $t('auth.login.have_account') }}
         <LocaleRouterLink
-          toName="Registration"
+          routeName="Registration"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.signup') }}
@@ -122,7 +122,7 @@ export default {
       <div class="fs-6 text-muted">
         {{ $t('auth.login.forgot_your_password') }}
         <LocaleRouterLink
-          toName="PasswordReset"
+          routeName="PasswordReset"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.password.reset_password') }}

@@ -40,7 +40,7 @@ export default {
         <span class="navbar-toggler-icon"></span>
       </button>
       <LocaleRouterLink
-        toName="Home"
+        routeName="Home"
         class="navbar-brand d-flex d-sm-none align-items-center me-0"
       >
         <img
@@ -49,7 +49,7 @@ export default {
         >
       </LocaleRouterLink>
       <LocaleRouterLink
-        toName="Home"
+        routeName="Home"
         class="navbar-brand d-flex d-none d-sm-inline-flex align-items-center me-0"
       >
         <img
@@ -83,7 +83,7 @@ export default {
             <li class="nav-item text-uppercase fw-bold">
               <LocaleRouterLink
                 v-if="this.$route.name == 'Home'"
-                toName="Home"
+                routeName="Home"
                 @click="hideOffcanvas"
                 class="nav-link active"
                 aria-current="page"
@@ -92,7 +92,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 v-else
-                toName="Home"
+                routeName="Home"
                 @click="hideOffcanvas"
                 class="nav-link text-dark"
               >
@@ -102,7 +102,7 @@ export default {
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
                 v-if="this.$route.name == 'Home'"
-                toName="Home"
+                routeName="Home"
                 @click="hideOffcanvas"
                 class="nav-link active"
                 aria-current="page"
@@ -111,7 +111,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 v-else
-                toName="Home"
+                routeName="Home"
                 @click="hideOffcanvas"
                 class="nav-link text-dark"
               >
@@ -121,7 +121,7 @@ export default {
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
                 v-if="this.$route.name == 'Home'"
-                toName="Home"
+                routeName="Home"
                 @click="hideOffcanvas"
                 class="nav-link active"
                 aria-current="page"
@@ -130,7 +130,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 v-else
-                toName="Home"
+                routeName="Home"
                 @click="hideOffcanvas"
                 class="nav-link text-dark"
               >
@@ -140,7 +140,7 @@ export default {
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
                 v-if="this.$route.name == 'Blog'"
-                toName="Blog"
+                routeName="Blog"
                 @click="hideOffcanvas"
                 class="nav-link active"
                 aria-current="page"
@@ -149,7 +149,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 v-else
-                toName="Blog"
+                routeName="Blog"
                 @click="hideOffcanvas"
                 class="nav-link text-dark"
               >
@@ -198,7 +198,7 @@ export default {
       >
         <div class="ms-lg-3">
           <LocaleRouterLink
-            toName="Messenger"
+            routeName="Messenger"
             class="link-secondary position-relative"
           >
             <i class="fa-solid fa-message fa-lg"></i>
@@ -294,7 +294,7 @@ export default {
                 </div>
               </div>
               <LocaleRouterLink
-                toName="Profile"
+                routeName="Profile"
                 @click="hideDropdownUser"
                 class="w-100 btn btn-light-brand btn-sm text-center"
               >
@@ -304,7 +304,7 @@ export default {
             <li>
               <LocaleRouterLink
                 v-if="userStore.userType == userType.ORGANIZER"
-                toName="Home"
+                routeName="Home"
                 @click="hideDropdownUser"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
@@ -312,7 +312,7 @@ export default {
                 {{ $t('auth.followers') }}
               </LocaleRouterLink>
               <LocaleRouterLink
-                toName="Home"
+                routeName="Home"
                 @click="hideDropdownUser"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
@@ -320,7 +320,7 @@ export default {
                 {{ $t('auth.following') }}
               </LocaleRouterLink>
               <LocaleRouterLink
-                toName="Home"
+                routeName="Home"
                 @click="hideDropdownUser"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
@@ -328,7 +328,7 @@ export default {
                 {{ $t('auth.favorites') }}
               </LocaleRouterLink>
               <LocaleRouterLink
-                toName="Home"
+                routeName="Home"
                 @click="hideDropdownUser"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
@@ -354,14 +354,14 @@ export default {
         class="d-flex align-items-center ms-lg-3"
       >
         <LocaleRouterLink
-          toName="Login"
+          routeName="Login"
           @click="hideOffcanvas"
           class="btn btn-outline-brand border-secondary rounded-pill px-3"
         >
           {{ $t('auth.signin') }}
         </LocaleRouterLink>
         <LocaleRouterLink
-          toName="Registration"
+          routeName="Registration"
           @click="hideOffcanvas"
           class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex"
         >

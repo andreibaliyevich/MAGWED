@@ -47,7 +47,7 @@ export default {
           <li class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Notifications'"
-              toName="Notifications"
+              routeName="Notifications"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -57,7 +57,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Notifications"
+              routeName="Notifications"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -68,7 +68,7 @@ export default {
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -78,7 +78,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -89,7 +89,7 @@ export default {
           <li class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -99,7 +99,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -110,7 +110,7 @@ export default {
           <li class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -120,7 +120,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -136,7 +136,7 @@ export default {
           <li class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Profile'"
-              toName="Profile"
+              routeName="Profile"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -146,7 +146,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Profile"
+              routeName="Profile"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -157,7 +157,7 @@ export default {
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'ExternalLinks'"
-              toName="ExternalLinks"
+              routeName="ExternalLinks"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -167,7 +167,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="ExternalLinks"
+              routeName="ExternalLinks"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -178,7 +178,7 @@ export default {
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -188,7 +188,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -199,7 +199,7 @@ export default {
           <li class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'PasswordChange'"
-              toName="PasswordChange"
+              routeName="PasswordChange"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -209,7 +209,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="PasswordChange"
+              routeName="PasswordChange"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >
@@ -220,7 +220,7 @@ export default {
           <li class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link active"
               aria-current="page"
@@ -230,7 +230,7 @@ export default {
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              toName="Home"
+              routeName="Home"
               @click="hideAaccountMenu"
               class="nav-link text-dark"
             >

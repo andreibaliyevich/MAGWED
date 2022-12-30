@@ -58,7 +58,7 @@ export default {
       </p>
       <div class="fs-6 text-center">
         <LocaleRouterLink
-          toName="Login"
+          routeName="Login"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.signin') }}
@@ -92,7 +92,7 @@ export default {
       </p>
       <div class="fs-6 text-center">
         <LocaleRouterLink
-          toName="PasswordReset"
+          routeName="PasswordReset"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.password.reset_password') }}
