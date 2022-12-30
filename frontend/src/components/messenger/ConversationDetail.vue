@@ -212,13 +212,12 @@ export default {
           >
             <div class="my-0">
               <div class="bg-primary rounded p-2 mb-2">
-                <p class="text-sm mb-0 text-white">
-                  <MessageContent
-                    :messageType="messageType"
-                    :msgType="msg.msg_type"
-                    :msgContent="msg.content"
-                  />
-                </p>
+                <MessageContent
+                  :messageType="messageType"
+                  :msgType="msg.msg_type"
+                  :msgContent="msg.content"
+                  textClass="text-sm text-white"
+                />
               </div>
               <p class="d-flex justify-content-end small text-muted">
                 {{ getLocaleDateTimeString(msg.created_at) }}
@@ -242,26 +241,24 @@ export default {
                 />
                 <div class="bg-light rounded p-2 ms-2 mb-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
-                  <p class="text-sm mb-0">
-                    <MessageContent
-                      :messageType="messageType"
-                      :msgType="msg.msg_type"
-                      :msgContent="msg.content"
-                    />
-                  </p>
+                  <MessageContent
+                    :messageType="messageType"
+                    :msgType="msg.msg_type"
+                    :msgContent="msg.content"
+                    textClass="text-sm"
+                  />
                 </div>
               </div>
               <div
                 v-else
                 class="bg-light rounded p-2 mb-2"
               >
-                <p class="text-sm mb-0 text-dark">
-                  <MessageContent
-                    :messageType="messageType"
-                    :msgType="msg.msg_type"
-                    :msgContent="msg.content"
-                  />
-                </p>
+                <MessageContent
+                  :messageType="messageType"
+                  :msgType="msg.msg_type"
+                  :msgContent="msg.content"
+                  textClass="text-sm text-dark"
+                />
               </div>
               <p class="small text-muted">
                 {{ getLocaleDateTimeString(msg.created_at) }}

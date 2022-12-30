@@ -16,6 +16,10 @@ export default {
     msgContent: {
       type: [String, Object],
       required: true
+    },
+    textClass: {
+      type: String,
+      default: 'text-sm'
     }
   },
   methods: {
@@ -35,7 +39,9 @@ export default {
 <template>
   <div class="message-content">
     <div v-if="msgType == messageType.TEXT">
-      {{ msgContent }}
+      <p :class="textClass">
+        {{ msgContent }}
+      </p>
     </div>
     <div v-else-if="msgType == messageType.IMAGES">
       <img
@@ -53,7 +59,7 @@ export default {
         <div class="col-auto">
           <a
             :href="`${ API_URL }${ file.content }`"
-            class="text-decoration-none"
+            :class="'text-decoration-none ' + textClass"
             target="_blank"
           >
             <i class="fa-solid fa-circle-down fa-2xl"></i>
@@ -63,14 +69,16 @@ export default {
           <h6 class="text-truncate mb-0">
             <a
               :href="`${ API_URL }${ file.content }`"
-              class="text-decoration-none"
+              :class="'text-decoration-none ' + textClass"
               target="_blank"
             >
               {{ getName(file.content) }}
             </a>
           </h6>
           <ul class="list-inline opacity-75 mb-0">
-            <li class="list-inline-item">{{ getSize(file.size) }}</li>
+            <li :class="'list-inline-item ' + textClass">
+              {{ getSize(file.size) }}
+            </li>
           </ul>
         </div>
       </div>
