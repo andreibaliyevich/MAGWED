@@ -273,14 +273,14 @@ export default {
             @updateFile="sendImages"
             accept="image/*"
             multiple
-            classButton="btn btn-light"
+            buttonClass="btn btn-light"
           >
             <i class="fa-solid fa-file-image"></i>
           </FileInputButton>
           <FileInputButton
             @updateFile="sendFiles"
             multiple
-            classButton="btn btn-light"
+            buttonClass="btn btn-light"
           >
             <i class="fa-solid fa-file"></i>
           </FileInputButton>
