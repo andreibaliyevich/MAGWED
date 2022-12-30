@@ -122,7 +122,7 @@ export default {
               <FileInputButton
                 @updateFile="updateAvatar"
                 accept="image/*"
-                classButton="btn btn-light-brand m-1"
+                buttonClass="btn btn-light-brand m-1"
               >
                 {{ $t('auth.profile.upload_avatar') }}
               </FileInputButton>

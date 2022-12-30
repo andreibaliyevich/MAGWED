@@ -3,7 +3,7 @@ export default {
   name: 'FileInputButton',
   inheritAttrs: false,
   props: {
-    classButton: {
+    buttonClass: {
       type: String,
       default: 'btn'
     }
@@ -30,7 +30,7 @@ export default {
     <button
       @click="$refs.fileInput.click()"
       type="button"
-      :class="classButton"
+      :class="buttonClass"
     >
       <slot></slot>
     </button>
