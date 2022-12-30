@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-  <div class="blog">
+  <div class="article-list-view">
     <h3>{{ $t('blog.blog') }}</h3>
     <div v-if="responseData.count > 0" class="article-list">
       <div v-for="article in responseData.results">
@@ -45,7 +45,7 @@ export default {
 </template>
 
 <style>
-.blog {
+.article-list-view {
   width: 500px;
   margin: 0 auto;
 }

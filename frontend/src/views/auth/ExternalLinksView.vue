@@ -118,225 +118,227 @@ export default {
 </script>
 
 <template>
-  <div class="organizer-links px-1 px-lg-3 px-xl-5">
-    <h1 class="display-6 mb-5">
-      {{ $t('auth.externallinks.external_links') }}
-    </h1>
+  <div class="external-links-view">
+    <div class="px-1 px-lg-3 px-xl-5">
+      <h1 class="display-6 mb-5">
+        {{ $t('auth.externallinks.external_links') }}
+      </h1>
 
-    <PageLoadingIndicator v-if="pageLoading" />
-    <div v-else>
-      <ul class="list-group list-group-flush">
-        <li
-          v-for="organizerLinkItem in organizerLinkList"
-          :key="organizerLinkItem.id"
-          class="list-group-item"
-        >
-          <div class="row">
-            <div class="col-3 col-md-2">
-              <span
-                v-if="organizerLinkItem.link_type == 'WE'"
-                class="badge bg-website"
-              >
-                Website
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'FK'"
-                class="badge bg-facebook"
-              >
-                Facebook
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'TR'"
-                class="badge bg-twitter"
-              >
-                Twitter
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'IM'"
-                class="badge bg-instagram"
-              >
-                Instagram
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'SY'"
-                class="badge bg-spotify"
-              >
-                Spotify
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'YE'"
-                class="badge bg-youtube"
-              >
-                YouTube
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'SD'"
-                class="badge bg-soundcloud"
-              >
-                SoundCloud
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'PT'"
-                class="badge bg-pinterest"
-              >
-                Pinterest
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'VK'"
-                class="badge bg-vk"
-              >
-                VK
-              </span>
-              <span
-                v-else-if="organizerLinkItem.link_type == 'LN'"
-                class="badge bg-linkedin"
-              >
-                LinkedIn
-              </span>
+      <PageLoadingIndicator v-if="pageLoading" />
+      <div v-else>
+        <ul class="list-group list-group-flush">
+          <li
+            v-for="organizerLinkItem in organizerLinkList"
+            :key="organizerLinkItem.id"
+            class="list-group-item"
+          >
+            <div class="row">
+              <div class="col-3 col-md-2">
+                <span
+                  v-if="organizerLinkItem.link_type == 'WE'"
+                  class="badge bg-website"
+                >
+                  Website
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'FK'"
+                  class="badge bg-facebook"
+                >
+                  Facebook
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'TR'"
+                  class="badge bg-twitter"
+                >
+                  Twitter
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'IM'"
+                  class="badge bg-instagram"
+                >
+                  Instagram
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'SY'"
+                  class="badge bg-spotify"
+                >
+                  Spotify
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'YE'"
+                  class="badge bg-youtube"
+                >
+                  YouTube
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'SD'"
+                  class="badge bg-soundcloud"
+                >
+                  SoundCloud
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'PT'"
+                  class="badge bg-pinterest"
+                >
+                  Pinterest
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'VK'"
+                  class="badge bg-vk"
+                >
+                  VK
+                </span>
+                <span
+                  v-else-if="organizerLinkItem.link_type == 'LN'"
+                  class="badge bg-linkedin"
+                >
+                  LinkedIn
+                </span>
+              </div>
+              <div class="col-6 col-md-8 overflow-hidden">
+                <a
+                  :href="organizerLinkItem.link_url"
+                  target="_blank"
+                >
+                  {{ organizerLinkItem.link_url }}
+                </a>
+              </div>
+              <div class="col-3 col-md-2 d-flex justify-content-end">
+                <button
+                  @click="getOrganizerLinkData(organizerLinkItem.id)"
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#organizerLinkModal"
+                >
+                  <i class="fa-solid fa-pen fa-sm"></i>
+                </button>
+                <button
+                  @click="removeOrganizerLink(organizerLinkItem.id)"
+                  type="button"
+                  class="btn btn-danger btn-sm ms-1"
+                >
+                  <i class="fa-solid fa-trash fa-sm"></i>
+                </button>
+              </div>
             </div>
-            <div class="col-6 col-md-8 overflow-hidden">
-              <a
-                :href="organizerLinkItem.link_url"
-                target="_blank"
-              >
-                {{ organizerLinkItem.link_url }}
-              </a>
-            </div>
-            <div class="col-3 col-md-2 d-flex justify-content-end">
-              <button
-                @click="getOrganizerLinkData(organizerLinkItem.id)"
-                type="button"
-                class="btn btn-light btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#organizerLinkModal"
-              >
-                <i class="fa-solid fa-pen fa-sm"></i>
-              </button>
-              <button
-                @click="removeOrganizerLink(organizerLinkItem.id)"
-                type="button"
-                class="btn btn-danger btn-sm ms-1"
-              >
-                <i class="fa-solid fa-trash fa-sm"></i>
-              </button>
-            </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
 
-      <div class="mt-4">
-        <button
-          type="button"
-          class="btn btn-brand"
-          data-bs-toggle="modal"
-          data-bs-target="#organizerLinkModal"
-        >
-          {{ $t('auth.externallinks.add_link') }}
-        </button>
-        <div
-          class="modal fade"
-          id="organizerLinkModal"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="organizerLinkModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5
-                  v-if="!organizerLink.id"
-                  class="modal-title"
-                  id="organizerLinkModalLabel"
-                >
-                  {{ $t('auth.externallinks.adding_a_link') }}
-                </h5>
-                <h5
-                  v-else
-                  class="modal-title"
-                  id="organizerLinkModalLabel"
-                >
-                  {{ $t('auth.externallinks.changing_the_link') }}
-                </h5>
-                <button
-                  @click="resetOrganizerLink"
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="mb-3">
-                    <BaseSelect
-                      v-if="errors && errors.link_type"
-                      v-model="organizerLink.link_type"
-                      :label="$t('auth.externallinks.type_of_link')"
-                      :options="linkTypeOptions"
-                      :errors="errors.link_type"
-                      id="id_link_type"
-                      name="link_type"
-                    />
-                    <BaseSelect
-                      v-else
-                      v-model="organizerLink.link_type"
-                      :label="$t('auth.externallinks.type_of_link')"
-                      :options="linkTypeOptions"
-                      id="id_link_type"
-                      name="link_type"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <BaseInput
-                      v-if="errors && errors.link_url"
-                      v-model="organizerLink.link_url"
-                      :label="$t('auth.externallinks.url_of_link')"
-                      :errors="errors.link_url"
-                      id="id_link_url"
-                      name="link_url"
-                      type="url"
-                      maxlength="200"
-                    />
-                    <BaseInput
-                      v-else
-                      v-model="organizerLink.link_url"
-                      :label="$t('auth.externallinks.url_of_link')"
-                      id="id_link_url"
-                      name="link_url"
-                      type="url"
-                      maxlength="200"
-                    />
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button
-                  ref="btnClose"
-                  @click="resetOrganizerLink"
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  {{ $t('auth.externallinks.close') }}
-                </button>
-                <button
-                  v-if="organizerLink.id"
-                  @click="updateOrganizerLink"
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  {{ $t('auth.externallinks.update') }}
-                </button>
-                <button
-                  v-else
-                  @click="addOrganizerLink"
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  {{ $t('auth.externallinks.add') }}
-                </button>
+        <div class="mt-4">
+          <button
+            type="button"
+            class="btn btn-brand"
+            data-bs-toggle="modal"
+            data-bs-target="#organizerLinkModal"
+          >
+            {{ $t('auth.externallinks.add_link') }}
+          </button>
+          <div
+            class="modal fade"
+            id="organizerLinkModal"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="organizerLinkModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5
+                    v-if="!organizerLink.id"
+                    class="modal-title"
+                    id="organizerLinkModalLabel"
+                  >
+                    {{ $t('auth.externallinks.adding_a_link') }}
+                  </h5>
+                  <h5
+                    v-else
+                    class="modal-title"
+                    id="organizerLinkModalLabel"
+                  >
+                    {{ $t('auth.externallinks.changing_the_link') }}
+                  </h5>
+                  <button
+                    @click="resetOrganizerLink"
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <BaseSelect
+                        v-if="errors && errors.link_type"
+                        v-model="organizerLink.link_type"
+                        :label="$t('auth.externallinks.type_of_link')"
+                        :options="linkTypeOptions"
+                        :errors="errors.link_type"
+                        id="id_link_type"
+                        name="link_type"
+                      />
+                      <BaseSelect
+                        v-else
+                        v-model="organizerLink.link_type"
+                        :label="$t('auth.externallinks.type_of_link')"
+                        :options="linkTypeOptions"
+                        id="id_link_type"
+                        name="link_type"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <BaseInput
+                        v-if="errors && errors.link_url"
+                        v-model="organizerLink.link_url"
+                        :label="$t('auth.externallinks.url_of_link')"
+                        :errors="errors.link_url"
+                        id="id_link_url"
+                        name="link_url"
+                        type="url"
+                        maxlength="200"
+                      />
+                      <BaseInput
+                        v-else
+                        v-model="organizerLink.link_url"
+                        :label="$t('auth.externallinks.url_of_link')"
+                        id="id_link_url"
+                        name="link_url"
+                        type="url"
+                        maxlength="200"
+                      />
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    ref="btnClose"
+                    @click="resetOrganizerLink"
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    {{ $t('auth.externallinks.close') }}
+                  </button>
+                  <button
+                    v-if="organizerLink.id"
+                    @click="updateOrganizerLink"
+                    type="button"
+                    class="btn btn-primary"
+                  >
+                    {{ $t('auth.externallinks.update') }}
+                  </button>
+                  <button
+                    v-else
+                    @click="addOrganizerLink"
+                    type="button"
+                    class="btn btn-primary"
+                  >
+                    {{ $t('auth.externallinks.add') }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

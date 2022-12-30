@@ -271,338 +271,340 @@ export default {
 </script>
 
 <template>
-  <div class="profile-settings px-1 px-lg-3 px-xl-5">
-    <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
+  <div class="profile-view">
+    <div class="px-1 px-lg-3 px-xl-5">
+      <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
 
-    <PageLoadingIndicator v-if="pageLoading < 3" />
-    <div v-else>
-      <div v-if="status">
-        <div
-          class="alert alert-success d-flex align-items-center alert-dismissible fade show"
-          role="alert"
-        >
-          <i class="fa-solid fa-circle-check"></i>
+      <PageLoadingIndicator v-if="pageLoading < 3" />
+      <div v-else>
+        <div v-if="status">
           <div
-            v-if="status == 'updated_profile'"
-            class="ms-3"
+            class="alert alert-success d-flex align-items-center alert-dismissible fade show"
+            role="alert"
           >
-            {{ $t('auth.profile.profile_updated_successfully') }}
+            <i class="fa-solid fa-circle-check"></i>
+            <div
+              v-if="status == 'updated_profile'"
+              class="ms-3"
+            >
+              {{ $t('auth.profile.profile_updated_successfully') }}
+            </div>
+            <button
+              @click="status = null"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
           </div>
-          <button
-            @click="status = null"
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
         </div>
-      </div>
 
-      <ProfileCover v-if="userStore.userType == userType.ORGANIZER" />
-      <ProfileAvatar />
+        <ProfileCover v-if="userStore.userType == userType.ORGANIZER" />
+        <ProfileAvatar />
 
-      <form
-        @submit.prevent="updateProfile"
-        class="row g-3 mt-3"
-      >
-        <div class="col-md-12">
-          <BaseInput
-            v-if="errors && errors.user && errors.user.name"
-            v-model="profile.name"
-            :label="$t('auth.profile.name')"
-            :errors="errors.user.name"
-            id="id_name"
-            name="name"
-            type="text"
-          />
-          <BaseInput
-            v-else
-            v-model="profile.name"
-            :label="$t('auth.profile.name')"
-            id="id_name"
-            name="name"
-            type="text"
-          />
-        </div>
-        <div class="col-md-6">
-          <BaseSelect
-            v-if="errors && errors.user && errors.user.country"
-            v-model="profile.country"
-            :label="$t('auth.profile.country')"
-            :options="countriesOptions"
-            :errors="errors.user.country"
-            id="id_country"
-            name="country"
-          />
-          <BaseSelect
-            v-else
-            v-model="profile.country"
-            :label="$t('auth.profile.country')"
-            :options="countriesOptions"
-            id="id_country"
-            name="country"
-          />
-        </div>
-        <div class="col-md-6">
-          <BaseSelect
-            v-if="errors && errors.user && errors.user.city"
-            v-model="profile.city"
-            :label="$t('auth.profile.city')"
-            :options="citiesOptions1"
-            :errors="errors.user.city"
-            id="id_city"
-            name="city"
-          />
-          <BaseSelect
-            v-else
-            v-model="profile.city"
-            :label="$t('auth.profile.city')"
-            :options="citiesOptions1"
-            id="id_city"
-            name="city"
-          />
-        </div>
-        <div class="col-md-12">
-          <BaseInput
-            v-if="errors && errors.user && errors.user.phone"
-            v-model="profile.phone"
-            :label="$t('auth.profile.phone')"
-            :errors="errors.user.phone"
-            id="id_phone"
-            name="phone"
-            type="tel"
-            maxlength="21"
-          />
-          <BaseInput
-            v-else
-            v-model="profile.phone"
-            :label="$t('auth.profile.phone')"
-            id="id_phone"
-            name="phone"
-            type="tel"
-            maxlength="21"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.CUSTOMER"
-          class="col-md-12"
+        <form
+          @submit.prevent="updateProfile"
+          class="row g-3 mt-3"
         >
-          <BaseInput
-            v-if="errors && errors.date_of_wedding"
-            v-model="profile.dateOfWedding"
-            :label="$t('auth.profile.date_of_wedding')"
-            :errors="errors.date_of_wedding"
-            id="id_date_of_wedding"
-            name="date_of_wedding"
-            type="date"
-          />
-          <BaseInput
-            v-else
-            v-model="profile.dateOfWedding"
-            :label="$t('auth.profile.date_of_wedding')"
-            id="id_date_of_wedding"
-            name="date_of_wedding"
-            type="date"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-12"
-        >
-          <MultipleSelect
-            v-if="errors && errors.roles"
-            v-model="profile.roles"
-            :label="$t('auth.profile.roles')"
-            :options="roleTypeOptions"
-            :errors="errors.roles"
-            id="id_roles"
-            name="roles"
-          />
-          <MultipleSelect
-            v-else
-            v-model="profile.roles"
-            :label="$t('auth.profile.roles')"
-            :options="roleTypeOptions"
-            id="id_roles"
-            name="roles"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-12"
-        >
-          <BaseTextarea
-            v-if="errors && errors.description"
-            v-model="profile.description"
-            :label="$t('auth.profile.description')"
-            :errors="errors.description"
-            id="id_description"
-            name="description"
-          />
-          <BaseTextarea
-            v-else
-            v-model="profile.description"
-            :label="$t('auth.profile.description')"
-            id="id_description"
-            name="description"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-12"
-        >
-          <MultipleSelect
-            v-if="errors && errors.countries"
-            v-model="profile.countries"
-            :label="$t('auth.profile.countries')"
-            :options="countriesOptions"
-            :errors="errors.countries"
-            id="id_countries"
-            name="countries"
-          />
-          <MultipleSelect
-            v-else
-            v-model="profile.countries"
-            :label="$t('auth.profile.countries')"
-            :options="countriesOptions"
-            id="id_countries"
-            name="countries"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-12"
-        >
-          <MultipleSelect
-            v-if="errors && errors.cities"
-            v-model="profile.cities"
-            :label="$t('auth.profile.cities')"
-            :options="citiesOptions2"
-            :errors="errors.cities"
-            id="id_cities"
-            name="cities"
-          />
-          <MultipleSelect
-            v-else
-            v-model="profile.cities"
-            :label="$t('auth.profile.cities')"
-            :options="citiesOptions2"
-            id="id_cities"
-            name="cities"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-12"
-        >
-          <MultipleSelect
-            v-if="errors && errors.languages"
-            v-model="profile.languages"
-            :label="$t('auth.profile.languages')"
-            :options="languagesOptions"
-            :errors="errors.languages"
-            id="id_languages"
-            name="languages"
-          />
-          <MultipleSelect
-            v-else
-            v-model="profile.languages"
-            :label="$t('auth.profile.languages')"
-            :options="languagesOptions"
-            id="id_languages"
-            name="languages"
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-6"
-        >
-          <BaseInput
-            v-if="errors && errors.cost_work"
-            v-model="profile.costWork"
-            :label="$t('auth.profile.cost_work')"
-            :errors="errors.cost_work"
-            id="id_cost_work"
-            name="cost_work"
-            type="number"
-            min="0.00"
-            step="0.01"
-            required=""
-          />
-          <BaseInput
-            v-else
-            v-model="profile.costWork"
-            :label="$t('auth.profile.cost_work')"
-            id="id_cost_work"
-            name="cost_work"
-            type="number"
-            min="0.00"
-            step="0.01"
-            required=""
-          />
-          <div class="form-text">{{ $t('form_help.cost_work') }}</div>
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-6"
-        >
-          <BaseInput
-            v-if="errors && errors.number_hours"
-            v-model="profile.numberHours"
-            :label="$t('auth.profile.number_hours')"
-            :errors="errors.number_hours"
-            id="id_number_hours"
-            name="number_hours"
-            type="number"
-            min="0"
-            required=""
-          />
-          <BaseInput
-            v-else
-            v-model="profile.numberHours"
-            :label="$t('auth.profile.number_hours')"
-            id="id_number_hours"
-            name="number_hours"
-            type="number"
-            min="0"
-            required=""
-          />
-        </div>
-        <div
-          v-if="userStore.userType == userType.ORGANIZER"
-          class="col-md-12"
-        >
-          <BaseInput
-            v-if="errors && errors.profile_url"
-            v-model="profile.profileURL"
-            :label="$t('auth.profile.profile_url')"
-            :errors="errors.profile_url"
-            id="id_profile_url"
-            name="profile_url"
-            type="text"
-            maxlength="64"
-            required=""
-          />
-          <BaseInput
-            v-else
-            v-model="profile.profileURL"
-            :label="$t('auth.profile.profile_url')"
-            id="id_profile_url"
-            name="profile_url"
-            type="text"
-            maxlength="64"
-            required=""
-          />
-        </div>
-        <div class="col-12">
-          <button
-            type="submit"
-            class="btn btn-brand btn-lg"
+          <div class="col-md-12">
+            <BaseInput
+              v-if="errors && errors.user && errors.user.name"
+              v-model="profile.name"
+              :label="$t('auth.profile.name')"
+              :errors="errors.user.name"
+              id="id_name"
+              name="name"
+              type="text"
+            />
+            <BaseInput
+              v-else
+              v-model="profile.name"
+              :label="$t('auth.profile.name')"
+              id="id_name"
+              name="name"
+              type="text"
+            />
+          </div>
+          <div class="col-md-6">
+            <BaseSelect
+              v-if="errors && errors.user && errors.user.country"
+              v-model="profile.country"
+              :label="$t('auth.profile.country')"
+              :options="countriesOptions"
+              :errors="errors.user.country"
+              id="id_country"
+              name="country"
+            />
+            <BaseSelect
+              v-else
+              v-model="profile.country"
+              :label="$t('auth.profile.country')"
+              :options="countriesOptions"
+              id="id_country"
+              name="country"
+            />
+          </div>
+          <div class="col-md-6">
+            <BaseSelect
+              v-if="errors && errors.user && errors.user.city"
+              v-model="profile.city"
+              :label="$t('auth.profile.city')"
+              :options="citiesOptions1"
+              :errors="errors.user.city"
+              id="id_city"
+              name="city"
+            />
+            <BaseSelect
+              v-else
+              v-model="profile.city"
+              :label="$t('auth.profile.city')"
+              :options="citiesOptions1"
+              id="id_city"
+              name="city"
+            />
+          </div>
+          <div class="col-md-12">
+            <BaseInput
+              v-if="errors && errors.user && errors.user.phone"
+              v-model="profile.phone"
+              :label="$t('auth.profile.phone')"
+              :errors="errors.user.phone"
+              id="id_phone"
+              name="phone"
+              type="tel"
+              maxlength="21"
+            />
+            <BaseInput
+              v-else
+              v-model="profile.phone"
+              :label="$t('auth.profile.phone')"
+              id="id_phone"
+              name="phone"
+              type="tel"
+              maxlength="21"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.CUSTOMER"
+            class="col-md-12"
           >
-            {{ $t('auth.profile.update_profile') }}
-          </button>
-        </div>
-      </form>
+            <BaseInput
+              v-if="errors && errors.date_of_wedding"
+              v-model="profile.dateOfWedding"
+              :label="$t('auth.profile.date_of_wedding')"
+              :errors="errors.date_of_wedding"
+              id="id_date_of_wedding"
+              name="date_of_wedding"
+              type="date"
+            />
+            <BaseInput
+              v-else
+              v-model="profile.dateOfWedding"
+              :label="$t('auth.profile.date_of_wedding')"
+              id="id_date_of_wedding"
+              name="date_of_wedding"
+              type="date"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-12"
+          >
+            <MultipleSelect
+              v-if="errors && errors.roles"
+              v-model="profile.roles"
+              :label="$t('auth.profile.roles')"
+              :options="roleTypeOptions"
+              :errors="errors.roles"
+              id="id_roles"
+              name="roles"
+            />
+            <MultipleSelect
+              v-else
+              v-model="profile.roles"
+              :label="$t('auth.profile.roles')"
+              :options="roleTypeOptions"
+              id="id_roles"
+              name="roles"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-12"
+          >
+            <BaseTextarea
+              v-if="errors && errors.description"
+              v-model="profile.description"
+              :label="$t('auth.profile.description')"
+              :errors="errors.description"
+              id="id_description"
+              name="description"
+            />
+            <BaseTextarea
+              v-else
+              v-model="profile.description"
+              :label="$t('auth.profile.description')"
+              id="id_description"
+              name="description"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-12"
+          >
+            <MultipleSelect
+              v-if="errors && errors.countries"
+              v-model="profile.countries"
+              :label="$t('auth.profile.countries')"
+              :options="countriesOptions"
+              :errors="errors.countries"
+              id="id_countries"
+              name="countries"
+            />
+            <MultipleSelect
+              v-else
+              v-model="profile.countries"
+              :label="$t('auth.profile.countries')"
+              :options="countriesOptions"
+              id="id_countries"
+              name="countries"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-12"
+          >
+            <MultipleSelect
+              v-if="errors && errors.cities"
+              v-model="profile.cities"
+              :label="$t('auth.profile.cities')"
+              :options="citiesOptions2"
+              :errors="errors.cities"
+              id="id_cities"
+              name="cities"
+            />
+            <MultipleSelect
+              v-else
+              v-model="profile.cities"
+              :label="$t('auth.profile.cities')"
+              :options="citiesOptions2"
+              id="id_cities"
+              name="cities"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-12"
+          >
+            <MultipleSelect
+              v-if="errors && errors.languages"
+              v-model="profile.languages"
+              :label="$t('auth.profile.languages')"
+              :options="languagesOptions"
+              :errors="errors.languages"
+              id="id_languages"
+              name="languages"
+            />
+            <MultipleSelect
+              v-else
+              v-model="profile.languages"
+              :label="$t('auth.profile.languages')"
+              :options="languagesOptions"
+              id="id_languages"
+              name="languages"
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-6"
+          >
+            <BaseInput
+              v-if="errors && errors.cost_work"
+              v-model="profile.costWork"
+              :label="$t('auth.profile.cost_work')"
+              :errors="errors.cost_work"
+              id="id_cost_work"
+              name="cost_work"
+              type="number"
+              min="0.00"
+              step="0.01"
+              required=""
+            />
+            <BaseInput
+              v-else
+              v-model="profile.costWork"
+              :label="$t('auth.profile.cost_work')"
+              id="id_cost_work"
+              name="cost_work"
+              type="number"
+              min="0.00"
+              step="0.01"
+              required=""
+            />
+            <div class="form-text">{{ $t('form_help.cost_work') }}</div>
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-6"
+          >
+            <BaseInput
+              v-if="errors && errors.number_hours"
+              v-model="profile.numberHours"
+              :label="$t('auth.profile.number_hours')"
+              :errors="errors.number_hours"
+              id="id_number_hours"
+              name="number_hours"
+              type="number"
+              min="0"
+              required=""
+            />
+            <BaseInput
+              v-else
+              v-model="profile.numberHours"
+              :label="$t('auth.profile.number_hours')"
+              id="id_number_hours"
+              name="number_hours"
+              type="number"
+              min="0"
+              required=""
+            />
+          </div>
+          <div
+            v-if="userStore.userType == userType.ORGANIZER"
+            class="col-md-12"
+          >
+            <BaseInput
+              v-if="errors && errors.profile_url"
+              v-model="profile.profileURL"
+              :label="$t('auth.profile.profile_url')"
+              :errors="errors.profile_url"
+              id="id_profile_url"
+              name="profile_url"
+              type="text"
+              maxlength="64"
+              required=""
+            />
+            <BaseInput
+              v-else
+              v-model="profile.profileURL"
+              :label="$t('auth.profile.profile_url')"
+              id="id_profile_url"
+              name="profile_url"
+              type="text"
+              maxlength="64"
+              required=""
+            />
+          </div>
+          <div class="col-12">
+            <button
+              type="submit"
+              class="btn btn-brand btn-lg"
+            >
+              {{ $t('auth.profile.update_profile') }}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>

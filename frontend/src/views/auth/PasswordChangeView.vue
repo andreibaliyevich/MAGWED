@@ -43,7 +43,7 @@ export default {
 </script>
 
 <template>
-  <div class="password-change">
+  <div class="password-change-view">
     <h1 class="display-6 mb-5">
       {{ $t('auth.passwordchange.password_change') }}
     </h1>

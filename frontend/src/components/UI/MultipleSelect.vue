@@ -86,110 +86,112 @@ export default {
 </script>
 
 <template>
-  <label
-    v-if="label"
-    :for="id"
-  >
-    {{ label }}
-  </label>
-  <div
-    ref="divSelect"
-    :id="id"
-    v-bind="$attrs"
-    class="position-relative"
-    :aria-invalid="errors.length ? true : null"
-    :aria-describedby="errors.length ? `${id}-errors` : null"
-  >
+  <div class="multiple-select">
+    <label
+      v-if="label"
+      :for="id"
+    >
+      {{ label }}
+    </label>
     <div
-      :class="[
-        'd-flex align-items-stretch border rounded',
-        { 'active': isActive },
-        { 'is-invalid': errors.length }
-      ]"
+      ref="divSelect"
+      :id="id"
+      v-bind="$attrs"
+      class="position-relative"
+      :aria-invalid="errors.length ? true : null"
+      :aria-describedby="errors.length ? `${id}-errors` : null"
     >
       <div
-        @click="clickInput"
-        class="flex-grow-1"
+        :class="[
+          'd-flex align-items-stretch border rounded',
+          { 'active': isActive },
+          { 'is-invalid': errors.length }
+        ]"
       >
-        <span
-          v-for="modelValueSingle in modelValueDetail"
-          :key="modelValueSingle.value"
-          class="badge text-bg-light fw-normal m-1"
+        <div
+          @click="clickInput"
+          class="flex-grow-1"
         >
-          <div class="d-flex align-items-center">
-            {{ modelValueSingle.text }}
-            <button
-              @click="deleteModelValue(modelValueSingle.value)"
-              type="button"
-              class="btn-close ms-1"
-              aria-label="Close"
-            ></button>
-          </div>
-        </span>
-        <input
-          ref="input"
-          v-model="searchQuery"
-          type="text"
-          autocomplete="off"
-          class="border-0 m-1"
+          <span
+            v-for="modelValueSingle in modelValueDetail"
+            :key="modelValueSingle.value"
+            class="badge text-bg-light fw-normal m-1"
+          >
+            <div class="d-flex align-items-center">
+              {{ modelValueSingle.text }}
+              <button
+                @click="deleteModelValue(modelValueSingle.value)"
+                type="button"
+                class="btn-close ms-1"
+                aria-label="Close"
+              ></button>
+            </div>
+          </span>
+          <input
+            ref="input"
+            v-model="searchQuery"
+            type="text"
+            autocomplete="off"
+            class="border-0 m-1"
+          >
+        </div>
+        <div
+          @click="clickArrow"
+          class="d-flex align-items-center"
         >
+          <i
+            v-if="isActive"
+            class="fa-solid fa-angle-up me-1"
+          ></i>
+          <i
+            v-else
+            class="fa-solid fa-angle-down me-1"
+          ></i>
+        </div>
       </div>
       <div
-        @click="clickArrow"
-        class="d-flex align-items-center"
+        :class="[
+          'position-absolute overflow-auto border rounded shadow',
+          {'show': isActive}
+        ]"
       >
-        <i
-          v-if="isActive"
-          class="fa-solid fa-angle-up me-1"
-        ></i>
-        <i
-          v-else
-          class="fa-solid fa-angle-down me-1"
-        ></i>
+        <ul class="list-group list-group-flush">
+          <li
+            v-if="searchOptions.length > 0"
+            v-for="option in searchOptions"
+            :key="option.value"
+            @click="updateModelValue(option.value)"
+            :class="[
+              'list-group-item py-1',
+              { 'list-group-item-primary': modelValue.includes(option.value) }
+            ]"
+          >
+            <div class="d-flex align-items-center justify-content-between">
+              {{ option.text }}
+              <i
+                v-if="modelValue.includes(option.value)"
+                class="fa-solid fa-check"
+              ></i>
+            </div>
+          </li>
+          <li
+            v-else
+            class="list-group-item py-3"
+          >
+            {{ $t('form_help.no_options_available') }}
+          </li>
+        </ul>
       </div>
     </div>
     <div
-      :class="[
-        'position-absolute overflow-auto border rounded shadow',
-        {'show': isActive}
-      ]"
+      v-if="errors.length"
+      :id="`${id}-errors`"
+      class="invalid-feedback"
+      aria-live="assertive"
     >
-      <ul class="list-group list-group-flush">
-        <li
-          v-if="searchOptions.length > 0"
-          v-for="option in searchOptions"
-          :key="option.value"
-          @click="updateModelValue(option.value)"
-          :class="[
-            'list-group-item py-1',
-            { 'list-group-item-primary': modelValue.includes(option.value) }
-          ]"
-        >
-          <div class="d-flex align-items-center justify-content-between">
-            {{ option.text }}
-            <i
-              v-if="modelValue.includes(option.value)"
-              class="fa-solid fa-check"
-            ></i>
-          </div>
-        </li>
-        <li
-          v-else
-          class="list-group-item py-3"
-        >
-          {{ $t('form_help.no_options_available') }}
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div
-    v-if="errors.length"
-    :id="`${id}-errors`"
-    class="invalid-feedback"
-    aria-live="assertive"
-  >
-    <div v-for="error in errors">
-      {{ error }}
+      <div v-for="error in errors">
+        {{ error }}
+      </div>
     </div>
   </div>
 </template>

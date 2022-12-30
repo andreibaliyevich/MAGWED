@@ -11,22 +11,24 @@ export default {
 </script>
 
 <template>
-  <div v-if="actionInfo" class="d-flex align-items-center p-5">
-    <strong>{{ actionInfo }}</strong>
-    <div
-      class="spinner-border text-dark ms-auto"
-      role="status"
-      aria-hidden="true"
-    ></div>
-  </div>
-  <div v-else class="d-flex justify-content-center p-5">
-    <div
-      class="spinner-border text-dark"
-      role="status"
-    >
-      <span class="visually-hidden">
-        Loading...
-      </span>
+  <div class="action-processing-indicator">
+    <div v-if="actionInfo" class="d-flex align-items-center p-5">
+      <strong>{{ actionInfo }}</strong>
+      <div
+        class="spinner-border text-dark ms-auto"
+        role="status"
+        aria-hidden="true"
+      ></div>
+    </div>
+    <div v-else class="d-flex justify-content-center p-5">
+      <div
+        class="spinner-border text-dark"
+        role="status"
+      >
+        <span class="visually-hidden">
+          Loading...
+        </span>
+      </div>
     </div>
   </div>
 </template>

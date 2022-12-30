@@ -15,18 +15,20 @@ export default {
 </script>
 
 <template>
-  <img
-    v-if="src"
-    :src="src"
-    :width="width"
-    :height="height"
-    class="rounded-circle"
-  >
-  <img
-    v-else
-    src="/group-avatar.jpg"
-    :width="width"
-    :height="height"
-    class="rounded-circle"
-  >
+  <div class="group-avatar">
+    <img
+      v-if="src"
+      :src="src"
+      :width="width"
+      :height="height"
+      class="rounded-circle"
+    >
+    <img
+      v-else
+      src="/group-avatar.jpg"
+      :width="width"
+      :height="height"
+      class="rounded-circle"
+    >
+  </div>
 </template>

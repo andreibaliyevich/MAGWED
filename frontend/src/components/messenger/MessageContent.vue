@@ -33,48 +33,50 @@ export default {
 </script>
 
 <template>
-  <div v-if="msgType == messageType.TEXT">
-    {{ msgContent }}
-  </div>
-  <div v-else-if="msgType == messageType.IMAGES">
-    <img
-      v-for="img in msgContent"
-      :src="`${ API_URL }${ img.content }`"
-      :alt="`${ getSize(img.size) }`"
-      width="150"
-    >
-  </div>
-  <div v-else-if="msgType == messageType.FILES">
-    <div
-      v-for="file in msgContent"
-      class="row align-items-center gx-3"
-    >
-      <div class="col-auto">
-        <a
-          :href="`${ API_URL }${ file.content }`"
-          class="text-decoration-none"
-          target="_blank"
-        >
-          <i class="fa-solid fa-circle-down fa-2xl"></i>
-        </a>
-      </div>
-      <div class="col overflow-hidden">
-        <h6 class="text-truncate mb-0">
+  <div class="message-content">
+    <div v-if="msgType == messageType.TEXT">
+      {{ msgContent }}
+    </div>
+    <div v-else-if="msgType == messageType.IMAGES">
+      <img
+        v-for="img in msgContent"
+        :src="`${ API_URL }${ img.content }`"
+        :alt="`${ getSize(img.size) }`"
+        width="150"
+      >
+    </div>
+    <div v-else-if="msgType == messageType.FILES">
+      <div
+        v-for="file in msgContent"
+        class="row align-items-center gx-3"
+      >
+        <div class="col-auto">
           <a
             :href="`${ API_URL }${ file.content }`"
             class="text-decoration-none"
             target="_blank"
           >
-            {{ getName(file.content) }}
+            <i class="fa-solid fa-circle-down fa-2xl"></i>
           </a>
-        </h6>
-        <ul class="list-inline opacity-75 mb-0">
-          <li class="list-inline-item">{{ getSize(file.size) }}</li>
-        </ul>
+        </div>
+        <div class="col overflow-hidden">
+          <h6 class="text-truncate mb-0">
+            <a
+              :href="`${ API_URL }${ file.content }`"
+              class="text-decoration-none"
+              target="_blank"
+            >
+              {{ getName(file.content) }}
+            </a>
+          </h6>
+          <ul class="list-inline opacity-75 mb-0">
+            <li class="list-inline-item">{{ getSize(file.size) }}</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-else>
-    Error
+    <div v-else>
+      Error
+    </div>
   </div>
 </template>

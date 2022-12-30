@@ -19,18 +19,20 @@ export default {
 </script>
 
 <template>
-  <input
-    ref="fileInput"
-    @change="changeInput"
-    v-bind="$attrs"
-    type="file"
-    class="visually-hidden"
-  >
-  <button
-    @click="$refs.fileInput.click()"
-    type="button"
-    :class="classButton"
-  >
-    <slot></slot>
-  </button>
+  <div class="file-input-button">
+    <input
+      ref="fileInput"
+      @change="changeInput"
+      v-bind="$attrs"
+      type="file"
+      class="visually-hidden"
+    >
+    <button
+      @click="$refs.fileInput.click()"
+      type="button"
+      :class="classButton"
+    >
+      <slot></slot>
+    </button>
+  </div>
 </template>

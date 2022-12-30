@@ -1,9 +1,5 @@
-<script setup>
-
-</script>
-
 <template>
-  <main>
+  <div class="home-view">
     <h1>This is a hone page</h1>
-  </main>
+  </div>
 </template>
