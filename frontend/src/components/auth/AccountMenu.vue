@@ -25,10 +25,10 @@ export default {
 </script>
 
 <template>
-  <div >
+  <div class="border rounded shadow-sm">
     <button
       ref="buttonAaccountMenu"
-      class="btn btn-secondary w-100 mb-3"
+      class="btn btn-secondary w-100"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#account-menu"
@@ -38,7 +38,7 @@ export default {
       {{ $t('auth.account_menu') }}
       <i class="fa-solid fa-caret-down ms-1"></i>
     </button>
-    <div id="account-menu" class="collapse">
+    <div id="account-menu" class="collapse m-3">
       <div class="text-uppercase fw-bolder text-secondary">
         {{ $t('auth.social') }}
       </div>
