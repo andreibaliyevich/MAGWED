@@ -35,3 +35,9 @@ export default {
     </RouterLink>
   </div>
 </template>
+
+<style scoped>
+.locale-router-link {
+  display: inline;
+}
+</style>
