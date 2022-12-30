@@ -22,7 +22,10 @@ export default {
 </script>
 
 <template>
-  <div class="position-sticky" style="top: 120px;">
+  <div
+    class="position-sticky"
+    style="top: 120px;"
+  >
     <div class="text-uppercase fw-bolder text-secondary">
       {{ $t('auth.social') }}
     </div>
