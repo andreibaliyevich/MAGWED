@@ -19,8 +19,8 @@
         "advertising_and_promotion": "Advertising and promotion"
     },
     "auth": {
-        "signin": "Sign in",
-        "signup": "Sign up",
+        "log_in": "Log in",
+        "register": "Register",
         "login": {
             "login": "Login",
             "have_account": "Don't have an account?",
@@ -80,7 +80,7 @@
             "success3": "You can sign in using the new password.",
             "error": "Password reset error!"
         },
-        "logout": "Logout",
+        "log_out": "Log out",
         "account_menu": "Account menu",
         "social": "Social",
         "account": "Account",

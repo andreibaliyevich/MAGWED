@@ -343,7 +343,7 @@ export default {
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
                 <i class="fa-solid fa-right-from-bracket"></i>
-                {{ $t('auth.logout') }}
+                {{ $t('auth.log_out') }}
               </div>
             </li>
           </ul>
@@ -358,14 +358,14 @@ export default {
           @click="hideOffcanvas"
           class="btn btn-outline-brand border-secondary rounded-pill px-3"
         >
-          {{ $t('auth.signin') }}
+          {{ $t('auth.log_in') }}
         </LocaleRouterLink>
         <LocaleRouterLink
           routeName="Registration"
           @click="hideOffcanvas"
           class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex"
         >
-          {{ $t('auth.signup') }}
+          {{ $t('auth.register') }}
         </LocaleRouterLink>
       </div>
     </div>

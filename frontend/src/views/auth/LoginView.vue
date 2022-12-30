@@ -66,7 +66,7 @@ export default {
           routeName="Registration"
           class="link-primary text-decoration-none"
         >
-          {{ $t('auth.signup') }}
+          {{ $t('auth.register') }}
         </LocaleRouterLink>
       </p>
 
@@ -115,7 +115,7 @@ export default {
         type="submit"
         class="btn btn-brand btn-lg w-100"
       >
-        {{ $t('auth.signin') }}
+        {{ $t('auth.log_in') }}
       </button>
 
       <hr class="my-4">

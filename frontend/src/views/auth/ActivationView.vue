@@ -46,7 +46,7 @@ export default {
           routeName="Login"
           class="link-primary text-decoration-none"
         >
-          {{ $t('auth.signin') }}
+          {{ $t('auth.log_in') }}
         </LocaleRouterLink>
       </div>
     </div>
@@ -78,7 +78,7 @@ export default {
           routeName="Registration"
           class="link-primary text-decoration-none"
         >
-          {{ $t('auth.signup') }}
+          {{ $t('auth.register') }}
         </LocaleRouterLink>
       </div>
     </div>

@@ -244,7 +244,7 @@ export default {
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-right-from-bracket"></i>
-              {{ $t('auth.logout') }}
+              {{ $t('auth.log_out') }}
             </div>
           </li>
         </ul>
