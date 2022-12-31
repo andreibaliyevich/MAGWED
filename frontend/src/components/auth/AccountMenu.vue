@@ -26,7 +26,7 @@ export default {
 
 <template>
   <div class="account-menu">
-    <div class="rounded shadow-sm mb-3">
+    <div class="rounded shadow-sm">
       <button
         ref="buttonAaccountMenu"
         class="btn btn-secondary w-100"

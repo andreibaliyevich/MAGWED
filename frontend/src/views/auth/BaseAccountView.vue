@@ -8,7 +8,7 @@ import AccountMenuLg from '@/components/auth/AccountMenuLg.vue'
   <div class="base-account-view">
     <div class="container">
       <div class="row">
-        <div class="col-lg-4 pt-5 pb-3 d-lg-none">
+        <div class="col-lg-4 py-5 d-lg-none">
           <AccountMenu />
         </div>
         <div class="col-lg-4 border-end py-5 d-none d-lg-block">
