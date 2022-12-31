@@ -204,14 +204,14 @@ export default {
         <div
           v-else
           v-for="msg in messages"
-          class="mt-1"
+          class="my-3"
         >
           <div
             v-if="msg.sender.id == userStore.id"
             class="d-flex justify-content-end"
           >
             <div class="my-0">
-              <div class="bg-primary rounded p-2 mb-2">
+              <div class="bg-primary rounded p-2">
                 <MessageContent
                   :messageType="messageType"
                   :msgType="msg.msg_type"
@@ -219,9 +219,9 @@ export default {
                   textClass="fs-6 text-white"
                 />
               </div>
-              <p class="d-flex justify-content-end small text-muted">
+              <small class="d-flex justify-content-end text-muted">
                 {{ getLocaleDateTimeString(msg.created_at) }}
-              </p>
+              </small>
             </div>
           </div>
           <div
@@ -239,7 +239,7 @@ export default {
                   :height="32"
                   :online="msg.sender.online"
                 />
-                <div class="bg-light rounded p-2 ms-2 mb-2">
+                <div class="bg-light rounded p-2 ms-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <MessageContent
                     :messageType="messageType"
@@ -250,7 +250,7 @@ export default {
               </div>
               <div
                 v-else
-                class="bg-light rounded p-2 mb-2"
+                class="bg-light rounded p-2"
               >
                 <MessageContent
                   :messageType="messageType"
@@ -258,9 +258,9 @@ export default {
                   :msgContent="msg.content"
                 />
               </div>
-              <p class="small text-muted">
+              <small class="text-muted">
                 {{ getLocaleDateTimeString(msg.created_at) }}
-              </p>
+              </small>
             </div>
           </div>
         </div>
