@@ -133,25 +133,25 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  let to_locale = to.params.locale
+  let paramsLocale = to.params.locale
 
-  if (!to_locale) {
+  if (!paramsLocale) {
     const arg_from_path = to.path.split('/')[1]
     if (SUPPORT_LOCALES.includes(arg_from_path)) {
-      to_locale = arg_from_path
+      paramsLocale = arg_from_path
     } else {
       return '/' + i18n.global.locale.value + to.path
     }
-  } else if (!SUPPORT_LOCALES.includes(to_locale)) {
+  } else if (!SUPPORT_LOCALES.includes(paramsLocale)) {
     return '/' + i18n.global.locale.value + to.path
   }
 
-  if (!i18n.global.availableLocales.includes(to_locale)) {
-    await loadLocaleMessages(i18n, to_locale)
+  if (!i18n.global.availableLocales.includes(paramsLocale)) {
+    await loadLocaleMessages(i18n, paramsLocale)
   }
 
-  if (!(to_locale === i18n.global.locale.value)) {
-    setI18nLanguage(i18n, to_locale)
+  if (paramsLocale !== i18n.global.locale.value) {
+    setI18nLanguage(i18n, paramsLocale)
   }
 })
 

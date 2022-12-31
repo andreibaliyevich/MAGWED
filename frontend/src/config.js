@@ -1,14 +1,8 @@
-const API_URL = 'http://localhost:8000'
-const WS_URL = 'ws://localhost:8000'
+export const API_URL = 'http://localhost:8000'
+export const WS_URL = 'ws://localhost:8000'
 
-const userType = {
+export const userType = {
   ADMIN: 1,
   CUSTOMER: 2,
   ORGANIZER: 3
-}
-
-export {
-  API_URL,
-  WS_URL,
-  userType
 }
