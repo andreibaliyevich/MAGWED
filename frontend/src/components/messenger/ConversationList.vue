@@ -217,6 +217,8 @@ export default {
 </template>
 
 <style scoped>
+strong,
+small,
 .mb-0.opacity-75 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
