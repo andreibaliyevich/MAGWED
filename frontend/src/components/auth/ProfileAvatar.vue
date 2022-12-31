@@ -128,7 +128,7 @@ export default {
               </FileInputButton>
               <button
                 v-if="userStore.avatar"
-                @click="removeAvatar"
+                @click="removeAvatar()"
                 type="button"
                 class="btn btn-outline-dark m-1"
               >

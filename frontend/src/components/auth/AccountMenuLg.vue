@@ -192,7 +192,7 @@ const userStore = useUserStore()
       </li>
       <li class="nav-item">
         <div
-          @click="logout"
+          @click="logout()"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-right-from-bracket"></i>

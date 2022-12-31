@@ -66,7 +66,7 @@ export default {
     </div>
 
     <form
-      @submit.prevent="changePassword"
+      @submit.prevent="changePassword()"
       class="px-md-5"
     >
       <div class="mb-3">

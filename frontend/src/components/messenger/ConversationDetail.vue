@@ -216,7 +216,7 @@ export default {
                   :messageType="messageType"
                   :msgType="msg.msg_type"
                   :msgContent="msg.content"
-                  textClass="text-sm text-white"
+                  textClass="fs-6 text-white"
                 />
               </div>
               <p class="d-flex justify-content-end small text-muted">
@@ -245,7 +245,6 @@ export default {
                     :messageType="messageType"
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
-                    textClass="text-sm"
                   />
                 </div>
               </div>
@@ -257,7 +256,6 @@ export default {
                   :messageType="messageType"
                   :msgType="msg.msg_type"
                   :msgContent="msg.content"
-                  textClass="text-sm text-dark"
                 />
               </div>
               <p class="small text-muted">
@@ -293,7 +291,7 @@ export default {
           ></textarea>
           <button
             v-if="message"
-            @click="sendMessage"
+            @click="sendMessage()"
             type="button"
             class="btn btn-primary"
           >

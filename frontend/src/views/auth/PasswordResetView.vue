@@ -61,7 +61,7 @@ export default {
 
     <form
       v-else
-      @submit.prevent="resetPassword"
+      @submit.prevent="resetPassword()"
       :class="{ 'mt-4': !actionProcessing }"
     >
       <p class="fs-6">{{ $t('auth.passwordreset.help') }}</p>

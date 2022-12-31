@@ -84,7 +84,7 @@ export default {
 
     <form
       v-else
-      @submit.prevent="registration"
+      @submit.prevent="registration()"
       :class="{ 'mt-4': !actionProcessing }"
     >
       <p class="fs-6 text-muted">

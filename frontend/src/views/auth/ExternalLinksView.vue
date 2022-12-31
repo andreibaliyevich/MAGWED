@@ -261,7 +261,7 @@ export default {
                     {{ $t('auth.externallinks.changing_the_link') }}
                   </h5>
                   <button
-                    @click="resetOrganizerLink"
+                    @click="resetOrganizerLink()"
                     type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -315,7 +315,7 @@ export default {
                 <div class="modal-footer">
                   <button
                     ref="btnClose"
-                    @click="resetOrganizerLink"
+                    @click="resetOrganizerLink()"
                     type="button"
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
@@ -324,7 +324,7 @@ export default {
                   </button>
                   <button
                     v-if="organizerLink.id"
-                    @click="updateOrganizerLink"
+                    @click="updateOrganizerLink()"
                     type="button"
                     class="btn btn-primary"
                   >
@@ -332,7 +332,7 @@ export default {
                   </button>
                   <button
                     v-else
-                    @click="addOrganizerLink"
+                    @click="addOrganizerLink()"
                     type="button"
                     class="btn btn-primary"
                   >

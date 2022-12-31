@@ -8,19 +8,6 @@ import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
 </script>
 
-<script>
-export default {
-  methods: {
-    hideOffcanvas() {
-      this.$refs.offcanvasClose.click()
-    },
-    hideDropdownUser() {
-      this.$refs.dropdownUser.click()
-    }
-  }
-}
-</script>
-
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container py-lg-2">
@@ -78,7 +65,7 @@ export default {
               <LocaleRouterLink
                 v-if="this.$route.name == 'Home'"
                 routeName="Home"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link active"
                 aria-current="page"
               >
@@ -87,7 +74,7 @@ export default {
               <LocaleRouterLink
                 v-else
                 routeName="Home"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link text-dark"
               >
                 {{ $t('nav.best') }}
@@ -97,7 +84,7 @@ export default {
               <LocaleRouterLink
                 v-if="this.$route.name == 'Home'"
                 routeName="Home"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link active"
                 aria-current="page"
               >
@@ -106,7 +93,7 @@ export default {
               <LocaleRouterLink
                 v-else
                 routeName="Home"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link text-dark"
               >
                 {{ $t('nav.places') }}
@@ -116,7 +103,7 @@ export default {
               <LocaleRouterLink
                 v-if="this.$route.name == 'Home'"
                 routeName="Home"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link active"
                 aria-current="page"
               >
@@ -125,7 +112,7 @@ export default {
               <LocaleRouterLink
                 v-else
                 routeName="Home"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link text-dark"
               >
                 {{ $t('nav.awards') }}
@@ -135,7 +122,7 @@ export default {
               <LocaleRouterLink
                 v-if="this.$route.name == 'Blog'"
                 routeName="Blog"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link active"
                 aria-current="page"
               >
@@ -144,7 +131,7 @@ export default {
               <LocaleRouterLink
                 v-else
                 routeName="Blog"
-                @click="hideOffcanvas"
+                @click="$refs.offcanvasClose.click()"
                 class="nav-link text-dark"
               >
                 {{ $t('nav.blog') }}
@@ -289,7 +276,7 @@ export default {
               </div>
               <LocaleRouterLink
                 routeName="Profile"
-                @click="hideDropdownUser"
+                @click="$refs.dropdownUser.click()"
                 class="w-100 btn btn-light-brand btn-sm text-center"
               >
                 {{ $t('auth.profile.edit_profile') }}
@@ -299,7 +286,7 @@ export default {
               <LocaleRouterLink
                 v-if="userStore.userType == userType.ORGANIZER"
                 routeName="Home"
-                @click="hideDropdownUser"
+                @click="$refs.dropdownUser.click()"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
                 <i class="fa-solid fa-users"></i>
@@ -307,7 +294,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 routeName="Home"
-                @click="hideDropdownUser"
+                @click="$refs.dropdownUser.click()"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
                 <i class="fa-solid fa-user-group"></i>
@@ -315,7 +302,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 routeName="Home"
-                @click="hideDropdownUser"
+                @click="$refs.dropdownUser.click()"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
                 <i class="fa-solid fa-star"></i>
@@ -323,7 +310,7 @@ export default {
               </LocaleRouterLink>
               <LocaleRouterLink
                 routeName="Home"
-                @click="hideDropdownUser"
+                @click="$refs.dropdownUser.click()"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
                 <i class="fa-solid fa-comment-dots"></i>
@@ -333,7 +320,7 @@ export default {
             <li><hr class="dropdown-divider"></li>
             <li>
               <div
-                @click="logout"
+                @click="logout()"
                 class="dropdown-item d-flex gap-2 align-items-center"
               >
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -349,14 +336,14 @@ export default {
       >
         <LocaleRouterLink
           routeName="Login"
-          @click="hideOffcanvas"
+          @click="$refs.offcanvasClose.click()"
           class="btn btn-outline-brand border-secondary rounded-pill px-3"
         >
           {{ $t('auth.log_in') }}
         </LocaleRouterLink>
         <LocaleRouterLink
           routeName="Registration"
-          @click="hideOffcanvas"
+          @click="$refs.offcanvasClose.click()"
           class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex"
         >
           {{ $t('auth.register') }}

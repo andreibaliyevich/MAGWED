@@ -102,7 +102,7 @@ export default {
 
     <form
       v-else
-      @submit.prevent="confirmPasswordReset"
+      @submit.prevent="confirmPasswordReset()"
     >
       <div class="mb-3">
         <BaseInput

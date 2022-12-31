@@ -19,7 +19,7 @@ export default {
     },
     textClass: {
       type: String,
-      default: 'text-sm'
+      default: 'fs-6 text-dark'
     }
   },
   methods: {
@@ -38,10 +38,11 @@ export default {
 
 <template>
   <div class="message-content">
-    <div v-if="msgType == messageType.TEXT">
-      <p :class="textClass">
-        {{ msgContent }}
-      </p>
+    <div
+      v-if="msgType == messageType.TEXT"
+      :class="'text-pre-line ' + textClass"
+    >
+      {{ msgContent }}
     </div>
     <div v-else-if="msgType == messageType.IMAGES">
       <img
@@ -88,3 +89,9 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.text-pre-line {
+  white-space: pre-line;
+}
+</style>

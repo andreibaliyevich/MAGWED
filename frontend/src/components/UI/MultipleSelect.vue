@@ -109,7 +109,7 @@ export default {
         ]"
       >
         <div
-          @click="clickInput"
+          @click="clickInput()"
           class="flex-grow-1"
         >
           <span
@@ -136,7 +136,7 @@ export default {
           >
         </div>
         <div
-          @click="clickArrow"
+          @click="clickArrow()"
           class="d-flex align-items-center"
         >
           <i

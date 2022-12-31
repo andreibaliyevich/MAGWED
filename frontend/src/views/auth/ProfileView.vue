@@ -303,7 +303,7 @@ export default {
         <ProfileAvatar />
 
         <form
-          @submit.prevent="updateProfile"
+          @submit.prevent="updateProfile()"
           class="row g-3 mt-3"
         >
           <div class="col-md-12">

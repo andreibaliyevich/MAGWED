@@ -59,7 +59,7 @@ export default {
       </div>
     </div>
 
-    <form @submit.prevent="login">
+    <form @submit.prevent="login()">
       <p class="fs-6 text-muted">
         {{ $t('auth.login.have_account') }}
         <LocaleRouterLink

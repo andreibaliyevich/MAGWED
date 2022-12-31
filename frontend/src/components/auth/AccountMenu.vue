@@ -8,16 +8,6 @@ import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
 </script>
 
-<script>
-export default {
-  methods: {
-    hideAaccountMenu() {
-      this.$refs.buttonAaccountMenu.click()
-    }
-  }
-}
-</script>
-
 <template>
   <div class="account-menu">
     <div class="rounded shadow-sm">
@@ -42,7 +32,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Notifications'"
               routeName="Notifications"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -52,7 +42,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Notifications"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-bell"></i>
@@ -63,7 +53,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -73,7 +63,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-users"></i>
@@ -84,7 +74,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -94,7 +84,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-user-group"></i>
@@ -105,7 +95,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -115,7 +105,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-star"></i>
@@ -131,7 +121,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Profile'"
               routeName="Profile"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -141,7 +131,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Profile"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-user"></i>
@@ -152,7 +142,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'ExternalLinks'"
               routeName="ExternalLinks"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -162,7 +152,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="ExternalLinks"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-link"></i>
@@ -173,7 +163,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -183,7 +173,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-briefcase"></i>
@@ -194,7 +184,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'PasswordChange'"
               routeName="PasswordChange"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -204,7 +194,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="PasswordChange"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-key"></i>
@@ -215,7 +205,7 @@ export default {
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
@@ -225,7 +215,7 @@ export default {
             <LocaleRouterLink
               v-else
               routeName="Home"
-              @click="hideAaccountMenu"
+              @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-user-xmark"></i>
@@ -234,7 +224,7 @@ export default {
           </li>
           <li class="nav-item">
             <div
-              @click="logout"
+              @click="logout()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-right-from-bracket"></i>

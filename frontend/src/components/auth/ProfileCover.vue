@@ -117,7 +117,7 @@ export default {
             </FileInputButton>
             <button
               v-if="cover"
-              @click="removeCover"
+              @click="removeCover()"
               type="button"
               class="btn btn-outline-dark m-1"
             >
