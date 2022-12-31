@@ -1,7 +1,8 @@
 <script setup>
-import axios from 'axios'
-
 import { userType } from '@/config.js'
+
+import { useLogout } from '@/composables/logout.js'
+const logout = useLogout()
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -12,13 +13,6 @@ export default {
   methods: {
     hideAaccountMenu() {
       this.$refs.buttonAaccountMenu.click()
-    },
-    logout() {
-      axios.post('/accounts/auth/logout/')
-      .then(() => {
-        window.localStorage.removeItem('user')
-        window.location.reload()
-      })
     }
   }
 }

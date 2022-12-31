@@ -1,7 +1,8 @@
 <script setup>
-import axios from 'axios'
-
 import { API_URL, userType } from '@/config.js'
+
+import { useLogout } from '@/composables/logout.js'
+const logout = useLogout()
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
@@ -15,13 +16,6 @@ export default {
     },
     hideDropdownUser() {
       this.$refs.dropdownUser.click()
-    },
-    logout() {
-      axios.post('/accounts/auth/logout/')
-      .then(() => {
-        window.localStorage.removeItem('user')
-        window.location.reload()
-      })
     }
   }
 }
