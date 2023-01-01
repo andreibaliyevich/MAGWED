@@ -12,5 +12,5 @@ export function useLocaleDateTime() {
     })
   }
 
-  return getLocaleDateTimeString
+  return { getLocaleDateTimeString }
 }

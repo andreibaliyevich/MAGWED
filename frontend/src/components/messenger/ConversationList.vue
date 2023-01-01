@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-const getLocaleDateTimeString = useLocaleDateTime()
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 const connectionBusStore = useConnectionBusStore()

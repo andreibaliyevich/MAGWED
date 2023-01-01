@@ -2,7 +2,7 @@
 import { userType } from '@/config.js'
 
 import { useLogout } from '@/composables/logout.js'
-const logout = useLogout()
+const { logout } = useLogout()
 
 import { useUserStore } from '@/stores/user.js'
 const userStore = useUserStore()
