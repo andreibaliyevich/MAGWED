@@ -5,7 +5,7 @@ import { useLogout } from '@/composables/logout.js'
 const { logout } = useLogout()
 
 import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
+const user = useUserStore()
 </script>
 
 <template>
@@ -174,7 +174,7 @@ const userStore = useUserStore()
         </div>
       </div>
       <div
-        v-if="userStore.isLoggedIn"
+        v-if="user.isLoggedIn"
         class="d-flex align-items-center"
       >
         <div class="ms-lg-3">
@@ -227,8 +227,8 @@ const userStore = useUserStore()
             aria-expanded="false"
           >
             <img
-              v-if="userStore.avatar"
-              :src="`${ API_URL }${ userStore.avatar }`"
+              v-if="user.avatar"
+              :src="`${ API_URL }${ user.avatar }`"
               class="rounded-circle"
               width="32"
               height="32"
@@ -250,8 +250,8 @@ const userStore = useUserStore()
             <li class="px-3 pt-2 pb-3">
               <div class="d-flex gap-2 align-items-center mb-1">
                 <img
-                  v-if="userStore.avatar"
-                  :src="`${ API_URL }${ userStore.avatar }`"
+                  v-if="user.avatar"
+                  :src="`${ API_URL }${ user.avatar }`"
                   class="rounded-circle"
                   width="48"
                   height="48"
@@ -267,10 +267,10 @@ const userStore = useUserStore()
                 >
                 <div class="ms-1">
                   <span class="d-flex flex-nowrap fw-bolder">
-                    {{ userStore.name }}
+                    {{ user.name }}
                   </span>
                   <small class="text-muted">
-                    {{ userStore.email }}
+                    {{ user.email }}
                   </small>
                 </div>
               </div>
@@ -284,7 +284,7 @@ const userStore = useUserStore()
             </li>
             <li>
               <LocaleRouterLink
-                v-if="userStore.userType == userType.ORGANIZER"
+                v-if="user.userType == userType.ORGANIZER"
                 routeName="Home"
                 @click="$refs.dropdownUser.click()"
                 class="dropdown-item d-flex gap-2 align-items-center"

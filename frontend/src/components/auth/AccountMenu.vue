@@ -5,7 +5,7 @@ import { useLogout } from '@/composables/logout.js'
 const { logout } = useLogout()
 
 import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
+const user = useUserStore()
 </script>
 
 <template>
@@ -49,7 +49,7 @@ const userStore = useUserStore()
               {{ $t('auth.notifications') }}
             </LocaleRouterLink>
           </li>
-          <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
+          <li v-if="user.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"
@@ -138,7 +138,7 @@ const userStore = useUserStore()
               {{ $t('auth.profile.profile') }}
             </LocaleRouterLink>
           </li>
-          <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
+          <li v-if="user.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'ExternalLinks'"
               routeName="ExternalLinks"
@@ -159,7 +159,7 @@ const userStore = useUserStore()
               {{ $t('auth.externallinks.external_links') }}
             </LocaleRouterLink>
           </li>
-          <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
+          <li v-if="user.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               v-if="this.$route.name == 'Home'"
               routeName="Home"

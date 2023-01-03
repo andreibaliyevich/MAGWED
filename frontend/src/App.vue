@@ -5,13 +5,13 @@ import { RouterView } from 'vue-router'
 import { WS_URL } from '@/config.js'
 
 import { useMainStore } from '@/stores/main.js'
-const mainStore = useMainStore()
+const main = useMainStore()
 
 import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
+const user = useUserStore()
 
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const connectionBusStore = useConnectionBusStore()
+const connectionBus = useConnectionBusStore()
 
 import Header from '@/components/main/Header.vue'
 import NavBar from '@/components/main/NavBar.vue'
@@ -46,18 +46,18 @@ export default {
 
     const currency = window.localStorage.getItem('currency')
     if (currency) {
-      this.mainStore.setCurrency(currency)
+      this.main.setCurrency(currency)
     }
 
     const userString = window.localStorage.getItem('user')
     if (userString) {
       const userData = JSON.parse(userString)
       axios.defaults.headers.common['Authorization'] = `Token ${userData.token}`
-      this.userStore.setUserData(userData)
+      this.user.setUserData(userData)
     }
   },
   mounted() {
-    if (this.userStore.isLoggedIn) {
+    if (this.user.isLoggedIn) {
       axios.get('/accounts/auth/wstoken/')
       .then((response) => {
         this.connectionSocket = new WebSocket(
@@ -68,7 +68,7 @@ export default {
           + response.data.wstoken
         )
         this.connectionSocket.onmessage = (event) => {
-          this.connectionBusStore.setUserStatus(JSON.parse(event.data))
+          this.connectionBus.setUserStatus(JSON.parse(event.data))
         }
       })
     } else {
@@ -79,7 +79,7 @@ export default {
         + '/'
       )
       this.connectionSocket.onmessage = (event) => {
-        this.connectionBusStore.setUserStatus(JSON.parse(event.data))
+        this.connectionBus.setUserStatus(JSON.parse(event.data))
       }
     }
   }

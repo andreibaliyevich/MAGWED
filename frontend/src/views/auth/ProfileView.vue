@@ -4,7 +4,7 @@ import axios from 'axios'
 import { userType } from '@/config.js'
 
 import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
+const user = useUserStore()
 
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
 import ProfileCover from '@/components/auth/ProfileCover.vue'
@@ -60,18 +60,18 @@ export default {
     async getProfileData() {
       try {
         const response = await axios.get('/accounts/auth/profile/')
-        if (this.userStore.userType == userType.ADMIN) {
+        if (this.user.userType == userType.ADMIN) {
           this.profile.name = response.data.name
           this.profile.country = response.data.country
           this.profile.city = response.data.city
           this.profile.phone = response.data.phone
-        } else if (this.userStore.userType == userType.CUSTOMER) {
+        } else if (this.user.userType == userType.CUSTOMER) {
           this.profile.name = response.data.user.name
           this.profile.country = response.data.user.country
           this.profile.city = response.data.user.city
           this.profile.phone = response.data.user.phone
           this.profile.dateOfWedding = response.data.date_of_wedding
-        } else if (this.userStore.userType == userType.ORGANIZER) {
+        } else if (this.user.userType == userType.ORGANIZER) {
           this.profile.name = response.data.user.name
           this.profile.country = response.data.user.country
           this.profile.city = response.data.user.city
@@ -138,14 +138,14 @@ export default {
       }
 
       let data = {}
-      if (this.userStore.userType == userType.ADMIN) {
+      if (this.user.userType == userType.ADMIN) {
         data = {
           'name': this.profile.name,
           'country': this.profile.country,
           'city': this.profile.city,
           'phone': this.profile.phone
         }
-      } else if (this.userStore.userType == userType.CUSTOMER) {
+      } else if (this.user.userType == userType.CUSTOMER) {
         data = {
           'user': {
             'name': this.profile.name,
@@ -155,7 +155,7 @@ export default {
           },
           'date_of_wedding': this.profile.dateOfWedding
         }
-      } else if (this.userStore.userType == userType.ORGANIZER) {
+      } else if (this.user.userType == userType.ORGANIZER) {
         data = {
           'user': {
             'name': this.profile.name,
@@ -176,14 +176,14 @@ export default {
 
       axios.put('/accounts/auth/profile/', data)
       .then((response) => {
-        this.userStore.updateName(this.name)
+        this.user.updateName(this.name)
         window.localStorage.setItem('user', JSON.stringify({
-          'token': this.userStore.token,
-          'username': this.userStore.username,
-          'email': this.userStore.email,
-          'user_type': this.userStore.userType,
+          'token': this.user.token,
+          'username': this.user.username,
+          'email': this.user.email,
+          'user_type': this.user.userType,
           'name': this.profile.name,
-          'avatar': this.userStore.avatar
+          'avatar': this.user.avatar
         }))
         this.status = 'updated_profile'
         this.errors = null
@@ -299,7 +299,7 @@ export default {
           </div>
         </div>
 
-        <ProfileCover v-if="userStore.userType == userType.ORGANIZER" />
+        <ProfileCover v-if="user.userType == userType.ORGANIZER" />
         <ProfileAvatar />
 
         <form
@@ -385,7 +385,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.CUSTOMER"
+            v-if="user.userType == userType.CUSTOMER"
             class="col-md-12"
           >
             <BaseInput
@@ -407,7 +407,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-12"
           >
             <MultipleSelect
@@ -429,7 +429,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-12"
           >
             <BaseTextarea
@@ -449,7 +449,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-12"
           >
             <MultipleSelect
@@ -471,7 +471,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-12"
           >
             <MultipleSelect
@@ -493,7 +493,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-12"
           >
             <MultipleSelect
@@ -515,7 +515,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-6"
           >
             <BaseInput
@@ -544,7 +544,7 @@ export default {
             <div class="form-text">{{ $t('form_help.cost_work') }}</div>
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-6"
           >
             <BaseInput
@@ -570,7 +570,7 @@ export default {
             />
           </div>
           <div
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="user.userType == userType.ORGANIZER"
             class="col-md-12"
           >
             <BaseInput

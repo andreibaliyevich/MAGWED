@@ -5,7 +5,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const connectionBusStore = useConnectionBusStore()
+const connectionBus = useConnectionBusStore()
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     this.getConversations()
-    this.connectionBusStore.$subscribe(this.updateUserStatus)
+    this.connectionBus.$subscribe(this.updateUserStatus)
   }
 }
 </script>

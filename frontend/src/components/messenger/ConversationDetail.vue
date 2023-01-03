@@ -8,10 +8,10 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
 import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
+const user = useUserStore()
 
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const connectionBusStore = useConnectionBusStore()
+const connectionBus = useConnectionBusStore()
 
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
@@ -153,7 +153,7 @@ export default {
   },
   mounted() {
     this.openConversation()
-    this.connectionBusStore.$subscribe(this.updateUserStatus)
+    this.connectionBus.$subscribe(this.updateUserStatus)
   },
   unmounted() {
     this.closeConversation()
@@ -207,7 +207,7 @@ export default {
           class="my-3"
         >
           <div
-            v-if="msg.sender.id == userStore.id"
+            v-if="msg.sender.id == user.id"
             class="d-flex justify-content-end"
           >
             <div class="my-0">

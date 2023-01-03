@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 import { useMainStore } from '@/stores/main.js'
-const mainStore = useMainStore()
+const main = useMainStore()
 </script>
 
 <script>
@@ -23,7 +23,7 @@ export default {
     },
     changeCurrency(event) {
       window.localStorage.setItem('currency', event.target.value)
-      this.mainStore.setCurrency(event.target.value)
+      this.main.setCurrency(event.target.value)
     },
     changeLocale(event) {
       this.$router.push({ params: { locale: event.target.value } })
@@ -143,7 +143,7 @@ export default {
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <select
-                :value="mainStore.currency"
+                :value="main.currency"
                 @change="changeCurrency"
                 class="form-select bg-dark text-white border-secondary"
               >

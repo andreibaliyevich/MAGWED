@@ -4,7 +4,7 @@ import axios from 'axios'
 import { API_URL } from '@/config.js'
 
 import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
+const user = useUserStore()
 </script>
 
 <script>
@@ -24,13 +24,13 @@ export default {
 
       axios.put('/accounts/auth/avatar/', avatarData)
       .then((response) => {
-        this.userStore.updateAvatar(response.data.avatar)
+        this.user.updateAvatar(response.data.avatar)
         window.localStorage.setItem('user', JSON.stringify({
-          'token': this.userStore.token,
-          'username': this.userStore.username,
-          'email': this.userStore.email,
-          'user_type': this.userStore.userType,
-          'name': this.userStore.name,
+          'token': this.user.token,
+          'username': this.user.username,
+          'email': this.user.email,
+          'user_type': this.user.userType,
+          'name': this.user.name,
           'avatar': response.data.avatar
         }))
         this.status = 'updated_avatar'
@@ -49,13 +49,13 @@ export default {
       if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
         axios.delete('/accounts/auth/avatar/')
         .then((response) => {
-          this.userStore.updateAvatar(null)
+          this.user.updateAvatar(null)
           window.localStorage.setItem('user', JSON.stringify({
-            'token': this.userStore.token,
-            'username': this.userStore.username,
-            'email': this.userStore.email,
-            'user_type': this.userStore.userType,
-            'name': this.userStore.name,
+            'token': this.user.token,
+            'username': this.user.username,
+            'email': this.user.email,
+            'user_type': this.user.userType,
+            'name': this.user.name,
             'avatar': null
           }))
           this.status = 'removed_avatar'
@@ -84,8 +84,8 @@ export default {
       >
         <div class="col-md-3">
           <img
-            v-if="userStore.avatar"
-            :src="`${ API_URL }${ userStore.avatar }`"
+            v-if="user.avatar"
+            :src="`${ API_URL }${ user.avatar }`"
             class="img-fluid rounded-start"
           >
           <img
@@ -127,7 +127,7 @@ export default {
                 {{ $t('auth.profile.upload_avatar') }}
               </FileInputButton>
               <button
-                v-if="userStore.avatar"
+                v-if="user.avatar"
                 @click="removeAvatar()"
                 type="button"
                 class="btn btn-outline-dark m-1"
