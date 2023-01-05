@@ -9,21 +9,22 @@ export default {
   data() {
     return {
       cover: null,
-      coverLoading: false,
+      coverLoading: true,
       status: null,
       errors: null
     }
   },
   methods: {
-    getCover() {
-      axios.get('/accounts/auth/cover/')
-      .then((response) => {
+    async getCover() {
+      try {
+        const response = await axios.get('/accounts/auth/cover/')
         this.cover = response.data.cover
-      })
-      .catch((error) => {
+      } catch (error) {
         this.status = null
         this.errors = error.response.data
-      })
+      } finally {
+        this.coverLoading = false
+      }
     },
     updateCover(filelist) {
       this.coverLoading = true
