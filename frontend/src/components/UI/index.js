@@ -5,6 +5,7 @@ import FileInputButton from './FileInputButton.vue'
 import LoadingIndicator from './LoadingIndicator.vue'
 import LocaleRouterLink from './LocaleRouterLink.vue'
 import MultipleSelect from './MultipleSelect.vue'
+import SubmitButton from './SubmitButton.vue'
 
 export default [
   BaseInput,
@@ -13,5 +14,6 @@ export default [
   FileInputButton,
   LoadingIndicator,
   LocaleRouterLink,
-  MultipleSelect
+  MultipleSelect,
+  SubmitButton
 ]
