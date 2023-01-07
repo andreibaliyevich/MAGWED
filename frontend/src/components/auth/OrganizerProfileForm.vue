@@ -118,10 +118,10 @@ watch(citiesOptions, (newValue, oldValue) => {
 
 watch(citiesExtraOptions, (newValue, oldValue) => {
   if (newValue.length < oldValue.length) {
-    let newCities = []
-    newValue.forEach(element => newCities.push(element.value))
+    let newCitiesValues = []
+    newValue.forEach(element => newCitiesValues.push(element.value))
     cities.value = cities.value.filter((element) => {
-      return newCities.includes(element)
+      return newCitiesValues.includes(element)
     })
   }
 })

@@ -26,6 +26,7 @@ export function useOptionsOfCountriesAndCities(country) {
           country: countryValue
         }
       })
+      citiesOptions.value = []
       response.data.forEach((element) => {
         citiesOptions.value.push({
           'value': element.id,
@@ -38,9 +39,10 @@ export function useOptionsOfCountriesAndCities(country) {
   }
 
   watch(country, (newValue) => {
-    citiesOptions.value = []
     if (newValue) {
       getAndSetCities(newValue)
+    } else {
+      citiesOptions.value = []
     }
   })
 
