@@ -93,7 +93,6 @@
             "profile": "Профіль",
             "profile_settings": "Налаштування профілю",
             "edit_profile": "Редагувати профіль",
-            "profile_updated_successfully": "Профіль успішно оновлено!",
             "avatar_updated_successfully": "Аватар успішно оновлено!",
             "avatar_removed_successfully": "Аватар успішно вилучено!",
             "cover_updated_successfully": "Обкладинка успішно оновлена!",
@@ -164,6 +163,7 @@
         "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",
         "cost_work": "Будь ласка, введіть у доларах США ($)"
     },
+    "loading": "Завантаження...",
     "blog": {
         "blog": "Блог"
     },
