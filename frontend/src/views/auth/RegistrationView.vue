@@ -69,7 +69,7 @@ export default {
       {{ $t('auth.registration.registration') }}
     </h1>
 
-    <ActionProcessingIndicator v-if="actionProcessing" />
+    <LoadingIndicator v-if="actionProcessing" />
 
     <div
       v-if="status == '201'"

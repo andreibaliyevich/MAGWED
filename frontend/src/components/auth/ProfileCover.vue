@@ -70,7 +70,7 @@ export default {
 <template>
   <div class="profile-cover">
     <div class="card mb-2">
-      <ActionProcessingIndicator
+      <LoadingIndicator
         v-if="coverLoading"
         :actionInfo="$t('auth.profile.uploading_cover')"
       />

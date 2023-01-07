@@ -200,7 +200,7 @@ export default {
         ref="cardBody"
         class="card-body overflow-auto"
       >
-        <ActionProcessingIndicator v-if="messagesLoading" />
+        <LoadingIndicator v-if="messagesLoading" />
         <div
           v-else
           v-for="msg in messages"

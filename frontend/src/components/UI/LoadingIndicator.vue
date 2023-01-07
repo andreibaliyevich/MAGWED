@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'ActionProcessingIndicator',
+  name: 'LoadingIndicator',
   props: {
     actionInfo : {
       type: String,
@@ -22,7 +22,7 @@ export default {
     </div>
     <div v-else class="d-flex justify-content-center p-5">
       <div
-        class="spinner-border text-dark"
+        class="spinner-grow text-dark"
         role="status"
       >
         <span class="visually-hidden">

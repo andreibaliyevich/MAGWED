@@ -124,7 +124,7 @@ export default {
         {{ $t('auth.externallinks.external_links') }}
       </h1>
 
-      <PageLoadingIndicator v-if="pageLoading" />
+      <LoadingIndicator v-if="pageLoading" />
       <div v-else>
         <ul class="list-group list-group-flush">
           <li

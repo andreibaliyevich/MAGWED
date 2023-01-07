@@ -176,7 +176,7 @@ export default {
 
       axios.put('/accounts/auth/profile/', data)
       .then((response) => {
-        this.user.updateName(this.name)
+        this.user.updateName(this.profile.name)
         window.localStorage.setItem('user', JSON.stringify({
           'token': this.user.token,
           'username': this.user.username,
@@ -275,7 +275,7 @@ export default {
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
 
-      <PageLoadingIndicator v-if="pageLoading < 3" />
+      <LoadingIndicator v-if="pageLoading < 3" />
       <div v-else>
         <div v-if="status">
           <div

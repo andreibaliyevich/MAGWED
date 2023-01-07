@@ -44,7 +44,7 @@ export default {
       {{ $t('auth.passwordreset.password_reset') }}
     </h1>
 
-    <ActionProcessingIndicator v-if="actionProcessing" />
+    <LoadingIndicator v-if="actionProcessing" />
 
     <div
       v-if="status == '204'"

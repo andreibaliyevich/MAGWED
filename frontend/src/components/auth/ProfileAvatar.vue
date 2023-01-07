@@ -74,7 +74,7 @@ export default {
 <template>
   <div class="profile-avatar">
     <div class="card mb-2">
-      <ActionProcessingIndicator
+      <LoadingIndicator
         v-if="avatarLoading"
         :actionInfo="$t('auth.profile.uploading_avatar')"
       />
