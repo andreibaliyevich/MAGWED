@@ -24,6 +24,7 @@ const updateAvatar = async (filelist) => {
     user.updateAvatar(response.data.avatar)
     window.localStorage.setItem('user', JSON.stringify({
       'token': user.token,
+      'id': user.id,
       'username': user.username,
       'email': user.email,
       'user_type': user.userType,
