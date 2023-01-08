@@ -7,6 +7,7 @@ import { useMainStore } from '@/stores/main.js'
 const router = useRouter()
 const main = useMainStore()
 
+const magazineLoading = ref(true)
 const magazineData = ref({})
 
 const getMagazine = async () => {
@@ -15,6 +16,8 @@ const getMagazine = async () => {
     magazineData.value = response.data
   } catch (error) {
     console.error(error)
+  } finally {
+    magazineLoading.value = false
   }
 }
 
@@ -37,7 +40,9 @@ onMounted(() => {
     <div class="container pt-5">
       <div class="row">
         <div class="col-md-3">
+          <LoadingIndicator v-if="magazineLoading" />
           <a
+            v-else
             :href="magazineData.file"
             :title="magazineData.title"
             target="_blank"
