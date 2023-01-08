@@ -1,21 +1,17 @@
 <script setup>
 import axios from 'axios'
 import { nextTick } from 'vue'
-
 import { API_URL, WS_URL } from '@/config.js'
-
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-const { getLocaleDateTimeString } = useLocaleDateTime()
-
 import { useUserStore } from '@/stores/user.js'
-const user = useUserStore()
-
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const connectionBus = useConnectionBusStore()
-
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
+const user = useUserStore()
+const connectionBus = useConnectionBusStore()
 </script>
 
 <script>

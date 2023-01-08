@@ -1,15 +1,14 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
-
+import { ref, watch, onMounted } from 'vue'
 import { useOptionsOfRoleType } from '@/composables/optionsOfRoleType.js'
 import {
   useOptionsOfCountriesAndCities
 } from '@/composables/optionsOfCountriesAndCities.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
-
 import { useUserStore } from '@/stores/user.js'
+
 const user = useUserStore()
 
 const profileLoading = ref(true)

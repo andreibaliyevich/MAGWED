@@ -1,9 +1,8 @@
 <script setup>
 import axios from 'axios'
-
 import { API_URL } from '@/config.js'
-
 import { useUserStore } from '@/stores/user.js'
+
 const user = useUserStore()
 </script>
 

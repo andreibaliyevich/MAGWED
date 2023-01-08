@@ -1,14 +1,12 @@
 <script setup>
 import axios from 'axios'
-
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-const { getLocaleDateTimeString } = useLocaleDateTime()
-
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const connectionBus = useConnectionBusStore()
-
 import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
+const connectionBus = useConnectionBusStore()
 </script>
 
 <script>
