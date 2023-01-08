@@ -1,69 +1,69 @@
 <script setup>
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { API_URL } from '@/config.js'
-</script>
 
-<script>
-export default {
-  data() {
-    return {
-      cover: null,
-      coverLoading: true,
-      status: null,
-      errors: null
-    }
-  },
-  methods: {
-    async getCover() {
-      try {
-        const response = await axios.get('/accounts/auth/cover/')
-        this.cover = response.data.cover
-      } catch (error) {
-        this.status = null
-        this.errors = error.response.data
-      } finally {
-        this.coverLoading = false
-      }
-    },
-    updateCover(filelist) {
-      this.coverLoading = true
-      const coverData = new FormData()
-      coverData.append('cover', filelist[0], filelist[0].name)
+const { t } = useI18n({ useScope: 'global' })
 
-      axios.put('/accounts/auth/cover/', coverData)
-      .then((response) => {
-        this.cover = response.data.cover
-        this.status = 'updated_cover'
-        this.errors = null
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-      .catch((error) => {
-        this.$refs.coverInput.value = ''
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => this.coverLoading = false)
-    },
-    removeCover() {
-      if (confirm(this.$t('auth.profile.you_want_remove_cover'))) {
-        axios.delete('/accounts/auth/cover/')
-        .then((response) => {
-          this.cover = null
-          this.status = 'removed_cover'
-          this.errors = null
-        })
-        .catch((error) => {
-          this.status = null
-          this.errors = error.response.data
-        })
-      }
-    }
-  },
-  mounted() {
-    this.getCover()
+const coverLoading = ref(true)
+const cover = ref(null)
+
+const status = ref(null)
+const errors = ref(null)
+
+const getCover = async () => {
+  try {
+    const response = await axios.get('/accounts/auth/cover/')
+    cover.value = response.data.cover
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    coverLoading.value = false
   }
 }
+
+const updateCover = async (filelist) => {
+  coverLoading.value = true
+
+  const coverData = new FormData()
+  coverData.append('cover', filelist[0], filelist[0].name)
+
+  try {
+    const response = await axios.put('/accounts/auth/cover/', coverData)
+    cover.value = response.data.cover
+    status.value = t('auth.profile.cover_updated_successfully')
+    errors.value = null
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    coverLoading.value = false
+  }
+}
+
+const removeCover = async () => {
+  coverLoading.value = true
+
+  if (confirm(t('auth.profile.you_want_remove_cover'))) {
+    try {
+      const response = await axios.delete('/accounts/auth/cover/')
+      cover.value = null
+      status.value = t('auth.profile.cover_removed_successfully')
+      errors.value = null
+    } catch (error) {
+      status.value = null
+      errors.value = error.response.data
+    } finally {
+      coverLoading.value = false
+    }
+  }
+}
+
+onMounted(() => {
+  getCover()
+})
 </script>
 
 <template>
@@ -85,41 +85,32 @@ export default {
           class="card-img-top"
         >
         <div class="card-body text-center">
-          <div v-if="status">
-            <small
-              v-if="status == 'updated_cover'"
-              class="text-success"
-            >
-              {{ $t('auth.profile.cover_updated_successfully') }}
-            </small>
-            <small
-              v-if="status == 'removed_cover'"
-              class="text-success"
-            >
-              {{ $t('auth.profile.cover_removed_successfully') }}
-            </small>
-          </div>
-          <div v-if="errors && errors.cover">
-            <small
-              v-for="error in errors.cover"
-              class="text-danger"
-            >
-              {{ error }}
-            </small>
-          </div>
+          <small
+            v-if="status"
+            class="text-success"
+          >
+            {{ status }}
+          </small>
+          <small
+            v-if="errors && errors.cover"
+            v-for="error in errors.cover"
+            class="text-danger"
+          >
+            {{ error }}
+          </small>
           <div class="d-flex justify-content-center">
             <FileInputButton
               @updateFile="updateCover"
-              accept="image/*"
               buttonClass="btn btn-light-brand m-1"
+              accept="image/*"
             >
               {{ $t('auth.profile.upload_cover') }}
             </FileInputButton>
             <button
               v-if="cover"
               @click="removeCover()"
-              type="button"
               class="btn btn-outline-dark m-1"
+              type="button"
             >
               {{ $t('auth.profile.remove_cover') }}
             </button>

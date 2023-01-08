@@ -1,70 +1,67 @@
 <script setup>
 import axios from 'axios'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { API_URL } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 
+const { t } = useI18n({ useScope: 'global' })
 const user = useUserStore()
-</script>
 
-<script>
-export default {
-  data() {
-    return {
-      avatarLoading: false,
-      status: null,
-      errors: null
-    }
-  },
-  methods: {
-    updateAvatar(filelist) {
-      this.avatarLoading = true
-      const avatarData = new FormData()
-      avatarData.append('avatar', filelist[0], filelist[0].name)
+const avatarLoading = ref(false)
 
-      axios.put('/accounts/auth/avatar/', avatarData)
-      .then((response) => {
-        this.user.updateAvatar(response.data.avatar)
-        window.localStorage.setItem('user', JSON.stringify({
-          'token': this.user.token,
-          'username': this.user.username,
-          'email': this.user.email,
-          'user_type': this.user.userType,
-          'name': this.user.name,
-          'avatar': response.data.avatar
-        }))
-        this.status = 'updated_avatar'
-        this.errors = null
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-      .catch((error) => {
-        this.$refs.avatarInput.value = ''
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => this.avatarLoading = false)
-    },
-    removeAvatar() {
-      if (confirm(this.$t('auth.profile.you_want_remove_avatar'))) {
-        axios.delete('/accounts/auth/avatar/')
-        .then((response) => {
-          this.user.updateAvatar(null)
-          window.localStorage.setItem('user', JSON.stringify({
-            'token': this.user.token,
-            'username': this.user.username,
-            'email': this.user.email,
-            'user_type': this.user.userType,
-            'name': this.user.name,
-            'avatar': null
-          }))
-          this.status = 'removed_avatar'
-          this.errors = null
-        })
-        .catch((error) => {
-          this.status = null
-          this.errors = error.response.data
-        })
-      }
+const status = ref(null)
+const errors = ref(null)
+
+const updateAvatar = async (filelist) => {
+  avatarLoading.value = true
+
+  const avatarData = new FormData()
+  avatarData.append('avatar', filelist[0], filelist[0].name)
+
+  try {
+    const response = await axios.put('/accounts/auth/avatar/', avatarData)
+    user.updateAvatar(response.data.avatar)
+    window.localStorage.setItem('user', JSON.stringify({
+      'token': user.token,
+      'username': user.username,
+      'email': user.email,
+      'user_type': user.userType,
+      'name': user.name,
+      'avatar': response.data.avatar
+    }))
+    status.value = t('auth.profile.avatar_updated_successfully')
+    errors.value = null
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    avatarLoading.value = false
+  }
+}
+
+const removeAvatar = async () => {
+  avatarLoading.value = true
+
+  if (confirm(t('auth.profile.you_want_remove_avatar'))) {
+    try {
+      const response = await axios.delete('/accounts/auth/avatar/')
+      user.updateAvatar(null)
+      window.localStorage.setItem('user', JSON.stringify({
+        'token': user.token,
+        'username': user.username,
+        'email': user.email,
+        'user_type': user.userType,
+        'name': user.name,
+        'avatar': null
+      }))
+      status.value = t('auth.profile.avatar_removed_successfully')
+      errors.value = null
+    } catch (error) {
+      status.value = null
+      errors.value = error.response.data
+    } finally {
+      avatarLoading.value = false
     }
   }
 }
@@ -95,41 +92,32 @@ export default {
         </div>
         <div class="col-md-9">
           <div class="card-body text-center">
-            <div v-if="status">
-              <small
-                v-if="status == 'updated_avatar'"
-                class="text-success"
-              >
-                {{ $t('auth.profile.avatar_updated_successfully') }}
-              </small>
-              <small
-                v-if="status == 'removed_avatar'"
-                class="text-success"
-              >
-                {{ $t('auth.profile.avatar_removed_successfully') }}
-              </small>
-            </div>
-            <div v-if="errors && errors.avatar">
-              <small
-                v-for="error in errors.avatar"
-                class="text-danger"
-              >
-                {{ error }}
-              </small>
-            </div>
+            <small
+              v-if="status"
+              class="text-success"
+            >
+              {{ status }}
+            </small>
+            <small
+              v-if="errors && errors.avatar"
+              v-for="error in errors.avatar"
+              class="text-danger"
+            >
+              {{ error }}
+            </small>
             <div class="d-flex justify-content-center">
               <FileInputButton
                 @updateFile="updateAvatar"
-                accept="image/*"
                 buttonClass="btn btn-light-brand m-1"
+                accept="image/*"
               >
                 {{ $t('auth.profile.upload_avatar') }}
               </FileInputButton>
               <button
                 v-if="user.avatar"
                 @click="removeAvatar()"
-                type="button"
                 class="btn btn-outline-dark m-1"
+                type="button"
               >
                 {{ $t('auth.profile.remove_avatar') }}
               </button>
