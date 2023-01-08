@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Root from './Root.vue'
 import i18n, {
   SUPPORT_LOCALES,
   loadLocaleMessages,
   setI18nLanguage
 } from '@/i18n'
+import Root from './Root.vue'
 
 function isAuthenticated(to, from) {
   const isLoggedIn = window.localStorage.getItem('user')
