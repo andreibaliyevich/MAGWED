@@ -22,7 +22,6 @@ const {
   citiesOptions
 } = useOptionsOfCountriesAndCities(country)
 
-const status = ref(null)
 const errors = ref(null)
 
 const getProfileData = async () => {
@@ -41,7 +40,6 @@ const getProfileData = async () => {
 
 const updateProfile = async () => {
   profileUpdating.value = true
-  status.value = null
 
   if (!country.value) {
     country.value = null
@@ -66,7 +64,6 @@ const updateProfile = async () => {
       'name': name.value,
       'avatar': user.avatar
     }))
-    status.value = 'updated_profile'
   } catch (error) {
     errors.value = error.response.data
   } finally {
