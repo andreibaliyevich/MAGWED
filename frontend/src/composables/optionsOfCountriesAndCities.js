@@ -1,5 +1,5 @@
-import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
+import { ref, watch, onMounted } from 'vue'
 
 export function useOptionsOfCountriesAndCities(country) {
   const countriesOptions = ref([])
