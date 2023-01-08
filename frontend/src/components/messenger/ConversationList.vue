@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import UserAvatar from '@/components/auth/UserAvatar.vue'
@@ -7,67 +8,62 @@ import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBus = useConnectionBusStore()
-</script>
 
-<script>
-export default {
-  props: {
-    conversationType: {
-      type: Object,
-      required: true
-    },
-    messageType: {
-      type: Object,
-      required: true
-    },
-    convoId: {
-      type: Number,
-      default: 0
-    }
+const props = defineProps({
+  conversationType: {
+    type: Object,
+    required: true
   },
-  data() {
-    return {
-      convoList: [],
-      status: null,
-      errors: null
-    }
+  messageType: {
+    type: Object,
+    required: true
   },
-  methods: {
-    getConversations() {
-      axios.get('/messenger/conversations/')
-      .then((response) => {
-        this.convoList = response.data
-        this.status = 'gotten_chats'
-        this.errors = null
-      })
-      .catch((error) => {
-        this.status = null
-        this.errors = error.response.data
-      })
-    },
-    updateUserStatus(mutation, state) {
-      this.convoList.forEach((element) => {
-        if (
-          element.convo_type == this.conversationType.DIALOG &&
-          element.details.id == state.user_id
-        ) {
-          element.details.online = state.online
-        }
-      })
-    }
-  },
-  mounted() {
-    this.getConversations()
-    this.connectionBus.$subscribe(this.updateUserStatus)
+  convoId: {
+    type: Number,
+    default: 0
+  }
+})
+
+const convoLoading = ref(true)
+const convoList = ref([])
+
+const getConversations = async () => {
+  try {
+    const response = await axios.get('/messenger/conversations/')
+    convoList.value = response.data
+  } catch (error) {
+    console.error(error)
+  } finally {
+    convoLoading.value = false
   }
 }
+
+const updateUserStatus = (mutation, state) => {
+  convoList.value.forEach((element) => {
+    if (
+      element.convo_type == props.conversationType.DIALOG &&
+      element.details.id == state.user_id
+    ) {
+      element.details.online = state.online
+    }
+  })
+}
+
+onMounted(() => {
+  getConversations()
+  connectionBus.$subscribe(updateUserStatus)
+})
 </script>
 
 <template>
   <div class="conversation-list">
     <h4 class="mb-3">{{ $t('messenger.chats') }}</h4>
 
-    <div class="list-group list-group-flush">
+    <LoadingIndicator v-if="convoLoading" />
+    <div
+      v-else
+      class="list-group list-group-flush"
+    >
       <a
         v-for="convo in convoList"
         href="#"

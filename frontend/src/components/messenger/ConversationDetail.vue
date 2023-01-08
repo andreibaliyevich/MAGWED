@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { nextTick } from 'vue'
+import { ref, nextTick, watch, onMounted, onUnmounted } from 'vue'
 import { API_URL, WS_URL } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
@@ -12,149 +12,145 @@ import MessageContent from '@/components/messenger/MessageContent.vue'
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const user = useUserStore()
 const connectionBus = useConnectionBusStore()
-</script>
 
-<script>
-export default {
-  props: {
-    conversationType: {
-      type: Object,
-      required: true
-    },
-    messageType: {
-      type: Object,
-      required: true
-    },
-    conversation: {
-      type: Object,
-      required: true
-    }
+const props = defineProps({
+  conversationType: {
+    type: Object,
+    required: true
   },
-  data() {
-    return {
-      convoSocket: null,
-      messages: [],
-      messagesLoading: false,
-      message: ''
-    }
+  messageType: {
+    type: Object,
+    required: true
   },
-  methods: {
-    closeConversation() {
-      if (this.convoSocket) {
-        this.convoSocket.close()
-      }
-    },
-    openConversation() {
-      this.closeConversation()
-      axios.get('/accounts/auth/wstoken/')
-      .then((response) => {
-        this.convoSocket = new WebSocket(
-          WS_URL
-          + '/ws/messenger/'
-          + this.conversation.id
-          + '/?'
-          + response.data.wstoken
-        )
+  conversation: {
+    type: Object,
+    required: true
+  }
+})
 
-        this.convoSocket.onopen = (event) => {
-          this.messagesLoading = true
-        }
+const messagesLoading = ref(true)
+const convoSocket = ref(null)
+const messages = ref([])
+const message = ref('')
 
-        this.convoSocket.onmessage = (event) => {
-          const data = JSON.parse(event.data)
-          if (data.messages) {
-            this.messages = data.messages
-            this.messagesLoading = false
-            nextTick(() => {
-              this.$refs.cardBody.scrollTop = this.$refs.cardBody.scrollHeight
-              this.$refs.msgTextarea.focus()
-            })
-          } else {
-            this.messages.push(data)
-            nextTick(() => {
-              this.$refs.cardBody.scrollTo({
-                top: this.$refs.cardBody.scrollHeight,
-                behavior: 'smooth'
-              })
-            })
-          }
-        }
+const cardBody = ref(null)
+const msgTextarea = ref(null)
 
-        this.convoSocket.onerror = (event) => {
-          this.convoSocket = null
-          this.conversation = {}
-          this.messages = []
-        }
-
-        this.status = 'wstoken'
-        this.errors = null
-      })
-      .catch((error) => {
-        this.status = null
-        this.errors = error.data
-      })
-    },
-    sendMessage() {
-      this.convoSocket.send(JSON.stringify({
-        'msg_type': this.messageType.TEXT,
-        'content': this.message
-      }))
-      this.message = ''
-    },
-    sendImages(filelist) {
-      const imagesData = new FormData()
-      imagesData.append('conversation', this.conversation.id)
-      for (let i = 0; i < filelist.length; i++) {
-        imagesData.append('content', filelist[i], filelist[i].name)
-      }
-
-      axios.post('/messenger/message/images/', imagesData)
-      .then((response) => {
-        this.convoSocket.send(JSON.stringify({
-          'msg_type': 2,
-          'msg_data': response.data
-        }))
-      })
-    },
-    sendFiles(filelist) {
-      const filesData = new FormData()
-      filesData.append('conversation', this.conversation.id)
-      for (let i = 0; i < filelist.length; i++) {
-        filesData.append('content', filelist[i], filelist[i].name)
-      }
-
-      axios.post('/messenger/message/files/', filesData)
-      .then((response) => {
-        this.convoSocket.send(JSON.stringify({
-          'msg_type': 3,
-          'msg_data': response.data
-        }))
-      })
-    },
-    updateUserStatus(mutation, state) {
-      this.messages.forEach((element) => {
-        if (element.sender.id == state.user_id) {
-          element.sender.online = state.online
-        }
-      })
-    }
-  },
-  watch: {
-    conversation(newValue) {
-      this.openConversation()
-    },
-    message(newValue) {
-      this.$refs.msgTextarea.rows = this.message.split('\n').length
-    }
-  },
-  mounted() {
-    this.openConversation()
-    this.connectionBus.$subscribe(this.updateUserStatus)
-  },
-  unmounted() {
-    this.closeConversation()
+const closeConversation = () => {
+  if (convoSocket.value) {
+    convoSocket.value.close()
   }
 }
+
+const openConversation = async () => {
+  messagesLoading.value = true
+  try {
+    const response = await axios.get('/accounts/auth/wstoken/')
+    convoSocket.value = new WebSocket(
+      WS_URL
+      + '/ws/messenger/'
+      + props.conversation.id
+      + '/?'
+      + response.data.wstoken
+    )
+    convoSocket.value.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      if (data.messages) {
+        messages.value = data.messages
+        nextTick(() => {
+          cardBody.value.scrollTop = cardBody.value.scrollHeight
+          msgTextarea.value.focus()
+        })
+      } else {
+        messages.value.push(data)
+        nextTick(() => {
+          cardBody.value.scrollTo({
+            top: cardBody.value.scrollHeight,
+            behavior: 'smooth'
+          })
+        })
+      }
+    }
+    convoSocket.value.onerror = (event) => {
+      convoSocket.value = null
+      conversation.value = {}
+      messages.value = []
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    messagesLoading.value = false
+  }
+}
+
+const sendMessage = () => {
+  convoSocket.value.send(JSON.stringify({
+    'msg_type': props.messageType.TEXT,
+    'content': message.value
+  }))
+  message.value = ''
+}
+
+const sendImages = async (filelist) => {
+  const imagesData = new FormData()
+  imagesData.append('conversation', props.conversation.id)
+  for (let i = 0; i < filelist.length; i++) {
+    imagesData.append('content', filelist[i], filelist[i].name)
+  }
+  try {
+    const response = await axios.post('/messenger/message/images/', imagesData)
+    convoSocket.value.send(JSON.stringify({
+      'msg_type': props.messageType.IMAGES,
+      'msg_data': response.data
+    }))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const sendFiles = async (filelist) => {
+  const filesData = new FormData()
+  filesData.append('conversation', props.conversation.id)
+  for (let i = 0; i < filelist.length; i++) {
+    filesData.append('content', filelist[i], filelist[i].name)
+  }
+  try {
+    const response = await axios.post('/messenger/message/files/', filesData)
+    convoSocket.value.send(JSON.stringify({
+      'msg_type': props.messageType.FILES,
+      'msg_data': response.data
+    }))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const updateUserStatus = (mutation, state) => {
+  messages.value.forEach((element) => {
+    if (element.sender.id == state.user_id) {
+      element.sender.online = state.online
+    }
+  })
+}
+
+watch(() => props.conversation, (newValue) => {
+  messages.value = []
+  closeConversation()
+  openConversation()
+})
+
+watch(message, (newValue) => {
+  msgTextarea.value.rows = message.value.split('\n').length
+})
+
+onMounted(() => {
+  openConversation()
+  connectionBus.$subscribe(updateUserStatus)
+})
+
+onUnmounted(() => {
+  closeConversation()
+})
 </script>
 
 <template>
@@ -265,16 +261,16 @@ export default {
         <div class="hstack gap-2">
           <FileInputButton
             @updateFile="sendImages"
+            buttonClass="btn btn-light"
             accept="image/*"
             multiple
-            buttonClass="btn btn-light"
           >
             <i class="fa-solid fa-file-image"></i>
           </FileInputButton>
           <FileInputButton
             @updateFile="sendFiles"
-            multiple
             buttonClass="btn btn-light"
+            multiple
           >
             <i class="fa-solid fa-file"></i>
           </FileInputButton>
@@ -288,15 +284,15 @@ export default {
           <button
             v-if="message"
             @click="sendMessage()"
-            type="button"
             class="btn btn-primary"
+            type="button"
           >
             <i class="fa-solid fa-paper-plane"></i>
           </button>
           <button
             v-else
-            type="button"
             class="btn btn-primary"
+            type="button"
             disabled
           >
             <i class="fa-solid fa-paper-plane"></i>
