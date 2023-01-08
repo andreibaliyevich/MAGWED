@@ -1,38 +1,35 @@
 <script setup>
 import axios from 'axios'
-
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useMainStore } from '@/stores/main.js'
-const main = useMainStore()
-</script>
 
-<script>
-export default {
-  data() {
-    return {
-      magazineData: {}
-    }
-  },
-  methods: {
-    async getMagazine() {
-      try {
-        const response = await axios.get('/main/magazine/')
-        this.magazineData = response.data
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    changeCurrency(event) {
-      window.localStorage.setItem('currency', event.target.value)
-      this.main.setCurrency(event.target.value)
-    },
-    changeLocale(event) {
-      this.$router.push({ params: { locale: event.target.value } })
-    }
-  },
-  mounted() {
-    this.getMagazine()
+const router = useRouter()
+const main = useMainStore()
+
+const magazineData = ref({})
+
+const getMagazine = async () => {
+  try {
+    const response = await axios.get('/main/magazine/')
+    magazineData.value = response.data
+  } catch (error) {
+    console.error(error)
   }
 }
+
+const changeCurrency = (event) => {
+  window.localStorage.setItem('currency', event.target.value)
+  main.setCurrency(event.target.value)
+}
+
+const changeLocale = (event) => {
+  router.push({ params: { locale: event.target.value } })
+}
+
+onMounted(() => {
+  getMagazine()
+})
 </script>
 
 <template>

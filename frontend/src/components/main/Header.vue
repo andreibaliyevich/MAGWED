@@ -1,19 +1,16 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-
 import { useMainStore } from '@/stores/main.js'
-const main = useMainStore()
-</script>
 
-<script>
-export default {
-  methods: {
-    changeCurrency(event) {
-      window.localStorage.setItem('currency', event.target.value)
-      this.main.setCurrency(event.target.value)
-      this.$refs.currencyList.click()
-    }
-  }
+const main = useMainStore()
+
+const currencyList = ref(null)
+
+const changeCurrency = (event) => {
+  window.localStorage.setItem('currency', event.target.value)
+  main.setCurrency(event.target.value)
+  currencyList.value.click()
 }
 </script>
 
