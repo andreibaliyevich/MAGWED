@@ -1,43 +1,40 @@
 <script setup>
 import axios from 'axios'
-</script>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-<script>
-export default {
-  data() {
-    return {
-      currentPassword: '',
-      newPassword: '',
-      newPassword2: '',
-      status: null,
-      errors: null
+const { t } = useI18n({ useScope: 'global' })
+
+const passwordUpdating = ref(false)
+const currentPassword = ref('')
+const newPassword = ref('')
+const newPassword2 = ref('')
+
+const status = ref(null)
+const errors = ref(null)
+
+const changePassword = async () => {
+  passwordUpdating.value = true
+  try {
+    const response = await axios.post('/accounts/auth/password/change/', {
+      current_password: currentPassword.value,
+      new_password: newPassword.value,
+      new_password2: newPassword2.value
+    })
+    if (response.status === 204) {
+      currentPassword.value = ''
+      newPassword.value = ''
+      newPassword2.value = ''
+      status.value = t('auth.passwordchange.success')
+      errors.value = null
     }
-  },
-  methods: {
-    changePassword() {
-      axios.post('/accounts/auth/password/change/', {
-        current_password: this.currentPassword,
-        new_password: this.newPassword,
-        new_password2: this.newPassword2
-      })
-      .then((response) => {
-        if (response.status === 204) {
-          this.currentPassword = ''
-          this.newPassword = ''
-          this.newPassword2 = ''
-          this.status = '204'
-          this.errors = null
-        }
-      })
-      .catch((error) => {
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => {
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-    }
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    passwordUpdating.value = false
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
   }
 }
 </script>
@@ -48,13 +45,16 @@ export default {
       {{ $t('auth.passwordchange.password_change') }}
     </h1>
 
-    <div v-if="status == '204'">
+    <div
+      v-if="status"
+      class="px-md-5"
+    >
       <div
         class="alert alert-success d-flex align-items-center alert-dismissible fade show"
         role="alert"
       >
         <i class="fa-solid fa-circle-check"></i>
-        <div class="ms-3">{{ $t('auth.passwordchange.success') }}</div>
+        <div class="ms-3">{{ status }}</div>
         <button
           @click="status = null"
           type="button"
@@ -132,12 +132,12 @@ export default {
           type="password"
         />
       </div>
-      <button
-        type="submit"
-        class="btn btn-primary"
+      <SubmitButton
+        :loadingStatus="passwordUpdating"
+        buttonClass="btn btn-brand btn-lg"
       >
         {{ $t('auth.password.change_password') }}
-      </button>
+      </SubmitButton>
     </form>
   </div>
 </template>
