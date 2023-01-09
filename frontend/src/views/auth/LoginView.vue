@@ -1,34 +1,34 @@
 <script setup>
 import axios from 'axios'
-</script>
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
-<script>
-export default {
-  data() {
-    return {
-      username: '',
-      password: '',
-      errors: null
+const route = useRoute()
+const { locale } = useI18n({ useScope: 'global' })
+
+const loadingStatus = ref(false)
+const username = ref('')
+const password = ref('')
+const errors = ref(null)
+
+const login = async () => {
+  loadingStatus.value = true
+  try {
+    const response = await axios.post('/accounts/auth/login/', {
+      username: username.value,
+      password: password.value
+    })
+    window.localStorage.setItem('user', JSON.stringify(response.data))
+    if (route.query.redirect) {
+      window.location.assign(`${route.query.redirect}`)
+    } else {
+      window.location.assign(`/${locale}`)
     }
-  },
-  methods: {
-    login() {
-      axios.post('/accounts/auth/login/', {
-        username: this.username,
-        password: this.password
-      })
-      .then(({ data }) => {
-        window.localStorage.setItem('user', JSON.stringify(data))
-        if (this.$route.query.redirect) {
-          window.location.assign(`${ this.$route.query.redirect }`)
-        } else {
-          window.location.assign(`/${ this.$i18n.locale }`)
-        }
-      })
-      .catch((error) => {
-        this.errors = error.response.data
-      })
-    }
+  } catch (error) {
+    errors.value = error.response.data
+  } finally {
+    loadingStatus.value = false
   }
 }
 </script>
@@ -111,12 +111,12 @@ export default {
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-brand btn-lg w-100"
+      <SubmitButton
+        :loadingStatus="loadingStatus"
+        buttonClass="btn btn-brand btn-lg w-100"
       >
         {{ $t('auth.log_in') }}
-      </button>
+      </SubmitButton>
 
       <hr class="my-4">
       <div class="fs-6 text-muted">

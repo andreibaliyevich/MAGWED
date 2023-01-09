@@ -1,32 +1,32 @@
 <script setup>
 import axios from 'axios'
-</script>
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-<script>
-export default {
-  data() {
-    return {
-      status: null,
-      errors: null
+const route = useRoute()
+
+const loadingStatus = ref(true)
+
+const status = ref(null)
+const errors = ref(null)
+
+onMounted(async () => {
+  try {
+    const response = await axios.post('/accounts/auth/activation/', {
+      uid: route.params.uid,
+      token: route.params.token
+    })
+    if (response.status === 204) {
+      status.value = 204
+      errors.value = null
     }
-  },
-  mounted() {
-    axios.post('/accounts/auth/activation/', {
-      uid: this.$route.params.uid,
-      token: this.$route.params.token
-    })
-    .then((response) => {
-      if (response.status === 204) {
-        this.status = '204'
-        this.errors = null
-      }
-    })
-    .catch((error) => {
-      this.status = null
-      this.errors = error.response.data
-    })
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    loadingStatus.value = false
   }
-}
+})
 </script>
 
 <template>
@@ -35,51 +35,54 @@ export default {
       {{ $t('auth.activation.activation') }}
     </h1>
 
-    <div v-if="status == '204'">
-      <p class="lead fs-3 text-muted">{{ $t('auth.activation.success1') }}</p>
-      <p class="lead fs-5">
-        {{ $t('auth.activation.success2') }}<br>
-        {{ $t('auth.activation.success3') }}
-      </p>
-      <div class="fs-6 text-center">
-        <LocaleRouterLink
-          routeName="Login"
-          class="link-primary text-decoration-none"
-        >
-          {{ $t('auth.log_in') }}
-        </LocaleRouterLink>
+    <LoadingIndicator v-if="loadingStatus" />
+    <div v-else>
+      <div v-if="status == 204">
+        <p class="lead fs-3 text-muted">{{ $t('auth.activation.success1') }}</p>
+        <p class="lead fs-5">
+          {{ $t('auth.activation.success2') }}<br>
+          {{ $t('auth.activation.success3') }}
+        </p>
+        <div class="fs-6 text-center">
+          <LocaleRouterLink
+            routeName="Login"
+            class="link-primary text-decoration-none"
+          >
+            {{ $t('auth.log_in') }}
+          </LocaleRouterLink>
+        </div>
       </div>
-    </div>
 
-    <div v-else-if="errors">
-      <p class="lead fs-3 text-danger">{{ $t('auth.activation.error') }}</p>
-      <p
-        v-if="errors.detail"
-        class="lead fs-5"
-      >
-        {{ errors.detail }}
-      </p>
-      <p
-        v-if="errors.uid"
-        v-for="error in errors.uid"
-        class="lead fs-5"
-      >
-        {{ error }}
-      </p>
-      <p
-        v-if="errors.token"
-        v-for="error in errors.token"
-        class="lead fs-5"
-      >
-        {{ error }}
-      </p>
-      <div class="fs-6 text-center">
-        <LocaleRouterLink
-          routeName="Registration"
-          class="link-primary text-decoration-none"
+      <div v-else-if="errors">
+        <p class="lead fs-3 text-danger">{{ $t('auth.activation.error') }}</p>
+        <p
+          v-if="errors.detail"
+          class="lead fs-5"
         >
-          {{ $t('auth.register') }}
-        </LocaleRouterLink>
+          {{ errors.detail }}
+        </p>
+        <p
+          v-if="errors.uid"
+          v-for="error in errors.uid"
+          class="lead fs-5"
+        >
+          {{ error }}
+        </p>
+        <p
+          v-if="errors.token"
+          v-for="error in errors.token"
+          class="lead fs-5"
+        >
+          {{ error }}
+        </p>
+        <div class="fs-6 text-center">
+          <LocaleRouterLink
+            routeName="Registration"
+            class="link-primary text-decoration-none"
+          >
+            {{ $t('auth.register') }}
+          </LocaleRouterLink>
+        </div>
       </div>
     </div>
   </div>

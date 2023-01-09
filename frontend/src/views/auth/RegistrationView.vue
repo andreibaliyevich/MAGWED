@@ -1,66 +1,62 @@
 <script setup>
 import axios from 'axios'
-</script>
+import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-<script>
-export default {
-  data() {
-    return {
-      username: '',
-      email: '',
-      password: '',
-      password2: '',
-      userType: '',
-      name: '',
-      userTypeOptions: [],
-      actionProcessing: false,
-      status: null,
-      errors: null
+const { t, locale } = useI18n({ useScope: 'global' })
+
+const loadingStatus = ref(false)
+const userTypeOptions = ref([])
+
+const username = ref('')
+const email = ref('')
+const password = ref('')
+const password2 = ref('')
+const userType = ref('')
+const name = ref('')
+
+const status = ref(null)
+const errors = ref(null)
+
+const setUserTypeOptions = () => {
+  userTypeOptions.value = [
+    { value: 2, text: t('auth.registration.customer') },
+    { value: 3, text: t('auth.registration.organizer') }
+  ]
+}
+
+const registration = async () => {
+  loadingStatus.value = true
+  try {
+    const response = await axios.post('/accounts/auth/registration/', {
+      username: username.value,
+      email: email.value,
+      password: password.value,
+      password2: password2.value,
+      user_type: userType.value,
+      name: name.value
+    })
+    if (response.status === 201) {
+      status.value = 201
+      errors.value = null
     }
-  },
-  methods: {
-    setUserTypeOptions() {
-      this.userTypeOptions = [
-        { value: 2, text: this.$t('auth.registration.customer') },
-        { value: 3, text: this.$t('auth.registration.organizer') }
-      ]
-    },
-    registration() {
-      this.actionProcessing = true
-      axios.post('/accounts/auth/registration/', {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        password2: this.password2,
-        user_type: this.userType,
-        name: this.name
-      })
-      .then((response) => {
-        if (response.status === 201) {
-          this.status = '201'
-          this.errors = null
-        }
-      })
-      .catch((error) => {
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => {
-        this.actionProcessing = false
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-    }
-  },
-  watch: {
-    '$i18n.locale'(newValue) {
-      this.setUserTypeOptions()
-    },
-  },
-  mounted() {
-    this.setUserTypeOptions()
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    loadingStatus.value = false
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
   }
 }
+
+watch(locale, () => {
+  setUserTypeOptions()
+})
+
+onMounted(() => {
+  setUserTypeOptions()
+})
 </script>
 
 <template>
@@ -69,10 +65,8 @@ export default {
       {{ $t('auth.registration.registration') }}
     </h1>
 
-    <LoadingIndicator v-if="actionProcessing" />
-
     <div
-      v-if="status == '201'"
+      v-if="status == 201"
       class="mt-4"
     >
       <p class="lead fs-3 text-muted">{{ $t('auth.registration.success1') }}</p>
@@ -85,7 +79,7 @@ export default {
     <form
       v-else
       @submit.prevent="registration()"
-      :class="{ 'mt-4': !actionProcessing }"
+      class="mt-4"
     >
       <p class="fs-6 text-muted">
         {{ $t('auth.registration.have_account') }}
@@ -216,12 +210,12 @@ export default {
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-brand btn-lg w-100"
+      <SubmitButton
+        :loadingStatus="loadingStatus"
+        buttonClass="btn btn-brand btn-lg w-100"
       >
         {{ $t('auth.register') }}
-      </button>
+      </SubmitButton>
 
       <hr class="my-4">
       <div class="fs-6 text-muted">
