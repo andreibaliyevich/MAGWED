@@ -23,7 +23,7 @@ const login = async () => {
     if (route.query.redirect) {
       window.location.assign(`${route.query.redirect}`)
     } else {
-      window.location.assign(`/${locale}`)
+      window.location.assign(`/${locale.value}`)
     }
   } catch (error) {
     errors.value = error.response.data
