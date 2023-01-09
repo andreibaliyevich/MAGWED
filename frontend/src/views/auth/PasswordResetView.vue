@@ -1,39 +1,30 @@
 <script setup>
 import axios from 'axios'
-</script>
+import { ref } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      email: '',
-      actionProcessing: false,
-      status: null,
-      errors: null
+const loadingStatus = ref(false)
+const email = ref('')
+
+const status = ref(null)
+const errors = ref(null)
+
+const resetPassword = async () => {
+  loadingStatus.value = true
+  try {
+    const response = await axios.post('/accounts/auth/password/reset/', {
+      email: email.value
+    })
+    if (response.status === 204) {
+      status.value = 204
+      errors.value = null
     }
-  },
-  methods: {
-    resetPassword() {
-      this.actionProcessing = true
-      axios.post('/accounts/auth/password/reset/', {
-        email: this.email
-      })
-      .then((response) => {
-        if (response.status === 204) {
-          this.status = '204'
-          this.errors = null
-        }
-      })
-      .catch((error) => {
-        this.status = null
-        this.errors = error.response.data
-      })
-      .then(() => {
-        this.actionProcessing = false
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      })
-    }
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    loadingStatus.value = false
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
   }
 }
 </script>
@@ -44,10 +35,8 @@ export default {
       {{ $t('auth.passwordreset.password_reset') }}
     </h1>
 
-    <LoadingIndicator v-if="actionProcessing" />
-
     <div
-      v-if="status == '204'"
+      v-if="status == 204"
       class="mt-4"
     >
       <p class="lead fs-3 text-muted">
@@ -62,7 +51,7 @@ export default {
     <form
       v-else
       @submit.prevent="resetPassword()"
-      :class="{ 'mt-4': !actionProcessing }"
+      :class="{ 'mt-4': !loadingStatus }"
     >
       <p class="fs-6">{{ $t('auth.passwordreset.help') }}</p>
       <ul class="fs-6">
@@ -91,12 +80,12 @@ export default {
         maxlength="254"
       />
 
-      <button
-        type="submit"
-        class="btn btn-brand btn-lg w-100 mt-3"
+      <SubmitButton
+        :loadingStatus="loadingStatus"
+        buttonClass="btn btn-brand btn-lg w-100 mt-3"
       >
         {{ $t('auth.password.reset_password') }}
-      </button>
+      </SubmitButton>
 
       <hr class="my-4">
       <div class="fs-6 text-center">
