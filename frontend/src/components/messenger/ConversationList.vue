@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import { conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import UserAvatar from '@/components/auth/UserAvatar.vue'
@@ -10,14 +11,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBus = useConnectionBusStore()
 
 const props = defineProps({
-  conversationType: {
-    type: Object,
-    required: true
-  },
-  messageType: {
-    type: Object,
-    required: true
-  },
   convoId: {
     type: Number,
     default: 0
@@ -41,7 +34,7 @@ const getConversations = async () => {
 const updateUserStatus = (mutation, state) => {
   convoList.value.forEach((element) => {
     if (
-      element.convo_type == props.conversationType.DIALOG &&
+      element.convo_type == conversationType.DIALOG &&
       element.details.id == state.user_id
     ) {
       element.details.online = state.online

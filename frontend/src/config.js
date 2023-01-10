@@ -6,3 +6,14 @@ export const userType = {
   CUSTOMER: 2,
   ORGANIZER: 3
 }
+
+export const conversationType = {
+  DIALOG: 1,
+  GROUP: 2
+}
+
+export const messageType = {
+  TEXT: 1,
+  IMAGES: 2,
+  FILES: 3
+}

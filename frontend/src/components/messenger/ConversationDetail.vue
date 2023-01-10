@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { ref, nextTick, watch, onMounted, onUnmounted } from 'vue'
-import { API_URL, WS_URL } from '@/config.js'
+import { API_URL, WS_URL, conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
@@ -14,14 +14,6 @@ const user = useUserStore()
 const connectionBus = useConnectionBusStore()
 
 const props = defineProps({
-  conversationType: {
-    type: Object,
-    required: true
-  },
-  messageType: {
-    type: Object,
-    required: true
-  },
   conversation: {
     type: Object,
     required: true
@@ -85,7 +77,7 @@ const openConversation = async () => {
 
 const sendMessage = () => {
   convoSocket.value.send(JSON.stringify({
-    'msg_type': props.messageType.TEXT,
+    'msg_type': messageType.TEXT,
     'content': message.value
   }))
   message.value = ''
@@ -100,7 +92,7 @@ const sendImages = async (filelist) => {
   try {
     const response = await axios.post('/messenger/message/images/', imagesData)
     convoSocket.value.send(JSON.stringify({
-      'msg_type': props.messageType.IMAGES,
+      'msg_type': messageType.IMAGES,
       'msg_data': response.data
     }))
   } catch (error) {
@@ -117,7 +109,7 @@ const sendFiles = async (filelist) => {
   try {
     const response = await axios.post('/messenger/message/files/', filesData)
     convoSocket.value.send(JSON.stringify({
-      'msg_type': props.messageType.FILES,
+      'msg_type': messageType.FILES,
       'msg_data': response.data
     }))
   } catch (error) {
@@ -205,7 +197,6 @@ onUnmounted(() => {
             <div class="my-0">
               <div class="bg-primary rounded p-2">
                 <MessageContent
-                  :messageType="messageType"
                   :msgType="msg.msg_type"
                   :msgContent="msg.content"
                   textClass="fs-6 text-white"
@@ -234,7 +225,6 @@ onUnmounted(() => {
                 <div class="bg-light rounded p-2 ms-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <MessageContent
-                    :messageType="messageType"
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
                   />
@@ -245,7 +235,6 @@ onUnmounted(() => {
                 class="bg-light rounded p-2"
               >
                 <MessageContent
-                  :messageType="messageType"
                   :msgType="msg.msg_type"
                   :msgContent="msg.content"
                 />

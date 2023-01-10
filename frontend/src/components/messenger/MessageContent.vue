@@ -1,38 +1,30 @@
 <script setup>
-import { API_URL } from '@/config.js'
-</script>
+import { API_URL, messageType } from '@/config.js'
 
-<script>
-export default {
-  props: {
-    messageType: {
-      type: Object,
-      required: true
-    },
-    msgType: {
-      type: Number,
-      required: true
-    },
-    msgContent: {
-      type: [String, Object],
-      required: true
-    },
-    textClass: {
-      type: String,
-      default: 'fs-6 text-dark'
-    }
+defineProps({
+  msgType: {
+    type: Number,
+    required: true
   },
-  methods: {
-    getName(path) {
-      return path.split('/').at(-1)
-    },
-    getSize(value) {
-      if (value === 0) return '0 Bytes'
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-      const i = Math.floor(Math.log(value) / Math.log(1024))
-      return parseFloat((value / Math.pow(1024, i)).toFixed(1)) + ' ' + sizes[i]
-    }
+  msgContent: {
+    type: [String, Object],
+    required: true
+  },
+  textClass: {
+    type: String,
+    default: 'fs-6 text-dark'
   }
+})
+
+const getName = (path) => {
+  return path.split('/').at(-1)
+}
+
+const getSize = (value) => {
+  if (value === 0) return '0 Bytes'
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const i = Math.floor(Math.log(value) / Math.log(1024))
+  return parseFloat((value / Math.pow(1024, i)).toFixed(1)) + ' ' + sizes[i]
 }
 </script>
 
