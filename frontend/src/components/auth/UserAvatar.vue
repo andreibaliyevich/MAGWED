@@ -1,21 +1,19 @@
-<script>
-export default {
-  props: {
-    src: String,
-    width: {
-      type: Number,
-      required: true
-    },
-    height: {
-      type: Number,
-      required: true
-    },
-    online: {
-      type: Boolean,
-      required: true
-    }
+<script setup>
+defineProps({
+  src: String,
+  width: {
+    type: Number,
+    required: true
+  },
+  height: {
+    type: Number,
+    required: true
+  },
+  online: {
+    type: Boolean,
+    required: true
   }
-}
+})
 </script>
 
 <template>

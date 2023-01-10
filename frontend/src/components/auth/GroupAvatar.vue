@@ -1,17 +1,15 @@
-<script>
-export default {
-  props: {
-    src: String,
-    width: {
-      type: Number,
-      required: true
-    },
-    height: {
-      type: Number,
-      required: true
-    }
+<script setup>
+defineProps({
+  src: String,
+  width: {
+    type: Number,
+    required: true
+  },
+  height: {
+    type: Number,
+    required: true
   }
-}
+})
 </script>
 
 <template>
