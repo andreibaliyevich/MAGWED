@@ -1,89 +1,80 @@
 <script setup>
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-
 import { WS_URL } from '@/config.js'
-
 import { useMainStore } from '@/stores/main.js'
-const main = useMainStore()
-
 import { useUserStore } from '@/stores/user.js'
-const user = useUserStore()
-
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-const connectionBus = useConnectionBusStore()
-
 import Header from '@/components/main/Header.vue'
 import NavBar from '@/components/main/NavBar.vue'
 import Footer from '@/components/main/Footer.vue'
-</script>
 
-<script>
-export default {
-  data() {
-    return {
-      deviceId: null,
-      connectionSocket: null
-    }
-  },
-  created() {
-    axios.interceptors.response.use(
-      response => response,
-      error => {
-        if (error.response.status === 401) {
-          window.localStorage.removeItem('user')
-          window.location.reload()
-        }
-        return Promise.reject(error)
-      }
-    )
+const main = useMainStore()
+const user = useUserStore()
+const connectionBus = useConnectionBusStore()
 
-    this.deviceId = window.localStorage.getItem('deviceId')
-    if (!this.deviceId) {
-      this.deviceId = crypto.randomUUID()
-      window.localStorage.setItem('deviceId', this.deviceId)
-    }
+const deviceId = ref(null)
+const connectionSocket = ref(null)
 
-    const currency = window.localStorage.getItem('currency')
-    if (currency) {
-      this.main.setCurrency(currency)
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      window.localStorage.removeItem('user')
+      window.location.reload()
     }
+    return Promise.reject(error)
+  }
+)
 
-    const userString = window.localStorage.getItem('user')
-    if (userString) {
-      const userData = JSON.parse(userString)
-      axios.defaults.headers.common['Authorization'] = `Token ${userData.token}`
-      this.user.setUserData(userData)
-    }
-  },
-  mounted() {
-    if (this.user.isLoggedIn) {
-      axios.get('/accounts/auth/wstoken/')
-      .then((response) => {
-        this.connectionSocket = new WebSocket(
-          WS_URL
-          + '/ws/connection/'
-          + this.deviceId
-          + '/?'
-          + response.data.wstoken
-        )
-        this.connectionSocket.onmessage = (event) => {
-          this.connectionBus.setUserStatus(JSON.parse(event.data))
-        }
-      })
-    } else {
-      this.connectionSocket = new WebSocket(
+deviceId.value = window.localStorage.getItem('deviceId')
+if (!deviceId.value) {
+  deviceId.value = crypto.randomUUID()
+  window.localStorage.setItem('deviceId', deviceId.value)
+}
+
+const currency = window.localStorage.getItem('currency')
+if (currency) {
+  main.setCurrency(currency)
+}
+
+const userString = window.localStorage.getItem('user')
+if (userString) {
+  const userData = JSON.parse(userString)
+  axios.defaults.headers.common['Authorization'] = `Token ${userData.token}`
+  user.setUserData(userData)
+}
+
+onMounted(async () => {
+  if (user.isLoggedIn) {
+    try {
+      const response = await axios.get('/accounts/auth/wstoken/')
+      connectionSocket.value = new WebSocket(
         WS_URL
         + '/ws/connection/'
-        + this.deviceId
-        + '/'
+        + deviceId.value
+        + '/?'
+        + response.data.wstoken
       )
-      this.connectionSocket.onmessage = (event) => {
-        this.connectionBus.setUserStatus(JSON.parse(event.data))
+      connectionSocket.value.onmessage = (event) => {
+        connectionBus.setUserStatus(JSON.parse(event.data))
       }
+    } catch (error) {
+      console.error(error)
+    }
+  } else {
+    connectionSocket.value = new WebSocket(
+      WS_URL
+      + '/ws/connection/'
+      + deviceId.value
+      + '/'
+    )
+    connectionSocket.value.onmessage = (event) => {
+      connectionBus.setUserStatus(JSON.parse(event.data))
     }
   }
-}
+})
 </script>
 
 <template>
