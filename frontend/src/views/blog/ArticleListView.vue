@@ -1,33 +1,32 @@
 <script setup>
 import axios from 'axios'
-</script>
+import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-<script>
-export default {
-  data() {
-    return {
-      responseData: {}
-    }
-  },
-  methods: {
-    async getOrganizerList() {
-      try {
-        const response = await axios.get('/blog/articles/')
-        this.responseData = response.data
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  },
-  watch: {
-    '$i18n.locale'(newValue) {
-      this.getOrganizerList()
-    }
-  },
-  mounted() {
-    this.getOrganizerList()
+const { locale } = useI18n({ useScope: 'global' })
+
+const articlesLoading = ref(false)
+const responseData = ref(false)
+
+const getArticles = async () => {
+  articlesLoading.value = true
+  try {
+    const response = await axios.get('/blog/articles/')
+    responseData.value = response.data
+  } catch (error) {
+    console.error(error)
+  } finally {
+    articlesLoading.value = false
   }
 }
+
+watch(locale, () => {
+  getArticles()
+})
+
+onMounted(() => {
+  getArticles()
+})
 </script>
 
 <template>
