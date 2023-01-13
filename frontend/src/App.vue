@@ -12,7 +12,7 @@ import Footer from '@/components/main/Footer.vue'
 
 const mainStore = useMainStore()
 const userStore = useUserStore()
-const connectionBus = useConnectionBusStore()
+const connectionBusStore = useConnectionBusStore()
 
 const deviceId = ref(null)
 const connectionSocket = ref(null)
@@ -58,7 +58,7 @@ onMounted(async () => {
         + response.data.wstoken
       )
       connectionSocket.value.onmessage = (event) => {
-        connectionBus.setUserStatus(JSON.parse(event.data))
+        connectionBusStore.setUserStatus(JSON.parse(event.data))
       }
     } catch (error) {
       console.error(error)
@@ -71,7 +71,7 @@ onMounted(async () => {
       + '/'
     )
     connectionSocket.value.onmessage = (event) => {
-      connectionBus.setUserStatus(JSON.parse(event.data))
+      connectionBusStore.setUserStatus(JSON.parse(event.data))
     }
   }
 })

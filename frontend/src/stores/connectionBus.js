@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useConnectionBusStore = defineStore('connectionBus', {
+export const useConnectionBusStore = defineStore('connectionBusStore', {
   state: () => ({
     user_id: null,
     online: null

@@ -8,7 +8,7 @@ import UserAvatar from '@/components/auth/UserAvatar.vue'
 import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
-const connectionBus = useConnectionBusStore()
+const connectionBusStore = useConnectionBusStore()
 
 const props = defineProps({
   convoId: {
@@ -44,7 +44,7 @@ const updateUserStatus = (mutation, state) => {
 
 onMounted(() => {
   getConversations()
-  connectionBus.$subscribe(updateUserStatus)
+  connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>
 

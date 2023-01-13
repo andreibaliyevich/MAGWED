@@ -11,7 +11,7 @@ import MessageContent from '@/components/messenger/MessageContent.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const userStore = useUserStore()
-const connectionBus = useConnectionBusStore()
+const connectionBusStore = useConnectionBusStore()
 
 const props = defineProps({
   conversation: {
@@ -137,7 +137,7 @@ watch(message, (newValue) => {
 
 onMounted(() => {
   openConversation()
-  connectionBus.$subscribe(updateUserStatus)
+  connectionBusStore.$subscribe(updateUserStatus)
 })
 
 onUnmounted(() => {
