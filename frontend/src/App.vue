@@ -10,7 +10,7 @@ import Header from '@/components/main/Header.vue'
 import NavBar from '@/components/main/NavBar.vue'
 import Footer from '@/components/main/Footer.vue'
 
-const main = useMainStore()
+const mainStore = useMainStore()
 const user = useUserStore()
 const connectionBus = useConnectionBusStore()
 
@@ -36,7 +36,7 @@ if (!deviceId.value) {
 
 const currency = window.localStorage.getItem('currency')
 if (currency) {
-  main.setCurrency(currency)
+  mainStore.setCurrency(currency)
 }
 
 const userString = window.localStorage.getItem('user')

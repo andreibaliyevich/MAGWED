@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import { useMainStore } from '@/stores/main.js'
 
 const router = useRouter()
-const main = useMainStore()
+const mainStore = useMainStore()
 
 const magazineLoading = ref(true)
 const magazineData = ref({})
@@ -23,7 +23,7 @@ const getMagazine = async () => {
 
 const changeCurrency = (event) => {
   window.localStorage.setItem('currency', event.target.value)
-  main.setCurrency(event.target.value)
+  mainStore.setCurrency(event.target.value)
 }
 
 const changeLocale = (event) => {
@@ -145,7 +145,7 @@ onMounted(() => {
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <select
-                :value="main.currency"
+                :value="mainStore.currency"
                 @change="changeCurrency"
                 class="form-select bg-dark text-white border-secondary"
               >

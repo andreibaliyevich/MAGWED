@@ -3,13 +3,13 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useMainStore } from '@/stores/main.js'
 
-const main = useMainStore()
+const mainStore = useMainStore()
 
 const currencyList = ref(null)
 
 const changeCurrency = (event) => {
   window.localStorage.setItem('currency', event.target.value)
-  main.setCurrency(event.target.value)
+  mainStore.setCurrency(event.target.value)
   currencyList.value.click()
 }
 </script>
@@ -99,7 +99,7 @@ const changeCurrency = (event) => {
                 :alt="$i18n.locale"
               >
               <span class="text-uppercase ms-1">
-                {{ $i18n.locale }} / {{ main.currency }}
+                {{ $i18n.locale }} / {{ mainStore.currency }}
               </span>
             </a>
             <ul
@@ -111,7 +111,7 @@ const changeCurrency = (event) => {
                 class="dropdown-item"
               >
                 <select
-                  :value="main.currency"
+                  :value="mainStore.currency"
                   @change="changeCurrency"
                   class="form-select"
                 >
