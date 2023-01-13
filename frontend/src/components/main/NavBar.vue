@@ -4,7 +4,7 @@ import { useLogout } from '@/composables/logout.js'
 import { useUserStore } from '@/stores/user.js'
 
 const { logout } = useLogout()
-const user = useUserStore()
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -173,7 +173,7 @@ const user = useUserStore()
         </div>
       </div>
       <div
-        v-if="user.isLoggedIn"
+        v-if="userStore.isLoggedIn"
         class="d-flex align-items-center"
       >
         <div class="ms-lg-3">
@@ -226,8 +226,8 @@ const user = useUserStore()
             aria-expanded="false"
           >
             <img
-              v-if="user.avatar"
-              :src="`${ API_URL }${ user.avatar }`"
+              v-if="userStore.avatar"
+              :src="`${ API_URL }${ userStore.avatar }`"
               class="rounded-circle"
               width="32"
               height="32"
@@ -249,8 +249,8 @@ const user = useUserStore()
             <li class="px-3 pt-2 pb-3">
               <div class="d-flex gap-2 align-items-center mb-1">
                 <img
-                  v-if="user.avatar"
-                  :src="`${ API_URL }${ user.avatar }`"
+                  v-if="userStore.avatar"
+                  :src="`${ API_URL }${ userStore.avatar }`"
                   class="rounded-circle"
                   width="48"
                   height="48"
@@ -266,10 +266,10 @@ const user = useUserStore()
                 >
                 <div class="ms-1">
                   <span class="d-flex flex-nowrap fw-bolder">
-                    {{ user.name }}
+                    {{ userStore.name }}
                   </span>
                   <small class="text-muted">
-                    {{ user.email }}
+                    {{ userStore.email }}
                   </small>
                 </div>
               </div>
@@ -283,7 +283,7 @@ const user = useUserStore()
             </li>
             <li>
               <LocaleRouterLink
-                v-if="user.userType == userType.ORGANIZER"
+                v-if="userStore.userType == userType.ORGANIZER"
                 routeName="Home"
                 @click="$refs.dropdownUser.click()"
                 class="dropdown-item d-flex gap-2 align-items-center"

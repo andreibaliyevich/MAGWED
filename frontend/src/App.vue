@@ -11,7 +11,7 @@ import NavBar from '@/components/main/NavBar.vue'
 import Footer from '@/components/main/Footer.vue'
 
 const mainStore = useMainStore()
-const user = useUserStore()
+const userStore = useUserStore()
 const connectionBus = useConnectionBusStore()
 
 const deviceId = ref(null)
@@ -43,11 +43,11 @@ const userString = window.localStorage.getItem('user')
 if (userString) {
   const userData = JSON.parse(userString)
   axios.defaults.headers.common['Authorization'] = `Token ${userData.token}`
-  user.setUserData(userData)
+  userStore.setUserData(userData)
 }
 
 onMounted(async () => {
-  if (user.isLoggedIn) {
+  if (userStore.isLoggedIn) {
     try {
       const response = await axios.get('/accounts/auth/wstoken/')
       connectionSocket.value = new WebSocket(

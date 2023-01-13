@@ -9,7 +9,7 @@ import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
 import { useUserStore } from '@/stores/user.js'
 
-const user = useUserStore()
+const userStore = useUserStore()
 
 const profileLoading = ref(true)
 const profileUpdating = ref(false)
@@ -90,15 +90,15 @@ const updateProfile = async () => {
       'number_hours': numberHours.value,
       'profile_url': profileURL.value
     })
-    user.updateName(name.value)
+    userStore.updateName(name.value)
     window.localStorage.setItem('user', JSON.stringify({
-      'token': user.token,
-      'id': user.id,
-      'username': user.username,
-      'email': user.email,
-      'user_type': user.userType,
+      'token': userStore.token,
+      'id': userStore.id,
+      'username': userStore.username,
+      'email': userStore.email,
+      'user_type': userStore.userType,
       'name': name.value,
-      'avatar': user.avatar
+      'avatar': userStore.avatar
     }))
   } catch (error) {
     errors.value = error.response.data

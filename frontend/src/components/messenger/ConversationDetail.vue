@@ -10,7 +10,7 @@ import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
-const user = useUserStore()
+const userStore = useUserStore()
 const connectionBus = useConnectionBusStore()
 
 const props = defineProps({
@@ -191,7 +191,7 @@ onUnmounted(() => {
           class="my-3"
         >
           <div
-            v-if="msg.sender.id == user.id"
+            v-if="msg.sender.id == userStore.id"
             class="d-flex justify-content-end"
           >
             <div class="my-0">

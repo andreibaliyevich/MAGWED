@@ -6,7 +6,7 @@ import { API_URL } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 
 const { t } = useI18n({ useScope: 'global' })
-const user = useUserStore()
+const userStore = useUserStore()
 
 const avatarLoading = ref(false)
 
@@ -21,14 +21,14 @@ const updateAvatar = async (filelist) => {
 
   try {
     const response = await axios.put('/accounts/auth/avatar/', avatarData)
-    user.updateAvatar(response.data.avatar)
+    userStore.updateAvatar(response.data.avatar)
     window.localStorage.setItem('user', JSON.stringify({
-      'token': user.token,
-      'id': user.id,
-      'username': user.username,
-      'email': user.email,
-      'user_type': user.userType,
-      'name': user.name,
+      'token': userStore.token,
+      'id': userStore.id,
+      'username': userStore.username,
+      'email': userStore.email,
+      'user_type': userStore.userType,
+      'name': userStore.name,
       'avatar': response.data.avatar
     }))
     status.value = t('auth.profile.avatar_updated_successfully')
@@ -47,13 +47,13 @@ const removeAvatar = async () => {
   if (confirm(t('auth.profile.you_want_remove_avatar'))) {
     try {
       const response = await axios.delete('/accounts/auth/avatar/')
-      user.updateAvatar(null)
+      userStore.updateAvatar(null)
       window.localStorage.setItem('user', JSON.stringify({
-        'token': user.token,
-        'username': user.username,
-        'email': user.email,
-        'user_type': user.userType,
-        'name': user.name,
+        'token': userStore.token,
+        'username': userStore.username,
+        'email': userStore.email,
+        'user_type': userStore.userType,
+        'name': userStore.name,
         'avatar': null
       }))
       status.value = t('auth.profile.avatar_removed_successfully')
@@ -81,8 +81,8 @@ const removeAvatar = async () => {
       >
         <div class="col-md-3">
           <img
-            v-if="user.avatar"
-            :src="`${ API_URL }${ user.avatar }`"
+            v-if="userStore.avatar"
+            :src="`${ API_URL }${ userStore.avatar }`"
             class="img-fluid rounded-start"
           >
           <img
@@ -115,7 +115,7 @@ const removeAvatar = async () => {
                 {{ $t('auth.profile.upload_avatar') }}
               </FileInputButton>
               <button
-                v-if="user.avatar"
+                v-if="userStore.avatar"
                 @click="removeAvatar()"
                 class="btn btn-outline-dark m-1"
                 type="button"
