@@ -54,10 +54,11 @@ INSTALLED_APPS = [
     'tinymce',
     'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
-    'portfolio.apps.PortfolioConfig',
     'blog.apps.BlogConfig',
+    'portfolio.apps.PortfolioConfig',
     'social.apps.SocialConfig',
     'messenger.apps.MessengerConfig',
+    'notifications.apps.NotificationsConfig',
 ]
 
 MIDDLEWARE = [

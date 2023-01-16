@@ -27,10 +27,12 @@ urlpatterns = i18n_patterns(
     path('tinymce/', include('tinymce.urls')),
     path('main/', include('main.urls', namespace='main')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('blog/', include('blog.urls', namespace='blog')),
     path('portfolio/', include('portfolio.urls', namespace='portfolio')),
     path('social/', include('social.urls', namespace='social')),
     path('messenger/', include('messenger.urls', namespace='messenger')),
-    path('blog/', include('blog.urls', namespace='blog')),
+    path('notifications/',
+        include('notifications.urls', namespace='notifications')),
 )
 
 if settings.DEBUG:
