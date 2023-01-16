@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-18 04:08+0000\n"
+"POT-Creation-Date: 2023-01-16 13:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: accounts/admin.py:15 accounts/models.py:124
+#: accounts/admin.py:15 accounts/models.py:117
 msgid "Date joined"
 msgstr "Дата рэгістрацыі"
 
@@ -68,12 +68,12 @@ msgstr "Уліковыя запісы"
 msgid "Administrator"
 msgstr "Адміністратар"
 
-#: accounts/choices.py:7 accounts/models.py:199
+#: accounts/choices.py:7 accounts/models.py:192
 msgid "Customer"
 msgstr "Кліент"
 
-#: accounts/choices.py:8 accounts/models.py:302 accounts/models.py:313
-#: social/models.py:130
+#: accounts/choices.py:8 accounts/models.py:295 accounts/models.py:306
+#: social/models.py:107
 msgid "Organizer"
 msgstr "Арганізатар"
 
@@ -177,37 +177,37 @@ msgstr "Электронная пошта павінна быць устаноў
 msgid "Invalid user type."
 msgstr "Недапушчальны тып карыстальніка."
 
-#: accounts/models.py:34
+#: accounts/models.py:33
 msgid "A user with that username already exists."
 msgstr "Карыстальнік з такім username ужо існуе."
 
-#: accounts/models.py:37
+#: accounts/models.py:36
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr "Патрабуецца. 150 сімвалаў або менш. Толькі літары, лічбы і @/./+/-/_."
 
-#: accounts/models.py:40
+#: accounts/models.py:39
 msgid "Username"
 msgstr "Username"
 
-#: accounts/models.py:45
+#: accounts/models.py:44
 msgid "A user with that email address already exists."
 msgstr "Карыстальнік з такім адрасам электроннай пошты ўжо існуе."
 
-#: accounts/models.py:47
+#: accounts/models.py:46
 msgid "Email address"
 msgstr "Адрас электроннай пошты"
 
-#: accounts/models.py:52
+#: accounts/models.py:51
 msgid "User type"
 msgstr "Тып карыстальніка"
 
-#: accounts/models.py:55 blog/models.py:14 blog/models.py:61 main/models.py:16
-#: main/models.py:36 main/models.py:55 main/models.py:69 messenger/models.py:49
+#: accounts/models.py:54 blog/models.py:14 blog/models.py:61 main/models.py:16
+#: main/models.py:36 main/models.py:55 main/models.py:69 messenger/models.py:48
 msgid "Name"
 msgstr "Імя"
 
-#: accounts/models.py:71 accounts/models.py:245 main/models.py:104
-#: messenger/models.py:65
+#: accounts/models.py:64 accounts/models.py:238 main/models.py:104
+#: messenger/models.py:58
 #, python-format
 msgid ""
 "Upload JPG or PNG image. Required minimum of size %(width)d x %(height)d."
@@ -215,35 +215,35 @@ msgstr ""
 "Загрузіце выяву ў фармаце JPG або PNG. Патрабаваны мінімальны памер "
 "%(width)d x %(height)d."
 
-#: accounts/models.py:77
+#: accounts/models.py:70
 msgid "Avatar"
 msgstr "Аватар"
 
-#: accounts/models.py:85 main/models.py:23 main/models.py:34
+#: accounts/models.py:78 main/models.py:23 main/models.py:34
 msgid "Country"
 msgstr "Краіна"
 
-#: accounts/models.py:92 main/models.py:43
+#: accounts/models.py:85 main/models.py:43
 msgid "City"
 msgstr "Горад"
 
-#: accounts/models.py:100
+#: accounts/models.py:93
 msgid "Wrong format!"
 msgstr "Няправільны фармат!"
 
-#: accounts/models.py:103
+#: accounts/models.py:96
 msgid "Phone"
 msgstr "Тэлефон"
 
-#: accounts/models.py:109
+#: accounts/models.py:102
 msgid "Designates whether the user can log into this admin site."
 msgstr "Вызначае, ці можа карыстач увайсці на гэты сайт адміністратара."
 
-#: accounts/models.py:111
+#: accounts/models.py:104
 msgid "Staff status"
 msgstr "Статус персаналу"
 
-#: accounts/models.py:116
+#: accounts/models.py:109
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
@@ -251,132 +251,131 @@ msgstr ""
 "Указвае, ці варта лічыць гэтага карыстальніка актыўным. Адмяніце выбар "
 "замест выдалення уліковых запісаў."
 
-#: accounts/models.py:119
+#: accounts/models.py:112
 msgid "Active"
 msgstr "Актыўны"
 
-#: accounts/models.py:145 accounts/models.py:156 accounts/models.py:190
-#: accounts/models.py:228 social/models.py:26 social/models.py:54
-#: social/models.py:74
+#: accounts/models.py:138 accounts/models.py:149 accounts/models.py:183
+#: accounts/models.py:221 social/models.py:29 social/models.py:50
 msgid "User"
 msgstr "Карыстальнік"
 
-#: accounts/models.py:146
+#: accounts/models.py:139
 msgid "Users"
 msgstr "Карыстальнікі"
 
-#: accounts/models.py:159
+#: accounts/models.py:152
 msgid "Device ID"
 msgstr "Ідэнтыфікатар прылады"
 
-#: accounts/models.py:160
+#: accounts/models.py:153
 msgid "Online"
 msgstr "Онлайн"
 
-#: accounts/models.py:164
+#: accounts/models.py:157
 msgid "First login"
 msgstr "Першы ўваход"
 
-#: accounts/models.py:168
+#: accounts/models.py:161
 msgid "Last visit"
 msgstr "Апошняе наведванне"
 
-#: accounts/models.py:172
+#: accounts/models.py:165
 msgid "Connection History"
 msgstr "Гісторыя падключэння"
 
-#: accounts/models.py:173
+#: accounts/models.py:166
 msgid "Connection Histories"
 msgstr "Гісторыі падлучэнняў"
 
-#: accounts/models.py:195
+#: accounts/models.py:188
 msgid "Date of Wedding"
 msgstr "Дата вяселля"
 
-#: accounts/models.py:200
+#: accounts/models.py:193
 msgid "Customers"
 msgstr "Кліенты"
 
-#: accounts/models.py:209
+#: accounts/models.py:202
 msgid "Identifier"
 msgstr "Ідэнтыфікатар"
 
-#: accounts/models.py:216
+#: accounts/models.py:209
 msgid "Role of Organizer"
 msgstr "Роля арганізатара"
 
-#: accounts/models.py:217
+#: accounts/models.py:210
 msgid "Roles of Organizers"
 msgstr "Ролі арганізатараў"
 
-#: accounts/models.py:233
+#: accounts/models.py:226
 msgid "Roles"
 msgstr "Ролі"
 
-#: accounts/models.py:251
+#: accounts/models.py:244
 msgid "Cover"
 msgstr "Вокладка"
 
-#: accounts/models.py:253 blog/models.py:20 blog/models.py:66
-#: blog/models.py:102 blog/models.py:185 portfolio/models.py:40
-#: portfolio/models.py:146
+#: accounts/models.py:246 blog/models.py:20 blog/models.py:66
+#: blog/models.py:102 blog/models.py:185 portfolio/models.py:38
+#: portfolio/models.py:140
 msgid "Description"
 msgstr "Апісанне"
 
-#: accounts/models.py:258 main/models.py:24
+#: accounts/models.py:251 main/models.py:24
 msgid "Countries"
 msgstr "Краіны"
 
-#: accounts/models.py:263 main/models.py:44
+#: accounts/models.py:256 main/models.py:44
 msgid "Cities"
 msgstr "Гарады"
 
-#: accounts/models.py:268 main/models.py:63
+#: accounts/models.py:261 main/models.py:63
 msgid "Languages"
 msgstr "Мовы"
 
-#: accounts/models.py:276
+#: accounts/models.py:269
 msgid "Cost of work"
 msgstr "Кошт працы"
 
-#: accounts/models.py:277
+#: accounts/models.py:270
 msgid "Please enter in USD ($)"
 msgstr "Калі ласка, увядзіце ў далярах ЗША ($)"
 
-#: accounts/models.py:281
+#: accounts/models.py:274
 msgid "Number of hours"
 msgstr "Колькасць гадзін"
 
-#: accounts/models.py:287
+#: accounts/models.py:280
 msgid "Profile URL"
 msgstr "URL профілю"
 
-#: accounts/models.py:294 portfolio/models.py:65 portfolio/models.py:171
-#: social/models.py:141
+#: accounts/models.py:287 portfolio/models.py:63 portfolio/models.py:165
+#: social/models.py:118
 msgid "Rating"
 msgstr "Рэйтынг"
 
-#: accounts/models.py:298
+#: accounts/models.py:291
 msgid "Pro-account valid time"
 msgstr "Тэрмін дзеяння Pro-акаўнта"
 
-#: accounts/models.py:303
+#: accounts/models.py:296
 msgid "Organizers"
 msgstr "Арганізатары"
 
-#: accounts/models.py:320
+#: accounts/models.py:313
 msgid "Type of Link"
 msgstr "Тып спасылкі"
 
-#: accounts/models.py:322
+#: accounts/models.py:315
 msgid "URL of Link"
 msgstr "URL спасылкі"
 
-#: accounts/models.py:325
+#: accounts/models.py:318
 msgid "Link of Organizer"
 msgstr "Спасылка арганізатара"
 
-#: accounts/models.py:326
+#: accounts/models.py:319
 msgid "Links of Organizer"
 msgstr "Спасылкі арганізатараў"
 
@@ -413,21 +412,28 @@ msgstr "Састарэлы токен для дадзенага карыстал
 msgid "The user does not have a password."
 msgstr "У карыстальніка няма пароля."
 
-#: blog/admin.py:27 blog/admin.py:55
+#: blog/admin.py:28 blog/admin.py:56
 msgid "Metadata"
 msgstr "Метададзеныя"
 
-#: blog/admin.py:58
+#: blog/admin.py:59 portfolio/admin.py:22 portfolio/admin.py:57
 msgid "Image and Thumbnail"
 msgstr "Выява і эскіз"
 
-#: blog/admin.py:61
+#: blog/admin.py:62
 msgid "Content and Hashtags"
 msgstr "Кантэнт і хэштэгі"
 
-#: blog/admin.py:64
+#: blog/admin.py:65
 msgid "Published and Views"
 msgstr "Апублікавана і прагляды"
+
+#: blog/admin.py:77 blog/admin.py:87 messenger/admin.py:40
+#: portfolio/admin.py:37 portfolio/admin.py:80
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Водгук"
 
 #: blog/apps.py:8
 msgid "Blog"
@@ -465,30 +471,30 @@ msgstr "Пераклад катэгорыі"
 msgid "Category Translations"
 msgstr "Пераклады катэгорый"
 
-#: blog/models.py:88 social/models.py:102 social/models.py:136
+#: blog/models.py:88 social/models.py:79 social/models.py:113
 msgid "Author"
 msgstr "Аўтар"
 
 #: blog/models.py:96 blog/models.py:180 main/models.py:88
-#: portfolio/models.py:23
+#: portfolio/models.py:21
 msgid "Title"
 msgstr "Назва"
 
-#: blog/models.py:113 main/models.py:110 messenger/models.py:71
-#: portfolio/models.py:25 portfolio/models.py:95
+#: blog/models.py:113 main/models.py:110 messenger/models.py:64
+#: portfolio/models.py:23 portfolio/models.py:89
 msgid "Image"
 msgstr "Малюнак"
 
-#: blog/models.py:123 portfolio/models.py:34 portfolio/models.py:104
+#: blog/models.py:123 portfolio/models.py:32 portfolio/models.py:98
 msgid "Thumbnail"
 msgstr "Эскіз"
 
-#: blog/models.py:126 blog/models.py:194 social/models.py:105
+#: blog/models.py:126 blog/models.py:194 social/models.py:82
 msgid "Content"
 msgstr "Змест"
 
-#: blog/models.py:131 main/models.py:82 portfolio/models.py:45
-#: portfolio/models.py:151
+#: blog/models.py:131 main/models.py:82 portfolio/models.py:43
+#: portfolio/models.py:145
 msgid "Hashtags"
 msgstr "Хэштэгі"
 
@@ -496,7 +502,7 @@ msgstr "Хэштэгі"
 msgid "Published at"
 msgstr "Апублікавана ў"
 
-#: blog/models.py:141 portfolio/models.py:55 portfolio/models.py:161
+#: blog/models.py:141 portfolio/models.py:53 portfolio/models.py:155
 msgid "Number of views"
 msgstr "Колькасць праглядаў"
 
@@ -544,9 +550,9 @@ msgstr "Код"
 msgid "Name (local)"
 msgstr "Назва (мясцовая)"
 
-#: main/models.py:74 messenger/models.py:101 portfolio/models.py:50
-#: social/models.py:32 social/models.py:59 social/models.py:83
-#: social/models.py:109 social/models.py:148
+#: main/models.py:74 messenger/models.py:94 notifications/models.py:30
+#: portfolio/models.py:48 social/models.py:34 social/models.py:59
+#: social/models.py:86 social/models.py:124
 msgid "Created at"
 msgstr "Створана ў"
 
@@ -595,92 +601,92 @@ msgstr "Выявы"
 msgid "Files"
 msgstr "Файлы"
 
-#: messenger/models.py:19
+#: messenger/models.py:18
 msgid "Conversation type"
 msgstr "Тып размовы"
 
-#: messenger/models.py:24
+#: messenger/models.py:23
 msgid "Members"
 msgstr "Члены"
 
-#: messenger/models.py:28 messenger/models.py:40 messenger/models.py:86
+#: messenger/models.py:27 messenger/models.py:39 messenger/models.py:79
 msgid "Conversation"
 msgstr "Размова"
 
-#: messenger/models.py:29
+#: messenger/models.py:28
 msgid "Conversations"
 msgstr "Размовы"
 
-#: messenger/models.py:46 portfolio/models.py:20 portfolio/models.py:84
+#: messenger/models.py:45 portfolio/models.py:18 portfolio/models.py:78
 msgid "Owner"
 msgstr "Уладальнік"
 
-#: messenger/models.py:75
+#: messenger/models.py:68
 msgid "Group Conversation"
 msgstr "Групавая размова"
 
-#: messenger/models.py:76
+#: messenger/models.py:69
 msgid "Group Conversations"
 msgstr "Групавыя размовы"
 
-#: messenger/models.py:91
+#: messenger/models.py:84
 msgid "Sender"
 msgstr "Адпраўнік"
 
-#: messenger/models.py:96
+#: messenger/models.py:89
 msgid "Message type"
 msgstr "Тып паведамлення"
 
-#: messenger/models.py:105 social/models.py:113 social/models.py:152
+#: messenger/models.py:98 social/models.py:90 social/models.py:128
 msgid "Updated at"
 msgstr "Абноўлена ў"
 
-#: messenger/models.py:108 social/models.py:29
+#: messenger/models.py:101 notifications/models.py:27
 msgid "Viewed"
 msgstr "Прагледжана"
 
-#: messenger/models.py:111 messenger/models.py:123 messenger/models.py:139
-#: messenger/models.py:158
+#: messenger/models.py:104 messenger/models.py:116 messenger/models.py:132
+#: messenger/models.py:151
 msgid "Message"
 msgstr "Паведамленне"
 
-#: messenger/models.py:112
+#: messenger/models.py:105
 msgid "Messages"
 msgstr "Паведамлення"
 
-#: messenger/models.py:125
+#: messenger/models.py:118
 msgid "Text content"
 msgstr "Тэкставы змест"
 
-#: messenger/models.py:128
+#: messenger/models.py:121
 msgid "Text Message"
 msgstr "Тэкставае паведамленне"
 
-#: messenger/models.py:129
+#: messenger/models.py:122
 msgid "Text Messages"
 msgstr "Тэкставыя паведамленні"
 
-#: messenger/models.py:143
+#: messenger/models.py:136
 msgid "Image content"
 msgstr "Змест выявы"
 
-#: messenger/models.py:147
+#: messenger/models.py:140
 msgid "Image Message"
 msgstr "Выявы паведамлення"
 
-#: messenger/models.py:148
+#: messenger/models.py:141
 msgid "Image Messages"
 msgstr "Выявы паведамленняў"
 
-#: messenger/models.py:162
+#: messenger/models.py:155
 msgid "File content"
 msgstr "Змест файла"
 
-#: messenger/models.py:166
+#: messenger/models.py:159
 msgid "File Message"
 msgstr "Файлавае паведамленне"
 
-#: messenger/models.py:167
+#: messenger/models.py:160
 msgid "File Messages"
 msgstr "Файлавыя паведамленні"
 
@@ -688,55 +694,111 @@ msgstr "Файлавыя паведамленні"
 msgid "You are not a member of the conversation."
 msgstr "Вы не з'яўляецеся ўдзельнікам размовы."
 
+#: notifications/apps.py:8 notifications/models.py:35
+msgid "Notifications"
+msgstr "Апавяшчэнні"
+
+#: notifications/choices.py:6
+msgid "New follow"
+msgstr "Новы падпісчык"
+
+#: notifications/choices.py:7
+msgid "New album"
+msgstr "Новы альбом"
+
+#: notifications/choices.py:8
+msgid "New photo"
+msgstr "Новае фота"
+
+#: notifications/choices.py:9
+msgid "New review"
+msgstr "Новы водгук"
+
+#: notifications/choices.py:10
+msgid "New comment"
+msgstr "Новы каментарый"
+
+#: notifications/models.py:13
+msgid "Notification type"
+msgstr "Тып апавяшчэння"
+
+#: notifications/models.py:24
+msgid "Recipient"
+msgstr "Атрымальнік"
+
+#: notifications/models.py:34
+msgid "Notification"
+msgstr "Апавяшчэнне"
+
+#: portfolio/admin.py:25
+#, fuzzy
+#| msgid "Description Hashtags and Date of creation"
+msgid "Description, Hashtags and Date of creation"
+msgstr "Апісанне, хэштэгі і дата стварэння"
+
+#: portfolio/admin.py:28 portfolio/admin.py:72
+msgid "Views, Likes and Rating"
+msgstr "Прагляды, лайкі і рэйтынг"
+
+#: portfolio/admin.py:60
+msgid "Photo details"
+msgstr "Дэталі фота"
+
+#: portfolio/admin.py:69
+#, fuzzy
+#| msgid "Description Hashtags and Date of upload"
+msgid "Description, Hashtags and Date of upload"
+msgstr "Апісанне, хэштэгі і дата загрузкі"
+
 #: portfolio/apps.py:8
 msgid "Portfolio"
 msgstr "Партфоліё"
 
-#: portfolio/models.py:61 portfolio/models.py:167
+#: portfolio/models.py:59 portfolio/models.py:161
 msgid "Likes"
 msgstr "Лайкі"
 
-#: portfolio/models.py:73 portfolio/models.py:92
+#: portfolio/models.py:67 portfolio/models.py:86
 msgid "Album"
 msgstr "Альбом"
 
-#: portfolio/models.py:74
+#: portfolio/models.py:68
 msgid "Albums"
 msgstr "Альбомы"
 
-#: portfolio/models.py:110
+#: portfolio/models.py:104
 msgid "Device"
 msgstr "Прылада"
 
-#: portfolio/models.py:117
+#: portfolio/models.py:111
 msgid "F-number (f/)"
 msgstr "Дыяфрагма (f/)"
 
-#: portfolio/models.py:125
+#: portfolio/models.py:119
 msgid "Must be entered in the format: 1/123456789."
 msgstr "Неабходна ўвесці ў фармаце: 1/123456789."
 
-#: portfolio/models.py:128
+#: portfolio/models.py:122
 msgid "Exposure time (s)"
 msgstr "Вытрымка (s)"
 
-#: portfolio/models.py:135
+#: portfolio/models.py:129
 msgid "Focal length (mm)"
 msgstr "Фокусная адлегласць (mm)"
 
-#: portfolio/models.py:140
+#: portfolio/models.py:134
 msgid "Photographic sensitivity (ISO)"
 msgstr "Фота-адчувальнасць (ISO)"
 
-#: portfolio/models.py:156
+#: portfolio/models.py:150
 msgid "Uploaded at"
 msgstr "Загружана ў"
 
-#: portfolio/models.py:179
+#: portfolio/models.py:169
 msgid "Photo"
 msgstr "Фота"
 
-#: portfolio/models.py:180
+#: portfolio/models.py:170
 msgid "Photos"
 msgstr "Фатаграфіі"
 
@@ -768,47 +830,39 @@ msgstr "1 зорка"
 msgid "Choose rating"
 msgstr "Абярыце рэйтынг"
 
-#: social/models.py:36
-msgid "Notification"
-msgstr "Апавяшчэнне"
-
-#: social/models.py:37
-msgid "Notifications"
-msgstr "Апавяшчэнні"
-
-#: social/models.py:48
+#: social/models.py:23
 msgid "Follower"
 msgstr "Падпісчык"
 
-#: social/models.py:63
+#: social/models.py:38
 msgid "Follow object"
 msgstr "Аб'ект Follow"
 
-#: social/models.py:64
+#: social/models.py:39
 msgid "Follow objects"
 msgstr "Аб'екты Follow"
 
-#: social/models.py:87
+#: social/models.py:63
 msgid "Favorite"
 msgstr "Абранае"
 
-#: social/models.py:88
+#: social/models.py:64
 msgid "Favorites"
 msgstr "Выбраныя"
 
-#: social/models.py:119 social/models.py:144
+#: social/models.py:96 social/models.py:120
 msgid "Comment"
 msgstr "Каментарый"
 
-#: social/models.py:120
+#: social/models.py:97
 msgid "Comments"
 msgstr "Каментары"
 
-#: social/models.py:156
+#: social/models.py:132
 msgid "Review"
 msgstr "Водгук"
 
-#: social/models.py:157
+#: social/models.py:133
 msgid "Reviews"
 msgstr "Водгукі"
 
@@ -816,12 +870,12 @@ msgstr "Водгукі"
 msgid "Only author have permission."
 msgstr "Дазвол ёсць толькі ў аўтара."
 
-#: social/serializers.py:63
+#: social/serializers.py:49
 msgid "You have already left a review here."
 msgstr "Вы ўжо пакідалі водгук тут."
 
-#: social/views.py:69 social/views.py:76 social/views.py:113
-#: social/views.py:120
+#: social/views.py:60 social/views.py:67 social/views.py:104
+#: social/views.py:111
 msgid "Not found."
 msgstr "Не знойдзена."
 
