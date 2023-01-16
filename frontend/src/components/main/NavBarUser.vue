@@ -8,13 +8,13 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div class="dropdown-user">
-    <div class="dropdown ms-3">
+  <div class="navbar-user">
+    <div class="dropdown">
       <a
         ref="dropdownUser"
         id="dropdownUser"
         href="#"
-        class="d-flex align-items-center text-decoration-none text-decoration-none text-dark"
+        class="d-flex align-items-center text-decoration-none text-dark"
         data-bs-toggle="dropdown"
         data-bs-auto-close="outside"
         aria-expanded="false"
@@ -70,7 +70,7 @@ const userStore = useUserStore()
           <LocaleRouterLink
             routeName="Profile"
             @click="$refs.dropdownUser.click()"
-            class="w-100 btn btn-light-brand btn-sm text-center"
+            class="btn btn-light-brand btn-sm text-center w-100"
           >
             {{ $t('auth.profile.edit_profile') }}
           </LocaleRouterLink>

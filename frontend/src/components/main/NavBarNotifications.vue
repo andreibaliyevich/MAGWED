@@ -1,6 +1,6 @@
 <template>
-  <div class="dropdown-notifications">
-    <div class="dropdown ms-3">
+  <div class="navbar-notifications">
+    <div class="dropdown">
       <a
         class="link-secondary position-relative"
         href="#"
