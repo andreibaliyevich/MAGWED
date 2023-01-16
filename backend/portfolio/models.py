@@ -1,13 +1,11 @@
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from accounts.models import Organizer
 from main.models import Hashtag
 from main.utilities import get_cover_path, get_thumbnail_path
-from social.models import Notification, Favorite, Comment
 from .utilities import get_photo_path
 
 
@@ -64,10 +62,6 @@ class Album(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
-
-    notifications = GenericRelation(Notification)
-    favorites = GenericRelation(Favorite)
-    comments = GenericRelation(Comment)
 
     class Meta:
         verbose_name = _('Album')
@@ -170,10 +164,6 @@ class Photo(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
-
-    notifications = GenericRelation(Notification)
-    favorites = GenericRelation(Favorite)
-    comments = GenericRelation(Comment)
 
     class Meta:
         verbose_name = _('Photo')
