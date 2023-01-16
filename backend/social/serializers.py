@@ -2,21 +2,7 @@ from rest_framework import serializers
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
-from .models import Notification, Comment, Review
-from .serializer_fields import NotificationObjectRelatedField
-
-
-class NotificationListSerializer(serializers.ModelSerializer):
-    """ Notification List Serializer """
-    content_object = NotificationObjectRelatedField(read_only=True)
-
-    class Meta:
-        model = Notification
-        fields = [
-            'content_object',
-            'viewed',
-            'created_at',
-        ]
+from .models import Comment, Review
 
 
 class CommentListCreateSerializer(serializers.ModelSerializer):

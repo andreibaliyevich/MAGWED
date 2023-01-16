@@ -11,33 +11,7 @@ from django.contrib.contenttypes.fields import (
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
 from accounts.models import Organizer
-from .choices import ReviewChoices
-
-
-class Notification(models.Model):
-    """ Notification Model """
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='notifications',
-        verbose_name=_('User'),
-    )
-
-    viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name=_('Created at'),
-    )
-
-    class Meta:
-        verbose_name = _('Notification')
-        verbose_name_plural = _('Notifications')
-        ordering = ['-created_at', '-id']
-        unique_together = ['content_type', 'object_id', 'user']
+from .choices import RatingChoices
 
 
 class Follow(models.Model):
@@ -140,10 +114,9 @@ class Review(models.Model):
     )
 
     rating = models.IntegerField(
-        choices=ReviewChoices.choices,
+        choices=RatingChoices.choices,
         verbose_name=_('Rating'),
     )
-
     comment = models.TextField(verbose_name=_('Comment'))
 
     created_at = models.DateTimeField(

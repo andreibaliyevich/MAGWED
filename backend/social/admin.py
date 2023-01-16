@@ -1,18 +1,5 @@
 from django.contrib import admin
-from .models import Notification, Follow, Favorite, Comment, Review
-
-
-class NotificationAdmin(admin.ModelAdmin):
-    """ Notification Model for admin """
-    list_display = (
-        'id',
-        'content_type',
-        'object_id',
-        'user',
-        'viewed',
-        'created_at',
-    )
-    readonly_fields = ('created_at',)
+from .models import Follow, Favorite, Comment, Review
 
 
 class FollowAdmin(admin.ModelAdmin):
@@ -39,7 +26,6 @@ class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-admin.site.register(Notification, NotificationAdmin)
 admin.site.register(Follow, FollowAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
 admin.site.register(Comment, CommentAdmin)

@@ -1,6 +1,5 @@
 from rest_framework import generics, status
 from rest_framework.permissions import (
-    AllowAny,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
@@ -9,22 +8,14 @@ from django.utils.translation import ugettext_lazy as _
 from accounts.models import Organizer
 from blog.models import Article
 from portfolio.models import Album, Photo
-from .models import Notification, Comment, Review
+from .models import Comment, Review
 from .permissions import UserIsAuthor
 from .serializers import (
-    NotificationListSerializer,
     CommentListCreateSerializer,
     CommentRUDSerializer,
     ReviewListCreateSerializer,
     ReviewRUDSerializer,
 )
-
-
-class NotificationListView(generics.ListAPIView):
-    """ Notification List View """
-    permission_classes = [AllowAny]
-    queryset = Notification.objects.all()
-    serializer_class = NotificationListSerializer
 
 
 class CommentListCreateView(generics.ListCreateAPIView):
