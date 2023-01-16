@@ -23,6 +23,7 @@ class Notification(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='notifications',
         verbose_name=_('User'),
     )
 
@@ -71,6 +72,7 @@ class Favorite(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='favorites',
         verbose_name=_('User'),
     )
 
@@ -99,6 +101,7 @@ class Comment(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='comments',
         verbose_name=_('Author'),
     )
 
