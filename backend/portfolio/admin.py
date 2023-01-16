@@ -22,7 +22,7 @@ class AlbumAdmin(admin.ModelAdmin):
         (_('Image and Thumbnail'), {
             'fields': ('image', 'thumbnail', 'get_preview'),
         }),
-        (_('Description Hashtags and Date of creation'), {
+        (_('Description, Hashtags and Date of creation'), {
             'fields': ('description', 'hashtags', 'created_at'),
         }),
         (_('Views, Likes and Rating'), {
@@ -66,7 +66,7 @@ class PhotoAdmin(admin.ModelAdmin):
                 'photographic_sensitivity',
             ),
         }),
-        (_('Description Hashtags and Date of upload'), {
+        (_('Description, Hashtags and Date of upload'), {
             'fields': ('description', 'hashtags', 'uploaded_at'),
         }),
         (_('Views, Likes and Rating'), {
