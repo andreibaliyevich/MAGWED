@@ -123,7 +123,7 @@ class Article(models.Model):
     )
 
     content = models.TextField(verbose_name=_('Content'))
-    
+
     hashtags = models.ManyToManyField(
         Hashtag,
         blank=True,
@@ -134,7 +134,6 @@ class Article(models.Model):
         auto_now_add=True,
         verbose_name=_('Published at'),
     )
-
     num_views = models.IntegerField(
         default=0,
         verbose_name=_('Number of views'),
