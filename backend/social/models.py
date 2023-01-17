@@ -6,7 +6,6 @@ from django.contrib.contenttypes.fields import (
 )
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
-from accounts.models import Organizer
 from .choices import RatingOfReview
 
 
@@ -34,7 +33,12 @@ class Follow(models.Model):
         verbose_name = _('Follow object')
         verbose_name_plural = _('Follow objects')
         ordering = ['-created_at', '-id']
-        unique_together = ['follower', 'user']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['follower', 'user'],
+                name='unique_follow',
+            )
+        ]
 
 
 class Favorite(models.Model):
@@ -59,7 +63,12 @@ class Favorite(models.Model):
         verbose_name = _('Favorite')
         verbose_name_plural = _('Favorites')
         ordering = ['-created_at', '-id']
-        unique_together = ['user', 'content_type', 'object_id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'content_type', 'object_id'],
+                name='unique_favorite',
+            )
+        ]
 
 
 class Comment(models.Model):
@@ -96,11 +105,11 @@ class Comment(models.Model):
 
 class Review(models.Model):
     """ Review Model """
-    organizer = models.ForeignKey(
-        Organizer,
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='organizer_reviews',
-        verbose_name=_('Organizer'),
+        related_name='user_reviews',
+        verbose_name=_('User'),
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -128,4 +137,9 @@ class Review(models.Model):
         verbose_name = _('Review')
         verbose_name_plural = _('Reviews')
         ordering = ['-created_at', '-id']
-        unique_together = ['organizer', 'author']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique_review',
+            )
+        ]

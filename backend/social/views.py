@@ -84,17 +84,18 @@ class ReviewListCreateView(generics.ListCreateAPIView):
     def validate_url(self, **kwargs):
         profile_url = kwargs.get('profile_url')
         try:
-            self.organizer = Organizer.objects.get(profile_url=profile_url)
+            organizer = Organizer.objects.get(profile_url=profile_url)
+            self.user = organizer.user
         except Organizer.DoesNotExist:
             return False
         return True
 
     def get_queryset(self):
-        return self.organizer.organizer_reviews.all()
+        return self.user.user_reviews.all()
 
     def perform_create(self, serializer):
         serializer.save(
-            organizer=self.organizer,
+            user=self.user,
             author=self.request.user,
         )
 

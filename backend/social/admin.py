@@ -26,5 +26,5 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     """ Review Model for admin """
-    list_display = ('id', 'organizer', 'author', 'rating', 'created_at')
+    list_display = ('id', 'user', 'author', 'rating', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
