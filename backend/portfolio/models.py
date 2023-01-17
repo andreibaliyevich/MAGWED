@@ -3,7 +3,6 @@ from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from accounts.models import Organizer
 from main.models import Hashtag
 from main.utilities import get_cover_path, get_thumbnail_path
 from .utilities import get_photo_path
@@ -12,7 +11,7 @@ from .utilities import get_photo_path
 class Album(models.Model):
     """ Album Model """
     owner = models.ForeignKey(
-        Organizer,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='albums',
         verbose_name=_('Owner'),
@@ -72,7 +71,7 @@ class Album(models.Model):
 class Photo(models.Model):
     """ Photo Model """
     owner = models.ForeignKey(
-        Organizer,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='photos',
         verbose_name=_('Owner'),
