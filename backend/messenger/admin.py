@@ -17,6 +17,7 @@ class GroupConversationInline(admin.TabularInline):
     extra = 0
 
 
+@admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
     """ Conversation Model for admin """
     list_display = ('id', 'convo_type')
@@ -24,13 +25,13 @@ class ConversationAdmin(admin.ModelAdmin):
 
 
 class TextMessageInline(admin.TabularInline):
-    """ TextMessage in line for ConversationAdmin """
+    """ TextMessage in line for MessageAdmin """
     model = TextMessage
     extra = 0
 
 
 class ImageMessageInline(admin.TabularInline):
-    """ ImageMessage in line for ConversationAdmin """
+    """ ImageMessage in line for MessageAdmin """
     model = ImageMessage
     extra = 0
     readonly_fields = ('get_preview',)
@@ -41,17 +42,14 @@ class ImageMessageInline(admin.TabularInline):
 
 
 class FileMessageInline(admin.TabularInline):
-    """ FileMessage in line for ConversationAdmin """
+    """ FileMessage in line for MessageAdmin """
     model = FileMessage
     extra = 0
 
 
+@admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     """ Message Model for admin """
     list_display = ('id', 'conversation', 'sender', 'msg_type', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     inlines = (TextMessageInline, ImageMessageInline, FileMessageInline)
-
-
-admin.site.register(Conversation, ConversationAdmin)
-admin.site.register(Message, MessageAdmin)

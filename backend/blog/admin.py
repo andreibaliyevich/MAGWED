@@ -17,6 +17,7 @@ class CategoryTranslationInline(admin.StackedInline):
     extra = 0
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """ Category Model for admin """
     list_display = ('__str__',)
@@ -40,6 +41,7 @@ class ArticleTranslationInline(admin.StackedInline):
     }
 
 
+@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     """ Article Model for admin """
     list_display = ('__str__', 'author', 'published_at')
@@ -77,6 +79,7 @@ class ArticleAdmin(admin.ModelAdmin):
     get_preview.short_description = _('Preview')
 
 
+@admin.register(ArticleImage)
 class ArticleImageAdmin(admin.ModelAdmin):
     """ Article Image Model for admin """
     list_display = ('id', 'file', 'get_preview')
@@ -85,8 +88,3 @@ class ArticleImageAdmin(admin.ModelAdmin):
     def get_preview(self, obj):
         return mark_safe(f'<img src="{ obj.file.url }" height="100">')
     get_preview.short_description = _('Preview')
-
-
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Article, ArticleAdmin)
-admin.site.register(ArticleImage, ArticleImageAdmin)

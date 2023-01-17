@@ -54,6 +54,7 @@ class ConnectionHistoryInline(admin.TabularInline):
     extra = 0
 
 
+@admin.register(MWUser)
 class MWUserAdmin(admin.ModelAdmin):
     """ User Model for admin """
     list_display = (
@@ -95,11 +96,13 @@ class MWUserAdmin(admin.ModelAdmin):
     inlines = (ConnectionHistoryInline,)
 
 
+@admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     """ Customer Model for admin """
     list_display = ('user', 'date_of_wedding')
 
 
+@admin.register(OrganizerRole)
 class OrganizerRoleAdmin(admin.ModelAdmin):
     """ Role of Organizer Model for admin """
     list_display = ('__str__',)
@@ -110,14 +113,9 @@ class OrganizerLinkInline(admin.TabularInline):
     extra = 0
 
 
+@admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
     """ Organizer Model for admin """
     list_display = ('user', 'rating', 'pro_time')
     autocomplete_fields = ['countries', 'cities', 'languages']
     inlines = (OrganizerLinkInline,)
-
-
-admin.site.register(MWUser, MWUserAdmin)
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(OrganizerRole, OrganizerRoleAdmin)
-admin.site.register(Organizer, OrganizerAdmin)

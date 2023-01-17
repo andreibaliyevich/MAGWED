@@ -9,6 +9,7 @@ class PhotoInline(admin.StackedInline):
     extra = 0
 
 
+@admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
     """ Album Model for admin """
     list_display = ('id', 'owner', 'title', 'created_at', 'rating')
@@ -37,6 +38,7 @@ class AlbumAdmin(admin.ModelAdmin):
     get_preview.short_description = _('Preview')
 
 
+@admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     """ Photo Model for admin """
     list_display = (
@@ -78,7 +80,3 @@ class PhotoAdmin(admin.ModelAdmin):
     def get_preview(self, obj):
         return mark_safe(f'<img src="{ obj.thumbnail.url }" height="200">')
     get_preview.short_description = _('Preview')
-
-
-admin.site.register(Album, AlbumAdmin)
-admin.site.register(Photo, PhotoAdmin)
