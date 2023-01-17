@@ -7,7 +7,7 @@ import { useMainStore } from '@/stores/main.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import Header from '@/components/main/Header.vue'
-// import Navbar from '@/components/main/Navbar.vue'
+import Navbar from '@/components/main/Navbar.vue'
 import Footer from '@/components/main/Footer.vue'
 
 const mainStore = useMainStore()
