@@ -1,6 +1,5 @@
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from main.models import Hashtag
@@ -140,7 +139,6 @@ class Article(models.Model):
         default=0,
         verbose_name=_('Number of views'),
     )
-    comments = GenericRelation(Comment)
 
     def get_translated_title(self):
         return get_translated_field(self, 'title')
