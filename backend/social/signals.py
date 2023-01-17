@@ -5,8 +5,7 @@ from django.dispatch import receiver
 from .models import Review
 
 
-@receiver(post_save, sender=Review)
-@receiver(post_delete, sender=Review)
+@receiver([post_save, post_delete], sender=Review)
 def update_organizer_rating(sender, **kwargs):
     """ Update rating of organizer """
     organizer = kwargs['instance'].organizer
