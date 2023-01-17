@@ -7,7 +7,7 @@ from django.contrib.contenttypes.fields import (
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
 from accounts.models import Organizer
-from .choices import RatingChoices
+from .choices import RatingOfReview
 
 
 class Follow(models.Model):
@@ -110,7 +110,7 @@ class Review(models.Model):
     )
 
     rating = models.IntegerField(
-        choices=RatingChoices.choices,
+        choices=RatingOfReview.choices,
         verbose_name=_('Rating'),
     )
     comment = models.TextField(verbose_name=_('Comment'))

@@ -2,7 +2,7 @@ from django.db.models import IntegerChoices
 from django.utils.translation import gettext_lazy as _
 
 
-class RatingChoices(IntegerChoices):
+class RatingOfReview(IntegerChoices):
     FIVE = 5, _('5 stars')
     FOUR = 4, _('4 stars')
     THREE = 3, _('3 stars')
