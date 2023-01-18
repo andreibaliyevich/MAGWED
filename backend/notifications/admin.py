@@ -7,10 +7,9 @@ class NotificationAdmin(admin.ModelAdmin):
     """ Notification Model for admin """
     list_display = (
         'id',
-        'notice_type',
-        'content_type',
-        'object_id',
+        'initiator',
         'recipient',
+        'action',
         'viewed',
         'created_at',
     )
