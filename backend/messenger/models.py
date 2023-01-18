@@ -98,7 +98,7 @@ class Message(models.Model):
         verbose_name=_('Updated at'),
     )
 
-    is_viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
+    viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
 
     class Meta:
         verbose_name = _('Message')

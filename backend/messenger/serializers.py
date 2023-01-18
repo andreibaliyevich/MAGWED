@@ -93,7 +93,7 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
             'sender',
             'msg_type',
             'created_at',
-            'is_viewed',
+            'viewed',
             'content',
         ]
 
@@ -116,7 +116,7 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         model = Message
         fields = [
             'msg_type',
-            'is_viewed',
+            'viewed',
             'created_at',
             'content',
         ]

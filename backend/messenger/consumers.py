@@ -98,5 +98,5 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         except Message.DoesNotExist:
             pass
         else:
-            msg.is_viewed = True
-            msg.save(update_fields=['is_viewed'])
+            msg.viewed = True
+            msg.save(update_fields=['viewed'])
