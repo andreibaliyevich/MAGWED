@@ -9,7 +9,9 @@ class NotificationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = [
-            'notice_type',
+            'id',
+            'initiator',
+            'action',
             'content_object',
             'viewed',
             'created_at',
