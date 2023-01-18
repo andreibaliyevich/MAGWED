@@ -3,26 +3,32 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
-from .choices import NotificationType
+from .choices import ActionOfNotification
 
 
 class Notification(models.Model):
     """ Notification Model """
-    notice_type = models.PositiveSmallIntegerField(
-        choices=NotificationType.choices,
-        verbose_name=_('Notification type'),
+    initiator = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='initiator_notifications',
+        verbose_name=_('Initiator'),
+    )
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='recipient_notifications',
+        verbose_name=_('Recipient'),
+    )
+
+    action = models.PositiveSmallIntegerField(
+        choices=ActionOfNotification.choices,
+        verbose_name=_('Action'),
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-
-    recipient = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='notifications',
-        verbose_name=_('Recipient'),
-    )
 
     viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
     created_at = models.DateTimeField(
