@@ -32,6 +32,7 @@ class Notification(models.Model):
 
     viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )

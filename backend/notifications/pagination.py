@@ -1,5 +1,6 @@
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import CursorPagination
 
 
-class NotificationPagination(PageNumberPagination):
+class NotificationPagination(CursorPagination):
     page_size = 10
+    ordering = '-created_at'
