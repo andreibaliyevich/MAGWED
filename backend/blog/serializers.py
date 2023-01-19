@@ -33,7 +33,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
     """ Category Detail Serializer """
-    article_set = ArticleListSerializer(read_only=True, many=True)
+    articles = ArticleListSerializer(read_only=True, many=True)
 
     class Meta:
         model = Category
@@ -42,7 +42,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
             'get_translated_name',
             'get_translated_meta_description',
             'get_translated_meta_keywords',
-            'article_set',
+            'articles',
         ]
 
 
