@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from .choices import UserType
 from .filters import OrganizerFilter
 from .models import Customer, Organizer, OrganizerLink
-from .pagination import OrganizerSetPagination
+from .pagination import OrganizerPagination
 from .permissions import UserIsOrganizer
 from .serializers import (
     UserLoginSerializer,
@@ -265,7 +265,7 @@ class OrganizerListView(generics.ListAPIView):
     """ Organizer List View """
     queryset = Organizer.objects.filter(user__is_active=True)
     serializer_class = OrganizerListSerializer
-    pagination_class = OrganizerSetPagination
+    pagination_class = OrganizerPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = OrganizerFilter
 
