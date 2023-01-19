@@ -9,7 +9,7 @@ class NotificationAdmin(admin.ModelAdmin):
         'id',
         'initiator',
         'recipient',
-        'action',
+        'notice_type',
         'viewed',
         'created_at',
     )
