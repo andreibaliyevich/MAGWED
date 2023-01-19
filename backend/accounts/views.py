@@ -51,11 +51,10 @@ class LoginView(ObtainAuthToken):
                 sender=user.__class__, request=request, user=user
             )
 
-        response_data = {'token': token.key}
-        user_serializer = UserLoginSerializer(user)
-        response_data.update(user_serializer.data)
+        user_data = UserLoginSerializer(user).data
+        user_data.update({'token': token.key})
 
-        return Response(response_data)
+        return Response(user_data)
 
 
 class LogoutView(APIView):
