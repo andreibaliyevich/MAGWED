@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-19 11:56+0000\n"
+"POT-Creation-Date: 2023-01-19 21:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -550,7 +550,7 @@ msgstr "Код"
 msgid "Name (local)"
 msgstr "Назва (мясцовая)"
 
-#: main/models.py:74 messenger/models.py:94 notifications/models.py:36
+#: main/models.py:74 messenger/models.py:95 notifications/models.py:37
 #: portfolio/models.py:47 social/models.py:29 social/models.py:59
 #: social/models.py:91 social/models.py:129
 msgid "Created at"
@@ -637,62 +637,67 @@ msgstr "Адпраўнік"
 msgid "Message type"
 msgstr "Тып паведамлення"
 
-#: messenger/models.py:98 social/models.py:95 social/models.py:133
+#: messenger/models.py:99 social/models.py:95 social/models.py:133
 msgid "Updated at"
 msgstr "Абноўлена ў"
 
-#: messenger/models.py:101 notifications/models.py:33
+#: messenger/models.py:102 notifications/models.py:33
 msgid "Viewed"
 msgstr "Прагледжана"
 
-#: messenger/models.py:104 messenger/models.py:116 messenger/models.py:132
-#: messenger/models.py:151
+#: messenger/models.py:105 messenger/models.py:117 messenger/models.py:133
+#: messenger/models.py:152
 msgid "Message"
 msgstr "Паведамленне"
 
-#: messenger/models.py:105
+#: messenger/models.py:106
 msgid "Messages"
 msgstr "Паведамлення"
 
-#: messenger/models.py:118
+#: messenger/models.py:119
 msgid "Text content"
 msgstr "Тэкставы змест"
 
-#: messenger/models.py:121
+#: messenger/models.py:122
 msgid "Text Message"
 msgstr "Тэкставае паведамленне"
 
-#: messenger/models.py:122
+#: messenger/models.py:123
 msgid "Text Messages"
 msgstr "Тэкставыя паведамленні"
 
-#: messenger/models.py:136
+#: messenger/models.py:137
 msgid "Image content"
 msgstr "Змест выявы"
 
-#: messenger/models.py:140
+#: messenger/models.py:141
 msgid "Image Message"
 msgstr "Выявы паведамлення"
 
-#: messenger/models.py:141
+#: messenger/models.py:142
 msgid "Image Messages"
 msgstr "Выявы паведамленняў"
 
-#: messenger/models.py:155
+#: messenger/models.py:156
 msgid "File content"
 msgstr "Змест файла"
 
-#: messenger/models.py:159
+#: messenger/models.py:160
 msgid "File Message"
 msgstr "Файлавае паведамленне"
 
-#: messenger/models.py:160
+#: messenger/models.py:161
 msgid "File Messages"
 msgstr "Файлавыя паведамленні"
 
 #: messenger/serializers.py:24
 msgid "You are not a member of the conversation."
 msgstr "Вы не з'яўляецеся ўдзельнікам размовы."
+
+#: messenger/views.py:49 social/views.py:60 social/views.py:67
+#: social/views.py:105 social/views.py:112
+msgid "Not found."
+msgstr "Не знойдзена."
 
 #: notifications/admin.py:8
 msgid "Date created"
@@ -706,7 +711,7 @@ msgstr "Апошні дзень"
 msgid "More month"
 msgstr "Больш за месяц"
 
-#: notifications/apps.py:8 notifications/models.py:41
+#: notifications/apps.py:8 notifications/models.py:42
 msgid "Notifications"
 msgstr "Апавяшчэнні"
 
@@ -766,7 +771,7 @@ msgstr "Атрымальнік"
 msgid "Reason"
 msgstr "Прычына"
 
-#: notifications/models.py:40
+#: notifications/models.py:41
 msgid "Notification"
 msgstr "Апавяшчэнне"
 
@@ -909,11 +914,6 @@ msgstr "Дазвол ёсць толькі ў аўтара."
 #: social/serializers.py:49
 msgid "You have already left a review here."
 msgstr "Вы ўжо пакідалі водгук тут."
-
-#: social/views.py:60 social/views.py:67 social/views.py:105
-#: social/views.py:112
-msgid "Not found."
-msgstr "Не знойдзена."
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
