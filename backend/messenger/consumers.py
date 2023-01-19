@@ -22,10 +22,6 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
             )
             await self.accept()
 
-            await self.send_json({
-                'messages': await self.get_messages(),
-            })
-
     async def disconnect(self, close_code):
         wstokens_cache = caches['wstokens']
         wstokens_cache.delete(self.scope['wstoken'])
@@ -67,17 +63,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
 
     @database_sync_to_async
     def check_is_member(self):
-        if self.user in self.conversation.members.all():
-            return True
-        else:
-            return False
-
-    @database_sync_to_async
-    def get_messages(self):
-        return MessageFullReadSerializer(
-            self.conversation.messages.all(),
-            many=True,
-        ).data
+        return self.user in self.conversation.members.all()
 
     @database_sync_to_async
     def save_message(self, text_data):

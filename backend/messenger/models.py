@@ -67,7 +67,7 @@ class GroupConversation(models.Model):
     class Meta:
         verbose_name = _('Group Conversation')
         verbose_name_plural = _('Group Conversations')
-        ordering = ['-conversation']
+        ordering = ['conversation']
 
 
 class Message(models.Model):
@@ -90,6 +90,7 @@ class Message(models.Model):
     )
 
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
@@ -103,7 +104,7 @@ class Message(models.Model):
     class Meta:
         verbose_name = _('Message')
         verbose_name_plural = _('Messages')
-        ordering = ['created_at', 'id']
+        ordering = ['-created_at']
 
 
 class TextMessage(models.Model):

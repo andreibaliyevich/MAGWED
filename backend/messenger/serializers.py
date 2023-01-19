@@ -80,9 +80,17 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
         if obj.msg_type == MessageType.TEXT:
             return TextMessageSerializer(obj.text).data['content']
         elif obj.msg_type == MessageType.IMAGES:
-            return ImageMessageSerializer(obj.images.all(), many=True).data
+            return ImageMessageSerializer(
+                obj.images.all(),
+                many=True,
+                context=self.context,
+            ).data
         elif obj.msg_type == MessageType.FILES:
-            return FileMessageSerializer(obj.files.all(), many=True).data
+            return FileMessageSerializer(
+                obj.files.all(),
+                many=True,
+                context=self.context,
+            ).data
         else:
             return None
 
@@ -106,9 +114,9 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         if obj.msg_type == MessageType.TEXT:
             return TextMessageSerializer(obj.text).data['content']
         elif obj.msg_type == MessageType.IMAGES:
-            return ImageMessageSerializer(obj.images.all(), many=True).data
+            return obj.images.all().count()
         elif obj.msg_type == MessageType.FILES:
-            return FileMessageSerializer(obj.files.all(), many=True).data
+            return obj.files.all().count()
         else:
             return None
 
@@ -134,8 +142,8 @@ class GroupConversationSerializer(serializers.ModelSerializer):
         ]
 
 
-class ConversationSerializer(serializers.ModelSerializer):
-    """ Conversation Serializer """
+class ConversationListSerializer(serializers.ModelSerializer):
+    """ Conversation List Serializer """
     details = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
 
