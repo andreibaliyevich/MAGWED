@@ -67,3 +67,15 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'published_at',
             'num_views',
         ]
+
+
+class ArticleShortReadSerializer(serializers.ModelSerializer):
+    """ Article Short Read Serializer """
+
+    class Meta:
+        model = Article
+        fields = [
+            'slug',
+            'get_translated_title',
+            'thumbnail',
+        ]

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from blog.models import Article
-from blog.serializers import ArticleListSerializer
+from blog.serializers import ArticleShortReadSerializer
 from portfolio.models import Album, Photo
 from portfolio.serializers import (
     AlbumShortReadSerializer,
@@ -16,17 +16,17 @@ class NotificationObjectRelatedField(serializers.RelatedField):
 
     def to_representation(self, value):
         if isinstance(value, Follow):
-            serializer = { 'data': None }
+            return None
         elif isinstance(value, Article):
-            serializer = ArticleListSerializer(value)
+            serializer = ArticleShortReadSerializer(value)
         elif isinstance(value, Album):
             serializer = AlbumShortReadSerializer(value)
         elif isinstance(value, Photo):
             serializer = PhotoShortReadSerializer(value)
         elif isinstance(value, Comment):
-            serializer = { 'data': None }
+            return None
         elif isinstance(value, Review):
-            serializer = { 'data': None }
+            return None
         else:
             raise Exception('Unexpected type of content object')
         return serializer.data
