@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { API_URL } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 
 const { t } = useI18n({ useScope: 'global' })
@@ -80,16 +79,12 @@ const removeAvatar = async () => {
         class="row d-flex align-items-center"
       >
         <div class="col-md-3">
-          <img
-            v-if="userStore.avatar"
-            :src="`${ API_URL }${ userStore.avatar }`"
-            class="img-fluid rounded-start"
-          >
-          <img
-            v-else
-            src="/user-avatar.jpg"
-            class="img-fluid rounded-start"
-          >
+          <UserAvatar
+            :src="userStore.avatar"
+            :width="128"
+            :height="128"
+            imgClass="img-fluid rounded-start"
+          />
         </div>
         <div class="col-md-9">
           <div class="card-body text-center">

@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { API_URL } from '@/config.js'
 
 const { t } = useI18n({ useScope: 'global' })
 
@@ -76,7 +75,7 @@ onMounted(() => {
       <div v-else>
         <img
           v-if="cover"
-          :src="`${ API_URL }${ cover }`"
+          :src="cover"
           class="card-img-top"
         >
         <img

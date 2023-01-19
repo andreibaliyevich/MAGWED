@@ -1,5 +1,5 @@
 <script setup>
-import { API_URL, userType } from '@/config.js'
+import { userType } from '@/config.js'
 import { useLogout } from '@/composables/logout.js'
 import { useUserStore } from '@/stores/user.js'
 
@@ -19,22 +19,12 @@ const userStore = useUserStore()
         data-bs-auto-close="outside"
         aria-expanded="false"
       >
-        <img
-          v-if="userStore.avatar"
-          :src="`${ API_URL }${ userStore.avatar }`"
-          class="rounded-circle"
-          width="32"
-          height="32"
+        <UserAvatar
+          :src="userStore.avatar"
+          :width="32"
+          :height="32"
           alt="avatar"
-        >
-        <img
-          v-else
-          src="/user-avatar.jpg"
-          class="rounded-circle"
-          width="32"
-          height="32"
-          alt="avatar"
-        >
+        />
       </a>
       <ul
         class="dropdown-menu dropdown-menu-end shadow"
@@ -42,22 +32,12 @@ const userStore = useUserStore()
       >
         <li class="px-3 pt-2 pb-3">
           <div class="d-flex align-items-center gap-2 mb-1">
-            <img
-              v-if="userStore.avatar"
-              :src="`${ API_URL }${ userStore.avatar }`"
-              class="rounded-circle"
-              width="48"
-              height="48"
+            <UserAvatar
+              :src="userStore.avatar"
+              :width="48"
+              :height="48"
               alt="avatar"
-            >
-            <img
-              v-else
-              src="/user-avatar.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-              alt="avatar"
-            >
+            />
             <div class="ms-1">
               <span class="d-flex flex-nowrap fw-bolder">
                 {{ userStore.name }}
