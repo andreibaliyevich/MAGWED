@@ -1,5 +1,5 @@
 <script setup>
-import { API_URL, messageType } from '@/config.js'
+import { messageType } from '@/config.js'
 
 defineProps({
   msgType: {
@@ -39,8 +39,8 @@ const getSize = (value) => {
     <div v-else-if="msgType == messageType.IMAGES">
       <img
         v-for="img in msgContent"
-        :src="`${ API_URL }${ img.content }`"
-        :alt="`${ getSize(img.size) }`"
+        :src="img.content"
+        :alt="getSize(img.size)"
         width="150"
       >
     </div>
@@ -51,7 +51,7 @@ const getSize = (value) => {
       >
         <div class="col-auto">
           <a
-            :href="`${ API_URL }${ file.content }`"
+            :href="file.content"
             :class="'text-decoration-none ' + textClass"
             target="_blank"
           >
@@ -61,7 +61,7 @@ const getSize = (value) => {
         <div class="col overflow-hidden">
           <h6 class="text-truncate mb-0">
             <a
-              :href="`${ API_URL }${ file.content }`"
+              :href="file.content"
               :class="'text-decoration-none ' + textClass"
               target="_blank"
             >

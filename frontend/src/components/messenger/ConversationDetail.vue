@@ -1,11 +1,13 @@
 <script setup>
 import axios from 'axios'
-import { ref, nextTick, watch, onMounted, onUnmounted } from 'vue'
-import { API_URL, WS_URL, conversationType, messageType } from '@/config.js'
+import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
+import { WS_URL, conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
+import GroupAvatar from './GroupAvatar.vue'
 import MessageContent from './MessageContent.vue'
+import UserAvatarExtended from './UserAvatarExtended.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const userStore = useUserStore()
@@ -26,14 +28,31 @@ const message = ref('')
 const cardBody = ref(null)
 const msgTextarea = ref(null)
 
-const closeConversation = () => {
-  if (convoSocket.value) {
-    convoSocket.value.close()
+const reversedMessages = computed(() => {
+  return messages.value.reverse()
+})
+
+const getMessages = async () => {
+  messagesLoading.value = true
+  try {
+    const response = await axios.get(
+      '/messenger/messages/'
+      + props.conversation.id
+      + '/'
+    )
+    messages.value = response.data.results
+  } catch (error) {
+    console.error(error)
+  } finally {
+    messagesLoading.value = false
+    nextTick(() => {
+      cardBody.value.scrollTop = cardBody.value.scrollHeight
+      msgTextarea.value.focus()
+    })
   }
 }
 
-const openConversation = async () => {
-  messagesLoading.value = true
+const openConvoSocket = async () => {
   try {
     const response = await axios.get('/accounts/auth/wstoken/')
     convoSocket.value = new WebSocket(
@@ -45,21 +64,13 @@ const openConversation = async () => {
     )
     convoSocket.value.onmessage = (event) => {
       const data = JSON.parse(event.data)
-      if (data.messages) {
-        messages.value = data.messages
-        nextTick(() => {
-          cardBody.value.scrollTop = cardBody.value.scrollHeight
-          msgTextarea.value.focus()
+      messages.value.push(data)
+      nextTick(() => {
+        cardBody.value.scrollTo({
+          top: cardBody.value.scrollHeight,
+          behavior: 'smooth'
         })
-      } else {
-        messages.value.push(data)
-        nextTick(() => {
-          cardBody.value.scrollTo({
-            top: cardBody.value.scrollHeight,
-            behavior: 'smooth'
-          })
-        })
-      }
+      })
     }
     convoSocket.value.onerror = (event) => {
       convoSocket.value = null
@@ -68,8 +79,12 @@ const openConversation = async () => {
     }
   } catch (error) {
     console.error(error)
-  } finally {
-    messagesLoading.value = false
+  }
+}
+
+const closeConversation = () => {
+  if (convoSocket.value) {
+    convoSocket.value.close()
   }
 }
 
@@ -126,7 +141,8 @@ const updateUserStatus = (mutation, state) => {
 watch(() => props.conversation, (newValue) => {
   messages.value = []
   closeConversation()
-  openConversation()
+  getMessages()
+  openConvoSocket()
 })
 
 watch(message, (newValue) => {
@@ -134,7 +150,8 @@ watch(message, (newValue) => {
 })
 
 onMounted(() => {
-  openConversation()
+  getMessages()
+  openConvoSocket()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 
@@ -150,35 +167,19 @@ onUnmounted(() => {
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
             <div v-if="conversation.convo_type == conversationType.DIALOG">
-              <div class="position-relative">
-                <UserAvatar
-                  :src="conversation.details.avatar"
-                  :width="48"
-                  :height="48"
-                />
-                <span
-                  v-if="conversation.details.online"
-                  class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
-                >
-                  <span class="visually-hidden">Online</span>
-                </span>
-              </div>
+              <UserAvatarExtended
+                :src="conversation.details.avatar"
+                :width="48"
+                :height="48"
+                :online="conversation.details.online"
+              />
             </div>
             <div v-else-if="conversation.convo_type == conversationType.GROUP">
-              <img
-                v-if="conversation.details.image"
+              <GroupAvatar
                 :src="conversation.details.image"
-                width="48"
-                height="48"
-                class="rounded-circle"
-              >
-              <img
-                v-else
-                src="/group-avatar.jpg"
-                width="48"
-                height="48"
-                class="rounded-circle"
-              >
+                :width="48"
+                :height="48"
+              />
             </div>
             <div v-else>
               <img
@@ -201,7 +202,7 @@ onUnmounted(() => {
         <LoadingIndicator v-if="messagesLoading" />
         <div
           v-else
-          v-for="msg in messages"
+          v-for="msg in reversedMessages"
           class="my-3"
         >
           <div
@@ -230,19 +231,12 @@ onUnmounted(() => {
                 v-if="conversation.convo_type == conversationType.GROUP"
                 class="d-flex align-items-start"
               >
-                <div class="position-relative">
-                  <UserAvatar
-                    :src="`${ API_URL }${ msg.sender.avatar }`"
-                    :width="32"
-                    :height="32"
-                  />
-                  <span
-                    v-if="msg.sender.online"
-                    class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
-                  >
-                    <span class="visually-hidden">Online</span>
-                  </span>
-                </div>
+                <UserAvatarExtended
+                  :src="msg.sender.avatar"
+                  :width="48"
+                  :height="48"
+                  :online="msg.sender.online"
+                />
                 <div class="bg-light rounded p-2 ms-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <MessageContent

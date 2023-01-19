@@ -1,0 +1,35 @@
+<script setup>
+defineProps({
+  src: String,
+  width: {
+    type: Number,
+    required: true
+  },
+  height: {
+    type: Number,
+    required: true
+  },
+  online: {
+    type: Boolean,
+    required: true
+  }
+})
+</script>
+
+<template>
+  <div class="user-avatar">
+    <div class="position-relative">
+      <UserAvatar
+        :src="src"
+        :width="width"
+        :height="height"
+      />
+      <span
+        v-if="online"
+        class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
+      >
+        <span class="visually-hidden">Online</span>
+      </span>
+    </div>
+  </div>
+</template>

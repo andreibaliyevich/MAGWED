@@ -4,6 +4,8 @@ import { ref, onMounted } from 'vue'
 import { conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
+import GroupAvatar from './GroupAvatar.vue'
+import UserAvatarExtended from './UserAvatarExtended.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBusStore = useConnectionBusStore()
@@ -66,35 +68,19 @@ onMounted(() => {
           style="background-color: #efefef;"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <div class="position-relative">
-              <UserAvatar
-                :src="convo.details.avatar"
-                :width="48"
-                :height="48"
-              />
-              <span
-                v-if="convo.details.online"
-                class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
-              >
-                <span class="visually-hidden">Online</span>
-              </span>
-            </div>
+            <UserAvatarExtended
+              :src="convo.details.avatar"
+              :width="48"
+              :height="48"
+              :online="convo.details.online"
+            />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <img
-              v-if="convo.details.image"
+            <GroupAvatar
               :src="convo.details.image"
-              width="48"
-              height="48"
-              class="rounded-circle"
-            >
-            <img
-              v-else
-              src="/group-avatar.jpg"
-              width="48"
-              height="48"
-              class="rounded-circle"
-            >
+              :width="48"
+              :height="48"
+            />
           </div>
           <div v-else>
             <img
@@ -134,13 +120,13 @@ onMounted(() => {
               v-else-if="convo.last_message.msg_type == messageType.IMAGES"
               class="mb-0 opacity-75"
             >
-              {{ convo.last_message.content.length }} Images
+              {{ convo.last_message.content }} Images
             </p>
             <p
               v-else-if="convo.last_message.msg_type == messageType.FILES"
               class="mb-0 opacity-75"
             >
-              {{ convo.last_message.content.length }} Files
+              {{ convo.last_message.content }} Files
             </p>
           </div>
         </div>
@@ -150,35 +136,19 @@ onMounted(() => {
           class="d-flex gap-3 p-3"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <div class="position-relative">
-              <UserAvatar
-                :src="convo.details.avatar"
-                :width="48"
-                :height="48"
-              />
-              <span
-                v-if="convo.details.online"
-                class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
-              >
-                <span class="visually-hidden">Online</span>
-              </span>
-            </div>
+            <UserAvatarExtended
+              :src="convo.details.avatar"
+              :width="48"
+              :height="48"
+              :online="convo.details.online"
+            />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <img
-              v-if="convo.details.image"
+            <GroupAvatar
               :src="convo.details.image"
-              width="48"
-              height="48"
-              class="rounded-circle"
-            >
-            <img
-              v-else
-              src="/group-avatar.jpg"
-              width="48"
-              height="48"
-              class="rounded-circle"
-            >
+              :width="48"
+              :height="48"
+            />
           </div>
           <div v-else>
             <img
@@ -218,13 +188,13 @@ onMounted(() => {
               v-else-if="convo.last_message.msg_type == messageType.IMAGES"
               class="mb-0 opacity-75"
             >
-              {{ convo.last_message.content.length }} Images
+              {{ convo.last_message.content }} Images
             </p>
             <p
               v-else-if="convo.last_message.msg_type == messageType.FILES"
               class="mb-0 opacity-75"
             >
-              {{ convo.last_message.content.length }} Files
+              {{ convo.last_message.content }} Files
             </p>
           </div>
         </div>
