@@ -66,12 +66,19 @@ onMounted(() => {
           style="background-color: #efefef;"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <UserAvatarExtended
-              :src="convo.details.avatar"
-              :width="48"
-              :height="48"
-              :online="convo.details.online"
-            />
+            <div class="position-relative">
+              <UserAvatar
+                :src="convo.details.avatar"
+                :width="48"
+                :height="48"
+              />
+              <span
+                v-if="convo.details.online"
+                class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
+              >
+                <span class="visually-hidden">Online</span>
+              </span>
+            </div>
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
             <img
@@ -143,12 +150,19 @@ onMounted(() => {
           class="d-flex gap-3 p-3"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <UserAvatarExtended
-              :src="convo.details.avatar"
-              :width="48"
-              :height="48"
-              :online="convo.details.online"
-            />
+            <div class="position-relative">
+              <UserAvatar
+                :src="convo.details.avatar"
+                :width="48"
+                :height="48"
+              />
+              <span
+                v-if="convo.details.online"
+                class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
+              >
+                <span class="visually-hidden">Online</span>
+              </span>
+            </div>
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
             <img
