@@ -11,7 +11,7 @@ class AlbumShortReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'owner',
+            'id',
             'title',
             'thumbnail',
         ]
@@ -63,7 +63,7 @@ class PhotoShortReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'owner',
+            'id',
             'thumbnail',
         ]
 
