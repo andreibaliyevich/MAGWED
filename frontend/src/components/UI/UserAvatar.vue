@@ -12,7 +12,7 @@ export default {
       type: Number,
       required: true
     },
-    buttonClass: {
+    imgClass: {
       type: String,
       default: 'rounded-circle'
     }
@@ -27,7 +27,7 @@ export default {
       :src="src"
       :width="width"
       :height="height"
-      :class="buttonClass"
+      :class="imgClass"
       v-bind="$attrs"
     >
     <img
@@ -35,7 +35,7 @@ export default {
       src="/user-avatar.jpg"
       :width="width"
       :height="height"
-      :class="buttonClass"
+      :class="imgClass"
       v-bind="$attrs"
     >
   </div>
