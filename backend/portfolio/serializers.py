@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from accounts.serializers import OrganizerShortReadSerializer
+from accounts.serializers import UserShortReadSerializer
 from main.serializers import HashtagSerializer
 from .models import Album, Photo
 
 
 class AlbumShortReadSerializer(serializers.ModelSerializer):
     """ Album Short Read Serializer """
-    owner = OrganizerShortReadSerializer(read_only=True)
-
+    
     class Meta:
         model = Album
         fields = [
@@ -19,7 +18,7 @@ class AlbumShortReadSerializer(serializers.ModelSerializer):
 
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
-    owner = OrganizerShortReadSerializer(read_only=True)
+    owner = UserShortReadSerializer(read_only=True)
 
     class Meta:
         model = Album
@@ -37,7 +36,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
-    owner = OrganizerShortReadSerializer(read_only=True)
+    owner = UserShortReadSerializer(read_only=True)
     hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
@@ -58,7 +57,6 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
 
 class PhotoShortReadSerializer(serializers.ModelSerializer):
     """ Photo Short Read Serializer """
-    owner = OrganizerShortReadSerializer(read_only=True)
 
     class Meta:
         model = Photo
@@ -70,7 +68,7 @@ class PhotoShortReadSerializer(serializers.ModelSerializer):
 
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
-    owner = OrganizerShortReadSerializer(read_only=True)
+    owner = UserShortReadSerializer(read_only=True)
 
     class Meta:
         model = Photo
@@ -87,7 +85,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
-    owner = OrganizerShortReadSerializer(read_only=True)
+    owner = UserShortReadSerializer(read_only=True)
     hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
