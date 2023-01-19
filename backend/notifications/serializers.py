@@ -44,7 +44,7 @@ class NotificationListSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'initiator',
-            'notice_type',
+            'reason',
             'content_object',
             'viewed',
             'created_at',

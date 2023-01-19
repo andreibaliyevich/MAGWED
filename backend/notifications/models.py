@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
-from .choices import NotificationType
+from .choices import ReasonOfNotification
 
 
 class Notification(models.Model):
@@ -21,9 +21,9 @@ class Notification(models.Model):
         verbose_name=_('Recipient'),
     )
 
-    notice_type = models.PositiveSmallIntegerField(
-        choices=NotificationType.choices,
-        verbose_name=_('Notice type'),
+    reason = models.PositiveSmallIntegerField(
+        choices=ReasonOfNotification.choices,
+        verbose_name=_('Reason'),
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

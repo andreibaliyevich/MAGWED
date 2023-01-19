@@ -2,7 +2,7 @@ from django.db.models import IntegerChoices
 from django.utils.translation import gettext_lazy as _
 
 
-class NotificationType(IntegerChoices):
+class ReasonOfNotification(IntegerChoices):
     FOLLOW = 1, _('New follow')
     ARTICLE = 2, _('New article')
     ALBUM = 3, _('New album')
