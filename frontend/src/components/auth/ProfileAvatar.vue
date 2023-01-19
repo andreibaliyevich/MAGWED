@@ -23,13 +23,13 @@ const updateAvatar = async (filelist) => {
     const response = await axios.put('/accounts/auth/avatar/', avatarData)
     userStore.updateAvatar(response.data.avatar)
     window.localStorage.setItem('user', JSON.stringify({
-      'token': userStore.token,
       'id': userStore.id,
       'username': userStore.username,
       'email': userStore.email,
       'user_type': userStore.userType,
       'name': userStore.name,
-      'avatar': response.data.avatar
+      'avatar': response.data.avatar,
+      'token': userStore.token
     }))
     status.value = t('auth.profile.avatar_updated_successfully')
     errors.value = null
@@ -49,12 +49,12 @@ const removeAvatar = async () => {
       const response = await axios.delete('/accounts/auth/avatar/')
       userStore.updateAvatar(null)
       window.localStorage.setItem('user', JSON.stringify({
-        'token': userStore.token,
         'username': userStore.username,
         'email': userStore.email,
         'user_type': userStore.userType,
         'name': userStore.name,
-        'avatar': null
+        'avatar': null,
+        'token': userStore.token
       }))
       status.value = t('auth.profile.avatar_removed_successfully')
       errors.value = null
