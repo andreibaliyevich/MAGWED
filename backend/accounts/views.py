@@ -51,7 +51,10 @@ class LoginView(ObtainAuthToken):
                 sender=user.__class__, request=request, user=user
             )
 
-        user_data = UserLoginSerializer(user).data
+        user_data = UserLoginSerializer(
+            user,
+            context={'request': request},
+        ).data
         user_data.update({'token': token.key})
 
         return Response(user_data)
@@ -190,7 +193,11 @@ class ProfileAvatarView(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request, *args, **kwargs):
-        serializer = ProfileAvatarSerializer(request.user, data=request.data)
+        serializer = ProfileAvatarSerializer(
+            request.user,
+            data=request.data,
+            context={'request': request},
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -206,12 +213,19 @@ class OrganizerCoverView(APIView):
 
     def get(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
-        serializer = OrganizerCoverSerializer(organizer)
+        serializer = OrganizerCoverSerializer(
+            organizer,
+            context={'request': request},
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
         organizer = get_object_or_404(Organizer, user=request.user)
-        serializer = OrganizerCoverSerializer(organizer, data=request.data)
+        serializer = OrganizerCoverSerializer(
+            organizer,
+            data=request.data,
+            context={'request': request},
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
