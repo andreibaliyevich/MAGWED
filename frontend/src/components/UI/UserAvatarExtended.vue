@@ -1,23 +1,27 @@
-<script setup>
-defineProps({
-  src: String,
-  width: {
-    type: Number,
-    required: true
-  },
-  height: {
-    type: Number,
-    required: true
-  },
-  online: {
-    type: Boolean,
-    required: true
+<script>
+export default {
+  name: 'UserAvatarExtended',
+  inheritAttrs: false,
+  props: {
+    src: String,
+    width: {
+      type: Number,
+      required: true
+    },
+    height: {
+      type: Number,
+      required: true
+    },
+    online: {
+      type: Boolean,
+      required: true
+    }
   }
-})
+}
 </script>
 
 <template>
-  <div class="user-avatar">
+  <div class="user-avatar-extended">
     <div class="position-relative">
       <img
         v-if="src"
