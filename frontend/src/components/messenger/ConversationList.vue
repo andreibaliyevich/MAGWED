@@ -4,8 +4,6 @@ import { ref, onMounted } from 'vue'
 import { conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-import UserAvatar from '@/components/auth/UserAvatar.vue'
-import GroupAvatar from '@/components/auth/GroupAvatar.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBusStore = useConnectionBusStore()
@@ -68,7 +66,7 @@ onMounted(() => {
           style="background-color: #efefef;"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <UserAvatar
+            <UserAvatarExtended
               :src="convo.details.avatar"
               :width="48"
               :height="48"
@@ -76,11 +74,20 @@ onMounted(() => {
             />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <GroupAvatar
+            <img
+              v-if="convo.details.image"
               :src="convo.details.image"
-              :width="48"
-              :height="48"
-            />
+              width="48"
+              height="48"
+              class="rounded-circle"
+            >
+            <img
+              v-else
+              src="/group-avatar.jpg"
+              width="48"
+              height="48"
+              class="rounded-circle"
+            >
           </div>
           <div v-else>
             <img
@@ -136,7 +143,7 @@ onMounted(() => {
           class="d-flex gap-3 p-3"
         >
           <div v-if="convo.convo_type == conversationType.DIALOG">
-            <UserAvatar
+            <UserAvatarExtended
               :src="convo.details.avatar"
               :width="48"
               :height="48"
@@ -144,11 +151,20 @@ onMounted(() => {
             />
           </div>
           <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <GroupAvatar
+            <img
+              v-if="convo.details.image"
               :src="convo.details.image"
-              :width="48"
-              :height="48"
-            />
+              width="48"
+              height="48"
+              class="rounded-circle"
+            >
+            <img
+              v-else
+              src="/group-avatar.jpg"
+              width="48"
+              height="48"
+              class="rounded-circle"
+            >
           </div>
           <div v-else>
             <img

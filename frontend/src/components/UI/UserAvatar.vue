@@ -11,6 +11,10 @@ export default {
     height: {
       type: Number,
       required: true
+    },
+    buttonClass: {
+      type: String,
+      default: 'rounded-circle'
     }
   }
 }
@@ -23,14 +27,16 @@ export default {
       :src="src"
       :width="width"
       :height="height"
-      class="rounded-circle"
+      :class="buttonClass"
+      v-bind="$attrs"
     >
     <img
       v-else
       src="/user-avatar.jpg"
       :width="width"
       :height="height"
-      class="rounded-circle"
+      :class="buttonClass"
+      v-bind="$attrs"
     >
   </div>
 </template>

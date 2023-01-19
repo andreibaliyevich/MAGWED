@@ -5,9 +5,7 @@ import { API_URL, WS_URL, conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-import UserAvatar from '@/components/auth/UserAvatar.vue'
-import GroupAvatar from '@/components/auth/GroupAvatar.vue'
-import MessageContent from '@/components/messenger/MessageContent.vue'
+import MessageContent from './MessageContent.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const userStore = useUserStore()
@@ -152,19 +150,35 @@ onUnmounted(() => {
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
             <div v-if="conversation.convo_type == conversationType.DIALOG">
-              <UserAvatar
-                :src="conversation.details.avatar"
-                :width="48"
-                :height="48"
-                :online="conversation.details.online"
-              />
+              <div class="position-relative">
+                <UserAvatar
+                  :src="conversation.details.avatar"
+                  :width="48"
+                  :height="48"
+                />
+                <span
+                  v-if="conversation.details.online"
+                  class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
+                >
+                  <span class="visually-hidden">Online</span>
+                </span>
+              </div>
             </div>
             <div v-else-if="conversation.convo_type == conversationType.GROUP">
-              <GroupAvatar
+              <img
+                v-if="conversation.details.image"
                 :src="conversation.details.image"
-                :width="48"
-                :height="48"
-              />
+                width="48"
+                height="48"
+                class="rounded-circle"
+              >
+              <img
+                v-else
+                src="/group-avatar.jpg"
+                width="48"
+                height="48"
+                class="rounded-circle"
+              >
             </div>
             <div v-else>
               <img
@@ -216,12 +230,19 @@ onUnmounted(() => {
                 v-if="conversation.convo_type == conversationType.GROUP"
                 class="d-flex align-items-start"
               >
-                <UserAvatar
-                  :src="`${ API_URL }${ msg.sender.avatar }`"
-                  :width="32"
-                  :height="32"
-                  :online="msg.sender.online"
-                />
+                <div class="position-relative">
+                  <UserAvatar
+                    :src="`${ API_URL }${ msg.sender.avatar }`"
+                    :width="32"
+                    :height="32"
+                  />
+                  <span
+                    v-if="msg.sender.online"
+                    class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
+                  >
+                    <span class="visually-hidden">Online</span>
+                  </span>
+                </div>
                 <div class="bg-light rounded p-2 ms-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <MessageContent
