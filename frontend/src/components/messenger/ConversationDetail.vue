@@ -29,7 +29,7 @@ const cardBody = ref(null)
 const msgTextarea = ref(null)
 
 const reversedMessages = computed(() => {
-  return messages.value.reverse()
+  return [...messages.value].reverse()
 })
 
 const getMessages = async () => {
@@ -64,7 +64,7 @@ const openConvoSocket = async () => {
     )
     convoSocket.value.onmessage = (event) => {
       const data = JSON.parse(event.data)
-      messages.value.push(data)
+      messages.value.unshift(data)
       nextTick(() => {
         cardBody.value.scrollTo({
           top: cardBody.value.scrollHeight,
