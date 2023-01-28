@@ -304,12 +304,19 @@ class OrganizerLinkSerializer(serializers.ModelSerializer):
 class UserShortReadSerializer(serializers.ModelSerializer):
     """ User Short Read Serializer """
     online = serializers.SerializerMethodField()
+    profile_url = serializers.SerializerMethodField()
 
     def get_online(self, obj):
         if obj.connection_histories.filter(online=True).count() > 0:
             return True
         else:
             return False
+
+    def get_profile_url(self, obj):
+        if obj.user_type == UserType.ORGANIZER:
+            return obj.organizer.profile_url
+        else:
+            return None
 
     class Meta:
         model = UserModel
@@ -318,6 +325,7 @@ class UserShortReadSerializer(serializers.ModelSerializer):
             'name',
             'avatar',
             'online',
+            'profile_url',
         ]
 
 
