@@ -157,6 +157,19 @@
         "select_chat": "Виберіть чат",
         "type_message": "Введіть повідомлення..."
     },
+    "notifications": {
+        "follow": "{user_name} підписався на вас.",
+        "article": "{user_name} опублікував нову статтю '{article_title}'.",
+        "album": "{user_name} завантажив новий альбом '{album_title}'.",
+        "photo": "{user_name} завантажив нове фото.",
+        "like_album": "{user_name} сподобався ваш альбом '{album_title}'.",
+        "like_photo": "{user_name} сподобалося ваше фото.",
+        "comment_article": "{user_name} прокоментував вашу статтю '{article_title}'.",
+        "comment_album": "{user_name} прокоментував ваш альбом '{album_title}'.",
+        "comment_photo": "{user_name} прокоментував вашу фотографію.",
+        "comment": "{user_name} прокоментував ваш коментар.",
+        "review": "{user_name} залишив вам відгук."
+    },
     "form_help": {
         "select_option": "Будь ласка, оберіть",
         "no_options_available": "Немає доступних варіантів",

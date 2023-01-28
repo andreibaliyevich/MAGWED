@@ -157,6 +157,19 @@
         "select_chat": "Select a chat",
         "type_message": "Type a message..."
     },
+    "notifications": {
+        "follow": "{user_name} starded following you.",
+        "article": "{user_name} has posted new article '{article_title}'.",
+        "album": "{user_name} has uploaded new album '{album_title}'.",
+        "photo": "{user_name} has uploaded new photo.",
+        "like_album": "{user_name} liked your album '{album_title}'.",
+        "like_photo": "{user_name} liked your photo.",
+        "comment_article": "{user_name} commented your article '{article_title}'.",
+        "comment_album": "{user_name} commented your album '{album_title}'.",
+        "comment_photo": "{user_name} commented your photo.",
+        "comment": "{user_name} commented your comment.",
+        "review": "{user_name} left you review."
+    },
     "form_help": {
         "select_option": "Please select",
         "no_options_available": "No options available",

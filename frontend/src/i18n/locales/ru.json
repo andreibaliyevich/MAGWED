@@ -157,6 +157,19 @@
         "select_chat": "Выберите чат",
         "type_message": "Введите сообщение..."
     },
+    "notifications": {
+        "follow": "{user_name} подписался на вас.",
+        "article": "{user_name} опубликовал новую статью '{article_title}'.",
+        "album": "{user_name} загрузил новый альбом '{album_title}'.",
+        "photo": "{user_name} загрузил новое фото.",
+        "like_album": "{user_name} понравился ваш альбом '{album_title}'.",
+        "like_photo": "{user_name} понравилось ваше фото.",
+        "comment_article": "{user_name} прокомментировал вашу статью '{article_title}'.",
+        "comment_album": "{user_name} прокомментировал ваш альбом '{album_title}'.",
+        "comment_photo": "{user_name} прокомментировал вашу фотографию.",
+        "comment": "{user_name} прокомментировал ваш комментарий.",
+        "review": "{user_name} оставил вам отзыв."
+    },
     "form_help": {
         "select_option": "Пожалуйста выберите",
         "no_options_available": "Нет доступных вариантов",
