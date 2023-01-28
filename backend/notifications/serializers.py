@@ -20,11 +20,11 @@ class NotificationObjectRelatedField(serializers.RelatedField):
         if isinstance(value, Follow):
             return None
         elif isinstance(value, Article):
-            serializer = ArticleShortReadSerializer(value)
+            serializer = ArticleShortReadSerializer(value, context=self.context)
         elif isinstance(value, Album):
-            serializer = AlbumShortReadSerializer(value)
+            serializer = AlbumShortReadSerializer(value, context=self.context)
         elif isinstance(value, Photo):
-            serializer = PhotoShortReadSerializer(value)
+            serializer = PhotoShortReadSerializer(value, context=self.context)
         elif isinstance(value, Comment):
             return None
         elif isinstance(value, Review):
