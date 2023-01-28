@@ -11,7 +11,7 @@ class CategoryListSerializer(serializers.ModelSerializer):
         model = Category
         fields = [
             'slug',
-            'get_translated_name',
+            'translated_name',
         ]
 
 
@@ -24,7 +24,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
         fields = [
             'slug',
             'categories',
-            'get_translated_title',
+            'translated_title',
             'thumbnail',
             'published_at',
             'num_views',
@@ -39,9 +39,9 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         model = Category
         fields = [
             'slug',
-            'get_translated_name',
-            'get_translated_meta_description',
-            'get_translated_meta_keywords',
+            'translated_name',
+            'translated_meta_description',
+            'translated_meta_keywords',
             'articles',
         ]
 
@@ -58,9 +58,9 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'slug',
             'author',
             'categories',
-            'get_translated_title',
-            'get_translated_meta_description',
-            'get_translated_meta_keywords',
+            'translated_title',
+            'translated_meta_description',
+            'translated_meta_keywords',
             'image',
             'content',
             'hashtags',
@@ -76,6 +76,6 @@ class ArticleShortReadSerializer(serializers.ModelSerializer):
         model = Article
         fields = [
             'slug',
-            'get_translated_title',
+            'translated_title',
             'thumbnail',
         ]

@@ -25,17 +25,17 @@ class Category(models.Model):
         verbose_name=_('Keywords'),
     )
 
-    def get_translated_name(self):
+    def translated_name(self):
         return get_translated_field(self, 'name')
 
-    def get_translated_meta_description(self):
+    def translated_meta_description(self):
         return get_translated_field(self, 'meta_description')
 
-    def get_translated_meta_keywords(self):
+    def translated_meta_keywords(self):
         return get_translated_field(self, 'meta_keywords')
 
     def __str__(self):
-        return self.get_translated_name()
+        return self.translated_name()
 
     class Meta:
         verbose_name = _('Category')
@@ -139,20 +139,20 @@ class Article(models.Model):
         verbose_name=_('Number of views'),
     )
 
-    def get_translated_title(self):
+    def translated_title(self):
         return get_translated_field(self, 'title')
 
-    def get_translated_meta_description(self):
+    def translated_meta_description(self):
         return get_translated_field(self, 'meta_description')
 
-    def get_translated_meta_keywords(self):
+    def translated_meta_keywords(self):
         return get_translated_field(self, 'meta_keywords')
 
-    def get_translated_content(self):
+    def translated_content(self):
         return get_translated_field(self, 'content')
 
     def __str__(self):
-        return self.get_translated_title()
+        return self.translated_title()
 
     class Meta:
         verbose_name = _('Article')
