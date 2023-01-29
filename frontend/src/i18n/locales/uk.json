@@ -158,6 +158,7 @@
         "type_message": "Введіть повідомлення..."
     },
     "notifications": {
+        "no_notifications": "Повідомлень немає!",
         "follow": "{user_name} підписався на вас.",
         "article": "{user_name} опублікував нову статтю '{article_title}'.",
         "album": "{user_name} завантажив новий альбом '{album_title}'.",

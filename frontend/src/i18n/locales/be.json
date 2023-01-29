@@ -158,6 +158,7 @@
         "type_message": "Увядзіце паведамленне..."
     },
     "notifications": {
+        "no_notifications": "Апавяшчэнняў няма!",
         "follow": "{user_name} падпісаўся на вас.",
         "article": "{user_name} апублікаваў новы артыкул '{article_title}'.",
         "album": "{user_name} загрузіў новы альбом '{album_title}'.",

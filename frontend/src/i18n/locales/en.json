@@ -158,6 +158,7 @@
         "type_message": "Type a message..."
     },
     "notifications": {
+        "no_notifications": "No notifications!",
         "follow": "{user_name} starded following you.",
         "article": "{user_name} has posted new article '{article_title}'.",
         "album": "{user_name} has uploaded new album '{album_title}'.",
