@@ -1,15 +1,16 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
-import { WS_URL, reasonOfNotification } from '@/config.js'
-import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-
-const { getLocaleDateTimeString } = useLocaleDateTime()
+import { WS_URL } from '@/config.js'
+import NavbarNotice from './NavbarNotice.vue'
 
 const notificationsLoading = ref(true)
 const notifications = ref([])
 const notificationsSocket = ref(null)
 const countNotViewed = ref(0)
+const nextURL = ref(null)
+
+const scrollArea = ref(null)
 
 const getNotifications = async () => {
   try {
@@ -20,6 +21,25 @@ const getNotifications = async () => {
         countNotViewed.value += 1
       }
     })
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    notificationsLoading.value = false
+  }
+}
+
+const getMoreNotifications = async () => {
+  notificationsLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    notifications.value = [...notifications.value, ...response.data.results]
+    response.data.results.forEach(element => {
+      if (!element.viewed) {
+        countNotViewed.value += 1
+      }
+    })
+    nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
@@ -40,7 +60,6 @@ const connectSocket = async () => {
     }
     notificationsSocket.value.onerror = (event) => {
       notificationsSocket.value = null
-      conversation.value = {}
       notifications.value = []
     }
   } catch (error) {
@@ -50,10 +69,43 @@ const connectSocket = async () => {
   }
 }
 
-const noticeViewed = (notice_id) => {
+const setNoticeViewed = (notice_id) => {
   notificationsSocket.value.send(JSON.stringify({
     'notice_id': notice_id
   }))
+}
+
+const vIntersectionNotifications = {
+  mounted(el) {
+    const options = {
+      root: scrollArea.value,
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        getMoreNotifications()
+      }
+    }
+    const observer = new IntersectionObserver(callback, options)
+    observer.observe(el)
+  }
+}
+const vIntersectionNotice = {
+  mounted(el, binding) {
+    const options = {
+      root: scrollArea.value,
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        setNoticeViewed(binding.value)
+      }
+    }
+    const observer = new IntersectionObserver(callback, options)
+    observer.observe(el)
+  }
 }
 
 onMounted(() => {
@@ -83,6 +135,7 @@ onMounted(() => {
         </span>
       </a>
       <ul
+        ref="scrollArea"
         class="dropdown-menu dropdown-menu-end shadow overflow-auto"
         aria-labelledby="dropdownNotifications"
       >
@@ -90,194 +143,27 @@ onMounted(() => {
           <ul class="list-group list-group-flush">
             <li
               v-for="notice in notifications"
+              :key="notice.id"
               class="list-group-item list-group-item-action"
             >
-              <div class="d-flex gap-3">
-
-                <a
-                  v-if="notice.initiator.profile_url"
-                  :href="`#${notice.initiator.profile_url}`"
-                >
-                  <UserAvatar
-                    :src="notice.initiator.avatar"
-                    :width="36"
-                    :height="36"
-                  />
-                </a>
-                <UserAvatar
-                  v-else
-                  :src="notice.initiator.avatar"
-                  :width="36"
-                  :height="36"
-                />
-
-                <div
-                  v-if="notice.reason == reasonOfNotification.FOLLOW"
-                  class="d-flex align-content-between flex-wrap h-100"
-                >
-                  <p class="text-dark mb-0">
-                    {{ $t('notifications.follow', { user_name: notice.initiator.name }) }}
-                  </p>
-                  <small class="text-muted">
-                    {{ getLocaleDateTimeString(notice.created_at) }}
-                  </small>
-                </div>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.ARTICLE"
-                  :href="`#${notice.content_object.slug}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.article', { user_name: notice.initiator.name, article_title: notice.content_object.translated_title }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.ALBUM"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.album', { user_name: notice.initiator.name, album_title: notice.content_object.title }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.PHOTO"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.photo', { user_name: notice.initiator.name }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.LIKE_ALBUM"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.like_album', { user_name: notice.initiator.name, album_title: notice.content_object.title }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.LIKE_PHOTO"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.like_photo', { user_name: notice.initiator.name }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.COMMENT_ARTICLE"
-                  :href="`#${notice.content_object.slug}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.comment_article', { user_name: notice.initiator.name, article_title: notice.content_object.translated_title }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.COMMENT_ALBUM"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.comment_album', { user_name: notice.initiator.name, album_title: notice.content_object.title }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.COMMENT_PHOTO"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.comment_photo', { user_name: notice.initiator.name }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <a
-                  v-else-if="notice.reason == reasonOfNotification.COMMENT"
-                  :href="`#${notice.content_object.id}`"
-                  class="d-flex justify-content-between align-items-center text-decoration-none w-100"
-                >
-                  <div class="d-flex align-content-between flex-wrap h-100">
-                    <p class="text-dark mb-0">
-                      {{ $t('notifications.comment', { user_name: notice.initiator.name }) }}
-                    </p>
-                    <small class="text-muted">
-                      {{ getLocaleDateTimeString(notice.created_at) }}
-                    </small>
-                  </div>
-                  <img :src="notice.content_object.thumbnail" width="64" height="64">
-                </a>
-                <div
-                  v-else-if="notice.reason == reasonOfNotification.REVIEW"
-                  class="d-flex align-content-between flex-wrap h-100"
-                >
-                  <p class="text-dark mb-0">
-                    {{ $t('notifications.review', { user_name: notice.initiator.name }) }}
-                  </p>
-                  <small class="text-muted">
-                    {{ getLocaleDateTimeString(notice.created_at) }}
-                  </small>
-                </div>
-
-              </div>
+              <NavbarNotice
+                v-if="notice.viewed"
+                :notice="notice"
+              />
+              <NavbarNotice
+                v-else
+                :notice="notice"
+                v-intersection-notice="notice.id"
+              />
             </li>
           </ul>
         </li>
         <li v-else>
           <div class="lead d-flex justify-content-center py-3">
-            No notifications!
+            {{ $t('notifications.no_notifications') }}
           </div>
         </li>
+        <li v-if="nextURL" v-intersection-notifications></li>
         <li v-if="notificationsLoading">
           <LoadingIndicator />
         </li>
