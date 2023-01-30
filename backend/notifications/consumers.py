@@ -9,7 +9,7 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope['user']
-        self.notifications_group_name = 'notifications_%s' % self.user.id
+        self.notifications_group_name = f'notifications_{self.user.id}'
 
         if self.user.is_authenticated:
             await self.channel_layer.group_add(
@@ -35,7 +35,10 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
         })
 
     async def send_notice(self, event):
-        await self.send_json(event['notice_data'])
+        await self.send_json({
+            'action': event['action'],
+            'notice': event['notice'],
+        })
 
     @database_sync_to_async
     def set_notice_viewed(self, notice_id):

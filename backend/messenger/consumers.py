@@ -12,7 +12,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
         self.convo_id = self.scope['url_route']['kwargs']['convo_id']
-        self.convo_group_name = 'conversation_%s' % self.convo_id
+        self.convo_group_name = f'conversation_{self.convo_id}'
         self.conversation = await self.get_conversation()
 
         if self.conversation and await self.check_is_member():
