@@ -1,5 +1,6 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.conf import settings
 from .serializers import NotificationListSerializer
 
 
@@ -8,15 +9,21 @@ channel_layer = get_channel_layer()
 
 def send_notification(notice, action):
     """ Send notification to Consumer """
-    notifications_group_name = 'notifications_%s' % notice.recipient.id
-
     notice_data = NotificationListSerializer(notice).data
-    notice_data.update({'action': action})
+
+    if notice_data['initiator']['avatar']:
+        url = notice_data['initiator']['avatar']
+        notice_data['initiator']['avatar'] = f'{settings.API_URL}{url}'
+
+    if notice_data['content_object']['thumbnail']:
+        url = notice_data['content_object']['thumbnail']
+        notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{url}'
 
     async_to_sync(channel_layer.group_send)(
-        notifications_group_name,
+        f'notifications_{notice.recipient.id}',
         {
             'type': 'send_notice',
-            'notice_data': notice_data,
+            'action': action,
+            'notice': notice_data,
         }
     )
