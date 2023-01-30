@@ -57,6 +57,20 @@ const connectSocket = async () => {
     )
     notificationsSocket.value.onmessage = (event) => {
       const data = JSON.parse(event.data)
+      if (data.action == 'created') {
+        notifications.value.unshift(data.notice)
+      } else if (data.action == 'updated') {
+        const foundIndex = notifications.value.findIndex((element) => {
+          return element.id == data.notice.id
+        })
+        notifications.value[foundIndex] = data.notice
+      } else if (data.action == 'viewed') {
+        const foundIndex = notifications.value.findIndex((element) => {
+          return element.id == data.notice_id
+        })
+        notifications.value[foundIndex].viewed = data.notice_viewed
+        countNotViewed.value -= 1
+      }
     }
     notificationsSocket.value.onerror = (event) => {
       notificationsSocket.value = null
@@ -149,10 +163,12 @@ onMounted(() => {
               <NavbarNotice
                 v-if="notice.viewed"
                 :notice="notice"
+                @clickLink="$refs.dropdownNotifications.click()"
               />
               <NavbarNotice
                 v-else
                 :notice="notice"
+                @clickLink="$refs.dropdownNotifications.click()"
                 v-intersection-notice="notice.id"
               />
             </li>
