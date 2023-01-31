@@ -55,7 +55,7 @@ class LoginView(ObtainAuthToken):
             user,
             context={'request': request},
         ).data
-        user_data.update({'token': token.key})
+        user_data['token'] = token.key
 
         return Response(user_data)
 
