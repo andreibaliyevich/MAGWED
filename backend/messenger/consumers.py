@@ -32,27 +32,32 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         )
 
     async def receive_json(self, content):
-        if content['msg_type'] == MessageType.TEXT:
-            msg_data = await self.save_message(content['content'])
-        else:
-            msg_data = content['msg_data']
+        if content['action'] == 'new_msg':
+            if content['msg_type'] == MessageType.TEXT:
+                data = await self.save_message(content['content'])
+            else:
+                data = content['data']
+        elif content['action'] == 'viewed':
+            msg_viewed = await self.set_message_viewed(content['msg_id'])
+            data = {
+                'msg_id': content['msg_id'],
+                'msg_viewed': msg_viewed,
+            }
 
         await self.channel_layer.group_send(
             self.convo_group_name,
             {
                 'type': 'conversation_message',
-                'msg_data': msg_data,
+                'action': content['action'],
+                'data': data,
             }
         )
 
     async def conversation_message(self, event):
-        msg_id = event['msg_data']['id']
-        sender_id = event['msg_data']['sender']['id']
-
-        if self.user.id != sender_id:
-            await self.set_message_viewed(msg_id)
-
-        await self.send_json(event['msg_data'])
+        await self.send_json({
+            'action': event['action'],
+            'data': event['data'],
+        })
 
     @database_sync_to_async
     def get_conversation(self):
@@ -66,8 +71,8 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         return self.user in self.conversation.members.all()
 
     @database_sync_to_async
-    def save_message(self, text_data):
-        serializer = TextMessageSerializer(data={'content': text_data})
+    def save_message(self, content):
+        serializer = TextMessageSerializer(data={'content': content})
         serializer.is_valid(raise_exception=True)
         msg = Message.objects.create(
             conversation=self.conversation,
@@ -83,6 +88,9 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
             msg = Message.objects.get(id=msg_id)
         except Message.DoesNotExist:
             pass
-        else:
+
+        if self.user != msg.sender:
             msg.viewed = True
             msg.save(update_fields=['viewed'])
+
+        return msg.viewed
