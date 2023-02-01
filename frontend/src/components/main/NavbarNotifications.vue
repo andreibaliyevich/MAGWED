@@ -7,6 +7,7 @@ import NavbarNotice from './NavbarNotice.vue'
 const notificationsLoading = ref(true)
 const notifications = ref([])
 const notificationsSocket = ref(null)
+const notificationsSocketConnect = ref(null)
 const countNotViewed = ref(0)
 const nextURL = ref(null)
 
@@ -55,6 +56,9 @@ const connectSocket = async () => {
       + '/ws/notifications/?'
       + response.data.wstoken
     )
+    notificationsSocket.value.onopen = (event) => {
+      notificationsSocketConnect.value = true
+    }
     notificationsSocket.value.onmessage = (event) => {
       const data = JSON.parse(event.data)
       if (data.action == 'created') {
@@ -72,9 +76,13 @@ const connectSocket = async () => {
         countNotViewed.value -= 1
       }
     }
-    notificationsSocket.value.onerror = (event) => {
+    notificationsSocket.value.onclose = (event) => {
       notificationsSocket.value = null
-      notifications.value = []
+      notificationsSocketConnect.value = false
+    }
+    notificationsSocket.value.onerror = (error) => {
+      notificationsSocket.value = null
+      notificationsSocketConnect.value = false
     }
   } catch (error) {
     console.error(error)
@@ -161,7 +169,7 @@ onMounted(() => {
               class="list-group-item list-group-item-action"
             >
               <NavbarNotice
-                v-if="notice.viewed"
+                v-if="notice.viewed || !notificationsSocketConnect"
                 :notice="notice"
                 @clickLink="$refs.dropdownNotifications.click()"
               />
