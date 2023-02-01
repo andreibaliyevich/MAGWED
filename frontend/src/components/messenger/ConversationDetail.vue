@@ -21,9 +21,9 @@ const props = defineProps({
 })
 
 const messagesLoading = ref(true)
+const messages = ref([])
 const convoSocket = ref(null)
 const convoSocketConnect = ref(false)
-const messages = ref([])
 const message = ref('')
 const nextURL = ref(null)
 
