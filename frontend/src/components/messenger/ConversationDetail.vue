@@ -22,10 +22,12 @@ const props = defineProps({
 
 const messagesLoading = ref(true)
 const convoSocket = ref(null)
+const convoSocketConnect = ref(false)
 const messages = ref([])
 const message = ref('')
+const nextURL = ref(null)
 
-const cardBody = ref(null)
+const scrollArea = ref(null)
 const msgTextarea = ref(null)
 
 const reversedMessages = computed(() => {
@@ -41,14 +43,28 @@ const getMessages = async () => {
       + '/'
     )
     messages.value = response.data.results
+    nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
     messagesLoading.value = false
     nextTick(() => {
-      cardBody.value.scrollTop = cardBody.value.scrollHeight
+      scrollArea.value.scrollTop = scrollArea.value.scrollHeight
       msgTextarea.value.focus()
     })
+  }
+}
+
+const getMoreMessages = async () => {
+  messagesLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    messages.value = [...messages.value, ...response.data.results]
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    messagesLoading.value = false
   }
 }
 
@@ -62,20 +78,35 @@ const openConvoSocket = async () => {
       + '/?'
       + response.data.wstoken
     )
+    convoSocket.value.onopen = (event) => {
+      convoSocketConnect.value = true
+    }
     convoSocket.value.onmessage = (event) => {
       const data = JSON.parse(event.data)
-      messages.value.unshift(data)
-      nextTick(() => {
-        cardBody.value.scrollTo({
-          top: cardBody.value.scrollHeight,
-          behavior: 'smooth'
+      if (data.action == 'new_msg') {
+        messages.value.unshift(data.data)
+        nextTick(() => {
+          scrollArea.value.scrollTo({
+            top: scrollArea.value.scrollHeight,
+            behavior: 'smooth'
+          })
         })
-      })
+      } else if (data.action == 'viewed') {
+        const foundIndex = messages.value.findIndex((element) => {
+          return element.id == data.data.msg_id
+        })
+        if (foundIndex != -1) {
+          messages.value[foundIndex].viewed = data.data.msg_viewed
+        }
+      }
     }
-    convoSocket.value.onerror = (event) => {
+    convoSocket.value.onclose = (event) => {
       convoSocket.value = null
-      conversation.value = {}
-      messages.value = []
+      convoSocketConnect.value = false
+    }
+    convoSocket.value.onerror = (error) => {
+      convoSocket.value = null
+      convoSocketConnect.value = false
     }
   } catch (error) {
     console.error(error)
@@ -90,6 +121,7 @@ const closeConversation = () => {
 
 const sendMessage = () => {
   convoSocket.value.send(JSON.stringify({
+    'action': 'new_msg',
     'msg_type': messageType.TEXT,
     'content': message.value
   }))
@@ -105,8 +137,9 @@ const sendImages = async (filelist) => {
   try {
     const response = await axios.post('/messenger/message/images/', imagesData)
     convoSocket.value.send(JSON.stringify({
+      'action': 'new_msg',
       'msg_type': messageType.IMAGES,
-      'msg_data': response.data
+      'data': response.data
     }))
   } catch (error) {
     console.error(error)
@@ -122,11 +155,52 @@ const sendFiles = async (filelist) => {
   try {
     const response = await axios.post('/messenger/message/files/', filesData)
     convoSocket.value.send(JSON.stringify({
+      'action': 'new_msg',
       'msg_type': messageType.FILES,
-      'msg_data': response.data
+      'data': response.data
     }))
   } catch (error) {
     console.error(error)
+  }
+}
+
+const setMessageViewed = (msg_id) => {
+  convoSocket.value.send(JSON.stringify({
+    'action': 'viewed',
+    'msg_id': msg_id
+  }))
+}
+
+const vIntersectionMessages = {
+  mounted(el) {
+    const options = {
+      root: scrollArea.value,
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        getMoreMessages()
+      }
+    }
+    const observer = new IntersectionObserver(callback, options)
+    observer.observe(el)
+  }
+}
+const vIntersectionMessage = {
+  mounted(el, binding) {
+    const options = {
+      root: scrollArea.value,
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        setMessageViewed(binding.value)
+      }
+    }
+    const observer = new IntersectionObserver(callback, options)
+    observer.observe(el)
   }
 }
 
@@ -196,12 +270,13 @@ onUnmounted(() => {
         </div>
       </div>
       <div
-        ref="cardBody"
+        ref="scrollArea"
         class="card-body overflow-auto"
       >
         <LoadingIndicator v-if="messagesLoading" />
+        <p v-if="nextURL" v-intersection-messages></p>
         <div
-          v-else
+          v-if="messages.length > 0"
           v-for="msg in reversedMessages"
           class="my-3"
         >
@@ -216,6 +291,16 @@ onUnmounted(() => {
                   :msgContent="msg.content"
                   textClass="fs-6 text-white"
                 />
+                <div class="d-flex justify-content-end text-white mt-2">
+                  <i
+                    v-if="msg.viewed"
+                    class="fa-solid fa-check-double fa-sm"
+                  ></i>
+                  <i
+                    v-else
+                    class="fa-solid fa-check fa-sm"
+                  ></i>
+                </div>
               </div>
               <small class="d-flex justify-content-end text-muted">
                 {{ getLocaleDateTimeString(msg.created_at) }}
@@ -240,8 +325,15 @@ onUnmounted(() => {
                 <div class="bg-light rounded p-2 ms-2">
                   <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                   <MessageContent
+                    v-if="msg.viewed || !convoSocketConnect"
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
+                  />
+                  <MessageContent
+                    v-else
+                    :msgType="msg.msg_type"
+                    :msgContent="msg.content"
+                    v-intersection-message="msg.id"
                   />
                 </div>
               </div>
@@ -250,8 +342,15 @@ onUnmounted(() => {
                 class="bg-light rounded p-2"
               >
                 <MessageContent
+                  v-if="msg.viewed || !convoSocketConnect"
                   :msgType="msg.msg_type"
                   :msgContent="msg.content"
+                />
+                <MessageContent
+                  v-else
+                  :msgType="msg.msg_type"
+                  :msgContent="msg.content"
+                  v-intersection-message="msg.id"
                 />
               </div>
               <small class="text-muted">
