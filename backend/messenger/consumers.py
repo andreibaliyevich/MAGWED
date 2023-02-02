@@ -87,7 +87,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         try:
             msg = Message.objects.get(id=msg_id)
         except Message.DoesNotExist:
-            pass
+            return None
 
         if self.user != msg.sender:
             msg.viewed = True
