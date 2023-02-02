@@ -57,6 +57,7 @@ const getMessages = async () => {
 
 const getMoreMessages = async () => {
   messagesLoading.value = true
+  const scrollHeight = scrollArea.value.scrollHeight
   try {
     const response = await axios.get(nextURL.value)
     messages.value = [...messages.value, ...response.data.results]
@@ -65,6 +66,9 @@ const getMoreMessages = async () => {
     console.error(error)
   } finally {
     messagesLoading.value = false
+    nextTick(() => {
+      scrollArea.value.scrollTop = scrollArea.value.scrollHeight - scrollHeight
+    })
   }
 }
 
