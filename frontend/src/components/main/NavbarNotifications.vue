@@ -67,13 +67,17 @@ const connectSocket = async () => {
         const foundIndex = notifications.value.findIndex((element) => {
           return element.id == data.notice.id
         })
-        notifications.value[foundIndex] = data.notice
+        if (foundIndex != -1) {
+          notifications.value[foundIndex] = data.notice
+        }
       } else if (data.action == 'viewed') {
         const foundIndex = notifications.value.findIndex((element) => {
           return element.id == data.notice_id
         })
-        notifications.value[foundIndex].viewed = data.notice_viewed
-        countNotViewed.value -= 1
+        if (foundIndex != -1) {
+          notifications.value[foundIndex].viewed = data.notice_viewed
+          countNotViewed.value -= 1
+        }
       }
     }
     notificationsSocket.value.onclose = (event) => {
