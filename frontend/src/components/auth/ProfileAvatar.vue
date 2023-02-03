@@ -30,7 +30,7 @@ const updateAvatar = async (filelist) => {
       'avatar': response.data.avatar,
       'token': userStore.token
     }))
-    status.value = t('auth.profile.avatar_updated_successfully')
+    status.value = response.status
     errors.value = null
   } catch (error) {
     status.value = null
@@ -41,9 +41,8 @@ const updateAvatar = async (filelist) => {
 }
 
 const removeAvatar = async () => {
-  avatarLoading.value = true
-
   if (confirm(t('auth.profile.you_want_remove_avatar'))) {
+    avatarLoading.value = true
     try {
       const response = await axios.delete('/accounts/auth/avatar/')
       userStore.updateAvatar(null)
@@ -55,7 +54,7 @@ const removeAvatar = async () => {
         'avatar': null,
         'token': userStore.token
       }))
-      status.value = t('auth.profile.avatar_removed_successfully')
+      status.value = response.status
       errors.value = null
     } catch (error) {
       status.value = null
@@ -89,10 +88,16 @@ const removeAvatar = async () => {
         <div class="col-md-9">
           <div class="card-body text-center">
             <small
-              v-if="status"
+              v-if="status == 200"
               class="text-success"
             >
-              {{ status }}
+              {{ $t('auth.profile.avatar_updated_successfully') }}
+            </small>
+            <small
+              v-else-if="status == 204"
+              class="text-success"
+            >
+              {{ $t('auth.profile.avatar_removed_successfully') }}
             </small>
             <small
               v-if="errors && errors.avatar"
