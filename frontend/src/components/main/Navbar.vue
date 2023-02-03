@@ -137,22 +137,12 @@ const userStore = useUserStore()
               </LocaleRouterLink>
             </li>
           </ul>
-          <NavbarSearch />
         </div>
       </div>
       <div
         v-if="userStore.isLoggedIn"
         class="d-flex align-items-center gap-3 ms-lg-3"
       >
-        <LocaleRouterLink
-          routeName="Messenger"
-          class="link-secondary position-relative"
-        >
-          <i class="fa-solid fa-message fa-lg"></i>
-          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle">
-            <span class="visually-hidden">New messages</span>
-          </span>
-        </LocaleRouterLink>
         <NavbarNotifications />
         <NavbarUser />
       </div>

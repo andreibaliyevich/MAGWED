@@ -57,6 +57,14 @@ const userStore = useUserStore()
         </li>
         <li>
           <LocaleRouterLink
+            routeName="Messenger"
+            @click="$refs.dropdownUser.click()"
+            class="dropdown-item d-flex align-items-center gap-2"
+          >
+            <i class="fa-solid fa-message"></i>
+            {{ $t('auth.messenger') }}
+          </LocaleRouterLink>
+          <LocaleRouterLink
             v-if="userStore.userType == userType.ORGANIZER"
             routeName="Home"
             @click="$refs.dropdownUser.click()"
