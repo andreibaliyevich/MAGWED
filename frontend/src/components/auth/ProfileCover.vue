@@ -32,7 +32,7 @@ const updateCover = async (filelist) => {
   try {
     const response = await axios.put('/accounts/auth/cover/', coverData)
     cover.value = response.data.cover
-    status.value = t('auth.profile.cover_updated_successfully')
+    status.value = response.status
     errors.value = null
   } catch (error) {
     status.value = null
@@ -49,7 +49,7 @@ const removeCover = async () => {
     try {
       const response = await axios.delete('/accounts/auth/cover/')
       cover.value = null
-      status.value = t('auth.profile.cover_removed_successfully')
+      status.value = response.status
       errors.value = null
     } catch (error) {
       status.value = null
@@ -85,10 +85,16 @@ onMounted(() => {
         >
         <div class="card-body text-center">
           <small
-            v-if="status"
+            v-if="status == 200"
             class="text-success"
           >
-            {{ status }}
+            {{ $t('auth.profile.cover_updated_successfully') }}
+          </small>
+          <small
+            v-else-if="status == 204"
+            class="text-success"
+          >
+            {{ $t('auth.profile.cover_removed_successfully') }}
           </small>
           <small
             v-if="errors && errors.cover"
