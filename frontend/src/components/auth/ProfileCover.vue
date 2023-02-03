@@ -43,9 +43,8 @@ const updateCover = async (filelist) => {
 }
 
 const removeCover = async () => {
-  coverLoading.value = true
-
   if (confirm(t('auth.profile.you_want_remove_cover'))) {
+    coverLoading.value = true
     try {
       const response = await axios.delete('/accounts/auth/cover/')
       cover.value = null
