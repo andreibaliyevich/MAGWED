@@ -15,7 +15,8 @@ def send_notification(notice, action):
         url = notice_data['initiator']['avatar']
         notice_data['initiator']['avatar'] = f'{settings.API_URL}{url}'
 
-    if notice_data['content_object']['thumbnail']:
+    if (notice_data['content_object']
+            and notice_data['content_object']['thumbnail']):
         url = notice_data['content_object']['thumbnail']
         notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{url}'
 
