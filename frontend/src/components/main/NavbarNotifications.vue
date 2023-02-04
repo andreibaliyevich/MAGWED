@@ -147,7 +147,7 @@ onMounted(() => {
         ref="dropdownNotifications"
         id="dropdownNotifications"
         href="#"
-        class="link-secondary position-relative"
+        class="text-decoration-none link-secondary"
         data-bs-toggle="dropdown"
         data-bs-auto-close="outside"
         aria-expanded="false"
@@ -201,25 +201,22 @@ onMounted(() => {
 </template>
 
 <style scoped>
-* {
+.dropdown-menu.overflow-auto {
+  width: 330px;
+  max-height: 530px;
   scrollbar-color: #c0c0c0;
   scrollbar-width: thin;
 }
-::-webkit-scrollbar {
+.dropdown-menu.overflow-auto::-webkit-scrollbar {
   width: 0.3em;
   height: 0.3em;
   background-color: #f5f5f5;
 }
-::-webkit-scrollbar-thumb {
+.dropdown-menu.overflow-auto::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 3em;
 }
-::-webkit-scrollbar-thumb:hover {
+.dropdown-menu.overflow-auto::-webkit-scrollbar-thumb:hover {
   background-color: #808080;
-}
-
-.dropdown-menu.overflow-auto {
-  width: 330px;
-  max-height: 530px;
 }
 </style>

@@ -411,26 +411,24 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-* {
+.card-body {
+  height: 60vh;
   scrollbar-color: #c0c0c0;
   scrollbar-width: thin;
 }
-::-webkit-scrollbar {
+.card-body::-webkit-scrollbar {
   width: 0.3em;
   height: 0.3em;
   background-color: #f5f5f5;
 }
-::-webkit-scrollbar-thumb {
+.card-body::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 3em;
 }
-::-webkit-scrollbar-thumb:hover {
+.card-body::-webkit-scrollbar-thumb:hover {
   background-color: #808080;
 }
 
-.card-body {
-  height: 60vh;
-}
 .text-sm.mb-0 {
   white-space: pre-line;
 }
