@@ -6,6 +6,14 @@
         "awards": "Awards",
         "blog": "Blog"
     },
+    "search": {
+        "search1": "Search",
+        "search2": "Search...",
+        "no_results_found": "No results found"
+    },
+    "modal": {
+        "close": "Close"
+    },
     "footer": {
         "rules": "Rules",
         "advertising": "Advertising",
@@ -127,7 +135,6 @@
             "changing_the_link": "Changing the link",
             "type_of_link": "Type of Link",
             "url_of_link": "URL of Link",
-            "close": "Close",
             "add": "Add",
             "update": "Update"
         },

@@ -6,6 +6,14 @@
         "awards": "Узнагароды",
         "blog": "Блог"
     },
+    "search": {
+        "search1": "Пошук",
+        "search2": "Пошук...",
+        "no_results_found": "Вынікаў не знойдзена"
+    },
+    "modal": {
+        "close": "Закрыць"
+    },
     "footer": {
         "rules": "Правілы",
         "advertising": "Рэклама",
@@ -127,7 +135,6 @@
             "changing_the_link": "Змяненне спасылкі",
             "type_of_link": "Тып спасылкі",
             "url_of_link": "URL спасылкі",
-            "close": "Закрыць",
             "add": "Дадаць",
             "update": "Абнавіць"
         },
