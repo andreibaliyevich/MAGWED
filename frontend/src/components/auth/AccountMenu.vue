@@ -29,23 +29,23 @@ const userStore = useUserStore()
         <ul class="nav nav-pills flex-column">
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'Notifications'"
-              routeName="Notifications"
+              v-if="this.$route.name == 'Messenger'"
+              routeName="Messenger"
               @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
-              <i class="fa-solid fa-bell"></i>
-              {{ $t('auth.notifications') }}
+              <i class="fa-solid fa-message"></i>
+              {{ $t('auth.messenger') }}
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              routeName="Notifications"
+              routeName="Messenger"
               @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
-              <i class="fa-solid fa-bell"></i>
-              {{ $t('auth.notifications') }}
+              <i class="fa-solid fa-message"></i>
+              {{ $t('auth.messenger') }}
             </LocaleRouterLink>
           </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
