@@ -314,7 +314,7 @@ onMounted(() => {
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
-                  {{ $t('auth.externallinks.close') }}
+                  {{ $t('modal.close') }}
                 </button>
                 <button
                   v-if="organizerLinkId"
