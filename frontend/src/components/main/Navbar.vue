@@ -139,6 +139,7 @@ const userStore = useUserStore()
           </ul>
         </div>
       </div>
+      <NavbarSearch />
       <div
         v-if="userStore.isLoggedIn"
         class="d-flex align-items-center gap-3 ms-lg-3"
