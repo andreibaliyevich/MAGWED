@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-05 17:21+0000\n"
+"POT-Creation-Date: 2023-02-05 19:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -317,8 +317,8 @@ msgid "Cover"
 msgstr "Вокладка"
 
 #: accounts/models.py:246 blog/models.py:20 blog/models.py:66
-#: blog/models.py:102 blog/models.py:187 portfolio/models.py:38
-#: portfolio/models.py:149
+#: blog/models.py:102 blog/models.py:187 portfolio/models.py:37
+#: portfolio/models.py:148
 msgid "Description"
 msgstr "Апісанне"
 
@@ -350,7 +350,7 @@ msgstr "Колькасць гадзін"
 msgid "Profile URL"
 msgstr "URL профілю"
 
-#: accounts/models.py:287 portfolio/models.py:63 portfolio/models.py:174
+#: accounts/models.py:287 portfolio/models.py:62 portfolio/models.py:173
 #: social/models.py:123
 msgid "Rating"
 msgstr "Рэйтынг"
@@ -417,8 +417,8 @@ msgid "Metadata"
 msgstr "Метададзеныя"
 
 #: blog/admin.py:61 blog/models.py:113 main/models.py:110
-#: messenger/models.py:64 portfolio/admin.py:23 portfolio/admin.py:59
-#: portfolio/models.py:23 portfolio/models.py:93
+#: messenger/models.py:64 portfolio/admin.py:22 portfolio/admin.py:58
+#: portfolio/models.py:21 portfolio/models.py:92
 msgid "Image"
 msgstr "Малюнак"
 
@@ -431,7 +431,7 @@ msgid "Published and Views"
 msgstr "Апублікавана і прагляды"
 
 #: blog/admin.py:79 blog/admin.py:90 messenger/admin.py:41
-#: portfolio/admin.py:38 portfolio/admin.py:82
+#: portfolio/admin.py:37 portfolio/admin.py:81
 #, fuzzy
 #| msgid "Review"
 msgid "Preview"
@@ -478,11 +478,11 @@ msgid "Author"
 msgstr "Аўтар"
 
 #: blog/models.py:96 blog/models.py:182 main/models.py:88
-#: portfolio/models.py:21 portfolio/models.py:144
+#: portfolio/models.py:33 portfolio/models.py:143
 msgid "Title"
 msgstr "Назва"
 
-#: blog/models.py:123 portfolio/models.py:32 portfolio/models.py:102
+#: blog/models.py:123 portfolio/models.py:30 portfolio/models.py:101
 msgid "Thumbnail"
 msgstr "Эскіз"
 
@@ -490,8 +490,8 @@ msgstr "Эскіз"
 msgid "Content"
 msgstr "Змест"
 
-#: blog/models.py:131 main/models.py:82 portfolio/models.py:43
-#: portfolio/models.py:154
+#: blog/models.py:131 main/models.py:82 portfolio/models.py:42
+#: portfolio/models.py:153
 msgid "Hashtags"
 msgstr "Хэштэгі"
 
@@ -499,7 +499,7 @@ msgstr "Хэштэгі"
 msgid "Published at"
 msgstr "Апублікавана ў"
 
-#: blog/models.py:140 portfolio/models.py:53 portfolio/models.py:164
+#: blog/models.py:140 portfolio/models.py:52 portfolio/models.py:163
 msgid "Number of views"
 msgstr "Колькасць праглядаў"
 
@@ -548,7 +548,7 @@ msgid "Name (local)"
 msgstr "Назва (мясцовая)"
 
 #: main/models.py:74 messenger/models.py:95 notifications/models.py:37
-#: portfolio/models.py:48 social/models.py:29 social/models.py:59
+#: portfolio/models.py:47 social/models.py:29 social/models.py:59
 #: social/models.py:91 social/models.py:129
 msgid "Created at"
 msgstr "Створана ў"
@@ -614,7 +614,7 @@ msgstr "Размова"
 msgid "Conversations"
 msgstr "Размовы"
 
-#: messenger/models.py:45 portfolio/models.py:18 portfolio/models.py:82
+#: messenger/models.py:45 portfolio/models.py:18 portfolio/models.py:81
 msgid "Owner"
 msgstr "Уладальнік"
 
@@ -772,77 +772,69 @@ msgstr "Прычына"
 msgid "Notification"
 msgstr "Апавяшчэнне"
 
-#: portfolio/admin.py:26
-msgid "Description, Hashtags and Date of creation"
-msgstr "Апісанне, хэштэгі і дата стварэння"
+#: portfolio/admin.py:25 portfolio/admin.py:70
+msgid "Info"
+msgstr "Інфармацыя"
 
-#: portfolio/admin.py:29 portfolio/admin.py:74
-msgid "Views, Likes and Rating"
-msgstr "Прагляды, лайкі і рэйтынг"
+#: portfolio/admin.py:28 portfolio/admin.py:73 social/apps.py:8
+msgid "Social"
+msgstr "Сацыяльнае"
 
-#: portfolio/admin.py:62
+#: portfolio/admin.py:61
 msgid "Photo details"
 msgstr "Дэталі фота"
-
-#: portfolio/admin.py:71
-msgid "Description, Hashtags and Date of upload"
-msgstr "Апісанне, хэштэгі і дата загрузкі"
 
 #: portfolio/apps.py:8
 msgid "Portfolio"
 msgstr "Партфоліё"
 
-#: portfolio/models.py:59 portfolio/models.py:170
+#: portfolio/models.py:58 portfolio/models.py:169
 msgid "Likes"
 msgstr "Лайкі"
 
-#: portfolio/models.py:71 portfolio/models.py:90
+#: portfolio/models.py:70 portfolio/models.py:89
 msgid "Album"
 msgstr "Альбом"
 
-#: portfolio/models.py:72
+#: portfolio/models.py:71
 msgid "Albums"
 msgstr "Альбомы"
 
-#: portfolio/models.py:108
+#: portfolio/models.py:107
 msgid "Device"
 msgstr "Прылада"
 
-#: portfolio/models.py:115
+#: portfolio/models.py:114
 msgid "F-number (f/)"
 msgstr "Дыяфрагма (f/)"
 
-#: portfolio/models.py:123
+#: portfolio/models.py:122
 msgid "Must be entered in the format: 1/123456789."
 msgstr "Неабходна ўвесці ў фармаце: 1/123456789."
 
-#: portfolio/models.py:126
+#: portfolio/models.py:125
 msgid "Exposure time (s)"
 msgstr "Вытрымка (s)"
 
-#: portfolio/models.py:133
+#: portfolio/models.py:132
 msgid "Focal length (mm)"
 msgstr "Фокусная адлегласць (mm)"
 
-#: portfolio/models.py:138
+#: portfolio/models.py:137
 msgid "Photographic sensitivity (ISO)"
 msgstr "Фота-адчувальнасць (ISO)"
 
-#: portfolio/models.py:159
+#: portfolio/models.py:158
 msgid "Uploaded at"
 msgstr "Загружана ў"
 
-#: portfolio/models.py:182
+#: portfolio/models.py:181
 msgid "Photo"
 msgstr "Фота"
 
-#: portfolio/models.py:183
+#: portfolio/models.py:182
 msgid "Photos"
 msgstr "Фатаграфіі"
-
-#: social/apps.py:8
-msgid "Social"
-msgstr "Сацыяльнае"
 
 #: social/choices.py:6
 msgid "5 stars"
