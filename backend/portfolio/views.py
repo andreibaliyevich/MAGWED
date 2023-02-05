@@ -1,32 +1,50 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from accounts.permissions import UserIsOrganizer
 from .models import Album, Photo
 from .serializers import (
-    AlbumListSerializer,
-    AlbumDetailSerializer,
-    PhotoListSerializer,
-    PhotoDetailSerializer,
+    AlbumListCreateSerializer,
+    AlbumRUDSerializer,
+    PhotoListCreateSerializer,
+    PhotoRUDSerializer,
 )
 
 
-class AlbumListView(generics.ListAPIView):
-    """ Album List View """
-    queryset = Album.objects.all()
-    serializer_class = AlbumListSerializer
+class AlbumListCreateView(generics.ListCreateAPIView):
+    """ Album List Create View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    serializer_class = AlbumListCreateSerializer
+
+    def get_queryset(self):
+        queryset = Album.objects.filter(owner=self.request.user)
+        return queryset
 
 
-class AlbumDetailView(generics.RetrieveAPIView):
-    """ Album Detail View """
-    queryset = Album.objects.all()
-    serializer_class = AlbumDetailSerializer
+class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):
+    """ Album Retrieve Update Destroy View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    serializer_class = AlbumRUDSerializer
+
+    def get_queryset(self):
+        queryset = Album.objects.filter(owner=self.request.user)
+        return queryset
 
 
-class PhotoListView(generics.ListAPIView):
-    """ Photo List View """
-    queryset = Photo.objects.all()
-    serializer_class = PhotoListSerializer
+class PhotoListCreateView(generics.ListCreateAPIView):
+    """ Photo List Create View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    serializer_class = PhotoListCreateSerializer
+
+    def get_queryset(self):
+        queryset = Photo.objects.filter(owner=self.request.user)
+        return queryset
 
 
-class PhotoDetailView(generics.RetrieveAPIView):
-    """ Photo Detail View """
-    queryset = Photo.objects.all()
-    serializer_class = PhotoDetailSerializer
+class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
+    """ Photo Retrieve Update Destroy View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    serializer_class = PhotoRUDSerializer
+
+    def get_queryset(self):
+        queryset = Photo.objects.filter(owner=self.request.user)
+        return queryset

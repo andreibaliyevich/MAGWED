@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from accounts.serializers import UserShortReadSerializer
 from main.serializers import HashtagSerializer
 from .models import Album, Photo
 
@@ -16,27 +15,21 @@ class AlbumShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class AlbumListSerializer(serializers.ModelSerializer):
-    """ Album List Serializer """
-    owner = UserShortReadSerializer(read_only=True)
+class AlbumListCreateSerializer(serializers.ModelSerializer):
+    """ Album List Create Serializer """
 
     class Meta:
         model = Album
         fields = [
             'id',
-            'owner',
-            'title',
             'thumbnail',
+            'title',
             'created_at',
-            'num_views',
-            'likes',
-            'rating',
         ]
 
 
-class AlbumDetailSerializer(serializers.ModelSerializer):
-    """ Album Detail Serializer """
-    owner = UserShortReadSerializer(read_only=True)
+class AlbumRUDSerializer(serializers.ModelSerializer):
+    """ Album Retrieve Update Destroy Serializer """
     hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
@@ -44,8 +37,8 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'owner',
-            'title',
             'image',
+            'title',
             'description',
             'hashtags',
             'created_at',
@@ -63,29 +56,25 @@ class PhotoShortReadSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'thumbnail',
+            'title',
         ]
 
 
-class PhotoListSerializer(serializers.ModelSerializer):
-    """ Photo List Serializer """
-    owner = UserShortReadSerializer(read_only=True)
+class PhotoListCreateSerializer(serializers.ModelSerializer):
+    """ Photo List Create Serializer """
 
     class Meta:
         model = Photo
         fields = [
             'id',
-            'owner',
             'thumbnail',
+            'title',
             'uploaded_at',
-            'num_views',
-            'likes',
-            'rating',
         ]
 
 
-class PhotoDetailSerializer(serializers.ModelSerializer):
-    """ Photo Detail Serializer """
-    owner = UserShortReadSerializer(read_only=True)
+class PhotoRUDSerializer(serializers.ModelSerializer):
+    """ Photo Retrieve Update Destroy Serializer """
     hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
@@ -100,6 +89,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'exposure_time',
             'focal_length',
             'photographic_sensitivity',
+            'title',
             'description',
             'hashtags',
             'uploaded_at',

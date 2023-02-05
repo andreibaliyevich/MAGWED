@@ -18,8 +18,6 @@ class Album(models.Model):
         verbose_name=_('Owner'),
     )
 
-    title = models.CharField(max_length=128, verbose_name=_('Title'))
-
     image = models.ImageField(upload_to=get_cover_path, verbose_name=_('Image'))
     thumbnail = ThumbnailerImageField(
         upload_to=get_thumbnail_path,
@@ -32,6 +30,7 @@ class Album(models.Model):
         verbose_name=_('Thumbnail'),
     )
 
+    title = models.CharField(max_length=128, verbose_name=_('Title'))
     description = models.CharField(
         blank=True,
         max_length=255,

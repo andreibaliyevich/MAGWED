@@ -17,16 +17,15 @@ class AlbumAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'owner',
-                'title',
             ),
         }),
         (_('Image'), {
             'fields': ('image', 'get_preview'),
         }),
-        (_('Description, Hashtags and Date of creation'), {
-            'fields': ('description', 'hashtags', 'created_at'),
+        (_('Info'), {
+            'fields': ('title', 'description', 'hashtags', 'created_at'),
         }),
-        (_('Views, Likes and Rating'), {
+        (_('Social'), {
             'fields': ('num_views', 'likes', 'rating'),
         }),
     )
@@ -68,10 +67,10 @@ class PhotoAdmin(admin.ModelAdmin):
                 'photographic_sensitivity',
             ),
         }),
-        (_('Description, Hashtags and Date of upload'), {
-            'fields': ('description', 'hashtags', 'uploaded_at'),
+        (_('Info'), {
+            'fields': ('title', 'description', 'hashtags', 'uploaded_at'),
         }),
-        (_('Views, Likes and Rating'), {
+        (_('Social'), {
             'fields': ('num_views', 'likes', 'rating'),
         }),
     )
