@@ -34,7 +34,7 @@ class AlbumAdmin(admin.ModelAdmin):
     inlines = (PhotoInline,)
 
     def get_preview(self, obj):
-        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="200">')
+        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="100">')
     get_preview.short_description = _('Preview')
 
 
@@ -78,5 +78,5 @@ class PhotoAdmin(admin.ModelAdmin):
     readonly_fields = ('uploaded_at', 'get_preview')
 
     def get_preview(self, obj):
-        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="200">')
+        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="100">')
     get_preview.short_description = _('Preview')
