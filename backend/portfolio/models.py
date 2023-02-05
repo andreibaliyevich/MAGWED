@@ -138,6 +138,11 @@ class Photo(models.Model):
         verbose_name=_('Photographic sensitivity (ISO)'),
     )
 
+    title = models.CharField(
+        blank=True,
+        max_length=128,
+        verbose_name=_('Title'),
+    )
     description = models.CharField(
         blank=True,
         max_length=255,
