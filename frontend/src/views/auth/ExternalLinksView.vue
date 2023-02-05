@@ -311,7 +311,7 @@ onMounted(() => {
                   ref="btnClose"
                   @click="resetOrganizerLink()"
                   type="button"
-                  class="btn btn-secondary"
+                  class="btn btn-light"
                   data-bs-dismiss="modal"
                 >
                   {{ $t('modal.close') }}

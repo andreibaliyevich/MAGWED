@@ -79,7 +79,7 @@ const searchItems = async () => {
               <button
                 ref="btnClose"
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               >
