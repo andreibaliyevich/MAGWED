@@ -1,5 +1,6 @@
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
+from django.core.files import File
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from main.models import Hashtag
