@@ -1,5 +1,6 @@
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
+from django.core.files import File
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -61,6 +62,10 @@ class Album(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
+
+    def save(self, *args, **kwargs):
+        self.thumbnail = File(self.image)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('Album')
@@ -163,6 +168,10 @@ class Photo(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
+
+    def save(self, *args, **kwargs):
+        self.thumbnail = File(self.image)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('Photo')

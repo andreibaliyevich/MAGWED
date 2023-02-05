@@ -20,8 +20,8 @@ class AlbumAdmin(admin.ModelAdmin):
                 'title',
             ),
         }),
-        (_('Image and Thumbnail'), {
-            'fields': ('image', 'thumbnail', 'get_preview'),
+        (_('Image'), {
+            'fields': ('image', 'get_preview'),
         }),
         (_('Description, Hashtags and Date of creation'), {
             'fields': ('description', 'hashtags', 'created_at'),
@@ -56,8 +56,8 @@ class PhotoAdmin(admin.ModelAdmin):
                 'album',
             ),
         }),
-        (_('Image and Thumbnail'), {
-            'fields': ('image', 'thumbnail', 'get_preview'),
+        (_('Image'), {
+            'fields': ('image', 'get_preview'),
         }),
         (_('Photo details'), {
             'fields': (
