@@ -58,8 +58,8 @@ class ArticleAdmin(admin.ModelAdmin):
         (_('Metadata'), {
             'fields': ('meta_description', 'meta_keywords'),
         }),
-        (_('Image and Thumbnail'), {
-            'fields': ('image', 'thumbnail', 'get_preview'),
+        (_('Image'), {
+            'fields': ('image', 'get_preview'),
         }),
         (_('Content and Hashtags'), {
             'fields': ('content', 'hashtags'),
@@ -75,7 +75,7 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = (ArticleTranslationInline,)
 
     def get_preview(self, obj):
-        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="200">')
+        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="100">')
     get_preview.short_description = _('Preview')
 
 

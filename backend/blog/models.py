@@ -139,6 +139,10 @@ class Article(models.Model):
         verbose_name=_('Number of views'),
     )
 
+    def save(self, *args, **kwargs):
+        self.thumbnail = File(self.image)
+        super().save(*args, **kwargs)
+
     def translated_title(self):
         return get_translated_field(self, 'title')
 
