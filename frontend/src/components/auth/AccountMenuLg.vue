@@ -134,8 +134,8 @@ const userStore = useUserStore()
       </li>
       <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
         <LocaleRouterLink
-          v-if="this.$route.name == 'Home'"
-          routeName="Home"
+          v-if="this.$route.name == 'Portfolio'"
+          routeName="Portfolio"
           class="nav-link active"
           aria-current="page"
         >
@@ -144,7 +144,7 @@ const userStore = useUserStore()
         </LocaleRouterLink>
         <LocaleRouterLink
           v-else
-          routeName="Home"
+          routeName="Portfolio"
           class="nav-link text-dark"
         >
           <i class="fa-solid fa-briefcase"></i>

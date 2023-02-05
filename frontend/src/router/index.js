@@ -98,6 +98,11 @@ const router = createRouter({
               component: () => import('@/views/auth/ExternalLinksView.vue')
             },
             {
+              path: 'portfolio',
+              name: 'Portfolio',
+              component: () => import('@/views/auth/PortfolioView.vue')
+            },
+            {
               path: 'password/change',
               name: 'PasswordChange',
               component: () => import('@/views/auth/PasswordChangeView.vue')
