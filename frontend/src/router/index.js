@@ -106,11 +106,6 @@ const router = createRouter({
               path: 'password/change',
               name: 'PasswordChange',
               component: () => import('@/views/auth/PasswordChangeView.vue')
-            },
-            {
-              path: 'notifications',
-              name: 'Notifications',
-              component: () => import('@/views/auth/NotificationsView.vue')
             }
           ]
         },
