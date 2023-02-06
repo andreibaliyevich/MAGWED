@@ -167,7 +167,7 @@ const userStore = useUserStore()
               aria-current="page"
             >
               <i class="fa-solid fa-briefcase"></i>
-              {{ $t('auth.portfolio') }}
+              {{ $t('auth.portfolio.portfolio') }}
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
@@ -176,7 +176,7 @@ const userStore = useUserStore()
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-briefcase"></i>
-              {{ $t('auth.portfolio') }}
+              {{ $t('auth.portfolio.portfolio') }}
             </LocaleRouterLink>
           </li>
           <li class="nav-item">
