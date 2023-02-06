@@ -138,7 +138,11 @@
             "add": "Додати",
             "update": "Оновити"
         },
-        "portfolio": "Портфоліо",
+        "portfolio": {
+            "portfolio": "Портфоліо",
+            "albums": "Альбоми",
+            "photos": "Фотографії"
+        },
         "passwordchange": {
             "password_change": "Зміна пароля",
             "current_password": "Поточний пароль",

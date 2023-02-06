@@ -138,7 +138,11 @@
             "add": "Add",
             "update": "Update"
         },
-        "portfolio": "Portfolio",
+        "portfolio": {
+            "portfolio": "Portfolio",
+            "albums": "Albums",
+            "photos": "Photos"
+        },
         "passwordchange": {
             "password_change": "Password change",
             "current_password": "Current password",
