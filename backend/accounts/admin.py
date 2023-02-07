@@ -7,7 +7,6 @@ from .models import (
     Customer,
     OrganizerRole,
     Organizer,
-    OrganizerLink,
 )
 
 
@@ -108,14 +107,8 @@ class OrganizerRoleAdmin(admin.ModelAdmin):
     list_display = ('__str__',)
 
 
-class OrganizerLinkInline(admin.TabularInline):
-    model = OrganizerLink
-    extra = 0
-
-
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
     """ Organizer Model for admin """
     list_display = ('user', 'rating', 'pro_time')
     autocomplete_fields = ['countries', 'cities', 'languages']
-    inlines = (OrganizerLinkInline,)

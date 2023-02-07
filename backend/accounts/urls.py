@@ -20,11 +20,6 @@ urlpatterns = [
         path('profile/', views.ProfileView.as_view()),
         path('avatar/', views.ProfileAvatarView.as_view()),
         path('cover/', views.OrganizerCoverView.as_view()),
-        path('links/', include([
-            path('', views.OrganizerLinkListCreateView.as_view()),
-            path('<int:pk>/', views.OrganizerLinkRUDView.as_view()),
-
-        ])),
         path('wstoken/', views.WebSocketAuthTokenView.as_view()),
     ])),
     path('organizers/', include([
