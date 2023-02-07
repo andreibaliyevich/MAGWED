@@ -5,8 +5,8 @@ from .models import SocialLink
 from .serializers import SocialLinkSerializer
 
 
-class OrganizerLinkListCreateView(generics.ListCreateAPIView):
-    """ Organizer Link List or Create View """
+class SocialLinkListCreateView(generics.ListCreateAPIView):
+    """ Social Link List Create View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
     serializer_class = SocialLinkSerializer
 
@@ -15,8 +15,8 @@ class OrganizerLinkListCreateView(generics.ListCreateAPIView):
         return queryset
 
 
-class OrganizerLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Organizer Link Retrieve Update Destroy View """
+class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
+    """ Social Link Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
     serializer_class = SocialLinkSerializer
 
