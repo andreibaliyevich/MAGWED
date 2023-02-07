@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-05 19:48+0000\n"
+"POT-Creation-Date: 2023-02-07 09:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,43 +20,43 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: accounts/admin.py:15 accounts/models.py:117
+#: accounts/admin.py:14 accounts/models.py:117
 msgid "Date joined"
 msgstr "Дата рэгістрацыі"
 
-#: accounts/admin.py:20
+#: accounts/admin.py:19
 msgid "Last 3 days"
 msgstr "Апошнія 3 дні"
 
-#: accounts/admin.py:21 notifications/admin.py:14
+#: accounts/admin.py:20 notifications/admin.py:14
 msgid "Last week"
 msgstr "Апошні тыдзень"
 
-#: accounts/admin.py:22 notifications/admin.py:15
+#: accounts/admin.py:21 notifications/admin.py:15
 msgid "Last month"
 msgstr "Апошні месяц"
 
-#: accounts/admin.py:23
+#: accounts/admin.py:22
 msgid "Last 6 months"
 msgstr "Апошнія 6 месяцаў"
 
-#: accounts/admin.py:24
+#: accounts/admin.py:23
 msgid "Last year"
 msgstr "Апошні год"
 
-#: accounts/admin.py:25
+#: accounts/admin.py:24
 msgid "More year"
 msgstr "Больш за год"
 
-#: accounts/admin.py:72
+#: accounts/admin.py:71
 msgid "Personal info"
 msgstr "Персанальная інфармацыя"
 
-#: accounts/admin.py:81
+#: accounts/admin.py:80
 msgid "Permissions"
 msgstr "Правы доступу"
 
-#: accounts/admin.py:90
+#: accounts/admin.py:89
 msgid "Important dates"
 msgstr "Важныя даты"
 
@@ -72,7 +72,7 @@ msgstr "Адміністратар"
 msgid "Customer"
 msgstr "Кліент"
 
-#: accounts/choices.py:8 accounts/models.py:295 accounts/models.py:306
+#: accounts/choices.py:8 accounts/models.py:295
 msgid "Organizer"
 msgstr "Арганізатар"
 
@@ -123,46 +123,6 @@ msgstr "Цырульнік"
 #: accounts/choices.py:24
 msgid "(Unknown)"
 msgstr "(Невядома)"
-
-#: accounts/choices.py:28
-msgid "Website"
-msgstr "Інтэрнэт сайт"
-
-#: accounts/choices.py:29
-msgid "Facebook"
-msgstr "Facebook"
-
-#: accounts/choices.py:30
-msgid "Twitter"
-msgstr "Twitter"
-
-#: accounts/choices.py:31
-msgid "Instagram"
-msgstr "Instagram"
-
-#: accounts/choices.py:32
-msgid "Spotify"
-msgstr "Spotify"
-
-#: accounts/choices.py:33
-msgid "YouTube"
-msgstr "YouTube"
-
-#: accounts/choices.py:34
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: accounts/choices.py:35
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: accounts/choices.py:36
-msgid "VK"
-msgstr "VK"
-
-#: accounts/choices.py:37
-msgid "LinkedIn"
-msgstr "LinkedIn"
 
 #: accounts/managers.py:23
 msgid "The Username must be set."
@@ -256,7 +216,7 @@ msgstr "Актыўны"
 
 #: accounts/models.py:138 accounts/models.py:149 accounts/models.py:183
 #: accounts/models.py:221 social/models.py:24 social/models.py:50
-#: social/models.py:112
+#: social/models.py:112 social_links/models.py:13
 msgid "User"
 msgstr "Карыстальнік"
 
@@ -363,22 +323,6 @@ msgstr "Тэрмін дзеяння Pro-акаўнта"
 msgid "Organizers"
 msgstr "Арганізатары"
 
-#: accounts/models.py:313
-msgid "Type of Link"
-msgstr "Тып спасылкі"
-
-#: accounts/models.py:315
-msgid "URL of Link"
-msgstr "URL спасылкі"
-
-#: accounts/models.py:318
-msgid "Link of Organizer"
-msgstr "Спасылка арганізатара"
-
-#: accounts/models.py:319
-msgid "Links of Organizer"
-msgstr "Спасылкі арганізатараў"
-
 #: accounts/permissions.py:8
 msgid "Only organizers have permission."
 msgstr "Дазвол ёсць толькі ў арганізатараў."
@@ -404,11 +348,11 @@ msgstr "Няправільны бягучы пароль."
 msgid "User with given email does not exist."
 msgstr "Карыстальнік з указаным адрасам электроннай пошты не існуе."
 
-#: accounts/views.py:97
+#: accounts/views.py:96
 msgid "Stale token for given user."
 msgstr "Састарэлы токен для дадзенага карыстальніка."
 
-#: accounts/views.py:136
+#: accounts/views.py:135
 msgid "The user does not have a password."
 msgstr "У карыстальніка няма пароля."
 
@@ -904,6 +848,64 @@ msgstr "Дазвол ёсць толькі ў аўтара."
 msgid "You have already left a review here."
 msgstr "Вы ўжо пакідалі водгук тут."
 
+#: social_links/apps.py:8
+#, fuzzy
+#| msgid "Social"
+msgid "Social links"
+msgstr "Сацыяльнае"
+
+#: social_links/choices.py:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: social_links/choices.py:7
+msgid "Twitter"
+msgstr "Twitter"
+
+#: social_links/choices.py:8
+msgid "Instagram"
+msgstr "Instagram"
+
+#: social_links/choices.py:9
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: social_links/choices.py:10
+msgid "Spotify"
+msgstr "Spotify"
+
+#: social_links/choices.py:11
+msgid "YouTube"
+msgstr "YouTube"
+
+#: social_links/choices.py:12
+msgid "SoundCloud"
+msgstr "SoundCloud"
+
+#: social_links/choices.py:13
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: social_links/choices.py:14
+msgid "VK"
+msgstr "VK"
+
+#: social_links/models.py:18
+msgid "Type of Link"
+msgstr "Тып спасылкі"
+
+#: social_links/models.py:20
+msgid "URL of Link"
+msgstr "URL спасылкі"
+
+#: social_links/models.py:23
+msgid "Social Link"
+msgstr "Сацыяльная спасылка"
+
+#: social_links/models.py:24
+msgid "Social Links"
+msgstr "Сацыяльныя спасылкі"
+
 #: templates/admin/base.html:40
 msgid "Welcome,"
 msgstr "Сардэчна запрашаем,"
@@ -995,3 +997,6 @@ msgstr "Скід пароля"
 #: templates/email/password_reset_text.html:10
 msgid "Thanks for using our site!"
 msgstr "Дзякуй за выкарыстанне нашага сайта!"
+
+#~ msgid "Website"
+#~ msgstr "Інтэрнэт сайт"
