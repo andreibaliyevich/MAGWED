@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import OrganizerLink
+from .models import SocialLink
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
     """ Social Link Serializer """
 
     class Meta:
-        model = OrganizerLink
+        model = SocialLink
         fields = [
             'id',
             'link_type',
@@ -18,7 +18,7 @@ class SocialLinkReadSerializer(serializers.ModelSerializer):
     """ Social Link Read Serializer """
 
     class Meta:
-        model = OrganizerLink
+        model = SocialLink
         fields = [
             'link_type',
             'link_url',
