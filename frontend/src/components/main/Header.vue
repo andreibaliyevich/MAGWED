@@ -41,6 +41,13 @@ const changeCurrency = (event) => {
             <i class="fa-brands fa-instagram"></i>
           </a>
           <a
+            class="text-white link-linkedin ms-2"
+            href="https://www.linkedin.com/"
+            target="_blank"
+          >
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a
             class="text-white link-spotify ms-2"
             href="https://www.spotify.com/"
             target="_blank"
@@ -74,13 +81,6 @@ const changeCurrency = (event) => {
             target="_blank"
           >
             <i class="fa-brands fa-vk"></i>
-          </a>
-          <a
-            class="text-white link-linkedin ms-2"
-            href="https://www.linkedin.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-linkedin"></i>
           </a>
         </div>
         <div class="d-flex">

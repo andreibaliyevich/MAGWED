@@ -196,6 +196,13 @@ onMounted(() => {
             <i class="fa-brands fa-instagram"></i>
           </a>
           <a
+            class="text-muted link-linkedin"
+            href="https://www.linkedin.com/"
+            target="_blank"
+          >
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a
             class="text-muted link-spotify me-3"
             href="https://www.spotify.com/"
             target="_blank"
@@ -229,13 +236,6 @@ onMounted(() => {
             target="_blank"
           >
             <i class="fa-brands fa-vk"></i>
-          </a>
-          <a
-            class="text-muted link-linkedin"
-            href="https://www.linkedin.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-linkedin"></i>
           </a>
         </div>
         <div class="col-md-6 text-center text-md-start text-muted mt-3 mt-md-0">
