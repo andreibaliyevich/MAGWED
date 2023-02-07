@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 from main.models import Country, City, Language
 from main.utilities import get_cover_path
 from main.validators import MinimumImageSizeValidator
-from .choices import UserType, RoleType, LinkType
+from .choices import UserType, RoleType
 from .managers import MWUserManager
 from .utilities import get_avatar_path
 
@@ -295,26 +295,3 @@ class Organizer(models.Model):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
         ordering = ['user']
-
-
-class OrganizerLink(models.Model):
-    """ Organizer Link Model """
-    organizer = models.ForeignKey(
-        Organizer,
-        on_delete=models.CASCADE,
-        related_name='organizer_links',
-        verbose_name=_('Organizer'),
-    )
-
-    link_type = models.CharField(
-        max_length=2,
-        choices=LinkType.choices,
-        default=LinkType.WEBSITE,
-        verbose_name=_('Type of Link'),
-    )
-    link_url = models.URLField(verbose_name=_('URL of Link'))
-
-    class Meta:
-        verbose_name = _('Link of Organizer')
-        verbose_name_plural = _('Links of Organizer')
-        ordering = ['organizer', 'id']
