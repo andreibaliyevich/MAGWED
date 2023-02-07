@@ -12,7 +12,7 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from .choices import UserType
 from .filters import OrganizerFilter
-from .models import Customer, Organizer, OrganizerLink
+from .models import Customer, Organizer
 from .pagination import OrganizerPagination
 from .permissions import UserIsOrganizer
 from .serializers import (
@@ -26,7 +26,6 @@ from .serializers import (
     CustomerProfileSerializer,
     ProfileAvatarSerializer,
     OrganizerCoverSerializer,
-    OrganizerLinkSerializer,
     OrganizerProfileSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
@@ -234,32 +233,6 @@ class OrganizerCoverView(APIView):
         organizer = get_object_or_404(Organizer, user=request.user)
         organizer.cover.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class OrganizerLinkListCreateView(generics.ListCreateAPIView):
-    """ Organizer Link List or Create View """
-    permission_classes = [IsAuthenticated, UserIsOrganizer]
-    serializer_class = OrganizerLinkSerializer
-
-    def get_queryset(self):
-        organizer = get_object_or_404(Organizer, user=self.request.user)
-        queryset = OrganizerLink.objects.filter(organizer=organizer)
-        return queryset
-
-    def perform_create(self, serializer):
-        organizer = get_object_or_404(Organizer, user=self.request.user)
-        serializer.save(organizer=organizer)
-
-
-class OrganizerLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Organizer Link Retrieve Update Destroy View """
-    permission_classes = [IsAuthenticated, UserIsOrganizer]
-    serializer_class = OrganizerLinkSerializer
-
-    def get_queryset(self):
-        organizer = get_object_or_404(Organizer, user=self.request.user)
-        queryset = OrganizerLink.objects.filter(organizer=organizer)
-        return queryset
 
 
 class WebSocketAuthTokenView(APIView):
