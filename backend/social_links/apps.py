@@ -2,7 +2,7 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 
-class SocialAccountsConfig(AppConfig):
+class SocialLinksConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'social_accounts'
-    verbose_name = _('Social accounts')
+    name = 'social_links'
+    verbose_name = _('Social links')
