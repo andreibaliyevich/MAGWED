@@ -12,6 +12,8 @@
         "no_results_found": "Вынікаў не знойдзена"
     },
     "modal": {
+        "add": "Дадаць",
+        "update": "Абнавіць",
         "close": "Закрыць"
     },
     "footer": {
@@ -128,15 +130,23 @@
             "profile_url": "URL профілю",
             "update_profile": "Абнавіць профіль"
         },
-        "externallinks": {
-            "external_links": "Знешнія спасылкі",
+        "sociallinks": {
+            "social_links": "Сацыяльныя спасылкі",
             "add_link": "Дадаць спасылку",
             "adding_a_link": "Даданне спасылкі",
             "changing_the_link": "Змяненне спасылкі",
             "type_of_link": "Тып спасылкі",
             "url_of_link": "URL спасылкі",
-            "add": "Дадаць",
-            "update": "Абнавіць"
+            "do_not_have_social_links": "У вас няма ўказаных сацыяльных спасылак.",
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram",
+            "linkedin": "LinkedIn",
+            "spotify": "Spotify",
+            "youtube": "YouTube",
+            "soundcloud": "SoundCloud",
+            "pinterest": "Pinterest",
+            "vk": "VK"
         },
         "portfolio": {
             "portfolio": "Партфоліё",

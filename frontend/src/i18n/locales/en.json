@@ -12,6 +12,8 @@
         "no_results_found": "No results found"
     },
     "modal": {
+        "add": "Add",
+        "update": "Update",
         "close": "Close"
     },
     "footer": {
@@ -128,15 +130,23 @@
             "profile_url": "Profile URL",
             "update_profile": "Update profile"
         },
-        "externallinks": {
-            "external_links": "External links",
+        "sociallinks": {
+            "social_links": "Social links",
             "add_link": "Add link",
             "adding_a_link": "Adding a link",
             "changing_the_link": "Changing the link",
             "type_of_link": "Type of Link",
             "url_of_link": "URL of Link",
-            "add": "Add",
-            "update": "Update"
+            "do_not_have_social_links": "You don't have the specified social links.",
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram",
+            "linkedin": "LinkedIn",
+            "spotify": "Spotify",
+            "youtube": "YouTube",
+            "soundcloud": "SoundCloud",
+            "pinterest": "Pinterest",
+            "vk": "VK"
         },
         "portfolio": {
             "portfolio": "Portfolio",

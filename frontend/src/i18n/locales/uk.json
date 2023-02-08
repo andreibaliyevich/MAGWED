@@ -12,6 +12,8 @@
         "no_results_found": "Результатів не знайдено"
     },
     "modal": {
+        "add": "Додати",
+        "update": "Оновити",
         "close": "Закрити"
     },
     "footer": {
@@ -128,15 +130,23 @@
             "profile_url": "URL профілю",
             "update_profile": "Оновити профіль"
         },
-        "externallinks": {
-            "external_links": "Зовнішні посилання",
+        "sociallinks": {
+            "social_links": "Соціальні посилання",
             "add_link": "Додати посилання",
             "adding_a_link": "Додавання посилання",
             "changing_the_link": "Зміна посилання",
             "type_of_link": "Тип посилання",
             "url_of_link": "URL посилання",
-            "add": "Додати",
-            "update": "Оновити"
+            "do_not_have_social_links": "У вас немає вказаних соціальних посилань.",
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram",
+            "linkedin": "LinkedIn",
+            "spotify": "Spotify",
+            "youtube": "YouTube",
+            "soundcloud": "SoundCloud",
+            "pinterest": "Pinterest",
+            "vk": "VK"
         },
         "portfolio": {
             "portfolio": "Портфоліо",

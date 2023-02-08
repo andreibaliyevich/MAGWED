@@ -12,6 +12,8 @@
         "no_results_found": "Результатов не найдено"
     },
     "modal": {
+        "add": "Добавить",
+        "update": "Обновить",
         "close": "Закрыть"
     },
     "footer": {
@@ -128,15 +130,23 @@
             "profile_url": "URL профиля",
             "update_profile": "Обновить профиль"
         },
-        "externallinks": {
-            "external_links": "Внешние ссылки",
+        "sociallinks": {
+            "social_links": "Социальные ссылки",
             "add_link": "Добавить ссылку",
             "adding_a_link": "Добавление ссылки",
             "changing_the_link": "Изменение ссылки",
             "type_of_link": "Тип ссылки",
             "url_of_link": "URL ссылки",
-            "add": "Добавить",
-            "update": "Обновить"
+            "do_not_have_social_links": "У вас нет указанных социальных ссылок.",
+            "facebook": "Facebook",
+            "twitter": "Twitter",
+            "instagram": "Instagram",
+            "linkedin": "LinkedIn",
+            "spotify": "Spotify",
+            "youtube": "YouTube",
+            "soundcloud": "SoundCloud",
+            "pinterest": "Pinterest",
+            "vk": "ВКонтакте"
         },
         "portfolio": {
             "portfolio": "Портфолио",
