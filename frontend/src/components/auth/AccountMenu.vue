@@ -139,23 +139,23 @@ const userStore = useUserStore()
           </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'ExternalLinks'"
-              routeName="ExternalLinks"
+              v-if="this.$route.name == 'SocialLinks'"
+              routeName="SocialLinks"
               @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
               <i class="fa-solid fa-link"></i>
-              {{ $t('auth.externallinks.external_links') }}
+              {{ $t('auth.sociallinks.social_links') }}
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              routeName="ExternalLinks"
+              routeName="SocialLinks"
               @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-link"></i>
-              {{ $t('auth.externallinks.external_links') }}
+              {{ $t('auth.sociallinks.social_links') }}
             </LocaleRouterLink>
           </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">

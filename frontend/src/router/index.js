@@ -93,9 +93,9 @@ const router = createRouter({
               component: () => import('@/views/auth/ProfileView.vue')
             },
             {
-              path: 'externallinks',
-              name: 'ExternalLinks',
-              component: () => import('@/views/auth/ExternalLinksView.vue')
+              path: 'social-links',
+              name: 'SocialLinks',
+              component: () => import('@/views/auth/SocialLinksView.vue')
             },
             {
               path: 'portfolio',
