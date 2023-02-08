@@ -849,10 +849,8 @@ msgid "You have already left a review here."
 msgstr "Вы ўжо пакідалі водгук тут."
 
 #: social_links/apps.py:8
-#, fuzzy
-#| msgid "Social"
 msgid "Social links"
-msgstr "Сацыяльнае"
+msgstr "Сацыяльныя спасылкі"
 
 #: social_links/choices.py:6
 msgid "Facebook"
