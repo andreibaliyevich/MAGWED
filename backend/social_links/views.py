@@ -14,6 +14,9 @@ class SocialLinkListCreateView(generics.ListCreateAPIView):
         queryset = SocialLink.objects.filter(user=self.request.user)
         return queryset
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Social Link Retrieve Update Destroy View """
