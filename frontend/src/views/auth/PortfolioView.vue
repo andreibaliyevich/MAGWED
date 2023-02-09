@@ -1,9 +1,28 @@
 <script setup>
 import { ref } from 'vue'
-import PortfolioAlbums from '@/components/auth/PortfolioAlbums.vue'
-import PortfolioPhotos from '@/components/auth/PortfolioPhotos.vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import PortfolioAlbumList from '@/components/auth/PortfolioAlbumList.vue'
+import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
+
+const router = useRouter()
+const { locale } = useI18n({ useScope: 'global' })
 
 const viewAlbums = ref(true)
+
+const goAddAlbum = () => {
+  router.push({
+    name: 'PortfolioAddAlbum',
+    params: { locale: locale.value }
+  })
+}
+
+const goAddPhoto = () => {
+  router.push({
+    name: 'PortfolioAddPhoto',
+    params: { locale: locale.value }
+  })
+}
 </script>
 
 <template>
@@ -13,7 +32,7 @@ const viewAlbums = ref(true)
         {{ $t('auth.portfolio.portfolio') }}
       </h1>
 
-      <ul class="nav nav-tabs nav-fill">
+      <ul class="nav nav-tabs nav-fill mb-3">
         <li class="nav-item">
           <a
             v-if="viewAlbums"
@@ -52,8 +71,24 @@ const viewAlbums = ref(true)
         </li>
       </ul>
 
-      <PortfolioAlbums v-if="viewAlbums" />
-      <PortfolioPhotos v-else />
+      <button
+        v-if="viewAlbums"
+        @click="goAddAlbum()"
+        class="btn btn-brand"
+        type="button"
+      >
+        {{ $t('modal.add') }}
+      </button>
+      <button
+        v-else
+        @click="goAddPhoto()"
+        class="btn btn-brand"
+        type="button"
+      >
+        {{ $t('modal.add') }}
+      </button>
+      <PortfolioAlbumList v-if="viewAlbums" />
+      <PortfolioPhotoList v-else />
     </div>
   </div>
 </template>

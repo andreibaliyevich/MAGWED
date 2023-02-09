@@ -2,27 +2,27 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 
-const photosLoading = ref(true)
-const photosList = ref([])
+const albumsLoading = ref(true)
+const albumList = ref([])
 
-const getPhotosData = async () => {
+const getAlbumsData = async () => {
   try {
     const response = await axios.get('/portfolio/photos/')
-    photosList.value = response.data
+    albumList.value = response.data
   } catch (error) {
     console.error(error)
   } finally {
-    photosLoading.value = false
+    albumsLoading.value = false
   }
 }
 
 onMounted(() => {
-  getPhotosData()
+  getAlbumsData()
 })
 </script>
 
 <template>
-  <div class="portfolio-photos">
-    {{ $t('auth.portfolio.photos') }}
+  <div class="portfolio-album-list">
+    {{ $t('auth.portfolio.albums') }}
   </div>
 </template>
