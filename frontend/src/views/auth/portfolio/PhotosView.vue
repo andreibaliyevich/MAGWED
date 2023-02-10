@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="portfolio-photo-list">
+  <div class="portfolio-photos-view">
     {{ $t('auth.portfolio.photos') }}
   </div>
 </template>

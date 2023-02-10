@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import PortfolioAlbumList from '@/components/auth/PortfolioAlbumList.vue'
-import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
 
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
@@ -87,8 +85,6 @@ const goAddPhoto = () => {
       >
         {{ $t('modal.add') }}
       </button>
-      <PortfolioAlbumList v-if="viewAlbums" />
-      <PortfolioPhotoList v-else />
     </div>
   </div>
 </template>

@@ -5,9 +5,9 @@ import { ref, onMounted } from 'vue'
 const albumsLoading = ref(true)
 const albumList = ref([])
 
-const getAlbumsData = async () => {
+const getPhotosData = async () => {
   try {
-    const response = await axios.get('/portfolio/photos/')
+    const response = await axios.get('/portfolio/albums/')
     albumList.value = response.data
   } catch (error) {
     console.error(error)
@@ -17,12 +17,12 @@ const getAlbumsData = async () => {
 }
 
 onMounted(() => {
-  getAlbumsData()
+  getPhotosData()
 })
 </script>
 
 <template>
-  <div class="portfolio-album-list">
+  <div class="portfolio-albums-view">
     {{ $t('auth.portfolio.albums') }}
   </div>
 </template>
