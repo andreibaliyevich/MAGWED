@@ -12,7 +12,7 @@ class PhotoInline(admin.StackedInline):
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
     """ Album Model for admin """
-    list_display = ('id', 'owner', 'title', 'created_at', 'rating')
+    list_display = ('uuid', 'owner', 'title', 'created_at', 'rating')
     fieldsets = (
         (None, {
             'fields': (
@@ -41,7 +41,7 @@ class AlbumAdmin(admin.ModelAdmin):
 class PhotoAdmin(admin.ModelAdmin):
     """ Photo Model for admin """
     list_display = (
-        'id',
+        'uuid',
         'owner',
         'album',
         'uploaded_at',

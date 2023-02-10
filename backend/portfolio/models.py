@@ -1,3 +1,4 @@
+import uuid
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.core.files import File
@@ -11,6 +12,11 @@ from .utilities import get_photo_path
 
 class Album(models.Model):
     """ Album Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -69,11 +75,16 @@ class Album(models.Model):
     class Meta:
         verbose_name = _('Album')
         verbose_name_plural = _('Albums')
-        ordering = ['-created_at', '-id']
+        ordering = ['-created_at']
 
 
 class Photo(models.Model):
     """ Photo Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -180,4 +191,4 @@ class Photo(models.Model):
     class Meta:
         verbose_name = _('Photo')
         verbose_name_plural = _('Photos')
-        ordering = ['-uploaded_at', '-id']
+        ordering = ['-uploaded_at']

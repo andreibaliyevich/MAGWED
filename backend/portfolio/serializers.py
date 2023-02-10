@@ -9,7 +9,7 @@ class AlbumShortReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'id',
+            'uuid',
             'title',
             'thumbnail',
         ]
@@ -21,7 +21,7 @@ class AlbumListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'id',
+            'uuid',
             'thumbnail',
             'title',
             'created_at',
@@ -35,7 +35,7 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'id',
+            'uuid',
             'owner',
             'image',
             'title',
@@ -54,7 +54,7 @@ class PhotoShortReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'id',
+            'uuid',
             'thumbnail',
             'title',
         ]
@@ -66,7 +66,7 @@ class PhotoListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'id',
+            'uuid',
             'thumbnail',
             'title',
             'uploaded_at',
@@ -80,7 +80,7 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'id',
+            'uuid',
             'owner',
             'album',
             'image',

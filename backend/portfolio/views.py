@@ -23,6 +23,7 @@ class AlbumListCreateView(generics.ListCreateAPIView):
 class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Album Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
+    lookup_field = 'uuid'
     serializer_class = AlbumRUDSerializer
 
     def get_queryset(self):
@@ -43,6 +44,7 @@ class PhotoListCreateView(generics.ListCreateAPIView):
 class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Photo Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
+    lookup_field = 'uuid'
     serializer_class = PhotoRUDSerializer
 
     def get_queryset(self):
