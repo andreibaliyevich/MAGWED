@@ -47,7 +47,9 @@ class LoginView(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         if created:
             user_logged_in.send(
-                sender=user.__class__, request=request, user=user
+                sender=user.__class__,
+                request=request,
+                user=user,
             )
 
         user_data = UserLoginSerializer(
@@ -66,7 +68,9 @@ class LogoutView(APIView):
     def post(self, request, *args, **kwargs):
         Token.objects.filter(user=request.user).delete()
         user_logged_out.send(
-            sender=request.user.__class__, request=request, user=request.user
+            sender=request.user.__class__,
+            request=request,
+            user=request.user,
         )
         return Response(status=status.HTTP_204_NO_CONTENT)
 

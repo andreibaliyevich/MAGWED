@@ -8,7 +8,7 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope['user']
-        self.device_id = self.scope['url_route']['kwargs']['device_id']
+        self.device_uuid = self.scope['url_route']['kwargs']['device_uuid']
         self.ch_group_name = 'users'
 
         await self.channel_layer.group_add(
@@ -51,10 +51,12 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
     def update_user_status(self, online):
         ch_obj, created = ConnectionHistory.objects.get_or_create(
             user=self.user,
-            device_id=self.device_id,
+            device_uuid=self.device_uuid,
         )
-        ch_obj.online = online
-        ch_obj.save(update_fields=['online', 'last_visit'])
+
+        if not (online and created):
+            ch_obj.online = online
+            ch_obj.save(update_fields=['online', 'last_visit'])
 
         if not online:
             if self.user.connection_histories.filter(online=True).count() > 0:

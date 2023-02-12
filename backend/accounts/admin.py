@@ -48,8 +48,8 @@ class DateJoinedFilter(admin.SimpleListFilter):
 
 class ConnectionHistoryInline(admin.TabularInline):
     model = ConnectionHistory
-    fields = ('device_id', 'online', 'first_login', 'last_visit')
-    readonly_fields = ('first_login', 'last_visit')
+    fields = ('device_uuid', 'online', 'first_login', 'last_visit')
+    readonly_fields = ('device_uuid', 'online', 'first_login', 'last_visit')
     extra = 0
 
 

@@ -149,8 +149,8 @@ class ConnectionHistory(models.Model):
         verbose_name=_('User'),
     )
 
-    device_id = models.CharField(max_length=64, verbose_name=_('Device ID'))
-    online = models.BooleanField(default=False, verbose_name=_('Online'))
+    device_uuid = models.UUIDField(verbose_name=_('Device UUID'))
+    online = models.BooleanField(default=True, verbose_name=_('Online'))
 
     first_login = models.DateTimeField(
         auto_now_add=True,
@@ -167,7 +167,7 @@ class ConnectionHistory(models.Model):
         ordering = ['user', '-last_visit']
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'device_id'],
+                fields=['user', 'device_uuid'],
                 name='unique_connectionhistory',
             )
         ]
@@ -197,8 +197,8 @@ class Customer(models.Model):
 class OrganizerRole(models.Model):
     """ Role of Organizer Model """
     role_id = models.PositiveSmallIntegerField(
-        choices=RoleType.choices,
         primary_key=True,
+        choices=RoleType.choices,
         verbose_name=_('Identifier'),
     )
 

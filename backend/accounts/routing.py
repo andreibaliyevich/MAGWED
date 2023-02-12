@@ -3,6 +3,6 @@ from . import consumers
 
 
 websocket_urlpatterns = [
-    re_path(r'^ws/connection/(?P<device_id>[0-9a-f-]+)/$',
+    re_path(r'^ws/connection/(?P<device_uuid>[0-9a-f-]+)/$',
         consumers.ConnectionHistoryConsumer.as_asgi()),
 ]
