@@ -14,7 +14,7 @@ const mainStore = useMainStore()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
-const deviceId = ref(null)
+const deviceUUID = ref(null)
 const connectionSocket = ref(null)
 
 axios.interceptors.response.use(
@@ -28,10 +28,10 @@ axios.interceptors.response.use(
   }
 )
 
-deviceId.value = window.localStorage.getItem('deviceId')
-if (!deviceId.value) {
-  deviceId.value = crypto.randomUUID()
-  window.localStorage.setItem('deviceId', deviceId.value)
+deviceUUID.value = window.localStorage.getItem('deviceUUID')
+if (!deviceUUID.value) {
+  deviceUUID.value = crypto.randomUUID()
+  window.localStorage.setItem('deviceUUID', deviceUUID.value)
 }
 
 const currency = window.localStorage.getItem('currency')
@@ -53,7 +53,7 @@ onMounted(async () => {
       connectionSocket.value = new WebSocket(
         WS_URL
         + '/ws/connection/'
-        + deviceId.value
+        + deviceUUID.value
         + '/?'
         + response.data.wstoken
       )
@@ -67,7 +67,7 @@ onMounted(async () => {
     connectionSocket.value = new WebSocket(
       WS_URL
       + '/ws/connection/'
-      + deviceId.value
+      + deviceUUID.value
       + '/'
     )
     connectionSocket.value.onmessage = (event) => {
