@@ -9,7 +9,7 @@ def send_activation_email(user, lang_code):
         'SITE_NAME': settings.SITE_NAME,
         'SITE_HOST': settings.SITE_HOST,
         'LANG_CODE': lang_code,
-        'uid': encode_uid(user.id),
+        'uid': encode_uid(user.uuid),
         'token': make_token(user),
     }
 
@@ -30,7 +30,7 @@ def send_password_reset_email(user, lang_code):
         'SITE_NAME': settings.SITE_NAME,
         'SITE_HOST': settings.SITE_HOST,
         'LANG_CODE': lang_code,
-        'uid': encode_uid(user.id),
+        'uid': encode_uid(user.uuid),
         'token': make_token(user),
     }
 

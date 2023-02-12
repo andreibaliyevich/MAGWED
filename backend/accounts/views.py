@@ -247,7 +247,7 @@ class WebSocketAuthTokenView(APIView):
         wstoken = get_random_string(length=32)
 
         wstokens_cache = caches['wstokens']
-        wstokens_cache.set(wstoken, request.user.id)
+        wstokens_cache.set(wstoken, request.user.uuid)
 
         return Response({'wstoken': wstoken})
 

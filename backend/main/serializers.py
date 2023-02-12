@@ -20,7 +20,7 @@ class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
         fields = [
-            'id',
+            'uuid',
             'name',
             'name_local',
         ]

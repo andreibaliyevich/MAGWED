@@ -10,13 +10,13 @@ UserModel = get_user_model()
 @database_sync_to_async
 def get_user(wstoken):
     wstokens_cache = caches['wstokens']
-    user_id = wstokens_cache.get(wstoken)
+    user_uuid = wstokens_cache.get(wstoken)
 
-    if user_id is None:
+    if user_uuid is None:
         return AnonymousUser()
 
     try:
-        return UserModel.objects.get(id=user_id)
+        return UserModel.objects.get(uuid=user_uuid)
     except UserModel.DoesNotExist:
         return AnonymousUser()
 

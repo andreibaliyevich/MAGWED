@@ -9,7 +9,7 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope['user']
-        self.notifications_group_name = f'notifications_{self.user.id}'
+        self.notifications_group_name = f'notifications-{self.user.uuid}'
 
         if self.user.is_authenticated:
             await self.channel_layer.group_add(
@@ -25,8 +25,8 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
         )
 
     async def receive_json(self, content):
-        notice_id = content['notice_id']
-        notice_viewed = await self.set_notice_viewed(notice_id)
+        notice_uuid = content['notice_uuid']
+        notice_viewed = await self.set_notice_viewed(notice_uuid)
 
         await self.send_json({
             'action': 'viewed',
@@ -41,9 +41,9 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
         })
 
     @database_sync_to_async
-    def set_notice_viewed(self, notice_id):
+    def set_notice_viewed(self, notice_uuid):
         try:
-            notice = Notification.objects.get(id=notice_id)
+            notice = Notification.objects.get(uuid=notice_uuid)
         except Notification.DoesNotExist:
             return False
 

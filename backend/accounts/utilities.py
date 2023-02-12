@@ -5,12 +5,12 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils import timezone
 
 
-def encode_uid(user_id):
-    return force_str(urlsafe_base64_encode(force_bytes(user_id)))
+def encode_uid(user_uuid):
+    return force_str(urlsafe_base64_encode(force_bytes(user_uuid)))
 
 
-def decode_uid(user_id):
-    return force_str(urlsafe_base64_decode(user_id))
+def decode_uid(user_uuid):
+    return force_str(urlsafe_base64_decode(user_uuid))
 
 
 def make_token(user):

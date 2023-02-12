@@ -36,14 +36,14 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
             self.ch_group_name,
             {
                 'type': 'ch_message',
-                'user_id': self.user.id,
+                'user_uuid': self.user.uuid,
                 'online': online,
             }
         )
 
     async def ch_message(self, event):
         await self.send_json({
-            'user_id': event['user_id'],
+            'user_uuid': event['user_uuid'],
             'online': event['online'],
         })
 

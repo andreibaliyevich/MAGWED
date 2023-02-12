@@ -62,7 +62,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
     @database_sync_to_async
     def get_conversation(self):
         try:
-            return Conversation.objects.get(id=self.convo_uuid)
+            return Conversation.objects.get(uuid=self.convo_uuid)
         except Conversation.DoesNotExist:
             return None
 

@@ -152,7 +152,7 @@ class ConversationListSerializer(serializers.ModelSerializer):
 
         if obj.convo_type == ConversationType.DIALOG:
             return UserShortReadSerializer(
-                obj.members.exclude(id=request.user.id).first(),
+                obj.members.exclude(uuid=request.user.uuid).first(),
                 context={'request': request},
             ).data
         elif obj.convo_type == ConversationType.GROUP:
