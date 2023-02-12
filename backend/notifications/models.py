@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -8,6 +9,12 @@ from .choices import ReasonOfNotification
 
 class Notification(models.Model):
     """ Notification Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     initiator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -27,17 +34,17 @@ class Notification(models.Model):
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    object_uuid = models.UUIDField()
+    content_object = GenericForeignKey('content_type', 'object_uuid')
 
-    viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
     created_at = models.DateTimeField(
         db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
+    viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
 
     class Meta:
         verbose_name = _('Notification')
         verbose_name_plural = _('Notifications')
-        ordering = ['-created_at', '-id']
+        ordering = ['-created_at']

@@ -21,6 +21,7 @@ class SocialLinkListCreateView(generics.ListCreateAPIView):
 class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Social Link Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
+    lookup_field = 'uuid'
     serializer_class = SocialLinkSerializer
 
     def get_queryset(self):

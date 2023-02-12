@@ -36,7 +36,7 @@ class DateCreatedFilter(admin.SimpleListFilter):
 class NotificationAdmin(admin.ModelAdmin):
     """ Notification Model for admin """
     list_display = (
-        'id',
+        'uuid',
         'initiator',
         'recipient',
         'reason',

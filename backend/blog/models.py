@@ -1,3 +1,4 @@
+import uuid
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.core.files import File
@@ -11,6 +12,12 @@ from .utilities import get_article_path
 
 class Category(models.Model):
     """ Category Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     name = models.CharField(max_length=64, verbose_name=_('Name'))
     slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
 
@@ -41,11 +48,17 @@ class Category(models.Model):
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
-        ordering = ['name', 'id']
+        ordering = ['name', 'uuid']
 
 
 class CategoryTranslation(models.Model):
     """ Category Translation Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -81,6 +94,12 @@ class CategoryTranslation(models.Model):
 
 class Article(models.Model):
     """ Article Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -132,6 +151,7 @@ class Article(models.Model):
     )
 
     published_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Published at'),
     )
@@ -162,11 +182,17 @@ class Article(models.Model):
     class Meta:
         verbose_name = _('Article')
         verbose_name_plural = _('Articles')
-        ordering = ['-published_at', '-id']
+        ordering = ['-published_at']
 
 
 class ArticleTranslation(models.Model):
     """ Article Translation Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
@@ -204,9 +230,14 @@ class ArticleTranslation(models.Model):
 
 class ArticleImage(models.Model):
     """ Article Image Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     file = models.ImageField(upload_to=get_article_path, verbose_name=_('File'))
 
     class Meta:
         verbose_name = _('Image of Article')
         verbose_name_plural = _('Images of Articles')
-        ordering = ['-id']
+        ordering = ['-uuid']

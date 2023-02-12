@@ -23,7 +23,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
-            'id',
+            'uuid',
             'username',
             'email',
             'user_type',
@@ -84,11 +84,11 @@ class ActivationSerializer(serializers.Serializer):
 
     def validate(self, data):
         try:
-            user_id = decode_uid(data['uid'])
-            self.user = UserModel.objects.get(id=user_id)
+            user_uuid = decode_uid(data['uid'])
+            self.user = UserModel.objects.get(uuid=user_uuid)
         except (UserModel.DoesNotExist, ValueError, TypeError, OverflowError):
             raise serializers.ValidationError(
-                {'uid': _('Invalid user id or user does not exist.')},
+                {'uid': _('Invalid user uuid or user does not exist.')},
                 code='invalid_uid',
             )
 
@@ -148,11 +148,11 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
     def validate(self, data):
         try:
-            user_id = decode_uid(data['uid'])
-            self.user = UserModel.objects.get(id=user_id)
+            user_uuid = decode_uid(data['uid'])
+            self.user = UserModel.objects.get(uuid=user_uuid)
         except (UserModel.DoesNotExist, ValueError, TypeError, OverflowError):
             raise serializers.ValidationError(
-                {'uid': _('Invalid user id or user does not exist.')},
+                {'uid': _('Invalid user uuid or user does not exist.')},
                 code='invalid_uid',
             )
 
@@ -310,7 +310,7 @@ class UserShortReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
-            'id',
+            'uuid',
             'name',
             'avatar',
             'online',
@@ -334,7 +334,7 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
-            'id',
+            'uuid',
             'email',
             'name',
             'avatar',

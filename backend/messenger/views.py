@@ -32,9 +32,9 @@ class MessageListView(generics.ListAPIView):
     pagination_class = MessagePagination
 
     def validate_url(self, request, **kwargs):
-        convo_id = kwargs.get('convo_id')
+        convo_uuid = kwargs.get('convo_uuid')
         try:
-            self.conversation = Conversation.objects.get(id=convo_id)
+            self.conversation = Conversation.objects.get(uuid=convo_uuid)
         except Conversation.DoesNotExist:
             return False
         return request.user in self.conversation.members.all()

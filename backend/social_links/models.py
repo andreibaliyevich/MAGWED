@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -6,6 +7,11 @@ from .choices import LinkType
 
 class SocialLink(models.Model):
     """ Social Link Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -22,4 +28,4 @@ class SocialLink(models.Model):
     class Meta:
         verbose_name = _('Social Link')
         verbose_name_plural = _('Social Links')
-        ordering = ['user', 'id']
+        ordering = ['user', 'uuid']

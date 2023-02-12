@@ -82,7 +82,7 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(ArticleImage)
 class ArticleImageAdmin(admin.ModelAdmin):
     """ Article Image Model for admin """
-    list_display = ('id', 'file', 'get_preview')
+    list_display = ('uuid', 'file', 'get_preview')
     readonly_fields = ('get_preview',)
 
     def get_preview(self, obj):

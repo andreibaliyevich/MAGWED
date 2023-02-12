@@ -49,7 +49,7 @@ class ImageMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageMessage
         fields = [
-            'id',
+            'uuid',
             'content',
             'size',
         ]
@@ -65,7 +65,7 @@ class FileMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = FileMessage
         fields = [
-            'id',
+            'uuid',
             'content',
             'size',
         ]
@@ -97,7 +97,7 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = [
-            'id',
+            'uuid',
             'sender',
             'msg_type',
             'created_at',
@@ -171,7 +171,7 @@ class ConversationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
         fields = [
-            'id',
+            'uuid',
             'convo_type',
             'members',
             'details',

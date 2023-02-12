@@ -3,6 +3,6 @@ from . import consumers
 
 
 websocket_urlpatterns = [
-    re_path(r'^ws/messenger/(?P<convo_id>\d+)/$',
+    re_path(r'^ws/messenger/(?P<convo_uuid>\d+)/$',
         consumers.MessengerConsumer.as_asgi()),
 ]

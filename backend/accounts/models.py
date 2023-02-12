@@ -23,6 +23,12 @@ from .utilities import get_avatar_path
 
 class MWUser(AbstractBaseUser, PermissionsMixin):
     """ User Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     username_validator = ASCIIUsernameValidator()
 
     username = models.CharField(
@@ -142,6 +148,11 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
 
 class ConnectionHistory(models.Model):
     """ Connection History Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

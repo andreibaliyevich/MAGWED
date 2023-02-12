@@ -8,7 +8,7 @@ class SocialLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialLink
         fields = [
-            'id',
+            'uuid',
             'link_type',
             'link_url',
         ]

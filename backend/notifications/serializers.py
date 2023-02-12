@@ -42,10 +42,10 @@ class NotificationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = [
-            'id',
+            'uuid',
             'initiator',
             'reason',
             'content_object',
-            'viewed',
             'created_at',
+            'viewed',
         ]

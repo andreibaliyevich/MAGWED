@@ -1,3 +1,4 @@
+import uuid
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.db import models
 from django.core.validators import FileExtensionValidator
@@ -9,10 +10,11 @@ from .validators import MinimumImageSizeValidator
 class Country(models.Model):
     """ Country Model """
     code = models.SlugField(
-        max_length=2,
         primary_key=True,
+        max_length=2,
         verbose_name=_('Code'),
     )
+
     name = models.CharField(max_length=64, verbose_name=_('Name'))
     name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
 
@@ -27,12 +29,18 @@ class Country(models.Model):
 
 class City(models.Model):
     """ City Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     country = models.ForeignKey(
         Country,
         on_delete=models.CASCADE,
         related_name='cities',
         verbose_name=_('Country'),
     )
+
     name = models.CharField(max_length=64, verbose_name=_('Name'))
     name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
 
@@ -48,10 +56,11 @@ class City(models.Model):
 class Language(models.Model):
     """ Language Model """
     code = models.SlugField(
-        max_length=2,
         primary_key=True,
+        max_length=2,
         verbose_name=_('Code'),
     )
+
     name = models.CharField(max_length=64, verbose_name=_('Name'))
     name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
 
@@ -66,8 +75,12 @@ class Language(models.Model):
 
 class Hashtag(models.Model):
     """ Hashtag Model """
-    name = models.CharField(max_length=64, unique=True, verbose_name=_('Name'))
-    slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
+    name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
+    slug = models.SlugField(
+        primary_key=True,
+        max_length=64,
+        verbose_name=_('Slug'),
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -75,17 +88,23 @@ class Hashtag(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f'{ self.name } ({ self.slug })'
 
     class Meta:
         verbose_name = _('Hashtag')
         verbose_name_plural = _('Hashtags')
-        ordering = ['-created_at', '-id']
+        ordering = ['-created_at']
 
 
 class Magazine(models.Model):
     """ Magazine Model """
-    title = models.CharField(max_length=128, verbose_name=_('Title'))
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
+    title = models.CharField(max_length=64, verbose_name=_('Title'))
     slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
 
     image = ThumbnailerImageField(
@@ -128,4 +147,4 @@ class Magazine(models.Model):
     class Meta:
         verbose_name = _('Magazine')
         verbose_name_plural = _('Magazines')
-        ordering = ['-published_at', '-id']
+        ordering = ['-published_at']

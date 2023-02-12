@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -13,6 +14,11 @@ from .utilities import (
 
 class Conversation(models.Model):
     """ Conversation Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     convo_type = models.PositiveSmallIntegerField(
         choices=ConversationType.choices,
         verbose_name=_('Conversation type'),
@@ -26,7 +32,7 @@ class Conversation(models.Model):
     class Meta:
         verbose_name = _('Conversation')
         verbose_name_plural = _('Conversations')
-        ordering = ['-id']
+        ordering = ['-uuid']
 
 
 class GroupConversation(models.Model):
@@ -72,6 +78,12 @@ class GroupConversation(models.Model):
 
 class Message(models.Model):
     """ Message Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     conversation = models.ForeignKey(
         Conversation,
         on_delete=models.CASCADE,
@@ -126,6 +138,11 @@ class TextMessage(models.Model):
 
 class ImageMessage(models.Model):
     """ Image Message Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     message = models.ForeignKey(
         Message,
         on_delete=models.CASCADE,
@@ -145,6 +162,11 @@ class ImageMessage(models.Model):
 
 class FileMessage(models.Model):
     """ File Message Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     message = models.ForeignKey(
         Message,
         on_delete=models.CASCADE,

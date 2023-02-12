@@ -25,6 +25,7 @@ class Follow(models.Model):
     )
 
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
@@ -55,6 +56,7 @@ class Favorite(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
@@ -87,6 +89,7 @@ class Comment(models.Model):
     content = models.CharField(max_length=255, verbose_name=_('Content'))
 
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
@@ -125,6 +128,7 @@ class Review(models.Model):
     comment = models.TextField(verbose_name=_('Comment'))
 
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )

@@ -20,7 +20,7 @@ class GroupConversationInline(admin.TabularInline):
 @admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
     """ Conversation Model for admin """
-    list_display = ('id', 'convo_type')
+    list_display = ('uuid', 'convo_type')
     inlines = (GroupConversationInline,)
 
 
@@ -50,6 +50,6 @@ class FileMessageInline(admin.TabularInline):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     """ Message Model for admin """
-    list_display = ('id', 'conversation', 'sender', 'msg_type', 'created_at')
+    list_display = ('uuid', 'conversation', 'sender', 'msg_type', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     inlines = (TextMessageInline, ImageMessageInline, FileMessageInline)

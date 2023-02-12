@@ -11,8 +11,8 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope['user']
-        self.convo_id = self.scope['url_route']['kwargs']['convo_id']
-        self.convo_group_name = f'conversation_{self.convo_id}'
+        self.convo_uuid = self.scope['url_route']['kwargs']['convo_uuid']
+        self.convo_group_name = f'convo-{self.convo_uuid}'
         self.conversation = await self.get_conversation()
 
         if self.conversation and await self.check_is_member():
@@ -38,9 +38,9 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
             else:
                 data = content['data']
         elif content['action'] == 'viewed':
-            msg_viewed = await self.set_message_viewed(content['msg_id'])
+            msg_viewed = await self.set_message_viewed(content['msg_uuid'])
             data = {
-                'msg_id': content['msg_id'],
+                'msg_uuid': content['msg_uuid'],
                 'msg_viewed': msg_viewed,
             }
 
@@ -62,7 +62,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
     @database_sync_to_async
     def get_conversation(self):
         try:
-            return Conversation.objects.get(id=self.convo_id)
+            return Conversation.objects.get(id=self.convo_uuid)
         except Conversation.DoesNotExist:
             return None
 
@@ -83,9 +83,9 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         return MessageFullReadSerializer(msg).data
 
     @database_sync_to_async
-    def set_message_viewed(self, msg_id):
+    def set_message_viewed(self, msg_uuid):
         try:
-            msg = Message.objects.get(id=msg_id)
+            msg = Message.objects.get(uuid=msg_uuid)
         except Message.DoesNotExist:
             return None
 
