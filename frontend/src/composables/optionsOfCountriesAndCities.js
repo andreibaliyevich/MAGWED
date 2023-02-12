@@ -29,7 +29,7 @@ export function useOptionsOfCountriesAndCities(country) {
       citiesOptions.value = []
       response.data.forEach((element) => {
         citiesOptions.value.push({
-          'value': element.id,
+          'value': element.code,
           'text': `${ element.name_local } (${ element.name })`
         })
       })

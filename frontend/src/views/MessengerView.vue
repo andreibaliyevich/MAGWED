@@ -15,7 +15,7 @@ const setConversation = (convo) => {
     <div class="container">
       <div class="row d-lg-none">
         <div
-          v-if="!conversation.id"
+          v-if="!conversation.uuid"
           class="col py-4"
         >
           <ConversationList @setConversation="setConversation" />
@@ -38,13 +38,13 @@ const setConversation = (convo) => {
       <div class="row d-none d-lg-flex">
         <div class="col-4 border-end py-4">
           <ConversationList
-            :convoId="conversation.id"
+            :convoId="conversation.uuid"
             @setConversation="setConversation"
           />
         </div>
         <div class="col-8 p-3">
           <ConversationDetail
-            v-if="conversation.id" 
+            v-if="conversation.uuid" 
             :conversation="conversation"
           />
           <div

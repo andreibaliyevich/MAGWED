@@ -39,7 +39,7 @@ const getMessages = async () => {
   try {
     const response = await axios.get(
       '/messenger/messages/'
-      + props.conversation.id
+      + props.conversation.uuid
       + '/'
     )
     messages.value = response.data.results
@@ -78,7 +78,7 @@ const openConvoSocket = async () => {
     convoSocket.value = new WebSocket(
       WS_URL
       + '/ws/messenger/'
-      + props.conversation.id
+      + props.conversation.uuid
       + '/?'
       + response.data.wstoken
     )
@@ -97,7 +97,7 @@ const openConvoSocket = async () => {
         })
       } else if (data.action == 'viewed') {
         const foundIndex = messages.value.findIndex((element) => {
-          return element.id == data.data.msg_id
+          return element.uuid == data.data.msg_uuid
         })
         if (foundIndex != -1) {
           messages.value[foundIndex].viewed = data.data.msg_viewed
@@ -134,7 +134,7 @@ const sendMessage = () => {
 
 const sendImages = async (filelist) => {
   const imagesData = new FormData()
-  imagesData.append('conversation', props.conversation.id)
+  imagesData.append('conversation', props.conversation.uuid)
   for (let i = 0; i < filelist.length; i++) {
     imagesData.append('content', filelist[i], filelist[i].name)
   }
@@ -152,7 +152,7 @@ const sendImages = async (filelist) => {
 
 const sendFiles = async (filelist) => {
   const filesData = new FormData()
-  filesData.append('conversation', props.conversation.id)
+  filesData.append('conversation', props.conversation.uuid)
   for (let i = 0; i < filelist.length; i++) {
     filesData.append('content', filelist[i], filelist[i].name)
   }
@@ -210,7 +210,7 @@ const vIntersectionMessage = {
 
 const updateUserStatus = (mutation, state) => {
   messages.value.forEach((element) => {
-    if (element.sender.id == state.user_id) {
+    if (element.sender.uuid == state.user_uuid) {
       element.sender.online = state.online
     }
   })
@@ -285,7 +285,7 @@ onUnmounted(() => {
           class="my-3"
         >
           <div
-            v-if="msg.sender.id == userStore.id"
+            v-if="msg.sender.uuid == userStore.uuid"
             class="d-flex justify-content-end"
           >
             <div class="my-0">
@@ -337,7 +337,7 @@ onUnmounted(() => {
                     v-else
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
-                    v-intersection-message="msg.id"
+                    v-intersection-message="msg.uuid"
                   />
                 </div>
               </div>
@@ -354,7 +354,7 @@ onUnmounted(() => {
                   v-else
                   :msgType="msg.msg_type"
                   :msgContent="msg.content"
-                  v-intersection-message="msg.id"
+                  v-intersection-message="msg.uuid"
                 />
               </div>
               <small class="text-muted">

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
-    id: null,
+    uuid: null,
     username: null,
     email: null,
     userType: null,
@@ -16,7 +16,7 @@ export const useUserStore = defineStore('userStore', {
   actions: {
     setUserData(data) {
       this.$patch({
-        id: data.id,
+        uuid: data.uuid,
         username: data.username,
         email: data.email,
         userType: data.user_type,

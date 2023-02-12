@@ -65,14 +65,14 @@ const connectSocket = async () => {
         notifications.value.unshift(data.notice)
       } else if (data.action == 'updated') {
         const foundIndex = notifications.value.findIndex((element) => {
-          return element.id == data.notice.id
+          return element.uuid == data.notice.uuid
         })
         if (foundIndex != -1) {
           notifications.value[foundIndex] = data.notice
         }
       } else if (data.action == 'viewed') {
         const foundIndex = notifications.value.findIndex((element) => {
-          return element.id == data.notice_id
+          return element.uuid == data.notice_id
         })
         if (foundIndex != -1) {
           notifications.value[foundIndex].viewed = data.notice_viewed
@@ -169,7 +169,7 @@ onMounted(() => {
           <ul class="list-group list-group-flush">
             <li
               v-for="notice in notifications"
-              :key="notice.id"
+              :key="notice.uuid"
               class="list-group-item list-group-item-action"
             >
               <NavbarNotice
@@ -181,7 +181,7 @@ onMounted(() => {
                 v-else
                 :notice="notice"
                 @clickLink="$refs.dropdownNotifications.click()"
-                v-intersection-notice="notice.id"
+                v-intersection-notice="notice.uuid"
               />
             </li>
           </ul>

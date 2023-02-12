@@ -8,7 +8,7 @@ const { t, locale } = useI18n({ useScope: 'global' })
 const linksLoading = ref(true)
 const socialLinks = ref([])
 
-const socialLinkId = ref(null)
+const socialLinkUuid = ref(null)
 const socialLinkType = ref(null)
 const socialLinkUrl = ref('')
 
@@ -60,7 +60,7 @@ const addSocialLink = async () => {
 const getSocialLinkData = async (olId) => {
   try {
     const response = await axios.get('/social-links/' + olId +'/')
-    socialLinkId.value = response.data.id
+    socialLinkUuid.value = response.data.uuid
     socialLinkType.value = response.data.link_type
     socialLinkUrl.value = response.data.link_url
   } catch (error) {
@@ -71,14 +71,14 @@ const getSocialLinkData = async (olId) => {
 const updateSocialLink = async () => {
   try {
     const response = await axios.put(
-      '/social-links/' + socialLinkId.value +'/',
+      '/social-links/' + socialLinkUuid.value +'/',
       {
         link_type: socialLinkType.value,
         link_url: socialLinkUrl.value
       }
     )
     const foundIndex = socialLinks.value.findIndex((element) => {
-      return element.id == socialLinkId.value
+      return element.uuid == socialLinkUuid.value
     })
     socialLinks.value[foundIndex] = response.data
     btnClose.value.click()
@@ -92,7 +92,7 @@ const removeSocialLink = async (olId) => {
   try {
     const response = axios.delete('/social-links/' + olId +'/')
     socialLinks.value = socialLinks.value.filter((element) => {
-      return element.id != olId
+      return element.uuid != olId
     })
   } catch (error) {
     console.error(error)
@@ -101,7 +101,7 @@ const removeSocialLink = async (olId) => {
 
 const resetSocialLink = () => {
   setTimeout(() => {
-    socialLinkId.value = null
+    socialLinkUuid.value = null
     socialLinkType.value = null
     socialLinkUrl.value = ''
     errors.value = null
@@ -132,7 +132,7 @@ onMounted(() => {
       >
         <li
           v-for="socialLinkItem in socialLinks"
-          :key="socialLinkItem.id"
+          :key="socialLinkItem.uuid"
           class="list-group-item"
         >
           <div class="row">
@@ -202,7 +202,7 @@ onMounted(() => {
             </div>
             <div class="col-3 col-md-2 d-flex justify-content-end">
               <button
-                @click="getSocialLinkData(socialLinkItem.id)"
+                @click="getSocialLinkData(socialLinkItem.uuid)"
                 type="button"
                 class="btn btn-light btn-sm"
                 data-bs-toggle="modal"
@@ -211,7 +211,7 @@ onMounted(() => {
                 <i class="fa-solid fa-pen fa-sm"></i>
               </button>
               <button
-                @click="removeSocialLink(socialLinkItem.id)"
+                @click="removeSocialLink(socialLinkItem.uuid)"
                 type="button"
                 class="btn btn-danger btn-sm ms-1"
               >
@@ -251,7 +251,7 @@ onMounted(() => {
             <div class="modal-content">
               <div class="modal-header">
                 <h5
-                  v-if="socialLinkId"
+                  v-if="socialLinkUuid"
                   class="modal-title"
                   id="organizerLinkModalLabel"
                 >
@@ -327,7 +327,7 @@ onMounted(() => {
                   {{ $t('modal.close') }}
                 </button>
                 <button
-                  v-if="socialLinkId"
+                  v-if="socialLinkUuid"
                   @click="updateSocialLink()"
                   class="btn btn-brand"
                   type="button"

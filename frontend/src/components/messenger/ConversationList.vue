@@ -35,7 +35,7 @@ const updateUserStatus = (mutation, state) => {
   convoList.value.forEach((element) => {
     if (
       element.convo_type == conversationType.DIALOG &&
-      element.details.id == state.user_id
+      element.details.uuid == state.user_uuid
     ) {
       element.details.online = state.online
     }
@@ -63,7 +63,7 @@ onMounted(() => {
         class="list-group-item list-group-item-action p-0"
       >
         <div
-          v-if="convo.id == convoId"
+          v-if="convo.uuid == convoId"
           class="d-flex gap-3 p-3 text-dark"
           style="background-color: #efefef;"
         >

@@ -10,7 +10,7 @@ export function useOptionsOfCitiesExtra(countries) {
       citiesExtraOptions.value = []
       response.data.forEach((element) => {
         citiesExtraOptions.value.push({
-          'value': element.id,
+          'value': element.code,
           'text': `${ element.name_local } (${ element.name })`
         })
       })
