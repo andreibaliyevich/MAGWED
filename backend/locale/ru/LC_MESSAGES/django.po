@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-12 18:02+0000\n"
+"POT-Creation-Date: 2023-02-13 08:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -215,8 +215,8 @@ msgid "Active"
 msgstr "Активный"
 
 #: accounts/models.py:144 accounts/models.py:160 accounts/models.py:194
-#: accounts/models.py:232 social/models.py:24 social/models.py:51
-#: social/models.py:115 social_links/models.py:19
+#: accounts/models.py:232 social/models.py:24 social/models.py:63
+#: social/models.py:95 social/models.py:171
 msgid "User"
 msgstr "Пользователь"
 
@@ -311,7 +311,7 @@ msgid "Profile URL"
 msgstr "URL профиля"
 
 #: accounts/models.py:298 portfolio/models.py:69 portfolio/models.py:186
-#: social/models.py:126
+#: social/models.py:182
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -327,25 +327,25 @@ msgstr "Организаторы"
 msgid "Only organizers have permission."
 msgstr "Разрешение есть только у организаторов."
 
-#: accounts/serializers.py:46 accounts/serializers.py:121
-#: accounts/serializers.py:167
+#: accounts/serializers.py:45 accounts/serializers.py:120
+#: accounts/serializers.py:166
 msgid "Password fields did not match."
 msgstr "Поля пароля не совпадают."
 
-#: accounts/serializers.py:91 accounts/serializers.py:155
+#: accounts/serializers.py:90 accounts/serializers.py:154
 msgid "Invalid user uuid or user does not exist."
 msgstr ""
 "Недопустимый идентификатор пользователя или пользователь не существует."
 
-#: accounts/serializers.py:97 accounts/serializers.py:161
+#: accounts/serializers.py:96 accounts/serializers.py:160
 msgid "Invalid token for given user."
 msgstr "Недопустимый токен для данного пользователя."
 
-#: accounts/serializers.py:115
+#: accounts/serializers.py:114
 msgid "Invalid current password."
 msgstr "Неверный текущий пароль."
 
-#: accounts/serializers.py:134
+#: accounts/serializers.py:133
 msgid "User with given email does not exist."
 msgstr "Пользователь с указанным адресом электронной почты не существует."
 
@@ -418,7 +418,7 @@ msgstr "Перевод категории"
 msgid "Category Translations"
 msgstr "Переводы категорий"
 
-#: blog/models.py:107 social/models.py:86 social/models.py:121
+#: blog/models.py:107 social/models.py:136 social/models.py:177
 msgid "Author"
 msgstr "Автор"
 
@@ -431,7 +431,7 @@ msgstr "Название"
 msgid "Thumbnail"
 msgstr "Эскиз"
 
-#: blog/models.py:145 blog/models.py:222 social/models.py:89
+#: blog/models.py:145 blog/models.py:222 social/models.py:139
 msgid "Content"
 msgstr "Содержание"
 
@@ -484,7 +484,7 @@ msgstr "Форма недействительна!"
 msgid "Main app"
 msgstr "Основное приложение"
 
-#: main/models.py:15 main/models.py:61
+#: main/models.py:15 main/models.py:35 main/models.py:61
 msgid "Code"
 msgstr "Код"
 
@@ -493,8 +493,8 @@ msgid "Name (local)"
 msgstr "Название (местное)"
 
 #: main/models.py:87 messenger/models.py:107 notifications/models.py:43
-#: portfolio/models.py:54 social/models.py:30 social/models.py:61
-#: social/models.py:94 social/models.py:133
+#: portfolio/models.py:54 social/models.py:36 social/models.py:69
+#: social/models.py:105 social/models.py:144 social/models.py:189
 msgid "Created at"
 msgstr "Создано в"
 
@@ -579,7 +579,7 @@ msgstr "Отправитель"
 msgid "Message type"
 msgstr "Тип сообщения"
 
-#: messenger/models.py:111 social/models.py:98 social/models.py:137
+#: messenger/models.py:111 social/models.py:148 social/models.py:193
 msgid "Updated at"
 msgstr "Обновлено в"
 
@@ -636,8 +636,8 @@ msgstr "Файловые сообщения"
 msgid "You are not a member of the conversation."
 msgstr "Вы не являетесь участником беседы."
 
-#: messenger/views.py:49 social/views.py:60 social/views.py:67
-#: social/views.py:105 social/views.py:112
+#: messenger/views.py:49 social/views.py:86 social/views.py:93
+#: social/views.py:132 social/views.py:139
 msgid "Not found."
 msgstr "Не найдено."
 
@@ -782,62 +782,114 @@ msgid "Photos"
 msgstr "Фотографии"
 
 #: social/choices.py:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: social/choices.py:7
+msgid "Twitter"
+msgstr "Twitter"
+
+#: social/choices.py:8
+msgid "Instagram"
+msgstr "Instagram"
+
+#: social/choices.py:9
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: social/choices.py:10
+msgid "Spotify"
+msgstr "Spotify"
+
+#: social/choices.py:11
+msgid "YouTube"
+msgstr "YouTube"
+
+#: social/choices.py:12
+msgid "SoundCloud"
+msgstr "SoundCloud"
+
+#: social/choices.py:13
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: social/choices.py:14
+msgid "VK"
+msgstr "ВКонтакте"
+
+#: social/choices.py:18
 msgid "5 stars"
 msgstr "5 звезд"
 
-#: social/choices.py:7
+#: social/choices.py:19
 msgid "4 stars"
 msgstr "4 звезды"
 
-#: social/choices.py:8
+#: social/choices.py:20
 msgid "3 stars"
 msgstr "3 звезды"
 
-#: social/choices.py:9
+#: social/choices.py:21
 msgid "2 stars"
 msgstr "2 звезды"
 
-#: social/choices.py:10
+#: social/choices.py:22
 msgid "1 star"
 msgstr "1 звезда"
 
-#: social/choices.py:12
+#: social/choices.py:24
 msgid "Choose rating"
 msgstr "Выберите рейтинг"
 
-#: social/models.py:18
+#: social/models.py:29
+msgid "Type of Link"
+msgstr "Тип ссылки"
+
+#: social/models.py:31
+msgid "URL of Link"
+msgstr "URL ссылки"
+
+#: social/models.py:40
+msgid "Social Link"
+msgstr "Социальная ссылка"
+
+#: social/models.py:41
+msgid "Social Links"
+msgstr "Социальные ссылки"
+
+#: social/models.py:57
 msgid "Follower"
 msgstr "Подписчик"
 
-#: social/models.py:34
+#: social/models.py:73
 msgid "Follow object"
 msgstr "Объект Follow"
 
-#: social/models.py:35
+#: social/models.py:74
 msgid "Follow objects"
 msgstr "Объекты Follow"
 
-#: social/models.py:65
+#: social/models.py:109
 msgid "Favorite"
 msgstr "Избранное"
 
-#: social/models.py:66
+#: social/models.py:110
 msgid "Favorites"
 msgstr "Избранные"
 
-#: social/models.py:104 social/models.py:128
+#: social/models.py:154 social/models.py:184
 msgid "Comment"
 msgstr "Комментарий"
 
-#: social/models.py:105
+#: social/models.py:155
 msgid "Comments"
 msgstr "Комментарии"
 
-#: social/models.py:141
+#: social/models.py:197
 msgid "Review"
 msgstr "Отзыв"
 
-#: social/models.py:142
+#: social/models.py:198
 msgid "Reviews"
 msgstr "Отзывы"
 
@@ -845,65 +897,9 @@ msgstr "Отзывы"
 msgid "Only author have permission."
 msgstr "Разрешение есть только у автора."
 
-#: social/serializers.py:49
+#: social/serializers.py:72
 msgid "You have already left a review here."
 msgstr "Вы уже оставляли отзыв здесь."
-
-#: social_links/apps.py:8
-msgid "Social links"
-msgstr "Социальные ссылки"
-
-#: social_links/choices.py:6
-msgid "Facebook"
-msgstr "Facebook"
-
-#: social_links/choices.py:7
-msgid "Twitter"
-msgstr "Twitter"
-
-#: social_links/choices.py:8
-msgid "Instagram"
-msgstr "Instagram"
-
-#: social_links/choices.py:9
-msgid "LinkedIn"
-msgstr "LinkedIn"
-
-#: social_links/choices.py:10
-msgid "Spotify"
-msgstr "Spotify"
-
-#: social_links/choices.py:11
-msgid "YouTube"
-msgstr "YouTube"
-
-#: social_links/choices.py:12
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: social_links/choices.py:13
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: social_links/choices.py:14
-msgid "VK"
-msgstr "ВКонтакте"
-
-#: social_links/models.py:24
-msgid "Type of Link"
-msgstr "Тип ссылки"
-
-#: social_links/models.py:26
-msgid "URL of Link"
-msgstr "URL ссылки"
-
-#: social_links/models.py:29
-msgid "Social Link"
-msgstr "Социальная ссылка"
-
-#: social_links/models.py:30
-msgid "Social Links"
-msgstr "Социальные ссылки"
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
@@ -996,6 +992,9 @@ msgstr "Сброс пароля"
 #: templates/email/password_reset_text.html:10
 msgid "Thanks for using our site!"
 msgstr "Спасибо за использование нашего сайта!"
+
+#~ msgid "Social links"
+#~ msgstr "Социальные ссылки"
 
 #~ msgid "Website"
 #~ msgstr "Интернет сайт"
