@@ -168,10 +168,10 @@ const sendFiles = async (filelist) => {
   }
 }
 
-const setMessageViewed = (msg_id) => {
+const setMessageViewed = (msg_uuid) => {
   convoSocket.value.send(JSON.stringify({
     'action': 'viewed',
-    'msg_id': msg_id
+    'msg_uuid': msg_uuid
   }))
 }
 

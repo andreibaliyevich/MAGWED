@@ -72,7 +72,7 @@ const connectSocket = async () => {
         }
       } else if (data.action == 'viewed') {
         const foundIndex = notifications.value.findIndex((element) => {
-          return element.uuid == data.notice_id
+          return element.uuid == data.notice_uuid
         })
         if (foundIndex != -1) {
           notifications.value[foundIndex].viewed = data.notice_viewed
@@ -95,9 +95,9 @@ const connectSocket = async () => {
   }
 }
 
-const setNoticeViewed = (notice_id) => {
+const setNoticeViewed = (notice_uuid) => {
   notificationsSocket.value.send(JSON.stringify({
-    'notice_id': notice_id
+    'notice_uuid': notice_uuid
   }))
 }
 

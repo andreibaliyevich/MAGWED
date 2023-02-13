@@ -92,7 +92,7 @@ const updateProfile = async () => {
     })
     userStore.updateName(name.value)
     window.localStorage.setItem('user', JSON.stringify({
-      'id': userStore.id,
+      'uuid': userStore.uuid,
       'username': userStore.username,
       'email': userStore.email,
       'user_type': userStore.userType,

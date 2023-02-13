@@ -11,9 +11,9 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBusStore = useConnectionBusStore()
 
 const props = defineProps({
-  convoId: {
-    type: Number,
-    default: 0
+  convoUuid: {
+    type: String,
+    default: ''
   }
 })
 
@@ -54,7 +54,7 @@ onMounted(() => {
 
     <LoadingIndicator v-if="convoLoading" />
     <div
-      v-else
+      v-else-if="convoList.length > 0"
       class="list-group list-group-flush"
     >
       <a
@@ -63,7 +63,7 @@ onMounted(() => {
         class="list-group-item list-group-item-action p-0"
       >
         <div
-          v-if="convo.uuid == convoId"
+          v-if="convo.uuid == convoUuid"
           class="d-flex gap-3 p-3 text-dark"
           style="background-color: #efefef;"
         >
@@ -199,6 +199,12 @@ onMounted(() => {
           </div>
         </div>
       </a>
+    </div>
+    <div
+      v-else
+      class="lead d-flex justify-content-center py-3"
+    >
+      {{ $t('messenger.no_chats') }}
     </div>
   </div>
 </template>

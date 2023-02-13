@@ -34,7 +34,7 @@ const setLinkTypeOptions = () => {
 
 const getSocialLinksData = async () => {
   try {
-    const response = await axios.get('/social-links/')
+    const response = await axios.get('/social/links/')
     socialLinks.value = response.data
   } catch (error) {
     console.error(error)
@@ -45,7 +45,7 @@ const getSocialLinksData = async () => {
 
 const addSocialLink = async () => {
   try {
-    const response = await axios.post('/social-links/', {
+    const response = await axios.post('/social/links/', {
       link_type: socialLinkType.value,
       link_url: socialLinkUrl.value
     })
@@ -59,7 +59,7 @@ const addSocialLink = async () => {
 
 const getSocialLinkData = async (olId) => {
   try {
-    const response = await axios.get('/social-links/' + olId +'/')
+    const response = await axios.get('/social/links/' + olId +'/')
     socialLinkUuid.value = response.data.uuid
     socialLinkType.value = response.data.link_type
     socialLinkUrl.value = response.data.link_url
@@ -71,7 +71,7 @@ const getSocialLinkData = async (olId) => {
 const updateSocialLink = async () => {
   try {
     const response = await axios.put(
-      '/social-links/' + socialLinkUuid.value +'/',
+      '/social/links/' + socialLinkUuid.value +'/',
       {
         link_type: socialLinkType.value,
         link_url: socialLinkUrl.value
@@ -90,7 +90,7 @@ const updateSocialLink = async () => {
 
 const removeSocialLink = async (olId) => {
   try {
-    const response = axios.delete('/social-links/' + olId +'/')
+    const response = axios.delete('/social/links/' + olId +'/')
     socialLinks.value = socialLinks.value.filter((element) => {
       return element.uuid != olId
     })

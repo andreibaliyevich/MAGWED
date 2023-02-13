@@ -38,7 +38,7 @@ const setConversation = (convo) => {
       <div class="row d-none d-lg-flex">
         <div class="col-4 border-end py-4">
           <ConversationList
-            :convoId="conversation.uuid"
+            :convoUuid="conversation.uuid"
             @setConversation="setConversation"
           />
         </div>
