@@ -6,16 +6,42 @@ from rest_framework.permissions import (
 from rest_framework.response import Response
 from django.utils.translation import ugettext_lazy as _
 from accounts.models import Organizer
+from accounts.permissions import UserIsOrganizer
 from blog.models import Article
 from portfolio.models import Album, Photo
-from .models import Comment, Review
+from .models import SocialLink, Comment, Review
 from .permissions import UserIsAuthor
 from .serializers import (
+    SocialLinkSerializer,
     CommentListCreateSerializer,
     CommentRUDSerializer,
     ReviewListCreateSerializer,
     ReviewRUDSerializer,
 )
+
+
+class SocialLinkListCreateView(generics.ListCreateAPIView):
+    """ Social Link List Create View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    serializer_class = SocialLinkSerializer
+
+    def get_queryset(self):
+        queryset = SocialLink.objects.filter(user=self.request.user)
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
+    """ Social Link Retrieve Update Destroy View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    lookup_field = 'uuid'
+    serializer_class = SocialLinkSerializer
+
+    def get_queryset(self):
+        queryset = SocialLink.objects.filter(user=self.request.user)
+        return queryset
 
 
 class CommentListCreateView(generics.ListCreateAPIView):
@@ -25,7 +51,7 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
     def validate_url(self, **kwargs):
         content_type = kwargs.get('content_type')
-        object_id = kwargs.get('object_id')
+        object_uuid = kwargs.get('object_uuid')
 
         if content_type == 'article':
             object_class = Article
@@ -39,7 +65,7 @@ class CommentListCreateView(generics.ListCreateAPIView):
             return False
 
         try:
-            self.content_object = object_class.objects.get(id=object_id)
+            self.content_object = object_class.objects.get(uuid=object_uuid)
         except object_class.DoesNotExist:
             return False
 
@@ -72,6 +98,7 @@ class CommentListCreateView(generics.ListCreateAPIView):
 class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Comment Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsAuthor]
+    lookup_field = 'uuid'
     queryset = Comment.objects.all()
     serializer_class = CommentRUDSerializer
 
@@ -117,5 +144,6 @@ class ReviewListCreateView(generics.ListCreateAPIView):
 class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Review Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsAuthor]
+    lookup_field = 'uuid'
     queryset = Review.objects.all()
     serializer_class = ReviewRUDSerializer

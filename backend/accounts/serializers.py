@@ -8,7 +8,6 @@ from main.serializers import (
     CitySerializer,
     LanguageSerializer,
 )
-from social_links.serializers import SocialLinkReadSerializer
 from .choices import UserType
 from .models import Customer, OrganizerRole, Organizer
 from .utilities import decode_uid, check_token
@@ -323,7 +322,6 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
     country = CountrySerializer(read_only=True)
     city = CitySerializer(read_only=True)
     online = serializers.SerializerMethodField()
-    social_links = SocialLinkReadSerializer(read_only=True, many=True)
 
     def get_online(self, obj):
         if obj.connection_histories.filter(online=True).count() > 0:

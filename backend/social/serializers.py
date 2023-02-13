@@ -2,7 +2,30 @@ from rest_framework import serializers
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
-from .models import Comment, Review
+from .models import SocialLink, Comment, Review
+
+
+class SocialLinkSerializer(serializers.ModelSerializer):
+    """ Social Link Serializer """
+
+    class Meta:
+        model = SocialLink
+        fields = [
+            'uuid',
+            'link_type',
+            'link_url',
+        ]
+
+
+class SocialLinkReadSerializer(serializers.ModelSerializer):
+    """ Social Link Read Serializer """
+
+    class Meta:
+        model = SocialLink
+        fields = [
+            'link_type',
+            'link_url',
+        ]
 
 
 class CommentListCreateSerializer(serializers.ModelSerializer):
@@ -18,7 +41,7 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
-            'id',
+            'uuid',
             'author',
             'content',
             'created_at',
@@ -32,7 +55,7 @@ class CommentRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
-            'id',
+            'uuid',
             'content',
         ]
 
@@ -52,7 +75,7 @@ class ReviewListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
-            'id',
+            'uuid',
             'author',
             'rating',
             'comment',
@@ -66,7 +89,7 @@ class ReviewRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
-            'id',
+            'uuid',
             'rating',
             'comment',
         ]

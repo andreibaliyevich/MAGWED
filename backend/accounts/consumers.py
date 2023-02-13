@@ -36,7 +36,7 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
             self.ch_group_name,
             {
                 'type': 'ch_message',
-                'user_uuid': self.user.uuid,
+                'user_uuid': str(self.user.uuid),
                 'online': online,
             }
         )

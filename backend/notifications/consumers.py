@@ -30,7 +30,7 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
 
         await self.send_json({
             'action': 'viewed',
-            'notice_id': notice_id,
+            'notice_uuid': notice_uuid,
             'notice_viewed': notice_viewed,
         })
 

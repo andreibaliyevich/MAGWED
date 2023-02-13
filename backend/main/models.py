@@ -29,10 +29,10 @@ class Country(models.Model):
 
 class City(models.Model):
     """ City Model """
-    uuid = models.UUIDField(
+    code = models.SlugField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
+        max_length=5,
+        verbose_name=_('Code'),
     )
     country = models.ForeignKey(
         Country,
