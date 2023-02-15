@@ -75,12 +75,12 @@ class Language(models.Model):
 
 class Hashtag(models.Model):
     """ Hashtag Model """
-    name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
-    slug = models.SlugField(
+    code = models.SlugField(
         primary_key=True,
         max_length=64,
-        verbose_name=_('Slug'),
+        verbose_name=_('Code'),
     )
+    name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
 
     created_at = models.DateTimeField(
         auto_now_add=True,
