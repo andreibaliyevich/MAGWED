@@ -175,7 +175,7 @@ defineProps({
       </a>
       <a
         v-else-if="notice.reason == reasonOfNotification.COMMENT"
-        :href="`#${notice.content_object.id}`"
+        :href="`#${notice.content_object.uuid}`"
         @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
