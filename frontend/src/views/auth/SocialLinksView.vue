@@ -265,9 +265,10 @@ onMounted(() => {
                   {{ $t('auth.sociallinks.adding_a_link') }}
                 </h5>
                 <button
+                  ref="btnClose"
                   @click="resetSocialLink()"
-                  type="button"
                   class="btn-close"
+                  type="button"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
@@ -318,10 +319,9 @@ onMounted(() => {
               </div>
               <div class="modal-footer">
                 <button
-                  ref="btnClose"
                   @click="resetSocialLink()"
-                  type="button"
                   class="btn btn-light"
+                  type="button"
                   data-bs-dismiss="modal"
                 >
                   {{ $t('modal.close') }}

@@ -7,6 +7,8 @@ const searchedItems = ref([])
 
 const searchInput = ref(null)
 
+const btnClose = ref(null)
+
 const clickSearchLink = () => {
   setTimeout(() => {
     searchInput.value.focus()
@@ -78,10 +80,9 @@ const searchItems = async () => {
             <div class="modal-footer">
               <button
                 ref="btnClose"
-                type="button"
                 class="btn btn-light"
+                type="button"
                 data-bs-dismiss="modal"
-                aria-label="Close"
               >
                 {{ $t('modal.close') }}
               </button>
