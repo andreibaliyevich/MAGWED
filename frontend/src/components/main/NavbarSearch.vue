@@ -2,11 +2,11 @@
 import axios from 'axios'
 import { ref } from 'vue'
 
+const searchLoading = ref(false)
 const searchQuery = ref('')
 const searchedItems = ref([])
 
 const searchInput = ref(null)
-
 const btnClose = ref(null)
 
 const clickSearchLink = () => {
@@ -16,7 +16,9 @@ const clickSearchLink = () => {
 }
 
 const searchItems = async () => {
+  searchLoading.value = true
   console.log(searchQuery.value)
+  searchLoading.value = false
 }
 </script>
 
@@ -67,12 +69,16 @@ const searchItems = async () => {
               </form>
             </div>
             <div class="modal-body">
-              <div v-if="searchedItems.length > 0">
+              <LoadingIndicator
+                v-if="searchLoading"
+                :actionInfo="$t('search.searching')"
+              />
+              <div v-else-if="searchedItems.length > 0">
 
               </div>
               <div
                 v-else
-                class="text-center p-3"
+                class="text-center p-5"
               >
                 {{ $t('search.no_results_found') }}
               </div>
