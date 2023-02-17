@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n({ useScope: 'global' })
 
 const linksLoading = ref(true)
+const linksUpdating = ref(false)
 const socialLinkList = ref([])
 
 const socialLinkUuid = ref(null)
@@ -44,6 +45,7 @@ const getSocialLinksData = async () => {
 }
 
 const addSocialLink = async () => {
+  linksUpdating.value = true
   try {
     const response = await axios.post('/social/links/', {
       link_type: socialLinkType.value,
@@ -54,6 +56,8 @@ const addSocialLink = async () => {
     errors.value = null
   } catch (error) {
     errors.value = error.response.data
+  } finally {
+    linksUpdating.value = false
   }
 }
 
@@ -69,6 +73,7 @@ const getSocialLinkData = async (olUuid) => {
 }
 
 const updateSocialLink = async () => {
+  linksUpdating.value = true
   try {
     const response = await axios.put(
       '/social/links/' + socialLinkUuid.value +'/',
@@ -85,6 +90,8 @@ const updateSocialLink = async () => {
     errors.value = null
   } catch (error) {
     errors.value = error.response.data
+  } finally {
+    linksUpdating.value = false
   }
 }
 
@@ -96,6 +103,14 @@ const removeSocialLink = async (olUuid) => {
     })
   } catch (error) {
     console.error(error)
+  }
+}
+
+const submitForm = () => {
+  if (socialLinkUuid.value) {
+    updateSocialLink()
+  } else {
+    addSocialLink()
   }
 }
 
@@ -273,7 +288,10 @@ onMounted(() => {
               ></button>
             </div>
             <div class="modal-body">
-              <form>
+              <form
+                @submit.prevent="submitForm"
+                id="modalBodyForm"
+              >
                 <div class="mb-3">
                   <BaseSelect
                     v-if="errors && errors.link_type"
@@ -325,22 +343,22 @@ onMounted(() => {
               >
                 {{ $t('modal.close') }}
               </button>
-              <button
+              <SubmitButton
                 v-if="socialLinkUuid"
-                @click="updateSocialLink()"
-                class="btn btn-brand"
-                type="button"
+                :loadingStatus="linksUpdating"
+                buttonClass="btn btn-brand"
+                form="modalBodyForm"
               >
                 {{ $t('modal.update') }}
-              </button>
-              <button
+              </SubmitButton>
+              <SubmitButton
                 v-else
-                @click="addSocialLink()"
-                class="btn btn-brand"
-                type="button"
+                :loadingStatus="linksUpdating"
+                buttonClass="btn btn-brand"
+                form="modalBodyForm"
               >
                 {{ $t('modal.add') }}
-              </button>
+              </SubmitButton>
             </div>
           </div>
         </div>
