@@ -64,7 +64,7 @@ class Album(models.Model):
         related_name='album_likes',
         verbose_name=_('Likes'),
     )
-    rating = models.PositiveBigIntegerField(
+    rating = models.PositiveIntegerField(
         default=0,
         verbose_name=_('Rating'),
     )
@@ -181,7 +181,7 @@ class Photo(models.Model):
         related_name='photo_likes',
         verbose_name=_('Likes'),
     )
-    rating = models.PositiveBigIntegerField(
+    rating = models.PositiveIntegerField(
         default=0,
         verbose_name=_('Rating'),
     )
