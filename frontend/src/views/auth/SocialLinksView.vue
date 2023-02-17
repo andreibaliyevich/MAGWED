@@ -289,7 +289,7 @@ onMounted(() => {
             </div>
             <div class="modal-body">
               <form
-                @submit.prevent="submitSocialLinkForm"
+                @submit.prevent="submitSocialLinkForm()"
                 id="socialLinkForm"
               >
                 <div class="mb-3">
