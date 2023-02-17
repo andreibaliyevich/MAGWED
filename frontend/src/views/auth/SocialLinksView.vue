@@ -106,7 +106,7 @@ const removeSocialLink = async (olUuid) => {
   }
 }
 
-const submitForm = () => {
+const submitSocialLinkForm = () => {
   if (socialLinkUuid.value) {
     updateSocialLink()
   } else {
@@ -289,8 +289,8 @@ onMounted(() => {
             </div>
             <div class="modal-body">
               <form
-                @submit.prevent="submitForm"
-                id="modalBodyForm"
+                @submit.prevent="submitSocialLinkForm"
+                id="socialLinkForm"
               >
                 <div class="mb-3">
                   <BaseSelect
@@ -347,7 +347,7 @@ onMounted(() => {
                 v-if="socialLinkUuid"
                 :loadingStatus="linksUpdating"
                 buttonClass="btn btn-brand"
-                form="modalBodyForm"
+                form="socialLinkForm"
               >
                 {{ $t('modal.update') }}
               </SubmitButton>
@@ -355,7 +355,7 @@ onMounted(() => {
                 v-else
                 :loadingStatus="linksUpdating"
                 buttonClass="btn btn-brand"
-                form="modalBodyForm"
+                form="socialLinkForm"
               >
                 {{ $t('modal.add') }}
               </SubmitButton>
