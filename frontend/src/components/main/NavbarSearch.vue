@@ -106,22 +106,3 @@ const searchItems = async () => {
     </Teleport>
   </div>
 </template>
-
-<style scoped>
-.modal-body {
-  scrollbar-color: #c0c0c0;
-  scrollbar-width: thin;
-}
-.modal-body::-webkit-scrollbar {
-  width: 0.3em;
-  height: 0.3em;
-  background-color: #f5f5f5;
-}
-.modal-body::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 3em;
-}
-.modal-body::-webkit-scrollbar-thumb:hover {
-  background-color: #808080;
-}
-</style>

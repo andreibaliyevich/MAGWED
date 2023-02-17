@@ -204,19 +204,5 @@ onMounted(() => {
 .dropdown-menu.overflow-auto {
   width: 330px;
   max-height: 530px;
-  scrollbar-color: #c0c0c0;
-  scrollbar-width: thin;
-}
-.dropdown-menu.overflow-auto::-webkit-scrollbar {
-  width: 0.3em;
-  height: 0.3em;
-  background-color: #f5f5f5;
-}
-.dropdown-menu.overflow-auto::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 3em;
-}
-.dropdown-menu.overflow-auto::-webkit-scrollbar-thumb:hover {
-  background-color: #808080;
 }
 </style>
