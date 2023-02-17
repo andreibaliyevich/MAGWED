@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n({ useScope: 'global' })
 
 const linksLoading = ref(true)
-const socialLinks = ref([])
+const socialLinkList = ref([])
 
 const socialLinkUuid = ref(null)
 const socialLinkType = ref(null)
@@ -35,7 +35,7 @@ const setLinkTypeOptions = () => {
 const getSocialLinksData = async () => {
   try {
     const response = await axios.get('/social/links/')
-    socialLinks.value = response.data
+    socialLinkList.value = response.data
   } catch (error) {
     console.error(error)
   } finally {
@@ -49,7 +49,7 @@ const addSocialLink = async () => {
       link_type: socialLinkType.value,
       link_url: socialLinkUrl.value
     })
-    socialLinks.value.push(response.data)
+    socialLinkList.value.push(response.data)
     btnClose.value.click()
     errors.value = null
   } catch (error) {
@@ -57,9 +57,9 @@ const addSocialLink = async () => {
   }
 }
 
-const getSocialLinkData = async (olId) => {
+const getSocialLinkData = async (olUuid) => {
   try {
-    const response = await axios.get('/social/links/' + olId +'/')
+    const response = await axios.get('/social/links/' + olUuid +'/')
     socialLinkUuid.value = response.data.uuid
     socialLinkType.value = response.data.link_type
     socialLinkUrl.value = response.data.link_url
@@ -77,10 +77,10 @@ const updateSocialLink = async () => {
         link_url: socialLinkUrl.value
       }
     )
-    const foundIndex = socialLinks.value.findIndex((element) => {
+    const foundIndex = socialLinkList.value.findIndex((element) => {
       return element.uuid == socialLinkUuid.value
     })
-    socialLinks.value[foundIndex] = response.data
+    socialLinkList.value[foundIndex] = response.data
     btnClose.value.click()
     errors.value = null
   } catch (error) {
@@ -88,11 +88,11 @@ const updateSocialLink = async () => {
   }
 }
 
-const removeSocialLink = async (olId) => {
+const removeSocialLink = async (olUuid) => {
   try {
-    const response = axios.delete('/social/links/' + olId +'/')
-    socialLinks.value = socialLinks.value.filter((element) => {
-      return element.uuid != olId
+    const response = axios.delete('/social/links/' + olUuid +'/')
+    socialLinkList.value = socialLinkList.value.filter((element) => {
+      return element.uuid != olUuid
     })
   } catch (error) {
     console.error(error)
@@ -127,11 +127,11 @@ onMounted(() => {
 
       <LoadingIndicator v-if="linksLoading" />
       <ul
-        v-else-if="socialLinks.length > 0"
+        v-else-if="socialLinkList.length > 0"
         class="list-group list-group-flush"
       >
         <li
-          v-for="socialLinkItem in socialLinks"
+          v-for="socialLinkItem in socialLinkList"
           :key="socialLinkItem.uuid"
           class="list-group-item"
         >
