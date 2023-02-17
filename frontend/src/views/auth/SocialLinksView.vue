@@ -227,7 +227,6 @@ onMounted(() => {
       >
         {{ $t('auth.sociallinks.do_not_have_social_links') }}
       </div>
-
       <button
         class="btn btn-brand mt-4"
         type="button"
@@ -236,117 +235,116 @@ onMounted(() => {
       >
         {{ $t('auth.sociallinks.add_link') }}
       </button>
-
-      <Teleport to="body">
-        <div
-          class="modal fade"
-          id="organizerLinkModal"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="organizerLinkModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5
-                  v-if="socialLinkUuid"
-                  class="modal-title"
-                  id="organizerLinkModalLabel"
-                >
-                  {{ $t('auth.sociallinks.changing_the_link') }}
-                </h5>
-                <h5
-                  v-else
-                  class="modal-title"
-                  id="organizerLinkModalLabel"
-                >
-                  {{ $t('auth.sociallinks.adding_a_link') }}
-                </h5>
-                <button
-                  ref="btnClose"
-                  @click="resetSocialLink()"
-                  class="btn-close"
-                  type="button"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="mb-3">
-                    <BaseSelect
-                      v-if="errors && errors.link_type"
-                      v-model="socialLinkType"
-                      :label="$t('auth.sociallinks.type_of_link')"
-                      :options="linkTypeOptions"
-                      :errors="errors.link_type"
-                      id="id_link_type"
-                      name="link_type"
-                    />
-                    <BaseSelect
-                      v-else
-                      v-model="socialLinkType"
-                      :label="$t('auth.sociallinks.type_of_link')"
-                      :options="linkTypeOptions"
-                      id="id_link_type"
-                      name="link_type"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <BaseInput
-                      v-if="errors && errors.link_url"
-                      v-model="socialLinkUrl"
-                      :label="$t('auth.sociallinks.url_of_link')"
-                      :errors="errors.link_url"
-                      id="id_link_url"
-                      name="link_url"
-                      type="url"
-                      maxlength="200"
-                    />
-                    <BaseInput
-                      v-else
-                      v-model="socialLinkUrl"
-                      :label="$t('auth.sociallinks.url_of_link')"
-                      id="id_link_url"
-                      name="link_url"
-                      type="url"
-                      maxlength="200"
-                    />
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button
-                  @click="resetSocialLink()"
-                  class="btn btn-light"
-                  type="button"
-                  data-bs-dismiss="modal"
-                >
-                  {{ $t('modal.close') }}
-                </button>
-                <button
-                  v-if="socialLinkUuid"
-                  @click="updateSocialLink()"
-                  class="btn btn-brand"
-                  type="button"
-                >
-                  {{ $t('modal.update') }}
-                </button>
-                <button
-                  v-else
-                  @click="addSocialLink()"
-                  class="btn btn-brand"
-                  type="button"
-                >
-                  {{ $t('modal.add') }}
-                </button>
-              </div>
+    </div>
+    <Teleport to="body">
+      <div
+        class="modal fade"
+        id="organizerLinkModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="organizerLinkModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                v-if="socialLinkUuid"
+                class="modal-title"
+                id="organizerLinkModalLabel"
+              >
+                {{ $t('auth.sociallinks.changing_the_link') }}
+              </h5>
+              <h5
+                v-else
+                class="modal-title"
+                id="organizerLinkModalLabel"
+              >
+                {{ $t('auth.sociallinks.adding_a_link') }}
+              </h5>
+              <button
+                ref="btnClose"
+                @click="resetSocialLink()"
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <BaseSelect
+                    v-if="errors && errors.link_type"
+                    v-model="socialLinkType"
+                    :label="$t('auth.sociallinks.type_of_link')"
+                    :options="linkTypeOptions"
+                    :errors="errors.link_type"
+                    id="id_link_type"
+                    name="link_type"
+                  />
+                  <BaseSelect
+                    v-else
+                    v-model="socialLinkType"
+                    :label="$t('auth.sociallinks.type_of_link')"
+                    :options="linkTypeOptions"
+                    id="id_link_type"
+                    name="link_type"
+                  />
+                </div>
+                <div class="mb-3">
+                  <BaseInput
+                    v-if="errors && errors.link_url"
+                    v-model="socialLinkUrl"
+                    :label="$t('auth.sociallinks.url_of_link')"
+                    :errors="errors.link_url"
+                    id="id_link_url"
+                    name="link_url"
+                    type="url"
+                    maxlength="200"
+                  />
+                  <BaseInput
+                    v-else
+                    v-model="socialLinkUrl"
+                    :label="$t('auth.sociallinks.url_of_link')"
+                    id="id_link_url"
+                    name="link_url"
+                    type="url"
+                    maxlength="200"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                @click="resetSocialLink()"
+                class="btn btn-light"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('modal.close') }}
+              </button>
+              <button
+                v-if="socialLinkUuid"
+                @click="updateSocialLink()"
+                class="btn btn-brand"
+                type="button"
+              >
+                {{ $t('modal.update') }}
+              </button>
+              <button
+                v-else
+                @click="addSocialLink()"
+                class="btn btn-brand"
+                type="button"
+              >
+                {{ $t('modal.add') }}
+              </button>
             </div>
           </div>
         </div>
-      </Teleport>
-    </div>
+      </div>
+    </Teleport>
   </div>
 </template>
