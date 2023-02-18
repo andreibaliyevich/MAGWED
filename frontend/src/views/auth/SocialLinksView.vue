@@ -17,6 +17,7 @@ const linkTypeOptions = ref([])
 
 const errors = ref(null)
 
+const organizerLinkModal = ref(null)
 const btnClose = ref(null)
 
 const setLinkTypeOptions = () => {
@@ -114,22 +115,19 @@ const submitSocialLinkForm = () => {
   }
 }
 
-const resetSocialLink = () => {
-  setTimeout(() => {
-    socialLinkUuid.value = null
-    socialLinkType.value = null
-    socialLinkUrl.value = ''
-    errors.value = null
-  }, 500)
-}
-
 watch(locale, () => {
-    setLinkTypeOptions()
-  })
+  setLinkTypeOptions()
+})
 
 onMounted(() => {
   setLinkTypeOptions()
   getSocialLinksData()
+  organizerLinkModal.value.addEventListener('hidden.bs.modal', () => {
+    socialLinkUuid.value = null
+    socialLinkType.value = null
+    socialLinkUrl.value = ''
+    errors.value = null
+  })
 })
 </script>
 
@@ -253,8 +251,9 @@ onMounted(() => {
     </div>
     <Teleport to="body">
       <div
-        class="modal fade"
+        ref="organizerLinkModal"
         id="organizerLinkModal"
+        class="modal fade"
         tabindex="-1"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -280,7 +279,6 @@ onMounted(() => {
               </h5>
               <button
                 ref="btnClose"
-                @click="resetSocialLink()"
                 class="btn-close"
                 type="button"
                 data-bs-dismiss="modal"
@@ -336,7 +334,6 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                @click="resetSocialLink()"
                 class="btn btn-light"
                 type="button"
                 data-bs-dismiss="modal"
