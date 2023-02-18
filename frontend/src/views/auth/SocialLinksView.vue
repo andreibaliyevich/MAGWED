@@ -18,7 +18,7 @@ const linkTypeOptions = ref([])
 const errors = ref(null)
 
 const organizerLinkModal = ref(null)
-const btnClose = ref(null)
+const organizerLinkModalBootstrap = ref(null)
 
 const setLinkTypeOptions = () => {
   linkTypeOptions.value = [
@@ -53,7 +53,7 @@ const addSocialLink = async () => {
       link_url: socialLinkUrl.value
     })
     socialLinkList.value.push(response.data)
-    btnClose.value.click()
+    organizerLinkModalBootstrap.value.hide()
     errors.value = null
   } catch (error) {
     errors.value = error.response.data
@@ -87,7 +87,7 @@ const updateSocialLink = async () => {
       return element.uuid == socialLinkUuid.value
     })
     socialLinkList.value[foundIndex] = response.data
-    btnClose.value.click()
+    organizerLinkModalBootstrap.value.hide()
     errors.value = null
   } catch (error) {
     errors.value = error.response.data
@@ -128,6 +128,9 @@ onMounted(() => {
     socialLinkUrl.value = ''
     errors.value = null
   })
+  organizerLinkModalBootstrap.value = new bootstrap.Modal(
+    organizerLinkModal.value
+  )
 })
 </script>
 
@@ -278,7 +281,6 @@ onMounted(() => {
                 {{ $t('auth.sociallinks.adding_a_link') }}
               </h5>
               <button
-                ref="btnClose"
                 class="btn-close"
                 type="button"
                 data-bs-dismiss="modal"
