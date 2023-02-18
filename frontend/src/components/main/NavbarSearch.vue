@@ -37,8 +37,8 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="searchModal"
-        class="modal fade"
         id="searchModal"
+        class="modal fade"
         tabindex="-1"
         data-bs-keyboard="false"
         aria-hidden="true"
