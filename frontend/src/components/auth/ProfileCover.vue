@@ -43,19 +43,17 @@ const updateCover = async (filelist) => {
 }
 
 const removeCover = async () => {
-  if (confirm(t('auth.profile.you_want_remove_cover'))) {
-    coverLoading.value = true
-    try {
-      const response = await axios.delete('/accounts/auth/cover/')
-      cover.value = null
-      status.value = response.status
-      errors.value = null
-    } catch (error) {
-      status.value = null
-      errors.value = error.response.data
-    } finally {
-      coverLoading.value = false
-    }
+  coverLoading.value = true
+  try {
+    const response = await axios.delete('/accounts/auth/cover/')
+    cover.value = null
+    status.value = response.status
+    errors.value = null
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    coverLoading.value = false
   }
 }
 
@@ -112,9 +110,10 @@ onMounted(() => {
             </FileInputButton>
             <button
               v-if="cover"
-              @click="removeCover()"
               class="btn btn-outline-dark m-1"
               type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#removeCoverModalChoice"
             >
               {{ $t('auth.profile.remove_cover') }}
             </button>
@@ -125,5 +124,45 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <Teleport to="body">
+      <div
+        class="modal fade"
+        id="removeCoverModalChoice"
+        role="dialog"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+              <h5 class="mb-0">{{ $t('auth.profile.you_want_remove_cover') }}</h5>
+              <p class="mb-0">{{ $t('auth.profile.cover_will_be_set_default') }}</p>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+              <button
+                @click="removeCover()"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                <strong>{{ $t('modal.yes_i_am_sure') }}</strong>
+              </button>
+              <button
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('modal.no_cancel') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>

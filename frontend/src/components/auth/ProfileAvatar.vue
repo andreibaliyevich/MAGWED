@@ -41,28 +41,26 @@ const updateAvatar = async (filelist) => {
 }
 
 const removeAvatar = async () => {
-  if (confirm(t('auth.profile.you_want_remove_avatar'))) {
-    avatarLoading.value = true
-    try {
-      const response = await axios.delete('/accounts/auth/avatar/')
-      userStore.updateAvatar(null)
-      window.localStorage.setItem('user', JSON.stringify({
-        'uuid': userStore.uuid,
-        'username': userStore.username,
-        'email': userStore.email,
-        'user_type': userStore.userType,
-        'name': userStore.name,
-        'avatar': null,
-        'token': userStore.token
-      }))
-      status.value = response.status
-      errors.value = null
-    } catch (error) {
-      status.value = null
-      errors.value = error.response.data
-    } finally {
-      avatarLoading.value = false
-    }
+  avatarLoading.value = true
+  try {
+    const response = await axios.delete('/accounts/auth/avatar/')
+    userStore.updateAvatar(null)
+    window.localStorage.setItem('user', JSON.stringify({
+      'uuid': userStore.uuid,
+      'username': userStore.username,
+      'email': userStore.email,
+      'user_type': userStore.userType,
+      'name': userStore.name,
+      'avatar': null,
+      'token': userStore.token
+    }))
+    status.value = response.status
+    errors.value = null
+  } catch (error) {
+    status.value = null
+    errors.value = error.response.data
+  } finally {
+    avatarLoading.value = false
   }
 }
 </script>
@@ -117,9 +115,10 @@ const removeAvatar = async () => {
               </FileInputButton>
               <button
                 v-if="userStore.avatar"
-                @click="removeAvatar()"
                 class="btn btn-outline-dark m-1"
                 type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#removeAvatarModalChoice"
               >
                 {{ $t('auth.profile.remove_avatar') }}
               </button>
@@ -131,5 +130,45 @@ const removeAvatar = async () => {
         </div>
       </div>
     </div>
+    <Teleport to="body">
+      <div
+        class="modal fade"
+        id="removeAvatarModalChoice"
+        role="dialog"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+              <h5 class="mb-0">{{ $t('auth.profile.you_want_remove_avatar') }}</h5>
+              <p class="mb-0">{{ $t('auth.profile.avatar_will_be_set_default') }}</p>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+              <button
+                @click="removeAvatar()"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                <strong>{{ $t('modal.yes_i_am_sure') }}</strong>
+              </button>
+              <button
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('modal.no_cancel') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
