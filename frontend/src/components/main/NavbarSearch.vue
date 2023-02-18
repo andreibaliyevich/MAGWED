@@ -10,12 +10,6 @@ const searchModal = ref(null)
 const searchInput = ref(null)
 const btnClose = ref(null)
 
-const clickSearchLink = () => {
-  setTimeout(() => {
-    searchInput.value.focus()
-  }, 500)
-}
-
 const searchItems = async () => {
   searchLoading.value = true
   console.log(searchQuery.value)
