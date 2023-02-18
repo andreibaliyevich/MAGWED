@@ -8,7 +8,6 @@ const searchedItems = ref([])
 
 const searchModal = ref(null)
 const searchInput = ref(null)
-const btnClose = ref(null)
 
 const searchItems = async () => {
   searchLoading.value = true
@@ -86,7 +85,6 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                ref="btnClose"
                 class="btn btn-light"
                 type="button"
                 data-bs-dismiss="modal"
