@@ -1,11 +1,12 @@
 <script setup>
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const searchLoading = ref(false)
 const searchQuery = ref('')
 const searchedItems = ref([])
 
+const searchModal = ref(null)
 const searchInput = ref(null)
 const btnClose = ref(null)
 
@@ -20,12 +21,17 @@ const searchItems = async () => {
   console.log(searchQuery.value)
   searchLoading.value = false
 }
+
+onMounted(() => {
+  searchModal.value.addEventListener('shown.bs.modal', () => {
+    searchInput.value.focus()
+  })
+})
 </script>
 
 <template>
   <div class="navbar-search">
     <a
-      @click="clickSearchLink()"
       href="#"
       class="text-decoration-none link-secondary"
       data-bs-toggle="modal"
@@ -36,6 +42,7 @@ const searchItems = async () => {
 
     <Teleport to="body">
       <div
+        ref="searchModal"
         class="modal fade"
         id="searchModal"
         tabindex="-1"
