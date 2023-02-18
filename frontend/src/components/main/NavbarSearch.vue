@@ -38,10 +38,10 @@ const searchItems = async () => {
       <div
         class="modal fade"
         id="searchModal"
-        data-bs-keyboard="false"
         tabindex="-1"
-        aria-labelledby="searchModalLabel"
+        data-bs-keyboard="false"
         aria-hidden="true"
+        aria-labelledby="searchModalLabel"
       >
         <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
