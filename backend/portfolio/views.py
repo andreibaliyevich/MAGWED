@@ -37,8 +37,14 @@ class PhotoListCreateView(generics.ListCreateAPIView):
     serializer_class = PhotoListCreateSerializer
 
     def get_queryset(self):
-        queryset = Photo.objects.filter(owner=self.request.user)
+        queryset = Photo.objects.filter(
+            owner=self.request.user,
+            album__exact=None,
+        )
         return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):

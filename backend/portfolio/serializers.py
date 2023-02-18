@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.serializers import HashtagSerializer
+from main.models import Hashtag
 from .models import Album, Photo
 
 
@@ -30,7 +30,8 @@ class AlbumListCreateSerializer(serializers.ModelSerializer):
 
 class AlbumRUDSerializer(serializers.ModelSerializer):
     """ Album Retrieve Update Destroy Serializer """
-    hashtags = HashtagSerializer(read_only=True, many=True)
+    hashtags = serializers.PrimaryKeyRelatedField(
+        queryset=Hashtag.objects.all(), many=True)
 
     class Meta:
         model = Album
@@ -62,11 +63,16 @@ class PhotoShortReadSerializer(serializers.ModelSerializer):
 
 class PhotoListCreateSerializer(serializers.ModelSerializer):
     """ Photo List Create Serializer """
+    image = serializers.ImageField(write_only=True)
+    thumbnail = serializers.ImageField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    uploaded_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Photo
         fields = [
             'uuid',
+            'image',
             'thumbnail',
             'title',
             'uploaded_at',
@@ -75,14 +81,21 @@ class PhotoListCreateSerializer(serializers.ModelSerializer):
 
 class PhotoRUDSerializer(serializers.ModelSerializer):
     """ Photo Retrieve Update Destroy Serializer """
-    hashtags = HashtagSerializer(read_only=True, many=True)
+    image = serializers.ImageField(read_only=True)
+    hashtags = serializers.PrimaryKeyRelatedField(
+        queryset=Hashtag.objects.all(), many=True)
+    uploaded_at = serializers.DateTimeField(read_only=True)
+    num_views = serializers.IntegerField(read_only=True)
+    likes_count = serializers.SerializerMethodField()
+    rating = serializers.IntegerField(read_only=True)
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
 
     class Meta:
         model = Photo
         fields = [
             'uuid',
-            'owner',
-            'album',
             'image',
             'device',
             'f_number',
@@ -94,6 +107,6 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
             'hashtags',
             'uploaded_at',
             'num_views',
-            'likes',
+            'likes_count',
             'rating',
         ]
