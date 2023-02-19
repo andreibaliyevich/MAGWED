@@ -21,7 +21,6 @@ class CategoryTranslationInline(admin.StackedInline):
 class CategoryAdmin(admin.ModelAdmin):
     """ Category Model for admin """
     list_display = ('__str__',)
-    prepopulated_fields = {'slug': ('name',)}
     fieldsets = (
         (None, {
             'fields': ('name', 'slug'),
@@ -30,6 +29,7 @@ class CategoryAdmin(admin.ModelAdmin):
             'fields': ('meta_description', 'meta_keywords'),
         }),
     )
+    prepopulated_fields = {'slug': ('name',)}
     inlines = (CategoryTranslationInline,)
 
 
@@ -45,7 +45,7 @@ class ArticleTranslationInline(admin.StackedInline):
 class ArticleAdmin(admin.ModelAdmin):
     """ Article Model for admin """
     list_display = ('__str__', 'author', 'published_at')
-    prepopulated_fields = {'slug': ('title',)}
+    search_fields = ['title', 'slug']
     fieldsets = (
         (None, {
             'fields': (
@@ -71,6 +71,7 @@ class ArticleAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE()},
     }
+    prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('published_at', 'num_views', 'get_preview')
     inlines = (ArticleTranslationInline,)
 

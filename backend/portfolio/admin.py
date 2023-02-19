@@ -12,7 +12,15 @@ class PhotoInline(admin.StackedInline):
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
     """ Album Model for admin """
-    list_display = ('uuid', 'owner', 'title', 'created_at', 'rating')
+    list_display = (
+        'uuid',
+        'owner',
+        'title',
+        'created_at',
+        'rating',
+        'get_preview',
+    )
+    search_fields = ['uuid', 'title']
     fieldsets = (
         (None, {
             'fields': (
@@ -44,10 +52,12 @@ class PhotoAdmin(admin.ModelAdmin):
         'uuid',
         'owner',
         'album',
+        'title',
         'uploaded_at',
         'rating',
         'get_preview',
     )
+    search_fields = ['uuid', 'title']
     fieldsets = (
         (None, {
             'fields': (
