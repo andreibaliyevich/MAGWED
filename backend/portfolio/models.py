@@ -123,7 +123,7 @@ class Photo(models.Model):
     f_number = models.DecimalField(
         blank=True,
         null=True,
-        max_digits=3,
+        max_digits=5,
         decimal_places=2,
         verbose_name=_('F-number (f/)'),
     )
@@ -141,7 +141,7 @@ class Photo(models.Model):
     focal_length = models.DecimalField(
         blank=True,
         null=True,
-        max_digits=3,
+        max_digits=5,
         decimal_places=2,
         verbose_name=_('Focal length (mm)'),
     )
