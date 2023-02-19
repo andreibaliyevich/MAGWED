@@ -1,4 +1,6 @@
 import uuid
+from contextlib import suppress
+from exif import Image as ExifImage
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.core.files import File
@@ -188,6 +190,19 @@ class Photo(models.Model):
 
     def save(self, *args, **kwargs):
         self.thumbnail = File(self.image)
+
+        exif_img = ExifImage(self.image)
+        with suppress(Exception):
+            self.device = f'{ exif_img.make } { exif_img.model }'
+        with suppress(Exception):
+            self.f_number = exif_img.f_number
+        with suppress(Exception):
+            self.exposure_time = f'1/{ int(1 / float(exif_img.exposure_time)) }'
+        with suppress(Exception):
+            self.focal_length = exif_img.focal_length
+        with suppress(Exception):
+            self.photographic_sensitivity = exif_img.photographic_sensitivity
+
         super().save(*args, **kwargs)
 
     class Meta:
