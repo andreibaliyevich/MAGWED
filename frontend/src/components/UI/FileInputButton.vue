@@ -10,9 +10,8 @@ export default {
   },
   methods: {
     changeInput(event) {
-      if (event.target.files.length > 0) {
-        this.$emit('updateFile', event.target.files)
-      }
+      this.$emit('selectedFiles', event.target.files)
+      event.target.value = null
     }
   }
 }

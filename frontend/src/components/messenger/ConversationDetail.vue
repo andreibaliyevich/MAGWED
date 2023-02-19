@@ -367,7 +367,7 @@ onUnmounted(() => {
       <div class="card-footer bg-white">
         <div class="hstack gap-2">
           <FileInputButton
-            @updateFile="sendImages"
+            @selectedFiles="sendImages"
             buttonClass="btn btn-light"
             accept="image/*"
             multiple
@@ -375,7 +375,7 @@ onUnmounted(() => {
             <i class="fa-solid fa-file-image"></i>
           </FileInputButton>
           <FileInputButton
-            @updateFile="sendFiles"
+            @selectedFiles="sendFiles"
             buttonClass="btn btn-light"
             multiple
           >

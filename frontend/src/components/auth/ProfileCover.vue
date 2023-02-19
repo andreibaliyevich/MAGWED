@@ -102,7 +102,7 @@ onMounted(() => {
           </small>
           <div class="d-flex justify-content-center">
             <FileInputButton
-              @updateFile="updateCover"
+              @selectedFiles="updateCover"
               buttonClass="btn btn-light-brand m-1"
               accept="image/*"
             >
