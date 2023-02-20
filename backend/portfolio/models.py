@@ -1,9 +1,6 @@
 import uuid
-from contextlib import suppress
-from exif import Image as ExifImage
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
-from django.core.files import File
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -71,10 +68,6 @@ class Album(models.Model):
         verbose_name=_('Rating'),
     )
 
-    def save(self, *args, **kwargs):
-        self.thumbnail = File(self.image)
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = _('Album')
         verbose_name_plural = _('Albums')
@@ -133,7 +126,7 @@ class Photo(models.Model):
         validators=[
             RegexValidator(
                 regex=r'^\d\/\d{1,9}$',
-                message=_('Must be entered in the format: 1/123456789.')
+                message=_('Must be entered in the format: 1/123456789.'),
             ),
         ],
         verbose_name=_('Exposure time (s)'),
@@ -187,23 +180,6 @@ class Photo(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
-
-    def save(self, *args, **kwargs):
-        self.thumbnail = File(self.image)
-
-        exif_img = ExifImage(self.image)
-        with suppress(Exception):
-            self.device = f'{ exif_img.make } { exif_img.model }'
-        with suppress(Exception):
-            self.f_number = exif_img.f_number
-        with suppress(Exception):
-            self.exposure_time = f'1/{ int(1 / float(exif_img.exposure_time)) }'
-        with suppress(Exception):
-            self.focal_length = exif_img.focal_length
-        with suppress(Exception):
-            self.photographic_sensitivity = exif_img.photographic_sensitivity
-
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('Photo')
