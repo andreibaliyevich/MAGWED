@@ -10,7 +10,8 @@ export default {
   },
   methods: {
     changeInput(event) {
-      this.$emit('selectedFiles', event.target.files)
+      const filelist = [...event.target.files]
+      this.$emit('selectedFiles', filelist)
       event.target.value = null
     }
   }
