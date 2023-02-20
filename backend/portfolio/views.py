@@ -22,11 +22,10 @@ class AlbumListCreateView(generics.ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        extra_data = {
-            'owner': self.request.user,
-            'thumbnail': self.request.data['image'],
-        }
-        serializer.save(**extra_data)
+        serializer.save(
+            owner=self.request.user,
+            thumbnail=self.request.data['image'],
+        )
 
 
 class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):

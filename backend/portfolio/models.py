@@ -36,11 +36,7 @@ class Album(models.Model):
     )
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
-    description = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Description'),
-    )
+    description = models.TextField(blank=True, verbose_name=_('Description'))
     hashtags = models.ManyToManyField(
         Hashtag,
         blank=True,
@@ -149,11 +145,7 @@ class Photo(models.Model):
         max_length=128,
         verbose_name=_('Title'),
     )
-    description = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Description'),
-    )
+    description = models.TextField(blank=True, verbose_name=_('Description'))
     hashtags = models.ManyToManyField(
         Hashtag,
         blank=True,

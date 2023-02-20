@@ -17,13 +17,19 @@ class AlbumShortReadSerializer(serializers.ModelSerializer):
 
 class AlbumListCreateSerializer(serializers.ModelSerializer):
     """ Album List Create Serializer """
+    image = serializers.ImageField(write_only=True)
+    thumbnail = serializers.ImageField(read_only=True)
+    description = serializers.CharField(write_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Album
         fields = [
             'uuid',
+            'image',
             'thumbnail',
             'title',
+            'description',
             'created_at',
         ]
 
