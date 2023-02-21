@@ -103,16 +103,6 @@ const router = createRouter({
               component: () => import('@/views/auth/portfolio/PortfolioView.vue')
             },
             {
-              path: 'portfolio/add/album',
-              name: 'PortfolioAddAlbum',
-              component: () => import('@/views/auth/portfolio/AddAlbumView.vue')
-            },
-            {
-              path: 'portfolio/add/photo',
-              name: 'PortfolioAddPhoto',
-              component: () => import('@/views/auth/portfolio/AddPhotoView.vue')
-            },
-            {
               path: 'portfolio/albums',
               name: 'PortfolioAlbums',
               component: () => import('@/views/auth/portfolio/AlbumsView.vue')
@@ -123,14 +113,9 @@ const router = createRouter({
               component: () => import('@/views/auth/portfolio/PhotosView.vue')
             },
             {
-              path: 'portfolio/album/:id',
+              path: 'portfolio/album/:uuid',
               name: 'PortfolioAlbum',
               component: () => import('@/views/auth/portfolio/AlbumView.vue')
-            },
-            {
-              path: 'portfolio/photo/:id',
-              name: 'PortfolioPhoto',
-              component: () => import('@/views/auth/portfolio/PhotoView.vue')
             },
             {
               path: 'password/change',
