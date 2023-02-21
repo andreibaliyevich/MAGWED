@@ -3,6 +3,77 @@ from main.models import Hashtag
 from .models import Album, Photo
 
 
+class PhotoShortReadSerializer(serializers.ModelSerializer):
+    """ Photo Short Read Serializer """
+
+    class Meta:
+        model = Photo
+        fields = [
+            'uuid',
+            'thumbnail',
+            'title',
+        ]
+
+
+class PhotoListCreateSerializer(serializers.ModelSerializer):
+    """ Photo List Create Serializer """
+    album = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        queryset=Album.objects.all(),
+    )
+    image = serializers.ImageField(write_only=True)
+    thumbnail = serializers.ImageField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    uploaded_at = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Photo
+        fields = [
+            'uuid',
+            'album',
+            'image',
+            'thumbnail',
+            'title',
+            'uploaded_at',
+        ]
+
+
+class PhotoRUDSerializer(serializers.ModelSerializer):
+    """ Photo Retrieve Update Destroy Serializer """
+    image = serializers.ImageField(read_only=True)
+    hashtags = serializers.PrimaryKeyRelatedField(
+        queryset=Hashtag.objects.all(),
+        many=True,
+    )
+    uploaded_at = serializers.DateTimeField(read_only=True)
+    num_views = serializers.IntegerField(read_only=True)
+    likes_count = serializers.SerializerMethodField()
+    rating = serializers.IntegerField(read_only=True)
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    class Meta:
+        model = Photo
+        fields = [
+            'uuid',
+            'image',
+            'device',
+            'f_number',
+            'exposure_time',
+            'focal_length',
+            'photographic_sensitivity',
+            'title',
+            'description',
+            'hashtags',
+            'uploaded_at',
+            'num_views',
+            'likes_count',
+            'rating',
+        ]
+
+
 class AlbumShortReadSerializer(serializers.ModelSerializer):
     """ Album Short Read Serializer """
     
@@ -46,11 +117,14 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     """ Album Retrieve Update Destroy Serializer """
     image = serializers.ImageField(read_only=True)
     hashtags = serializers.PrimaryKeyRelatedField(
-        queryset=Hashtag.objects.all(), many=True)
+        queryset=Hashtag.objects.all(),
+        many=True,
+    )
     created_at = serializers.DateTimeField(read_only=True)
     num_views = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
+    photos = PhotoListCreateSerializer(read_only=True, many=True)
 
     def get_likes_count(self, obj):
         return obj.likes.count()
@@ -67,67 +141,5 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
             'num_views',
             'likes_count',
             'rating',
-        ]
-
-
-class PhotoShortReadSerializer(serializers.ModelSerializer):
-    """ Photo Short Read Serializer """
-
-    class Meta:
-        model = Photo
-        fields = [
-            'uuid',
-            'thumbnail',
-            'title',
-        ]
-
-
-class PhotoListCreateSerializer(serializers.ModelSerializer):
-    """ Photo List Create Serializer """
-    image = serializers.ImageField(write_only=True)
-    thumbnail = serializers.ImageField(read_only=True)
-    title = serializers.CharField(read_only=True)
-    uploaded_at = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = Photo
-        fields = [
-            'uuid',
-            'image',
-            'thumbnail',
-            'title',
-            'uploaded_at',
-        ]
-
-
-class PhotoRUDSerializer(serializers.ModelSerializer):
-    """ Photo Retrieve Update Destroy Serializer """
-    image = serializers.ImageField(read_only=True)
-    hashtags = serializers.PrimaryKeyRelatedField(
-        queryset=Hashtag.objects.all(), many=True)
-    uploaded_at = serializers.DateTimeField(read_only=True)
-    num_views = serializers.IntegerField(read_only=True)
-    likes_count = serializers.SerializerMethodField()
-    rating = serializers.IntegerField(read_only=True)
-
-    def get_likes_count(self, obj):
-        return obj.likes.count()
-
-    class Meta:
-        model = Photo
-        fields = [
-            'uuid',
-            'image',
-            'device',
-            'f_number',
-            'exposure_time',
-            'focal_length',
-            'photographic_sensitivity',
-            'title',
-            'description',
-            'hashtags',
-            'uploaded_at',
-            'num_views',
-            'likes_count',
-            'rating',
+            'photos',
         ]

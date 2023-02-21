@@ -171,9 +171,13 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     """ User Profile Serializer """
     country = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all(), allow_null=True)
+        allow_null=True,
+        queryset=Country.objects.all(),
+    )
     city = serializers.PrimaryKeyRelatedField(
-        queryset=City.objects.all(), allow_null=True)
+        allow_null=True,
+        queryset=City.objects.all(),
+    )
 
     class Meta:
         model = UserModel
@@ -217,15 +221,26 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
     """ Organizer Profile Serializer """
     user = UserProfileSerializer()
     roles = serializers.PrimaryKeyRelatedField(
-        queryset=OrganizerRole.objects.all(), many=True)
+        many=True,
+        queryset=OrganizerRole.objects.all(),
+    )
     countries = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all(), many=True)
+        many=True,
+        queryset=Country.objects.all(),
+    )
     cities = serializers.PrimaryKeyRelatedField(
-        queryset=City.objects.all(), many=True)
+        many=True,
+        queryset=City.objects.all(),
+    )
     languages = serializers.PrimaryKeyRelatedField(
-        queryset=Language.objects.all(), many=True)
+        many=True,
+        queryset=Language.objects.all(),
+    )
     rating = serializers.DecimalField(
-        max_digits=2, decimal_places=1, read_only=True)
+        read_only=True,
+        max_digits=2,
+        decimal_places=1,
+    )
     pro_time = serializers.DateTimeField(read_only=True)
 
     def update(self, instance, validated_data):
