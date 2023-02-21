@@ -134,7 +134,12 @@ const userStore = useUserStore()
       </li>
       <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
         <LocaleRouterLink
-          v-if="this.$route.name == 'Portfolio'"
+          v-if="
+            this.$route.name == 'Portfolio'
+            || this.$route.name == 'PortfolioAlbums'
+            || this.$route.name == 'PortfolioPhotos'
+            || this.$route.name == 'PortfolioAlbum'
+          "
           routeName="Portfolio"
           class="nav-link active"
           aria-current="page"
