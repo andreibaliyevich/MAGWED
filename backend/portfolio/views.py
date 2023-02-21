@@ -6,6 +6,7 @@ from accounts.permissions import UserIsOrganizer
 from .models import Album, Photo
 from .serializers import (
     AlbumListCreateSerializer,
+    AlbumImageSerializer,
     AlbumRUDSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
@@ -26,6 +27,20 @@ class AlbumListCreateView(generics.ListCreateAPIView):
             owner=self.request.user,
             thumbnail=self.request.data['image'],
         )
+
+
+class AlbumImageUpdateView(generics.UpdateAPIView):
+    """ Album Image Update View """
+    permission_classes = [IsAuthenticated, UserIsOrganizer]
+    lookup_field = 'uuid'
+    serializer_class = AlbumImageSerializer
+
+    def get_queryset(self):
+        queryset = Album.objects.filter(owner=self.request.user)
+        return queryset
+
+    def perform_update(self, serializer):
+        serializer.save(thumbnail=self.request.data['image'])
 
 
 class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):

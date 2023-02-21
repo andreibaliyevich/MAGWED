@@ -7,6 +7,7 @@ app_name = 'portfolio'
 urlpatterns = [
     path('albums/', include([
         path('', views.AlbumListCreateView.as_view()),
+        path('<uuid:uuid>/image/', views.AlbumImageUpdateView.as_view()),
         path('<uuid:uuid>/', views.AlbumRUDView.as_view()),
     ])),
 
