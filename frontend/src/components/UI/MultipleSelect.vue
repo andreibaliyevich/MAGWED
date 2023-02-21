@@ -197,23 +197,6 @@ export default {
 </template>
 
 <style scoped>
-* {
-  scrollbar-color: #c0c0c0;
-  scrollbar-width: thin;
-}
-::-webkit-scrollbar {
-  width: 0.3em;
-  height: 0.3em;
-  background-color: #f5f5f5;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 3em;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: #808080;
-}
-
 .d-flex.align-items-stretch:hover {
   border-color: #e72a26 !important;
   cursor: text;
