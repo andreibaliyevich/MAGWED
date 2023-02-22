@@ -284,14 +284,14 @@ onMounted(() => {
           data-bs-toggle="modal"
           data-bs-target="#removeAlbumModalChoice"
         >
-          {{ $t('modal.delete') }}
+          {{ $t('btn.delete') }}
         </button>
         <SubmitButton
           :loadingStatus="albumUpdating"
           buttonClass="btn btn-brand"
           form="albumForm"
         >
-          {{ $t('modal.update') }}
+          {{ $t('btn.update') }}
         </SubmitButton>
       </div>
 
@@ -339,14 +339,14 @@ onMounted(() => {
                 type="button"
                 data-bs-dismiss="modal"
               >
-                <strong>{{ $t('modal.yes_i_am_sure') }}</strong>
+                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
               </button>
               <button
                 class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 type="button"
                 data-bs-dismiss="modal"
               >
-                {{ $t('modal.no_cancel') }}
+                {{ $t('btn.no_cancel') }}
               </button>
             </div>
           </div>
@@ -393,7 +393,7 @@ onMounted(() => {
                 type="button"
                 data-bs-dismiss="modal"
               >
-                {{ $t('modal.cancel') }}
+                {{ $t('btn.cancel') }}
               </button>
             </div>
           </div>

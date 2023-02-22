@@ -28,7 +28,7 @@ export default {
         role="status"
         aria-hidden="true"
       ></span>
-      {{ $t('loading') }}
+      {{ $t('btn.loading') }}
     </button>
     <button
       v-else

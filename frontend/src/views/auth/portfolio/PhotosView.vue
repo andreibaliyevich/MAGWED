@@ -151,7 +151,7 @@ onMounted(() => {
                 type="button"
                 data-bs-dismiss="modal"
               >
-                {{ $t('modal.cancel') }}
+                {{ $t('btn.cancel') }}
               </button>
             </div>
           </div>

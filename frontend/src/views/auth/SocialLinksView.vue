@@ -340,7 +340,7 @@ onMounted(() => {
                 type="button"
                 data-bs-dismiss="modal"
               >
-                {{ $t('modal.cancel') }}
+                {{ $t('btn.cancel') }}
               </button>
               <SubmitButton
                 v-if="socialLinkUuid"
@@ -348,7 +348,7 @@ onMounted(() => {
                 buttonClass="btn btn-brand"
                 form="socialLinkForm"
               >
-                {{ $t('modal.update') }}
+                {{ $t('btn.update') }}
               </SubmitButton>
               <SubmitButton
                 v-else
@@ -356,7 +356,7 @@ onMounted(() => {
                 buttonClass="btn btn-brand"
                 form="socialLinkForm"
               >
-                {{ $t('modal.add') }}
+                {{ $t('btn.add') }}
               </SubmitButton>
             </div>
           </div>

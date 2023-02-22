@@ -12,11 +12,12 @@
         "searching": "Searching...",
         "no_results_found": "No results found"
     },
-    "modal": {
+    "btn": {
         "add": "Add",
         "create": "Create",
         "update": "Update",
         "delete": "Delete",
+        "loading": "Loading...",
         "yes_i_am_sure": "Yes, I am sure",
         "no_cancel": "No, cancel",
         "cancel": "Cancel",
@@ -237,7 +238,6 @@
         "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
         "cost_work": "Please enter in USD ($)"
     },
-    "loading": "Loading...",
     "blog": {
         "blog": "Blog"
     },

@@ -89,7 +89,7 @@ onMounted(() => {
                 type="button"
                 data-bs-dismiss="modal"
               >
-                {{ $t('modal.close') }}
+                {{ $t('btn.close') }}
               </button>
               <button
                 @click="searchItems()"
