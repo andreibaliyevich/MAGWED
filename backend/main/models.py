@@ -83,6 +83,7 @@ class Hashtag(models.Model):
     name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
 
     created_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
@@ -137,6 +138,7 @@ class Magazine(models.Model):
     )
 
     published_at = models.DateTimeField(
+        db_index=True,
         auto_now_add=True,
         verbose_name=_('Published at'),
     )
