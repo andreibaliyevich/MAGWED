@@ -13,6 +13,7 @@ class Tag(models.Model):
         default=uuid.uuid4,
         editable=False,
     )
+
     name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
     slug = models.SlugField(unique=True, max_length=64, verbose_name=_('Slug'))
 
@@ -22,22 +23,18 @@ class Tag(models.Model):
         verbose_name=_('Created at'),
     )
 
-    def __str__(self):
-        return f'{ self.name } ({ self.slug })'
-
     def save(self, *args, **kwargs):
-        if self._state.adding:
-            slug = self.slugify(self.name)
+        if self._state.adding and not self.slug:
+            slug = slugify(self.name)
             slugs = set(
-                type(self)
-                ._default_manager.filter(slug__startswith=self.slug)
+                type(self)._default_manager.filter(slug__startswith=slug)
                 .values_list('slug', flat=True)
             )
 
             if slug in slugs:
                 i = 1
                 while True:
-                    slug = self.slugify(self.name, i)
+                    slug = slugify(f'{ self.name }_{ i }')
                     if slug not in slugs:
                         self.slug = slug
                         break
@@ -46,6 +43,9 @@ class Tag(models.Model):
                 self.slug = slug
 
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{ self.name } ({ self.slug })'
 
     class Meta:
         verbose_name = _('Tag')
@@ -76,9 +76,6 @@ class TaggedItem(models.Model):
         auto_now_add=True,
         verbose_name=_('Created at'),
     )
-
-    def __str__(self):
-        return f'{ self.tag } | { self.content_object }'
 
     class Meta:
         verbose_name = _('Tagged Item')

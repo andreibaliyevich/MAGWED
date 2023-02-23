@@ -7,4 +7,5 @@ from .serializers import TagListSerializer
 class TagsListView(generics.ListAPIView):
     """ Tag List View """
     permission_classes = [AllowAny]
+    queryset = Tag.objects.all()
     serializer_class = TagListSerializer
