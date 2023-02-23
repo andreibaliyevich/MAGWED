@@ -81,8 +81,8 @@ class TaggedItem(models.Model):
         return f'{ self.tag } | { self.content_object }'
 
     class Meta:
-        verbose_name = _('Tag')
-        verbose_name_plural = _('Tags')
+        verbose_name = _('Tagged Item')
+        verbose_name_plural = _('Tagged Items')
         ordering = ['-created_at']
         constraints = [
             models.UniqueConstraint(
