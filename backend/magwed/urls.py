@@ -33,6 +33,7 @@ urlpatterns = i18n_patterns(
     path('messenger/', include('messenger.urls', namespace='messenger')),
     path('notifications/',
         include('notifications.urls', namespace='notifications')),
+    path('tags/', include('tags.urls', namespace='tags')),
 )
 
 if settings.DEBUG:
