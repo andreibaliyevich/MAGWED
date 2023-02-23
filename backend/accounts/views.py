@@ -38,6 +38,7 @@ UserModel = get_user_model()
 
 class LoginView(ObtainAuthToken):
     """ Login View """
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
