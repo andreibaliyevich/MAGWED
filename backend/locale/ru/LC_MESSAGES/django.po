@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-20 18:24+0000\n"
+"POT-Creation-Date: 2023-02-23 15:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,12 +160,12 @@ msgstr "Адрес электронной почты"
 msgid "User type"
 msgstr "Тип пользователя"
 
-#: accounts/models.py:60 blog/models.py:21 blog/models.py:74 main/models.py:18
-#: main/models.py:44 main/models.py:64 main/models.py:83 messenger/models.py:54
+#: accounts/models.py:60 blog/models.py:20 blog/models.py:73 main/models.py:18
+#: main/models.py:44 main/models.py:64 messenger/models.py:54 tags/models.py:16
 msgid "Name"
 msgstr "Имя"
 
-#: accounts/models.py:70 accounts/models.py:249 main/models.py:123
+#: accounts/models.py:70 accounts/models.py:249 main/models.py:100
 #: messenger/models.py:64
 #, python-format
 msgid ""
@@ -276,9 +276,9 @@ msgstr "Роли"
 msgid "Cover"
 msgstr "Обложка"
 
-#: accounts/models.py:257 blog/models.py:27 blog/models.py:79
-#: blog/models.py:121 blog/models.py:213 portfolio/models.py:39
-#: portfolio/models.py:148
+#: accounts/models.py:257 blog/models.py:26 blog/models.py:78
+#: blog/models.py:125 blog/models.py:211 portfolio/models.py:38
+#: portfolio/models.py:142
 msgid "Description"
 msgstr "Описание"
 
@@ -310,7 +310,7 @@ msgstr "Количество часов"
 msgid "Profile URL"
 msgstr "URL профиля"
 
-#: accounts/models.py:298 portfolio/models.py:64 portfolio/models.py:173
+#: accounts/models.py:298 portfolio/models.py:58 portfolio/models.py:162
 #: social/models.py:182
 msgid "Rating"
 msgstr "Рейтинг"
@@ -349,11 +349,11 @@ msgstr "Неверный текущий пароль."
 msgid "User with given email does not exist."
 msgstr "Пользователь с указанным адресом электронной почты не существует."
 
-#: accounts/views.py:100
+#: accounts/views.py:101
 msgid "Stale token for given user."
 msgstr "Устаревший токен для данного пользователя."
 
-#: accounts/views.py:139
+#: accounts/views.py:140
 msgid "The user does not have a password."
 msgstr "У пользователя нет пароля."
 
@@ -361,9 +361,9 @@ msgstr "У пользователя нет пароля."
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: blog/admin.py:61 blog/models.py:132 main/models.py:129
+#: blog/admin.py:61 blog/models.py:136 main/models.py:106
 #: messenger/models.py:70 portfolio/admin.py:30 portfolio/admin.py:68
-#: portfolio/models.py:26 portfolio/models.py:95
+#: portfolio/models.py:25 portfolio/models.py:89
 msgid "Image"
 msgstr "Изображение"
 
@@ -386,93 +386,88 @@ msgstr "Отзыв"
 msgid "Blog"
 msgstr "Блог"
 
-#: blog/models.py:22 blog/models.py:116 main/models.py:108
+#: blog/models.py:21 blog/models.py:120 main/models.py:85 tags/models.py:17
 msgid "Slug"
 msgstr "Слаг"
 
-#: blog/models.py:32 blog/models.py:84 blog/models.py:126 blog/models.py:218
+#: blog/models.py:31 blog/models.py:83 blog/models.py:130 blog/models.py:216
 msgid "Separate keywords with commas."
 msgstr "Разделяйте ключевые слова запятыми."
 
-#: blog/models.py:33 blog/models.py:85 blog/models.py:127 blog/models.py:219
+#: blog/models.py:32 blog/models.py:84 blog/models.py:131 blog/models.py:217
 msgid "Keywords"
 msgstr "Ключевые слова"
 
-#: blog/models.py:49 blog/models.py:66
+#: blog/models.py:48 blog/models.py:65
 msgid "Category"
 msgstr "Категория"
 
-#: blog/models.py:50 blog/models.py:112
+#: blog/models.py:49 blog/models.py:116
 msgid "Categories"
 msgstr "Категории"
 
-#: blog/models.py:71 blog/models.py:205 main/models.py:71
+#: blog/models.py:70 blog/models.py:203 main/models.py:71
 msgid "Language"
 msgstr "Язык"
 
-#: blog/models.py:89
+#: blog/models.py:88
 msgid "Category Translation"
 msgstr "Перевод категории"
 
-#: blog/models.py:90
+#: blog/models.py:89
 msgid "Category Translations"
 msgstr "Переводы категорий"
 
-#: blog/models.py:107 social/models.py:136 social/models.py:177
+#: blog/models.py:111 social/models.py:136 social/models.py:177
 msgid "Author"
 msgstr "Автор"
 
-#: blog/models.py:115 blog/models.py:208 main/models.py:107
-#: portfolio/models.py:38 portfolio/models.py:146
+#: blog/models.py:119 blog/models.py:206 main/models.py:84
+#: portfolio/models.py:37 portfolio/models.py:140
 msgid "Title"
 msgstr "Название"
 
-#: blog/models.py:142 portfolio/models.py:35 portfolio/models.py:104
+#: blog/models.py:146 portfolio/models.py:34 portfolio/models.py:98
 msgid "Thumbnail"
 msgstr "Эскиз"
 
-#: blog/models.py:145 blog/models.py:222 social/models.py:139
+#: blog/models.py:149 blog/models.py:220 social/models.py:139
 msgid "Content"
 msgstr "Содержание"
 
-#: blog/models.py:150 main/models.py:95 portfolio/models.py:43
-#: portfolio/models.py:152
-msgid "Hashtags"
-msgstr "Хэштеги"
-
-#: blog/models.py:156 main/models.py:141
+#: blog/models.py:154 main/models.py:119
 msgid "Published at"
 msgstr "Опубликовано в"
 
-#: blog/models.py:160 portfolio/models.py:54 portfolio/models.py:163
+#: blog/models.py:158 portfolio/models.py:48 portfolio/models.py:152
 msgid "Number of views"
 msgstr "Количество просмотров"
 
-#: blog/models.py:183 blog/models.py:200
+#: blog/models.py:181 blog/models.py:198
 msgid "Article"
 msgstr "Статья"
 
-#: blog/models.py:184
+#: blog/models.py:182
 msgid "Articles"
 msgstr "Статьи"
 
-#: blog/models.py:225
+#: blog/models.py:223
 msgid "Article Translation"
 msgstr "Перевод статьи"
 
-#: blog/models.py:226
+#: blog/models.py:224
 msgid "Article Translations"
 msgstr "Переводы статей"
 
-#: blog/models.py:238 main/models.py:136
+#: blog/models.py:241 main/models.py:113
 msgid "File"
 msgstr "Файл"
 
-#: blog/models.py:241
+#: blog/models.py:244
 msgid "Image of Article"
 msgstr "Изображение статьи"
 
-#: blog/models.py:242
+#: blog/models.py:245
 msgid "Images of Articles"
 msgstr "Изображения статей"
 
@@ -484,7 +479,7 @@ msgstr "Форма недействительна!"
 msgid "Main app"
 msgstr "Основное приложение"
 
-#: main/models.py:15 main/models.py:35 main/models.py:61 main/models.py:81
+#: main/models.py:15 main/models.py:35 main/models.py:61
 msgid "Code"
 msgstr "Код"
 
@@ -492,21 +487,11 @@ msgstr "Код"
 msgid "Name (local)"
 msgstr "Название (местное)"
 
-#: main/models.py:87 messenger/models.py:107 notifications/models.py:43
-#: portfolio/models.py:49 social/models.py:36 social/models.py:69
-#: social/models.py:105 social/models.py:144 social/models.py:189
-msgid "Created at"
-msgstr "Создано в"
-
-#: main/models.py:94
-msgid "Hashtag"
-msgstr "Хэштег"
-
-#: main/models.py:148
+#: main/models.py:126
 msgid "Magazine"
 msgstr "Журнал"
 
-#: main/models.py:149
+#: main/models.py:127
 msgid "Magazines"
 msgstr "Журналы"
 
@@ -559,7 +544,7 @@ msgstr "Беседа"
 msgid "Conversations"
 msgstr "Беседы"
 
-#: messenger/models.py:51 portfolio/models.py:23 portfolio/models.py:84
+#: messenger/models.py:51 portfolio/models.py:22 portfolio/models.py:78
 msgid "Owner"
 msgstr "Владелец"
 
@@ -578,6 +563,13 @@ msgstr "Отправитель"
 #: messenger/models.py:101
 msgid "Message type"
 msgstr "Тип сообщения"
+
+#: messenger/models.py:107 notifications/models.py:43 portfolio/models.py:43
+#: social/models.py:36 social/models.py:69 social/models.py:105
+#: social/models.py:144 social/models.py:189 tags/models.py:22
+#: tags/models.py:77
+msgid "Created at"
+msgstr "Создано в"
 
 #: messenger/models.py:111 social/models.py:148 social/models.py:193
 msgid "Updated at"
@@ -733,51 +725,51 @@ msgstr "Детали фото"
 msgid "Portfolio"
 msgstr "Портфолио"
 
-#: portfolio/models.py:60 portfolio/models.py:169
+#: portfolio/models.py:54 portfolio/models.py:158
 msgid "Likes"
 msgstr "Лайки"
 
-#: portfolio/models.py:68 portfolio/models.py:92
+#: portfolio/models.py:62 portfolio/models.py:86
 msgid "Album"
 msgstr "Альбом"
 
-#: portfolio/models.py:69
+#: portfolio/models.py:63
 msgid "Albums"
 msgstr "Альбомы"
 
-#: portfolio/models.py:110
+#: portfolio/models.py:104
 msgid "Device"
 msgstr "Устройство"
 
-#: portfolio/models.py:117
+#: portfolio/models.py:111
 msgid "F-number (f/)"
 msgstr "Диафрагма (f/)"
 
-#: portfolio/models.py:125
+#: portfolio/models.py:119
 msgid "Must be entered in the format: 1/123456789."
 msgstr "Необходимо ввести в формате: 1/123456789."
 
-#: portfolio/models.py:128
+#: portfolio/models.py:122
 msgid "Exposure time (s)"
 msgstr "Выдержка (s)"
 
-#: portfolio/models.py:135
+#: portfolio/models.py:129
 msgid "Focal length (mm)"
 msgstr "Фокусное расстояние (mm)"
 
-#: portfolio/models.py:140
+#: portfolio/models.py:134
 msgid "Photographic sensitivity (ISO)"
 msgstr "Фото-чувствительность (ISO)"
 
-#: portfolio/models.py:158
+#: portfolio/models.py:147
 msgid "Uploaded at"
 msgstr "Загружено в"
 
-#: portfolio/models.py:177
+#: portfolio/models.py:166
 msgid "Photo"
 msgstr "Фото"
 
-#: portfolio/models.py:178
+#: portfolio/models.py:167
 msgid "Photos"
 msgstr "Фотографии"
 
@@ -900,6 +892,22 @@ msgstr "Разрешение есть только у автора."
 #: social/serializers.py:72
 msgid "You have already left a review here."
 msgstr "Вы уже оставляли отзыв здесь."
+
+#: tags/apps.py:8 tags/models.py:52
+msgid "Tags"
+msgstr "Теги"
+
+#: tags/models.py:51 tags/models.py:67
+msgid "Tag"
+msgstr "Тег"
+
+#: tags/models.py:84
+msgid "Tagged Item"
+msgstr "Помеченный элемент"
+
+#: tags/models.py:85
+msgid "Tagged Items"
+msgstr "Помеченные элементы"
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
