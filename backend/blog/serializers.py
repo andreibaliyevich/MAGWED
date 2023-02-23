@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from accounts.serializers import UserShortReadSerializer
-from main.serializers import HashtagSerializer
 from .models import Category, Article
 
 
@@ -50,7 +49,6 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
     author = UserShortReadSerializer(read_only=True)
     categories = CategoryListSerializer(read_only=True, many=True)
-    hashtags = HashtagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Article
@@ -63,7 +61,6 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'translated_meta_keywords',
             'image',
             'content',
-            'hashtags',
             'published_at',
             'num_views',
         ]

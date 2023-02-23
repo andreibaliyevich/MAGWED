@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Country, City, Language, Hashtag, Magazine
+from .models import Country, City, Language, Magazine
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -35,17 +35,6 @@ class LanguageSerializer(serializers.ModelSerializer):
             'code',
             'name',
             'name_local',
-        ]
-
-
-class HashtagSerializer(serializers.ModelSerializer):
-    """ Hashtag Serializer """
-
-    class Meta:
-        model = Hashtag
-        fields = [
-            'name',
-            'slug',
         ]
 
 

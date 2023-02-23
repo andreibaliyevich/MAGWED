@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from main.models import Hashtag
 from main.utilities import get_cover_path, get_thumbnail_path
 from .utilities import get_photo_path
 
@@ -37,11 +36,6 @@ class Album(models.Model):
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     description = models.TextField(blank=True, verbose_name=_('Description'))
-    hashtags = models.ManyToManyField(
-        Hashtag,
-        blank=True,
-        verbose_name=_('Hashtags'),
-    )
 
     created_at = models.DateTimeField(
         db_index=True,
@@ -146,11 +140,6 @@ class Photo(models.Model):
         verbose_name=_('Title'),
     )
     description = models.TextField(blank=True, verbose_name=_('Description'))
-    hashtags = models.ManyToManyField(
-        Hashtag,
-        blank=True,
-        verbose_name=_('Hashtags'),
-    )
 
     uploaded_at = models.DateTimeField(
         db_index=True,

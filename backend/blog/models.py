@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.files import File
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from main.models import Hashtag
 from main.utilities import get_translated_field, get_thumbnail_path
 from social.models import Comment
 from .utilities import get_article_path
@@ -89,7 +88,12 @@ class CategoryTranslation(models.Model):
         verbose_name = _('Category Translation')
         verbose_name_plural = _('Category Translations')
         ordering = ['category', 'language']
-        unique_together = ['category', 'language']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['category', 'language'],
+                name='unique_categorytranslation',
+            )
+        ]
 
 
 class Article(models.Model):
@@ -143,12 +147,6 @@ class Article(models.Model):
     )
 
     content = models.TextField(verbose_name=_('Content'))
-
-    hashtags = models.ManyToManyField(
-        Hashtag,
-        blank=True,
-        verbose_name=_('Hashtags'),
-    )
 
     published_at = models.DateTimeField(
         db_index=True,
@@ -225,7 +223,12 @@ class ArticleTranslation(models.Model):
         verbose_name = _('Article Translation')
         verbose_name_plural = _('Article Translations')
         ordering = ['article', 'language']
-        unique_together = ['article', 'language']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['article', 'language'],
+                name='unique_articletranslation',
+            )
+        ]
 
 
 class ArticleImage(models.Model):

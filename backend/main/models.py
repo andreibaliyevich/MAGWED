@@ -73,30 +73,6 @@ class Language(models.Model):
         ordering = ['name', 'code']
 
 
-class Hashtag(models.Model):
-    """ Hashtag Model """
-    code = models.SlugField(
-        primary_key=True,
-        max_length=64,
-        verbose_name=_('Code'),
-    )
-    name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
-
-    created_at = models.DateTimeField(
-        db_index=True,
-        auto_now_add=True,
-        verbose_name=_('Created at'),
-    )
-
-    def __str__(self):
-        return f'{ self.name } ({ self.slug })'
-
-    class Meta:
-        verbose_name = _('Hashtag')
-        verbose_name_plural = _('Hashtags')
-        ordering = ['-created_at']
-
-
 class Magazine(models.Model):
     """ Magazine Model """
     uuid = models.UUIDField(
@@ -106,7 +82,7 @@ class Magazine(models.Model):
     )
 
     title = models.CharField(max_length=64, verbose_name=_('Title'))
-    slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
+    slug = models.SlugField(unique=True, max_length=64, verbose_name=_('Slug'))
 
     image = ThumbnailerImageField(
         upload_to=get_magazine_path,

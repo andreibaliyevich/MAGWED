@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, City, Language, Hashtag, Magazine
+from .models import Country, City, Language, Magazine
 
 
 @admin.register(Country)
@@ -22,14 +22,6 @@ class LanguageAdmin(admin.ModelAdmin):
     """ Language Model for admin """
     list_display = ('name', 'name_local', 'code')
     search_fields = ('code', 'name', 'name_local')
-
-
-@admin.register(Hashtag)
-class HashtagAdmin(admin.ModelAdmin):
-    """ Hashtag Model for admin """
-    list_display = ('__str__', 'code', 'created_at')
-    prepopulated_fields = {'code': ('name',)}
-    readonly_fields = ('created_at',)
 
 
 @admin.register(Magazine)

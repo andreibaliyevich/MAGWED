@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from main.models import Hashtag
 from .models import Album, Photo
 
 
@@ -42,10 +41,6 @@ class PhotoListCreateSerializer(serializers.ModelSerializer):
 class PhotoRUDSerializer(serializers.ModelSerializer):
     """ Photo Retrieve Update Destroy Serializer """
     image = serializers.ImageField(read_only=True)
-    hashtags = serializers.PrimaryKeyRelatedField(
-        queryset=Hashtag.objects.all(),
-        many=True,
-    )
     uploaded_at = serializers.DateTimeField(read_only=True)
     num_views = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
@@ -66,7 +61,6 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
             'photographic_sensitivity',
             'title',
             'description',
-            'hashtags',
             'uploaded_at',
             'num_views',
             'likes_count',
@@ -116,10 +110,6 @@ class AlbumImageSerializer(serializers.ModelSerializer):
 class AlbumRUDSerializer(serializers.ModelSerializer):
     """ Album Retrieve Update Destroy Serializer """
     image = serializers.ImageField(read_only=True)
-    hashtags = serializers.PrimaryKeyRelatedField(
-        queryset=Hashtag.objects.all(),
-        many=True,
-    )
     created_at = serializers.DateTimeField(read_only=True)
     num_views = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
@@ -136,7 +126,6 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
             'image',
             'title',
             'description',
-            'hashtags',
             'created_at',
             'num_views',
             'likes_count',
