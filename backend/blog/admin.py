@@ -45,7 +45,7 @@ class ArticleTranslationInline(admin.StackedInline):
 class ArticleAdmin(admin.ModelAdmin):
     """ Article Model for admin """
     list_display = ('__str__', 'author', 'published_at')
-    search_fields = ['title', 'slug']
+    search_fields = ['title', 'translations__title']
     fieldsets = (
         (None, {
             'fields': (
@@ -61,11 +61,8 @@ class ArticleAdmin(admin.ModelAdmin):
         (_('Image'), {
             'fields': ('image', 'get_preview'),
         }),
-        (_('Content and Hashtags'), {
-            'fields': ('content', 'hashtags'),
-        }),
-        (_('Published and Views'), {
-            'fields': ('published_at', 'num_views'),
+        (_('Info'), {
+            'fields': ('content', 'published_at', 'num_views'),
         }),
     )
     formfield_overrides = {

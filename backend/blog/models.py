@@ -3,9 +3,11 @@ from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.core.files import File
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import gettext_lazy as _
 from main.utilities import get_translated_field, get_thumbnail_path
 from social.models import Comment
+from tags.models import TaggedItem
 from .utilities import get_article_path
 
 
@@ -157,6 +159,8 @@ class Article(models.Model):
         default=0,
         verbose_name=_('Number of views'),
     )
+
+    tags = GenericRelation(TaggedItem)
 
     def save(self, *args, **kwargs):
         self.thumbnail = File(self.image)
