@@ -3,8 +3,10 @@ from easy_thumbnails.fields import ThumbnailerImageField
 from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import gettext_lazy as _
 from main.utilities import get_cover_path, get_thumbnail_path
+from tags.models import TaggedItem
 from .utilities import get_photo_path
 
 
@@ -57,6 +59,8 @@ class Album(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
+
+    tags = GenericRelation(TaggedItem)
 
     class Meta:
         verbose_name = _('Album')
@@ -161,6 +165,8 @@ class Photo(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
+
+    tags = GenericRelation(TaggedItem)
 
     class Meta:
         verbose_name = _('Photo')

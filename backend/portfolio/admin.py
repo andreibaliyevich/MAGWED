@@ -31,7 +31,7 @@ class AlbumAdmin(admin.ModelAdmin):
             'fields': ('image', 'get_preview'),
         }),
         (_('Info'), {
-            'fields': ('title', 'description', 'hashtags', 'created_at'),
+            'fields': ('title', 'description', 'created_at'),
         }),
         (_('Social'), {
             'fields': ('num_views', 'likes', 'rating'),
@@ -78,7 +78,7 @@ class PhotoAdmin(admin.ModelAdmin):
             ),
         }),
         (_('Info'), {
-            'fields': ('title', 'description', 'hashtags', 'uploaded_at'),
+            'fields': ('title', 'description', 'uploaded_at'),
         }),
         (_('Social'), {
             'fields': ('num_views', 'likes', 'rating'),
