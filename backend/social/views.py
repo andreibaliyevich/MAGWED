@@ -71,15 +71,6 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
         return True
 
-    def get_queryset(self):
-        return self.content_object.comments.all()
-
-    def perform_create(self, serializer):
-        serializer.save(
-            content_object=self.content_object,
-            author=self.request.user,
-        )
-
     def get(self, request, *args, **kwargs):
         if not self.validate_url(**kwargs):
             return Response(
@@ -93,6 +84,15 @@ class CommentListCreateView(generics.ListCreateAPIView):
                 {'detail': _('Not found.')},
                 status=status.HTTP_404_NOT_FOUND)
         return self.create(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.content_object.comments.all()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            content_object=self.content_object,
+            author=self.request.user,
+        )
 
 
 class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
@@ -117,15 +117,6 @@ class ReviewListCreateView(generics.ListCreateAPIView):
             return False
         return True
 
-    def get_queryset(self):
-        return self.user.user_reviews.all()
-
-    def perform_create(self, serializer):
-        serializer.save(
-            user=self.user,
-            author=self.request.user,
-        )
-
     def get(self, request, *args, **kwargs):
         if not self.validate_url(**kwargs):
             return Response(
@@ -139,6 +130,15 @@ class ReviewListCreateView(generics.ListCreateAPIView):
                 {'detail': _('Not found.')},
                 status=status.HTTP_404_NOT_FOUND)
         return self.create(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.user.user_reviews.all()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            user=self.user,
+            author=self.request.user,
+        )
 
 
 class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
