@@ -148,12 +148,19 @@ class Comment(models.Model):
         verbose_name=_('Updated at'),
     )
 
-    comments = GenericRelation('self')
+    comments = GenericRelation(
+        'self',
+        content_type_field='content_type',
+        object_id_field='object_uuid',
+    )
 
     class Meta:
         verbose_name = _('Comment')
         verbose_name_plural = _('Comments')
         ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['content_type', 'object_uuid']),
+        ]
 
 
 class Review(models.Model):

@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'social.apps.SocialConfig',
     'messenger.apps.MessengerConfig',
     'notifications.apps.NotificationsConfig',
-    'tags.apps.TagsConfig',
 ]
 
 MIDDLEWARE = [

@@ -285,6 +285,7 @@ class Organizer(models.Model):
         verbose_name=_('Number of hours'),
     )
 
+    website = models.URLField(verbose_name=_('Website'))
     profile_url = models.SlugField(
         max_length=64,
         unique=True,

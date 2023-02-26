@@ -5,9 +5,8 @@ from django.core.files import File
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import gettext_lazy as _
+from main.models import Tag
 from main.utilities import get_translated_field, get_thumbnail_path
-from social.models import Comment
-from tags.models import TaggedItem
 from .utilities import get_article_path
 
 
@@ -149,6 +148,7 @@ class Article(models.Model):
     )
 
     content = models.TextField(verbose_name=_('Content'))
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name=_('Tags'))
 
     published_at = models.DateTimeField(
         db_index=True,
@@ -160,7 +160,11 @@ class Article(models.Model):
         verbose_name=_('Number of views'),
     )
 
-    tags = GenericRelation(TaggedItem)
+    comments = GenericRelation(
+        'social.Comment',
+        content_type_field='content_type',
+        object_id_field='object_uuid',
+    )
 
     def save(self, *args, **kwargs):
         self.thumbnail = File(self.image)

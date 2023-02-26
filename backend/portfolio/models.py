@@ -5,8 +5,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import gettext_lazy as _
+from main.models import Tag
 from main.utilities import get_cover_path, get_thumbnail_path
-from tags.models import TaggedItem
 from .utilities import get_photo_path
 
 
@@ -38,6 +38,7 @@ class Album(models.Model):
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     description = models.TextField(blank=True, verbose_name=_('Description'))
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name=_('Tags'))
 
     created_at = models.DateTimeField(
         db_index=True,
@@ -60,7 +61,11 @@ class Album(models.Model):
         verbose_name=_('Rating'),
     )
 
-    tags = GenericRelation(TaggedItem)
+    comments = GenericRelation(
+        'social.Comment',
+        content_type_field='content_type',
+        object_id_field='object_uuid',
+    )
 
     class Meta:
         verbose_name = _('Album')
@@ -144,6 +149,7 @@ class Photo(models.Model):
         verbose_name=_('Title'),
     )
     description = models.TextField(blank=True, verbose_name=_('Description'))
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name=_('Tags'))
 
     uploaded_at = models.DateTimeField(
         db_index=True,
@@ -166,7 +172,11 @@ class Photo(models.Model):
         verbose_name=_('Rating'),
     )
 
-    tags = GenericRelation(TaggedItem)
+    comments = GenericRelation(
+        'social.Comment',
+        content_type_field='content_type',
+        object_id_field='object_uuid',
+    )
 
     class Meta:
         verbose_name = _('Photo')

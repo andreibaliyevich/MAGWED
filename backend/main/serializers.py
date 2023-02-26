@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Country, City, Language, Magazine
+from .models import Country, City, Language, Tag, Magazine
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -35,6 +35,17 @@ class LanguageSerializer(serializers.ModelSerializer):
             'code',
             'name',
             'name_local',
+        ]
+
+
+class TagSerializer(serializers.ModelSerializer):
+    """ Tag Serializer """
+
+    class Meta:
+        model = Tag
+        fields = [
+            'uuid',
+            'name',
         ]
 
 

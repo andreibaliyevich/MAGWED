@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, City, Language, Magazine
+from .models import Country, City, Language, Tag, Magazine
 
 
 @admin.register(Country)
@@ -22,6 +22,14 @@ class LanguageAdmin(admin.ModelAdmin):
     """ Language Model for admin """
     list_display = ('name', 'name_local', 'code')
     search_fields = ('code', 'name', 'name_local')
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    """ Tag Model for admin """
+    list_display = ('__str__', 'created_at')
+    search_fields = ['name']
+    readonly_fields = ('created_at',)
 
 
 @admin.register(Magazine)
