@@ -62,7 +62,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': ('image', 'get_preview'),
         }),
         (_('Info'), {
-            'fields': ('content', 'published_at', 'num_views'),
+            'fields': ('content', 'tags', 'published_at', 'num_views'),
         }),
     )
     formfield_overrides = {
