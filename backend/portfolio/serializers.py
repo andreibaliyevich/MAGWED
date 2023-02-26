@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import Tag
+from main.serializers import TagRelatedField
 from .models import Album, Photo
 
 
@@ -42,10 +42,7 @@ class PhotoListCreateSerializer(serializers.ModelSerializer):
 class PhotoRUDSerializer(serializers.ModelSerializer):
     """ Photo Retrieve Update Destroy Serializer """
     image = serializers.ImageField(read_only=True)
-    tags = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Tag.objects.all(),
-    )
+    tags = TagRelatedField(many=True)
     uploaded_at = serializers.DateTimeField(read_only=True)
     num_views = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
@@ -116,10 +113,7 @@ class AlbumImageSerializer(serializers.ModelSerializer):
 class AlbumRUDSerializer(serializers.ModelSerializer):
     """ Album Retrieve Update Destroy Serializer """
     image = serializers.ImageField(read_only=True)
-    tags = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Tag.objects.all(),
-    )
+    tags = TagRelatedField(many=True)
     created_at = serializers.DateTimeField(read_only=True)
     num_views = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
