@@ -45,13 +45,13 @@ export default {
   },
   methods: {
     clickInput() {
-      this.$refs.input.focus()
+      this.$refs.searchInput.focus()
       this.isActive = true
     },
     clickArrow() {
       this.isActive = !this.isActive
       if (this.isActive) {
-        this.$refs.input.focus()
+        this.$refs.searchInput.focus()
       }
     },
     updateModelValue(value) {
@@ -62,7 +62,7 @@ export default {
         newModelValue = [...this.modelValue, value]
       }
       this.$emit('update:modelValue', newModelValue)
-      this.$refs.input.focus()
+      this.$refs.searchInput.focus()
     },
     deleteModelValue(value) {
       let newModelValue = []
@@ -128,7 +128,7 @@ export default {
             </div>
           </span>
           <input
-            ref="input"
+            ref="searchInput"
             v-model="searchQuery"
             type="text"
             autocomplete="off"
@@ -218,6 +218,7 @@ input:focus-visible {
 .d-flex.align-items-stretch > .d-flex.align-items-center:hover {
   cursor: pointer;
 }
+
 .position-absolute.overflow-auto {
   display: none;
   margin: 0;
