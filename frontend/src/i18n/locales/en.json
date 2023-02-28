@@ -177,6 +177,7 @@
             "updating_photo": "Updating photo",
             "title": "Title",
             "description": "Description",
+            "tags": "Tags",
             "device": "Device",
             "f_number": "F-number (f/)",
             "exposure_time": "Exposure time (s)",
@@ -236,6 +237,7 @@
         "select_option": "Please select",
         "no_options_available": "No options available",
         "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
+        "list_input": "Hold down 'Ctrl' key and press 'Enter' to add typed text to list.",
         "cost_work": "Please enter in USD ($)"
     },
     "blog": {
