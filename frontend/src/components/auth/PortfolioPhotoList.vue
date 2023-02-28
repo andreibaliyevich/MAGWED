@@ -27,7 +27,7 @@ const photoPhotographicSensitivity = ref(0)
 
 const photoTitle = ref('')
 const photoDescription = ref('')
-const photoHashtags = ref([])
+const photoTags = ref([])
 
 const photoUploadedAt = ref(null)
 const photoNumViews = ref(0)
@@ -53,7 +53,7 @@ const getPhotoData = async (pUuid) => {
 
     photoTitle.value = response.data.title
     photoDescription.value = response.data.description
-    photoHashtags.value = response.data.hashtags
+    photoTags.value = response.data.tags
 
     photoUploadedAt.value = response.data.uploaded_at
     photoNumViews.value = response.data.num_views
@@ -70,15 +70,15 @@ const updatePhoto = async () => {
     const response = await axios.put(
       '/portfolio/photos/' + photoUuid.value +'/',
       {
-        device: photoDevice.value,
-        f_number: photoFNumber.value,
-        exposure_time: photoExposureTime.value,
-        focal_length: photoFocalLength.value,
-        photographic_sensitivity: photoPhotographicSensitivity.value,
+        'device': photoDevice.value,
+        'f_number': photoFNumber.value,
+        'exposure_time': photoExposureTime.value,
+        'focal_length': photoFocalLength.value,
+        'photographic_sensitivity': photoPhotographicSensitivity.value,
 
-        title: photoTitle.value,
-        description: photoDescription.value,
-        hashtags: photoHashtags.value
+        'title': photoTitle.value,
+        'description': photoDescription.value,
+        'tags': photoTags.value
       }
     )
     emit('updatePhoto', photoUuid.value, photoTitle.value)
@@ -114,7 +114,7 @@ onMounted(() => {
 
     photoTitle.value = ''
     photoDescription.value = ''
-    photoHashtags.value = []
+    photoTags.value = []
 
     photoUploadedAt.value = null
     photoNumViews.value = 0
@@ -252,6 +252,23 @@ onMounted(() => {
                     :label="$t('auth.portfolio.description')"
                     id="id_description"
                     name="description"
+                  />
+                </div>
+                <div class="col-md-12">
+                  <ListInput
+                    v-if="errors && errors.tags"
+                    v-model="photoTags"
+                    :label="$t('auth.portfolio.tags')"
+                    :errors="errors.tags"
+                    id="id_tags"
+                    name="tags"
+                  />
+                  <ListInput
+                    v-else
+                    v-model="photoTags"
+                    :label="$t('auth.portfolio.tags')"
+                    id="id_tags"
+                    name="tags"
                   />
                 </div>
                 <div class="col-md-12">

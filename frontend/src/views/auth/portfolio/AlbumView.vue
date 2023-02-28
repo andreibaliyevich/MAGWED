@@ -20,7 +20,7 @@ const albumImage = ref(null)
 
 const albumTitle = ref('')
 const albumDescription = ref('')
-const albumHashtags = ref([])
+const albumTags = ref([])
 
 const albumCreatedAt = ref(null)
 const albumNumViews = ref(0)
@@ -52,7 +52,7 @@ const getAlbumData = async () => {
 
     albumTitle.value = response.data.title
     albumDescription.value = response.data.description
-    albumHashtags.value = response.data.hashtags
+    albumTags.value = response.data.tags
 
     albumCreatedAt.value = response.data.created_at
     albumNumViews.value = response.data.num_views
@@ -97,7 +97,7 @@ const updateAlbum = async () => {
       {
         'title': albumTitle.value,
         'description': albumDescription.value,
-        'hashtags': albumHashtags.value
+        'tags': albumTags.value
       }
     )
     router.push({
@@ -265,6 +265,23 @@ onMounted(() => {
             :label="$t('auth.portfolio.description')"
             id="id_description"
             name="description"
+          />
+        </div>
+        <div class="col-md-12">
+          <ListInput
+            v-if="errors && errors.tags"
+            v-model="albumTags"
+            :label="$t('auth.portfolio.tags')"
+            :errors="errors.tags"
+            id="id_tags"
+            name="tags"
+          />
+          <ListInput
+            v-else
+            v-model="albumTags"
+            :label="$t('auth.portfolio.tags')"
+            id="id_tags"
+            name="tags"
           />
         </div>
       </form>
