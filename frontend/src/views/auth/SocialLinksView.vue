@@ -347,6 +347,7 @@ onMounted(() => {
                 :loadingStatus="linksUpdating"
                 buttonClass="btn btn-brand"
                 form="socialLinkForm"
+                :disabled="!socialLinkType || !socialLinkUrl"
               >
                 {{ $t('btn.update') }}
               </SubmitButton>
@@ -355,6 +356,7 @@ onMounted(() => {
                 :loadingStatus="linksUpdating"
                 buttonClass="btn btn-brand"
                 form="socialLinkForm"
+                :disabled="!socialLinkType || !socialLinkUrl"
               >
                 {{ $t('btn.add') }}
               </SubmitButton>
