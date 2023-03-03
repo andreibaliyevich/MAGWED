@@ -196,7 +196,7 @@ onMounted(() => {
             <i class="fa-brands fa-instagram"></i>
           </a>
           <a
-            class="text-muted link-linkedin"
+            class="text-muted link-linkedin me-3"
             href="https://www.linkedin.com/"
             target="_blank"
           >
@@ -231,7 +231,7 @@ onMounted(() => {
             <i class="fa-brands fa-pinterest"></i>
           </a>
           <a
-            class="text-muted link-vk me-3"
+            class="text-muted link-vk"
             href="https://vk.com/"
             target="_blank"
           >
