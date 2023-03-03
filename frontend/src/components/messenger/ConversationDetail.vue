@@ -124,12 +124,14 @@ const closeConversation = () => {
 }
 
 const sendMessage = () => {
-  convoSocket.value.send(JSON.stringify({
-    'action': 'new_msg',
-    'msg_type': messageType.TEXT,
-    'content': message.value
-  }))
-  message.value = ''
+  if (message.value) {
+    convoSocket.value.send(JSON.stringify({
+      'action': 'new_msg',
+      'msg_type': messageType.TEXT,
+      'content': message.value
+    }))
+    message.value = ''
+  }
 }
 
 const sendImages = async (filelist) => {
@@ -384,27 +386,21 @@ onUnmounted(() => {
           <textarea
             ref="msgTextarea"
             v-model="message"
+            @keyup.ctrl.enter="sendMessage()"
             class="form-control me-auto"
             :placeholder="$t('messenger.type_message')"
             rows="1"
           ></textarea>
           <button
-            v-if="message"
             @click="sendMessage()"
             class="btn btn-primary"
             type="button"
-          >
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
-          <button
-            v-else
-            class="btn btn-primary"
-            type="button"
-            disabled
+            :disabled="!message"
           >
             <i class="fa-solid fa-paper-plane"></i>
           </button>
         </div>
+        <small>{{ $t('form_help.textarea_message') }}</small>
       </div>
     </div>
   </div>
