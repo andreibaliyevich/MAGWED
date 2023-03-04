@@ -207,23 +207,23 @@ const userStore = useUserStore()
           </li>
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'Home'"
-              routeName="Home"
+              v-if="this.$route.name == 'ProfileDelete'"
+              routeName="ProfileDelete"
               @click="$refs.buttonAaccountMenu.click()"
               class="nav-link active"
               aria-current="page"
             >
               <i class="fa-solid fa-user-xmark"></i>
-              {{ $t('auth.delete_profile') }}
+              {{ $t('auth.profile_delete.profile_delete') }}
             </LocaleRouterLink>
             <LocaleRouterLink
               v-else
-              routeName="Home"
+              routeName="ProfileDelete"
               @click="$refs.buttonAaccountMenu.click()"
               class="nav-link text-dark"
             >
               <i class="fa-solid fa-user-xmark"></i>
-              {{ $t('auth.delete_profile') }}
+              {{ $t('auth.profile_delete.profile_delete') }}
             </LocaleRouterLink>
           </li>
           <li class="nav-item">

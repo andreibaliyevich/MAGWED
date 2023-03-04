@@ -121,6 +121,11 @@ const router = createRouter({
               path: 'password/change',
               name: 'PasswordChange',
               component: () => import('@/views/auth/PasswordChangeView.vue')
+            },
+            {
+              path: 'profile/delete',
+              name: 'ProfileDelete',
+              component: () => import('@/views/auth/ProfileDeleteView.vue')
             }
           ]
         },
