@@ -288,6 +288,16 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
         ]
 
 
+class ProfileDeleteSerializer(serializers.Serializer):
+    """ Profile Delete Serializer """
+    current_password = serializers.CharField(write_only=True)
+
+    def validate_current_password(self, value):
+        if not self.context['user'].check_password(value):
+            raise serializers.ValidationError(_('Invalid current password.'))
+        return value
+
+
 class ProfileAvatarSerializer(serializers.ModelSerializer):
     """ Profile Avatar Serializer """
 

@@ -24,6 +24,7 @@ from .serializers import (
     PasswordResetConfirmSerializer,
     UserProfileSerializer,
     CustomerProfileSerializer,
+    ProfileDeleteSerializer,
     ProfileAvatarSerializer,
     OrganizerCoverSerializer,
     OrganizerProfileSerializer,
@@ -190,6 +191,23 @@ class ProfileView(APIView):
             serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = ProfileDeleteSerializer(
+            data=request.data,
+            context={'user': request.user},
+        )
+        serializer.is_valid(raise_exception=True)
+
+        Token.objects.filter(user=request.user).delete()
+        user_logged_out.send(
+            sender=request.user.__class__,
+            request=request,
+            user=request.user,
+        )
+
+        request.user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProfileAvatarView(APIView):
