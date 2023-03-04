@@ -64,6 +64,7 @@ const updateProfile = async () => {
       'avatar': userStore.avatar,
       'token': userStore.token
     }))
+    errors.value = null
   } catch (error) {
     errors.value = error.response.data
   } finally {
