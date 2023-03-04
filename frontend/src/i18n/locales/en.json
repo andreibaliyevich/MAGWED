@@ -198,7 +198,13 @@
             "current_password": "Current password",
             "success": "Your password has been successfully changed."
         },
-        "delete_profile": "Delete profile"
+        "profile_delete": {
+            "profile_delete": "Profile delete",
+            "advice1": "All information associated with your account will also be deleted.",
+            "advice2": "Once you delete your account, there is no going back. Please be certain.",
+            "password_confirmation": "Password confirmation",
+            "delete_profile": "Delete profile"
+        }
     },
     "roles": {
         "photographer": "Photographer",
