@@ -24,10 +24,10 @@ from .serializers import (
     PasswordResetConfirmSerializer,
     UserProfileSerializer,
     CustomerProfileSerializer,
+    OrganizerProfileSerializer,
     ProfileDeleteSerializer,
     ProfileAvatarSerializer,
     OrganizerCoverSerializer,
-    OrganizerProfileSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -183,7 +183,9 @@ class ProfileView(APIView):
         elif request.user.user_type == UserType.ORGANIZER:
             organizer = get_object_or_404(Organizer, user=request.user)
             serializer = OrganizerProfileSerializer(
-                organizer, data=request.data)
+                organizer,
+                data=request.data,
+            )
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
