@@ -13,6 +13,5 @@ class OrganizerFilter(filters.FilterSet):
             'countries',
             'cities',
             'languages',
-            'cities',
             'cost_work',
         ]
