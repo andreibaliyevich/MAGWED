@@ -1,10 +1,9 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
-import { useOptionsOfRoleType } from '@/composables/optionsOfRoleType.js'
-import {
-  useOptionsOfCountriesAndCities
-} from '@/composables/optionsOfCountriesAndCities.js'
+import { useOptionsOfRoleTypes } from '@/composables/optionsOfRoleTypes.js'
+import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
+import { useOptionsOfCities } from '@/composables/optionsOfCities.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
 import { useUserStore } from '@/stores/user.js'
@@ -29,11 +28,9 @@ const profileURL = ref('')
 const rating = ref(0.0)
 const proTime = ref(null)
 
-const { roleTypeOptions } = useOptionsOfRoleType()
-const {
-  countriesOptions,
-  citiesOptions
-} = useOptionsOfCountriesAndCities(country)
+const { roleTypeOptions } = useOptionsOfRoleTypes()
+const { countryOptions } = useOptionsOfCountries()
+const { cityOptions } = useOptionsOfCities(country)
 const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
 const { languagesOptions } = useOptionsOfLanguages()
 
@@ -108,7 +105,7 @@ const updateProfile = async () => {
   }
 }
 
-watch(citiesOptions, (newValue, oldValue) => {
+watch(cityOptions, (newValue, oldValue) => {
   if (oldValue.length) {
     city.value = null
   }
@@ -161,7 +158,7 @@ onMounted(() => {
           v-if="errors && errors.user && errors.user.country"
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countriesOptions"
+          :options="countryOptions"
           :errors="errors.user.country"
           id="id_country"
           name="country"
@@ -170,7 +167,7 @@ onMounted(() => {
           v-else
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countriesOptions"
+          :options="countryOptions"
           id="id_country"
           name="country"
         />
@@ -180,7 +177,7 @@ onMounted(() => {
           v-if="errors && errors.user && errors.user.city"
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="citiesOptions"
+          :options="cityOptions"
           :errors="errors.user.city"
           id="id_city"
           name="city"
@@ -189,7 +186,7 @@ onMounted(() => {
           v-else
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="citiesOptions"
+          :options="cityOptions"
           id="id_city"
           name="city"
         />
@@ -256,7 +253,7 @@ onMounted(() => {
           v-if="errors && errors.countries"
           v-model="countries"
           :label="$t('auth.profile.countries')"
-          :options="countriesOptions"
+          :options="countryOptions"
           :errors="errors.countries"
           id="id_countries"
           name="countries"
@@ -265,7 +262,7 @@ onMounted(() => {
           v-else
           v-model="countries"
           :label="$t('auth.profile.countries')"
-          :options="countriesOptions"
+          :options="countryOptions"
           id="id_countries"
           name="countries"
         />

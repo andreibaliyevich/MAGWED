@@ -1,7 +1,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export function useOptionsOfRoleType() {
+export function useOptionsOfRoleTypes() {
   const { t, locale } = useI18n({ useScope: 'global' })
   const roleTypeOptions = ref([])
 

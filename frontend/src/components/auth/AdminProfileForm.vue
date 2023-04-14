@@ -1,9 +1,8 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
-import {
-  useOptionsOfCountriesAndCities
-} from '@/composables/optionsOfCountriesAndCities.js'
+import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
+import { useOptionsOfCities } from '@/composables/optionsOfCities.js'
 import { useUserStore } from '@/stores/user.js'
 
 const userStore = useUserStore()
@@ -16,10 +15,8 @@ const country = ref(null)
 const city = ref(null)
 const phone = ref('')
 
-const {
-  countriesOptions,
-  citiesOptions
-} = useOptionsOfCountriesAndCities(country)
+const { countryOptions } = useOptionsOfCountries()
+const { cityOptions } = useOptionsOfCities(country)
 
 const errors = ref(null)
 
@@ -72,7 +69,7 @@ const updateProfile = async () => {
   }
 }
 
-watch(citiesOptions, (newValue, oldValue) => {
+watch(cityOptions, (newValue, oldValue) => {
   if (oldValue.length) {
     city.value = null
   }
@@ -115,7 +112,7 @@ onMounted(() => {
           v-if="errors && errors.country"
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countriesOptions"
+          :options="countryOptions"
           :errors="errors.country"
           id="id_country"
           name="country"
@@ -124,7 +121,7 @@ onMounted(() => {
           v-else
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countriesOptions"
+          :options="countryOptions"
           id="id_country"
           name="country"
         />
@@ -134,7 +131,7 @@ onMounted(() => {
           v-if="errors && errors.city"
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="citiesOptions"
+          :options="cityOptions"
           :errors="errors.city"
           id="id_city"
           name="city"
@@ -143,7 +140,7 @@ onMounted(() => {
           v-else
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="citiesOptions"
+          :options="cityOptions"
           id="id_city"
           name="city"
         />
