@@ -126,13 +126,14 @@ onMounted(() => {
     </div>
     <Teleport to="body">
       <div
-        class="modal fade"
         id="removeCoverModalChoice"
+        class="modal fade"
         role="dialog"
         tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        aria-hidden="true"
       >
         <div
           class="modal-dialog modal-dialog-centered"

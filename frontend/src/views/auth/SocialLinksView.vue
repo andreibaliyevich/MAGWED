@@ -258,10 +258,11 @@ onMounted(() => {
         id="organizerLinkModal"
         class="modal fade"
         tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+        aria-modal="true"
         aria-hidden="true"
         aria-labelledby="organizerLinkModalLabel"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">

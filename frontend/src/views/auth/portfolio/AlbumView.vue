@@ -336,9 +336,10 @@ onMounted(() => {
         class="modal fade"
         role="dialog"
         tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        aria-hidden="true"
       >
         <div
           class="modal-dialog modal-dialog-centered"
@@ -375,10 +376,11 @@ onMounted(() => {
         id="uploadAlbumPhotosModal"
         class="modal fade"
         tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="uploadAlbumPhotosModalLabel"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        aria-hidden="true"
-        aria-labelledby="uploadPhotosModalLabel"
       >
         <div class="modal-dialog">
           <div class="modal-content">

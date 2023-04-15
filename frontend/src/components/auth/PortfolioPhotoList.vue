@@ -182,10 +182,11 @@ onMounted(() => {
         id="updatePhotoModal"
         class="modal fade"
         tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+        aria-modal="true"
         aria-hidden="true"
         aria-labelledby="updatePhotoModalLabel"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
       >
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
           <div class="modal-content">
@@ -410,9 +411,10 @@ onMounted(() => {
         class="modal fade"
         role="dialog"
         tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        aria-hidden="true"
       >
         <div
           class="modal-dialog modal-dialog-centered"

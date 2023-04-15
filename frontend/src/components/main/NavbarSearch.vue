@@ -39,9 +39,10 @@ onMounted(() => {
         id="searchModal"
         class="modal fade"
         tabindex="-1"
-        data-bs-keyboard="false"
+        aria-modal="true"
         aria-hidden="true"
         aria-labelledby="searchModalLabel"
+        data-bs-keyboard="false"
       >
         <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
