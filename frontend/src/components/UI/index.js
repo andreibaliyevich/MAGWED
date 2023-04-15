@@ -8,6 +8,7 @@ import LocaleRouterLink from './LocaleRouterLink.vue'
 import MultipleSelect from './MultipleSelect.vue'
 import SubmitButton from './SubmitButton.vue'
 import UserAvatar from './UserAvatar.vue'
+import UserAvatarExtended from './UserAvatarExtended.vue'
 
 export default [
   BaseInput,
@@ -19,5 +20,6 @@ export default [
   LocaleRouterLink,
   MultipleSelect,
   SubmitButton,
-  UserAvatar
+  UserAvatar,
+  UserAvatarExtended
 ]

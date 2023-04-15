@@ -5,7 +5,6 @@ import { conversationType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from './GroupAvatar.vue'
-import UserAvatarExtended from './UserAvatarExtended.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBusStore = useConnectionBusStore()

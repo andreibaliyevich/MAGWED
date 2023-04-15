@@ -7,7 +7,6 @@ import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from './GroupAvatar.vue'
 import MessageContent from './MessageContent.vue'
-import UserAvatarExtended from './UserAvatarExtended.vue'
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 const userStore = useUserStore()
