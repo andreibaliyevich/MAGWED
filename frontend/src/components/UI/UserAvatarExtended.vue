@@ -12,13 +12,23 @@ export default {
       type: Number,
       required: true
     },
-    imgClass: {
-      type: String,
-      default: 'rounded-circle'
-    },
     online: {
       type: Boolean,
       required: true
+    }
+  },
+  computed: {
+    statusWidth() {
+      return parseInt((this.width / 33) + (116 / 11))
+    },
+    statusHeight() {
+      return parseInt((this.height / 33) + (116 / 11))
+    },
+    statusMarginRight() {
+      return parseInt((this.width * 3 / 22) - (72 / 11))
+    },
+    statusMarginBottom() {
+      return parseInt((this.height * 3 / 22) - (72 / 11))
     }
   }
 }
@@ -26,26 +36,35 @@ export default {
 
 <template>
   <div class="user-avatar-extended">
-    <div class="position-relative">
+    <div class="position-relative d-inline-block">
       <img
         v-if="src"
         :src="src"
         :width="width"
         :height="height"
-        :class="imgClass"
         v-bind="$attrs"
+        class="rounded-circle"
       >
       <img
         v-else
         src="/user-avatar.jpg"
         :width="width"
         :height="height"
-        :class="imgClass"
         v-bind="$attrs"
+        class="rounded-circle"
       >
       <span
-        v-if="online"
-        class="position-absolute top-0 start-100 translate-middle p-1 bg-primary rounded-circle"
+        :class="[
+          'position-absolute bottom-0 end-0 border border-light border-2 rounded-circle',
+          { 'bg-primary': online },
+          { 'bg-secondary': !online }
+        ]"
+        :style="{
+          'width': statusWidth + 'px',
+          'height': statusHeight + 'px',
+          'margin-right': statusMarginRight + 'px',
+          'margin-bottom': statusMarginBottom + 'px'
+        }"
       >
         <span class="visually-hidden">Online</span>
       </span>
