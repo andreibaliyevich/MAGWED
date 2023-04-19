@@ -47,32 +47,13 @@ if (userString) {
 }
 
 onMounted(async () => {
+  let connectionSocketURL = `${WS_URL}/ws/connection/${deviceUUID.value}/`
   if (userStore.isLoggedIn) {
-    try {
-      const response = await axios.get('/accounts/auth/wstoken/')
-      connectionSocket.value = new WebSocket(
-        WS_URL
-        + '/ws/connection/'
-        + deviceUUID.value
-        + '/?'
-        + response.data.wstoken
-      )
-      connectionSocket.value.onmessage = (event) => {
-        connectionBusStore.setUserStatus(JSON.parse(event.data))
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  } else {
-    connectionSocket.value = new WebSocket(
-      WS_URL
-      + '/ws/connection/'
-      + deviceUUID.value
-      + '/'
-    )
-    connectionSocket.value.onmessage = (event) => {
-      connectionBusStore.setUserStatus(JSON.parse(event.data))
-    }
+    connectionSocketURL += `?${userStore.token}`
+  }
+  connectionSocket.value = new WebSocket(connectionSocketURL)
+  connectionSocket.value.onmessage = (event) => {
+    connectionBusStore.setUserStatus(JSON.parse(event.data))
   }
 })
 </script>

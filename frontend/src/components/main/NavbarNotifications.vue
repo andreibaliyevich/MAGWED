@@ -2,7 +2,10 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { WS_URL } from '@/config.js'
+import { useUserStore } from '@/stores/user.js'
 import NavbarNotice from './NavbarNotice.vue'
+
+const userStore = useUserStore()
 
 const notificationsLoading = ref(true)
 const notifications = ref([])
@@ -49,49 +52,42 @@ const getMoreNotifications = async () => {
 }
 
 const connectSocket = async () => {
-  try {
-    const response = await axios.get('/accounts/auth/wstoken/')
-    notificationsSocket.value = new WebSocket(
-      WS_URL
-      + '/ws/notifications/?'
-      + response.data.wstoken
-    )
-    notificationsSocket.value.onopen = (event) => {
-      notificationsSocketConnect.value = true
-    }
-    notificationsSocket.value.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      if (data.action == 'created') {
-        notifications.value.unshift(data.notice)
-      } else if (data.action == 'updated') {
-        const foundIndex = notifications.value.findIndex((element) => {
-          return element.uuid == data.notice.uuid
-        })
-        if (foundIndex != -1) {
-          notifications.value[foundIndex] = data.notice
-        }
-      } else if (data.action == 'viewed') {
-        const foundIndex = notifications.value.findIndex((element) => {
-          return element.uuid == data.notice_uuid
-        })
-        if (foundIndex != -1) {
-          notifications.value[foundIndex].viewed = data.notice_viewed
-          countNotViewed.value -= 1
-        }
+  notificationsSocket.value = new WebSocket(
+    WS_URL
+    + '/ws/notifications/?'
+    + userStore.token
+  )
+  notificationsSocket.value.onopen = (event) => {
+    notificationsSocketConnect.value = true
+  }
+  notificationsSocket.value.onmessage = (event) => {
+    const data = JSON.parse(event.data)
+    if (data.action == 'created') {
+      notifications.value.unshift(data.notice)
+    } else if (data.action == 'updated') {
+      const foundIndex = notifications.value.findIndex((element) => {
+        return element.uuid == data.notice.uuid
+      })
+      if (foundIndex != -1) {
+        notifications.value[foundIndex] = data.notice
+      }
+    } else if (data.action == 'viewed') {
+      const foundIndex = notifications.value.findIndex((element) => {
+        return element.uuid == data.notice_uuid
+      })
+      if (foundIndex != -1) {
+        notifications.value[foundIndex].viewed = data.notice_viewed
+        countNotViewed.value -= 1
       }
     }
-    notificationsSocket.value.onclose = (event) => {
-      notificationsSocket.value = null
-      notificationsSocketConnect.value = false
-    }
-    notificationsSocket.value.onerror = (error) => {
-      notificationsSocket.value = null
-      notificationsSocketConnect.value = false
-    }
-  } catch (error) {
-    console.error(error)
-  } finally {
-    notificationsLoading.value = false
+  }
+  notificationsSocket.value.onclose = (event) => {
+    notificationsSocket.value = null
+    notificationsSocketConnect.value = false
+  }
+  notificationsSocket.value.onerror = (error) => {
+    notificationsSocket.value = null
+    notificationsSocketConnect.value = false
   }
 }
 

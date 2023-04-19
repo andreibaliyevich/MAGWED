@@ -72,47 +72,42 @@ const getMoreMessages = async () => {
 }
 
 const openConvoSocket = async () => {
-  try {
-    const response = await axios.get('/accounts/auth/wstoken/')
-    convoSocket.value = new WebSocket(
-      WS_URL
-      + '/ws/messenger/'
-      + props.conversation.uuid
-      + '/?'
-      + response.data.wstoken
-    )
-    convoSocket.value.onopen = (event) => {
-      convoSocketConnect.value = true
-    }
-    convoSocket.value.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      if (data.action == 'new_msg') {
-        messages.value.unshift(data.data)
-        nextTick(() => {
-          scrollArea.value.scrollTo({
-            top: scrollArea.value.scrollHeight,
-            behavior: 'smooth'
-          })
+  convoSocket.value = new WebSocket(
+    WS_URL
+    + '/ws/messenger/'
+    + props.conversation.uuid
+    + '/?'
+    + userStore.token
+  )
+  convoSocket.value.onopen = (event) => {
+    convoSocketConnect.value = true
+  }
+  convoSocket.value.onmessage = (event) => {
+    const data = JSON.parse(event.data)
+    if (data.action == 'new_msg') {
+      messages.value.unshift(data.data)
+      nextTick(() => {
+        scrollArea.value.scrollTo({
+          top: scrollArea.value.scrollHeight,
+          behavior: 'smooth'
         })
-      } else if (data.action == 'viewed') {
-        const foundIndex = messages.value.findIndex((element) => {
-          return element.uuid == data.data.msg_uuid
-        })
-        if (foundIndex != -1) {
-          messages.value[foundIndex].viewed = data.data.msg_viewed
-        }
+      })
+    } else if (data.action == 'viewed') {
+      const foundIndex = messages.value.findIndex((element) => {
+        return element.uuid == data.data.msg_uuid
+      })
+      if (foundIndex != -1) {
+        messages.value[foundIndex].viewed = data.data.msg_viewed
       }
     }
-    convoSocket.value.onclose = (event) => {
-      convoSocket.value = null
-      convoSocketConnect.value = false
-    }
-    convoSocket.value.onerror = (error) => {
-      convoSocket.value = null
-      convoSocketConnect.value = false
-    }
-  } catch (error) {
-    console.error(error)
+  }
+  convoSocket.value.onclose = (event) => {
+    convoSocket.value = null
+    convoSocketConnect.value = false
+  }
+  convoSocket.value.onerror = (error) => {
+    convoSocket.value = null
+    convoSocketConnect.value = false
   }
 }
 
