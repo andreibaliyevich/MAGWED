@@ -228,15 +228,6 @@ CACHES = {
         'TIMEOUT': 60 * 60 * 24,
         'KEY_PREFIX': 'mw2',
     },
-    'wstokens': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/3',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
-        'TIMEOUT': None,
-        'KEY_PREFIX': 'mw3',
-    },
 }
 
 
