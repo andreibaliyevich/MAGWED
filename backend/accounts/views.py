@@ -24,10 +24,10 @@ from .serializers import (
     PasswordResetConfirmSerializer,
     UserProfileSerializer,
     CustomerProfileSerializer,
-    OrganizerProfileSerializer,
     ProfileDeleteSerializer,
     ProfileAvatarSerializer,
     OrganizerCoverSerializer,
+    OrganizerProfileSerializer,
     OrganizerListSerializer,
     OrganizerDetailSerializer,
 )
@@ -68,6 +68,10 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        wstokens_cache = caches['wstokens']
+        wstoken = wstokens_cache.get(request.user.uuid)
+        wstokens_cache.delete_many([wstoken, request.user.uuid])
+
         Token.objects.filter(user=request.user).delete()
         user_logged_out.send(
             sender=request.user.__class__,
@@ -183,9 +187,7 @@ class ProfileView(APIView):
         elif request.user.user_type == UserType.ORGANIZER:
             organizer = get_object_or_404(Organizer, user=request.user)
             serializer = OrganizerProfileSerializer(
-                organizer,
-                data=request.data,
-            )
+                organizer, data=request.data)
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -265,11 +267,12 @@ class WebSocketAuthTokenView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        wstoken = get_random_string(length=32)
-
         wstokens_cache = caches['wstokens']
+        wstoken = wstokens_cache.get_or_set(
+            request.user.uuid,
+            get_random_string(length=32),
+        )
         wstokens_cache.set(wstoken, request.user.uuid)
-
         return Response({'wstoken': wstoken})
 
 
