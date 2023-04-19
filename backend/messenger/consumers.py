@@ -1,6 +1,5 @@
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from django.core.cache import caches
 from .choices import MessageType
 from .models import Conversation, Message
 from .serializers import MessageFullReadSerializer, TextMessageSerializer
@@ -23,9 +22,6 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
             await self.accept()
 
     async def disconnect(self, close_code):
-        wstokens_cache = caches['wstokens']
-        wstokens_cache.delete(self.scope['wstoken'])
-
         await self.channel_layer.group_discard(
             self.convo_group_name,
             self.channel_name,
