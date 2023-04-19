@@ -6,9 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model, user_logged_in, user_logged_out
-from django.core.cache import caches
 from django.shortcuts import get_object_or_404
-from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from .choices import UserType
 from .filters import OrganizerFilter
@@ -68,10 +66,6 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        wstokens_cache = caches['wstokens']
-        wstoken = wstokens_cache.get(request.user.uuid)
-        wstokens_cache.delete_many([wstoken, request.user.uuid])
-
         Token.objects.filter(user=request.user).delete()
         user_logged_out.send(
             sender=request.user.__class__,
@@ -260,20 +254,6 @@ class OrganizerCoverView(APIView):
         organizer = get_object_or_404(Organizer, user=request.user)
         organizer.cover.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class WebSocketAuthTokenView(APIView):
-    """ WebSocket Auth Token View """
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        wstokens_cache = caches['wstokens']
-        wstoken = wstokens_cache.get_or_set(
-            request.user.uuid,
-            get_random_string(length=32),
-        )
-        wstokens_cache.set(wstoken, request.user.uuid)
-        return Response({'wstoken': wstoken})
 
 
 class OrganizerListView(generics.ListAPIView):
