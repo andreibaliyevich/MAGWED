@@ -213,7 +213,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <MultipleSelect
+        <InputMultipleSelect
           v-if="errors && errors.roles"
           v-model="roles"
           :label="$t('auth.profile.roles')"
@@ -222,7 +222,7 @@ onMounted(() => {
           id="id_roles"
           name="roles"
         />
-        <MultipleSelect
+        <InputMultipleSelect
           v-else
           v-model="roles"
           :label="$t('auth.profile.roles')"
@@ -249,7 +249,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <MultipleSelect
+        <InputMultipleSelect
           v-if="errors && errors.countries"
           v-model="countries"
           :label="$t('auth.profile.countries')"
@@ -258,7 +258,7 @@ onMounted(() => {
           id="id_countries"
           name="countries"
         />
-        <MultipleSelect
+        <InputMultipleSelect
           v-else
           v-model="countries"
           :label="$t('auth.profile.countries')"
@@ -268,7 +268,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <MultipleSelect
+        <InputMultipleSelect
           v-if="errors && errors.cities"
           v-model="cities"
           :label="$t('auth.profile.cities')"
@@ -277,7 +277,7 @@ onMounted(() => {
           id="id_cities"
           name="cities"
         />
-        <MultipleSelect
+        <InputMultipleSelect
           v-else
           v-model="cities"
           :label="$t('auth.profile.cities')"
@@ -287,7 +287,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <MultipleSelect
+        <InputMultipleSelect
           v-if="errors && errors.languages"
           v-model="languages"
           :label="$t('auth.profile.languages')"
@@ -296,7 +296,7 @@ onMounted(() => {
           id="id_languages"
           name="languages"
         />
-        <MultipleSelect
+        <InputMultipleSelect
           v-else
           v-model="languages"
           :label="$t('auth.profile.languages')"

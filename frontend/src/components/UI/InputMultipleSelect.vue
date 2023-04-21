@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'MultipleSelect',
+  name: 'InputMultipleSelect',
   inheritAttrs: false,
   props: {
     modelValue: {
