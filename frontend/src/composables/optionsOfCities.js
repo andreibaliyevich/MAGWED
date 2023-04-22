@@ -8,7 +8,7 @@ export function useOptionsOfCities(country) {
     try {
       const response = await axios.get('/main/cities/', {
         params: {
-          country: countryValue
+          'country': countryValue
         }
       })
       citiesOptions.value = []
