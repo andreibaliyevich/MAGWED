@@ -52,7 +52,7 @@ export default {
       class="overflow-auto p-1"
       :aria-invalid="errors.length ? true : null"
       :aria-describedby="errors.length ? `${id}-errors` : null"
-      style="height: 135px"
+      style="max-height: 135px"
     >
       <div
         v-for="option in options"
