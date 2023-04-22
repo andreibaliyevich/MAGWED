@@ -210,11 +210,6 @@
   background-color: #e72a26;
 }
 
-#dropdownSearch:hover,
-#dropdownSearch:focus-within {
-  border-color: #e72a26 !important;
-}
-
 .form-control:hover,
 .form-control:focus,
 .form-select:active {
@@ -229,4 +224,15 @@
 .form-select:focus {
   border-color: #e72a26 !important;
   box-shadow: none !important;
+}
+
+.form-check-input:hover,
+.form-check-input:focus,
+.form-check-input:active {
+  border-color: #e72a26 !important;
+  box-shadow: none !important;
+}
+.form-check-input:checked {
+  background-color: #e72a26 !important;
+  border-color: #e72a26 !important;
 }
