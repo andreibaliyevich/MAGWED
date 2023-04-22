@@ -8,7 +8,7 @@ import NavbarNotice from './NavbarNotice.vue'
 const userStore = useUserStore()
 
 const notificationsLoading = ref(true)
-const notifications = ref([])
+const notificationList = ref([])
 const notificationsSocket = ref(null)
 const notificationsSocketConnect = ref(null)
 const countNotViewed = ref(0)
@@ -19,8 +19,8 @@ const scrollArea = ref(null)
 const getNotifications = async () => {
   try {
     const response = await axios.get('/notifications/')
-    notifications.value = response.data.results
-    notifications.value.forEach(element => {
+    notificationList.value = response.data.results
+    notificationList.value.forEach(element => {
       if (!element.viewed) {
         countNotViewed.value += 1
       }
@@ -37,7 +37,7 @@ const getMoreNotifications = async () => {
   notificationsLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
-    notifications.value = [...notifications.value, ...response.data.results]
+    notificationList.value = [...notificationList.value, ...response.data.results]
     response.data.results.forEach(element => {
       if (!element.viewed) {
         countNotViewed.value += 1
@@ -63,20 +63,20 @@ const connectSocket = async () => {
   notificationsSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
     if (data.action == 'created') {
-      notifications.value.unshift(data.notice)
+      notificationList.value.unshift(data.notice)
     } else if (data.action == 'updated') {
-      const foundIndex = notifications.value.findIndex((element) => {
+      const foundIndex = notificationList.value.findIndex((element) => {
         return element.uuid == data.notice.uuid
       })
       if (foundIndex != -1) {
-        notifications.value[foundIndex] = data.notice
+        notificationList.value[foundIndex] = data.notice
       }
     } else if (data.action == 'viewed') {
-      const foundIndex = notifications.value.findIndex((element) => {
+      const foundIndex = notificationList.value.findIndex((element) => {
         return element.uuid == data.notice_uuid
       })
       if (foundIndex != -1) {
-        notifications.value[foundIndex].viewed = data.notice_viewed
+        notificationList.value[foundIndex].viewed = data.notice_viewed
         countNotViewed.value -= 1
       }
     }
@@ -161,10 +161,10 @@ onMounted(() => {
         class="dropdown-menu dropdown-menu-end shadow overflow-auto"
         aria-labelledby="dropdownNotifications"
       >
-        <li v-if="notifications.length > 0">
+        <li v-if="notificationList.length > 0">
           <ul class="list-group list-group-flush">
             <li
-              v-for="notice in notifications"
+              v-for="notice in notificationList"
               :key="notice.uuid"
               class="list-group-item list-group-item-action"
             >
