@@ -43,6 +43,7 @@ export default {
     <label
       v-if="label"
       :for="id"
+      class="fw-bold"
     >
       {{ label }}
     </label>
