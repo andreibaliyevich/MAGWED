@@ -106,3 +106,10 @@ onMounted(() => {
     </Teleport>
   </div>
 </template>
+
+<style scoped>
+form:hover,
+form:focus-within {
+  border-color: #e72a26 !important;
+}
+</style>
