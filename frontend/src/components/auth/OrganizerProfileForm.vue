@@ -28,9 +28,9 @@ const profileURL = ref('')
 const rating = ref(0.0)
 const proTime = ref(null)
 
-const { roleTypeOptions } = useOptionsOfRoleTypes()
-const { countryOptions } = useOptionsOfCountries()
-const { cityOptions } = useOptionsOfCities(country)
+const { roleTypesOptions } = useOptionsOfRoleTypes()
+const { countriesOptions } = useOptionsOfCountries()
+const { citiesOptions } = useOptionsOfCities(country)
 const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
 const { languagesOptions } = useOptionsOfLanguages()
 
@@ -105,7 +105,7 @@ const updateProfile = async () => {
   }
 }
 
-watch(cityOptions, (newValue, oldValue) => {
+watch(citiesOptions, (newValue, oldValue) => {
   if (oldValue.length) {
     city.value = null
   }
@@ -158,7 +158,7 @@ onMounted(() => {
           v-if="errors && errors.user && errors.user.country"
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countryOptions"
+          :options="countriesOptions"
           :errors="errors.user.country"
           id="id_country"
           name="country"
@@ -167,7 +167,7 @@ onMounted(() => {
           v-else
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countryOptions"
+          :options="countriesOptions"
           id="id_country"
           name="country"
         />
@@ -177,7 +177,7 @@ onMounted(() => {
           v-if="errors && errors.user && errors.user.city"
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="cityOptions"
+          :options="citiesOptions"
           :errors="errors.user.city"
           id="id_city"
           name="city"
@@ -186,7 +186,7 @@ onMounted(() => {
           v-else
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="cityOptions"
+          :options="citiesOptions"
           id="id_city"
           name="city"
         />
@@ -217,7 +217,7 @@ onMounted(() => {
           v-if="errors && errors.roles"
           v-model="roles"
           :label="$t('auth.profile.roles')"
-          :options="roleTypeOptions"
+          :options="roleTypesOptions"
           :errors="errors.roles"
           id="id_roles"
           name="roles"
@@ -226,7 +226,7 @@ onMounted(() => {
           v-else
           v-model="roles"
           :label="$t('auth.profile.roles')"
-          :options="roleTypeOptions"
+          :options="roleTypesOptions"
           id="id_roles"
           name="roles"
         />
@@ -253,7 +253,7 @@ onMounted(() => {
           v-if="errors && errors.countries"
           v-model="countries"
           :label="$t('auth.profile.countries')"
-          :options="countryOptions"
+          :options="countriesOptions"
           :errors="errors.countries"
           id="id_countries"
           name="countries"
@@ -262,7 +262,7 @@ onMounted(() => {
           v-else
           v-model="countries"
           :label="$t('auth.profile.countries')"
-          :options="countryOptions"
+          :options="countriesOptions"
           id="id_countries"
           name="countries"
         />

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ref, watch } from 'vue'
 
 export function useOptionsOfCities(country) {
-  const cityOptions = ref([])
+  const citiesOptions = ref([])
 
   const getAndSetCities = async (countryValue) => {
     try {
@@ -11,9 +11,9 @@ export function useOptionsOfCities(country) {
           country: countryValue
         }
       })
-      cityOptions.value = []
+      citiesOptions.value = []
       response.data.forEach((element) => {
-        cityOptions.value.push({
+        citiesOptions.value.push({
           'value': element.code,
           'text': `${ element.name_local } (${ element.name })`
         })
@@ -27,9 +27,9 @@ export function useOptionsOfCities(country) {
     if (newValue) {
       getAndSetCities(newValue)
     } else {
-      cityOptions.value = []
+      citiesOptions.value = []
     }
   })
 
-  return { cityOptions }
+  return { citiesOptions }
 }

@@ -16,8 +16,8 @@ const city = ref(null)
 const phone = ref('')
 const dateOfWedding = ref(null)
 
-const { countryOptions } = useOptionsOfCountries()
-const { cityOptions } = useOptionsOfCities(country)
+const { countriesOptions } = useOptionsOfCountries()
+const { citiesOptions } = useOptionsOfCities(country)
 
 const errors = ref(null)
 
@@ -74,7 +74,7 @@ const updateProfile = async () => {
   }
 }
 
-watch(cityOptions, (newValue, oldValue) => {
+watch(citiesOptions, (newValue, oldValue) => {
   if (oldValue.length) {
     city.value = null
   }
@@ -117,7 +117,7 @@ onMounted(() => {
           v-if="errors && errors.user && errors.user.country"
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countryOptions"
+          :options="countriesOptions"
           :errors="errors.user.country"
           id="id_country"
           name="country"
@@ -126,7 +126,7 @@ onMounted(() => {
           v-else
           v-model="country"
           :label="$t('auth.profile.country')"
-          :options="countryOptions"
+          :options="countriesOptions"
           id="id_country"
           name="country"
         />
@@ -136,7 +136,7 @@ onMounted(() => {
           v-if="errors && errors.user && errors.user.city"
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="cityOptions"
+          :options="citiesOptions"
           :errors="errors.user.city"
           id="id_city"
           name="city"
@@ -145,7 +145,7 @@ onMounted(() => {
           v-else
           v-model="city"
           :label="$t('auth.profile.city')"
-          :options="cityOptions"
+          :options="citiesOptions"
           id="id_city"
           name="city"
         />
