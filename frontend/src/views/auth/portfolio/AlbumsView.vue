@@ -225,38 +225,38 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.title"
                     v-model="albumTitle"
-                    :label="$t('auth.portfolio.title')"
-                    :errors="errors.title"
                     id="id_title"
                     name="title"
                     type="text"
                     maxlength="128"
+                    :label="$t('auth.portfolio.title')"
+                    :errors="errors.title"
                   />
                   <BaseInput
                     v-else
                     v-model="albumTitle"
-                    :label="$t('auth.portfolio.title')"
                     id="id_title"
                     name="title"
                     type="text"
                     maxlength="128"
+                    :label="$t('auth.portfolio.title')"
                   />
                 </div>
                 <div class="col-md-12">
                   <BaseTextarea
                     v-if="errors && errors.description"
                     v-model="albumDescription"
-                    :label="$t('auth.portfolio.description')"
-                    :errors="errors.description"
                     id="id_description"
                     name="description"
+                    :label="$t('auth.portfolio.description')"
+                    :errors="errors.description"
                   />
                   <BaseTextarea
                     v-else
                     v-model="albumDescription"
-                    :label="$t('auth.portfolio.description')"
                     id="id_description"
                     name="description"
+                    :label="$t('auth.portfolio.description')"
                   />
                 </div>
               </form>

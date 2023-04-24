@@ -96,116 +96,116 @@ onMounted(() => {
           <BaseInput
             v-if="errors && errors.username"
             v-model="username"
-            :label="$t('auth.registration.username')"
-            :errors="errors.username"
             id="id_username"
             name="username"
             type="text"
+            :label="$t('auth.registration.username')"
+            :errors="errors.username"
           />
           <BaseInput
             v-else
             v-model="username"
-            :label="$t('auth.registration.username')"
             id="id_username"
             name="username"
             type="text"
+            :label="$t('auth.registration.username')"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
             v-if="errors && errors.email"
             v-model="email"
-            :label="$t('auth.registration.email')"
-            :errors="errors.email"
             id="id_email"
             name="email"
             type="email"
             maxlength="254"
+            :label="$t('auth.registration.email')"
+            :errors="errors.email"
           />
           <BaseInput
             v-else
             v-model="email"
-            :label="$t('auth.registration.email')"
             id="id_email"
             name="email"
             type="email"
             maxlength="254"
+            :label="$t('auth.registration.email')"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
             v-if="errors && errors.password"
             v-model="password"
-            :label="$t('auth.password.password')"
-            :errors="errors.password"
             id="id_password"
             name="password"
             type="password"
+            :label="$t('auth.password.password')"
+            :errors="errors.password"
           />
           <BaseInput
             v-else
             v-model="password"
-            :label="$t('auth.password.password')"
             id="id_password"
             name="password"
             type="password"
+            :label="$t('auth.password.password')"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
             v-if="errors && errors.password2"
             v-model="password2"
-            :label="$t('auth.registration.password2')"
-            :errors="errors.password2"
             id="id_password2"
             name="password2"
             type="password"
+            :label="$t('auth.registration.password2')"
+            :errors="errors.password2"
           />
           <BaseInput
             v-else
             v-model="password2"
-            :label="$t('auth.registration.password2')"
             id="id_password2"
             name="password2"
             type="password"
+            :label="$t('auth.registration.password2')"
           />
         </div>
         <div class="col-md-12">
           <BaseSelect
             v-if="errors && errors.user_type"
             v-model="userType"
-            :label="$t('auth.registration.user_type')"
             :options="userTypeOptions"
-            :errors="errors.user_type"
             id="id_user_type"
             name="user_type"
+            :label="$t('auth.registration.user_type')"
+            :errors="errors.user_type"
           />
           <BaseSelect
             v-else
             v-model="userType"
-            :label="$t('auth.registration.user_type')"
             :options="userTypeOptions"
             id="id_user_type"
             name="user_type"
+            :label="$t('auth.registration.user_type')"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
             v-if="errors && errors.name"
             v-model="name"
-            :label="$t('auth.registration.name')"
-            :errors="errors.name"
             id="id_name"
             name="name"
             type="text"
+            :label="$t('auth.registration.name')"
+            :errors="errors.name"
           />
           <BaseInput
             v-else
             v-model="name"
-            :label="$t('auth.registration.name')"
             id="id_name"
             name="name"
             type="text"
+            :label="$t('auth.registration.name')"
           />
         </div>
       </div>

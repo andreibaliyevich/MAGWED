@@ -297,40 +297,40 @@ onMounted(() => {
                   <BaseSelect
                     v-if="errors && errors.link_type"
                     v-model="socialLinkType"
-                    :label="$t('auth.sociallinks.type_of_link')"
                     :options="linkTypeOptions"
-                    :errors="errors.link_type"
                     id="id_link_type"
                     name="link_type"
+                    :label="$t('auth.sociallinks.type_of_link')"
+                    :errors="errors.link_type"
                   />
                   <BaseSelect
                     v-else
                     v-model="socialLinkType"
-                    :label="$t('auth.sociallinks.type_of_link')"
                     :options="linkTypeOptions"
                     id="id_link_type"
                     name="link_type"
+                    :label="$t('auth.sociallinks.type_of_link')"
                   />
                 </div>
                 <div class="mb-3">
                   <BaseInput
                     v-if="errors && errors.link_url"
                     v-model="socialLinkUrl"
-                    :label="$t('auth.sociallinks.url_of_link')"
-                    :errors="errors.link_url"
                     id="id_link_url"
                     name="link_url"
                     type="url"
                     maxlength="200"
+                    :label="$t('auth.sociallinks.url_of_link')"
+                    :errors="errors.link_url"
                   />
                   <BaseInput
                     v-else
                     v-model="socialLinkUrl"
-                    :label="$t('auth.sociallinks.url_of_link')"
                     id="id_link_url"
                     name="link_url"
                     type="url"
                     maxlength="200"
+                    :label="$t('auth.sociallinks.url_of_link')"
                   />
                 </div>
               </form>
