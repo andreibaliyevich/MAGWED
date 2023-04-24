@@ -97,97 +97,97 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.user && errors.user.name"
           v-model="name"
-          :label="$t('auth.profile.name')"
-          :errors="errors.user.name"
           id="id_name"
           name="name"
           type="text"
+          :label="$t('auth.profile.name')"
+          :errors="errors.user.name"
         />
         <BaseInput
           v-else
           v-model="name"
-          :label="$t('auth.profile.name')"
           id="id_name"
           name="name"
           type="text"
+          :label="$t('auth.profile.name')"
         />
       </div>
       <div class="col-md-6">
         <BaseSelect
           v-if="errors && errors.user && errors.user.country"
           v-model="country"
-          :label="$t('auth.profile.country')"
           :options="countriesOptions"
-          :errors="errors.user.country"
           id="id_country"
           name="country"
+          :label="$t('auth.profile.country')"
+          :errors="errors.user.country"
         />
         <BaseSelect
           v-else
           v-model="country"
-          :label="$t('auth.profile.country')"
           :options="countriesOptions"
           id="id_country"
           name="country"
+          :label="$t('auth.profile.country')"
         />
       </div>
       <div class="col-md-6">
         <BaseSelect
           v-if="errors && errors.user && errors.user.city"
           v-model="city"
-          :label="$t('auth.profile.city')"
           :options="citiesOptions"
-          :errors="errors.user.city"
           id="id_city"
           name="city"
+          :label="$t('auth.profile.city')"
+          :errors="errors.user.city"
         />
         <BaseSelect
           v-else
           v-model="city"
-          :label="$t('auth.profile.city')"
           :options="citiesOptions"
           id="id_city"
           name="city"
+          :label="$t('auth.profile.city')"
         />
       </div>
       <div class="col-md-12">
         <BaseInput
           v-if="errors && errors.user && errors.user.phone"
           v-model="phone"
-          :label="$t('auth.profile.phone')"
-          :errors="errors.user.phone"
           id="id_phone"
           name="phone"
           type="tel"
           maxlength="21"
+          :label="$t('auth.profile.phone')"
+          :errors="errors.user.phone"
         />
         <BaseInput
           v-else
           v-model="phone"
-          :label="$t('auth.profile.phone')"
           id="id_phone"
           name="phone"
           type="tel"
           maxlength="21"
+          :label="$t('auth.profile.phone')"
         />
       </div>
       <div class="col-md-12">
         <BaseInput
           v-if="errors && errors.date_of_wedding"
           v-model="dateOfWedding"
-          :label="$t('auth.profile.date_of_wedding')"
-          :errors="errors.date_of_wedding"
           id="id_date_of_wedding"
           name="date_of_wedding"
           type="date"
+          :label="$t('auth.profile.date_of_wedding')"
+          :errors="errors.date_of_wedding"
         />
         <BaseInput
           v-else
           v-model="dateOfWedding"
-          :label="$t('auth.profile.date_of_wedding')"
           id="id_date_of_wedding"
           name="date_of_wedding"
           type="date"
+          :label="$t('auth.profile.date_of_wedding')"
         />
       </div>
       <div class="col-12">

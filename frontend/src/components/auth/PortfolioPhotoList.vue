@@ -221,160 +221,160 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.title"
                     v-model="photoTitle"
-                    :label="$t('auth.portfolio.title')"
-                    :errors="errors.title"
                     id="id_title"
                     name="title"
                     type="text"
                     maxlength="128"
+                    :label="$t('auth.portfolio.title')"
+                    :errors="errors.title"
                   />
                   <BaseInput
                     v-else
                     v-model="photoTitle"
-                    :label="$t('auth.portfolio.title')"
                     id="id_title"
                     name="title"
                     type="text"
                     maxlength="128"
+                    :label="$t('auth.portfolio.title')"
                   />
                 </div>
                 <div class="col-md-12">
                   <BaseTextarea
                     v-if="errors && errors.description"
                     v-model="photoDescription"
-                    :label="$t('auth.portfolio.description')"
-                    :errors="errors.description"
                     id="id_description"
                     name="description"
+                    :label="$t('auth.portfolio.description')"
+                    :errors="errors.description"
                   />
                   <BaseTextarea
                     v-else
                     v-model="photoDescription"
-                    :label="$t('auth.portfolio.description')"
                     id="id_description"
                     name="description"
+                    :label="$t('auth.portfolio.description')"
                   />
                 </div>
                 <div class="col-md-12">
                   <ListInput
                     v-if="errors && errors.tags"
                     v-model="photoTags"
-                    :label="$t('auth.portfolio.tags')"
-                    :errors="errors.tags"
                     id="id_tags"
                     name="tags"
+                    :label="$t('auth.portfolio.tags')"
+                    :errors="errors.tags"
                   />
                   <ListInput
                     v-else
                     v-model="photoTags"
-                    :label="$t('auth.portfolio.tags')"
                     id="id_tags"
                     name="tags"
+                    :label="$t('auth.portfolio.tags')"
                   />
                 </div>
                 <div class="col-md-12">
                   <BaseInput
                     v-if="errors && errors.device"
                     v-model="photoDevice"
-                    :label="$t('auth.portfolio.device')"
-                    :errors="errors.device"
                     id="id_device"
                     name="device"
                     type="text"
                     maxlength="128"
+                    :label="$t('auth.portfolio.device')"
+                    :errors="errors.device"
                   />
                   <BaseInput
                     v-else
                     v-model="photoDevice"
-                    :label="$t('auth.portfolio.device')"
                     id="id_device"
                     name="device"
                     type="text"
                     maxlength="128"
+                    :label="$t('auth.portfolio.device')"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
                     v-if="errors && errors.f_number"
                     v-model="photoFNumber"
-                    :label="$t('auth.portfolio.f_number')"
-                    :errors="errors.f_number"
                     id="id_f_number"
                     name="f_number"
                     type="number"
                     step="0.01"
+                    :label="$t('auth.portfolio.f_number')"
+                    :errors="errors.f_number"
                   />
                   <BaseInput
                     v-else
                     v-model="photoFNumber"
-                    :label="$t('auth.portfolio.f_number')"
                     id="id_f_number"
                     name="f_number"
                     type="number"
                     step="0.01"
+                    :label="$t('auth.portfolio.f_number')"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
                     v-if="errors && errors.exposure_time"
                     v-model="photoExposureTime"
-                    :label="$t('auth.portfolio.exposure_time')"
-                    :errors="errors.exposure_time"
                     id="id_exposure_time"
                     name="exposure_time"
                     type="text"
                     maxlength="32"
+                    :label="$t('auth.portfolio.exposure_time')"
+                    :errors="errors.exposure_time"
                   />
                   <BaseInput
                     v-else
                     v-model="photoExposureTime"
-                    :label="$t('auth.portfolio.exposure_time')"
                     id="id_exposure_time"
                     name="exposure_time"
                     type="text"
                     maxlength="32"
+                    :label="$t('auth.portfolio.exposure_time')"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
                     v-if="errors && errors.focal_length"
                     v-model="photoFocalLength"
-                    :label="$t('auth.portfolio.focal_length')"
-                    :errors="errors.focal_length"
                     id="id_focal_length"
                     name="focal_length"
                     type="number"
                     step="0.01"
+                    :label="$t('auth.portfolio.focal_length')"
+                    :errors="errors.focal_length"
                   />
                   <BaseInput
                     v-else
                     v-model="photoFocalLength"
-                    :label="$t('auth.portfolio.focal_length')"
                     id="id_focal_length"
                     name="focal_length"
                     type="number"
                     step="0.01"
+                    :label="$t('auth.portfolio.focal_length')"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
                     v-if="errors && errors.photographic_sensitivity"
                     v-model="photoPhotographicSensitivity"
-                    :label="$t('auth.portfolio.photographic_sensitivity')"
-                    :errors="errors.photographic_sensitivity"
                     id="id_photographic_sensitivity"
                     name="photographic_sensitivity"
                     type="number"
                     min="0"
+                    :label="$t('auth.portfolio.photographic_sensitivity')"
+                    :errors="errors.photographic_sensitivity"
                   />
                   <BaseInput
                     v-else
                     v-model="photoPhotographicSensitivity"
-                    :label="$t('auth.portfolio.photographic_sensitivity')"
                     id="id_photographic_sensitivity"
                     name="photographic_sensitivity"
                     type="number"
                     min="0"
+                    :label="$t('auth.portfolio.photographic_sensitivity')"
                   />
                 </div>
               </form>
