@@ -7,12 +7,12 @@ export default {
       type: [String, Number],
       default: ''
     },
-    id: {
-      type: String,
-      required: true
-    },
     options: {
       type: Array,
+      required: true
+    },
+    id: {
+      type: String,
       required: true
     },
     label: {
