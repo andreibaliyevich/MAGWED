@@ -192,8 +192,8 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                class="modal-title"
                 id="updatePhotoModalLabel"
+                class="modal-title"
               >
                 {{ $t('auth.portfolio.updating_photo') }}
               </h5>
