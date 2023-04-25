@@ -96,18 +96,18 @@ onMounted(() => {
           <BaseInput
             v-if="errors && errors.username"
             v-model="username"
+            type="text"
             id="id_username"
             name="username"
-            type="text"
             :label="$t('auth.registration.username')"
             :errors="errors.username"
           />
           <BaseInput
             v-else
             v-model="username"
+            type="text"
             id="id_username"
             name="username"
-            type="text"
             :label="$t('auth.registration.username')"
           />
         </div>
@@ -115,20 +115,20 @@ onMounted(() => {
           <BaseInput
             v-if="errors && errors.email"
             v-model="email"
-            id="id_email"
-            name="email"
             type="email"
             maxlength="254"
+            id="id_email"
+            name="email"
             :label="$t('auth.registration.email')"
             :errors="errors.email"
           />
           <BaseInput
             v-else
             v-model="email"
-            id="id_email"
-            name="email"
             type="email"
             maxlength="254"
+            id="id_email"
+            name="email"
             :label="$t('auth.registration.email')"
           />
         </div>
@@ -136,18 +136,18 @@ onMounted(() => {
           <BaseInput
             v-if="errors && errors.password"
             v-model="password"
+            type="password"
             id="id_password"
             name="password"
-            type="password"
             :label="$t('auth.password.password')"
             :errors="errors.password"
           />
           <BaseInput
             v-else
             v-model="password"
+            type="password"
             id="id_password"
             name="password"
-            type="password"
             :label="$t('auth.password.password')"
           />
         </div>
@@ -155,18 +155,18 @@ onMounted(() => {
           <BaseInput
             v-if="errors && errors.password2"
             v-model="password2"
+            type="password"
             id="id_password2"
             name="password2"
-            type="password"
             :label="$t('auth.registration.password2')"
             :errors="errors.password2"
           />
           <BaseInput
             v-else
             v-model="password2"
+            type="password"
             id="id_password2"
             name="password2"
-            type="password"
             :label="$t('auth.registration.password2')"
           />
         </div>
@@ -193,18 +193,18 @@ onMounted(() => {
           <BaseInput
             v-if="errors && errors.name"
             v-model="name"
+            type="text"
             id="id_name"
             name="name"
-            type="text"
             :label="$t('auth.registration.name')"
             :errors="errors.name"
           />
           <BaseInput
             v-else
             v-model="name"
+            type="text"
             id="id_name"
             name="name"
-            type="text"
             :label="$t('auth.registration.name')"
           />
         </div>

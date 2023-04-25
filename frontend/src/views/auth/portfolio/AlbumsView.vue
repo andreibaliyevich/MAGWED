@@ -179,8 +179,8 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                class="modal-title"
                 id="createAlbumModalLabel"
+                class="modal-title"
               >
                 {{ $t('auth.portfolio.creating_album') }}
               </h5>
@@ -225,20 +225,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.title"
                     v-model="albumTitle"
-                    id="id_title"
-                    name="title"
                     type="text"
                     maxlength="128"
+                    id="id_title"
+                    name="title"
                     :label="$t('auth.portfolio.title')"
                     :errors="errors.title"
                   />
                   <BaseInput
                     v-else
                     v-model="albumTitle"
-                    id="id_title"
-                    name="title"
                     type="text"
                     maxlength="128"
+                    id="id_title"
+                    name="title"
                     :label="$t('auth.portfolio.title')"
                   />
                 </div>

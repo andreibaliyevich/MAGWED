@@ -68,18 +68,18 @@ const changePassword = async () => {
           <BaseInput
             v-if="errors && errors.current_password"
             v-model="currentPassword"
+            type="password"
             id="id_current_password"
             name="current_password"
-            type="password"
             :label="$t('auth.passwordchange.current_password')"
             :errors="errors.current_password"
           />
           <BaseInput
             v-else
             v-model="currentPassword"
+            type="password"
             id="id_current_password"
             name="current_password"
-            type="password"
             :label="$t('auth.passwordchange.current_password')"
           />
         </div>
@@ -87,18 +87,18 @@ const changePassword = async () => {
           <BaseInput
             v-if="errors && errors.new_password"
             v-model="newPassword"
+            type="password"
             id="id_new_password"
             name="new_password"
-            type="password"
             :label="$t('auth.password.new_password')"
             :errors="errors.new_password"
           />
           <BaseInput
             v-else
             v-model="newPassword"
+            type="password"
             id="id_new_password"
             name="new_password"
-            type="password"
             :label="$t('auth.password.new_password')"
           />
         </div>
@@ -112,18 +112,18 @@ const changePassword = async () => {
           <BaseInput
             v-if="errors && errors.new_password2"
             v-model="newPassword2"
+            type="password"
             id="id_new_password2"
             name="new_password2"
-            type="password"
             :label="$t('auth.password.new_password2')"
             :errors="errors.new_password2"
           />
           <BaseInput
             v-else
             v-model="newPassword2"
+            type="password"
             id="id_new_password2"
             name="new_password2"
-            type="password"
             :label="$t('auth.password.new_password2')"
           />
         </div>

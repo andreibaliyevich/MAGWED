@@ -126,8 +126,8 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                class="modal-title"
                 id="uploadPhotosModalLabel"
+                class="modal-title"
               >
                 {{ $t('auth.portfolio.uploading_photos') }}
               </h5>
@@ -148,8 +148,8 @@ onMounted(() => {
             <div class="modal-footer">
               <button
                 @click="photosUploading = false"
-                class="btn btn-danger"
                 type="button"
+                class="btn btn-danger"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.cancel') }}

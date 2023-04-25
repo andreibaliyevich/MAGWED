@@ -63,20 +63,20 @@ const resetPassword = async () => {
       <BaseInput
         v-if="errors && errors.email"
         v-model="email"
-        id="id_email"
-        name="email"
         type="email"
         maxlength="254"
+        id="id_email"
+        name="email"
         :label="$t('auth.passwordreset.email')"
         :errors="errors.email"
       />
       <BaseInput
         v-else
         v-model="email"
-        id="id_email"
-        name="email"
         type="email"
         maxlength="254"
+        id="id_email"
+        name="email"
         :label="$t('auth.passwordreset.email')"
       />
 

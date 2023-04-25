@@ -75,18 +75,18 @@ const login = async () => {
           <BaseInput
             v-if="errors && errors.username"
             v-model="username"
+            type="text"
             id="id_username"
             name="username"
-            type="text"
             :label="$t('auth.login.username_email')"
             :errors="errors.username"
           />
           <BaseInput
             v-else
             v-model="username"
+            type="text"
             id="id_username"
             name="username"
-            type="text"
             :label="$t('auth.login.username_email')"
           />
         </div>
@@ -94,18 +94,18 @@ const login = async () => {
           <BaseInput
             v-if="errors && errors.password"
             v-model="password"
+            type="password"
             id="id_password"
             name="password"
-            type="password"
             :label="$t('auth.password.password')"
             :errors="errors.password"
           />
           <BaseInput
             v-else
             v-model="password"
+            type="password"
             id="id_password"
             name="password"
-            type="password"
             :label="$t('auth.password.password')"
           />
         </div>

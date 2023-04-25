@@ -276,8 +276,8 @@ onMounted(() => {
               </h5>
               <h5
                 v-else
-                class="modal-title"
                 id="organizerLinkModalLabel"
+                class="modal-title"
               >
                 {{ $t('auth.sociallinks.adding_a_link') }}
               </h5>
@@ -316,20 +316,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.link_url"
                     v-model="socialLinkUrl"
-                    id="id_link_url"
-                    name="link_url"
                     type="url"
                     maxlength="200"
+                    id="id_link_url"
+                    name="link_url"
                     :label="$t('auth.sociallinks.url_of_link')"
                     :errors="errors.link_url"
                   />
                   <BaseInput
                     v-else
                     v-model="socialLinkUrl"
-                    id="id_link_url"
-                    name="link_url"
                     type="url"
                     maxlength="200"
+                    id="id_link_url"
+                    name="link_url"
                     :label="$t('auth.sociallinks.url_of_link')"
                   />
                 </div>
@@ -337,8 +337,8 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                class="btn btn-light"
                 type="button"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.cancel') }}
@@ -346,8 +346,8 @@ onMounted(() => {
               <SubmitButton
                 v-if="socialLinkUuid"
                 :loadingStatus="linksUpdating"
-                buttonClass="btn btn-brand"
                 form="socialLinkForm"
+                buttonClass="btn btn-brand"
                 :disabled="!socialLinkType || !socialLinkUrl"
               >
                 {{ $t('btn.update') }}
@@ -355,8 +355,8 @@ onMounted(() => {
               <SubmitButton
                 v-else
                 :loadingStatus="linksUpdating"
-                buttonClass="btn btn-brand"
                 form="socialLinkForm"
+                buttonClass="btn btn-brand"
                 :disabled="!socialLinkType || !socialLinkUrl"
               >
                 {{ $t('btn.add') }}

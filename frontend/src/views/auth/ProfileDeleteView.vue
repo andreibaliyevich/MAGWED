@@ -51,18 +51,18 @@ const deletingProfile = async () => {
           <BaseInput
             v-if="errors && errors.current_password"
             v-model="currentPassword"
+            type="password"
             id="id_current_password"
             name="current_password"
-            type="password"
             :label="$t('auth.profile_delete.password_confirmation')"
             :errors="errors.current_password"
           />
           <BaseInput
             v-else
             v-model="currentPassword"
+            type="password"
             id="id_current_password"
             name="current_password"
-            type="password"
             :label="$t('auth.profile_delete.password_confirmation')"
           />
         </div>

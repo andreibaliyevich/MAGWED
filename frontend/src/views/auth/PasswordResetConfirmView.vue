@@ -104,18 +104,18 @@ const confirmPasswordReset = async () => {
         <BaseInput
           v-if="errors && errors.new_password"
           v-model="newPassword"
+          type="password"
           id="id_new_password"
           name="new_password"
-          type="password"
           :label="$t('auth.password.new_password')"
           :errors="errors.new_password"
         />
         <BaseInput
           v-else
           v-model="newPassword"
+          type="password"
           id="id_new_password"
           name="new_password"
-          type="password"
           :label="$t('auth.password.new_password')"
         />
       </div>
@@ -131,18 +131,18 @@ const confirmPasswordReset = async () => {
         <BaseInput
           v-if="errors && errors.new_password2"
           v-model="newPassword2"
+          type="password"
           id="id_new_password2"
           name="new_password2"
-          type="password"
           :label="$t('auth.password.new_password2')"
           :errors="errors.new_password2"
         />
         <BaseInput
           v-else
           v-model="newPassword2"
+          type="password"
           id="id_new_password2"
           name="new_password2"
-          type="password"
           :label="$t('auth.password.new_password2')"
         />
       </div>
