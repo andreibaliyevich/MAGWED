@@ -1,11 +1,12 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-</script>
-
 <script>
+import { RouterLink } from 'vue-router'
+
 export default {
   name: 'LocaleRouterLink',
   inheritAttrs: false,
+  components: {
+    RouterLink
+  },
   props: {
     routeName: {
       type: String,
