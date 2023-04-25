@@ -23,14 +23,14 @@ export default {
     <input
       ref="fileInput"
       @change="changeInput"
+      type="file"
       v-bind="$attrs"
       class="visually-hidden"
-      type="file"
     >
     <button
       @click="$refs.fileInput.click()"
-      :class="buttonClass"
       type="button"
+      :class="buttonClass"
     >
       <slot></slot>
     </button>

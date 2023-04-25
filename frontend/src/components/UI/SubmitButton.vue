@@ -19,8 +19,8 @@ export default {
   <div class="submit-button">
     <button
       v-if="loadingStatus"
+      type="button"
       :class="buttonClass"
-      type="submit"
       disabled
     >
       <span
@@ -32,9 +32,9 @@ export default {
     </button>
     <button
       v-else
-      :class="buttonClass"
-      v-bind="$attrs"
       type="submit"
+      v-bind="$attrs"
+      :class="buttonClass"
     >
       <slot></slot>
     </button>

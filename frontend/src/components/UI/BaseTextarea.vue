@@ -29,13 +29,13 @@ export default {
       <textarea
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        :id="id"
         :placeholder="label"
+        :id="id"
         v-bind="$attrs"
         :class="['form-control', { 'is-invalid': errors.length }]"
+        style="height: 100px"
         :aria-invalid="errors.length ? true : null"
         :aria-describedby="errors.length ? `${id}-errors` : null"
-        style="height: 100px"
       ></textarea>
       <label
         v-if="label"

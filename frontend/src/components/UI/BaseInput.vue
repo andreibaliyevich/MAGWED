@@ -29,8 +29,8 @@ export default {
       <input
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        :id="id"
         :placeholder="label"
+        :id="id"
         v-bind="$attrs"
         :class="['form-control', { 'is-invalid': errors.length }]"
         :aria-invalid="errors.length ? true : null"

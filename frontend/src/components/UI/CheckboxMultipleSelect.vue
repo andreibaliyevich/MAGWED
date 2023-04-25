@@ -51,9 +51,9 @@ export default {
       :id="id"
       v-bind="$attrs"
       class="overflow-auto p-1"
+      style="max-height: 135px"
       :aria-invalid="errors.length ? true : null"
       :aria-describedby="errors.length ? `${id}-errors` : null"
-      style="max-height: 135px"
     >
       <div
         v-for="option in options"
@@ -64,9 +64,9 @@ export default {
           :value="option.value"
           :checked="modelValue.includes(option.value)"
           @change="updateModelValue(option.value)"
+          type="checkbox"
           :id="option.value"
           class="form-check-input"
-          type="checkbox"
         >
         <label
           class="form-check-label"

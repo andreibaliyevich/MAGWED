@@ -15,8 +15,8 @@ export default {
   <div class="action-processing-indicator">
     <div
       v-if="actionInfo"
-      class="d-flex align-items-center p-5"
       v-bind="$attrs"
+      class="d-flex align-items-center p-5"
     >
       <strong>{{ actionInfo }}</strong>
       <div
@@ -27,8 +27,8 @@ export default {
     </div>
     <div
       v-else
-      class="d-flex justify-content-center p-5"
       v-bind="$attrs"
+      class="d-flex justify-content-center p-5"
     >
       <div
         class="spinner-grow text-dark"

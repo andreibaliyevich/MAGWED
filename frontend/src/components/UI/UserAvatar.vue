@@ -27,16 +27,16 @@ export default {
       :src="src"
       :width="width"
       :height="height"
-      :class="imgClass"
       v-bind="$attrs"
+      :class="imgClass"
     >
     <img
       v-else
       src="/user-avatar.jpg"
       :width="width"
       :height="height"
-      :class="imgClass"
       v-bind="$attrs"
+      :class="imgClass"
     >
   </div>
 </template>
