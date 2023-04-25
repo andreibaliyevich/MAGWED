@@ -138,18 +138,18 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.user && errors.user.name"
           v-model="name"
+          type="text"
           id="id_name"
           name="name"
-          type="text"
           :label="$t('auth.profile.name')"
           :errors="errors.user.name"
         />
         <BaseInput
           v-else
           v-model="name"
+          type="text"
           id="id_name"
           name="name"
-          type="text"
           :label="$t('auth.profile.name')"
         />
       </div>
@@ -195,20 +195,20 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.user && errors.user.phone"
           v-model="phone"
-          id="id_phone"
-          name="phone"
           type="tel"
           maxlength="21"
+          id="id_phone"
+          name="phone"
           :label="$t('auth.profile.phone')"
           :errors="errors.user.phone"
         />
         <BaseInput
           v-else
           v-model="phone"
-          id="id_phone"
-          name="phone"
           type="tel"
           maxlength="21"
+          id="id_phone"
+          name="phone"
           :label="$t('auth.profile.phone')"
         />
       </div>
@@ -309,24 +309,24 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.cost_work"
           v-model="costWork"
-          id="id_cost_work"
-          name="cost_work"
           type="number"
           min="0.00"
           step="0.01"
           required=""
+          id="id_cost_work"
+          name="cost_work"
           :label="$t('auth.profile.cost_work')"
           :errors="errors.cost_work"
         />
         <BaseInput
           v-else
           v-model="costWork"
-          id="id_cost_work"
-          name="cost_work"
           type="number"
           min="0.00"
           step="0.01"
           required=""
+          id="id_cost_work"
+          name="cost_work"
           :label="$t('auth.profile.cost_work')"
         />
         <div class="form-text">{{ $t('form_help.cost_work') }}</div>
@@ -335,22 +335,22 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.number_hours"
           v-model="numberHours"
-          id="id_number_hours"
-          name="number_hours"
           type="number"
           min="0"
           required=""
+          id="id_number_hours"
+          name="number_hours"
           :label="$t('auth.profile.number_hours')"
           :errors="errors.number_hours"
         />
         <BaseInput
           v-else
           v-model="numberHours"
-          id="id_number_hours"
-          name="number_hours"
           type="number"
           min="0"
           required=""
+          id="id_number_hours"
+          name="number_hours"
           :label="$t('auth.profile.number_hours')"
         />
       </div>
@@ -358,22 +358,22 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.profile_url"
           v-model="profileURL"
-          id="id_profile_url"
-          name="profile_url"
           type="text"
           maxlength="64"
           required=""
+          id="id_profile_url"
+          name="profile_url"
           :label="$t('auth.profile.profile_url')"
           :errors="errors.profile_url"
         />
         <BaseInput
           v-else
           v-model="profileURL"
-          id="id_profile_url"
-          name="profile_url"
           type="text"
           maxlength="64"
           required=""
+          id="id_profile_url"
+          name="profile_url"
           :label="$t('auth.profile.profile_url')"
         />
       </div>

@@ -92,18 +92,18 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.name"
           v-model="name"
+          type="text"
           id="id_name"
           name="name"
-          type="text"
           :label="$t('auth.profile.name')"
           :errors="errors.name"
         />
         <BaseInput
           v-else
           v-model="name"
+          type="text"
           id="id_name"
           name="name"
-          type="text"
           :label="$t('auth.profile.name')"
         />
       </div>
@@ -149,20 +149,20 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.phone"
           v-model="phone"
-          id="id_phone"
-          name="phone"
           type="tel"
           maxlength="21"
+          id="id_phone"
+          name="phone"
           :label="$t('auth.profile.phone')"
           :errors="errors.phone"
         />
         <BaseInput
           v-else
           v-model="phone"
-          id="id_phone"
-          name="phone"
           type="tel"
           maxlength="21"
+          id="id_phone"
+          name="phone"
           :label="$t('auth.profile.phone')"
         />
       </div>

@@ -97,18 +97,18 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.user && errors.user.name"
           v-model="name"
+          type="text"
           id="id_name"
           name="name"
-          type="text"
           :label="$t('auth.profile.name')"
           :errors="errors.user.name"
         />
         <BaseInput
           v-else
           v-model="name"
+          type="text"
           id="id_name"
           name="name"
-          type="text"
           :label="$t('auth.profile.name')"
         />
       </div>
@@ -154,20 +154,20 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.user && errors.user.phone"
           v-model="phone"
-          id="id_phone"
-          name="phone"
           type="tel"
           maxlength="21"
+          id="id_phone"
+          name="phone"
           :label="$t('auth.profile.phone')"
           :errors="errors.user.phone"
         />
         <BaseInput
           v-else
           v-model="phone"
-          id="id_phone"
-          name="phone"
           type="tel"
           maxlength="21"
+          id="id_phone"
+          name="phone"
           :label="$t('auth.profile.phone')"
         />
       </div>
@@ -175,18 +175,18 @@ onMounted(() => {
         <BaseInput
           v-if="errors && errors.date_of_wedding"
           v-model="dateOfWedding"
+          type="date"
           id="id_date_of_wedding"
           name="date_of_wedding"
-          type="date"
           :label="$t('auth.profile.date_of_wedding')"
           :errors="errors.date_of_wedding"
         />
         <BaseInput
           v-else
           v-model="dateOfWedding"
+          type="date"
           id="id_date_of_wedding"
           name="date_of_wedding"
-          type="date"
           :label="$t('auth.profile.date_of_wedding')"
         />
       </div>

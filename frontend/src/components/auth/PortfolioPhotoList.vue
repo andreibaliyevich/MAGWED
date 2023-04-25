@@ -221,20 +221,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.title"
                     v-model="photoTitle"
-                    id="id_title"
-                    name="title"
                     type="text"
                     maxlength="128"
+                    id="id_title"
+                    name="title"
                     :label="$t('auth.portfolio.title')"
                     :errors="errors.title"
                   />
                   <BaseInput
                     v-else
                     v-model="photoTitle"
-                    id="id_title"
-                    name="title"
                     type="text"
                     maxlength="128"
+                    id="id_title"
+                    name="title"
                     :label="$t('auth.portfolio.title')"
                   />
                 </div>
@@ -276,20 +276,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.device"
                     v-model="photoDevice"
-                    id="id_device"
-                    name="device"
                     type="text"
                     maxlength="128"
+                    id="id_device"
+                    name="device"
                     :label="$t('auth.portfolio.device')"
                     :errors="errors.device"
                   />
                   <BaseInput
                     v-else
                     v-model="photoDevice"
-                    id="id_device"
-                    name="device"
                     type="text"
                     maxlength="128"
+                    id="id_device"
+                    name="device"
                     :label="$t('auth.portfolio.device')"
                   />
                 </div>
@@ -297,20 +297,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.f_number"
                     v-model="photoFNumber"
-                    id="id_f_number"
-                    name="f_number"
                     type="number"
                     step="0.01"
+                    id="id_f_number"
+                    name="f_number"
                     :label="$t('auth.portfolio.f_number')"
                     :errors="errors.f_number"
                   />
                   <BaseInput
                     v-else
                     v-model="photoFNumber"
-                    id="id_f_number"
-                    name="f_number"
                     type="number"
                     step="0.01"
+                    id="id_f_number"
+                    name="f_number"
                     :label="$t('auth.portfolio.f_number')"
                   />
                 </div>
@@ -318,20 +318,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.exposure_time"
                     v-model="photoExposureTime"
-                    id="id_exposure_time"
-                    name="exposure_time"
                     type="text"
                     maxlength="32"
+                    id="id_exposure_time"
+                    name="exposure_time"
                     :label="$t('auth.portfolio.exposure_time')"
                     :errors="errors.exposure_time"
                   />
                   <BaseInput
                     v-else
                     v-model="photoExposureTime"
-                    id="id_exposure_time"
-                    name="exposure_time"
                     type="text"
                     maxlength="32"
+                    id="id_exposure_time"
+                    name="exposure_time"
                     :label="$t('auth.portfolio.exposure_time')"
                   />
                 </div>
@@ -339,20 +339,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.focal_length"
                     v-model="photoFocalLength"
-                    id="id_focal_length"
-                    name="focal_length"
                     type="number"
                     step="0.01"
+                    id="id_focal_length"
+                    name="focal_length"
                     :label="$t('auth.portfolio.focal_length')"
                     :errors="errors.focal_length"
                   />
                   <BaseInput
                     v-else
                     v-model="photoFocalLength"
-                    id="id_focal_length"
-                    name="focal_length"
                     type="number"
                     step="0.01"
+                    id="id_focal_length"
+                    name="focal_length"
                     :label="$t('auth.portfolio.focal_length')"
                   />
                 </div>
@@ -360,20 +360,20 @@ onMounted(() => {
                   <BaseInput
                     v-if="errors && errors.photographic_sensitivity"
                     v-model="photoPhotographicSensitivity"
-                    id="id_photographic_sensitivity"
-                    name="photographic_sensitivity"
                     type="number"
                     min="0"
+                    id="id_photographic_sensitivity"
+                    name="photographic_sensitivity"
                     :label="$t('auth.portfolio.photographic_sensitivity')"
                     :errors="errors.photographic_sensitivity"
                   />
                   <BaseInput
                     v-else
                     v-model="photoPhotographicSensitivity"
-                    id="id_photographic_sensitivity"
-                    name="photographic_sensitivity"
                     type="number"
                     min="0"
+                    id="id_photographic_sensitivity"
+                    name="photographic_sensitivity"
                     :label="$t('auth.portfolio.photographic_sensitivity')"
                   />
                 </div>
