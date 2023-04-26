@@ -7,6 +7,7 @@ import InputMultipleSelect from './InputMultipleSelect.vue'
 import ListInput from './ListInput.vue'
 import LoadingIndicator from './LoadingIndicator.vue'
 import LocaleRouterLink from './LocaleRouterLink.vue'
+import NumberRangeInput from './NumberRangeInput.vue'
 import SubmitButton from './SubmitButton.vue'
 import UserAvatar from './UserAvatar.vue'
 import UserAvatarExtended from './UserAvatarExtended.vue'
@@ -21,6 +22,7 @@ export default [
   ListInput,
   LoadingIndicator,
   LocaleRouterLink,
+  NumberRangeInput,
   SubmitButton,
   UserAvatar,
   UserAvatarExtended
