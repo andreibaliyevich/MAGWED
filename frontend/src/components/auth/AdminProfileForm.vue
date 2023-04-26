@@ -90,80 +90,43 @@ onMounted(() => {
     >
       <div class="col-md-12">
         <BaseInput
-          v-if="errors && errors.name"
           v-model="name"
           type="text"
           id="id_name"
           name="name"
           :label="$t('auth.profile.name')"
-          :errors="errors.name"
-        />
-        <BaseInput
-          v-else
-          v-model="name"
-          type="text"
-          id="id_name"
-          name="name"
-          :label="$t('auth.profile.name')"
+          :errors="errors?.name ? errors.name : []"
         />
       </div>
       <div class="col-md-6">
         <BaseSelect
-          v-if="errors && errors.country"
           v-model="country"
           :options="countriesOptions"
           id="id_country"
           name="country"
           :label="$t('auth.profile.country')"
-          :errors="errors.country"
-        />
-        <BaseSelect
-          v-else
-          v-model="country"
-          :options="countriesOptions"
-          id="id_country"
-          name="country"
-          :label="$t('auth.profile.country')"
+          :errors="errors?.country ? errors.country : []"
         />
       </div>
       <div class="col-md-6">
         <BaseSelect
-          v-if="errors && errors.city"
           v-model="city"
           :options="citiesOptions"
           id="id_city"
           name="city"
           :label="$t('auth.profile.city')"
-          :errors="errors.city"
-        />
-        <BaseSelect
-          v-else
-          v-model="city"
-          :options="citiesOptions"
-          id="id_city"
-          name="city"
-          :label="$t('auth.profile.city')"
+          :errors="errors?.city ? errors.city : []"
         />
       </div>
       <div class="col-md-12">
         <BaseInput
-          v-if="errors && errors.phone"
           v-model="phone"
           type="tel"
           maxlength="21"
           id="id_phone"
           name="phone"
           :label="$t('auth.profile.phone')"
-          :errors="errors.phone"
-        />
-        <BaseInput
-          v-else
-          v-model="phone"
-          type="tel"
-          maxlength="21"
-          id="id_phone"
-          name="phone"
-          :label="$t('auth.profile.phone')"
+          :errors="errors?.phone ? errors.phone : []"
         />
       </div>
       <div class="col-12">

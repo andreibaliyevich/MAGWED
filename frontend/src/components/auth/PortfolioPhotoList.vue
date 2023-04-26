@@ -219,171 +219,111 @@ onMounted(() => {
               >
                 <div class="col-md-12">
                   <BaseInput
-                    v-if="errors && errors.title"
                     v-model="photoTitle"
                     type="text"
                     maxlength="128"
                     id="id_title"
                     name="title"
                     :label="$t('auth.portfolio.title')"
-                    :errors="errors.title"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="photoTitle"
-                    type="text"
-                    maxlength="128"
-                    id="id_title"
-                    name="title"
-                    :label="$t('auth.portfolio.title')"
+                    :errors="errors?.title ? errors.title : []"
                   />
                 </div>
                 <div class="col-md-12">
                   <BaseTextarea
-                    v-if="errors && errors.description"
                     v-model="photoDescription"
                     id="id_description"
                     name="description"
                     :label="$t('auth.portfolio.description')"
-                    :errors="errors.description"
-                  />
-                  <BaseTextarea
-                    v-else
-                    v-model="photoDescription"
-                    id="id_description"
-                    name="description"
-                    :label="$t('auth.portfolio.description')"
+                    :errors="errors?.description ? errors.description : []"
                   />
                 </div>
                 <div class="col-md-12">
                   <ListInput
-                    v-if="errors && errors.tags"
                     v-model="photoTags"
                     id="id_tags"
                     name="tags"
                     :label="$t('auth.portfolio.tags')"
-                    :errors="errors.tags"
-                  />
-                  <ListInput
-                    v-else
-                    v-model="photoTags"
-                    id="id_tags"
-                    name="tags"
-                    :label="$t('auth.portfolio.tags')"
+                    :errors="errors?.tags ? errors.tags : []"
                   />
                 </div>
                 <div class="col-md-12">
                   <BaseInput
-                    v-if="errors && errors.device"
                     v-model="photoDevice"
                     type="text"
                     maxlength="128"
                     id="id_device"
                     name="device"
                     :label="$t('auth.portfolio.device')"
-                    :errors="errors.device"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="photoDevice"
-                    type="text"
-                    maxlength="128"
-                    id="id_device"
-                    name="device"
-                    :label="$t('auth.portfolio.device')"
+                    :errors="errors?.device ? errors.device : []"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
-                    v-if="errors && errors.f_number"
                     v-model="photoFNumber"
                     type="number"
                     step="0.01"
                     id="id_f_number"
                     name="f_number"
                     :label="$t('auth.portfolio.f_number')"
-                    :errors="errors.f_number"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="photoFNumber"
-                    type="number"
-                    step="0.01"
-                    id="id_f_number"
-                    name="f_number"
-                    :label="$t('auth.portfolio.f_number')"
+                    :errors="errors?.f_number ? errors.f_number : []"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
-                    v-if="errors && errors.exposure_time"
                     v-model="photoExposureTime"
                     type="text"
                     maxlength="32"
                     id="id_exposure_time"
                     name="exposure_time"
                     :label="$t('auth.portfolio.exposure_time')"
-                    :errors="errors.exposure_time"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="photoExposureTime"
-                    type="text"
-                    maxlength="32"
-                    id="id_exposure_time"
-                    name="exposure_time"
-                    :label="$t('auth.portfolio.exposure_time')"
+                    :errors="errors?.exposure_time ? errors.exposure_time : []"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
-                    v-if="errors && errors.focal_length"
                     v-model="photoFocalLength"
                     type="number"
                     step="0.01"
                     id="id_focal_length"
                     name="focal_length"
                     :label="$t('auth.portfolio.focal_length')"
-                    :errors="errors.focal_length"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="photoFocalLength"
-                    type="number"
-                    step="0.01"
-                    id="id_focal_length"
-                    name="focal_length"
-                    :label="$t('auth.portfolio.focal_length')"
+                    :errors="errors?.focal_length ? errors.focal_length : []"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
-                    v-if="errors && errors.photographic_sensitivity"
                     v-model="photoPhotographicSensitivity"
                     type="number"
                     min="0"
                     id="id_photographic_sensitivity"
                     name="photographic_sensitivity"
                     :label="$t('auth.portfolio.photographic_sensitivity')"
-                    :errors="errors.photographic_sensitivity"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="photoPhotographicSensitivity"
-                    type="number"
-                    min="0"
-                    id="id_photographic_sensitivity"
-                    name="photographic_sensitivity"
-                    :label="$t('auth.portfolio.photographic_sensitivity')"
+                    :errors="
+                      errors?.photographic_sensitivity
+                      ? errors.photographic_sensitivity
+                      : []
+                    "
                   />
                 </div>
               </form>
               <hr>
               <ul class="list-unstyled my-0 px-xl-10">
-                <li>{{ $t('auth.portfolio.uploaded_at') }} {{ getLocaleDateTimeString(photoUploadedAt) }}</li>
-                <li>{{ $t('auth.portfolio.num_views') }}: {{ photoNumViews }}</li>
-                <li>{{ $t('auth.portfolio.likes') }}: {{ photoLikesCount }}</li>
-                <li>{{ $t('auth.portfolio.rating') }}: {{ photoRating }}</li>
+                <li>
+                  {{ $t('auth.portfolio.uploaded_at') }}
+                  {{ getLocaleDateTimeString(photoUploadedAt) }}
+                </li>
+                <li>
+                  {{ $t('auth.portfolio.num_views') }}:
+                  {{ photoNumViews }}
+                </li>
+                <li>
+                  {{ $t('auth.portfolio.likes') }}:
+                  {{ photoLikesCount }}
+                </li>
+                <li>
+                  {{ $t('auth.portfolio.rating') }}:
+                  {{ photoRating }}
+                </li>
               </ul>
             </div>
             <div class="modal-footer">

@@ -223,40 +223,22 @@ onMounted(() => {
                 </div>
                 <div class="col-md-12">
                   <BaseInput
-                    v-if="errors && errors.title"
                     v-model="albumTitle"
                     type="text"
                     maxlength="128"
                     id="id_title"
                     name="title"
                     :label="$t('auth.portfolio.title')"
-                    :errors="errors.title"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="albumTitle"
-                    type="text"
-                    maxlength="128"
-                    id="id_title"
-                    name="title"
-                    :label="$t('auth.portfolio.title')"
+                    :errors="errors?.title ? errors.title : []"
                   />
                 </div>
                 <div class="col-md-12">
                   <BaseTextarea
-                    v-if="errors && errors.description"
                     v-model="albumDescription"
                     id="id_description"
                     name="description"
                     :label="$t('auth.portfolio.description')"
-                    :errors="errors.description"
-                  />
-                  <BaseTextarea
-                    v-else
-                    v-model="albumDescription"
-                    id="id_description"
-                    name="description"
-                    :label="$t('auth.portfolio.description')"
+                    :errors="errors?.description ? errors.description : []"
                   />
                 </div>
               </form>

@@ -102,51 +102,30 @@ const confirmPasswordReset = async () => {
     >
       <div class="mb-3">
         <BaseInput
-          v-if="errors && errors.new_password"
           v-model="newPassword"
           type="password"
           id="id_new_password"
           name="new_password"
           :label="$t('auth.password.new_password')"
-          :errors="errors.new_password"
-        />
-        <BaseInput
-          v-else
-          v-model="newPassword"
-          type="password"
-          id="id_new_password"
-          name="new_password"
-          :label="$t('auth.password.new_password')"
+          :errors="errors?.new_password ? errors.new_password : []"
         />
       </div>
-
       <ul class="fs-6">
         <li>{{ $t('auth.password.advice1') }}</li>
         <li>{{ $t('auth.password.advice2') }}</li>
         <li>{{ $t('auth.password.advice3') }}</li>
         <li>{{ $t('auth.password.advice4') }}</li>
       </ul>
-
       <div class="mb-3">
         <BaseInput
-          v-if="errors && errors.new_password2"
           v-model="newPassword2"
           type="password"
           id="id_new_password2"
           name="new_password2"
           :label="$t('auth.password.new_password2')"
-          :errors="errors.new_password2"
-        />
-        <BaseInput
-          v-else
-          v-model="newPassword2"
-          type="password"
-          id="id_new_password2"
-          name="new_password2"
-          :label="$t('auth.password.new_password2')"
+          :errors="errors?.new_password2 ? errors.new_password2 : []"
         />
       </div>
-
       <SubmitButton
         :loadingStatus="loadingStatus"
         buttonClass="btn btn-brand btn-lg w-100"

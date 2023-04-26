@@ -269,8 +269,8 @@ onMounted(() => {
             <div class="modal-header">
               <h5
                 v-if="socialLinkUuid"
-                class="modal-title"
                 id="organizerLinkModalLabel"
+                class="modal-title"
               >
                 {{ $t('auth.sociallinks.changing_the_link') }}
               </h5>
@@ -295,42 +295,23 @@ onMounted(() => {
               >
                 <div class="mb-3">
                   <BaseSelect
-                    v-if="errors && errors.link_type"
                     v-model="socialLinkType"
                     :options="linkTypeOptions"
                     id="id_link_type"
                     name="link_type"
                     :label="$t('auth.sociallinks.type_of_link')"
-                    :errors="errors.link_type"
-                  />
-                  <BaseSelect
-                    v-else
-                    v-model="socialLinkType"
-                    :options="linkTypeOptions"
-                    id="id_link_type"
-                    name="link_type"
-                    :label="$t('auth.sociallinks.type_of_link')"
+                    :errors="errors?.link_type ? errors.link_type : []"
                   />
                 </div>
                 <div class="mb-3">
                   <BaseInput
-                    v-if="errors && errors.link_url"
                     v-model="socialLinkUrl"
                     type="url"
                     maxlength="200"
                     id="id_link_url"
                     name="link_url"
                     :label="$t('auth.sociallinks.url_of_link')"
-                    :errors="errors.link_url"
-                  />
-                  <BaseInput
-                    v-else
-                    v-model="socialLinkUrl"
-                    type="url"
-                    maxlength="200"
-                    id="id_link_url"
-                    name="link_url"
-                    :label="$t('auth.sociallinks.url_of_link')"
+                    :errors="errors?.link_url ? errors.link_url : []"
                   />
                 </div>
               </form>

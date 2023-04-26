@@ -64,7 +64,6 @@ onMounted(() => {
     <h1 class="display-6 text-center">
       {{ $t('auth.registration.registration') }}
     </h1>
-
     <div
       v-if="status == 201"
       class="mt-4"
@@ -75,7 +74,6 @@ onMounted(() => {
         {{ $t('auth.registration.success3') }}
       </p>
     </div>
-
     <form
       v-else
       @submit.prevent="registration()"
@@ -90,133 +88,75 @@ onMounted(() => {
           {{ $t('auth.log_in') }}
         </LocaleRouterLink>
       </p>
-
       <div class="row g-3 mb-3">
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.username"
             v-model="username"
             type="text"
             id="id_username"
             name="username"
             :label="$t('auth.registration.username')"
-            :errors="errors.username"
-          />
-          <BaseInput
-            v-else
-            v-model="username"
-            type="text"
-            id="id_username"
-            name="username"
-            :label="$t('auth.registration.username')"
+            :errors="errors?.username ? errors.username : []"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.email"
             v-model="email"
             type="email"
             maxlength="254"
             id="id_email"
             name="email"
             :label="$t('auth.registration.email')"
-            :errors="errors.email"
-          />
-          <BaseInput
-            v-else
-            v-model="email"
-            type="email"
-            maxlength="254"
-            id="id_email"
-            name="email"
-            :label="$t('auth.registration.email')"
+            :errors="errors?.email ? errors.email : []"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.password"
             v-model="password"
             type="password"
             id="id_password"
             name="password"
             :label="$t('auth.password.password')"
-            :errors="errors.password"
-          />
-          <BaseInput
-            v-else
-            v-model="password"
-            type="password"
-            id="id_password"
-            name="password"
-            :label="$t('auth.password.password')"
+            :errors="errors?.password ? errors.password : []"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.password2"
             v-model="password2"
             type="password"
             id="id_password2"
             name="password2"
             :label="$t('auth.registration.password2')"
-            :errors="errors.password2"
-          />
-          <BaseInput
-            v-else
-            v-model="password2"
-            type="password"
-            id="id_password2"
-            name="password2"
-            :label="$t('auth.registration.password2')"
+            :errors="errors?.password2 ? errors.password2 : []"
           />
         </div>
         <div class="col-md-12">
           <BaseSelect
-            v-if="errors && errors.user_type"
             v-model="userType"
             :options="userTypeOptions"
             id="id_user_type"
             name="user_type"
             :label="$t('auth.registration.user_type')"
-            :errors="errors.user_type"
-          />
-          <BaseSelect
-            v-else
-            v-model="userType"
-            :options="userTypeOptions"
-            id="id_user_type"
-            name="user_type"
-            :label="$t('auth.registration.user_type')"
+            :errors="errors?.user_type ? errors.user_type : []"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.name"
             v-model="name"
             type="text"
             id="id_name"
             name="name"
             :label="$t('auth.registration.name')"
-            :errors="errors.name"
-          />
-          <BaseInput
-            v-else
-            v-model="name"
-            type="text"
-            id="id_name"
-            name="name"
-            :label="$t('auth.registration.name')"
+            :errors="errors?.name ? errors.name : []"
           />
         </div>
       </div>
-
       <SubmitButton
         :loadingStatus="loadingStatus"
         buttonClass="btn btn-brand btn-lg w-100"
       >
         {{ $t('auth.register') }}
       </SubmitButton>
-
       <hr class="my-4">
       <div class="fs-6 text-muted">
         {{ $t('auth.registration.help') }}

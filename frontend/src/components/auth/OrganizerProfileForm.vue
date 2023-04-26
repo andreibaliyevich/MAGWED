@@ -136,178 +136,96 @@ onMounted(() => {
     >
       <div class="col-md-12">
         <BaseInput
-          v-if="errors && errors.user && errors.user.name"
           v-model="name"
           type="text"
           id="id_name"
           name="name"
           :label="$t('auth.profile.name')"
-          :errors="errors.user.name"
-        />
-        <BaseInput
-          v-else
-          v-model="name"
-          type="text"
-          id="id_name"
-          name="name"
-          :label="$t('auth.profile.name')"
+          :errors="errors?.user?.name ? errors.user.name : []"
         />
       </div>
       <div class="col-md-6">
         <BaseSelect
-          v-if="errors && errors.user && errors.user.country"
           v-model="country"
           :options="countriesOptions"
           id="id_country"
           name="country"
           :label="$t('auth.profile.country')"
-          :errors="errors.user.country"
-        />
-        <BaseSelect
-          v-else
-          v-model="country"
-          :options="countriesOptions"
-          id="id_country"
-          name="country"
-          :label="$t('auth.profile.country')"
+          :errors="errors?.user?.country ? errors.user.country : []"
         />
       </div>
       <div class="col-md-6">
         <BaseSelect
-          v-if="errors && errors.user && errors.user.city"
           v-model="city"
           :options="citiesOptions"
           id="id_city"
           name="city"
           :label="$t('auth.profile.city')"
-          :errors="errors.user.city"
-        />
-        <BaseSelect
-          v-else
-          v-model="city"
-          :options="citiesOptions"
-          id="id_city"
-          name="city"
-          :label="$t('auth.profile.city')"
+          :errors="errors?.user?.city ? errors.user.city : []"
         />
       </div>
       <div class="col-md-12">
         <BaseInput
-          v-if="errors && errors.user && errors.user.phone"
           v-model="phone"
           type="tel"
           maxlength="21"
           id="id_phone"
           name="phone"
           :label="$t('auth.profile.phone')"
-          :errors="errors.user.phone"
-        />
-        <BaseInput
-          v-else
-          v-model="phone"
-          type="tel"
-          maxlength="21"
-          id="id_phone"
-          name="phone"
-          :label="$t('auth.profile.phone')"
+          :errors="errors?.user?.phone ? errors.user.phone : []"
         />
       </div>
       <div class="col-md-12">
         <InputMultipleSelect
-          v-if="errors && errors.roles"
           v-model="roles"
           :options="roleTypesOptions"
           id="id_roles"
           name="roles"
           :label="$t('auth.profile.roles')"
-          :errors="errors.roles"
-        />
-        <InputMultipleSelect
-          v-else
-          v-model="roles"
-          :options="roleTypesOptions"
-          id="id_roles"
-          name="roles"
-          :label="$t('auth.profile.roles')"
+          :errors="errors?.roles ? errors.roles : []"
         />
       </div>
       <div class="col-md-12">
         <BaseTextarea
-          v-if="errors && errors.description"
           v-model="description"
           id="id_description"
           name="description"
           :label="$t('auth.profile.description')"
-          :errors="errors.description"
-        />
-        <BaseTextarea
-          v-else
-          v-model="description"
-          id="id_description"
-          name="description"
-          :label="$t('auth.profile.description')"
+          :errors="errors?.description ? errors.description : []"
         />
       </div>
       <div class="col-md-12">
         <InputMultipleSelect
-          v-if="errors && errors.countries"
           v-model="countries"
           :options="countriesOptions"
           id="id_countries"
           name="countries"
           :label="$t('auth.profile.countries')"
-          :errors="errors.countries"
-        />
-        <InputMultipleSelect
-          v-else
-          v-model="countries"
-          :options="countriesOptions"
-          id="id_countries"
-          name="countries"
-          :label="$t('auth.profile.countries')"
+          :errors="errors?.countries ? errors.countries : []"
         />
       </div>
       <div class="col-md-12">
         <InputMultipleSelect
-          v-if="errors && errors.cities"
           v-model="cities"
           :options="citiesExtraOptions"
           id="id_cities"
           name="cities"
           :label="$t('auth.profile.cities')"
-          :errors="errors.cities"
-        />
-        <InputMultipleSelect
-          v-else
-          v-model="cities"
-          :options="citiesExtraOptions"
-          id="id_cities"
-          name="cities"
-          :label="$t('auth.profile.cities')"
+          :errors="errors?.cities ? errors.cities : []"
         />
       </div>
       <div class="col-md-12">
         <InputMultipleSelect
-          v-if="errors && errors.languages"
           v-model="languages"
           :options="languagesOptions"
           id="id_languages"
           name="languages"
           :label="$t('auth.profile.languages')"
-          :errors="errors.languages"
-        />
-        <InputMultipleSelect
-          v-else
-          v-model="languages"
-          :options="languagesOptions"
-          id="id_languages"
-          name="languages"
-          :label="$t('auth.profile.languages')"
+          :errors="errors?.languages ? errors.languages : []"
         />
       </div>
       <div class="col-md-6">
         <BaseInput
-          v-if="errors && errors.cost_work"
           v-model="costWork"
           type="number"
           min="0.00"
@@ -316,24 +234,12 @@ onMounted(() => {
           id="id_cost_work"
           name="cost_work"
           :label="$t('auth.profile.cost_work')"
-          :errors="errors.cost_work"
-        />
-        <BaseInput
-          v-else
-          v-model="costWork"
-          type="number"
-          min="0.00"
-          step="0.01"
-          required=""
-          id="id_cost_work"
-          name="cost_work"
-          :label="$t('auth.profile.cost_work')"
+          :errors="errors?.cost_work ? errors.cost_work : []"
         />
         <div class="form-text">{{ $t('form_help.cost_work') }}</div>
       </div>
       <div class="col-md-6">
         <BaseInput
-          v-if="errors && errors.number_hours"
           v-model="numberHours"
           type="number"
           min="0"
@@ -341,22 +247,11 @@ onMounted(() => {
           id="id_number_hours"
           name="number_hours"
           :label="$t('auth.profile.number_hours')"
-          :errors="errors.number_hours"
-        />
-        <BaseInput
-          v-else
-          v-model="numberHours"
-          type="number"
-          min="0"
-          required=""
-          id="id_number_hours"
-          name="number_hours"
-          :label="$t('auth.profile.number_hours')"
+          :errors="errors?.number_hours ? errors.number_hours : []"
         />
       </div>
       <div class="col-md-12">
         <BaseInput
-          v-if="errors && errors.profile_url"
           v-model="profileURL"
           type="text"
           maxlength="64"
@@ -364,17 +259,7 @@ onMounted(() => {
           id="id_profile_url"
           name="profile_url"
           :label="$t('auth.profile.profile_url')"
-          :errors="errors.profile_url"
-        />
-        <BaseInput
-          v-else
-          v-model="profileURL"
-          type="text"
-          maxlength="64"
-          required=""
-          id="id_profile_url"
-          name="profile_url"
-          :label="$t('auth.profile.profile_url')"
+          :errors="errors?.profile_url ? errors.profile_url : []"
         />
       </div>
       <div class="col-12">

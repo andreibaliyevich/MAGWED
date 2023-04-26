@@ -34,7 +34,6 @@ const resetPassword = async () => {
     <h1 class="display-6 text-center">
       {{ $t('auth.passwordreset.password_reset') }}
     </h1>
-
     <div
       v-if="status == 204"
       class="mt-4"
@@ -47,11 +46,9 @@ const resetPassword = async () => {
         {{ $t('auth.passwordreset.success3') }}
       </p>
     </div>
-
     <form
       v-else
       @submit.prevent="resetPassword()"
-      :class="{ 'mt-4': !loadingStatus }"
     >
       <p class="fs-6">{{ $t('auth.passwordreset.help') }}</p>
       <ul class="fs-6">
@@ -59,34 +56,21 @@ const resetPassword = async () => {
         <li>{{ $t('auth.passwordreset.step2') }}</li>
         <li>{{ $t('auth.passwordreset.step3') }}</li>
       </ul>
-
       <BaseInput
-        v-if="errors && errors.email"
         v-model="email"
         type="email"
         maxlength="254"
         id="id_email"
         name="email"
         :label="$t('auth.passwordreset.email')"
-        :errors="errors.email"
+        :errors="errors?.email ? errors.email : []"
       />
-      <BaseInput
-        v-else
-        v-model="email"
-        type="email"
-        maxlength="254"
-        id="id_email"
-        name="email"
-        :label="$t('auth.passwordreset.email')"
-      />
-
       <SubmitButton
         :loadingStatus="loadingStatus"
         buttonClass="btn btn-brand btn-lg w-100 mt-3"
       >
         {{ $t('auth.password.reset_password') }}
       </SubmitButton>
-
       <hr class="my-4">
       <div class="fs-6 text-center">
         <LocaleRouterLink

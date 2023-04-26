@@ -40,30 +40,19 @@ const deletingProfile = async () => {
   <div class="profile-delete-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">{{ $t('auth.profile_delete.profile_delete') }}</h1>
-
       <p class="lead fs-5">
         {{ $t('auth.profile_delete.advice1') }}<br>
         {{ $t('auth.profile_delete.advice2') }}
       </p>
-
       <form @submit.prevent="deletingProfile()">
         <div class="mb-3">
           <BaseInput
-            v-if="errors && errors.current_password"
             v-model="currentPassword"
             type="password"
             id="id_current_password"
             name="current_password"
             :label="$t('auth.profile_delete.password_confirmation')"
-            :errors="errors.current_password"
-          />
-          <BaseInput
-            v-else
-            v-model="currentPassword"
-            type="password"
-            id="id_current_password"
-            name="current_password"
-            :label="$t('auth.profile_delete.password_confirmation')"
+            :errors="errors?.current_password ? errors.current_password : []"
           />
         </div>
         <SubmitButton

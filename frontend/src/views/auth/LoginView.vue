@@ -36,7 +36,6 @@ const login = async () => {
 <template>
   <div class="login-view">
     <h1 class="display-6 text-center mb-4">{{ $t('auth.login.login') }}</h1>
-
     <div v-if="errors && errors.non_field_errors">
       <div
         class="alert alert-danger d-flex align-items-center alert-dismissible fade show"
@@ -58,7 +57,6 @@ const login = async () => {
         ></button>
       </div>
     </div>
-
     <form @submit.prevent="login()">
       <p class="fs-6 text-muted">
         {{ $t('auth.login.have_account') }}
@@ -69,55 +67,34 @@ const login = async () => {
           {{ $t('auth.register') }}
         </LocaleRouterLink>
       </p>
-
       <div class="row g-3 mb-3">
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.username"
             v-model="username"
             type="text"
             id="id_username"
             name="username"
             :label="$t('auth.login.username_email')"
-            :errors="errors.username"
-          />
-          <BaseInput
-            v-else
-            v-model="username"
-            type="text"
-            id="id_username"
-            name="username"
-            :label="$t('auth.login.username_email')"
+            :errors="errors?.username ? errors.username : []"
           />
         </div>
         <div class="col-md-12">
           <BaseInput
-            v-if="errors && errors.password"
             v-model="password"
             type="password"
             id="id_password"
             name="password"
             :label="$t('auth.password.password')"
-            :errors="errors.password"
-          />
-          <BaseInput
-            v-else
-            v-model="password"
-            type="password"
-            id="id_password"
-            name="password"
-            :label="$t('auth.password.password')"
+            :errors="errors?.password ? errors.password : []"
           />
         </div>
       </div>
-
       <SubmitButton
         :loadingStatus="loadingStatus"
         buttonClass="btn btn-brand btn-lg w-100"
       >
         {{ $t('auth.log_in') }}
       </SubmitButton>
-
       <hr class="my-4">
       <div class="fs-6 text-muted">
         {{ $t('auth.login.forgot_your_password') }}
