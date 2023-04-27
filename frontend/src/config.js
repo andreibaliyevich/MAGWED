@@ -8,6 +8,14 @@ export const LANGUAGES = [
   { value: 'uk', text: 'Українська' }
 ]
 
+export const CURRENCIES = [
+  { value: 'USD', text: '$' },
+  { value: 'EUR', text: '€' },
+  { value: 'RUB', text: '₽' },
+  { value: 'BYN', text: 'Br' },
+  { value: 'UAH', text: '₴' }
+]
+
 export const userType = {
   ADMIN: 1,
   CUSTOMER: 2,

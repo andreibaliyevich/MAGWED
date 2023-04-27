@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { LANGUAGES } from '@/config.js'
+import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useMainStore } from '@/stores/main.js'
 
 const router = useRouter()
@@ -150,11 +150,14 @@ onMounted(() => {
                 @change="changeCurrency"
                 class="form-select bg-dark text-white border-secondary"
               >
-                <option class="bg-white text-dark" value="USD">$ USD</option>
-                <option class="bg-white text-dark" value="EUR">€ EUR</option>
-                <option class="bg-white text-dark" value="RUB">₽ RUB</option>
-                <option class="bg-white text-dark" value="BYN">Br BYN</option>
-                <option class="bg-white text-dark" value="UAH">₴ UAH</option>
+                <option
+                  v-for="currency in CURRENCIES"
+                  :key="currency.value"
+                  :value="currency.value"
+                  class="bg-white text-dark"
+                >
+                  {{ currency.text }} {{ currency.value }}
+                </option>
               </select>
             </li>
             <li class="nav-item mb-2">
@@ -164,12 +167,12 @@ onMounted(() => {
                 class="form-select bg-dark text-white border-secondary"
               >
                 <option
-                  v-for="lang in LANGUAGES"
-                  :key="lang.value"
-                  :value="lang.value"
+                  v-for="language in LANGUAGES"
+                  :key="language.value"
+                  :value="language.value"
                   class="bg-white text-dark"
                 >
-                  {{ lang.text }}
+                  {{ language.text }}
                 </option>
               </select>
             </li>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import { LANGUAGES } from '@/config.js'
+import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useMainStore } from '@/stores/main.js'
 
 const mainStore = useMainStore()
@@ -95,7 +95,7 @@ const changeCurrency = (event) => {
               aria-expanded="false"
             >
               <img
-                :src="'/flags/' + $i18n.locale + '.png'"
+                :src="`/flags/${$i18n.locale}.png`"
                 width="20"
                 :alt="$i18n.locale"
               >
@@ -116,20 +116,29 @@ const changeCurrency = (event) => {
                   @change="changeCurrency"
                   class="form-select"
                 >
-                  <option value="USD">$ USD</option>
-                  <option value="EUR">€ EUR</option>
-                  <option value="RUB">₽ RUB</option>
-                  <option value="BYN">Br BYN</option>
-                  <option value="UAH">₴ UAH</option>
+                  <option
+                    v-for="currency in CURRENCIES"
+                    :key="currency.value"
+                    :value="currency.value"
+                  >
+                    {{ currency.text }} {{ currency.value }}
+                  </option>
                 </select>
               </li>
               <li
-                v-for="lang in LANGUAGES"
-                :key="lang.value"
+                v-for="language in LANGUAGES"
+                :key="language.value"
               >
-                <RouterLink class="dropdown-item" :to="{ params: { locale: lang.value }}">
-                  <img :src="`/flags/${lang.value}.png`" width="20" :alt="lang.value">
-                  <span class="ms-1">{{ lang.text }}</span>
+                <RouterLink
+                  :to="{ params: { locale: language.value }}"
+                  class="dropdown-item"
+                  >
+                  <img
+                    :src="`/flags/${language.value}.png`"
+                    width="20"
+                    :alt="language.value"
+                  >
+                  <span class="ms-1">{{ language.text }}</span>
                 </RouterLink>
               </li>
             </ul>
