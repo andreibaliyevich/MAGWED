@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
-import { API_URL } from '@/config.js'
+import { API_URL, LANGUAGES } from '@/config.js'
 
-export const SUPPORT_LOCALES = ['en', 'ru', 'be', 'uk']
+export const SUPPORT_LOCALES = Array.from(LANGUAGES, element => element.value)
 
 function getStartingLocale() {
   const navigatorLocale =

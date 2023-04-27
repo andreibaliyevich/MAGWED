@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { LANGUAGES } from '@/config.js'
 import { useMainStore } from '@/stores/main.js'
 
 const router = useRouter()
@@ -162,10 +163,14 @@ onMounted(() => {
                 @change="changeLocale"
                 class="form-select bg-dark text-white border-secondary"
               >
-                <option class="bg-white text-dark" value="en">English</option>
-                <option class="bg-white text-dark" value="ru">Русский</option>
-                <option class="bg-white text-dark" value="be">Беларуская</option>
-                <option class="bg-white text-dark" value="uk">Українська</option>
+                <option
+                  v-for="lang in LANGUAGES"
+                  :key="lang.value"
+                  :value="lang.value"
+                  class="bg-white text-dark"
+                >
+                  {{ lang.text }}
+                </option>
               </select>
             </li>
           </ul>

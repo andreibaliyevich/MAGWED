@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { LANGUAGES } from '@/config.js'
 import { useMainStore } from '@/stores/main.js'
 
 const mainStore = useMainStore()
@@ -122,28 +123,13 @@ const changeCurrency = (event) => {
                   <option value="UAH">₴ UAH</option>
                 </select>
               </li>
-              <li>
-                <RouterLink class="dropdown-item" :to="{ params: { locale: 'en' }}">
-                  <img src="/flags/en.png" width="20" alt="en">
-                  <span class="ms-1">English</span>
-                </RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" :to="{ params: { locale: 'ru' }}">
-                  <img src="/flags/ru.png" width="20" alt="ru">
-                  <span class="ms-1">Русский</span>
-                </RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" :to="{ params: { locale: 'be' }}">
-                  <img src="/flags/be.png" width="20" alt="be">
-                  <span class="ms-1">Беларуская</span>
-                </RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" :to="{ params: { locale: 'uk' }}">
-                  <img src="/flags/uk.png" width="20" alt="uk">
-                  <span class="ms-1">Українська</span>
+              <li
+                v-for="lang in LANGUAGES"
+                :key="lang.value"
+              >
+                <RouterLink class="dropdown-item" :to="{ params: { locale: lang.value }}">
+                  <img :src="`/flags/${lang.value}.png`" width="20" :alt="lang.value">
+                  <span class="ms-1">{{ lang.text }}</span>
                 </RouterLink>
               </li>
             </ul>
