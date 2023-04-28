@@ -376,7 +376,7 @@ class OrganizerListSerializer(serializers.ModelSerializer):
         model = Organizer
         fields = [
             'user',
-            'profile_url',
+            'cost_work',
         ]
 
 
@@ -400,5 +400,4 @@ class OrganizerDetailSerializer(serializers.ModelSerializer):
             'cost_work',
             'number_hours',
             'rating',
-            'profile_url',
         ]
