@@ -62,21 +62,21 @@ const userStore = useUserStore()
           <ul class="navbar-nav d-flex align-items-lg-center flex-grow-1 mx-3">
             <li class="nav-item text-uppercase fw-bold">
               <LocaleRouterLink
-                v-if="this.$route.name == 'Home'"
-                routeName="Home"
+                v-if="this.$route.name == 'Organizers'"
+                routeName="Organizers"
                 @click="$refs.offcanvasClose.click()"
                 class="nav-link active"
                 aria-current="page"
               >
-                {{ $t('nav.best') }}
+                {{ $t('nav.organizers') }}
               </LocaleRouterLink>
               <LocaleRouterLink
                 v-else
-                routeName="Home"
+                routeName="Organizers"
                 @click="$refs.offcanvasClose.click()"
                 class="nav-link text-dark"
               >
-                {{ $t('nav.best') }}
+                {{ $t('nav.organizers') }}
               </LocaleRouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-xl-3">

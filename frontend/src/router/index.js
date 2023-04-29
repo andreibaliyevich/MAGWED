@@ -31,14 +31,19 @@ const router = createRouter({
           component: () => import('@/views/HomeView.vue')
         },
         {
-          path: 'about',
-          name: 'About',
-          component: () => import('@/views/AboutView.vue')
+          path: 'organizers',
+          name: 'Organizers',
+          component: () => import('@/views/organizers/OrganizerListView.vue')
         },
         {
           path: 'blog',
           name: 'Blog',
           component: () => import('@/views/blog/ArticleListView.vue')
+        },
+        {
+          path: 'about',
+          name: 'About',
+          component: () => import('@/views/AboutView.vue')
         },
         {
           path: '',

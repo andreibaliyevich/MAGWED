@@ -1,7 +1,7 @@
 {
     "nav": {
         "menu": "Menu",
-        "best": "Best",
+        "organizers": "Organizers",
         "places": "Places",
         "awards": "Awards",
         "blog": "Blog"
@@ -11,17 +11,6 @@
         "search2": "Search...",
         "searching": "Searching...",
         "no_results_found": "No results found"
-    },
-    "btn": {
-        "add": "Add",
-        "create": "Create",
-        "update": "Update",
-        "delete": "Delete",
-        "loading": "Loading...",
-        "yes_i_am_sure": "Yes, I am sure",
-        "no_cancel": "No, cancel",
-        "cancel": "Cancel",
-        "close": "Close"
     },
     "footer": {
         "rules": "Rules",
@@ -239,6 +228,23 @@
         "comment": "{user_name} commented your comment.",
         "review": "{user_name} left you review."
     },
+    "organizer_list": {
+        "no_organizers_available": "No organizers available!"
+    },
+    "blog": {
+        "blog": "Blog"
+    },
+    "btn": {
+        "add": "Add",
+        "create": "Create",
+        "update": "Update",
+        "delete": "Delete",
+        "loading": "Loading...",
+        "yes_i_am_sure": "Yes, I am sure",
+        "no_cancel": "No, cancel",
+        "cancel": "Cancel",
+        "close": "Close"
+    },
     "form_help": {
         "select_option": "Please select",
         "no_options_available": "No options available",
@@ -246,9 +252,6 @@
         "list_input": "Hold down 'Ctrl' key and press 'Enter' to add typed text to list.",
         "cost_work": "Please enter in USD ($)",
         "textarea_message": "Hold down 'Ctrl' key and press 'Enter' to send message."
-    },
-    "blog": {
-        "blog": "Blog"
     },
     "errors": {
         "page_not_found": "Page Not Found (404)"
