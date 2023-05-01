@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model, user_logged_in, user_logged_out
+from django.db.models import Max, Min
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from .choices import UserType
@@ -258,6 +259,7 @@ class OrganizerCoverView(APIView):
 
 class OrganizerListView(generics.ListAPIView):
     """ Organizer List View """
+    permission_classes = [AllowAny]
     queryset = Organizer.objects.filter(user__is_active=True)
     serializer_class = OrganizerListSerializer
     pagination_class = OrganizerPagination
@@ -265,8 +267,23 @@ class OrganizerListView(generics.ListAPIView):
     filterset_class = OrganizerFilter
 
 
+class CostWorkMinMaxView(APIView):
+    """ CostWork Min Max View """
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        cost_work_min_max = Organizer.objects.filter(
+            user__is_active=True,
+        ).aggregate(
+            cost_work_min=Min('cost_work'),
+            cost_work_max=Max('cost_work'),
+        )
+        return Response(cost_work_min_max, status=status.HTTP_200_OK)
+
+
 class OrganizerDetailView(generics.RetrieveAPIView):
     """ Organizer Detail View """
+    permission_classes = [AllowAny]
     queryset = Organizer.objects.filter(user__is_active=True)
     lookup_field = 'profile_url'
     serializer_class = OrganizerDetailSerializer
