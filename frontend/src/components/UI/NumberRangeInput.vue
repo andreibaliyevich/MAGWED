@@ -77,8 +77,8 @@ export default {
             :min="min"
             :max="maxValue"
             :step="step"
-            :id="`${id}-min`"
-            :name="`${name}-min`"
+            :id="`${id}_min`"
+            :name="`${name}_min`"
             class="form-control"
           >
         </div>
@@ -93,8 +93,8 @@ export default {
             :min="minValue"
             :max="max"
             :step="step"
-            :id="`${id}-max`"
-            :name="`${name}-max`"
+            :id="`${id}_max`"
+            :name="`${name}_max`"
             class="form-control"
           >
         </div>
