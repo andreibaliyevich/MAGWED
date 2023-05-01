@@ -3,10 +3,10 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { LANGUAGES, CURRENCIES } from '@/config.js'
-import { useMainStore } from '@/stores/main.js'
+import { useCurrencyStore } from '@/stores/currency.js'
 
 const router = useRouter()
-const mainStore = useMainStore()
+const currencyStore = useCurrencyStore()
 
 const magazineLoading = ref(true)
 const magazineData = ref({})
@@ -24,7 +24,7 @@ const getMagazine = async () => {
 
 const changeCurrency = (event) => {
   window.localStorage.setItem('currency', event.target.value)
-  mainStore.setCurrency(event.target.value)
+  currencyStore.setCurrency(event.target.value)
 }
 
 const changeLocale = (event) => {
@@ -146,7 +146,7 @@ onMounted(() => {
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <select
-                :value="mainStore.currency"
+                :value="currencyStore.currencyValue"
                 @change="changeCurrency"
                 class="form-select bg-dark text-white border-secondary"
               >

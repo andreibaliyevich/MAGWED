@@ -1,12 +1,10 @@
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
 import { CURRENCIES } from '@/config.js'
-import { useMainStore } from '@/stores/main.js'
+import { useCurrencyStore } from '@/stores/currency.js'
 
 export function useCurrency() {
-  const mainStore = useMainStore()
-  const { currency } = storeToRefs(mainStore)
+  const currencyStore = useCurrencyStore()
   const currencyText = ref(null)
   const conversionRate = ref(1.00)
 
@@ -17,7 +15,7 @@ export function useCurrency() {
 
   const getAndSetCurrencyText = () => {
     CURRENCIES.forEach((element) => {
-      if (element.value == currency.value) {
+      if (element.value == currencyStore.currencyValue) {
         currencyText.value = element.text
       }
     })
@@ -30,7 +28,7 @@ export function useCurrency() {
         + '/pair/'
         + CURRENCIES[0].value
         + '/'
-        + currency.value
+        + currencyStore.currencyValue
       )
       conversionRate.value = response.data.conversion_rate
     } catch (error) {
@@ -42,18 +40,21 @@ export function useCurrency() {
     return (Number(valueString) * conversionRate.value).toFixed(2)
   }
 
-  watch(currency, (newValue) => {
-    if (newValue == CURRENCIES[0].value) {
-      conversionRate.value = 1.00
-    } else {
-      getAndSetConversionRate()
+  watch(
+    () => currencyStore.currencyValue,
+    (newValue) => {
+      if (newValue == CURRENCIES[0].value) {
+        conversionRate.value = 1.00
+      } else {
+        getAndSetConversionRate()
+      }
+      getAndSetCurrencyText()
     }
-    getAndSetCurrencyText()
-  })
+  )
 
   onMounted(() => {
     getAndSetCurrencyText()
-    if (currency.value != CURRENCIES[0].value) {
+    if (currencyStore.currencyValue != CURRENCIES[0].value) {
       getAndSetConversionRate()
     }
   })

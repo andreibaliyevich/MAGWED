@@ -3,14 +3,14 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { WS_URL } from '@/config.js'
-import { useMainStore } from '@/stores/main.js'
+import { useCurrencyStore } from '@/stores/currency.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import Header from '@/components/main/Header.vue'
 import Navbar from '@/components/main/Navbar.vue'
 import Footer from '@/components/main/Footer.vue'
 
-const mainStore = useMainStore()
+const currencyStore = useCurrencyStore()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -36,7 +36,7 @@ if (!deviceUUID.value) {
 
 const currency = window.localStorage.getItem('currency')
 if (currency) {
-  mainStore.setCurrency(currency)
+  currencyStore.setCurrency(currency)
 }
 
 const userString = window.localStorage.getItem('user')
