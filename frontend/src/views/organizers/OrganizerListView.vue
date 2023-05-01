@@ -6,6 +6,9 @@ import { useOptionsOfRoleTypes } from '@/composables/optionsOfRoleTypes.js'
 import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
+import { useCurrencyStore } from '@/stores/currency.js'
+
+const currencyStore = useCurrencyStore()
 
 const organizersLoading = ref(true)
 const organizerList = ref([])
@@ -18,7 +21,7 @@ const languages = ref([])
 const costWorkMin = ref(80)
 const costWorkMax = ref(150)
 
-const { currencyText, getValueInCurrency } = useCurrency()
+const { getValueInCurrency } = useCurrency()
 const { roleTypesOptions } = useOptionsOfRoleTypes()
 const { countriesOptions } = useOptionsOfCountries()
 const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
@@ -139,8 +142,8 @@ onMounted(() => {
             id="id_cost_work"
             name="cost_work"
             :label="$t('auth.profile.cost_work')"
-            minLabel="$"
-            maxLabel="$"
+            :minLabel="currencyStore.currencyText"
+            :maxLabel="currencyStore.currencyText"
             :errors="errors?.cost_work ? errors.cost_work : []"
           />
         </div>
@@ -161,7 +164,7 @@ onMounted(() => {
                 :online="organizer.user.online"
               />
               <h2 class="fw-normal">{{ organizer.user.name }}</h2>
-              <p>{{ currencyText }}{{ getValueInCurrency(organizer.cost_work) }}</p>
+              <p>{{ currencyStore.currencyText }}{{ getValueInCurrency(organizer.cost_work) }}</p>
               <p><a class="btn btn-secondary" href="#">View details »</a></p>
             </div>
           </div>

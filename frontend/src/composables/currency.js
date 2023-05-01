@@ -5,21 +5,12 @@ import { useCurrencyStore } from '@/stores/currency.js'
 
 export function useCurrency() {
   const currencyStore = useCurrencyStore()
-  const currencyText = ref(null)
   const conversionRate = ref(1.00)
 
   const EXCHANGERATE_API_KEY = import.meta.env.VITE_EXCHANGERATE_API_KEY
   const exchangerateAPI = axios.create({
     baseURL: 'https://v6.exchangerate-api.com/v6/'
   })
-
-  const getAndSetCurrencyText = () => {
-    CURRENCIES.forEach((element) => {
-      if (element.value == currencyStore.currencyValue) {
-        currencyText.value = element.text
-      }
-    })
-  }
 
   const getAndSetConversionRate = async () => {
     try {
@@ -48,16 +39,14 @@ export function useCurrency() {
       } else {
         getAndSetConversionRate()
       }
-      getAndSetCurrencyText()
     }
   )
 
   onMounted(() => {
-    getAndSetCurrencyText()
     if (currencyStore.currencyValue != CURRENCIES[0].value) {
       getAndSetConversionRate()
     }
   })
 
-  return { currencyText, getValueInCurrency }
+  return { getValueInCurrency }
 }
