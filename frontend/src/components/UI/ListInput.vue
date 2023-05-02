@@ -80,8 +80,10 @@ export default {
       <div
         :class="[
           'd-flex align-items-stretch border rounded',
-          { 'active': isActive },
-          { 'is-invalid': errors.length }
+          {
+            'active': isActive,
+            'is-invalid': errors.length
+          }
         ]"
       >
         <div
