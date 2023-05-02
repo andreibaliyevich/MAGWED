@@ -27,7 +27,7 @@ const { roleTypesOptions } = useOptionsOfRoleTypes()
 const { countriesOptions } = useOptionsOfCountries()
 const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
 const { languagesOptions } = useOptionsOfLanguages()
-const { conversionToCurrency } = useCurrencyConversion()
+const { convertToCurrency } = useCurrencyConversion()
 
 const errors = ref(null)
 
@@ -206,7 +206,7 @@ onMounted(() => {
                 :online="organizer.user.online"
               />
               <h2 class="fw-normal">{{ organizer.user.name }}</h2>
-              <p>{{ currencyStore.currencyText }}{{ conversionToCurrency(organizer.cost_work) }}</p>
+              <p>{{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}</p>
               <p><a class="btn btn-secondary" href="#">View details »</a></p>
             </div>
           </div>
