@@ -12,8 +12,8 @@ const userStore = useUserStore()
     <div class="rounded shadow-sm">
       <button
         ref="buttonAaccountMenu"
-        class="btn btn-light w-100"
         type="button"
+        class="btn btn-light border w-100"
         data-bs-toggle="collapse"
         data-bs-target="#account-menu"
         aria-controls="account-menu"
@@ -22,48 +22,22 @@ const userStore = useUserStore()
         {{ $t('auth.account_menu') }}
         <i class="fa-solid fa-caret-down ms-1"></i>
       </button>
-      <div class="collapse" id="account-menu">
+      <div id="account-menu" class="collapse">
         <div class="text-uppercase fw-bolder text-secondary text-center mt-3">
           {{ $t('auth.social') }}
         </div>
         <ul class="nav nav-pills flex-column">
-          <li class="nav-item">
-            <LocaleRouterLink
-              v-if="this.$route.name == 'Messenger'"
-              routeName="Messenger"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-message"></i>
-              {{ $t('auth.messenger') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="Messenger"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
-            >
-              <i class="fa-solid fa-message"></i>
-              {{ $t('auth.messenger') }}
-            </LocaleRouterLink>
-          </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'Home'"
               routeName="Home"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-users"></i>
-              {{ $t('auth.followers') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="Home"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'Home',
+                  'text-dark': !(this.$route.name == 'Home')
+                }
+              ]"
             >
               <i class="fa-solid fa-users"></i>
               {{ $t('auth.followers') }}
@@ -71,20 +45,15 @@ const userStore = useUserStore()
           </li>
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'Home'"
               routeName="Home"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-user-group"></i>
-              {{ $t('auth.following') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="Home"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'Home',
+                  'text-dark': !(this.$route.name == 'Home')
+                }
+              ]"
             >
               <i class="fa-solid fa-user-group"></i>
               {{ $t('auth.following') }}
@@ -92,20 +61,15 @@ const userStore = useUserStore()
           </li>
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'Home'"
               routeName="Home"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-star"></i>
-              {{ $t('auth.favorites') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="Home"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'Home',
+                  'text-dark': !(this.$route.name == 'Home')
+                }
+              ]"
             >
               <i class="fa-solid fa-star"></i>
               {{ $t('auth.favorites') }}
@@ -118,20 +82,15 @@ const userStore = useUserStore()
         <ul class="nav nav-pills flex-column">
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'Profile'"
               routeName="Profile"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-user"></i>
-              {{ $t('auth.profile.profile') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="Profile"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'Profile',
+                  'text-dark': !(this.$route.name == 'Profile')
+                }
+              ]"
             >
               <i class="fa-solid fa-user"></i>
               {{ $t('auth.profile.profile') }}
@@ -139,20 +98,15 @@ const userStore = useUserStore()
           </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'SocialLinks'"
               routeName="SocialLinks"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-link"></i>
-              {{ $t('auth.sociallinks.social_links') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="SocialLinks"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'SocialLinks',
+                  'text-dark': !(this.$route.name == 'SocialLinks')
+                }
+              ]"
             >
               <i class="fa-solid fa-link"></i>
               {{ $t('auth.sociallinks.social_links') }}
@@ -160,25 +114,22 @@ const userStore = useUserStore()
           </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
-              v-if="
-                this.$route.name == 'Portfolio'
-                || this.$route.name == 'PortfolioAlbums'
-                || this.$route.name == 'PortfolioPhotos'
-                || this.$route.name == 'PortfolioAlbum'
-              "
               routeName="Portfolio"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-briefcase"></i>
-              {{ $t('auth.portfolio.portfolio') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="Portfolio"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'Portfolio'
+                    || this.$route.name == 'PortfolioAlbums'
+                    || this.$route.name == 'PortfolioPhotos'
+                    || this.$route.name == 'PortfolioAlbum',
+                  'text-dark': !(this.$route.name == 'Portfolio'
+                    || this.$route.name == 'PortfolioAlbums'
+                    || this.$route.name == 'PortfolioPhotos'
+                    || this.$route.name == 'PortfolioAlbum'
+                  )
+                }
+              ]"
             >
               <i class="fa-solid fa-briefcase"></i>
               {{ $t('auth.portfolio.portfolio') }}
@@ -186,20 +137,15 @@ const userStore = useUserStore()
           </li>
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'PasswordChange'"
               routeName="PasswordChange"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-key"></i>
-              {{ $t('auth.password.change_password') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="PasswordChange"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'PasswordChange',
+                  'text-dark': !(this.$route.name == 'PasswordChange')
+                }
+              ]"
             >
               <i class="fa-solid fa-key"></i>
               {{ $t('auth.password.change_password') }}
@@ -207,20 +153,15 @@ const userStore = useUserStore()
           </li>
           <li class="nav-item">
             <LocaleRouterLink
-              v-if="this.$route.name == 'ProfileDelete'"
               routeName="ProfileDelete"
               @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link active"
-              aria-current="page"
-            >
-              <i class="fa-solid fa-user-xmark"></i>
-              {{ $t('auth.profile_delete.profile_delete') }}
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              v-else
-              routeName="ProfileDelete"
-              @click="$refs.buttonAaccountMenu.click()"
-              class="nav-link text-dark"
+              :class="[
+                'nav-link',
+                {
+                  'active': this.$route.name == 'ProfileDelete',
+                  'text-dark': !(this.$route.name == 'ProfileDelete')
+                }
+              ]"
             >
               <i class="fa-solid fa-user-xmark"></i>
               {{ $t('auth.profile_delete.profile_delete') }}
