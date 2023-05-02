@@ -12,18 +12,18 @@ const userStore = useUserStore()
     <div class="rounded shadow-sm">
       <button
         ref="buttonAaccountMenu"
-        class="btn btn-secondary w-100"
+        class="btn btn-light w-100"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#account-menu"
+        aria-controls="account-menu"
         aria-expanded="false"
-        aria-label="Account menu"
       >
         {{ $t('auth.account_menu') }}
         <i class="fa-solid fa-caret-down ms-1"></i>
       </button>
-      <div id="account-menu" class="collapse p-3">
-        <div class="text-uppercase fw-bolder text-secondary">
+      <div class="collapse" id="account-menu">
+        <div class="text-uppercase fw-bolder text-secondary text-center mt-3">
           {{ $t('auth.social') }}
         </div>
         <ul class="nav nav-pills flex-column">
@@ -112,7 +112,7 @@ const userStore = useUserStore()
             </LocaleRouterLink>
           </li>
         </ul>
-        <div class="text-uppercase fw-bolder text-secondary mt-3">
+        <div class="text-uppercase fw-bolder text-secondary text-center mt-3">
           {{ $t('auth.account') }}
         </div>
         <ul class="nav nav-pills flex-column">
