@@ -137,59 +137,76 @@ onMounted(() => {
 <template>
   <div class="organizer-list-view">
     <div class="container my-5">
-      <div class="row g-5">
-        <div class="col-lg-3 border border-light rounded-3 shadow-sm pt-3 pb-5">
-          <CheckboxMultipleSelect
-            v-model="roles"
-            :options="roleTypesOptions"
-            id="id_roles"
-            name="roles"
-            :label="$t('auth.profile.roles')"
-            :errors="errors?.roles ? errors.roles : []"
-          />
-          <br>
-          <CheckboxMultipleSelect
-            v-model="countries"
-            :options="countriesOptions"
-            id="id_countries"
-            name="countries"
-            :label="$t('auth.profile.countries')"
-            :errors="errors?.countries ? errors.countries : []"
-          />
-          <br v-if="countries.length > 0">
-          <CheckboxMultipleSelect
-            v-if="countries.length > 0"
-            v-model="cities"
-            :options="citiesExtraOptions"
-            id="id_cities"
-            name="cities"
-            :label="$t('auth.profile.cities')"
-            :errors="errors?.cities ? errors.cities : []"
-          />
-          <br>
-          <CheckboxMultipleSelect
-            v-model="languages"
-            :options="languagesOptions"
-            id="id_languages"
-            name="languages"
-            :label="$t('auth.profile.languages')"
-            :errors="errors?.languages ? errors.languages : []"
-          />
-          <br>
-          <NumberRangeInput
-            v-model:minValue="costWorkMinInCurrency"
-            v-model:maxValue="costWorkMaxInCurrency"
-            :min="costWorkMinBorder"
-            :max="costWorkMaxBorder"
-            id="id_cost_work"
-            name="cost_work"
-            :label="$t('auth.profile.cost_work')"
-            :minLabel="currencyStore.currencyText"
-            :maxLabel="currencyStore.currencyText"
-            :errors="errors?.cost_work ? errors.cost_work : []"
-          />
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="border border-light rounded shadow-sm">
+            <button
+              type="button"
+              class="btn btn-light border w-100 d-lg-none"
+              data-bs-toggle="collapse"
+              data-bs-target="#filter-sidebar"
+              aria-expanded="false"
+              aria-controls="filter-sidebar"
+            >
+              {{ $t('auth.account_menu') }}
+              <i class="fa-solid fa-caret-down ms-1"></i>
+            </button>
+            <div id="filter-sidebar" class="collapse px-3 d-lg-block">
+              <br>
+              <CheckboxMultipleSelect
+                v-model="roles"
+                :options="roleTypesOptions"
+                id="id_roles"
+                name="roles"
+                :label="$t('auth.profile.roles')"
+                :errors="errors?.roles ? errors.roles : []"
+              />
+              <br>
+              <CheckboxMultipleSelect
+                v-model="countries"
+                :options="countriesOptions"
+                id="id_countries"
+                name="countries"
+                :label="$t('auth.profile.countries')"
+                :errors="errors?.countries ? errors.countries : []"
+              />
+              <br v-if="countries.length > 0">
+              <CheckboxMultipleSelect
+                v-if="countries.length > 0"
+                v-model="cities"
+                :options="citiesExtraOptions"
+                id="id_cities"
+                name="cities"
+                :label="$t('auth.profile.cities')"
+                :errors="errors?.cities ? errors.cities : []"
+              />
+              <br>
+              <CheckboxMultipleSelect
+                v-model="languages"
+                :options="languagesOptions"
+                id="id_languages"
+                name="languages"
+                :label="$t('auth.profile.languages')"
+                :errors="errors?.languages ? errors.languages : []"
+              />
+              <br>
+              <NumberRangeInput
+                v-model:minValue="costWorkMinInCurrency"
+                v-model:maxValue="costWorkMaxInCurrency"
+                :min="costWorkMinBorder"
+                :max="costWorkMaxBorder"
+                id="id_cost_work"
+                name="cost_work"
+                :label="$t('auth.profile.cost_work')"
+                :minLabel="currencyStore.currencyText"
+                :maxLabel="currencyStore.currencyText"
+                :errors="errors?.cost_work ? errors.cost_work : []"
+              />
+              <br>
+            </div>
+          </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-9 mt-5 mt-lg-0">
           <div
             v-if="organizerList.length > 0"
             class="row"
