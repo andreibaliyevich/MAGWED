@@ -268,6 +268,8 @@ onMounted(() => {
               <p>{{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}</p>
               <p><a class="btn btn-secondary" href="#">View details »</a></p>
             </div>
+            <div v-if="nextURL" v-intersection="getMoreOrganizers"></div>
+            <LoadingIndicator v-if="organizersMoreLoading" />
           </div>
           <div
             v-else
@@ -275,8 +277,6 @@ onMounted(() => {
           >
             {{ $t('organizer_list.no_organizers_available') }}
           </div>
-          <div v-if="nextURL" v-intersection="getMoreOrganizers"></div>
-          <LoadingIndicator v-if="organizersMoreLoading" />
         </div>
       </div>
     </div>
