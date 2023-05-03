@@ -7,8 +7,10 @@ import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
 import { useCurrencyStore } from '@/stores/currency.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const currencyStore = useCurrencyStore()
+const connectionBusStore = useConnectionBusStore()
 
 const organizersLoading = ref(true)
 const organizersMoreLoading = ref(false)
@@ -29,8 +31,6 @@ const { countriesOptions } = useOptionsOfCountries()
 const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
 const { languagesOptions } = useOptionsOfLanguages()
 const { convertToCurrency } = useCurrencyConversion()
-
-const errors = ref(null)
 
 const costWorkMinBorder = computed(() => {
   return Math.floor(costWorkMin.value * currencyStore.conversionRate)
@@ -127,6 +127,14 @@ const resetParamsAndGetOrganizers = () => {
   getOrganizers()
 }
 
+const updateUserStatus = (mutation, state) => {
+  organizerList.value.forEach((element) => {
+    if (element.user.uuid == state.user_uuid) {
+      element.user.online = state.online
+    }
+  })
+}
+
 watch(citiesExtraOptions, (newValue, oldValue) => {
   if (newValue.length < oldValue.length) {
     let newCitiesValues = []
@@ -152,6 +160,7 @@ watch(
 onMounted(() => {
   getOrganizers()
   getCostWorkMinMax()
+  connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>
 
@@ -183,7 +192,6 @@ onMounted(() => {
                 id="id_roles"
                 name="roles"
                 :label="$t('auth.profile.roles')"
-                :errors="errors?.roles ? errors.roles : []"
               />
               <br>
               <CheckboxMultipleSelect
@@ -192,7 +200,6 @@ onMounted(() => {
                 id="id_countries"
                 name="countries"
                 :label="$t('auth.profile.countries')"
-                :errors="errors?.countries ? errors.countries : []"
               />
               <br v-if="countries.length > 0">
               <CheckboxMultipleSelect
@@ -202,7 +209,6 @@ onMounted(() => {
                 id="id_cities"
                 name="cities"
                 :label="$t('auth.profile.cities')"
-                :errors="errors?.cities ? errors.cities : []"
               />
               <br>
               <CheckboxMultipleSelect
@@ -211,7 +217,6 @@ onMounted(() => {
                 id="id_languages"
                 name="languages"
                 :label="$t('auth.profile.languages')"
-                :errors="errors?.languages ? errors.languages : []"
               />
               <br>
               <NumberRangeInput
@@ -224,7 +229,6 @@ onMounted(() => {
                 :label="$t('auth.profile.cost_work')"
                 :minLabel="currencyStore.currencyText"
                 :maxLabel="currencyStore.currencyText"
-                :errors="errors?.cost_work ? errors.cost_work : []"
               />
               <br>
               <div class="d-flex justify-content-end">
