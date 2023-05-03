@@ -11,6 +11,7 @@ import { useCurrencyStore } from '@/stores/currency.js'
 const currencyStore = useCurrencyStore()
 
 const organizersLoading = ref(true)
+const organizersMoreLoading = ref(false)
 const organizerList = ref([])
 const nextURL = ref(null)
 
@@ -19,9 +20,9 @@ const countries = ref([])
 const cities = ref([])
 const languages = ref([])
 const costWorkMin = ref(0)
-const costWorkMax = ref(100)
+const costWorkMax = ref(0)
 const costWorkMinInCurrency = ref(0)
-const costWorkMaxInCurrency = ref(100)
+const costWorkMaxInCurrency = ref(0)
 
 const { roleTypesOptions } = useOptionsOfRoleTypes()
 const { countriesOptions } = useOptionsOfCountries()
@@ -40,7 +41,20 @@ const costWorkMaxBorder = computed(() => {
 
 const getOrganizers = async () => {
   organizersLoading.value = true
-  
+  try {
+    const response = await axios.get('/accounts/organizers/')
+    organizerList.value = response.data.results
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    organizersLoading.value = false
+  }
+}
+
+const getFilteredOrganizers = async () => {
+  organizersLoading.value = true
+
   let params = new URLSearchParams()
   roles.value.forEach((element) => params.append('roles', element))
   countries.value.forEach((element) => params.append('countries', element))
@@ -71,7 +85,7 @@ const getOrganizers = async () => {
 }
 
 const getMoreOrganizers = async () => {
-  organizersLoading.value = true
+  organizersMoreLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     organizerList.value = [...organizerList.value, ...response.data.results]
@@ -79,7 +93,7 @@ const getMoreOrganizers = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    organizersLoading.value = false
+    organizersMoreLoading.value = false
   }
 }
 
@@ -97,6 +111,20 @@ const getCostWorkMinMax = async () => {
   } catch (error) {
     console.error(error)
   }
+}
+
+const resetParamsAndGetOrganizers = () => {
+  roles.value = []
+  countries.value = []
+  cities.value = []
+  languages.value = []
+  costWorkMinInCurrency.value = Math.floor(
+    costWorkMin.value * currencyStore.conversionRate
+  )
+  costWorkMaxInCurrency.value = Math.ceil(
+    costWorkMax.value * currencyStore.conversionRate
+  )
+  getOrganizers()
 }
 
 watch(citiesExtraOptions, (newValue, oldValue) => {
@@ -121,13 +149,6 @@ watch(
   }
 )
 
-watch(roles, () => getOrganizers())
-watch(countries, () => getOrganizers())
-watch(cities, () => getOrganizers())
-watch(languages, () => getOrganizers())
-watch(costWorkMinInCurrency, () => getOrganizers())
-watch(costWorkMaxInCurrency, () => getOrganizers())
-
 onMounted(() => {
   getOrganizers()
   getCostWorkMinMax()
@@ -137,6 +158,9 @@ onMounted(() => {
 <template>
   <div class="organizer-list-view">
     <div class="container my-5">
+      <h1 class="display-6 text-center mb-5">
+        {{ $t('nav.organizers') }}
+      </h1>
       <div class="row">
         <div class="col-lg-3">
           <div class="border border-light rounded shadow-sm">
@@ -148,7 +172,7 @@ onMounted(() => {
               aria-expanded="false"
               aria-controls="filter-sidebar"
             >
-              {{ $t('auth.account_menu') }}
+              {{ $t('organizer_list.filters') }}
               <i class="fa-solid fa-caret-down ms-1"></i>
             </button>
             <div id="filter-sidebar" class="collapse px-3 d-lg-block">
@@ -203,12 +227,30 @@ onMounted(() => {
                 :errors="errors?.cost_work ? errors.cost_work : []"
               />
               <br>
+              <div class="d-flex justify-content-end">
+                <button
+                  @click="resetParamsAndGetOrganizers()"
+                  type="button"
+                  class="btn btn-light btn-sm"
+                >
+                  {{ $t('organizer_list.reset') }}
+                </button>
+                <button
+                  @click="getFilteredOrganizers()"
+                  type="button"
+                  class="btn btn-brand btn-sm ms-1"
+                >
+                  {{ $t('organizer_list.show') }}
+                </button>
+              </div>
+              <br>
             </div>
           </div>
         </div>
         <div class="col-lg-9 mt-5 mt-lg-0">
+          <LoadingIndicator v-if="organizersLoading" />
           <div
-            v-if="organizerList.length > 0"
+            v-else-if="organizerList.length > 0"
             class="row"
           >
             <div
@@ -234,7 +276,7 @@ onMounted(() => {
             {{ $t('organizer_list.no_organizers_available') }}
           </div>
           <div v-if="nextURL" v-intersection="getMoreOrganizers"></div>
-          <LoadingIndicator v-if="organizersLoading" />
+          <LoadingIndicator v-if="organizersMoreLoading" />
         </div>
       </div>
     </div>
