@@ -86,16 +86,17 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                class="btn btn-light"
                 type="button"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.close') }}
               </button>
               <button
                 @click="searchItems()"
-                class="btn btn-brand"
                 type="button"
+                class="btn btn-brand"
+                :disabled="!searchQuery"
               >
                 {{ $t('search.search1') }}
               </button>
