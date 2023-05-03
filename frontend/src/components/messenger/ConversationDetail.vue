@@ -48,7 +48,10 @@ const getMessages = async () => {
   } finally {
     messagesLoading.value = false
     nextTick(() => {
-      scrollArea.value.scrollTop = scrollArea.value.scrollHeight
+      scrollArea.value.scrollTo({
+        top: scrollArea.value.scrollHeight,
+        behavior: 'instant'
+      })
       msgTextarea.value.focus()
     })
   }
@@ -66,7 +69,10 @@ const getMoreMessages = async () => {
   } finally {
     messagesLoading.value = false
     nextTick(() => {
-      scrollArea.value.scrollTop = scrollArea.value.scrollHeight - scrollHeight
+      scrollArea.value.scrollTo({
+        top: scrollArea.value.scrollHeight - scrollHeight,
+        behavior: 'instant'
+      })
     })
   }
 }
