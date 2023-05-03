@@ -381,14 +381,14 @@ onUnmounted(() => {
             ref="msgTextarea"
             v-model="message"
             @keyup.ctrl.enter="sendMessage()"
-            class="form-control me-auto"
             :placeholder="$t('messenger.type_message')"
             rows="1"
+            class="form-control me-auto"
           ></textarea>
           <button
             @click="sendMessage()"
-            class="btn btn-primary"
             type="button"
+            class="btn btn-primary"
             :disabled="!message"
           >
             <i class="fa-solid fa-paper-plane"></i>
