@@ -229,6 +229,9 @@
         "review": "{user_name} оставил вам отзыв."
     },
     "organizer_list": {
+        "filters": "Фильтры",
+        "reset": "Сбросить",
+        "show": "Показать",
         "no_organizers_available": "Нет доступных организаторов!"
     },
     "blog": {

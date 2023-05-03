@@ -229,6 +229,9 @@
         "review": "{user_name} залишив вам відгук."
     },
     "organizer_list": {
+        "filters": "Фільтри",
+        "reset": "Скинути",
+        "show": "Показати",
         "no_organizers_available": "Нема доступних організаторів!"
     },
     "blog": {

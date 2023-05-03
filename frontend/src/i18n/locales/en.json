@@ -229,6 +229,9 @@
         "review": "{user_name} left you review."
     },
     "organizer_list": {
+        "filters": "Filters",
+        "reset": "Reset",
+        "show": "Show",
         "no_organizers_available": "No organizers available!"
     },
     "blog": {

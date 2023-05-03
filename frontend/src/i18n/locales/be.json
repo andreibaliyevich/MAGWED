@@ -229,6 +229,9 @@
         "review": "{user_name} пакінуў вам водгук."
     },
     "organizer_list": {
+        "filters": "Фільтры",
+        "reset": "Скінуць",
+        "show": "Паказаць",
         "no_organizers_available": "Няма даступных арганізатараў!"
     },
     "blog": {
