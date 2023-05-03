@@ -8,6 +8,7 @@ import NavbarNotice from './NavbarNotice.vue'
 const userStore = useUserStore()
 
 const notificationsLoading = ref(true)
+const notificationsMoreLoading = ref(false)
 const notificationList = ref([])
 const notificationsSocket = ref(null)
 const notificationsSocketConnect = ref(null)
@@ -34,7 +35,7 @@ const getNotifications = async () => {
 }
 
 const getMoreNotifications = async () => {
-  notificationsLoading.value = true
+  notificationsMoreLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     notificationList.value = [...notificationList.value, ...response.data.results]
@@ -47,7 +48,7 @@ const getMoreNotifications = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    notificationsLoading.value = false
+    notificationsMoreLoading.value = false
   }
 }
 
@@ -161,7 +162,10 @@ onMounted(() => {
         class="dropdown-menu dropdown-menu-end shadow overflow-auto"
         aria-labelledby="dropdownNotifications"
       >
-        <li v-if="notificationList.length > 0">
+        <li v-if="notificationsLoading">
+          <LoadingIndicator />
+        </li>
+        <li v-else-if="notificationList.length > 0">
           <ul class="list-group list-group-flush">
             <li
               v-for="notice in notificationList"
@@ -180,16 +184,16 @@ onMounted(() => {
                 v-intersection-notice="notice.uuid"
               />
             </li>
+            <li v-if="nextURL" v-intersection-notifications></li>
+            <li v-if="notificationsMoreLoading">
+              <LoadingIndicator />
+            </li>
           </ul>
         </li>
         <li v-else>
           <div class="lead d-flex justify-content-center py-3">
             {{ $t('notifications.no_notifications') }}
           </div>
-        </li>
-        <li v-if="nextURL" v-intersection-notifications></li>
-        <li v-if="notificationsLoading">
-          <LoadingIndicator />
         </li>
       </ul>
     </div>
