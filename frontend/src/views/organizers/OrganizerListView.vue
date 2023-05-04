@@ -236,6 +236,14 @@ onMounted(() => {
                   @click="resetParamsAndGetOrganizers()"
                   type="button"
                   class="btn btn-light btn-sm"
+                  :disabled="
+                    !roles.length
+                    && !countries.length
+                    && !cities.length
+                    && !languages.length
+                    && (costWorkMinInCurrency == costWorkMinBorder)
+                    && (costWorkMaxInCurrency == costWorkMaxBorder)
+                  "
                 >
                   {{ $t('organizer_list.reset') }}
                 </button>
@@ -243,6 +251,14 @@ onMounted(() => {
                   @click="getFilteredOrganizers()"
                   type="button"
                   class="btn btn-brand btn-sm ms-1"
+                  :disabled="
+                    !roles.length
+                    && !countries.length
+                    && !cities.length
+                    && !languages.length
+                    && (costWorkMinInCurrency == costWorkMinBorder)
+                    && (costWorkMaxInCurrency == costWorkMaxBorder)
+                  "
                 >
                   {{ $t('organizer_list.show') }}
                 </button>
