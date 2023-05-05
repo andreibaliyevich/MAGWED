@@ -32,6 +32,8 @@ const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
 const { languagesOptions } = useOptionsOfLanguages()
 const { convertToCurrency } = useCurrencyConversion()
 
+const filterSidebarButton = ref(null)
+
 const costWorkMinBorder = computed(() => {
   return Math.floor(costWorkMin.value * currencyStore.conversionRate)
 })
@@ -81,6 +83,10 @@ const getFilteredOrganizers = async () => {
     console.error(error)
   } finally {
     organizersLoading.value = false
+    if (window.innerWidth < 992) {
+      filterSidebarButton.value.click()
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 
@@ -125,6 +131,10 @@ const resetParamsAndGetOrganizers = () => {
     costWorkMax.value * currencyStore.conversionRate
   )
   getOrganizers()
+  if (window.innerWidth < 992) {
+    filterSidebarButton.value.click()
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const updateUserStatus = (mutation, state) => {
@@ -174,6 +184,7 @@ onMounted(() => {
         <div class="col-lg-3">
           <div class="border border-light rounded shadow-sm">
             <button
+              ref="filterSidebarButton"
               type="button"
               class="btn btn-light border w-100 d-lg-none"
               data-bs-toggle="collapse"
