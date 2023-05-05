@@ -11,7 +11,7 @@ const userStore = useUserStore()
   <div class="account-menu">
     <div class="rounded shadow-sm">
       <button
-        ref="buttonAaccountMenu"
+        ref="accountMenuButton"
         type="button"
         class="btn btn-light border w-100"
         data-bs-toggle="collapse"
@@ -30,7 +30,7 @@ const userStore = useUserStore()
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               routeName="Home"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -46,7 +46,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="Home"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -62,7 +62,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="Home"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -83,7 +83,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="Profile"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -99,7 +99,7 @@ const userStore = useUserStore()
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               routeName="SocialLinks"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -115,7 +115,7 @@ const userStore = useUserStore()
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               routeName="Portfolio"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -138,7 +138,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="PasswordChange"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
@@ -154,7 +154,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="ProfileDelete"
-              @click="$refs.buttonAaccountMenu.click()"
+              @click="$refs.accountMenuButton.click()"
               :class="[
                 'nav-link',
                 {
