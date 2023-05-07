@@ -62,76 +62,60 @@ const userStore = useUserStore()
           <ul class="navbar-nav d-flex align-items-lg-center flex-grow-1 mx-3">
             <li class="nav-item text-uppercase fw-bold">
               <LocaleRouterLink
-                v-if="this.$route.name == 'Organizers'"
-                routeName="Organizers"
+                routeName="OrganizerList"
                 @click="$refs.offcanvasClose.click()"
-                class="nav-link active"
-                aria-current="page"
-              >
-                {{ $t('nav.organizers') }}
-              </LocaleRouterLink>
-              <LocaleRouterLink
-                v-else
-                routeName="Organizers"
-                @click="$refs.offcanvasClose.click()"
-                class="nav-link text-dark"
+                :class="[
+                  'nav-link',
+                  {
+                    'active': this.$route.name == 'OrganizerList',
+                    'text-dark': !(this.$route.name == 'OrganizerList')
+                  }
+                ]"
               >
                 {{ $t('nav.organizers') }}
               </LocaleRouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
-                v-if="this.$route.name == 'Home'"
                 routeName="Home"
                 @click="$refs.offcanvasClose.click()"
-                class="nav-link active"
-                aria-current="page"
-              >
-                {{ $t('nav.places') }}
-              </LocaleRouterLink>
-              <LocaleRouterLink
-                v-else
-                routeName="Home"
-                @click="$refs.offcanvasClose.click()"
-                class="nav-link text-dark"
+                :class="[
+                  'nav-link',
+                  {
+                    'active': this.$route.name == 'Home',
+                    'text-dark': !(this.$route.name == 'Home')
+                  }
+                ]"
               >
                 {{ $t('nav.places') }}
               </LocaleRouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
-                v-if="this.$route.name == 'Home'"
                 routeName="Home"
                 @click="$refs.offcanvasClose.click()"
-                class="nav-link active"
-                aria-current="page"
-              >
-                {{ $t('nav.awards') }}
-              </LocaleRouterLink>
-              <LocaleRouterLink
-                v-else
-                routeName="Home"
-                @click="$refs.offcanvasClose.click()"
-                class="nav-link text-dark"
+                :class="[
+                  'nav-link',
+                  {
+                    'active': this.$route.name == 'Home',
+                    'text-dark': !(this.$route.name == 'Home')
+                  }
+                ]"
               >
                 {{ $t('nav.awards') }}
               </LocaleRouterLink>
             </li>
             <li class="nav-item text-uppercase fw-bold ms-xl-3">
               <LocaleRouterLink
-                v-if="this.$route.name == 'Blog'"
                 routeName="Blog"
                 @click="$refs.offcanvasClose.click()"
-                class="nav-link active"
-                aria-current="page"
-              >
-                {{ $t('nav.blog') }}
-              </LocaleRouterLink>
-              <LocaleRouterLink
-                v-else
-                routeName="Blog"
-                @click="$refs.offcanvasClose.click()"
-                class="nav-link text-dark"
+                :class="[
+                  'nav-link',
+                  {
+                    'active': this.$route.name == 'Blog',
+                    'text-dark': !(this.$route.name == 'Blog')
+                  }
+                ]"
               >
                 {{ $t('nav.blog') }}
               </LocaleRouterLink>
