@@ -49,7 +49,7 @@ const createAlbum = async () => {
     errors.value = null
     createAlbumModalBootstrap.value.hide()
     router.push({
-      name: 'PortfolioAlbum',
+      name: 'PortfolioAlbumDetail',
       params: {
         locale: locale.value,
         uuid: response.data.uuid
@@ -136,7 +136,7 @@ onMounted(() => {
             <div class="card-footer">
               <div class="d-flex justify-content-center">
                 <LocaleRouterLink
-                  routeName="PortfolioAlbum"
+                  routeName="PortfolioAlbumDetail"
                   :routeParams="{ uuid: albumItem.uuid }"
                   class="btn btn-outline-secondary btn-sm"
                 >

@@ -10,7 +10,7 @@
         <h2>{{ $t('auth.portfolio.albums') }}</h2>
         <p></p>
         <LocaleRouterLink
-          routeName="PortfolioAlbums"
+          routeName="PortfolioAlbumList"
           class="btn btn-light-brand"
         >
           {{ $t('auth.portfolio.view_albums') }}
@@ -21,7 +21,7 @@
         <h2>{{ $t('auth.portfolio.photos') }}</h2>
         <p></p>
         <LocaleRouterLink
-          routeName="PortfolioPhotos"
+          routeName="PortfolioPhotoList"
           class="btn btn-light-brand"
         >
           {{ $t('auth.portfolio.view_photos') }}
