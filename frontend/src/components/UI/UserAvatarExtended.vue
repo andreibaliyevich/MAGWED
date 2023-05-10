@@ -36,7 +36,7 @@ export default {
 
 <template>
   <div class="user-avatar-extended">
-    <div class="position-relative d-inline-block">
+    <div class="position-relative">
       <img
         v-if="src"
         :src="src"
