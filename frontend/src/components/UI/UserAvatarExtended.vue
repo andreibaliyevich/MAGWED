@@ -71,3 +71,9 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.user-avatar-extended {
+  display: inline-block;
+}
+</style>
