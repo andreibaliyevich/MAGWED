@@ -18,10 +18,7 @@ const userStore = useUserStore()
           routeName="Home"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'Home',
-              'text-dark': !(this.$route.name == 'Home')
-            }
+            this.$route.name == 'Home' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-users"></i>
@@ -33,10 +30,7 @@ const userStore = useUserStore()
           routeName="Home"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'Home',
-              'text-dark': !(this.$route.name == 'Home')
-            }
+            this.$route.name == 'Home' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-user-group"></i>
@@ -48,10 +42,7 @@ const userStore = useUserStore()
           routeName="Home"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'Home',
-              'text-dark': !(this.$route.name == 'Home')
-            }
+            this.$route.name == 'Home' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-star"></i>
@@ -68,10 +59,7 @@ const userStore = useUserStore()
           routeName="Profile"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'Profile',
-              'text-dark': !(this.$route.name == 'Profile')
-            }
+            this.$route.name == 'Profile' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-user"></i>
@@ -83,10 +71,7 @@ const userStore = useUserStore()
           routeName="SocialLinks"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'SocialLinks',
-              'text-dark': !(this.$route.name == 'SocialLinks')
-            }
+            this.$route.name == 'SocialLinks' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-link"></i>
@@ -98,17 +83,12 @@ const userStore = useUserStore()
           routeName="Portfolio"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'Portfolio'
-                || this.$route.name == 'PortfolioAlbums'
-                || this.$route.name == 'PortfolioPhotos'
-                || this.$route.name == 'PortfolioAlbum',
-              'text-dark': !(this.$route.name == 'Portfolio'
-                || this.$route.name == 'PortfolioAlbums'
-                || this.$route.name == 'PortfolioPhotos'
-                || this.$route.name == 'PortfolioAlbum'
-              )
-            }
+            this.$route.name == 'Portfolio'
+              || this.$route.name == 'PortfolioAlbumList'
+              || this.$route.name == 'PortfolioAlbumDetail'
+              || this.$route.name == 'PortfolioPhotoList'
+              ? 'active'
+              : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-briefcase"></i>
@@ -120,10 +100,7 @@ const userStore = useUserStore()
           routeName="PasswordChange"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'PasswordChange',
-              'text-dark': !(this.$route.name == 'PasswordChange')
-            }
+            this.$route.name == 'PasswordChange' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-key"></i>
@@ -135,10 +112,7 @@ const userStore = useUserStore()
           routeName="ProfileDelete"
           :class="[
             'nav-link',
-            {
-              'active': this.$route.name == 'ProfileDelete',
-              'text-dark': !(this.$route.name == 'ProfileDelete')
-            }
+            this.$route.name == 'ProfileDelete' ? 'active' : 'text-dark'
           ]"
         >
           <i class="fa-solid fa-user-xmark"></i>
