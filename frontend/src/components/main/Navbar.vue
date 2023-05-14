@@ -66,10 +66,7 @@ const userStore = useUserStore()
                 @click="$refs.offcanvasClose.click()"
                 :class="[
                   'nav-link',
-                  {
-                    'active': this.$route.name == 'OrganizerList',
-                    'text-dark': !(this.$route.name == 'OrganizerList')
-                  }
+                  this.$route.name == 'OrganizerList' ? 'active' : 'text-dark'
                 ]"
               >
                 {{ $t('nav.organizers') }}
@@ -81,10 +78,7 @@ const userStore = useUserStore()
                 @click="$refs.offcanvasClose.click()"
                 :class="[
                   'nav-link',
-                  {
-                    'active': this.$route.name == 'Home',
-                    'text-dark': !(this.$route.name == 'Home')
-                  }
+                  this.$route.name == 'Home' ? 'active' : 'text-dark'
                 ]"
               >
                 {{ $t('nav.places') }}
@@ -96,10 +90,7 @@ const userStore = useUserStore()
                 @click="$refs.offcanvasClose.click()"
                 :class="[
                   'nav-link',
-                  {
-                    'active': this.$route.name == 'Home',
-                    'text-dark': !(this.$route.name == 'Home')
-                  }
+                  this.$route.name == 'Home' ? 'active' : 'text-dark'
                 ]"
               >
                 {{ $t('nav.awards') }}
@@ -111,10 +102,7 @@ const userStore = useUserStore()
                 @click="$refs.offcanvasClose.click()"
                 :class="[
                   'nav-link',
-                  {
-                    'active': this.$route.name == 'Blog',
-                    'text-dark': !(this.$route.name == 'Blog')
-                  }
+                  this.$route.name == 'Blog' ? 'active' : 'text-dark'
                 ]"
               >
                 {{ $t('nav.blog') }}
