@@ -88,7 +88,7 @@ onMounted(() => {
 
       <FileInputButton
         @selectedFiles="uploadPhotos"
-        buttonClass="btn btn-light-brand w-100"
+        buttonClass="btn btn-soft-brand w-100"
         accept="image/*"
         multiple
       >

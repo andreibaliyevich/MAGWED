@@ -50,7 +50,7 @@ const userStore = useUserStore()
           <LocaleRouterLink
             routeName="Profile"
             @click="$refs.dropdownUser.click()"
-            class="btn btn-light-brand btn-sm text-center w-100"
+            class="btn btn-soft-brand btn-sm text-center w-100"
           >
             {{ $t('auth.profile.edit_profile') }}
           </LocaleRouterLink>

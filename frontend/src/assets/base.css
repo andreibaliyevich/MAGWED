@@ -143,36 +143,36 @@
   background-color: transparent;
 }
 
-.btn-light-brand {
+.btn-soft-brand {
   color: #e72a26;
   background-color: #ffe8e8;
   border-color: #ffe8e8;
 }
-.btn-light-brand:hover {
+.btn-soft-brand:hover {
   color: #fff;
   background: linear-gradient(110deg, #b80742, #d13f00);
 }
-.btn-check:focus + .btn-light-brand,
-.btn-light-brand:focus {
+.btn-check:focus + .btn-soft-brand,
+.btn-soft-brand:focus {
   box-shadow: none;
 }
-.btn-check:active + .btn-light-brand,
-.btn-check:checked + .btn-light-brand,
-.btn-light-brand.active,
-.btn-light-brand:active,
-.show > .btn-light-brand.dropdown-toggle {
+.btn-check:active + .btn-soft-brand,
+.btn-check:checked + .btn-soft-brand,
+.btn-soft-brand.active,
+.btn-soft-brand:active,
+.show > .btn-soft-brand.dropdown-toggle {
   color: #fff;
   background: linear-gradient(110deg, #b80742, #d13f00);
 }
-.btn-check:active + .btn-light-brand:focus,
-.btn-check:checked + .btn-light-brand:focus,
-.btn-light-brand.active:focus,
-.btn-light-brand:active:focus,
-.show > .btn-light-brand.dropdown-toggle:focus {
+.btn-check:active + .btn-soft-brand:focus,
+.btn-check:checked + .btn-soft-brand:focus,
+.btn-soft-brand.active:focus,
+.btn-soft-brand:active:focus,
+.show > .btn-soft-brand.dropdown-toggle:focus {
   box-shadow: none;
 }
-.btn-light-brand.disabled,
-.btn-light-brand:disabled {
+.btn-soft-brand.disabled,
+.btn-soft-brand:disabled {
   color: #fff;
   background-color: #e72a26;
   border-color: #e72a26;

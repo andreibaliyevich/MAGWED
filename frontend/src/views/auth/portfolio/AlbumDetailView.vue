@@ -211,7 +211,7 @@ onMounted(() => {
             <div class="d-flex justify-content-center">
               <FileInputButton
                 @selectedFiles="updateAlbumImage"
-                buttonClass="btn btn-light-brand m-1"
+                buttonClass="btn btn-soft-brand m-1"
                 accept="image/*"
               >
                 {{ $t('auth.portfolio.update_image') }}
@@ -289,7 +289,7 @@ onMounted(() => {
       <hr>
       <FileInputButton
         @selectedFiles="uploadAlbumPhotos"
-        buttonClass="btn btn-light-brand w-100"
+        buttonClass="btn btn-soft-brand w-100"
         accept="image/*"
         multiple
       >

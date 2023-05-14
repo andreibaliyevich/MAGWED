@@ -98,7 +98,7 @@ onMounted(() => {
       </h1>
 
       <button
-        class="btn btn-light-brand w-100"
+        class="btn btn-soft-brand w-100"
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#createAlbumModal"
@@ -204,7 +204,7 @@ onMounted(() => {
                   </span>
                   <FileInputButton
                     @selectedFiles="(filelist) => albumImage = filelist[0]"
-                    buttonClass="btn btn-light-brand w-100"
+                    buttonClass="btn btn-soft-brand w-100"
                     accept="image/*"
                   >
                     {{ $t('auth.portfolio.choose_image') }}

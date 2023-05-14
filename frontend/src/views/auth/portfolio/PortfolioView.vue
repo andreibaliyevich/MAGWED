@@ -11,7 +11,7 @@
         <p></p>
         <LocaleRouterLink
           routeName="PortfolioAlbumList"
-          class="btn btn-light-brand"
+          class="btn btn-soft-brand"
         >
           {{ $t('auth.portfolio.view_albums') }}
         </LocaleRouterLink>
@@ -22,7 +22,7 @@
         <p></p>
         <LocaleRouterLink
           routeName="PortfolioPhotoList"
-          class="btn btn-light-brand"
+          class="btn btn-soft-brand"
         >
           {{ $t('auth.portfolio.view_photos') }}
         </LocaleRouterLink>
