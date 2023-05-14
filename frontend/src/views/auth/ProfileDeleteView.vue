@@ -39,7 +39,9 @@ const deletingProfile = async () => {
 <template>
   <div class="profile-delete-view">
     <div class="px-1 px-lg-3 px-xl-5">
-      <h1 class="display-6 mb-5">{{ $t('auth.profile_delete.profile_delete') }}</h1>
+      <h1 class="display-6 mb-5">
+        {{ $t('auth.profile_delete.profile_delete') }}
+      </h1>
       <p class="lead fs-5">
         {{ $t('auth.profile_delete.advice1') }}<br>
         {{ $t('auth.profile_delete.advice2') }}
