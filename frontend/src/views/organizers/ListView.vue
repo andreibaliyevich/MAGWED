@@ -297,7 +297,15 @@ onMounted(() => {
               />
               <h2 class="fw-normal">{{ organizer.user.name }}</h2>
               <p>{{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}</p>
-              <p><a class="btn btn-secondary" href="#">View details »</a></p>
+              <p>
+                <LocaleRouterLink
+                  routeName="OrganizerDetail"
+                  :routeParams="{ profile_url: organizer.user.profile_url }"
+                  class="btn btn-secondary"
+                >
+                  View details »
+                </LocaleRouterLink>
+              </p>
             </div>
             <div v-if="nextURL" v-intersection="getMoreOrganizers"></div>
             <LoadingIndicator v-if="organizersMoreLoading" />

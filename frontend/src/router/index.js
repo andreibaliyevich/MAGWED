@@ -32,8 +32,8 @@ const router = createRouter({
         },
         {
           path: 'organizers',
-          name: 'Organizers',
-          component: () => import('@/views/organizers/OrganizerListView.vue')
+          name: 'OrganizerList',
+          component: () => import('@/views/organizers/ListView.vue')
         },
         {
           path: 'blog',
