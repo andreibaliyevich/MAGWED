@@ -101,7 +101,7 @@ const updateAlbum = async () => {
       }
     )
     router.push({
-      name: 'PortfolioAlbums',
+      name: 'PortfolioAlbumList',
       params: { locale: locale.value }
     })
   } catch (error) {
@@ -117,7 +117,7 @@ const removeAlbum = async () => {
       '/portfolio/albums/' + albumUuid.value +'/'
     )
     router.push({
-      name: 'PortfolioAlbums',
+      name: 'PortfolioAlbumList',
       params: { locale: locale.value }
     })
   } catch (error) {
