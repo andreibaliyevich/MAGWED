@@ -364,7 +364,8 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
             'country',
             'city',
             'phone',
-            'last_visit',
+            'date_joined',
+            'online',
         ]
 
 
