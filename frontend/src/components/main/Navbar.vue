@@ -66,7 +66,10 @@ const userStore = useUserStore()
                 @click="$refs.offcanvasClose.click()"
                 :class="[
                   'nav-link',
-                  this.$route.name == 'OrganizerList' ? 'active' : 'text-dark'
+                  this.$route.name == 'OrganizerList'
+                    || this.$route.name == 'OrganizerDetail'
+                    ? 'active'
+                    : 'text-dark'
                 ]"
               >
                 {{ $t('nav.organizers') }}

@@ -36,6 +36,11 @@ const router = createRouter({
           component: () => import('@/views/organizers/ListView.vue')
         },
         {
+          path: 'organizers/:profile_url',
+          name: 'OrganizerDetail',
+          component: () => import('@/views/organizers/DetailView.vue')
+        },
+        {
           path: 'blog',
           name: 'Blog',
           component: () => import('@/views/blog/ArticleListView.vue')
