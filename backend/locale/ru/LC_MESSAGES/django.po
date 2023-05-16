@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-26 09:48+0000\n"
+"POT-Creation-Date: 2023-05-16 04:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,7 +120,8 @@ msgstr "Визажист"
 msgid "Hairdresser"
 msgstr "Парикмахер"
 
-#: accounts/choices.py:24
+#: accounts/choices.py:24 main/choices.py:10 main/choices.py:21
+#: main/choices.py:34
 msgid "(Unknown)"
 msgstr "(Неизвестно)"
 
@@ -160,12 +161,12 @@ msgstr "Адрес электронной почты"
 msgid "User type"
 msgstr "Тип пользователя"
 
-#: accounts/models.py:60 blog/models.py:21 blog/models.py:74 main/models.py:18
-#: main/models.py:44 main/models.py:64 main/models.py:83 messenger/models.py:54
+#: accounts/models.py:60 blog/models.py:21 blog/models.py:74 main/models.py:78
+#: messenger/models.py:54
 msgid "Name"
 msgstr "Имя"
 
-#: accounts/models.py:70 accounts/models.py:249 main/models.py:123
+#: accounts/models.py:70 accounts/models.py:249 main/models.py:118
 #: messenger/models.py:64
 #, python-format
 msgid ""
@@ -178,11 +179,11 @@ msgstr ""
 msgid "Avatar"
 msgstr "Аватар"
 
-#: accounts/models.py:84 main/models.py:25 main/models.py:41
+#: accounts/models.py:84 main/models.py:24 main/models.py:41
 msgid "Country"
 msgstr "Страна"
 
-#: accounts/models.py:91 main/models.py:51
+#: accounts/models.py:91 main/models.py:48
 msgid "City"
 msgstr "Город"
 
@@ -282,15 +283,15 @@ msgstr "Обложка"
 msgid "Description"
 msgstr "Описание"
 
-#: accounts/models.py:262 main/models.py:26
+#: accounts/models.py:262 main/models.py:25
 msgid "Countries"
 msgstr "Страны"
 
-#: accounts/models.py:267 main/models.py:52
+#: accounts/models.py:267 main/models.py:49
 msgid "Cities"
 msgstr "Города"
 
-#: accounts/models.py:272 main/models.py:72
+#: accounts/models.py:272 main/models.py:67
 msgid "Languages"
 msgstr "Языки"
 
@@ -345,7 +346,7 @@ msgstr ""
 msgid "Invalid token for given user."
 msgstr "Недопустимый токен для данного пользователя."
 
-#: accounts/serializers.py:114
+#: accounts/serializers.py:114 accounts/serializers.py:297
 msgid "Invalid current password."
 msgstr "Неверный текущий пароль."
 
@@ -365,7 +366,7 @@ msgstr "У пользователя нет пароля."
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: blog/admin.py:61 blog/models.py:137 main/models.py:129
+#: blog/admin.py:61 blog/models.py:137 main/models.py:124
 #: messenger/models.py:70 portfolio/admin.py:30 portfolio/admin.py:68
 #: portfolio/models.py:27 portfolio/models.py:98
 msgid "Image"
@@ -386,7 +387,7 @@ msgstr "Отзыв"
 msgid "Blog"
 msgstr "Блог"
 
-#: blog/models.py:22 blog/models.py:121 main/models.py:108
+#: blog/models.py:22 blog/models.py:121 main/models.py:103
 msgid "Slug"
 msgstr "Слаг"
 
@@ -406,7 +407,7 @@ msgstr "Категория"
 msgid "Categories"
 msgstr "Категории"
 
-#: blog/models.py:71 blog/models.py:211 main/models.py:71
+#: blog/models.py:71 blog/models.py:211 main/models.py:66
 msgid "Language"
 msgstr "Язык"
 
@@ -422,7 +423,7 @@ msgstr "Переводы категорий"
 msgid "Author"
 msgstr "Автор"
 
-#: blog/models.py:120 blog/models.py:214 main/models.py:107
+#: blog/models.py:120 blog/models.py:214 main/models.py:102
 #: portfolio/models.py:39 portfolio/models.py:149
 msgid "Title"
 msgstr "Название"
@@ -435,12 +436,12 @@ msgstr "Эскиз"
 msgid "Content"
 msgstr "Содержание"
 
-#: blog/models.py:151 main/models.py:95 portfolio/models.py:41
+#: blog/models.py:151 main/models.py:90 portfolio/models.py:41
 #: portfolio/models.py:152
 msgid "Tags"
 msgstr "Теги"
 
-#: blog/models.py:156 main/models.py:142
+#: blog/models.py:156 main/models.py:137
 msgid "Published at"
 msgstr "Опубликовано в"
 
@@ -464,7 +465,7 @@ msgstr "Перевод статьи"
 msgid "Article Translations"
 msgstr "Переводы статей"
 
-#: blog/models.py:249 main/models.py:136
+#: blog/models.py:249 main/models.py:131
 msgid "File"
 msgstr "Файл"
 
@@ -484,31 +485,101 @@ msgstr "Форма недействительна!"
 msgid "Main app"
 msgstr "Основное приложение"
 
-#: main/models.py:15 main/models.py:35 main/models.py:61
+#: main/choices.py:6
+msgid "Belarus"
+msgstr "Беларусь"
+
+#: main/choices.py:7
+msgid "Russia"
+msgstr "Россия"
+
+#: main/choices.py:8
+msgid "Ukraine"
+msgstr "Украина"
+
+#: main/choices.py:14
+msgid "Brest"
+msgstr "Брест"
+
+#: main/choices.py:15
+msgid "Minsk"
+msgstr "Минск"
+
+#: main/choices.py:16
+msgid "Moscow"
+msgstr "Москва"
+
+#: main/choices.py:17
+msgid "Saint Petersburg"
+msgstr "Санкт-Петербург"
+
+#: main/choices.py:18
+msgid "Kyiv"
+msgstr "Киев"
+
+#: main/choices.py:19
+msgid "Odesa"
+msgstr "Одесса"
+
+#: main/choices.py:25
+msgid "Belarusian"
+msgstr "Белорусский"
+
+#: main/choices.py:26
+msgid "English"
+msgstr "Английский"
+
+#: main/choices.py:27
+msgid "French"
+msgstr "Французский"
+
+#: main/choices.py:28
+msgid "German"
+msgstr "Немецкий"
+
+#: main/choices.py:29
+msgid "Polish"
+msgstr "Польский"
+
+#: main/choices.py:30
+msgid "Portuguese"
+msgstr "Португальский"
+
+#: main/choices.py:31
+msgid "Russian"
+msgstr "Русский"
+
+#: main/choices.py:32
+msgid "Ukrainian"
+msgstr "Украинский"
+
+#: main/models.py:17 main/models.py:35 main/models.py:59
 msgid "Code"
 msgstr "Код"
 
-#: main/models.py:19 main/models.py:45 main/models.py:65
-msgid "Name (local)"
-msgstr "Название (местное)"
-
-#: main/models.py:87 messenger/models.py:107 notifications/models.py:43
+#: main/models.py:82 messenger/models.py:107 notifications/models.py:43
 #: portfolio/models.py:46 social/models.py:36 social/models.py:69
 #: social/models.py:105 social/models.py:144 social/models.py:196
 msgid "Created at"
 msgstr "Создано в"
 
-#: main/models.py:94
+#: main/models.py:89
 msgid "Tag"
 msgstr "Тег"
 
-#: main/models.py:149
+#: main/models.py:144
 msgid "Magazine"
 msgstr "Журнал"
 
-#: main/models.py:150
+#: main/models.py:145
 msgid "Magazines"
 msgstr "Журналы"
+
+#: main/serializers.py:64
+#, fuzzy
+#| msgid "Invalid user type."
+msgid "Invalid data."
+msgstr "Недопустимый тип пользователя."
 
 #: main/validators.py:11
 #, python-format
