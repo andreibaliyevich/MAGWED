@@ -9,11 +9,7 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
-        fields = [
-            'code',
-            'name',
-            'name_local',
-        ]
+        fields = ['code']
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -21,11 +17,7 @@ class CitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = City
-        fields = [
-            'code',
-            'name',
-            'name_local',
-        ]
+        fields = ['code']
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -33,11 +25,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Language
-        fields = [
-            'code',
-            'name',
-            'name_local',
-        ]
+        fields = ['code']
 
 
 class TagSerializer(serializers.ModelSerializer):

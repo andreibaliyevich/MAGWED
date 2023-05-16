@@ -3,11 +3,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext_lazy as _
 from main.models import Country, City, Language
-from main.serializers import (
-    CountrySerializer,
-    CitySerializer,
-    LanguageSerializer,
-)
 from .choices import UserType
 from .models import Customer, OrganizerRole, Organizer
 from .utilities import decode_uid, check_token
@@ -344,8 +339,14 @@ class UserShortReadSerializer(serializers.ModelSerializer):
 
 class UserDetailReadSerializer(serializers.ModelSerializer):
     """ User Detail Read Serializer """
-    country = CountrySerializer(read_only=True)
-    city = CitySerializer(read_only=True)
+    country = serializers.PrimaryKeyRelatedField(
+        allow_null=True,
+        queryset=Country.objects.all(),
+    )
+    city = serializers.PrimaryKeyRelatedField(
+        allow_null=True,
+        queryset=City.objects.all(),
+    )
     online = serializers.SerializerMethodField()
 
     def get_online(self, obj):
@@ -384,9 +385,20 @@ class OrganizerListSerializer(serializers.ModelSerializer):
 class OrganizerDetailSerializer(serializers.ModelSerializer):
     """ Organizer Detail Serializer """
     user = UserDetailReadSerializer(read_only=True)
-    countries = CountrySerializer(read_only=True, many=True)
-    cities = CitySerializer(read_only=True, many=True)
-    languages = LanguageSerializer(read_only=True, many=True)
+    countries = serializers.PrimaryKeyRelatedField(
+        allow_null=True,
+        many=True,
+        queryset=Country.objects.all(),
+    )
+    cities = serializers.PrimaryKeyRelatedField(
+        allow_null=True,
+        many=True,
+        queryset=City.objects.all(),
+    )
+    languages = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Language.objects.all(),
+    )
 
     class Meta:
         model = Organizer
