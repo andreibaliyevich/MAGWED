@@ -3,35 +3,35 @@ from easy_thumbnails.fields import ThumbnailerImageField
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
+from .choices import CountryChoices, CityChoices, LanguageChoices
 from .utilities import get_magazine_path
 from .validators import MinimumImageSizeValidator
 
 
 class Country(models.Model):
     """ Country Model """
-    code = models.SlugField(
+    code = models.CharField(
         primary_key=True,
         max_length=2,
+        choices=CountryChoices.choices,
         verbose_name=_('Code'),
     )
 
-    name = models.CharField(max_length=64, verbose_name=_('Name'))
-    name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
-
     def __str__(self):
-        return f'{ self.name_local } ({ self.name })'
+        return self.get_code_display()
 
     class Meta:
         verbose_name = _('Country')
         verbose_name_plural = _('Countries')
-        ordering = ['name', 'code']
+        ordering = ['code']
 
 
 class City(models.Model):
     """ City Model """
-    code = models.SlugField(
+    code = models.CharField(
         primary_key=True,
         max_length=5,
+        choices=CityChoices.choices,
         verbose_name=_('Code'),
     )
     country = models.ForeignKey(
@@ -41,36 +41,31 @@ class City(models.Model):
         verbose_name=_('Country'),
     )
 
-    name = models.CharField(max_length=64, verbose_name=_('Name'))
-    name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
-
     def __str__(self):
-        return f'{ self.name_local } ({ self.name })'
+        return self.get_code_display()
 
     class Meta:
         verbose_name = _('City')
         verbose_name_plural = _('Cities')
-        ordering = ['name', 'country']
+        ordering = ['country', 'code']
 
 
 class Language(models.Model):
     """ Language Model """
-    code = models.SlugField(
+    code = models.CharField(
         primary_key=True,
         max_length=2,
+        choices=LanguageChoices.choices,
         verbose_name=_('Code'),
     )
 
-    name = models.CharField(max_length=64, verbose_name=_('Name'))
-    name_local = models.CharField(max_length=64, verbose_name=_('Name (local)'))
-
     def __str__(self):
-        return f'{ self.name_local } ({ self.name })'
+        return self.get_code_display()
 
     class Meta:
         verbose_name = _('Language')
         verbose_name_plural = _('Languages')
-        ordering = ['name', 'code']
+        ordering = ['code']
 
 
 class Tag(models.Model):

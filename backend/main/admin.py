@@ -5,30 +5,30 @@ from .models import Country, City, Language, Tag, Magazine
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
     """ Country Model for admin """
-    list_display = ('name', 'name_local', 'code')
-    search_fields = ('code', 'name', 'name_local')
+    list_display = ('__str__',)
+    search_fields = ('code',)
 
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     """ City Model for admin """
-    list_display = ('name', 'name_local', 'country')
+    list_display = ('__str__',)
     list_filter = ('country',)
-    search_fields = ('name', 'name_local')
+    search_fields = ('code',)
 
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
     """ Language Model for admin """
-    list_display = ('name', 'name_local', 'code')
-    search_fields = ('code', 'name', 'name_local')
+    list_display = ('__str__',)
+    search_fields = ('code',)
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     """ Tag Model for admin """
     list_display = ('__str__', 'created_at')
-    search_fields = ['name']
+    search_fields = ('name',)
     readonly_fields = ('created_at',)
 
 
