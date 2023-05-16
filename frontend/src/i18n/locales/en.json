@@ -1,4 +1,27 @@
 {
+    "countries": {
+        "BY": "Belarus",
+        "RU": "Russia",
+        "UA": "Ukraine"
+    },
+    "cities": {
+        "BY-BR": "Brest",
+        "BY-MI": "Minsk",
+        "RU-MO": "Moscow",
+        "RU-SP": "Saint Petersburg",
+        "UA-KY": "Kyiv",
+        "UA-OD": "Odesa"
+    },
+    "languages": {
+        "be": "Belarusian",
+        "en": "English",
+        "fr": "French",
+        "de": "German",
+        "pl": "Polish",
+        "pt": "Portuguese",
+        "ru": "Russian",
+        "uk": "Ukrainian"
+    },
     "nav": {
         "menu": "Menu",
         "organizers": "Organizers",
