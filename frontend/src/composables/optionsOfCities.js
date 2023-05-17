@@ -1,23 +1,28 @@
 import axios from 'axios'
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export function useOptionsOfCities(country) {
-  const citiesOptions = ref([])
+  const { t, locale } = useI18n({ useScope: 'global' })
+  const cityValues = ref([])
 
-  const getAndSetCities = async (countryValue) => {
+  const cityOptions = computed(() => {
+    return cityValues.value.map((element) => {
+      return {
+        'value': element.code,
+        'text': t(`cities.${element.code}`)
+      }
+    })
+  })
+
+  const getAndSetCityOptions = async (countryValue) => {
     try {
       const response = await axios.get('/main/cities/', {
         params: {
           'country': countryValue
         }
       })
-      citiesOptions.value = []
-      response.data.forEach((element) => {
-        citiesOptions.value.push({
-          'value': element.code,
-          'text': `${ element.name_local } (${ element.name })`
-        })
-      })
+      cityValues.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -25,11 +30,15 @@ export function useOptionsOfCities(country) {
 
   watch(country, (newValue) => {
     if (newValue) {
-      getAndSetCities(newValue)
+      getAndSetCityOptions(newValue)
     } else {
-      citiesOptions.value = []
+      cityValues.value = []
     }
   })
 
-  return { citiesOptions }
+  watch(locale, () => {
+    getAndSetCityOptions(country.value)
+  })
+
+  return { cityOptions }
 }

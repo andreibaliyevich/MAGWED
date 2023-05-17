@@ -1,26 +1,26 @@
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export function useOptionsOfCountries() {
-  const countriesOptions = ref([])
+  const { t, locale } = useI18n({ useScope: 'global' })
+  const countryOptions = ref([])
 
-  const getAndSetCountries = async () => {
-    try {
-      const response = await axios.get('/main/countries/')
-      response.data.forEach((element) => {
-        countriesOptions.value.push({
-          'value': element.code,
-          'text': `${ element.name_local } (${ element.name })`
-        })
-      })
-    } catch (error) {
-      console.error(error)
-    }
+  const setCountryOptions = () => {
+    countryOptions.value = [
+      { value: 'BY', text: t('countries.BY') },
+      { value: 'RU', text: t('countries.RU') },
+      { value: 'UA', text: t('countries.UA') }
+    ]
   }
 
-  onMounted(() => {
-    getAndSetCountries()
+  watch(locale, () => {
+    setCountryOptions()
   })
 
-  return { countriesOptions }
+  onMounted(() => {
+    setCountryOptions()
+  })
+
+  return { countryOptions }
 }

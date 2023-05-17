@@ -3,10 +3,10 @@ import { useI18n } from 'vue-i18n'
 
 export function useOptionsOfRoleTypes() {
   const { t, locale } = useI18n({ useScope: 'global' })
-  const roleTypesOptions = ref([])
+  const roleTypeOptions = ref([])
 
   const setRoleTypeOptions = () => {
-    roleTypesOptions.value = [
+    roleTypeOptions.value = [
       { value: 1, text: t('roles.photographer') },
       { value: 2, text: t('roles.videographer') },
       { value: 3, text: t('roles.leading') },
@@ -29,5 +29,5 @@ export function useOptionsOfRoleTypes() {
     setRoleTypeOptions()
   })
 
-  return { roleTypesOptions }
+  return { roleTypeOptions }
 }

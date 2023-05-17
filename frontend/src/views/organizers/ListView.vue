@@ -26,10 +26,10 @@ const costWorkMax = ref(0)
 const costWorkMinInCurrency = ref(0)
 const costWorkMaxInCurrency = ref(0)
 
-const { roleTypesOptions } = useOptionsOfRoleTypes()
-const { countriesOptions } = useOptionsOfCountries()
-const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
-const { languagesOptions } = useOptionsOfLanguages()
+const { roleTypeOptions } = useOptionsOfRoleTypes()
+const { countryOptions } = useOptionsOfCountries()
+const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
+const { languageOptions } = useOptionsOfLanguages()
 const { convertToCurrency } = useCurrencyConversion()
 
 const filterSidebarButton = ref(null)
@@ -145,7 +145,7 @@ const updateUserStatus = (mutation, state) => {
   })
 }
 
-watch(citiesExtraOptions, (newValue, oldValue) => {
+watch(cityOptionsExtra, (newValue, oldValue) => {
   if (newValue.length < oldValue.length) {
     let newCitiesValues = []
     newValue.forEach(element => newCitiesValues.push(element.value))
@@ -199,7 +199,7 @@ onMounted(() => {
               <br>
               <CheckboxMultipleSelect
                 v-model="roles"
-                :options="roleTypesOptions"
+                :options="roleTypeOptions"
                 id="id_roles"
                 name="roles"
                 :label="$t('auth.profile.roles')"
@@ -207,7 +207,7 @@ onMounted(() => {
               <br>
               <CheckboxMultipleSelect
                 v-model="countries"
-                :options="countriesOptions"
+                :options="countryOptions"
                 id="id_countries"
                 name="countries"
                 :label="$t('auth.profile.countries')"
@@ -216,7 +216,7 @@ onMounted(() => {
               <CheckboxMultipleSelect
                 v-if="countries.length > 0"
                 v-model="cities"
-                :options="citiesExtraOptions"
+                :options="cityOptionsExtra"
                 id="id_cities"
                 name="cities"
                 :label="$t('auth.profile.cities')"
@@ -224,7 +224,7 @@ onMounted(() => {
               <br>
               <CheckboxMultipleSelect
                 v-model="languages"
-                :options="languagesOptions"
+                :options="languageOptions"
                 id="id_languages"
                 name="languages"
                 :label="$t('auth.profile.languages')"

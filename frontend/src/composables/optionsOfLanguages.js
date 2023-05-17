@@ -1,26 +1,31 @@
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export function useOptionsOfLanguages() {
-  const languagesOptions = ref([])
+  const { t, locale } = useI18n({ useScope: 'global' })
+  const languageOptions = ref([])
 
-  const getAndSetLanguages = async () => {
-    try {
-      const response = await axios.get('/main/languages/')
-      response.data.forEach((element) => {
-        languagesOptions.value.push({
-          'value': element.code,
-          'text': `${ element.name_local } (${ element.name })`
-        })
-      })
-    } catch (error) {
-      console.error(error)
-    }
+  const setLanguageOptions = () => {
+    languageOptions.value = [
+      { value: 'be', text: t('languages.be') },
+      { value: 'en', text: t('languages.en') },
+      { value: 'fr', text: t('languages.fr') },
+      { value: 'de', text: t('languages.de') },
+      { value: 'pl', text: t('languages.pl') },
+      { value: 'pt', text: t('languages.pt') },
+      { value: 'ru', text: t('languages.ru') },
+      { value: 'uk', text: t('languages.uk') }
+    ]
   }
 
-  onMounted(() => {
-    getAndSetLanguages()
+  watch(locale, () => {
+    setLanguageOptions()
   })
 
-  return { languagesOptions }
+  onMounted(() => {
+    setLanguageOptions()
+  })
+
+  return { languageOptions }
 }

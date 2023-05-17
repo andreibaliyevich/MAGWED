@@ -16,8 +16,8 @@ const city = ref(null)
 const phone = ref('')
 const dateOfWedding = ref(null)
 
-const { countriesOptions } = useOptionsOfCountries()
-const { citiesOptions } = useOptionsOfCities(country)
+const { countryOptions } = useOptionsOfCountries()
+const { cityOptions } = useOptionsOfCities(country)
 
 const errors = ref(null)
 
@@ -74,8 +74,8 @@ const updateProfile = async () => {
   }
 }
 
-watch(citiesOptions, (newValue, oldValue) => {
-  if (oldValue.length) {
+watch(country, (newValue, oldValue) => {
+  if (oldValue) {
     city.value = null
   }
 })
@@ -106,7 +106,7 @@ onMounted(() => {
       <div class="col-md-6">
         <BaseSelect
           v-model="country"
-          :options="countriesOptions"
+          :options="countryOptions"
           id="id_country"
           name="country"
           :label="$t('auth.profile.country')"
@@ -116,7 +116,7 @@ onMounted(() => {
       <div class="col-md-6">
         <BaseSelect
           v-model="city"
-          :options="citiesOptions"
+          :options="cityOptions"
           id="id_city"
           name="city"
           :label="$t('auth.profile.city')"

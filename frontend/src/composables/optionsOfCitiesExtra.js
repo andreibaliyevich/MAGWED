@@ -1,19 +1,24 @@
 import axios from 'axios'
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export function useOptionsOfCitiesExtra(countries) {
-  const citiesExtraOptions = ref([])
+  const { t, locale } = useI18n({ useScope: 'global' })
+  const cityValuesExtra = ref([])
 
-  const getAndSetCitiesExtra = async (params) => {
+  const cityOptionsExtra = computed(() => {
+    return cityValuesExtra.value.map((element) => {
+      return {
+        'value': element.code,
+        'text': t(`cities.${element.code}`)
+      }
+    })
+  })
+
+  const getAndSetCityOptionsExtra = async (params) => {
     try {
       const response = await axios.get('/main/cities/', { params: params })
-      citiesExtraOptions.value = []
-      response.data.forEach((element) => {
-        citiesExtraOptions.value.push({
-          'value': element.code,
-          'text': `${ element.name_local } (${ element.name })`
-        })
-      })
+      cityValuesExtra.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -23,11 +28,17 @@ export function useOptionsOfCitiesExtra(countries) {
     if (newValue.length > 0) {
       let params = new URLSearchParams()
       newValue.forEach((element) => params.append('country', element))
-      getAndSetCitiesExtra(params)
+      getAndSetCityOptionsExtra(params)
     } else {
-      citiesExtraOptions.value = []
+      cityOptionsExtra.value = []
     }
   })
 
-  return { citiesExtraOptions }
+  watch(locale, () => {
+    let params = new URLSearchParams()
+    countries.value.forEach((element) => params.append('country', element))
+    getAndSetCityOptionsExtra(params)
+  })
+
+  return { cityOptionsExtra }
 }

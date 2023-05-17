@@ -28,11 +28,11 @@ const profileURL = ref('')
 const rating = ref(0.0)
 const proTime = ref(null)
 
-const { roleTypesOptions } = useOptionsOfRoleTypes()
-const { countriesOptions } = useOptionsOfCountries()
-const { citiesOptions } = useOptionsOfCities(country)
-const { citiesExtraOptions } = useOptionsOfCitiesExtra(countries)
-const { languagesOptions } = useOptionsOfLanguages()
+const { roleTypeOptions } = useOptionsOfRoleTypes()
+const { countryOptions } = useOptionsOfCountries()
+const { cityOptions } = useOptionsOfCities(country)
+const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
+const { languageOptions } = useOptionsOfLanguages()
 
 const errors = ref(null)
 
@@ -105,13 +105,13 @@ const updateProfile = async () => {
   }
 }
 
-watch(citiesOptions, (newValue, oldValue) => {
-  if (oldValue.length) {
+watch(country, (newValue, oldValue) => {
+  if (oldValue) {
     city.value = null
   }
 })
 
-watch(citiesExtraOptions, (newValue, oldValue) => {
+watch(cityOptionsExtra, (newValue, oldValue) => {
   if (newValue.length < oldValue.length) {
     let newCitiesValues = []
     newValue.forEach(element => newCitiesValues.push(element.value))
@@ -147,7 +147,7 @@ onMounted(() => {
       <div class="col-md-6">
         <BaseSelect
           v-model="country"
-          :options="countriesOptions"
+          :options="countryOptions"
           id="id_country"
           name="country"
           :label="$t('auth.profile.country')"
@@ -157,7 +157,7 @@ onMounted(() => {
       <div class="col-md-6">
         <BaseSelect
           v-model="city"
-          :options="citiesOptions"
+          :options="cityOptions"
           id="id_city"
           name="city"
           :label="$t('auth.profile.city')"
@@ -178,7 +178,7 @@ onMounted(() => {
       <div class="col-md-12">
         <InputMultipleSelect
           v-model="roles"
-          :options="roleTypesOptions"
+          :options="roleTypeOptions"
           id="id_roles"
           name="roles"
           :label="$t('auth.profile.roles')"
@@ -197,7 +197,7 @@ onMounted(() => {
       <div class="col-md-12">
         <InputMultipleSelect
           v-model="countries"
-          :options="countriesOptions"
+          :options="countryOptions"
           id="id_countries"
           name="countries"
           :label="$t('auth.profile.countries')"
@@ -207,7 +207,7 @@ onMounted(() => {
       <div class="col-md-12">
         <InputMultipleSelect
           v-model="cities"
-          :options="citiesExtraOptions"
+          :options="cityOptionsExtra"
           id="id_cities"
           name="cities"
           :label="$t('auth.profile.cities')"
@@ -217,7 +217,7 @@ onMounted(() => {
       <div class="col-md-12">
         <InputMultipleSelect
           v-model="languages"
-          :options="languagesOptions"
+          :options="languageOptions"
           id="id_languages"
           name="languages"
           :label="$t('auth.profile.languages')"
