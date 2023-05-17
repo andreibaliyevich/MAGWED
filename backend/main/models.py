@@ -47,7 +47,7 @@ class City(models.Model):
     class Meta:
         verbose_name = _('City')
         verbose_name_plural = _('Cities')
-        ordering = ['country', 'code']
+        ordering = ['code']
 
 
 class Language(models.Model):
