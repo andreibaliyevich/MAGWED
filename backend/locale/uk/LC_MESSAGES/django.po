@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-16 04:34+0000\n"
+"POT-Creation-Date: 2023-05-18 04:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,8 +121,7 @@ msgstr "Візажист"
 msgid "Hairdresser"
 msgstr "Перукар"
 
-#: accounts/choices.py:24 main/choices.py:10 main/choices.py:21
-#: main/choices.py:34
+#: accounts/choices.py:24
 msgid "(Unknown)"
 msgstr "(Невідомо)"
 
@@ -333,24 +332,24 @@ msgstr "Організатори"
 msgid "Only organizers have permission."
 msgstr "Дозвіл є лише у організаторів."
 
-#: accounts/serializers.py:45 accounts/serializers.py:120
-#: accounts/serializers.py:166
+#: accounts/serializers.py:40 accounts/serializers.py:115
+#: accounts/serializers.py:161
 msgid "Password fields did not match."
 msgstr "Поля пароля не співпадають."
 
-#: accounts/serializers.py:90 accounts/serializers.py:154
+#: accounts/serializers.py:85 accounts/serializers.py:149
 msgid "Invalid user uuid or user does not exist."
 msgstr "Неприпустимий ідентифікатор користувача або користувач не існує."
 
-#: accounts/serializers.py:96 accounts/serializers.py:160
+#: accounts/serializers.py:91 accounts/serializers.py:155
 msgid "Invalid token for given user."
 msgstr "Неприпустимий токен для користувача."
 
-#: accounts/serializers.py:114 accounts/serializers.py:297
+#: accounts/serializers.py:109 accounts/serializers.py:292
 msgid "Invalid current password."
 msgstr "Неправильний поточний пароль."
 
-#: accounts/serializers.py:133
+#: accounts/serializers.py:128
 msgid "User with given email does not exist."
 msgstr "Користувач із вказаною адресою електронної пошти не існує."
 
@@ -497,19 +496,19 @@ msgstr "Росія"
 msgid "Ukraine"
 msgstr "Україна"
 
-#: main/choices.py:14
+#: main/choices.py:12
 msgid "Brest"
 msgstr "Брест"
 
-#: main/choices.py:15
+#: main/choices.py:13
 msgid "Minsk"
 msgstr "Мінськ"
 
-#: main/choices.py:16
+#: main/choices.py:15
 msgid "Moscow"
 msgstr "Москва"
 
-#: main/choices.py:17
+#: main/choices.py:16
 msgid "Saint Petersburg"
 msgstr "Санкт-Петербург"
 
@@ -521,35 +520,35 @@ msgstr "Київ"
 msgid "Odesa"
 msgstr "Одеса"
 
-#: main/choices.py:25
+#: main/choices.py:23
 msgid "Belarusian"
 msgstr "Білоруська"
 
-#: main/choices.py:26
+#: main/choices.py:24
 msgid "English"
 msgstr "Англійська"
 
-#: main/choices.py:27
+#: main/choices.py:25
 msgid "French"
 msgstr "Французька"
 
-#: main/choices.py:28
+#: main/choices.py:26
 msgid "German"
 msgstr "Німецька"
 
-#: main/choices.py:29
+#: main/choices.py:27
 msgid "Polish"
 msgstr "Польська"
 
-#: main/choices.py:30
+#: main/choices.py:28
 msgid "Portuguese"
 msgstr "Португальська"
 
-#: main/choices.py:31
+#: main/choices.py:29
 msgid "Russian"
 msgstr "Російська"
 
-#: main/choices.py:32
+#: main/choices.py:30
 msgid "Ukrainian"
 msgstr "Українська"
 
@@ -575,7 +574,7 @@ msgstr "Журнал"
 msgid "Magazines"
 msgstr "Журнали"
 
-#: main/serializers.py:64
+#: main/serializers.py:52
 #, fuzzy
 #| msgid "Invalid user type."
 msgid "Invalid data."
