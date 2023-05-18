@@ -22,6 +22,19 @@
         "ru": "Russian",
         "uk": "Ukrainian"
     },
+    "roles": {
+        "1": "Photographer",
+        "2": "Videographer",
+        "3": "Leading",
+        "4": "Musician",
+        "5": "DJ",
+        "6": "Agency",
+        "7": "Salon",
+        "8": "Confectionery",
+        "9": "Decorator",
+        "10": "Visagiste",
+        "11": "Hairdresser"
+    },
     "nav": {
         "menu": "Menu",
         "organizers": "Organizers",
@@ -217,19 +230,6 @@
             "password_confirmation": "Password confirmation",
             "delete_profile": "Delete profile"
         }
-    },
-    "roles": {
-        "photographer": "Photographer",
-        "videographer": "Videographer",
-        "leading": "Leading",
-        "musician": "Musician",
-        "dj": "DJ",
-        "agency": "Agency",
-        "salon": "Salon",
-        "confectionery": "Confectionery",
-        "decorator": "Decorator",
-        "visagiste": "Visagiste",
-        "hairdresser": "Hairdresser"
     },
     "messenger": {
         "chats": "Chats",
