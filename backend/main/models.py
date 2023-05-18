@@ -30,7 +30,7 @@ class City(models.Model):
     """ City Model """
     code = models.CharField(
         primary_key=True,
-        max_length=5,
+        max_length=32,
         choices=CityChoices.choices,
         verbose_name=_('Code'),
     )
