@@ -30,7 +30,7 @@ export function useOptionsOfCitiesExtra(countries) {
       newValue.forEach((element) => params.append('country', element))
       getAndSetCityOptionsExtra(params)
     } else {
-      cityOptionsExtra.value = []
+      cityValuesExtra.value = []
     }
   })
 
