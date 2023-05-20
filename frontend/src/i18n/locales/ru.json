@@ -161,6 +161,7 @@
             "languages": "Языки",
             "cost_work": "Стоимость работы",
             "number_hours": "Количество часов",
+            "website": "Веб-сайт",
             "profile_url": "URL профиля",
             "update_profile": "Обновить профиль"
         },

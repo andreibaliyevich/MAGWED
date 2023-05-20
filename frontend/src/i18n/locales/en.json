@@ -161,6 +161,7 @@
             "languages": "Languages",
             "cost_work": "Cost of work",
             "number_hours": "Number of hours",
+            "website": "Web site",
             "profile_url": "Profile URL",
             "update_profile": "Update profile"
         },
