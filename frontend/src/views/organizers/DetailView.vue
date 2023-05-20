@@ -4,9 +4,11 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
+import { useCurrencyStore } from '@/stores/currency.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const route = useRoute()
+const currencyStore = useCurrencyStore()
 const connectionBusStore = useConnectionBusStore()
 
 const organizerLoading = ref(true)
@@ -94,7 +96,7 @@ onMounted(() => {
               class="border border-light border-3"
             />
           </div>
-          <div class="d-sm-inline-block mt-3 ms-sm-3">
+          <div class="d-sm-inline-block mt-3 ms-lg-3">
             <h1 class="h3">{{ organizerData.user.name }}</h1>
             <div class="row g-1">
               <div
@@ -102,76 +104,13 @@ onMounted(() => {
                 :key="roleValue"
                 class="col"
               >
-                <span
-                  v-if="roleValue==1"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.photographer') }}
-                </span>
-                <span
-                  v-else-if="roleValue==2"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.videographer') }}
-                </span>
-                <span
-                  v-else-if="roleValue==3"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.leading') }}
-                </span>
-                <span
-                  v-else-if="roleValue==4"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.musician') }}
-                </span>
-                <span
-                  v-else-if="roleValue==5"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.dj') }}
-                </span>
-                <span
-                  v-else-if="roleValue==6"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.agency') }}
-                </span>
-                <span
-                  v-else-if="roleValue==7"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.salon') }}
-                </span>
-                <span
-                  v-else-if="roleValue==8"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.confectionery') }}
-                </span>
-                <span
-                  v-else-if="roleValue==9"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.decorator') }}
-                </span>
-                <span
-                  v-else-if="roleValue==10"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.visagiste') }}
-                </span>
-                <span
-                  v-else-if="roleValue==11"
-                  class="badge text-bg-light"
-                >
-                  {{ $t('roles.hairdresser') }}
+                <span class="badge text-bg-light">
+                  {{ $t(`roles.${roleValue}`) }}
                 </span>
               </div>
             </div>
           </div>
-          <div class="d-flex justify-content-center mt-3 ms-sm-auto">
+          <div class="d-flex justify-content-center mt-3 ms-lg-auto">
             <button
               type="button"
               class="btn btn-outline-brand"
@@ -198,8 +137,8 @@ onMounted(() => {
             class="list-inline-item"
           >
             <i class="fa-solid fa-location-dot me-1"></i>
-            {{ organizerData.user.city.name_local }} ({{ organizerData.user.city.name }}),
-            {{ organizerData.user.country.name_local }} ({{ organizerData.user.country.name }})
+            {{ $t(`cities.${organizerData.user.city}`) }},
+            {{ $t(`countries.${organizerData.user.country}`) }}
           </li>
           <li
             v-if="organizerData.user.phone"
@@ -213,9 +152,22 @@ onMounted(() => {
               {{ organizerData.user.phone }}
             </a>
           </li>
+          <li
+            v-if="organizerData.website"
+            class="list-inline-item"
+          >
+            <i class="fa-solid fa-globe me-1"></i>
+            <a
+              :href="organizerData.website"
+              target="_blank"
+              class="text-decoration-none link-dark"
+            >
+              {{ organizerData.website }}
+            </a>
+          </li>
         </ul>
       </div>
-      <div class="card mt-3 py-3 px-5">
+      <div class="card mt-3 py-3 px-3 px-lg-5">
         <p
           v-if="organizerData.description"
           class="lead"
@@ -224,16 +176,62 @@ onMounted(() => {
         </p>
         <ul class="list-group list-group-flush">
           <li
+            v-if="organizerData.countries.length"
+            class="list-group-item"
+          >
+            <i class="fa-solid fa-earth-europe"></i>
+            {{ $t('auth.profile.countries') }}:
+            <span
+              v-for="countryValue in organizerData.countries"
+              :key="countryValue"
+              class="badge text-bg-light fw-normal ms-1"
+            >
+              {{ $t(`countries.${countryValue}`) }}
+            </span>
+          </li>
+          <li
+            v-if="organizerData.cities.length"
+            class="list-group-item"
+          >
+            <i class="fa-solid fa-city"></i>
+            {{ $t('auth.profile.cities') }}:
+            <span
+              v-for="cityValue in organizerData.cities"
+              :key="cityValue"
+              class="badge text-bg-light fw-normal ms-1"
+            >
+              {{ $t(`cities.${cityValue}`) }}
+            </span>
+          </li>
+          <li
+            v-if="organizerData.languages.length"
+            class="list-group-item"
+          >
+            <i class="fa-solid fa-language"></i>
+            {{ $t('auth.profile.languages') }}:
+            <span
+              v-for="languageValue in organizerData.languages"
+              :key="languageValue"
+              class="badge text-bg-light fw-normal ms-1"
+            >
+              {{ $t(`languages.${languageValue}`) }}
+            </span>
+          </li>
+          <li
             v-if="organizerData.cost_work"
             class="list-group-item"
           >
-            {{ $t('auth.profile.cost_work') }}: {{ organizerData.cost_work }}
+            <i class="fa-solid fa-money-bills"></i>
+            {{ $t('auth.profile.cost_work') }}:
+            {{ currencyStore.currencyText }}{{ convertToCurrency(organizerData.cost_work) }}
           </li>
           <li
             v-if="organizerData.number_hours"
             class="list-group-item"
           >
-            {{ $t('auth.profile.number_hours') }}: {{ organizerData.number_hours }}
+            <i class="fa-solid fa-clock"></i>
+            {{ $t('auth.profile.number_hours') }}:
+            {{ organizerData.number_hours }}
           </li>
         </ul>
       </div>

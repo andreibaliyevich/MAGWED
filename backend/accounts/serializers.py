@@ -414,5 +414,6 @@ class OrganizerDetailSerializer(serializers.ModelSerializer):
             'languages',
             'cost_work',
             'number_hours',
+            'website',
             'rating',
         ]
