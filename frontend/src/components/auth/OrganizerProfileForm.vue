@@ -24,6 +24,7 @@ const cities = ref([])
 const languages = ref([])
 const costWork = ref(0.00)
 const numberHours = ref(0)
+const website = ref('')
 const profileURL = ref('')
 const rating = ref(0.0)
 const proTime = ref(null)
@@ -50,6 +51,7 @@ const getProfileData = async () => {
     languages.value = response.data.languages
     costWork.value = response.data.cost_work
     numberHours.value = response.data.number_hours
+    website.value = response.data.website
     profileURL.value = response.data.profile_url
     rating.value = response.data.rating
     proTime.value = response.data.pro_time
@@ -85,6 +87,7 @@ const updateProfile = async () => {
       'languages': languages.value,
       'cost_work': costWork.value,
       'number_hours': numberHours.value,
+      'website': website.value,
       'profile_url': profileURL.value
     })
     userStore.updateName(name.value)
@@ -248,6 +251,18 @@ onMounted(() => {
           name="number_hours"
           :label="$t('auth.profile.number_hours')"
           :errors="errors?.number_hours ? errors.number_hours : []"
+        />
+      </div>
+      <div class="col-md-12">
+        <BaseInput
+          v-model="website"
+          type="url"
+          maxlength="200"
+          required=""
+          id="id_website"
+          name="website"
+          :label="$t('auth.profile.website')"
+          :errors="errors?.website ? errors.website : []"
         />
       </div>
       <div class="col-md-12">

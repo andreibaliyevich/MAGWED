@@ -260,6 +260,7 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
             'cost_work', instance.cost_work)
         instance.number_hours = validated_data.get(
             'number_hours', instance.number_hours)
+        instance.website = validated_data.get('website', instance.website)
         instance.profile_url = validated_data.get(
             'profile_url', instance.profile_url)
         instance.save()
@@ -277,6 +278,7 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
             'languages',
             'cost_work',
             'number_hours',
+            'website',
             'profile_url',
             'rating',
             'pro_time',
