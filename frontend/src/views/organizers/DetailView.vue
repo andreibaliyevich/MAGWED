@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
@@ -31,11 +31,16 @@ const organizerData = ref({
   languages: [],
   cost_work: 0.0,
   number_hours: 0,
+  website: '',
   rating: 0.0
 })
 
 const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString } = useLocaleDateTime()
+
+const websiteShort = computed(() => {
+  return organizerData.value.website.split('//')[1]
+})
 
 const getOrganizerData = async () => {
   organizerLoading.value = true
@@ -127,14 +132,14 @@ onMounted(() => {
             </button>
           </div>
         </div>
-        <ul class="list-inline text-lg-start text-center mx-3 mx-lg-5 mb-3">
-          <li class="list-inline-item">
-            <i class="fa-regular fa-calendar-plus"></i>
+        <ul class="list-inline text-center text-lg-start mx-3 mx-lg-5 mb-3">
+          <li class="list-inline-item me-3">
+            <i class="fa-regular fa-calendar-plus me-1"></i>
             {{ getLocaleDateString(organizerData.user.date_joined) }}
           </li>
           <li
             v-if="organizerData.user.city"
-            class="list-inline-item"
+            class="list-inline-item me-3"
           >
             <i class="fa-solid fa-location-dot me-1"></i>
             {{ $t(`cities.${organizerData.user.city}`) }},
@@ -142,7 +147,7 @@ onMounted(() => {
           </li>
           <li
             v-if="organizerData.user.phone"
-            class="list-inline-item"
+            class="list-inline-item me-3"
           >
             <i class="fa-solid fa-phone me-1"></i>
             <a
@@ -162,7 +167,7 @@ onMounted(() => {
               target="_blank"
               class="text-decoration-none link-dark"
             >
-              {{ organizerData.website }}
+              {{ websiteShort }}
             </a>
           </li>
         </ul>
