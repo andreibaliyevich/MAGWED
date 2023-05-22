@@ -18,7 +18,7 @@ const photosUploadStatusRound = computed(() => {
 
 const getPhotosData = async () => {
   try {
-    const response = await axios.get('/portfolio/photos/')
+    const response = await axios.get('/portfolio/photos/crud/')
     photoList.value = response.data
   } catch (error) {
     console.error(error)
@@ -38,7 +38,7 @@ const uploadPhotos = async (filelist) => {
       photoData.append('image', filelist[i], filelist[i].name)
 
       try {
-        const response = await axios.post('/portfolio/photos/', photoData)
+        const response = await axios.post('/portfolio/photos/crud/', photoData)
         photoList.value.unshift(response.data)
         photosUploadStatus.value += uploadStep
       } catch (error) {

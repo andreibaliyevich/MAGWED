@@ -45,7 +45,7 @@ const errors = ref(null)
 const getAlbumData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/albums/' + route.params.uuid +'/'
+      '/portfolio/albums/crud/' + route.params.uuid +'/'
     )
     albumUuid.value = response.data.uuid
     albumImage.value = response.data.image
@@ -75,7 +75,7 @@ const updateAlbumImage = async (filelist) => {
 
   try {
     const response = await axios.put(
-      '/portfolio/albums/' + albumUuid.value +'/image/',
+      '/portfolio/albums/crud/' + albumUuid.value +'/image/',
       albumImageData
     )
     albumImage.value = response.data.image
@@ -93,7 +93,7 @@ const updateAlbum = async () => {
   albumUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/albums/' + albumUuid.value +'/',
+      '/portfolio/albums/crud/' + albumUuid.value +'/',
       {
         'title': albumTitle.value,
         'description': albumDescription.value,
@@ -114,7 +114,7 @@ const updateAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/albums/' + albumUuid.value +'/'
+      '/portfolio/albums/crud/' + albumUuid.value +'/'
     )
     router.push({
       name: 'PortfolioAlbumList',
@@ -137,7 +137,7 @@ const uploadAlbumPhotos = async (filelist) => {
       photoData.append('image', filelist[i], filelist[i].name)
 
       try {
-        const response = await axios.post('/portfolio/photos/', photoData)
+        const response = await axios.post('/portfolio/photos/crud/', photoData)
         albumPhotoList.value.unshift(response.data)
         albumPhotosUploadStatus.value += uploadStep
       } catch (error) {

@@ -27,7 +27,7 @@ const createAlbumModalBootstrap = ref(null)
 
 const getAlbumsData = async () => {
   try {
-    const response = await axios.get('/portfolio/albums/')
+    const response = await axios.get('/portfolio/albums/crud/')
     albumList.value = response.data
   } catch (error) {
     console.error(error)
@@ -45,7 +45,7 @@ const createAlbum = async () => {
     albumData.append('description', albumDescription.value)
     albumData.append('hashtags', albumHashtags.value)
 
-    const response = await axios.post('/portfolio/albums/', albumData)
+    const response = await axios.post('/portfolio/albums/crud/', albumData)
     errors.value = null
     createAlbumModalBootstrap.value.hide()
     router.push({
@@ -65,7 +65,7 @@ const createAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/albums/' + albumUuid.value +'/'
+      '/portfolio/albums/crud/' + albumUuid.value +'/'
     )
     albumList.value = albumList.value.filter((element) => {
       return element.uuid != albumUuid.value
