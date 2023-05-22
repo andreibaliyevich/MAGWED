@@ -1,15 +1,19 @@
 from contextlib import suppress
 from exif import Image as ExifImage
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.permissions import UserIsOrganizer
 from .models import Album, Photo
 from .serializers import (
     AlbumListCreateSerializer,
     AlbumImageSerializer,
     AlbumRUDSerializer,
+    AlbumListSerializer,
+    AlbumDetailSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
+    PhotoListSerializer,
+    PhotoDetailSerializer,
 )
 
 
@@ -52,6 +56,20 @@ class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         queryset = Album.objects.filter(owner=self.request.user)
         return queryset
+
+
+class AlbumListView(generics.ListAPIView):
+    """ Album List View """
+    permission_classes = [AllowAny]
+    queryset = Album.objects.all()
+    serializer_class = AlbumListSerializer
+
+
+class AlbumDetailView(generics.RetrieveAPIView):
+    """ Album Detail View """
+    permission_classes = [AllowAny]
+    lookup_field = 'uuid'
+    serializer_class = AlbumDetailSerializer
 
 
 class PhotoListCreateView(generics.ListCreateAPIView):
@@ -98,3 +116,17 @@ class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         queryset = Photo.objects.filter(owner=self.request.user)
         return queryset
+
+
+class PhotoListView(generics.ListAPIView):
+    """ Photo List View """
+    permission_classes = [AllowAny]
+    queryset = Photo.objects.all()
+    serializer_class = PhotoListSerializer
+
+
+class PhotoDetailView(generics.RetrieveAPIView):
+    """ Photo Detail View """
+    permission_classes = [AllowAny]
+    lookup_field = 'uuid'
+    serializer_class = PhotoDetailSerializer

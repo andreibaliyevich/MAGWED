@@ -3,6 +3,18 @@ from main.serializers import TagRelatedField
 from .models import Album, Photo
 
 
+class AlbumShortReadSerializer(serializers.ModelSerializer):
+    """ Album Short Read Serializer """
+    
+    class Meta:
+        model = Album
+        fields = [
+            'uuid',
+            'title',
+            'thumbnail',
+        ]
+
+
 class PhotoShortReadSerializer(serializers.ModelSerializer):
     """ Photo Short Read Serializer """
 
@@ -71,15 +83,46 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
         ]
 
 
-class AlbumShortReadSerializer(serializers.ModelSerializer):
-    """ Album Short Read Serializer """
-    
+class PhotoListSerializer(serializers.ModelSerializer):
+    """ Photo List Serializer """
+
     class Meta:
-        model = Album
+        model = Photo
         fields = [
             'uuid',
-            'title',
             'thumbnail',
+            'title',
+            'uploaded_at',
+        ]
+
+
+class PhotoDetailSerializer(serializers.ModelSerializer):
+    """ Photo Detail Serializer """
+    album = AlbumShortReadSerializer(read_only=True, many=True)
+    tags = TagRelatedField(read_only=True, many=True)
+    likes_count = serializers.SerializerMethodField()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    class Meta:
+        model = Photo
+        fields = [
+            'uuid',
+            'album',
+            'image',
+            'device',
+            'f_number',
+            'exposure_time',
+            'focal_length',
+            'photographic_sensitivity',
+            'title',
+            'description',
+            'tags',
+            'uploaded_at',
+            'num_views',
+            'likes_count',
+            'rating',
         ]
 
 
@@ -119,6 +162,44 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
     photos = PhotoListCreateSerializer(read_only=True, many=True)
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    class Meta:
+        model = Album
+        fields = [
+            'uuid',
+            'image',
+            'title',
+            'description',
+            'tags',
+            'created_at',
+            'num_views',
+            'likes_count',
+            'rating',
+            'photos',
+        ]
+
+
+class AlbumListSerializer(serializers.ModelSerializer):
+    """ Album List Serializer """
+
+    class Meta:
+        model = Album
+        fields = [
+            'uuid',
+            'thumbnail',
+            'title',
+            'created_at',
+        ]
+
+
+class AlbumDetailSerializer(serializers.ModelSerializer):
+    """ Album Detail Serializer """
+    tags = TagRelatedField(read_only=True, many=True)
+    likes_count = serializers.SerializerMethodField()
+    photos = PhotoListSerializer(read_only=True, many=True)
 
     def get_likes_count(self, obj):
         return obj.likes.count()
