@@ -1,15 +1,7 @@
 from rest_framework import serializers
 from django.db.utils import DataError
 from django.utils.translation import gettext_lazy as _
-from .models import Country, City, Language, Tag, Magazine
-
-
-class CountrySerializer(serializers.ModelSerializer):
-    """ Country Serializer """
-
-    class Meta:
-        model = Country
-        fields = ['code']
+from .models import City, Tag, Magazine
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -18,25 +10,6 @@ class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
         fields = ['code']
-
-
-class LanguageSerializer(serializers.ModelSerializer):
-    """ Language Serializer """
-
-    class Meta:
-        model = Language
-        fields = ['code']
-
-
-class TagSerializer(serializers.ModelSerializer):
-    """ Tag Serializer """
-
-    class Meta:
-        model = Tag
-        fields = [
-            'uuid',
-            'name',
-        ]
 
 
 class TagRelatedField(serializers.RelatedField):

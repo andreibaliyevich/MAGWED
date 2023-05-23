@@ -5,21 +5,8 @@ from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
 from .filters import CityFilter
-from .models import Country, City, Language, Tag, Magazine
-from .serializers import (
-    CountrySerializer,
-    CitySerializer,
-    LanguageSerializer,
-    TagSerializer,
-    MagazineSerializer,
-)
-
-
-class CountryListView(generics.ListAPIView):
-    """ Country List View """
-    permission_classes = [AllowAny]
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
+from .models import City, Magazine
+from .serializers import CitySerializer, MagazineSerializer
 
 
 class CityListView(generics.ListAPIView):
@@ -29,20 +16,6 @@ class CityListView(generics.ListAPIView):
     serializer_class = CitySerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CityFilter
-
-
-class LanguageListView(generics.ListAPIView):
-    """ Language List View """
-    permission_classes = [AllowAny]
-    queryset = Language.objects.all()
-    serializer_class = LanguageSerializer
-
-
-class TagListView(generics.ListAPIView):
-    """ Tag List View """
-    permission_classes = [AllowAny]
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
 
 
 class MagazineView(APIView):
