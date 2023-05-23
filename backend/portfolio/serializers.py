@@ -10,8 +10,8 @@ class AlbumShortReadSerializer(serializers.ModelSerializer):
         model = Album
         fields = [
             'uuid',
-            'title',
             'thumbnail',
+            'title',
         ]
 
 
