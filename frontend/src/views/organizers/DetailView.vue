@@ -38,8 +38,8 @@ const organizerData = ref({
 const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString } = useLocaleDateTime()
 
-const websiteShort = computed(() => {
-  return organizerData.value.website.split('//')[1]
+const organizerWebsiteShort = computed(() => {
+  return organizerData.value.website.split('://')[1]
 })
 
 const getOrganizerData = async () => {
@@ -167,7 +167,7 @@ onMounted(() => {
               target="_blank"
               class="text-decoration-none link-dark"
             >
-              {{ websiteShort }}
+              {{ organizerWebsiteShort }}
             </a>
           </li>
         </ul>
