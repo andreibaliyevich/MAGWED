@@ -135,6 +135,7 @@ onMounted(() => {
         <ul class="list-inline text-center text-lg-start mx-3 mx-lg-5 mb-3">
           <li class="list-inline-item me-3">
             <i class="fa-regular fa-calendar-plus me-1"></i>
+            {{ $t('profile.joined_on') }}
             {{ getLocaleDateString(organizerData.user.date_joined) }}
           </li>
           <li
@@ -185,7 +186,7 @@ onMounted(() => {
             class="list-group-item"
           >
             <i class="fa-solid fa-earth-europe"></i>
-            {{ $t('auth.profile.countries') }}:
+            {{ $t('profile.countries') }}:
             <span
               v-for="countryValue in organizerData.countries"
               :key="countryValue"
@@ -199,7 +200,7 @@ onMounted(() => {
             class="list-group-item"
           >
             <i class="fa-solid fa-city"></i>
-            {{ $t('auth.profile.cities') }}:
+            {{ $t('profile.cities') }}:
             <span
               v-for="cityValue in organizerData.cities"
               :key="cityValue"
@@ -213,7 +214,7 @@ onMounted(() => {
             class="list-group-item"
           >
             <i class="fa-solid fa-language"></i>
-            {{ $t('auth.profile.languages') }}:
+            {{ $t('profile.languages') }}:
             <span
               v-for="languageValue in organizerData.languages"
               :key="languageValue"
@@ -227,7 +228,7 @@ onMounted(() => {
             class="list-group-item"
           >
             <i class="fa-solid fa-money-bills"></i>
-            {{ $t('auth.profile.cost_work') }}:
+            {{ $t('profile.cost_work') }}:
             {{ currencyStore.currencyText }}{{ convertToCurrency(organizerData.cost_work) }}
           </li>
           <li
@@ -235,7 +236,7 @@ onMounted(() => {
             class="list-group-item"
           >
             <i class="fa-solid fa-clock"></i>
-            {{ $t('auth.profile.number_hours') }}:
+            {{ $t('profile.number_hours') }}:
             {{ organizerData.number_hours }}
           </li>
         </ul>

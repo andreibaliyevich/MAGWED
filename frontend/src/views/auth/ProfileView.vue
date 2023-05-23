@@ -13,7 +13,7 @@ const userStore = useUserStore()
 <template>
   <div class="profile-view">
     <div class="px-1 px-lg-3 px-xl-5">
-      <h1 class="display-6 mb-5">{{ $t('auth.profile.profile_settings') }}</h1>
+      <h1 class="display-6 mb-5">{{ $t('profile.profile_settings') }}</h1>
 
       <ProfileCover v-if="userStore.userType == userType.ORGANIZER" />
       <ProfileAvatar />

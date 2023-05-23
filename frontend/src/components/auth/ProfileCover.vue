@@ -67,7 +67,7 @@ onMounted(() => {
     <div class="card mb-2">
       <LoadingIndicator
         v-if="coverLoading"
-        :actionInfo="$t('auth.profile.uploading_cover')"
+        :actionInfo="$t('profile.uploading_cover')"
       />
       <div v-else>
         <img
@@ -85,13 +85,13 @@ onMounted(() => {
             v-if="status == 200"
             class="text-success"
           >
-            {{ $t('auth.profile.cover_updated_successfully') }}
+            {{ $t('profile.cover_updated_successfully') }}
           </small>
           <small
             v-else-if="status == 204"
             class="text-success"
           >
-            {{ $t('auth.profile.cover_removed_successfully') }}
+            {{ $t('profile.cover_removed_successfully') }}
           </small>
           <small
             v-if="errors && errors.cover"
@@ -106,7 +106,7 @@ onMounted(() => {
               buttonClass="btn btn-soft-brand m-1"
               accept="image/*"
             >
-              {{ $t('auth.profile.upload_cover') }}
+              {{ $t('profile.upload_cover') }}
             </FileInputButton>
             <button
               v-if="cover"
@@ -115,7 +115,7 @@ onMounted(() => {
               data-bs-toggle="modal"
               data-bs-target="#removeCoverModalChoice"
             >
-              {{ $t('auth.profile.remove_cover') }}
+              {{ $t('profile.remove_cover') }}
             </button>
           </div>
           <small class="text-muted">
@@ -141,8 +141,8 @@ onMounted(() => {
         >
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('auth.profile.you_want_remove_cover') }}</h5>
-              <p class="mb-0">{{ $t('auth.profile.cover_will_be_set_default') }}</p>
+              <h5 class="mb-0">{{ $t('profile.you_want_remove_cover') }}</h5>
+              <p class="mb-0">{{ $t('profile.cover_will_be_set_default') }}</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
               <button

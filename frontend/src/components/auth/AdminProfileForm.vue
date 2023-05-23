@@ -94,7 +94,7 @@ onMounted(() => {
           type="text"
           id="id_name"
           name="name"
-          :label="$t('auth.profile.name')"
+          :label="$t('profile.name')"
           :errors="errors?.name ? errors.name : []"
         />
       </div>
@@ -104,7 +104,7 @@ onMounted(() => {
           :options="countryOptions"
           id="id_country"
           name="country"
-          :label="$t('auth.profile.country')"
+          :label="$t('profile.country')"
           :errors="errors?.country ? errors.country : []"
         />
       </div>
@@ -114,7 +114,7 @@ onMounted(() => {
           :options="cityOptions"
           id="id_city"
           name="city"
-          :label="$t('auth.profile.city')"
+          :label="$t('profile.city')"
           :errors="errors?.city ? errors.city : []"
         />
       </div>
@@ -125,7 +125,7 @@ onMounted(() => {
           maxlength="21"
           id="id_phone"
           name="phone"
-          :label="$t('auth.profile.phone')"
+          :label="$t('profile.phone')"
           :errors="errors?.phone ? errors.phone : []"
         />
       </div>
@@ -134,7 +134,7 @@ onMounted(() => {
           :loadingStatus="profileUpdating"
           buttonClass="btn btn-brand btn-lg"
         >
-          {{ $t('auth.profile.update_profile') }}
+          {{ $t('profile.update_profile') }}
         </SubmitButton>
       </div>
     </form>

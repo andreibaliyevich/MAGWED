@@ -202,7 +202,7 @@ onMounted(() => {
                 :options="roleTypeOptions"
                 id="id_roles"
                 name="roles"
-                :label="$t('auth.profile.roles')"
+                :label="$t('profile.roles')"
               />
               <br>
               <CheckboxMultipleSelect
@@ -210,7 +210,7 @@ onMounted(() => {
                 :options="countryOptions"
                 id="id_countries"
                 name="countries"
-                :label="$t('auth.profile.countries')"
+                :label="$t('profile.countries')"
               />
               <br v-if="countries.length > 0">
               <CheckboxMultipleSelect
@@ -219,7 +219,7 @@ onMounted(() => {
                 :options="cityOptionsExtra"
                 id="id_cities"
                 name="cities"
-                :label="$t('auth.profile.cities')"
+                :label="$t('profile.cities')"
               />
               <br>
               <CheckboxMultipleSelect
@@ -227,7 +227,7 @@ onMounted(() => {
                 :options="languageOptions"
                 id="id_languages"
                 name="languages"
-                :label="$t('auth.profile.languages')"
+                :label="$t('profile.languages')"
               />
               <br>
               <NumberRangeInput
@@ -237,7 +237,7 @@ onMounted(() => {
                 :max="costWorkMaxBorder"
                 id="id_cost_work"
                 name="cost_work"
-                :label="$t('auth.profile.cost_work')"
+                :label="$t('profile.cost_work')"
                 :minLabel="currencyStore.currencyText"
                 :maxLabel="currencyStore.currencyText"
               />

@@ -70,7 +70,7 @@ const removeAvatar = async () => {
     <div class="card mb-2">
       <LoadingIndicator
         v-if="avatarLoading"
-        :actionInfo="$t('auth.profile.uploading_avatar')"
+        :actionInfo="$t('profile.uploading_avatar')"
       />
       <div
         v-else
@@ -90,13 +90,13 @@ const removeAvatar = async () => {
               v-if="status == 200"
               class="text-success"
             >
-              {{ $t('auth.profile.avatar_updated_successfully') }}
+              {{ $t('profile.avatar_updated_successfully') }}
             </small>
             <small
               v-else-if="status == 204"
               class="text-success"
             >
-              {{ $t('auth.profile.avatar_removed_successfully') }}
+              {{ $t('profile.avatar_removed_successfully') }}
             </small>
             <small
               v-if="errors && errors.avatar"
@@ -111,7 +111,7 @@ const removeAvatar = async () => {
                 buttonClass="btn btn-soft-brand m-1"
                 accept="image/*"
               >
-                {{ $t('auth.profile.upload_avatar') }}
+                {{ $t('profile.upload_avatar') }}
               </FileInputButton>
               <button
                 v-if="userStore.avatar"
@@ -120,7 +120,7 @@ const removeAvatar = async () => {
                 data-bs-toggle="modal"
                 data-bs-target="#removeAvatarModalChoice"
               >
-                {{ $t('auth.profile.remove_avatar') }}
+                {{ $t('profile.remove_avatar') }}
               </button>
             </div>
             <small class="text-muted">
@@ -147,8 +147,8 @@ const removeAvatar = async () => {
         >
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('auth.profile.you_want_remove_avatar') }}</h5>
-              <p class="mb-0">{{ $t('auth.profile.avatar_will_be_set_default') }}</p>
+              <h5 class="mb-0">{{ $t('profile.you_want_remove_avatar') }}</h5>
+              <p class="mb-0">{{ $t('profile.avatar_will_be_set_default') }}</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
               <button

@@ -81,7 +81,7 @@ const userStore = useUserStore()
               ]"
             >
               <i class="fa-solid fa-user"></i>
-              {{ $t('auth.profile.profile') }}
+              {{ $t('profile.profile') }}
             </LocaleRouterLink>
           </li>
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
