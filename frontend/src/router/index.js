@@ -92,7 +92,7 @@ const router = createRouter({
           ]
         },
         {
-          path: '',
+          path: 'settings',
           name: 'BaseAccount',
           component: () => import('@/views/auth/BaseAccountView.vue'),
           beforeEnter: [isAuthenticated],
