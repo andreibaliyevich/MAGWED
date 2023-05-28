@@ -142,7 +142,7 @@ onMounted(() => {
     <div class="dropdown">
       <a
         ref="dropdownNotifications"
-        id="dropdownNotifications"
+        id="dropdown_notifications"
         href="#"
         class="text-decoration-none link-secondary"
         data-bs-toggle="dropdown"
@@ -159,14 +159,14 @@ onMounted(() => {
       </a>
       <ul
         ref="scrollArea"
-        class="dropdown-menu dropdown-menu-end border border-light shadow overflow-auto"
-        aria-labelledby="dropdownNotifications"
+        class="dropdown-menu dropdown-menu-end border border-light shadow"
+        aria-labelledby="dropdown_notifications"
       >
         <li v-if="notificationsLoading">
           <LoadingIndicator />
         </li>
         <li v-else-if="notificationList.length > 0">
-          <ul class="list-group list-group-flush">
+          <ul class="list-group list-group-flush overflow-auto">
             <li
               v-for="notice in notificationList"
               :key="notice.uuid"
@@ -201,8 +201,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.dropdown-menu.overflow-auto {
+.dropdown-menu.dropdown-menu-end {
   width: 330px;
-  max-height: 530px;
+}
+.list-group.list-group-flush.overflow-auto {
+  max-height: 550px;
 }
 </style>

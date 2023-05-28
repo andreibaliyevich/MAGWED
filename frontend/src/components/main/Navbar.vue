@@ -77,6 +77,7 @@ const userStore = useUserStore()
             </li>
             <li class="nav-item dropdown ms-xl-3">
               <a
+                id="nav_link_albums"
                 href="#"
                 :class="[
                   'nav-link text-uppercase fw-bold',
@@ -89,7 +90,10 @@ const userStore = useUserStore()
                 {{ $t('nav.places') }}
                 <i class="fa-solid fa-angle-down fa-xs"></i>
               </a>
-              <ul class="dropdown-menu border border-light shadow">
+              <ul
+                class="dropdown-menu border border-light shadow"
+                aria-labelledby="nav_link_albums"
+              >
                 <li><a class="dropdown-item" href="#">Action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>

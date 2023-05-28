@@ -86,7 +86,7 @@ const changeCurrency = (event) => {
         </div>
         <div class="dropdown d-flex align-items-center">
           <a
-            id="dropdownLocale"
+            id="dropdown_locale"
             href="#"
             role="button"
             class="dropdown-toggle d-flex align-items-center text-decoration-none text-white"
@@ -104,7 +104,7 @@ const changeCurrency = (event) => {
           </a>
           <ul
             class="dropdown-menu dropdown-menu-end border border-light shadow z-index-1050"
-            aria-labelledby="dropdownLocale"
+            aria-labelledby="dropdown_locale"
           >
             <li
               ref="currencyList"

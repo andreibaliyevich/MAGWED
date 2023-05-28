@@ -12,7 +12,7 @@ const userStore = useUserStore()
     <div class="dropdown">
       <a
         ref="dropdownUser"
-        id="dropdownUser"
+        id="dropdown_user"
         href="#"
         class="text-decoration-none"
         data-bs-toggle="dropdown"
@@ -28,7 +28,7 @@ const userStore = useUserStore()
       </a>
       <ul
         class="dropdown-menu dropdown-menu-end border border-light shadow"
-        aria-labelledby="dropdownUser"
+        aria-labelledby="dropdown_user"
       >
         <li class="px-3 pt-2 pb-3">
           <div class="d-flex align-items-center gap-2 mb-1">
