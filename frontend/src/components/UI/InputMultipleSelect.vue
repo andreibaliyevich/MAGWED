@@ -222,14 +222,20 @@ input:focus-visible {
 }
 
 .position-absolute.overflow-auto {
-  display: none;
-  margin: 0;
+  max-height: 0;
   width: 100%;
-  max-height: 230px;
+  opacity: 0;
+  overflow: hidden;
   z-index: 1000;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
 }
 .position-absolute.overflow-auto.show {
-  display: block;
+  max-height: 230px;
+  opacity: 1;
 }
 .list-group-item.py-1:hover {
   color: #e72a26 !important;
