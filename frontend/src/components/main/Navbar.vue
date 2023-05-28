@@ -60,12 +60,12 @@ const userStore = useUserStore()
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav d-flex align-items-lg-center flex-grow-1 mx-3">
-            <li class="nav-item text-uppercase fw-bold">
+            <li class="nav-item">
               <LocaleRouterLink
                 routeName="OrganizerList"
                 @click="$refs.offcanvasClose.click()"
                 :class="[
-                  'nav-link',
+                  'nav-link text-uppercase fw-bold',
                   this.$route.name == 'OrganizerList'
                     || this.$route.name == 'OrganizerDetail'
                     ? 'active'
@@ -75,36 +75,49 @@ const userStore = useUserStore()
                 {{ $t('nav.organizers') }}
               </LocaleRouterLink>
             </li>
-            <li class="nav-item text-uppercase fw-bold ms-xl-3">
-              <LocaleRouterLink
-                routeName="Home"
-                @click="$refs.offcanvasClose.click()"
+            <li class="nav-item dropdown ms-xl-3">
+              <a
+                href="#"
                 :class="[
-                  'nav-link',
+                  'nav-link text-uppercase fw-bold',
                   this.$route.name == 'Home' ? 'active' : 'text-dark'
                 ]"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
               >
                 {{ $t('nav.places') }}
-              </LocaleRouterLink>
+                <i class="fa-solid fa-angle-down fa-xs"></i>
+              </a>
+              <ul class="dropdown-menu border border-light shadow">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
             </li>
-            <li class="nav-item text-uppercase fw-bold ms-xl-3">
+            <li class="nav-item ms-xl-3">
               <LocaleRouterLink
                 routeName="Home"
                 @click="$refs.offcanvasClose.click()"
                 :class="[
-                  'nav-link',
+                  'nav-link text-uppercase fw-bold',
                   this.$route.name == 'Home' ? 'active' : 'text-dark'
                 ]"
               >
                 {{ $t('nav.awards') }}
               </LocaleRouterLink>
             </li>
-            <li class="nav-item text-uppercase fw-bold ms-xl-3">
+            <li class="nav-item ms-xl-3">
               <LocaleRouterLink
                 routeName="Blog"
                 @click="$refs.offcanvasClose.click()"
                 :class="[
-                  'nav-link',
+                  'nav-link text-uppercase fw-bold',
                   this.$route.name == 'Blog' ? 'active' : 'text-dark'
                 ]"
               >

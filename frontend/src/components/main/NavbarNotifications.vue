@@ -159,7 +159,7 @@ onMounted(() => {
       </a>
       <ul
         ref="scrollArea"
-        class="dropdown-menu dropdown-menu-end shadow overflow-auto"
+        class="dropdown-menu dropdown-menu-end border border-light shadow overflow-auto"
         aria-labelledby="dropdownNotifications"
       >
         <li v-if="notificationsLoading">

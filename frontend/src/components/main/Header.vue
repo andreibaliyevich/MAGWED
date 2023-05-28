@@ -84,65 +84,63 @@ const changeCurrency = (event) => {
             <i class="fa-brands fa-vk"></i>
           </a>
         </div>
-        <div class="d-flex">
-          <div class="dropdown d-flex align-items-center">
-            <a
-              class="dropdown-toggle d-flex align-items-center text-decoration-none text-white"
-              href="#"
-              role="button"
-              id="dropdownLocale"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+        <div class="dropdown d-flex align-items-center">
+          <a
+            id="dropdownLocale"
+            href="#"
+            role="button"
+            class="dropdown-toggle d-flex align-items-center text-decoration-none text-white"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              :src="`/flags/${$i18n.locale}.png`"
+              width="20"
+              :alt="$i18n.locale"
             >
-              <img
-                :src="`/flags/${$i18n.locale}.png`"
-                width="20"
-                :alt="$i18n.locale"
-              >
-              <span class="text-uppercase ms-1">
-                {{ $i18n.locale }} / {{ currencyStore.currencyValue }}
-              </span>
-            </a>
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="dropdownLocale"
+            <span class="text-uppercase ms-1">
+              {{ $i18n.locale }} / {{ currencyStore.currencyValue }}
+            </span>
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end border border-light shadow z-index-1050"
+            aria-labelledby="dropdownLocale"
+          >
+            <li
+              ref="currencyList"
+              class="dropdown-item"
             >
-              <li
-                ref="currencyList"
-                class="dropdown-item"
+              <select
+                :value="currencyStore.currencyValue"
+                @change="changeCurrency"
+                class="form-select"
               >
-                <select
-                  :value="currencyStore.currencyValue"
-                  @change="changeCurrency"
-                  class="form-select"
+                <option
+                  v-for="currency in CURRENCIES"
+                  :key="currency.value"
+                  :value="currency.value"
                 >
-                  <option
-                    v-for="currency in CURRENCIES"
-                    :key="currency.value"
-                    :value="currency.value"
-                  >
-                    {{ currency.text }} {{ currency.value }}
-                  </option>
-                </select>
-              </li>
-              <li
-                v-for="language in LANGUAGES"
-                :key="language.value"
-              >
-                <RouterLink
-                  :to="{ params: { locale: language.value }}"
-                  class="dropdown-item"
-                  >
-                  <img
-                    :src="`/flags/${language.value}.png`"
-                    width="20"
-                    :alt="language.value"
-                  >
-                  <span class="ms-1">{{ language.text }}</span>
-                </RouterLink>
-              </li>
-            </ul>
-          </div>
+                  {{ currency.text }} {{ currency.value }}
+                </option>
+              </select>
+            </li>
+            <li
+              v-for="language in LANGUAGES"
+              :key="language.value"
+            >
+              <RouterLink
+                :to="{ params: { locale: language.value }}"
+                class="dropdown-item"
+                >
+                <img
+                  :src="`/flags/${language.value}.png`"
+                  width="20"
+                  :alt="language.value"
+                >
+                <span class="ms-1">{{ language.text }}</span>
+              </RouterLink>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ const userStore = useUserStore()
         />
       </a>
       <ul
-        class="dropdown-menu dropdown-menu-end shadow"
+        class="dropdown-menu dropdown-menu-end border border-light shadow"
         aria-labelledby="dropdownUser"
       >
         <li class="px-3 pt-2 pb-3">
