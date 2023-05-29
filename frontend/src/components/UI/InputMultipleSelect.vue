@@ -153,11 +153,11 @@ export default {
       </div>
       <div
         :class="[
-          'position-absolute overflow-auto border rounded shadow',
+          'position-absolute border rounded shadow',
           {'show': isActive}
         ]"
       >
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush overflow-auto">
           <li
             v-if="searchOptions.length > 0"
             v-for="option in searchOptions"
@@ -221,9 +221,9 @@ input:focus-visible {
   cursor: pointer;
 }
 
-.position-absolute.overflow-auto {
-  max-height: 0;
+.position-absolute.border.rounded.shadow {
   width: 100%;
+  max-height: 0;
   opacity: 0;
   overflow: hidden;
   z-index: 1000;
@@ -233,9 +233,12 @@ input:focus-visible {
   -ms-transition: all 0.3s;
   -o-transition: all 0.3s;
 }
-.position-absolute.overflow-auto.show {
+.position-absolute.border.rounded.shadow.show {
   max-height: 230px;
   opacity: 1;
+}
+.list-group.list-group-flush.overflow-auto {
+  max-height: 230px;
 }
 .list-group-item.py-1:hover {
   color: #e72a26 !important;
