@@ -57,15 +57,15 @@ onMounted(() => {
                 <input
                   ref="searchInput"
                   v-model="searchQuery"
-                  class="form-control rounded border-0 shadow-none m-1"
+                  class="form-control border-0 m-1"
                   type="search"
-                  :placeholder="$t('search.search2')"
-                  aria-label="Search"
                   autocomplete="off"
                   autocorrect="off"
                   autocapitalize="off"
                   enterkeyhint="search"
                   spellcheck="false"
+                  :placeholder="$t('search.search2')"
+                  aria-label="Search"
                 >
               </form>
             </div>
