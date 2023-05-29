@@ -56,7 +56,7 @@ export default {
     <label
       v-if="label"
       :for="id"
-      class="fw-bold"
+      class="fw-bold mb-2"
     >
       {{ label }}
     </label>
