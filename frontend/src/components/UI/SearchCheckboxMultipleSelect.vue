@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'CheckboxSearchMultipleSelect',
+  name: 'SearchCheckboxMultipleSelect',
   inheritAttrs: false,
   props: {
     modelValue: {
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <template>
-  <div class="checkbox-search-multiple-select">
+  <div class="search-checkbox-multiple-select">
     <label
       v-if="label"
       :for="id"
@@ -82,6 +82,7 @@ export default {
       :aria-describedby="errors.length ? `${id}-errors` : null"
     >
       <div
+        v-if="searchOptions.length > 0"
         v-for="option in searchOptions"
         :key="option.value"
         class="form-check"
@@ -100,6 +101,12 @@ export default {
         >
           {{ option.text }}
         </label>
+      </div>
+      <div
+        v-else
+        class="small"
+      >
+        {{ $t('form_help.no_options_available') }}
       </div>
     </div>
     <div
