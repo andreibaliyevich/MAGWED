@@ -2,6 +2,7 @@ import BaseInput from './BaseInput.vue'
 import BaseSelect from './BaseSelect.vue'
 import BaseTextarea from './BaseTextarea.vue'
 import CheckboxMultipleSelect from './CheckboxMultipleSelect.vue'
+import CheckboxSearchMultipleSelect from './CheckboxSearchMultipleSelect.vue'
 import FileInputButton from './FileInputButton.vue'
 import InputMultipleSelect from './InputMultipleSelect.vue'
 import ListInput from './ListInput.vue'
@@ -17,6 +18,7 @@ export default [
   BaseSelect,
   BaseTextarea,
   CheckboxMultipleSelect,
+  CheckboxSearchMultipleSelect,
   FileInputButton,
   InputMultipleSelect,
   ListInput,
