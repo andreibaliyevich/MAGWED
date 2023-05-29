@@ -205,7 +205,7 @@ onMounted(() => {
                 :label="$t('profile.roles')"
               />
               <br>
-              <CheckboxMultipleSelect
+              <CheckboxSearchMultipleSelect
                 v-model="countries"
                 :options="countryOptions"
                 id="id_countries"
