@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'InputMultipleSelect',
+  name: 'SearchInputMultipleSelect',
   inheritAttrs: false,
   props: {
     modelValue: {
@@ -86,7 +86,7 @@ export default {
 </script>
 
 <template>
-  <div class="input-multiple-select">
+  <div class="search-input-multiple-select">
     <label
       v-if="label"
       :for="id"
