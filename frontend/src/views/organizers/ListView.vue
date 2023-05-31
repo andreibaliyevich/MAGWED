@@ -32,7 +32,7 @@ const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
 const { languageOptions } = useOptionsOfLanguages()
 const { convertToCurrency } = useCurrencyConversion()
 
-const filterSidebarButton = ref(null)
+const filterMenuClose = ref(null)
 
 const costWorkMinBorder = computed(() => {
   return Math.floor(costWorkMin.value * currencyStore.conversionRate)
@@ -63,12 +63,12 @@ const getFilteredOrganizers = async () => {
   cities.value.forEach((element) => params.append('cities', element))
   languages.value.forEach((element) => params.append('languages', element))
   if (costWorkMinInCurrency.value) {
-    params.append('cost_work_min', Math.round(
+    params.append('cost_work_min', Math.floor(
       costWorkMinInCurrency.value / currencyStore.conversionRate
     ))
   }
   if (costWorkMaxInCurrency.value) {
-    params.append('cost_work_max', Math.round(
+    params.append('cost_work_max', Math.ceil(
       costWorkMaxInCurrency.value / currencyStore.conversionRate
     ))
   }
@@ -84,7 +84,7 @@ const getFilteredOrganizers = async () => {
   } finally {
     organizersLoading.value = false
     if (window.innerWidth < 992) {
-      filterSidebarButton.value.click()
+      filterMenuClose.value.click()
     }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -132,7 +132,7 @@ const resetParamsAndGetOrganizers = () => {
   )
   getOrganizers()
   if (window.innerWidth < 992) {
-    filterSidebarButton.value.click()
+    filterMenuClose.value.click()
   }
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -158,12 +158,20 @@ watch(cityOptionsExtra, (newValue, oldValue) => {
 watch(
   () => currencyStore.conversionRate,
   (newValue, oldValue) => {
-    costWorkMinInCurrency.value = Math.round(
+    const newCostWorkMinInCurrency = Math.floor(
       costWorkMinInCurrency.value * newValue / oldValue
     )
-    costWorkMaxInCurrency.value = Math.round(
+    costWorkMinInCurrency.value =
+      newCostWorkMinInCurrency < costWorkMinBorder.value
+        ? costWorkMinBorder.value
+        : newCostWorkMinInCurrency
+    const newCostWorkMaxInCurrency = Math.ceil(
       costWorkMaxInCurrency.value * newValue / oldValue
     )
+    costWorkMaxInCurrency.value =
+      newCostWorkMaxInCurrency > costWorkMaxBorder.value
+        ? costWorkMaxBorder.value
+        : newCostWorkMaxInCurrency
   }
 )
 
@@ -180,23 +188,41 @@ onMounted(() => {
       <h1 class="display-6 text-center mb-5">
         {{ $t('nav.organizers') }}
       </h1>
+      <button
+        type="button"
+        class="btn btn-light border w-100 d-lg-none"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#filter-menu"
+        aria-controls="filter-menu"
+      >
+        {{ $t('organizer_list.filters') }}
+        <i class="fa-solid fa-filter"></i>
+      </button>
       <div class="row">
         <div class="col-lg-3">
-          <div class="border border-light rounded shadow-sm">
-            <button
-              ref="filterSidebarButton"
-              type="button"
-              class="btn btn-light border w-100 d-lg-none"
-              data-bs-toggle="collapse"
-              data-bs-target="#filter-sidebar"
-              aria-expanded="false"
-              aria-controls="filter-sidebar"
-            >
-              {{ $t('organizer_list.filters') }}
-              <i class="fa-solid fa-caret-down ms-1"></i>
-            </button>
-            <div id="filter-sidebar" class="collapse d-lg-block px-4">
-              <br>
+          <div
+            id="filter-menu"
+            tabindex="-1"
+            class="offcanvas-lg offcanvas-end"
+            aria-labelledby="offcanvasRightLabel"
+          >
+            <div class="offcanvas-header">
+              <h5
+                id="filter-menu-label"
+                class="offcanvas-title"
+              >
+                {{ $t('organizer_list.filters') }}
+              </h5>
+              <button
+                ref="filterMenuClose"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                data-bs-target="#filter-menu"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body border border-light rounded shadow-sm d-lg-block py-lg-4 px-4">
               <CheckboxMultipleSelect
                 v-model="roles"
                 :options="roleTypeOptions"
@@ -274,7 +300,6 @@ onMounted(() => {
                   {{ $t('organizer_list.show') }}
                 </button>
               </div>
-              <br>
             </div>
           </div>
         </div>
