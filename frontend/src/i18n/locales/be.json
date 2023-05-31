@@ -257,6 +257,10 @@
         "filters": "Фільтры",
         "reset": "Скінуць",
         "show": "Паказаць",
+        "per_hour": "у гадзіну",
+        "min_1_hour": "мінімум 1 гадзіна",
+        "min_2_4_hours": "мінімум {number_hours} гадзіны",
+        "min_number_hours": "мінімум {number_hours} гадзін",
         "no_organizers_available": "Няма даступных арганізатараў!"
     },
     "blog": {
