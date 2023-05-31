@@ -223,6 +223,7 @@ nav .dropdown-menu.show {
 .dropdown-item.active,
 .dropdown-item:active {
   background-color: #e72a26;
+  color: #fff !important;
 }
 
 .form-control:hover,
