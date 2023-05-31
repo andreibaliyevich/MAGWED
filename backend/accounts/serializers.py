@@ -381,6 +381,7 @@ class OrganizerListSerializer(serializers.ModelSerializer):
         fields = [
             'user',
             'cost_work',
+            'number_hours',
         ]
 
 
