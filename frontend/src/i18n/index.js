@@ -2,6 +2,7 @@ import axios from 'axios'
 import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
 import { API_URL, LANGUAGES } from '@/config.js'
+import { pluralSlavicRule } from './rules.js'
 
 export const SUPPORT_LOCALES = Array.from(LANGUAGES, element => element.value)
 
@@ -43,7 +44,12 @@ const i18n = createI18n({
   legacy: false,
   globalInjection: true,
   locale: startingLocale,
-  fallbackLocale: 'en'
+  fallbackLocale: 'en',
+  pluralRules: {
+    ru: pluralSlavicRule,
+    be: pluralSlavicRule,
+    uk: pluralSlavicRule
+  }
 })
 await loadLocaleMessages(i18n, startingLocale)
 setI18nLanguage(i18n, startingLocale)
