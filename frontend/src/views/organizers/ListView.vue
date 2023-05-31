@@ -204,7 +204,7 @@ onMounted(() => {
             id="filter-menu"
             tabindex="-1"
             class="offcanvas-lg offcanvas-end"
-            aria-labelledby="offcanvasRightLabel"
+            aria-labelledby="filter-menu-label"
           >
             <div class="offcanvas-header">
               <h5
