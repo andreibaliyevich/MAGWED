@@ -258,9 +258,7 @@
         "reset": "Reset",
         "show": "Show",
         "per_hour": "per hour",
-        "min_1_hour": "minimum 1 hour",
-        "min_2_4_hours": "minimum {number_hours} hours",
-        "min_number_hours": "minimum {number_hours} hours",
+        "min_number_hours": "minimum 0 hours | minimum 1 hour | minimum {n} hours",
         "no_organizers_available": "No organizers available!"
     },
     "blog": {

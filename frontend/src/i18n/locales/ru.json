@@ -258,9 +258,7 @@
         "reset": "Сбросить",
         "show": "Показать",
         "per_hour": "в час",
-        "min_1_hour": "минимум 1 час",
-        "min_2_4_hours": "минимум {number_hours} часа",
-        "min_number_hours": "минимум {number_hours} часов",
+        "min_number_hours": "минимум 0 часов | минимум 1 час | минимум {n} часа | минимум {n} часов",
         "no_organizers_available": "Нет доступных организаторов!"
     },
     "blog": {

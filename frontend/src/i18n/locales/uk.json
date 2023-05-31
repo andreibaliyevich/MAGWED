@@ -258,9 +258,7 @@
         "reset": "Скинути",
         "show": "Показати",
         "per_hour": "в годину",
-        "min_1_hour": "мінімум 1 година",
-        "min_2_4_hours": "мінімум {number_hours} години",
-        "min_number_hours": "мінімум {number_hours} годин",
+        "min_number_hours": "мінімум 0 годин | мінімум 1 година | мінімум {n} години | мінімум {n} годин",
         "no_organizers_available": "Нема доступних організаторів!"
     },
     "blog": {
