@@ -311,22 +311,10 @@ onMounted(() => {
                 {{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}
                 {{ $t('organizer_list.per_hour') }}
                 <span
-                  v-if="organizer.number_hours == 1"
+                  v-if="organizer.number_hours"
                   class="small text-muted"
                 >
-                  {{ $t('organizer_list.min_1_hour') }}
-                </span>
-                <span
-                  v-else-if="organizer.number_hours >= 2 && organizer.number_hours <= 4"
-                  class="small text-muted"
-                >
-                  {{ $t('organizer_list.min_2_4_hours', { number_hours: organizer.number_hours }) }}
-                </span>
-                <span
-                  v-else-if="organizer.number_hours >= 5"
-                  class="small text-muted"
-                >
-                  {{ $t('organizer_list.min_number_hours', { number_hours: organizer.number_hours }) }}
+                  {{ $t('organizer_list.min_number_hours', { n: organizer.number_hours }) }}
                 </span>
               </p>
             </div>
