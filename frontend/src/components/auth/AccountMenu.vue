@@ -9,28 +9,47 @@ const userStore = useUserStore()
 
 <template>
   <div class="account-menu">
-    <div class="rounded shadow-sm">
-      <button
-        ref="accountMenuButton"
-        type="button"
-        class="btn btn-light border w-100"
-        data-bs-toggle="collapse"
-        data-bs-target="#account-menu"
-        aria-controls="account-menu"
-        aria-expanded="false"
-      >
-        {{ $t('auth.account_menu') }}
-        <i class="fa-solid fa-caret-down ms-1"></i>
-      </button>
-      <div id="account-menu" class="collapse">
-        <div class="text-uppercase fw-bolder text-secondary text-center mt-3">
+    <button
+      type="button"
+      class="btn btn-light border w-100 d-lg-none"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#account-menu"
+      aria-controls="account-menu"
+    >
+      {{ $t('auth.account_menu') }}
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <div
+      id="account-menu"
+      tabindex="-1"
+      class="offcanvas-lg offcanvas-end"
+      aria-labelledby="account-menu-label"
+    >
+      <div class="offcanvas-header">
+        <h5
+          id="account-menu-label"
+          class="offcanvas-title"
+        >
+          {{ $t('auth.account_menu') }}
+        </h5>
+        <button
+          ref="accountMenuClose"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          data-bs-target="#account-menu"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body d-lg-block">
+        <div class="text-uppercase fw-bolder text-secondary">
           {{ $t('auth.social') }}
         </div>
         <ul class="nav nav-pills flex-column">
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               routeName="Home"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'Home' ? 'active' : 'text-dark'
@@ -43,7 +62,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="Home"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'Home' ? 'active' : 'text-dark'
@@ -56,7 +75,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="Home"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'Home' ? 'active' : 'text-dark'
@@ -67,14 +86,14 @@ const userStore = useUserStore()
             </LocaleRouterLink>
           </li>
         </ul>
-        <div class="text-uppercase fw-bolder text-secondary text-center mt-3">
+        <div class="text-uppercase fw-bolder text-secondary mt-3">
           {{ $t('auth.account') }}
         </div>
         <ul class="nav nav-pills flex-column">
           <li class="nav-item">
             <LocaleRouterLink
               routeName="Profile"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'Profile' ? 'active' : 'text-dark'
@@ -87,7 +106,7 @@ const userStore = useUserStore()
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               routeName="SocialLinks"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'SocialLinks' ? 'active' : 'text-dark'
@@ -100,7 +119,7 @@ const userStore = useUserStore()
           <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
             <LocaleRouterLink
               routeName="Portfolio"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'Portfolio'
@@ -118,7 +137,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="PasswordChange"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'PasswordChange' ? 'active' : 'text-dark'
@@ -131,7 +150,7 @@ const userStore = useUserStore()
           <li class="nav-item">
             <LocaleRouterLink
               routeName="ProfileDelete"
-              @click="$refs.accountMenuButton.click()"
+              @click="$refs.accountMenuClose.click()"
               :class="[
                 'nav-link',
                 this.$route.name == 'ProfileDelete' ? 'active' : 'text-dark'
