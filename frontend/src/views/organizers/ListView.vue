@@ -195,7 +195,7 @@ onMounted(() => {
               {{ $t('organizer_list.filters') }}
               <i class="fa-solid fa-caret-down ms-1"></i>
             </button>
-            <div id="filter-sidebar" class="collapse px-3 d-lg-block">
+            <div id="filter-sidebar" class="collapse d-lg-block px-4">
               <br>
               <CheckboxMultipleSelect
                 v-model="roles"
@@ -289,22 +289,45 @@ onMounted(() => {
               :key="organizer.user.uuid"
               class="col-12 col-sm-6 col-xl-4 text-center"
             >
-              <UserAvatarExtended
-                :src="organizer.user.avatar"
-                :width="180"
-                :height="180"
-                :online="organizer.user.online"
-              />
-              <h2 class="fw-normal">{{ organizer.user.name }}</h2>
-              <p>{{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}</p>
-              <p>
-                <LocaleRouterLink
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: organizer.user.profile_url }"
-                  class="btn btn-secondary"
+              <LocaleRouterLink
+                routeName="OrganizerDetail"
+                :routeParams="{ profile_url: organizer.user.profile_url }"
+              >
+                <UserAvatarExtended
+                  :src="organizer.user.avatar"
+                  :width="180"
+                  :height="180"
+                  :online="organizer.user.online"
+                />
+              </LocaleRouterLink>
+              <LocaleRouterLink
+                routeName="OrganizerDetail"
+                :routeParams="{ profile_url: organizer.user.profile_url }"
+                class="text-decoration-none link-dark"
+              >
+                <h2 class="fw-normal">{{ organizer.user.name }}</h2>
+              </LocaleRouterLink>
+              <p v-if="organizer.cost_work">
+                {{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}
+                {{ $t('organizer_list.per_hour') }}
+                <span
+                  v-if="organizer.number_hours == 1"
+                  class="small text-muted"
                 >
-                  View details »
-                </LocaleRouterLink>
+                  {{ $t('organizer_list.min_1_hour') }}
+                </span>
+                <span
+                  v-else-if="organizer.number_hours >= 2 && organizer.number_hours <= 4"
+                  class="small text-muted"
+                >
+                  {{ $t('organizer_list.min_2_4_hours', { number_hours: organizer.number_hours }) }}
+                </span>
+                <span
+                  v-else-if="organizer.number_hours >= 5"
+                  class="small text-muted"
+                >
+                  {{ $t('organizer_list.min_number_hours', { number_hours: organizer.number_hours }) }}
+                </span>
               </p>
             </div>
             <div v-if="nextURL" v-intersection="getMoreOrganizers"></div>
