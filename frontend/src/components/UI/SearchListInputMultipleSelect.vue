@@ -86,7 +86,7 @@ export default {
 </script>
 
 <template>
-  <div class="search-input-multiple-select">
+  <div class="search-list-input-multiple-select">
     <label
       v-if="label"
       :for="id"
