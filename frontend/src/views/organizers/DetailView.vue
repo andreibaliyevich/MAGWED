@@ -6,6 +6,7 @@ import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
+import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
 const currencyStore = useCurrencyStore()
@@ -35,6 +36,8 @@ const organizerData = ref({
   rating: 0.0
 })
 
+const errorStatus = ref(null)
+
 const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString } = useLocaleDateTime()
 
@@ -52,7 +55,7 @@ const getOrganizerData = async () => {
     )
     organizerData.value = response.data
   } catch (error) {
-    console.error(error)
+    errorStatus.value = error.response.status
   } finally {
     organizerLoading.value = false
   }
@@ -71,11 +74,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="organizer-list-view">
+  <div class="organizer-detail-view">
     <LoadingIndicator
       v-if="organizerLoading"
       class="my-5"
     />
+    <NotFound v-else-if="errorStatus == 404" />
     <div
       v-else
       class="container my-5"
