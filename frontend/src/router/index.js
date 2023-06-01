@@ -149,8 +149,8 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
-      name: '404NotFound',
-      component: () => import('@/views/404NotFoundView.vue')
+      name: 'NotFound',
+      component: () => import('@/views/NotFoundView.vue')
     }
   ],
   scrollBehavior(to, from, savedPosition) {
