@@ -179,7 +179,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <SearchInputMultipleSelect
+        <SearchListInputMultipleSelect
           v-model="roles"
           :options="roleTypeOptions"
           id="id_roles"
@@ -198,7 +198,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <SearchInputMultipleSelect
+        <SearchListInputMultipleSelect
           v-model="countries"
           :options="countryOptions"
           id="id_countries"
@@ -208,7 +208,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <SearchInputMultipleSelect
+        <SearchListInputMultipleSelect
           v-model="cities"
           :options="cityOptionsExtra"
           id="id_cities"
@@ -218,7 +218,7 @@ onMounted(() => {
         />
       </div>
       <div class="col-md-12">
-        <SearchInputMultipleSelect
+        <SearchListInputMultipleSelect
           v-model="languages"
           :options="languageOptions"
           id="id_languages"
