@@ -18,7 +18,6 @@ const albumUuid = ref(null)
 const albumImage = ref(null)
 const albumTitle = ref('')
 const albumDescription = ref('')
-const albumHashtags = ref([])
 
 const errors = ref(null)
 
@@ -43,7 +42,6 @@ const createAlbum = async () => {
     albumData.append('image', albumImage.value, albumImage.value.name)
     albumData.append('title', albumTitle.value)
     albumData.append('description', albumDescription.value)
-    albumData.append('hashtags', albumHashtags.value)
 
     const response = await axios.post('/portfolio/albums/crud/', albumData)
     errors.value = null
@@ -79,11 +77,8 @@ onMounted(() => {
   getAlbumsData()
   createAlbumModal.value.addEventListener('hidden.bs.modal', () => {
     albumImage.value = null
-
     albumTitle.value = ''
     albumDescription.value = ''
-    albumHashtags.value = []
-
     errors.value = null
   })
   createAlbumModalBootstrap.value = new bootstrap.Modal(createAlbumModal.value)
@@ -94,7 +89,7 @@ onMounted(() => {
   <div class="portfolio-albums-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">
-        {{ $t('auth.portfolio.albums') }}
+        {{ $t('portfolio.albums') }}
       </h1>
 
       <button
@@ -103,7 +98,7 @@ onMounted(() => {
         data-bs-toggle="modal"
         data-bs-target="#createAlbumModal"
       >
-        {{ $t('auth.portfolio.create_album') }}
+        {{ $t('portfolio.create_album') }}
         <i class="fa-regular fa-square-plus"></i>
       </button>
 
@@ -160,7 +155,7 @@ onMounted(() => {
         v-else
         class="lead d-flex justify-content-center py-3"
       >
-        {{ $t('auth.portfolio.do_not_have_albums') }}
+        {{ $t('portfolio.do_not_have_albums') }}
       </div>
     </div>
     <Teleport to="body">
@@ -182,7 +177,7 @@ onMounted(() => {
                 id="createAlbumModalLabel"
                 class="modal-title"
               >
-                {{ $t('auth.portfolio.creating_album') }}
+                {{ $t('portfolio.creating_album') }}
               </h5>
               <button
                 class="btn-close"
@@ -199,7 +194,7 @@ onMounted(() => {
               >
                 <div class="col-md-12">
                   <span v-if="albumImage">
-                    {{ $t('auth.portfolio.chosen_image') }}:
+                    {{ $t('portfolio.chosen_image') }}:
                     {{ albumImage.name }}
                   </span>
                   <FileInputButton
@@ -207,7 +202,7 @@ onMounted(() => {
                     buttonClass="btn btn-soft-brand w-100"
                     accept="image/*"
                   >
-                    {{ $t('auth.portfolio.choose_image') }}
+                    {{ $t('portfolio.choose_image') }}
                     <i class="fa-regular fa-image"></i>
                   </FileInputButton>
                   <div
@@ -228,7 +223,7 @@ onMounted(() => {
                     maxlength="128"
                     id="id_title"
                     name="title"
-                    :label="$t('auth.portfolio.title')"
+                    :label="$t('portfolio.title')"
                     :errors="errors?.title ? errors.title : []"
                   />
                 </div>
@@ -237,7 +232,7 @@ onMounted(() => {
                     v-model="albumDescription"
                     id="id_description"
                     name="description"
-                    :label="$t('auth.portfolio.description')"
+                    :label="$t('portfolio.description')"
                     :errors="errors?.description ? errors.description : []"
                   />
                 </div>
@@ -280,8 +275,8 @@ onMounted(() => {
         >
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('auth.portfolio.you_want_remove_album') }}</h5>
-              <p class="mb-0">{{ $t('auth.portfolio.album_information_will_lost') }}</p>
+              <h5 class="mb-0">{{ $t('portfolio.you_want_remove_album') }}</h5>
+              <p class="mb-0">{{ $t('portfolio.album_information_will_lost') }}</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
               <button

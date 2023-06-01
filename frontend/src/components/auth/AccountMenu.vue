@@ -131,7 +131,7 @@ const userStore = useUserStore()
               ]"
             >
               <i class="fa-solid fa-briefcase"></i>
-              {{ $t('auth.portfolio.portfolio') }}
+              {{ $t('portfolio.portfolio') }}
             </LocaleRouterLink>
           </li>
           <li class="nav-item">

@@ -186,7 +186,7 @@ onMounted(() => {
   <div class="organizer-list-view">
     <div class="container my-5">
       <h1 class="display-6 text-center mb-5">
-        {{ $t('nav.organizers') }}
+        {{ $t('organizers.organizers') }}
       </h1>
       <button
         type="button"
@@ -195,7 +195,7 @@ onMounted(() => {
         data-bs-target="#filter-menu"
         aria-controls="filter-menu"
       >
-        {{ $t('organizer_list.filters') }}
+        {{ $t('organizers.filters') }}
         <i class="fa-solid fa-filter"></i>
       </button>
       <div class="row">
@@ -211,7 +211,7 @@ onMounted(() => {
                 id="filter-menu-label"
                 class="offcanvas-title"
               >
-                {{ $t('organizer_list.filters') }}
+                {{ $t('organizers.filters') }}
               </h5>
               <button
                 ref="filterMenuClose"
@@ -282,7 +282,7 @@ onMounted(() => {
                     && (costWorkMaxInCurrency == costWorkMaxBorder)
                   "
                 >
-                  {{ $t('organizer_list.reset') }}
+                  {{ $t('btn.reset') }}
                 </button>
                 <button
                   @click="getFilteredOrganizers()"
@@ -297,7 +297,7 @@ onMounted(() => {
                     && (costWorkMaxInCurrency == costWorkMaxBorder)
                   "
                 >
-                  {{ $t('organizer_list.show') }}
+                  {{ $t('btn.show') }}
                 </button>
               </div>
             </div>
@@ -334,12 +334,12 @@ onMounted(() => {
               </LocaleRouterLink>
               <p v-if="organizer.cost_work">
                 {{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}
-                {{ $t('organizer_list.per_hour') }}
+                {{ $t('organizers.per_hour') }}
                 <span
                   v-if="organizer.number_hours"
                   class="small text-muted"
                 >
-                  {{ $t('organizer_list.min_number_hours', { n: organizer.number_hours }) }}
+                  {{ $t('organizers.min_number_hours', { n: organizer.number_hours }) }}
                 </span>
               </p>
             </div>
@@ -350,7 +350,7 @@ onMounted(() => {
             v-else
             class="lead fs-3 d-flex justify-content-center py-3"
           >
-            {{ $t('organizer_list.no_organizers_available') }}
+            {{ $t('organizers.no_organizers_available') }}
           </div>
         </div>
       </div>

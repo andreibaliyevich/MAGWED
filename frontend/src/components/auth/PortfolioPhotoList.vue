@@ -195,7 +195,7 @@ onMounted(() => {
                 id="updatePhotoModalLabel"
                 class="modal-title"
               >
-                {{ $t('auth.portfolio.updating_photo') }}
+                {{ $t('portfolio.updating_photo') }}
               </h5>
               <button
                 class="btn-close"
@@ -224,7 +224,7 @@ onMounted(() => {
                     maxlength="128"
                     id="id_title"
                     name="title"
-                    :label="$t('auth.portfolio.title')"
+                    :label="$t('portfolio.title')"
                     :errors="errors?.title ? errors.title : []"
                   />
                 </div>
@@ -233,7 +233,7 @@ onMounted(() => {
                     v-model="photoDescription"
                     id="id_description"
                     name="description"
-                    :label="$t('auth.portfolio.description')"
+                    :label="$t('portfolio.description')"
                     :errors="errors?.description ? errors.description : []"
                   />
                 </div>
@@ -242,7 +242,7 @@ onMounted(() => {
                     v-model="photoTags"
                     id="id_tags"
                     name="tags"
-                    :label="$t('auth.portfolio.tags')"
+                    :label="$t('portfolio.tags')"
                     :errors="errors?.tags ? errors.tags : []"
                   />
                 </div>
@@ -253,7 +253,7 @@ onMounted(() => {
                     maxlength="128"
                     id="id_device"
                     name="device"
-                    :label="$t('auth.portfolio.device')"
+                    :label="$t('portfolio.device')"
                     :errors="errors?.device ? errors.device : []"
                   />
                 </div>
@@ -264,7 +264,7 @@ onMounted(() => {
                     step="0.01"
                     id="id_f_number"
                     name="f_number"
-                    :label="$t('auth.portfolio.f_number')"
+                    :label="$t('portfolio.f_number')"
                     :errors="errors?.f_number ? errors.f_number : []"
                   />
                 </div>
@@ -275,7 +275,7 @@ onMounted(() => {
                     maxlength="32"
                     id="id_exposure_time"
                     name="exposure_time"
-                    :label="$t('auth.portfolio.exposure_time')"
+                    :label="$t('portfolio.exposure_time')"
                     :errors="errors?.exposure_time ? errors.exposure_time : []"
                   />
                 </div>
@@ -286,7 +286,7 @@ onMounted(() => {
                     step="0.01"
                     id="id_focal_length"
                     name="focal_length"
-                    :label="$t('auth.portfolio.focal_length')"
+                    :label="$t('portfolio.focal_length')"
                     :errors="errors?.focal_length ? errors.focal_length : []"
                   />
                 </div>
@@ -297,7 +297,7 @@ onMounted(() => {
                     min="0"
                     id="id_photographic_sensitivity"
                     name="photographic_sensitivity"
-                    :label="$t('auth.portfolio.photographic_sensitivity')"
+                    :label="$t('portfolio.photographic_sensitivity')"
                     :errors="
                       errors?.photographic_sensitivity
                       ? errors.photographic_sensitivity
@@ -309,19 +309,19 @@ onMounted(() => {
               <hr>
               <ul class="list-unstyled my-0 px-xl-10">
                 <li>
-                  {{ $t('auth.portfolio.uploaded_at') }}
+                  {{ $t('portfolio.uploaded_at') }}
                   {{ getLocaleDateTimeString(photoUploadedAt) }}
                 </li>
                 <li>
-                  {{ $t('auth.portfolio.num_views') }}:
+                  {{ $t('portfolio.num_views') }}:
                   {{ photoNumViews }}
                 </li>
                 <li>
-                  {{ $t('auth.portfolio.likes') }}:
+                  {{ $t('portfolio.likes') }}:
                   {{ photoLikesCount }}
                 </li>
                 <li>
-                  {{ $t('auth.portfolio.rating') }}:
+                  {{ $t('portfolio.rating') }}:
                   {{ photoRating }}
                 </li>
               </ul>
@@ -362,8 +362,8 @@ onMounted(() => {
         >
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('auth.portfolio.you_want_remove_photo') }}</h5>
-              <p class="mb-0">{{ $t('auth.portfolio.photo_information_will_lost') }}</p>
+              <h5 class="mb-0">{{ $t('portfolio.you_want_remove_photo') }}</h5>
+              <p class="mb-0">{{ $t('portfolio.photo_information_will_lost') }}</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
               <button

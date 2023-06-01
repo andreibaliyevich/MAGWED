@@ -105,7 +105,8 @@ const updateAlbum = async () => {
       params: { locale: locale.value }
     })
   } catch (error) {
-    console.error(error)
+    status.value = null
+    errors.value = error.response.data
   } finally {
     albumUpdating.value = false
   }
@@ -183,11 +184,16 @@ onMounted(() => {
     <LoadingIndicator v-if="albumLoading" />
     <div
       v-else
+      class="px-1 px-lg-3 px-xl-5"
     >
+      <h1 class="display-6 mb-3">
+        {{ $t('portfolio.album') }}:
+        {{ albumTitle }}
+      </h1>
       <div class="card mb-2">
         <LoadingIndicator
           v-if="albumImageUpdating"
-          :actionInfo="$t('auth.portfolio.uploading_image')"
+          :actionInfo="$t('portfolio.uploading_image')"
         />
         <div v-else>
           <img
@@ -199,7 +205,7 @@ onMounted(() => {
               v-if="status == 200"
               class="text-success"
             >
-              {{ $t('auth.portfolio.image_updated_successfully') }}
+              {{ $t('portfolio.image_updated_successfully') }}
             </small>
             <small
               v-if="errors && errors.image"
@@ -214,7 +220,7 @@ onMounted(() => {
                 buttonClass="btn btn-soft-brand m-1"
                 accept="image/*"
               >
-                {{ $t('auth.portfolio.update_image') }}
+                {{ $t('portfolio.update_image') }}
               </FileInputButton>
             </div>
             <small class="text-muted">
@@ -236,7 +242,7 @@ onMounted(() => {
             maxlength="128"
             id="id_title"
             name="title"
-            :label="$t('auth.portfolio.title')"
+            :label="$t('portfolio.title')"
             :errors="errors?.title ? errors.title : []"
           />
         </div>
@@ -245,7 +251,7 @@ onMounted(() => {
             v-model="albumDescription"
             id="id_description"
             name="description"
-            :label="$t('auth.portfolio.description')"
+            :label="$t('portfolio.description')"
             :errors="errors?.description ? errors.description : []"
           />
         </div>
@@ -254,7 +260,7 @@ onMounted(() => {
             v-model="albumTags"
             id="id_tags"
             name="tags"
-            :label="$t('auth.portfolio.tags')"
+            :label="$t('portfolio.tags')"
             :errors="errors?.tags ? errors.tags : []"
           />
         </div>
@@ -262,10 +268,10 @@ onMounted(() => {
 
       <hr>
       <ul class="list-unstyled my-0 px-xl-10">
-        <li>{{ $t('auth.portfolio.created_at') }} {{ getLocaleDateTimeString(albumCreatedAt) }}</li>
-        <li>{{ $t('auth.portfolio.num_views') }}: {{ albumNumViews }}</li>
-        <li>{{ $t('auth.portfolio.likes') }}: {{ albumLikesCount }}</li>
-        <li>{{ $t('auth.portfolio.rating') }}: {{ albumRating }}</li>
+        <li>{{ $t('portfolio.created_at') }} {{ getLocaleDateTimeString(albumCreatedAt) }}</li>
+        <li>{{ $t('portfolio.num_views') }}: {{ albumNumViews }}</li>
+        <li>{{ $t('portfolio.likes') }}: {{ albumLikesCount }}</li>
+        <li>{{ $t('portfolio.rating') }}: {{ albumRating }}</li>
       </ul>
 
       <div class="d-grid d-md-flex justify-content-md-end gap-2 mt-3">
@@ -279,7 +285,7 @@ onMounted(() => {
         </button>
         <SubmitButton
           :loadingStatus="albumUpdating"
-          buttonClass="btn btn-brand"
+          buttonClass="btn btn-brand w-100"
           form="albumForm"
         >
           {{ $t('btn.update') }}
@@ -293,7 +299,7 @@ onMounted(() => {
         accept="image/*"
         multiple
       >
-        {{ $t('auth.portfolio.upload_photos') }}
+        {{ $t('portfolio.upload_photos') }}
         <i class="fa-solid fa-upload"></i>
       </FileInputButton>
 
@@ -321,8 +327,8 @@ onMounted(() => {
         >
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('auth.portfolio.you_want_remove_album') }}</h5>
-              <p class="mb-0">{{ $t('auth.portfolio.album_information_will_lost') }}</p>
+              <h5 class="mb-0">{{ $t('portfolio.you_want_remove_album') }}</h5>
+              <p class="mb-0">{{ $t('portfolio.album_information_will_lost') }}</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
               <button
@@ -363,7 +369,7 @@ onMounted(() => {
                 id="uploadPhotosModalLabel"
                 class="modal-title"
               >
-                {{ $t('auth.portfolio.uploading_photos') }}
+                {{ $t('portfolio.uploading_photos') }}
               </h5>
             </div>
             <div class="modal-body">

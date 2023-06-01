@@ -83,7 +83,7 @@ onMounted(() => {
   <div class="portfolio-photos-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">
-        {{ $t('auth.portfolio.photos') }}
+        {{ $t('portfolio.photos') }}
       </h1>
 
       <FileInputButton
@@ -92,7 +92,7 @@ onMounted(() => {
         accept="image/*"
         multiple
       >
-        {{ $t('auth.portfolio.upload_photos') }}
+        {{ $t('portfolio.upload_photos') }}
         <i class="fa-solid fa-upload"></i>
       </FileInputButton>
 
@@ -107,7 +107,7 @@ onMounted(() => {
         v-else
         class="lead d-flex justify-content-center py-3"
       >
-        {{ $t('auth.portfolio.do_not_have_photos') }}
+        {{ $t('portfolio.do_not_have_photos') }}
       </div>
     </div>
     <Teleport to="body">
@@ -129,7 +129,7 @@ onMounted(() => {
                 id="uploadPhotosModalLabel"
                 class="modal-title"
               >
-                {{ $t('auth.portfolio.uploading_photos') }}
+                {{ $t('portfolio.uploading_photos') }}
               </h5>
             </div>
             <div class="modal-body">
