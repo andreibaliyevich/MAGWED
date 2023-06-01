@@ -190,7 +190,7 @@ onMounted(() => {
       </h1>
       <button
         type="button"
-        class="btn btn-light border w-100 d-lg-none"
+        class="btn btn-light border w-100 mb-5 d-lg-none"
         data-bs-toggle="offcanvas"
         data-bs-target="#filter-menu"
         aria-controls="filter-menu"
@@ -303,7 +303,7 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="col-lg-9 mt-5 mt-lg-0">
+        <div class="col-lg-9">
           <LoadingIndicator v-if="organizersLoading" />
           <div
             v-else-if="organizerList.length > 0"
