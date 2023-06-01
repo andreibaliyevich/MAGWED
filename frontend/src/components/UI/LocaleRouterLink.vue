@@ -15,6 +15,10 @@ export default {
     routeParams: {
       type: Object,
       default: {}
+    },
+    routeQuery: {
+      type: Object,
+      default: {}
     }
   }
 }
@@ -28,7 +32,8 @@ export default {
         params: {
           locale: $i18n.locale,
           ...routeParams
-        }
+        },
+        query: { ...routeQuery }
       }"
       v-bind="$attrs"
     >
