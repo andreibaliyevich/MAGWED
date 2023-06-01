@@ -11,11 +11,11 @@ const userStore = useUserStore()
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container py-lg-2">
       <button
-        class="navbar-toggler"
         type="button"
+        class="navbar-toggler"
         data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasMenu"
-        aria-controls="offcanvasMenu"
+        data-bs-target="#main-menu"
+        aria-controls="main-menu"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -25,7 +25,7 @@ const userStore = useUserStore()
       >
         <img
           src="/logo-navbar.png"
-          width="53"
+          width="50"
         >
       </LocaleRouterLink>
       <LocaleRouterLink
@@ -34,13 +34,13 @@ const userStore = useUserStore()
       >
         <img
           src="/logo-navbar-full.png"
-          width="190"
+          width="150"
         >
       </LocaleRouterLink>
       <div
-        class="offcanvas offcanvas-start"
+        id="main-menu"
         tabindex="-1"
-        id="offcanvasMenu"
+        class="offcanvas offcanvas-start"
         aria-labelledby="offcanvasNavbarLabel"
       >
         <div class="offcanvas-header">
@@ -51,10 +51,11 @@ const userStore = useUserStore()
             {{ $t('nav.menu') }}
           </h5>
           <button
-            ref="offcanvasClose"
+            ref="offcanvasMenuClose"
             type="button"
             class="btn-close text-reset"
             data-bs-dismiss="offcanvas"
+            data-bs-target="#main-menu"
             aria-label="Close"
           ></button>
         </div>
@@ -63,7 +64,7 @@ const userStore = useUserStore()
             <li class="nav-item">
               <LocaleRouterLink
                 routeName="OrganizerList"
-                @click="$refs.offcanvasClose.click()"
+                @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
                   this.$route.name == 'OrganizerList'
@@ -87,27 +88,51 @@ const userStore = useUserStore()
                 data-bs-auto-close="outside"
                 aria-expanded="false"
               >
-                {{ $t('nav.places') }}
+                {{ $t('nav.photos') }}
                 <i class="fa-solid fa-angle-down fa-xs"></i>
               </a>
               <ul
                 class="dropdown-menu border border-light shadow"
                 aria-labelledby="nav_link_albums"
               >
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li>
+                  <a
+                    href="#"
+                    class="dropdown-item"
+                  >
+                    {{ $t('nav.popular_photos') }}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="dropdown-item"
+                  >
+                    {{ $t('nav.fresh_photos') }}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="dropdown-item"
+                  >
+                    {{ $t('nav.editors_choice') }}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="dropdown-item"
+                  >
+                    {{ $t('nav.photo_albums') }}
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item ms-xl-3">
               <LocaleRouterLink
                 routeName="Home"
-                @click="$refs.offcanvasClose.click()"
+                @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
                   this.$route.name == 'Home' ? 'active' : 'text-dark'
@@ -119,7 +144,7 @@ const userStore = useUserStore()
             <li class="nav-item ms-xl-3">
               <LocaleRouterLink
                 routeName="Blog"
-                @click="$refs.offcanvasClose.click()"
+                @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
                   this.$route.name == 'Blog' ? 'active' : 'text-dark'
@@ -145,14 +170,14 @@ const userStore = useUserStore()
       >
         <LocaleRouterLink
           routeName="Login"
-          @click="$refs.offcanvasClose.click()"
+          @click="$refs.offcanvasMenuClose.click()"
           class="btn btn-outline-brand border-secondary rounded-pill px-3"
         >
           {{ $t('auth.log_in') }}
         </LocaleRouterLink>
         <LocaleRouterLink
           routeName="Registration"
-          @click="$refs.offcanvasClose.click()"
+          @click="$refs.offcanvasMenuClose.click()"
           class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex"
         >
           {{ $t('auth.register') }}
