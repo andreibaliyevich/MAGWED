@@ -235,7 +235,7 @@ const userStore = useUserStore()
 
 <style scoped>
 .nav-pills .nav-item {
-  border-left-width: 2px;
+  border-left-width: 0.2rem;
   border-left-color: rgba(231, 42, 38, 0);
   border-left-style: solid;
   padding-left: 0.25rem;
