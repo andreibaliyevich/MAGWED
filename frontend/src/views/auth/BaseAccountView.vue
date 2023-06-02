@@ -50,7 +50,13 @@ const userStore = useUserStore()
                 {{ $t('auth.social') }}
               </div>
               <ul class="nav nav-pills flex-column">
-                <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
+                <li
+                  v-if="userStore.userType == userType.ORGANIZER"
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'Home' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="Home"
                     @click="$refs.accountMenuClose.click()"
@@ -63,7 +69,12 @@ const userStore = useUserStore()
                     {{ $t('auth.followers') }}
                   </LocaleRouterLink>
                 </li>
-                <li class="nav-item">
+                <li
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'Home' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="Home"
                     @click="$refs.accountMenuClose.click()"
@@ -76,7 +87,12 @@ const userStore = useUserStore()
                     {{ $t('auth.following') }}
                   </LocaleRouterLink>
                 </li>
-                <li class="nav-item">
+                <li
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'Home' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="Home"
                     @click="$refs.accountMenuClose.click()"
@@ -94,7 +110,12 @@ const userStore = useUserStore()
                 {{ $t('auth.account') }}
               </div>
               <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
+                <li
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'Profile' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="Profile"
                     @click="$refs.accountMenuClose.click()"
@@ -107,7 +128,13 @@ const userStore = useUserStore()
                     {{ $t('profile.profile') }}
                   </LocaleRouterLink>
                 </li>
-                <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
+                <li
+                  v-if="userStore.userType == userType.ORGANIZER"
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'SocialLinks' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="SocialLinks"
                     @click="$refs.accountMenuClose.click()"
@@ -120,7 +147,18 @@ const userStore = useUserStore()
                     {{ $t('auth.sociallinks.social_links') }}
                   </LocaleRouterLink>
                 </li>
-                <li v-if="userStore.userType == userType.ORGANIZER" class="nav-item">
+                <li
+                  v-if="userStore.userType == userType.ORGANIZER"
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'Portfolio'
+                      || this.$route.name == 'PortfolioAlbumList'
+                      || this.$route.name == 'PortfolioAlbumDetail'
+                      || this.$route.name == 'PortfolioPhotoList'
+                      ? 'active'
+                      : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="Portfolio"
                     @click="$refs.accountMenuClose.click()"
@@ -138,7 +176,12 @@ const userStore = useUserStore()
                     {{ $t('portfolio.portfolio') }}
                   </LocaleRouterLink>
                 </li>
-                <li class="nav-item">
+                <li
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'PasswordChange' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="PasswordChange"
                     @click="$refs.accountMenuClose.click()"
@@ -151,7 +194,12 @@ const userStore = useUserStore()
                     {{ $t('auth.password.change_password') }}
                   </LocaleRouterLink>
                 </li>
-                <li class="nav-item">
+                <li
+                  :class="[
+                    'nav-item',
+                    this.$route.name == 'ProfileDelete' ? 'active' : null
+                  ]"
+                >
                   <LocaleRouterLink
                     routeName="ProfileDelete"
                     @click="$refs.accountMenuClose.click()"
@@ -186,6 +234,20 @@ const userStore = useUserStore()
 </template>
 
 <style scoped>
+.nav-pills .nav-item {
+  border-left-width: 2px;
+  border-left-color: rgba(231, 42, 38, 0);
+  border-left-style: solid;
+  padding-left: 0.25rem;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+}
+.nav-pills .nav-item.active {
+  border-left-color: rgba(231, 42, 38, 1);
+}
 @media(min-width: 992px) {
   .col-lg-4.pt-5.pb-lg-5 {
     border-right: 1px solid #dee2e6;
