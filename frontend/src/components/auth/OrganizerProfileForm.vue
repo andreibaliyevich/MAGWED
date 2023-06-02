@@ -29,7 +29,7 @@ const profileURL = ref('')
 const rating = ref(0.0)
 const proTime = ref(null)
 
-const { roleTypeOptions } = useOptionsOfRoleTypes()
+const { roleTypeOptions } = useOptionsOfRoleTypes('roles')
 const { countryOptions } = useOptionsOfCountries()
 const { cityOptions } = useOptionsOfCities(country)
 const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
