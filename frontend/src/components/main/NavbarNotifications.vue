@@ -142,7 +142,7 @@ onMounted(() => {
     <div class="dropdown">
       <a
         ref="dropdownNotifications"
-        id="dropdown_notifications"
+        id="dropdown-notifications"
         href="#"
         class="text-decoration-none link-secondary"
         data-bs-toggle="dropdown"
@@ -160,7 +160,7 @@ onMounted(() => {
       <ul
         ref="scrollArea"
         class="dropdown-menu dropdown-menu-end border border-light shadow"
-        aria-labelledby="dropdown_notifications"
+        aria-labelledby="dropdown-notifications"
       >
         <li v-if="notificationsLoading">
           <LoadingIndicator />
