@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useOptionsOfRoleTypes } from '@/composables/optionsOfRoleTypes.js'
 import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
@@ -9,6 +10,7 @@ import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
+const route = useRoute()
 const currencyStore = useCurrencyStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -17,7 +19,6 @@ const organizersMoreLoading = ref(false)
 const organizerList = ref([])
 const nextURL = ref(null)
 
-const roles = ref([])
 const countries = ref([])
 const cities = ref([])
 const languages = ref([])
@@ -26,7 +27,7 @@ const costWorkMax = ref(0)
 const costWorkMinInCurrency = ref(0)
 const costWorkMaxInCurrency = ref(0)
 
-const { roleTypeOptions } = useOptionsOfRoleTypes()
+const { roleTypeOptions } = useOptionsOfRoleTypes('plural_roles')
 const { countryOptions } = useOptionsOfCountries()
 const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
 const { languageOptions } = useOptionsOfLanguages()
@@ -43,22 +44,11 @@ const costWorkMaxBorder = computed(() => {
 
 const getOrganizers = async () => {
   organizersLoading.value = true
-  try {
-    const response = await axios.get('/accounts/organizers/')
-    organizerList.value = response.data.results
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    organizersLoading.value = false
-  }
-}
-
-const getFilteredOrganizers = async () => {
-  organizersLoading.value = true
 
   let params = new URLSearchParams()
-  roles.value.forEach((element) => params.append('roles', element))
+  if (route.query.role) {
+    params.append('roles', route.query.role)
+  }
   countries.value.forEach((element) => params.append('countries', element))
   cities.value.forEach((element) => params.append('cities', element))
   languages.value.forEach((element) => params.append('languages', element))
@@ -120,7 +110,6 @@ const getCostWorkMinMax = async () => {
 }
 
 const resetParamsAndGetOrganizers = () => {
-  roles.value = []
   countries.value = []
   cities.value = []
   languages.value = []
@@ -131,10 +120,6 @@ const resetParamsAndGetOrganizers = () => {
     costWorkMax.value * currencyStore.conversionRate
   )
   getOrganizers()
-  if (window.innerWidth < 992) {
-    filterMenuClose.value.click()
-  }
-  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const updateUserStatus = (mutation, state) => {
@@ -144,6 +129,15 @@ const updateUserStatus = (mutation, state) => {
     }
   })
 }
+
+watch(
+  () => route.query.role,
+  (newValue) => {
+    if (route.name == 'OrganizerList') {
+      getOrganizers()
+    }
+  }
+)
 
 watch(cityOptionsExtra, (newValue, oldValue) => {
   if (newValue.length < oldValue.length) {
@@ -188,6 +182,29 @@ onMounted(() => {
       <h1 class="display-6 text-center mb-5">
         {{ $t('organizers.organizers') }}
       </h1>
+
+      <ul class="nav nav-pills justify-content-center mb-3">
+        <li
+          v-for="roleType in roleTypeOptions"
+          :key="roleType.value"
+          :class="[
+            'nav-item',
+            this.$route.query.role == roleType.value ? 'active' : null
+          ]"
+        >
+          <LocaleRouterLink
+            routeName="OrganizerList"
+            :routeQuery="{ role: roleType.value }"
+            :class="[
+              'nav-link',
+              this.$route.query.role == roleType.value ? 'active' : 'text-dark'
+            ]"
+          >
+            {{ roleType.text }}
+          </LocaleRouterLink>
+        </li>
+      </ul>
+
       <button
         type="button"
         class="btn btn-light border w-100 mb-5 d-lg-none"
@@ -198,6 +215,7 @@ onMounted(() => {
         {{ $t('organizers.filters') }}
         <i class="fa-solid fa-filter"></i>
       </button>
+
       <div class="row">
         <div class="col-lg-3">
           <div
@@ -223,14 +241,6 @@ onMounted(() => {
               ></button>
             </div>
             <div class="offcanvas-body border border-light rounded shadow-sm d-lg-block py-lg-4 px-4">
-              <CheckboxMultipleSelect
-                v-model="roles"
-                :options="roleTypeOptions"
-                id="id_roles"
-                name="roles"
-                :label="$t('profile.roles')"
-              />
-              <br>
               <SearchCheckboxMultipleSelect
                 v-model="countries"
                 :options="countryOptions"
@@ -274,8 +284,7 @@ onMounted(() => {
                   type="button"
                   class="btn btn-light btn-sm"
                   :disabled="
-                    !roles.length
-                    && !countries.length
+                    !countries.length
                     && !cities.length
                     && !languages.length
                     && (costWorkMinInCurrency == costWorkMinBorder)
@@ -285,12 +294,11 @@ onMounted(() => {
                   {{ $t('btn.reset') }}
                 </button>
                 <button
-                  @click="getFilteredOrganizers()"
+                  @click="getOrganizers()"
                   type="button"
                   class="btn btn-brand btn-sm ms-1"
                   :disabled="
-                    !roles.length
-                    && !countries.length
+                    !countries.length
                     && !cities.length
                     && !languages.length
                     && (costWorkMinInCurrency == costWorkMinBorder)
@@ -357,3 +365,20 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.nav-pills .nav-item {
+  border-bottom-width: 2px;
+  border-bottom-color: rgba(231, 42, 38, 0);
+  border-bottom-style: solid;
+  padding-bottom: 0.25rem;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+}
+.nav-pills .nav-item.active {
+  border-bottom-color: rgba(231, 42, 38, 1);
+}
+</style>
