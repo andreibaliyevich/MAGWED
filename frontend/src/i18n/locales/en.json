@@ -35,9 +35,27 @@
         "10": "Visagiste",
         "11": "Hairdresser"
     },
+    "plural_roles": {
+        "1": "Photographers",
+        "2": "Videographers",
+        "3": "Leadings",
+        "4": "Musicians",
+        "5": "DJs",
+        "6": "Agencies",
+        "7": "Salons",
+        "8": "Confectioneries",
+        "9": "Decorators",
+        "10": "Visagistes",
+        "11": "Hairdressers"
+    },
     "nav": {
         "menu": "Menu",
-        "places": "Places",
+        "organizers": "Organizers",
+        "photos": "Photos",
+        "popular_photos": "Popular photos",
+        "fresh_photos": "Fresh photos",
+        "editors_choice": "Editor's Choice",
+        "photo_albums": "Photo albums",
         "awards": "Awards",
         "blog": "Blog"
     },
