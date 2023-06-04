@@ -96,36 +96,43 @@ const userStore = useUserStore()
                 aria-labelledby="nav_link_albums"
               >
                 <li>
-                  <a
-                    href="#"
+                  <LocaleRouterLink
+                    routeName="PhotoList"
+                    :routeQuery="{ filter: 'popular' }"
+                    @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.popular_photos') }}
-                  </a>
+                  </LocaleRouterLink>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <LocaleRouterLink
+                    routeName="PhotoList"
+                    :routeQuery="{ filter: 'fresh' }"
+                    @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.fresh_photos') }}
-                  </a>
+                  </LocaleRouterLink>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <LocaleRouterLink
+                    routeName="PhotoList"
+                    :routeQuery="{ filter: 'editors' }"
+                    @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.editors_choice') }}
-                  </a>
+                  </LocaleRouterLink>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <LocaleRouterLink
+                    routeName="AlbumList"
+                    @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.photo_albums') }}
-                  </a>
+                  </LocaleRouterLink>
                 </li>
               </ul>
             </li>

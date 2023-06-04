@@ -41,6 +41,26 @@ const router = createRouter({
           component: () => import('@/views/organizers/DetailView.vue')
         },
         {
+          path: 'albums',
+          name: 'AlbumList',
+          component: () => import('@/views/portfolio/AlbumListView.vue')
+        },
+        {
+          path: 'albums/:uuid',
+          name: 'AlbumDetail',
+          component: () => import('@/views/portfolio/AlbumDetailView.vue')
+        },
+        {
+          path: 'photos',
+          name: 'PhotoList',
+          component: () => import('@/views/portfolio/PhotoListView.vue')
+        },
+        {
+          path: 'photos/:uuid',
+          name: 'PhotoDetail',
+          component: () => import('@/views/portfolio/PhotoDetailView.vue')
+        },
+        {
           path: 'blog',
           name: 'Blog',
           component: () => import('@/views/blog/ArticleListView.vue')
