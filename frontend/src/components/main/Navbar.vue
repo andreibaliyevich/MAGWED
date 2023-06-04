@@ -82,7 +82,12 @@ const userStore = useUserStore()
                 href="#"
                 :class="[
                   'nav-link text-uppercase fw-bold',
-                  this.$route.name == 'Home' ? 'active' : 'text-dark'
+                  this.$route.name == 'AlbumList'
+                    || this.$route.name == 'AlbumDetail'
+                    || this.$route.name == 'PhotoList'
+                    || this.$route.name == 'PhotoDetail'
+                    ? 'active'
+                    : 'text-dark'
                 ]"
                 data-bs-toggle="dropdown"
                 data-bs-auto-close="outside"
