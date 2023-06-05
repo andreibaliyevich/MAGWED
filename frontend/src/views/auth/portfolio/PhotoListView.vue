@@ -98,17 +98,11 @@ onMounted(() => {
 
       <LoadingIndicator v-if="photosLoading" />
       <PortfolioPhotoList
-        v-else-if="photoList.length > 0"
+        v-else
         :photoList="photoList"
         @updatePhoto="updatePhotoList"
         @removePhoto="removePhotoList"
       />
-      <div
-        v-else
-        class="lead d-flex justify-content-center py-3"
-      >
-        {{ $t('portfolio.you_do_not_have_photos') }}
-      </div>
     </div>
     <Teleport to="body">
       <div

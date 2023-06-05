@@ -304,7 +304,6 @@ onMounted(() => {
       </FileInputButton>
 
       <PortfolioPhotoList
-        v-if="albumPhotoList.length > 0"
         :photoList="albumPhotoList"
         @updatePhoto="updateAlbumPhotoList"
         @removePhoto="removeAlbumPhotoList"

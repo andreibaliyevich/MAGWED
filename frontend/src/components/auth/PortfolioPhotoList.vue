@@ -129,7 +129,10 @@ onMounted(() => {
 
 <template>
   <div class="portfolio-photo-list">
-    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-1 mt-1">
+    <div
+      v-if="photoList.length > 0"
+      class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-1 mt-1"
+    >
       <div
         v-for="photoItem in photoList"
         :key="photoItem.uuid"
@@ -176,6 +179,13 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <div
+      v-else
+      class="lead d-flex justify-content-center py-3"
+    >
+      {{ $t('portfolio.no_photos') }}
+    </div>
+
     <Teleport to="body">
       <div
         ref="updatePhotoModal"

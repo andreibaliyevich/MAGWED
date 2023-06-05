@@ -155,7 +155,7 @@ onMounted(() => {
         v-else
         class="lead d-flex justify-content-center py-3"
       >
-        {{ $t('portfolio.you_do_not_have_albums') }}
+        {{ $t('portfolio.no_albums') }}
       </div>
     </div>
     <Teleport to="body">
