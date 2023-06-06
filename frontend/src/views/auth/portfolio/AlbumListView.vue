@@ -116,24 +116,17 @@ onMounted(() => {
             <img
               :src="albumItem.thumbnail"
               :alt="albumItem.title"
-              class="card-img-top"
+              class="card-img"
             >
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ albumItem.title }}
-              </h5>
-              <p class="card-text">
-                <small>
-                  {{ getLocaleDateTimeString(albumItem.created_at) }}
-                </small>
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="d-flex justify-content-center">
+            <div class="card-img-overlay text-light">
+              <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
+                <h5 class="card-title text-center">{{ albumItem.title }}</h5>
+              </div>
+              <div class="position-absolute top-50 start-50 translate-middle">
                 <LocaleRouterLink
                   routeName="PortfolioAlbumDetail"
                   :routeParams="{ uuid: albumItem.uuid }"
-                  class="btn btn-outline-secondary btn-sm"
+                  class="btn btn-outline-light btn-sm"
                 >
                   <i class="fa-solid fa-pen fa-sm"></i>
                 </LocaleRouterLink>
@@ -142,10 +135,15 @@ onMounted(() => {
                   class="btn btn-danger btn-sm ms-1"
                   type="button"
                   data-bs-toggle="modal"
-                  data-bs-target="#removeAlbumModalChoice"
+                  data-bs-target="#removePhotoModalChoice"
                 >
                   <i class="fa-solid fa-trash fa-sm"></i>
                 </button>
+              </div>
+              <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+                <p class="card-text text-center">
+                  <small>{{ getLocaleDateTimeString(albumItem.created_at) }}</small>
+                </p>
               </div>
             </div>
           </div>

@@ -250,6 +250,20 @@ nav .dropdown-menu.show {
   border-color: #e72a26 !important;
 }
 
+.card-img-overlay {
+  opacity: 0;
+  background-color: rgba(33, 37, 41, 0);
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+}
+.card:hover .card-img-overlay {
+  opacity: 1;
+  background-color: rgba(33, 37, 41, 0.5);
+}
+
 .z-index-1050 {
   z-index: 1050;
 }

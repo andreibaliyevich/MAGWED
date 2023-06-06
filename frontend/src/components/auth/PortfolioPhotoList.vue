@@ -131,7 +131,7 @@ onMounted(() => {
   <div class="portfolio-photo-list">
     <div
       v-if="photoList.length > 0"
-      class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-1 mt-1"
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-1 mt-1"
     >
       <div
         v-for="photoItem in photoList"
@@ -142,24 +142,17 @@ onMounted(() => {
           <img
             :src="photoItem.thumbnail"
             :alt="photoItem.title"
-            class="card-img-top"
+            class="card-img"
           >
-          <div class="card-body">
-            <h5 class="card-title">
-              {{ photoItem.title }}
-            </h5>
-            <p class="card-text">
-              <small>
-                {{ getLocaleDateTimeString(photoItem.uploaded_at) }}
-              </small>
-            </p>
-          </div>
-          <div class="card-footer">
-            <div class="d-flex justify-content-center">
+          <div class="card-img-overlay text-light">
+            <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
+              <h5 class="card-title text-center">{{ photoItem.title }}</h5>
+            </div>
+            <div class="position-absolute top-50 start-50 translate-middle">
               <button
                 @click="getPhotoData(photoItem.uuid)"
                 type="button"
-                class="btn btn-outline-secondary btn-sm"
+                class="btn btn-outline-light btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#updatePhotoModal"
               >
@@ -174,6 +167,11 @@ onMounted(() => {
               >
                 <i class="fa-solid fa-trash fa-sm"></i>
               </button>
+            </div>
+            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+              <p class="card-text text-center">
+                <small>{{ getLocaleDateTimeString(photoItem.uploaded_at) }}</small>
+              </p>
             </div>
           </div>
         </div>
