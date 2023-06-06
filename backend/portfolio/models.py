@@ -28,7 +28,7 @@ class Album(models.Model):
     thumbnail = ThumbnailerImageField(
         upload_to=get_thumbnail_path,
         resize_source={
-            'size': (800, 800),
+            'size': (500, 500),
             'crop': 'smart',
             'autocrop': True,
             'quality': 100,
@@ -99,7 +99,7 @@ class Photo(models.Model):
     thumbnail = ThumbnailerImageField(
         upload_to=get_thumbnail_path,
         resize_source={
-            'size': (800, 800),
+            'size': (500, 500),
             'crop': 'smart',
             'autocrop': True,
             'quality': 100,
