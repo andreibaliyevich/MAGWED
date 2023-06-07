@@ -1,8 +1,11 @@
 from contextlib import suppress
 from exif import Image as ExifImage
+from rest_framework import filters
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 from accounts.permissions import UserIsOrganizer
+from .filters import AlbumFilter, PhotoFilter
 from .models import Album, Photo
 from .pagination import PortfolioPagination
 from .serializers import (
@@ -65,6 +68,10 @@ class AlbumListView(generics.ListAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumListSerializer
     pagination_class = PortfolioPagination
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = AlbumFilter
+    ordering_fields = ['created_at', 'rating']
+    ordering = ['-created_at']
 
 
 class AlbumDetailView(generics.RetrieveAPIView):
@@ -126,6 +133,10 @@ class PhotoListView(generics.ListAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoListSerializer
     pagination_class = PortfolioPagination
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = PhotoFilter
+    ordering_fields = ['uploaded_at', 'rating']
+    ordering = ['-uploaded_at']
 
 
 class PhotoDetailView(generics.RetrieveAPIView):
