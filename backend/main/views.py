@@ -14,7 +14,7 @@ class CityListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = City.objects.all()
     serializer_class = CitySerializer
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = [DjangoFilterBackend]
     filterset_class = CityFilter
 
 

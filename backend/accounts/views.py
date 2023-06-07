@@ -263,7 +263,7 @@ class OrganizerListView(generics.ListAPIView):
     queryset = Organizer.objects.filter(user__is_active=True)
     serializer_class = OrganizerListSerializer
     pagination_class = OrganizerPagination
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = [DjangoFilterBackend]
     filterset_class = OrganizerFilter
 
 
