@@ -4,6 +4,7 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.permissions import UserIsOrganizer
 from .models import Album, Photo
+from .pagination import PortfolioPagination
 from .serializers import (
     AlbumListCreateSerializer,
     AlbumImageSerializer,
@@ -63,6 +64,7 @@ class AlbumListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Album.objects.all()
     serializer_class = AlbumListSerializer
+    pagination_class = PortfolioPagination
 
 
 class AlbumDetailView(generics.RetrieveAPIView):
@@ -123,6 +125,7 @@ class PhotoListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Photo.objects.all()
     serializer_class = PhotoListSerializer
+    pagination_class = PortfolioPagination
 
 
 class PhotoDetailView(generics.RetrieveAPIView):
