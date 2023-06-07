@@ -85,6 +85,10 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
 
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
+    likes_count = serializers.SerializerMethodField()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
 
     class Meta:
         model = Photo
@@ -92,7 +96,9 @@ class PhotoListSerializer(serializers.ModelSerializer):
             'uuid',
             'thumbnail',
             'title',
-            'uploaded_at',
+            'num_views',
+            'likes_count',
+            'rating',
         ]
 
 
@@ -184,6 +190,10 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
 
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
+    likes_count = serializers.SerializerMethodField()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
 
     class Meta:
         model = Album
@@ -191,7 +201,9 @@ class AlbumListSerializer(serializers.ModelSerializer):
             'uuid',
             'thumbnail',
             'title',
-            'created_at',
+            'num_views',
+            'likes_count',
+            'rating',
         ]
 
 
