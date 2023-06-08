@@ -246,29 +246,26 @@ onUnmounted(() => {
       <div class="card-header bg-white">
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
-            <div v-if="conversation.convo_type == conversationType.DIALOG">
-              <UserAvatarExtended
-                :src="conversation.details.avatar"
-                :width="48"
-                :height="48"
-                :online="conversation.details.online"
-              />
-            </div>
-            <div v-else-if="conversation.convo_type == conversationType.GROUP">
-              <GroupAvatar
-                :src="conversation.details.image"
-                :width="48"
-                :height="48"
-              />
-            </div>
-            <div v-else>
-              <img
-                src="/conversation.jpg"
-                class="rounded-circle"
-                width="48"
-                height="48"
-              >
-            </div>
+            <UserAvatarExtended
+              v-if="conversation.convo_type == conversationType.DIALOG"
+              :src="conversation.details.avatar"
+              :width="48"
+              :height="48"
+              :online="conversation.details.online"
+            />
+            <GroupAvatar
+              v-else-if="conversation.convo_type == conversationType.GROUP"
+              :src="conversation.details.image"
+              :width="48"
+              :height="48"
+            />
+            <img
+              v-else
+              src="/conversation.jpg"
+              class="rounded-circle"
+              width="48"
+              height="48"
+            >
           </div>
           <div class="flex-grow-1 ms-3">
             <strong>{{ this.conversation.details.name }}</strong>
