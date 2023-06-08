@@ -142,6 +142,10 @@ class PhotoListView(generics.ListAPIView):
     ordering_fields = ['uploaded_at', 'rating']
     ordering = ['-uploaded_at']
 
+    def get_queryset(self):
+        queryset = Photo.objects.filter(album__exact=None)
+        return queryset
+
     def get_serializer_class(self):
         owner = self.request.GET.get('owner', None)
         return OwnerPhotoListSerializer if owner else PhotoListSerializer
