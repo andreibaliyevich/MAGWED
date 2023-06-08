@@ -311,6 +311,25 @@ class OrganizerCoverSerializer(serializers.ModelSerializer):
         fields = ['cover']
 
 
+class UserBriefReadSerializer(serializers.ModelSerializer):
+    """ User Brief Read Serializer """
+    profile_url = serializers.SerializerMethodField()
+
+    def get_profile_url(self, obj):
+        if obj.user_type == UserType.ORGANIZER:
+            return obj.organizer.profile_url
+        else:
+            return None
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'name',
+            'avatar',
+            'profile_url',
+        ]
+
+
 class UserShortReadSerializer(serializers.ModelSerializer):
     """ User Short Read Serializer """
     online = serializers.SerializerMethodField()

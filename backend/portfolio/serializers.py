@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from main.serializers import TagRelatedField
+from accounts.serializers import UserBriefReadSerializer
 from .models import Album, Photo
 
 
@@ -83,8 +84,8 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
         ]
 
 
-class PhotoListSerializer(serializers.ModelSerializer):
-    """ Photo List Serializer """
+class OwnerPhotoListSerializer(serializers.ModelSerializer):
+    """ Owner Photo List Serializer """
     likes_count = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):
@@ -94,6 +95,27 @@ class PhotoListSerializer(serializers.ModelSerializer):
         model = Photo
         fields = [
             'uuid',
+            'thumbnail',
+            'title',
+            'num_views',
+            'likes_count',
+            'rating',
+        ]
+
+
+class PhotoListSerializer(serializers.ModelSerializer):
+    """ Photo List Serializer """
+    owner = UserBriefReadSerializer(read_only=True)
+    likes_count = serializers.SerializerMethodField()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    class Meta:
+        model = Photo
+        fields = [
+            'uuid',
+            'owner',
             'thumbnail',
             'title',
             'num_views',
@@ -188,8 +210,8 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
         ]
 
 
-class AlbumListSerializer(serializers.ModelSerializer):
-    """ Album List Serializer """
+class OwnerAlbumListSerializer(serializers.ModelSerializer):
+    """ Owner Album List Serializer """
     likes_count = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):
@@ -199,6 +221,27 @@ class AlbumListSerializer(serializers.ModelSerializer):
         model = Album
         fields = [
             'uuid',
+            'thumbnail',
+            'title',
+            'num_views',
+            'likes_count',
+            'rating',
+        ]
+
+
+class AlbumListSerializer(serializers.ModelSerializer):
+    """ Album List Serializer """
+    owner = UserBriefReadSerializer(read_only=True)
+    likes_count = serializers.SerializerMethodField()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    class Meta:
+        model = Album
+        fields = [
+            'uuid',
+            'owner',
             'thumbnail',
             'title',
             'num_views',
