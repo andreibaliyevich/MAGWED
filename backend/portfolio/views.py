@@ -12,10 +12,12 @@ from .serializers import (
     AlbumListCreateSerializer,
     AlbumImageSerializer,
     AlbumRUDSerializer,
+    OwnerAlbumListSerializer,
     AlbumListSerializer,
     AlbumDetailSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
+    OwnerPhotoListSerializer,
     PhotoListSerializer,
     PhotoDetailSerializer,
 )
@@ -66,12 +68,15 @@ class AlbumListView(generics.ListAPIView):
     """ Album List View """
     permission_classes = [AllowAny]
     queryset = Album.objects.all()
-    serializer_class = AlbumListSerializer
     pagination_class = PortfolioPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = AlbumFilter
     ordering_fields = ['created_at', 'rating']
     ordering = ['-created_at']
+
+    def get_serializer_class(self):
+        owner = self.request.GET.get('owner', None)
+        return OwnerAlbumListSerializer if owner else AlbumListSerializer
 
 
 class AlbumDetailView(generics.RetrieveAPIView):
@@ -131,12 +136,15 @@ class PhotoListView(generics.ListAPIView):
     """ Photo List View """
     permission_classes = [AllowAny]
     queryset = Photo.objects.all()
-    serializer_class = PhotoListSerializer
     pagination_class = PortfolioPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = PhotoFilter
     ordering_fields = ['uploaded_at', 'rating']
     ordering = ['-uploaded_at']
+
+    def get_serializer_class(self):
+        owner = self.request.GET.get('owner', None)
+        return OwnerPhotoListSerializer if owner else PhotoListSerializer
 
 
 class PhotoDetailView(generics.RetrieveAPIView):
