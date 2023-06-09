@@ -135,7 +135,6 @@ class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
 class PhotoListView(generics.ListAPIView):
     """ Photo List View """
     permission_classes = [AllowAny]
-    queryset = Photo.objects.all()
     pagination_class = PortfolioPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = PhotoFilter
