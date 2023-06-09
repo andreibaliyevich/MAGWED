@@ -9,6 +9,7 @@ class AlbumFilter(filters.FilterSet):
         model = Album
         fields = [
             'owner',
+            'editors_choice',
         ]
 
 class PhotoFilter(filters.FilterSet):
@@ -19,4 +20,5 @@ class PhotoFilter(filters.FilterSet):
         fields = [
             'owner',
             'album',
+            'editors_choice',
         ]

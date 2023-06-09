@@ -142,12 +142,15 @@ class PhotoListView(generics.ListAPIView):
     ordering = ['-uploaded_at']
 
     def get_queryset(self):
-        queryset = Photo.objects.filter(album__exact=None)
-        return queryset
+        self.owner_uuid = self.request.GET.get('owner', None)
+        if self.owner_uuid:
+            return Photo.objects.filter(album__exact=None)
+        return Photo.objects.all()
 
     def get_serializer_class(self):
-        owner = self.request.GET.get('owner', None)
-        return OwnerPhotoListSerializer if owner else PhotoListSerializer
+        if self.owner_uuid:
+            return OwnerPhotoListSerializer
+        return PhotoListSerializer
 
 
 class PhotoDetailView(generics.RetrieveAPIView):
