@@ -285,12 +285,12 @@ onMounted(() => {
       <LoadingIndicator v-if="photosLoading" />
       <div
         v-if="photoList.length > 0"
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-2 mt-3"
+        class="row g-3 mt-3"
       >
         <div
           v-for="photoItem in photoList"
           :key="photoItem.uuid"
-          class="col"
+          class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <div class="card h-100">
             <LocaleRouterLink
