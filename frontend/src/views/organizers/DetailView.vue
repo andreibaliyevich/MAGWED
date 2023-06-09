@@ -36,6 +36,11 @@ const organizerData = ref({
   rating: 0.0
 })
 
+const photosLoading = ref(true)
+const photosMoreLoading = ref(false)
+const photoList = ref([])
+const nextURL = ref(null)
+
 const errorStatus = ref(null)
 
 const { convertToCurrency } = useCurrencyConversion()
@@ -44,6 +49,35 @@ const { getLocaleDateString } = useLocaleDateTime()
 const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]
 })
+
+const getPhotosData = async () => {
+  try {
+    const response = await axios.get(
+      '/portfolio/photos/list/'
+      + '?owner='
+      + organizerData.value.user.uuid
+    )
+    photoList.value = response.data.results
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    photosLoading.value = false
+  }
+}
+
+const getMorePhotos = async () => {
+  photosMoreLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    photoList.value = [...photoList.value, ...response.data.results]
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    photosMoreLoading.value = false
+  }
+}
 
 const getOrganizerData = async () => {
   organizerLoading.value = true
@@ -58,6 +92,7 @@ const getOrganizerData = async () => {
     errorStatus.value = error.response.status
   } finally {
     organizerLoading.value = false
+    getPhotosData()
   }
 }
 
@@ -177,6 +212,7 @@ onMounted(() => {
           </li>
         </ul>
       </div>
+
       <div class="card mt-3 py-3 px-3 px-lg-5">
         <p
           v-if="organizerData.description"
@@ -244,6 +280,57 @@ onMounted(() => {
             {{ organizerData.number_hours }}
           </li>
         </ul>
+      </div>
+
+      <LoadingIndicator v-if="photosLoading" />
+      <div
+        v-if="photoList.length > 0"
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-2 mt-3"
+      >
+        <div
+          v-for="photoItem in photoList"
+          :key="photoItem.uuid"
+          class="col"
+        >
+          <div class="card h-100">
+            <LocaleRouterLink
+              routeName="PhotoDetail"
+              :routeParams="{ uuid: photoItem.uuid }"
+              :routeQuery="{ from: this.$route.query.filter }"
+              class="link-light"
+            >
+              <img
+                :src="photoItem.thumbnail"
+                class="card-img"
+              >
+              <div class="card-img-overlay">
+                <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
+                  <h5 class="card-title text-center">{{ photoItem.title }}</h5>
+                </div>
+                <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
+                  <i class="fa-regular fa-eye"></i>
+                  {{ photoItem.num_views }}
+                </div>
+                <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+                  <i class="fa-regular fa-heart"></i>
+                  {{ photoItem.likes_count }}
+                </div>
+                <div class="position-absolute bottom-0 end-0 me-2 mb-2">
+                  <i class="fa-regular fa-star"></i>
+                  {{ photoItem.rating }}
+                </div>
+              </div>
+            </LocaleRouterLink>
+          </div>
+        </div>
+        <div v-if="nextURL" v-intersection="getMorePhotos"></div>
+        <LoadingIndicator v-if="photosMoreLoading" />
+      </div>
+      <div
+        v-else
+        class="lead d-flex justify-content-center py-3"
+      >
+        {{ $t('portfolio.no_photos') }}
       </div>
     </div>
   </div>
