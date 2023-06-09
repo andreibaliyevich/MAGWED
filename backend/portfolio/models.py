@@ -60,6 +60,10 @@ class Album(models.Model):
         default=0,
         verbose_name=_('Rating'),
     )
+    editors_choice = models.BooleanField(
+        default=False,
+        verbose_name=_('Choice of Editors'),
+    )
 
     comments = GenericRelation(
         'social.Comment',
@@ -170,6 +174,10 @@ class Photo(models.Model):
     rating = models.PositiveIntegerField(
         default=0,
         verbose_name=_('Rating'),
+    )
+    editors_choice = models.BooleanField(
+        default=False,
+        verbose_name=_('Choice of Editors'),
     )
 
     comments = GenericRelation(
