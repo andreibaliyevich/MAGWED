@@ -75,8 +75,8 @@ class AlbumListView(generics.ListAPIView):
     ordering = ['-created_at']
 
     def get_serializer_class(self):
-        owner = self.request.GET.get('owner', None)
-        return OwnerAlbumListSerializer if owner else AlbumListSerializer
+        owner_uuid = self.request.GET.get('owner', None)
+        return OwnerAlbumListSerializer if owner_uuid else AlbumListSerializer
 
 
 class AlbumDetailView(generics.RetrieveAPIView):
