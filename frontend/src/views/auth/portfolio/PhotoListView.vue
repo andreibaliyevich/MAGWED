@@ -16,7 +16,7 @@ const photosUploadStatusRound = computed(() => {
   return Math.round(photosUploadStatus.value)
 })
 
-const getPhotosData = async () => {
+const getPhotos = async () => {
   try {
     const response = await axios.get('/portfolio/photos/crud/')
     photoList.value = response.data
@@ -69,7 +69,7 @@ const removePhotoList = (pUuid) => {
 }
 
 onMounted(() => {
-  getPhotosData()
+  getPhotos()
   uploadPhotosModal.value.addEventListener('hidden.bs.modal', () => {
     photosUploadStatus.value = 0
   })

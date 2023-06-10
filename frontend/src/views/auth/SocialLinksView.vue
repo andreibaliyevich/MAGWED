@@ -34,7 +34,7 @@ const setLinkTypeOptions = () => {
   ]
 }
 
-const getSocialLinksData = async () => {
+const getSocialLinks = async () => {
   try {
     const response = await axios.get('/social/links/')
     socialLinkList.value = response.data
@@ -121,7 +121,7 @@ watch(locale, () => {
 
 onMounted(() => {
   setLinkTypeOptions()
-  getSocialLinksData()
+  getSocialLinks()
   organizerLinkModal.value.addEventListener('hidden.bs.modal', () => {
     socialLinkUuid.value = null
     socialLinkType.value = null

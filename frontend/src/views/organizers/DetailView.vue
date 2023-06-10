@@ -50,7 +50,7 @@ const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]
 })
 
-const getPhotosData = async () => {
+const getOrganizerPhotos = async () => {
   try {
     const response = await axios.get(
       '/portfolio/photos/list/'
@@ -66,7 +66,7 @@ const getPhotosData = async () => {
   }
 }
 
-const getMorePhotos = async () => {
+const getMoreOrganizerPhotos = async () => {
   photosMoreLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
@@ -92,7 +92,7 @@ const getOrganizerData = async () => {
     errorStatus.value = error.response.status
   } finally {
     organizerLoading.value = false
-    getPhotosData()
+    getOrganizerPhotos()
   }
 }
 
@@ -323,7 +323,7 @@ onMounted(() => {
             </LocaleRouterLink>
           </div>
         </div>
-        <div v-if="nextURL" v-intersection="getMorePhotos"></div>
+        <div v-if="nextURL" v-intersection="getMoreOrganizerPhotos"></div>
         <LoadingIndicator v-if="photosMoreLoading" />
       </div>
       <div

@@ -24,7 +24,7 @@ const errors = ref(null)
 const createAlbumModal = ref(null)
 const createAlbumModalBootstrap = ref(null)
 
-const getAlbumsData = async () => {
+const getAlbums = async () => {
   try {
     const response = await axios.get('/portfolio/albums/crud/')
     albumList.value = response.data
@@ -74,7 +74,7 @@ const removeAlbum = async () => {
 }
 
 onMounted(() => {
-  getAlbumsData()
+  getAlbums()
   createAlbumModal.value.addEventListener('hidden.bs.modal', () => {
     albumImage.value = null
     albumTitle.value = ''
