@@ -234,20 +234,6 @@ const userStore = useUserStore()
 </template>
 
 <style scoped>
-.nav-pills .nav-item {
-  border-left-width: 0.2rem;
-  border-left-color: rgba(231, 42, 38, 0);
-  border-left-style: solid;
-  padding-left: 0.25rem;
-  transition: all 0.3s ease-out;
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-}
-.nav-pills .nav-item.active {
-  border-left-color: rgba(231, 42, 38, 1);
-}
 @media(min-width: 992px) {
   .col-lg-4.pt-5.pb-lg-5 {
     border-right: 1px solid #dee2e6;

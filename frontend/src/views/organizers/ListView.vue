@@ -365,20 +365,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.nav-pills .nav-item {
-  border-bottom-width: 2px;
-  border-bottom-color: rgba(231, 42, 38, 0);
-  border-bottom-style: solid;
-  padding-bottom: 0.25rem;
-  transition: all 0.3s ease-out;
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-}
-.nav-pills .nav-item.active {
-  border-bottom-color: rgba(231, 42, 38, 1);
-}
-</style>
