@@ -86,7 +86,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="portfolio-albums-view">
+  <div class="portfolio-album-list-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">
         {{ $t('portfolio.albums') }}
@@ -112,16 +112,17 @@ onMounted(() => {
           :key="albumItem.uuid"
           class="col"
         >
-          <div class="card h-100">
+          <div class="card border border-0 shadow-sm h-100">
             <img
               :src="albumItem.thumbnail"
               :alt="albumItem.title"
-              class="card-img"
+              class="card-img-top"
             >
+            <div class="card-body">
+              <h5 class="card-title">{{ albumItem.title }}</h5>
+              <p class="text-body-secondary">{{ getLocaleDateTimeString(albumItem.created_at) }}</p>
+            </div>
             <div class="card-img-overlay text-light">
-              <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                <h5 class="card-title text-center">{{ albumItem.title }}</h5>
-              </div>
               <div class="position-absolute top-50 start-50 translate-middle">
                 <LocaleRouterLink
                   routeName="PortfolioAlbumDetail"
@@ -135,15 +136,10 @@ onMounted(() => {
                   class="btn btn-danger btn-sm ms-1"
                   type="button"
                   data-bs-toggle="modal"
-                  data-bs-target="#removePhotoModalChoice"
+                  data-bs-target="#removeAlbumModalChoice"
                 >
                   <i class="fa-solid fa-trash fa-sm"></i>
                 </button>
-              </div>
-              <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-                <p class="card-text text-center">
-                  <small>{{ getLocaleDateTimeString(albumItem.created_at) }}</small>
-                </p>
               </div>
             </div>
           </div>

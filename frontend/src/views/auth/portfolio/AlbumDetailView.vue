@@ -180,7 +180,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="portfolio-album-view">
+  <div class="portfolio-album-detail-view">
     <LoadingIndicator v-if="albumLoading" />
     <div
       v-else

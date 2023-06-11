@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="portfolio-photos-view">
+  <div class="portfolio-photo-list-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">
         {{ $t('portfolio.photos') }}
