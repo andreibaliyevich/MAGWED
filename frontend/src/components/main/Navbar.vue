@@ -133,6 +133,7 @@ const userStore = useUserStore()
                 <li>
                   <LocaleRouterLink
                     routeName="AlbumList"
+                    :routeQuery="{ filter: 'popular' }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
