@@ -84,8 +84,8 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
         ]
 
 
-class OwnerPhotoListSerializer(serializers.ModelSerializer):
-    """ Owner Photo List Serializer """
+class PhotoListShortSerializer(serializers.ModelSerializer):
+    """ Photo List Short Serializer """
     likes_count = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):
@@ -210,8 +210,8 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
         ]
 
 
-class OwnerAlbumListSerializer(serializers.ModelSerializer):
-    """ Owner Album List Serializer """
+class AlbumListShortSerializer(serializers.ModelSerializer):
+    """ Album List Short Serializer """
     likes_count = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):

@@ -12,12 +12,12 @@ from .serializers import (
     AlbumListCreateSerializer,
     AlbumImageSerializer,
     AlbumRUDSerializer,
-    OwnerAlbumListSerializer,
+    AlbumListShortSerializer,
     AlbumListSerializer,
     AlbumDetailSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
-    OwnerPhotoListSerializer,
+    PhotoListShortSerializer,
     PhotoListSerializer,
     PhotoDetailSerializer,
 )
@@ -76,12 +76,13 @@ class AlbumListView(generics.ListAPIView):
 
     def get_serializer_class(self):
         owner_uuid = self.request.GET.get('owner', None)
-        return OwnerAlbumListSerializer if owner_uuid else AlbumListSerializer
+        return AlbumListShortSerializer if owner_uuid else AlbumListSerializer
 
 
 class AlbumDetailView(generics.RetrieveAPIView):
     """ Album Detail View """
     permission_classes = [AllowAny]
+    queryset = Album.objects.all()
     lookup_field = 'uuid'
     serializer_class = AlbumDetailSerializer
 
@@ -135,26 +136,23 @@ class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
 class PhotoListView(generics.ListAPIView):
     """ Photo List View """
     permission_classes = [AllowAny]
+    queryset = Photo.objects.all()
     pagination_class = PortfolioPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = PhotoFilter
     ordering_fields = ['uploaded_at', 'rating']
     ordering = ['-uploaded_at']
 
-    def get_queryset(self):
-        self.owner_uuid = self.request.GET.get('owner', None)
-        if self.owner_uuid:
-            return Photo.objects.filter(album__exact=None)
-        return Photo.objects.all()
-
     def get_serializer_class(self):
-        if self.owner_uuid:
-            return OwnerPhotoListSerializer
+        if (self.request.GET.get('owner', None)
+                or self.request.GET.get('album', None)):
+            return PhotoListShortSerializer
         return PhotoListSerializer
 
 
 class PhotoDetailView(generics.RetrieveAPIView):
     """ Photo Detail View """
     permission_classes = [AllowAny]
+    queryset = Photo.objects.all()
     lookup_field = 'uuid'
     serializer_class = PhotoDetailSerializer
