@@ -15,14 +15,14 @@ const connectionBusStore = useConnectionBusStore()
 const organizerLoading = ref(true)
 const organizerData = ref({
   user: {
-      uuid: '',
-      email: '',
-      name: '',
-      avatar: null,
-      country: null,
-      city: null,
-      phone: '',
-      online: false
+    uuid: '',
+    email: '',
+    name: '',
+    avatar: null,
+    country: null,
+    city: null,
+    phone: '',
+    online: false
   },
   roles: [],
   cover: null,
@@ -56,6 +56,7 @@ const getOrganizerPhotos = async () => {
       '/portfolio/photos/list/'
       + '?owner='
       + organizerData.value.user.uuid
+      + '&album_is_null=true'
     )
     photoList.value = response.data.results
     nextURL.value = response.data.next
