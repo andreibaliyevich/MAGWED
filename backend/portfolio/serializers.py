@@ -254,7 +254,6 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
     tags = TagRelatedField(read_only=True, many=True)
     likes_count = serializers.SerializerMethodField()
-    photos = PhotoListSerializer(read_only=True, many=True)
 
     def get_likes_count(self, obj):
         return obj.likes.count()
@@ -271,5 +270,4 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'num_views',
             'likes_count',
             'rating',
-            'photos',
         ]
