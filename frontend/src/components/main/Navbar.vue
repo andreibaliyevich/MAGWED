@@ -103,7 +103,7 @@ const userStore = useUserStore()
                 <li>
                   <LocaleRouterLink
                     routeName="PhotoList"
-                    :routeQuery="{ filter: 'popular' }"
+                    :routeQuery="{ tab: 'popular' }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
@@ -113,7 +113,7 @@ const userStore = useUserStore()
                 <li>
                   <LocaleRouterLink
                     routeName="PhotoList"
-                    :routeQuery="{ filter: 'fresh' }"
+                    :routeQuery="{ tab: 'fresh' }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
@@ -123,7 +123,7 @@ const userStore = useUserStore()
                 <li>
                   <LocaleRouterLink
                     routeName="PhotoList"
-                    :routeQuery="{ filter: 'editors' }"
+                    :routeQuery="{ tab: 'editors' }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
@@ -133,7 +133,7 @@ const userStore = useUserStore()
                 <li>
                   <LocaleRouterLink
                     routeName="AlbumList"
-                    :routeQuery="{ filter: 'popular' }"
+                    :routeQuery="{ tab: 'popular' }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
