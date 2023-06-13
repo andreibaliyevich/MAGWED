@@ -63,7 +63,9 @@ const createAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/albums/crud/' + albumUuid.value +'/'
+      '/portfolio/albums/crud/'
+        + albumUuid.value
+        +'/'
     )
     albumList.value = albumList.value.filter((element) => {
       return element.uuid != albumUuid.value

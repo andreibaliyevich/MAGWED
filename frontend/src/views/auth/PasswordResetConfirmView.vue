@@ -15,12 +15,15 @@ const errors = ref(null)
 const confirmPasswordReset = async () => {
   loadingStatus.value = true
   try {
-    const response = await axios.post('/accounts/auth/password/reset/confirm/', {
-      uid: route.params.uid,
-      token: route.params.token,
-      new_password: newPassword.value,
-      new_password2: newPassword2.value
-    })
+    const response = await axios.post(
+      '/accounts/auth/password/reset/confirm/',
+      {
+        uid: route.params.uid,
+        token: route.params.token,
+        new_password: newPassword.value,
+        new_password2: newPassword2.value
+      }
+    )
     if (response.status === 204) {
       newPassword.value = ''
       newPassword2.value = ''

@@ -77,7 +77,9 @@ const updateSocialLink = async () => {
   linksUpdating.value = true
   try {
     const response = await axios.put(
-      '/social/links/' + socialLinkUuid.value +'/',
+      '/social/links/'
+        + socialLinkUuid.value
+        +'/',
       {
         link_type: socialLinkType.value,
         link_url: socialLinkUrl.value

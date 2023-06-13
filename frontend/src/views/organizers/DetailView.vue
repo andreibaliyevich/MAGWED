@@ -54,9 +54,9 @@ const getOrganizerPhotos = async () => {
   try {
     const response = await axios.get(
       '/portfolio/photos/list/'
-      + '?owner='
-      + organizerData.value.user.uuid
-      + '&album_is_null=true'
+        + '?owner='
+        + organizerData.value.user.uuid
+        + '&album_is_null=true'
     )
     photoList.value = response.data.results
     nextURL.value = response.data.next
@@ -81,19 +81,18 @@ const getMoreOrganizerPhotos = async () => {
 }
 
 const getOrganizerData = async () => {
-  organizerLoading.value = true
   try {
     const response = await axios.get(
       '/accounts/organizers/'
-      + route.params.profile_url
-      + '/'
+        + route.params.profile_url
+        + '/'
     )
     organizerData.value = response.data
+    getOrganizerPhotos()
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
     organizerLoading.value = false
-    getOrganizerPhotos()
   }
 }
 
