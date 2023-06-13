@@ -183,70 +183,70 @@ onMounted(() => {
       <div class="row flex-md-row-reverse align-items-center pb-4">
         <div class="col-md-6 text-center text-md-end">
           <a
-            class="text-muted link-facebook me-3"
+            class="text-secondary link-facebook me-3"
             href="https://www.facebook.com/"
             target="_blank"
           >
             <i class="fa-brands fa-facebook-f"></i>
           </a>
           <a
-            class="text-muted link-twitter me-3"
+            class="text-secondary link-twitter me-3"
             href="https://twitter.com/"
             target="_blank"
           >
             <i class="fa-brands fa-twitter"></i>
           </a>
           <a
-            class="text-muted link-instagram me-3"
+            class="text-secondary link-instagram me-3"
             href="https://www.instagram.com/"
             target="_blank"
           >
             <i class="fa-brands fa-instagram"></i>
           </a>
           <a
-            class="text-muted link-linkedin me-3"
+            class="text-secondary link-linkedin me-3"
             href="https://www.linkedin.com/"
             target="_blank"
           >
             <i class="fa-brands fa-linkedin"></i>
           </a>
           <a
-            class="text-muted link-spotify me-3"
+            class="text-secondary link-spotify me-3"
             href="https://www.spotify.com/"
             target="_blank"
           >
             <i class="fa-brands fa-spotify"></i>
           </a>
           <a
-            class="text-muted link-youtube me-3"
+            class="text-secondary link-youtube me-3"
             href="https://www.youtube.com/"
             target="_blank"
           >
             <i class="fa-brands fa-youtube"></i>
           </a>
           <a
-            class="text-muted link-soundcloud me-3"
+            class="text-secondary link-soundcloud me-3"
             href="https://soundcloud.com/"
             target="_blank"
           >
             <i class="fa-brands fa-soundcloud"></i>
           </a>
           <a
-            class="text-muted link-pinterest me-3"
+            class="text-secondary link-pinterest me-3"
             href="https://www.pinterest.com/"
             target="_blank"
           >
             <i class="fa-brands fa-pinterest"></i>
           </a>
           <a
-            class="text-muted link-vk"
+            class="text-secondary link-vk"
             href="https://vk.com/"
             target="_blank"
           >
             <i class="fa-brands fa-vk"></i>
           </a>
         </div>
-        <div class="col-md-6 text-center text-md-start text-muted mt-3 mt-md-0">
+        <div class="col-md-6 text-center text-md-start text-secondary mt-3 mt-md-0">
           Copyright © 2022-{{ new Date().getFullYear() }} MAGWED
         </div>
       </div>
