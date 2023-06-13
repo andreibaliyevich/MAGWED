@@ -252,6 +252,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
+    owner = UserBriefReadSerializer(read_only=True)
     tags = TagRelatedField(read_only=True, many=True)
     likes_count = serializers.SerializerMethodField()
 
@@ -262,6 +263,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
         model = Album
         fields = [
             'uuid',
+            'owner',
             'image',
             'title',
             'description',
