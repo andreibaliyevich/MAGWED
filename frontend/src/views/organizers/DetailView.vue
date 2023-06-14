@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
@@ -36,9 +36,10 @@ const organizerData = ref({
   rating: 0.0
 })
 
-const photosLoading = ref(true)
-const photosMoreLoading = ref(false)
-const photoList = ref([])
+const mediaDataTab = ref('photos')
+const mediaDataLoading = ref(true)
+const mediaDataMoreLoading = ref(false)
+const mediaDataList = ref([])
 const nextURL = ref(null)
 
 const errorStatus = ref(null)
@@ -58,25 +59,54 @@ const getOrganizerPhotos = async () => {
         + organizerData.value.user.uuid
         + '&album_is_null=true'
     )
-    photoList.value = response.data.results
+    mediaDataList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
-    photosLoading.value = false
+    mediaDataLoading.value = false
   }
 }
 
 const getMoreOrganizerPhotos = async () => {
-  photosMoreLoading.value = true
+  mediaDataMoreLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
-    photoList.value = [...photoList.value, ...response.data.results]
+    mediaDataList.value = [...mediaDataList.value, ...response.data.results]
     nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
-    photosMoreLoading.value = false
+    mediaDataMoreLoading.value = false
+  }
+}
+
+const getOrganizerAlbums = async () => {
+  try {
+    const response = await axios.get(
+      '/portfolio/albums/list/'
+        + '?owner='
+        + organizerData.value.user.uuid
+    )
+    mediaDataList.value = response.data.results
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    mediaDataLoading.value = false
+  }
+}
+
+const getMoreOrganizerAlbums = async () => {
+  mediaDataMoreLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    mediaDataList.value = [...mediaDataList.value, ...response.data.results]
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    mediaDataMoreLoading.value = false
   }
 }
 
@@ -102,6 +132,14 @@ const updateUserStatus = (mutation, state) => {
   }
 }
 
+watch(mediaDataTab, (newValue) => {
+  if (newValue == 'photos') {
+    getOrganizerPhotos()
+  } else if (newValue == 'albums') {
+    getOrganizerAlbums()
+  }
+})
+
 onMounted(() => {
   getOrganizerData()
   connectionBusStore.$subscribe(updateUserStatus)
@@ -119,7 +157,7 @@ onMounted(() => {
       v-else
       class="container my-5"
     >
-      <div class="card">
+      <div class="card border border-light shadow-sm">
         <img
           v-if="organizerData.cover"
           :src="organizerData.cover"
@@ -140,7 +178,7 @@ onMounted(() => {
               class="border border-light border-3"
             />
           </div>
-          <div class="d-sm-inline-block mt-3 ms-lg-3">
+          <div class="d-inline-block mt-3 ms-lg-3">
             <h1 class="h3">{{ organizerData.user.name }}</h1>
             <div class="row g-1">
               <div
@@ -171,15 +209,15 @@ onMounted(() => {
             </button>
           </div>
         </div>
-        <ul class="list-inline text-center text-lg-start mx-3 mx-lg-5 mb-3">
-          <li class="list-inline-item me-3">
+        <ul class="list-inline text-center text-lg-start mx-3 mx-lg-5 mb-4">
+          <li class="list-inline-item">
             <i class="fa-regular fa-calendar-plus me-1"></i>
             {{ $t('profile.joined_on') }}
             {{ getLocaleDateString(organizerData.user.date_joined) }}
           </li>
           <li
             v-if="organizerData.user.city"
-            class="list-inline-item me-3"
+            class="list-inline-item ms-3"
           >
             <i class="fa-solid fa-location-dot me-1"></i>
             {{ $t(`cities.${organizerData.user.city}`) }},
@@ -187,7 +225,7 @@ onMounted(() => {
           </li>
           <li
             v-if="organizerData.user.phone"
-            class="list-inline-item me-3"
+            class="list-inline-item ms-3"
           >
             <i class="fa-solid fa-phone me-1"></i>
             <a
@@ -199,7 +237,7 @@ onMounted(() => {
           </li>
           <li
             v-if="organizerData.website"
-            class="list-inline-item"
+            class="list-inline-item ms-3"
           >
             <i class="fa-solid fa-globe me-1"></i>
             <a
@@ -213,7 +251,7 @@ onMounted(() => {
         </ul>
       </div>
 
-      <div class="card mt-3 py-3 px-3 px-lg-5">
+      <div class="card border border-light shadow-sm mt-3 py-4 px-3 px-lg-5">
         <p
           v-if="organizerData.description"
           class="lead"
@@ -282,55 +320,151 @@ onMounted(() => {
         </ul>
       </div>
 
-      <LoadingIndicator v-if="photosLoading" />
-      <div
-        v-if="photoList.length > 0"
-        class="row g-3 mt-3"
-      >
+      <div class="d-flex justify-content-center mt-5">
         <div
-          v-for="photoItem in photoList"
-          :key="photoItem.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3"
+          role="group"
+          class="btn-group"
+          aria-label="Basic radio toggle button group"
         >
-          <div class="card h-100">
-            <LocaleRouterLink
-              routeName="PhotoDetail"
-              :routeParams="{ uuid: photoItem.uuid }"
-              :routeQuery="{ from: this.$route.query.filter }"
-              class="link-light"
-            >
-              <img
-                :src="photoItem.thumbnail"
-                class="card-img"
+          <input
+            v-model="mediaDataTab"
+            id="id_radio_tab_photos"
+            name="radio_tab_photos"
+            type="radio"
+            value="photos"
+            class="btn-check"
+          >
+          <label
+            for="id_radio_tab_photos"
+            class="btn btn-outline-dark"
+          >
+            {{ $t('portfolio.photos') }}
+          </label>
+
+          <input
+            v-model="mediaDataTab"
+            id="id_radio_tab_albums"
+            name="radio_tab_albums"
+            type="radio"
+            value="albums"
+            class="btn-check"
+          >
+          <label
+            for="id_radio_tab_albums"
+            class="btn btn-outline-dark"
+          >
+            {{ $t('portfolio.photo_albums') }}
+          </label>
+        </div>
+      </div>
+
+      <LoadingIndicator v-if="mediaDataLoading" />
+      <div v-else-if="mediaDataTab == 'photos'">
+        <div
+          v-if="mediaDataList.length > 0"
+          class="row g-3 mt-3"
+        >
+          <div
+            v-for="mediaDataItem in mediaDataList"
+            :key="mediaDataItem.uuid"
+            class="col-12 col-md-6 col-lg-4 col-xl-3"
+          >
+            <div class="card border border-0 h-100">
+              <LocaleRouterLink
+                routeName="PhotoDetail"
+                :routeParams="{ uuid: mediaDataItem.uuid }"
+                :routeQuery="{ from: this.$route.query.filter }"
+                class="link-light"
               >
-              <div class="card-img-overlay">
-                <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                  <h5 class="card-title text-center">{{ photoItem.title }}</h5>
+                <img
+                  :src="mediaDataItem.thumbnail"
+                  class="card-img"
+                >
+                <div class="card-img-overlay">
+                  <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
+                    <h5 class="card-title text-center">{{ mediaDataItem.title }}</h5>
+                  </div>
+                  <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
+                    <i class="fa-regular fa-eye"></i>
+                    {{ mediaDataItem.num_views }}
+                  </div>
+                  <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+                    <i class="fa-regular fa-heart"></i>
+                    {{ mediaDataItem.likes_count }}
+                  </div>
+                  <div class="position-absolute bottom-0 end-0 me-2 mb-2">
+                    <i class="fa-regular fa-star"></i>
+                    {{ mediaDataItem.rating }}
+                  </div>
                 </div>
-                <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-                  <i class="fa-regular fa-eye"></i>
-                  {{ photoItem.num_views }}
-                </div>
-                <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-                  <i class="fa-regular fa-heart"></i>
-                  {{ photoItem.likes_count }}
-                </div>
-                <div class="position-absolute bottom-0 end-0 me-2 mb-2">
-                  <i class="fa-regular fa-star"></i>
-                  {{ photoItem.rating }}
+              </LocaleRouterLink>
+            </div>
+          </div>
+          <div v-if="nextURL" v-intersection="getMoreOrganizerPhotos"></div>
+          <LoadingIndicator v-if="mediaDataMoreLoading" />
+        </div>
+        <div
+          v-else
+          class="lead d-flex justify-content-center py-3"
+        >
+          {{ $t('portfolio.no_photos') }}
+        </div>
+      </div>
+      <div v-else-if="mediaDataTab == 'albums'">
+        <div
+          v-if="mediaDataList.length > 0"
+          class="row g-3 mt-3"
+        >
+          <div
+            v-for="mediaDataItem in mediaDataList"
+            :key="mediaDataItem.uuid"
+            class="col-12 col-md-6 col-lg-4 col-xl-3"
+          >
+            <div class="card border border-light shadow-sm h-100">
+              <LocaleRouterLink
+                routeName="AlbumDetail"
+                :routeParams="{ uuid: mediaDataItem.uuid }"
+              >
+                <img
+                  :src="mediaDataItem.thumbnail"
+                  :alt="mediaDataItem.title"
+                  class="card-img-top"
+                >
+              </LocaleRouterLink>
+              <div class="card-body">
+                <LocaleRouterLink
+                  routeName="AlbumDetail"
+                  :routeParams="{ uuid: mediaDataItem.uuid }"
+                  class="text-decoration-none link-dark"
+                >
+                  <h5 class="card-title">{{ mediaDataItem.title }}</h5>
+                </LocaleRouterLink>
+                <div class="d-flex justify-content-between mt-1">
+                  <div>
+                    <i class="fa-regular fa-eye"></i>
+                    {{ mediaDataItem.num_views }}
+                  </div>
+                  <div>
+                    <i class="fa-regular fa-heart"></i>
+                    {{ mediaDataItem.likes_count }}
+                  </div>
+                  <div>
+                    <i class="fa-regular fa-star"></i>
+                    {{ mediaDataItem.rating }}
+                  </div>
                 </div>
               </div>
-            </LocaleRouterLink>
+            </div>
           </div>
+          <div v-if="nextURL" v-intersection="getMoreOrganizerAlbums"></div>
+          <LoadingIndicator v-if="mediaDataMoreLoading" />
         </div>
-        <div v-if="nextURL" v-intersection="getMoreOrganizerPhotos"></div>
-        <LoadingIndicator v-if="photosMoreLoading" />
-      </div>
-      <div
-        v-else
-        class="lead d-flex justify-content-center py-3"
-      >
-        {{ $t('portfolio.no_photos') }}
+        <div
+          v-else
+          class="lead d-flex justify-content-center py-3"
+        >
+          {{ $t('portfolio.no_albums') }}
+        </div>
       </div>
     </div>
   </div>
