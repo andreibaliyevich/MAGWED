@@ -126,6 +126,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
+    owner = UserBriefReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True, many=True)
     tags = TagRelatedField(read_only=True, many=True)
     likes_count = serializers.SerializerMethodField()
@@ -137,6 +138,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
         model = Photo
         fields = [
             'uuid',
+            'owner',
             'album',
             'image',
             'device',
