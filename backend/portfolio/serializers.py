@@ -127,7 +127,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
 class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
     owner = UserBriefReadSerializer(read_only=True)
-    album = AlbumShortReadSerializer(read_only=True, many=True)
+    album = AlbumShortReadSerializer(read_only=True)
     tags = TagRelatedField(read_only=True, many=True)
     likes_count = serializers.SerializerMethodField()
 
