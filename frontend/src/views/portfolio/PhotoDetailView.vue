@@ -40,6 +40,7 @@ const getPhotoData = async () => {
     const response = await axios.get(
       '/portfolio/photos/detail/'
         + route.params.uuid
+        + '/'
     )
     photoData.value = response.data
   } catch (error) {
@@ -77,7 +78,12 @@ onMounted(() => {
             <div class="col-lg-6">
               <div class="d-flex justify-content-center justify-content-lg-start">
                 <div class="d-inline-block">
-                  <h1 class="h3">{{ photoData.title }}</h1>
+                  <h1
+                    v-if="photoData.title"
+                    class="h3"
+                  >
+                    {{ photoData.title }}
+                  </h1>
                   <ul class="list-inline mb-2">
                     <li class="list-inline-item">
                       <i class="fa-regular fa-calendar-days"></i>
@@ -116,24 +122,53 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="d-flex align-items-center mb-3">
-            <LocaleRouterLink
-              routeName="OrganizerDetail"
-              :routeParams="{ profile_url: photoData.owner.profile_url }"
-            >
-              <UserAvatar
-                :src="photoData.owner.avatar"
-                :width="32"
-                :height="32"
-              />
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              routeName="OrganizerDetail"
-              :routeParams="{ profile_url: photoData.owner.profile_url  }"
-              class="text-decoration-none link-dark ms-2"
-            >
-              {{ photoData.owner.name }}
-            </LocaleRouterLink>
+          <div class="row g-1 my-3">
+            <div class="col-lg-6">
+              <div class="d-flex align-items-center justify-content-start">
+                <LocaleRouterLink
+                  routeName="OrganizerDetail"
+                  :routeParams="{ profile_url: photoData.owner.profile_url }"
+                >
+                  <UserAvatar
+                    :src="photoData.owner.avatar"
+                    :width="32"
+                    :height="32"
+                  />
+                </LocaleRouterLink>
+                <LocaleRouterLink
+                  routeName="OrganizerDetail"
+                  :routeParams="{ profile_url: photoData.owner.profile_url  }"
+                  class="text-decoration-none link-dark ms-2"
+                >
+                  {{ photoData.owner.name }}
+                </LocaleRouterLink>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div
+                v-if="photoData.album"
+                class="d-flex align-items-center justify-content-start justify-content-lg-end"
+              >
+                <LocaleRouterLink
+                  routeName="AlbumDetail"
+                  :routeParams="{ uuid: photoData.album.uuid }"
+                >
+                  <img
+                    :src="photoData.album.thumbnail"
+                    :width="32"
+                    :height="32"
+                    class="rounded-circle"
+                  >
+                </LocaleRouterLink>
+                <LocaleRouterLink
+                  routeName="AlbumDetail"
+                  :routeParams="{ uuid: photoData.album.uuid  }"
+                  class="text-decoration-none link-dark ms-2"
+                >
+                  {{ photoData.album.title }}
+                </LocaleRouterLink>
+              </div>
+            </div>
           </div>
 
           <div class="row flex-lg-row-reverse align-items-center g-3">
@@ -214,8 +249,9 @@ onMounted(() => {
 
 <style scoped>
 .card-img-top {
-  height: auto;
-  width: 100%;
-  max-width: 720px;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 75vh;
 }
 </style>
