@@ -369,12 +369,18 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
         queryset=City.objects.all(),
     )
     online = serializers.SerializerMethodField()
+    follower = serializers.SerializerMethodField()
 
     def get_online(self, obj):
         if obj.connection_histories.filter(online=True).count() > 0:
             return True
         else:
             return False
+
+    def get_follower(self, obj):
+        return obj.followers.filter(
+            follower=self.context['request'].user,
+        ).exists()
 
     class Meta:
         model = UserModel
@@ -388,6 +394,7 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
             'phone',
             'date_joined',
             'online',
+            'follower',
         ]
 
 
