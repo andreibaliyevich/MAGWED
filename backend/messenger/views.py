@@ -21,8 +21,7 @@ class ConversationListView(generics.ListAPIView):
     serializer_class = ConversationListSerializer
 
     def get_queryset(self):
-        queryset = Conversation.objects.filter(members=self.request.user)
-        return queryset
+        return Conversation.objects.filter(members=self.request.user)
 
 
 class MessageListView(generics.ListAPIView):
@@ -40,8 +39,7 @@ class MessageListView(generics.ListAPIView):
         return request.user in self.conversation.members.all()
 
     def get_queryset(self):
-        queryset = self.conversation.messages.all()
-        return queryset
+        return self.conversation.messages.all()
 
     def get(self, request, *args, **kwargs):
         if not self.validate_url(request, **kwargs):

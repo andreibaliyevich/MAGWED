@@ -99,11 +99,12 @@ class ActivationView(APIView):
         if user.is_active:
             return Response(
                 {'detail': _('Stale token for given user.')},
-                status=status.HTTP_403_FORBIDDEN)
-        else:
-            user.is_active = True
-            user.save(update_fields=['is_active'])
-            return Response(status=status.HTTP_204_NO_CONTENT)
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        user.is_active = True
+        user.save(update_fields=['is_active'])
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PasswordChangeView(APIView):
@@ -132,13 +133,14 @@ class PasswordResetView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.user
 
-        if user.has_usable_password():
-            send_password_reset_email(user, request.LANGUAGE_CODE)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
+        if not user.has_usable_password():
             return Response(
                 {'detail': _('The user does not have a password.')},
-                status=status.HTTP_403_FORBIDDEN)
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        send_password_reset_email(user, request.LANGUAGE_CODE)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PasswordResetConfirmView(APIView):

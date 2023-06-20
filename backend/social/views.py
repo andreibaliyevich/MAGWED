@@ -26,8 +26,7 @@ class SocialLinkListCreateView(generics.ListCreateAPIView):
     serializer_class = SocialLinkSerializer
 
     def get_queryset(self):
-        queryset = SocialLink.objects.filter(user=self.request.user)
-        return queryset
+        return SocialLink.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -40,8 +39,7 @@ class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SocialLinkSerializer
 
     def get_queryset(self):
-        queryset = SocialLink.objects.filter(user=self.request.user)
-        return queryset
+        return SocialLink.objects.filter(user=self.request.user)
 
 
 class CommentListCreateView(generics.ListCreateAPIView):

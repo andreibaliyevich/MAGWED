@@ -12,5 +12,4 @@ class NotificationListView(generics.ListAPIView):
     pagination_class = NotificationPagination
 
     def get_queryset(self):
-        queryset = Notification.objects.filter(recipient=self.request.user)
-        return queryset
+        return Notification.objects.filter(recipient=self.request.user)

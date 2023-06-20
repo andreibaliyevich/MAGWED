@@ -318,8 +318,7 @@ class UserBriefReadSerializer(serializers.ModelSerializer):
     def get_profile_url(self, obj):
         if obj.user_type == UserType.ORGANIZER:
             return obj.organizer.profile_url
-        else:
-            return None
+        return None
 
     class Meta:
         model = UserModel
@@ -338,14 +337,12 @@ class UserShortReadSerializer(serializers.ModelSerializer):
     def get_online(self, obj):
         if obj.connection_histories.filter(online=True).count() > 0:
             return True
-        else:
-            return False
+        return False
 
     def get_profile_url(self, obj):
         if obj.user_type == UserType.ORGANIZER:
             return obj.organizer.profile_url
-        else:
-            return None
+        return None
 
     class Meta:
         model = UserModel
@@ -369,15 +366,14 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
         queryset=City.objects.all(),
     )
     online = serializers.SerializerMethodField()
-    follower = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
 
     def get_online(self, obj):
         if obj.connection_histories.filter(online=True).count() > 0:
             return True
-        else:
-            return False
+        return False
 
-    def get_follower(self, obj):
+    def get_following(self, obj):
         return obj.followers.filter(
             follower=self.context['request'].user,
         ).exists()
@@ -394,7 +390,7 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
             'phone',
             'date_joined',
             'online',
-            'follower',
+            'following',
         ]
 
 

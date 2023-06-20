@@ -29,8 +29,7 @@ class AlbumListCreateView(generics.ListCreateAPIView):
     serializer_class = AlbumListCreateSerializer
 
     def get_queryset(self):
-        queryset = Album.objects.filter(owner=self.request.user)
-        return queryset
+        return Album.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(
@@ -46,8 +45,7 @@ class AlbumImageUpdateView(generics.UpdateAPIView):
     serializer_class = AlbumImageSerializer
 
     def get_queryset(self):
-        queryset = Album.objects.filter(owner=self.request.user)
-        return queryset
+        return Album.objects.filter(owner=self.request.user)
 
     def perform_update(self, serializer):
         serializer.save(thumbnail=self.request.data['image'])
@@ -60,8 +58,7 @@ class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AlbumRUDSerializer
 
     def get_queryset(self):
-        queryset = Album.objects.filter(owner=self.request.user)
-        return queryset
+        return Album.objects.filter(owner=self.request.user)
 
 
 class AlbumListView(generics.ListAPIView):
@@ -75,8 +72,9 @@ class AlbumListView(generics.ListAPIView):
     ordering = ['-created_at']
 
     def get_serializer_class(self):
-        owner_uuid = self.request.GET.get('owner', None)
-        return AlbumListShortSerializer if owner_uuid else AlbumListSerializer
+        if self.request.GET.get('owner', None):
+            return AlbumListShortSerializer
+        return AlbumListSerializer
 
 
 class AlbumDetailView(generics.RetrieveAPIView):
@@ -93,11 +91,10 @@ class PhotoListCreateView(generics.ListCreateAPIView):
     serializer_class = PhotoListCreateSerializer
 
     def get_queryset(self):
-        queryset = Photo.objects.filter(
+        return Photo.objects.filter(
             owner=self.request.user,
             album__exact=None,
         )
-        return queryset
 
     def perform_create(self, serializer):
         extra_data = {
@@ -129,8 +126,7 @@ class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoRUDSerializer
 
     def get_queryset(self):
-        queryset = Photo.objects.filter(owner=self.request.user)
-        return queryset
+        return Photo.objects.filter(owner=self.request.user)
 
 
 class PhotoListView(generics.ListAPIView):

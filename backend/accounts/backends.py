@@ -12,7 +12,7 @@ class EmailModelBackend(ModelBackend):
         if username is None:
             username = kwargs.get('email')
         if username is None or password is None:
-            return
+            return None
 
         try:
             user = UserModel._default_manager.get(email=username)
