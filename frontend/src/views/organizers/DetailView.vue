@@ -5,11 +5,13 @@ import { useRoute } from 'vue-router'
 import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useCurrencyStore } from '@/stores/currency.js'
+import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
 const currencyStore = useCurrencyStore()
+const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
 const organizerLoading = ref(true)
@@ -22,7 +24,9 @@ const organizerData = ref({
     country: null,
     city: null,
     phone: '',
-    online: false
+    date_joined: null,
+    online: null,
+    following: null
   },
   roles: [],
   cover: null,
@@ -132,6 +136,30 @@ const updateUserStatus = (mutation, state) => {
   }
 }
 
+const followUser = async () => {
+  try {
+    const response = await axios.post('/social/follow/', {
+      'uuid': organizerData.value.user.uuid
+    })
+    organizerData.value.user.following = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const unfollowUser = async () => {
+  try {
+    const response = await axios.delete('/social/follow/', {
+      data: {
+        'uuid': organizerData.value.user.uuid
+      }
+    })
+    organizerData.value.user.following = false
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 watch(mediaDataTab, (newValue) => {
   if (newValue == 'photos') {
     getOrganizerPhotos()
@@ -192,8 +220,22 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div class="d-flex justify-content-center mt-3 ms-lg-auto">
+          <div
+            v-if="userStore.uuid != organizerData.user.uuid"
+            class="d-flex justify-content-center mt-3 ms-lg-auto"
+          >
             <button
+              v-if="organizerData.user.following"
+              @click="unfollowUser()"
+              type="button"
+              class="btn btn-brand"
+            >
+              <i class="fa-solid fa-user-minus"></i>
+              Unfollow
+            </button>
+            <button
+              v-else
+              @click="followUser()"
               type="button"
               class="btn btn-outline-brand"
             >
