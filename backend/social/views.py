@@ -4,15 +4,17 @@ from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
 )
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.utils.translation import ugettext_lazy as _
 from accounts.models import Organizer
 from accounts.permissions import UserIsOrganizer
 from blog.models import Article
 from portfolio.models import Album, Photo
-from .models import SocialLink, Comment, Review
+from .models import SocialLink, Follow, Comment, Review
 from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
+    FollowSerializer,
     CommentListCreateSerializer,
     CommentRUDSerializer,
     ReviewListCreateSerializer,
@@ -40,6 +42,41 @@ class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return SocialLink.objects.filter(user=self.request.user)
+
+
+class FollowView(APIView):
+    """ Follow View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = FollowSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.user
+
+        try:
+            Follow.objects.create(follower=request.user, user=user)
+        except:
+            return Response(
+                {'detail': _('You have already follow.')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = FollowSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.user
+
+        try:
+            Follow.objects.get(follower=request.user, user=user).delete()
+        except:
+            return Response(
+                {'detail': _('You have already unfollow.')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentListCreateView(generics.ListCreateAPIView):

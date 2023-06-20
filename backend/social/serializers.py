@@ -1,8 +1,12 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
 from .models import SocialLink, Comment, Review
+
+
+UserModel = get_user_model()
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
@@ -28,6 +32,19 @@ class SocialLinkReadSerializer(serializers.ModelSerializer):
         ]
 
 
+class FollowSerializer(serializers.Serializer):
+    """ Follow Serializer """
+    uuid = serializers.UUIDField()
+
+    def validate_uuid(self, value):
+        try:
+            self.user = UserModel.objects.get(uuid=value)
+        except UserModel.DoesNotExist:
+            raise serializers.ValidationError(
+                _('User with given uuid does not exist.'))
+        return value
+
+
 class CommentListCreateSerializer(serializers.ModelSerializer):
     """ Comment List Create Serializer """
     author = UserShortReadSerializer(read_only=True)
@@ -35,7 +52,9 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
     def get_fields(self):
         fields = super().get_fields()
         fields['comments'] = CommentListCreateSerializer(
-            read_only=True, many=True)
+            read_only=True,
+            many=True,
+        )
         return fields
 
     class Meta:
