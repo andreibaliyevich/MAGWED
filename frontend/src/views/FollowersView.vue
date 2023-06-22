@@ -49,18 +49,18 @@ onMounted(() => {
 <template>
   <div class="followers-view">
     <div class="container my-5">
-      <h1 class="display-6 mb-5">
+      <h1 class="display-6 text-center mb-5">
         {{ $t('follow.followers') }} ({{ followersCount }})
       </h1>
       <LoadingIndicator v-if="followersLoading" />
       <div
         v-else-if="followersList.length > 0"
-        class="row"
+        class="row g-3"
       >
         <div
           v-for="follow in followersList"
           :key="follow.follower.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3"
+          class="col-12 col-sm-6 col-md-4 col-lg-3 text-center"
         >
           <LocaleRouterLink
             v-if="follow.follower.profile_url"

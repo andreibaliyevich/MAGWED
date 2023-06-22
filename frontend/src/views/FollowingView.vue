@@ -49,18 +49,18 @@ onMounted(() => {
 <template>
   <div class="following-view">
     <div class="container my-5">
-      <h1 class="display-6 mb-5">
+      <h1 class="display-6 text-center mb-5">
         {{ $t('follow.following') }} ({{ followingCount }})
       </h1>
       <LoadingIndicator v-if="followingLoading" />
       <div
         v-else-if="followingList.length > 0"
-        class="row"
+        class="row g-3"
       >
         <div
           v-for="follow in followingList"
           :key="follow.user.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3"
+          class="col-12 col-sm-6 col-md-4 col-lg-3 text-center"
         >
           <LocaleRouterLink
             routeName="OrganizerDetail"

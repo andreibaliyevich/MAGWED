@@ -129,7 +129,7 @@ onMounted(() => {
         <div
           v-for="photoItem in photoList"
           :key="photoItem.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3"
+          class="col-12 col-sm-6 col-md-4 col-lg-3"
         >
           <div class="card border border-0 h-100">
             <LocaleRouterLink
