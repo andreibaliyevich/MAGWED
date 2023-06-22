@@ -131,12 +131,12 @@ onMounted(() => {
   <div class="portfolio-photo-list">
     <div
       v-if="photoList.length > 0"
-      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-1 mt-1"
+      class="row g-1 mt-1"
     >
       <div
         v-for="photoItem in photoList"
         :key="photoItem.uuid"
-        class="col"
+        class="col-12 col-md-6 col-xl-4"
       >
         <div class="card h-100">
           <img
@@ -146,7 +146,7 @@ onMounted(() => {
           >
           <div class="card-img-overlay text-light">
             <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-              <h5 class="card-title text-center">{{ photoItem.title }}</h5>
+              <h5 class="card-title h6 text-center">{{ photoItem.title }}</h5>
             </div>
             <div class="position-absolute top-50 start-50 translate-middle">
               <button

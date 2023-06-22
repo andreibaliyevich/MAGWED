@@ -107,12 +107,12 @@ onMounted(() => {
       <LoadingIndicator v-if="albumsLoading" />
       <div
         v-else-if="albumList.length > 0"
-        class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-1 mt-1"
+        class="row g-1 mt-1"
       >
         <div
           v-for="albumItem in albumList"
           :key="albumItem.uuid"
-          class="col"
+          class="col-12 col-md-6 col-xl-4"
         >
           <div class="card border border-0 shadow-sm h-100">
             <img

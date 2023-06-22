@@ -60,7 +60,7 @@ onMounted(() => {
         <div
           v-for="follow in followersList"
           :key="follow.follower.uuid"
-          class="col-12 col-sm-6 col-md-4 col-lg-3 text-center"
+          class="col-12 col-md-6 col-lg-4 col-xl-3 text-center"
         >
           <LocaleRouterLink
             v-if="follow.follower.profile_url"

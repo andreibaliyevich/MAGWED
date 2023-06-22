@@ -129,7 +129,7 @@ onMounted(() => {
         <div
           v-for="albumItem in albumList"
           :key="albumItem.uuid"
-          class="col-12 col-sm-6 col-md-4 col-lg-3"
+          class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <div class="card border border-light shadow-sm h-100">
             <LocaleRouterLink
