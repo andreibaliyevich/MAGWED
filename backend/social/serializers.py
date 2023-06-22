@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
-from .models import SocialLink, Comment, Review
+from .models import SocialLink, Follow, Comment, Review
 
 
 UserModel = get_user_model()
@@ -43,6 +43,30 @@ class FollowSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 _('User with given uuid does not exist.'))
         return value
+
+
+class FollowingSerializer(serializers.ModelSerializer):
+    """ Following Serializer """
+    user = UserShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Follow
+        fields = [
+            'user',
+            'created_at',
+        ]
+
+
+class FollowersSerializer(serializers.ModelSerializer):
+    """ Followers Serializer """
+    follower = UserShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Follow
+        fields = [
+            'follower',
+            'created_at',
+        ]
 
 
 class CommentListCreateSerializer(serializers.ModelSerializer):

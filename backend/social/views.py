@@ -5,16 +5,21 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 from django.utils.translation import ugettext_lazy as _
 from accounts.models import Organizer
 from accounts.permissions import UserIsOrganizer
 from blog.models import Article
 from portfolio.models import Album, Photo
+from .filters import FollowFilter
 from .models import SocialLink, Follow, Comment, Review
+from .pagination import FollowPagination
 from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
     FollowSerializer,
+    FollowingSerializer,
+    FollowersSerializer,
     CommentListCreateSerializer,
     CommentRUDSerializer,
     ReviewListCreateSerializer,
@@ -79,6 +84,20 @@ class FollowView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class FollowListView(generics.ListAPIView):
+    """ Follow List View """
+    permission_classes = [IsAuthenticated]
+    queryset = Follow.objects.all()
+    pagination_class = FollowPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = FollowFilter
+
+    def get_serializer_class(self):
+        if self.request.GET.get('follower', None):
+            return FollowingSerializer
+        return FollowersSerializer
+
+
 class CommentListCreateView(generics.ListCreateAPIView):
     """ Comment List Create View """
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -133,8 +152,8 @@ class CommentListCreateView(generics.ListCreateAPIView):
 class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Comment Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsAuthor]
-    lookup_field = 'uuid'
     queryset = Comment.objects.all()
+    lookup_field = 'uuid'
     serializer_class = CommentRUDSerializer
 
 
@@ -179,6 +198,6 @@ class ReviewListCreateView(generics.ListCreateAPIView):
 class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Review Retrieve Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsAuthor]
-    lookup_field = 'uuid'
     queryset = Review.objects.all()
+    lookup_field = 'uuid'
     serializer_class = ReviewRUDSerializer
