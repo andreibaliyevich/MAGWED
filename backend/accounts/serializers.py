@@ -374,9 +374,11 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
         return False
 
     def get_following(self, obj):
-        return obj.followers.filter(
-            follower=self.context['request'].user,
-        ).exists()
+        if self.context['request'].user.is_authenticated:
+            return obj.followers.filter(
+                follower=self.context['request'].user,
+            ).exists()
+        return False
 
     class Meta:
         model = UserModel
