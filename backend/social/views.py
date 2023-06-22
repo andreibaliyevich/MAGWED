@@ -18,8 +18,8 @@ from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
     FollowSerializer,
-    FollowingSerializer,
     FollowersSerializer,
+    FollowingSerializer,
     CommentListCreateSerializer,
     CommentRUDSerializer,
     ReviewListCreateSerializer,
