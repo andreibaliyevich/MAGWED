@@ -66,7 +66,7 @@ const userStore = useUserStore()
           </LocaleRouterLink>
           <LocaleRouterLink
             v-if="userStore.userType == userType.ORGANIZER"
-            routeName="Home"
+            routeName="Followers"
             @click="$refs.dropdownUser.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
@@ -74,7 +74,7 @@ const userStore = useUserStore()
             {{ $t('auth.followers') }}
           </LocaleRouterLink>
           <LocaleRouterLink
-            routeName="Home"
+            routeName="Following"
             @click="$refs.dropdownUser.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >

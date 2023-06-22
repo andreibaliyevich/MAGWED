@@ -123,6 +123,16 @@ const router = createRouter({
               component: () => import('@/views/auth/ProfileView.vue')
             },
             {
+              path: 'profile/delete',
+              name: 'ProfileDelete',
+              component: () => import('@/views/auth/ProfileDeleteView.vue')
+            },
+            {
+              path: 'password/change',
+              name: 'PasswordChange',
+              component: () => import('@/views/auth/PasswordChangeView.vue')
+            },
+            {
               path: 'social-links',
               name: 'SocialLinks',
               component: () => import('@/views/auth/SocialLinksView.vue')
@@ -148,14 +158,14 @@ const router = createRouter({
               component: () => import('@/views/auth/portfolio/PhotoListView.vue')
             },
             {
-              path: 'password/change',
-              name: 'PasswordChange',
-              component: () => import('@/views/auth/PasswordChangeView.vue')
+              path: 'following',
+              name: 'Following',
+              component: () => import('@/views/auth/FollowingView.vue')
             },
             {
-              path: 'profile/delete',
-              name: 'ProfileDelete',
-              component: () => import('@/views/auth/ProfileDeleteView.vue')
+              path: 'followers',
+              name: 'Followers',
+              component: () => import('@/views/auth/FollowersView.vue')
             }
           ]
         },

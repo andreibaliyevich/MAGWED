@@ -54,15 +54,15 @@ const userStore = useUserStore()
                   v-if="userStore.userType == userType.ORGANIZER"
                   :class="[
                     'nav-item',
-                    this.$route.name == 'Home' ? 'active' : null
+                    this.$route.name == 'Followers' ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
-                    routeName="Home"
+                    routeName="Followers"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'Home' ? 'active' : 'text-dark'
+                      this.$route.name == 'Followers' ? 'active' : 'text-dark'
                     ]"
                   >
                     <i class="fa-solid fa-users"></i>
@@ -72,15 +72,15 @@ const userStore = useUserStore()
                 <li
                   :class="[
                     'nav-item',
-                    this.$route.name == 'Home' ? 'active' : null
+                    this.$route.name == 'Following' ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
-                    routeName="Home"
+                    routeName="Following"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'Home' ? 'active' : 'text-dark'
+                      this.$route.name == 'Following' ? 'active' : 'text-dark'
                     ]"
                   >
                     <i class="fa-solid fa-user-group"></i>
