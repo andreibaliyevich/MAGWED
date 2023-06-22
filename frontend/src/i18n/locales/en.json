@@ -140,13 +140,8 @@
             "error": "Password reset error!"
         },
         "log_out": "Log out",
-        "account_menu": "Account menu",
-        "social": "Social",
-        "account": "Account",
-        "messenger": "Messenger",
-        "notifications": "Notifications",
-        "followers": "Followers",
-        "following": "Following",
+        "settings_menu": "Settings menu",
+        "settings": "Settings",
         "favorites": "Favorites",
         "sociallinks": {
             "social_links": "Social links",
@@ -215,12 +210,20 @@
         "update_profile": "Update profile"
     },
     "messenger": {
+        "messenger": "Messenger",
         "chats": "Chats",
         "no_chats": "You don't have chats!",
         "select_chat": "Select a chat",
         "type_message": "Type a message..."
     },
+    "follow": {
+        "followers": "Followers",
+        "following": "Following",
+        "no_followers": "You don't have any followers!",
+        "no_following": "You don't have any following!"
+    },
     "notifications": {
+        "notifications": "Notifications",
         "no_notifications": "No notifications!",
         "follow": "{user_name} starded following you.",
         "article": "{user_name} has posted new article '{article_title}'.",

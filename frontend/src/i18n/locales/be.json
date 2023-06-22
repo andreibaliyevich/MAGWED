@@ -140,13 +140,8 @@
             "error": "Памылка скіду пароля!"
         },
         "log_out": "Выйсці",
-        "account_menu": "Меню акаўнта",
-        "social": "Сацыяльнае",
-        "account": "Акаўнт",
-        "messenger": "Месенджэр",
-        "notifications": "Апавяшчэнні",
-        "followers": "Падпісчыкі",
-        "following": "Падпіскі",
+        "settings_menu": "Меню настроек",
+        "settings": "Налады",
         "favorites": "Выбранае",
         "sociallinks": {
             "social_links": "Сацыяльныя спасылкі",
@@ -215,12 +210,20 @@
         "update_profile": "Абнавіць профіль"
     },
     "messenger": {
+        "messenger": "Месенджэр",
         "chats": "Чаты",
         "no_chats": "У вас няма чатаў!",
         "select_chat": "Абярыце чат",
         "type_message": "Увядзіце паведамленне..."
     },
+    "follow": {
+        "followers": "Падпісчыкі",
+        "following": "Падпіскі",
+        "no_followers": "У вас няма падпісантаў!",
+        "no_following": "У вас няма падпісак!"
+    },
     "notifications": {
+        "notifications": "Апавяшчэнні",
         "no_notifications": "Апавяшчэнняў няма!",
         "follow": "{user_name} падпісаўся на вас.",
         "article": "{user_name} апублікаваў новы артыкул '{article_title}'.",

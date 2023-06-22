@@ -140,13 +140,8 @@
             "error": "Ошибка сброса пароля!"
         },
         "log_out": "Выйти",
-        "account_menu": "Меню аккаунта",
-        "social": "Социальное",
-        "account": "Аккаунт",
-        "messenger": "Мессенджер",
-        "notifications": "Уведомления",
-        "followers": "Подписчики",
-        "following": "Подписки",
+        "settings_menu": "Меню настроек",
+        "settings": "Настройки",
         "favorites": "Избранное",
         "sociallinks": {
             "social_links": "Социальные ссылки",
@@ -215,12 +210,20 @@
         "update_profile": "Обновить профиль"
     },
     "messenger": {
+        "messenger": "Мессенджер",
         "chats": "Чаты",
         "no_chats": "У вас нет чатов!",
         "select_chat": "Выберите чат",
         "type_message": "Введите сообщение..."
     },
+    "follow": {
+        "followers": "Подписчики",
+        "following": "Подписки",
+        "no_followers": "У вас нет подписчиков!",
+        "no_following": "У вас нет подписок!"
+    },
     "notifications": {
+        "notifications": "Уведомления",
         "no_notifications": "Уведомлений нет!",
         "follow": "{user_name} подписался на вас.",
         "article": "{user_name} опубликовал новую статью '{article_title}'.",

@@ -140,13 +140,8 @@
             "error": "Помилка скидання пароля!"
         },
         "log_out": "Вийти",
-        "account_menu": "Меню облікового запису",
-        "social": "Соціальне",
-        "account": "Обліковий запис",
-        "messenger": "Месенджер",
-        "notifications": "Сповіщення",
-        "followers": "Підписувачі",
-        "following": "Підписки",
+        "settings_menu": "Меню налаштувань",
+        "settings": "Налаштування",
         "favorites": "Вибране",
         "sociallinks": {
             "social_links": "Соціальні посилання",
@@ -215,12 +210,20 @@
         "update_profile": "Оновити профіль"
     },
     "messenger": {
+        "messenger": "Месенджер",
         "chats": "Чати",
         "no_chats": "У вас немає чатів!",
         "select_chat": "Виберіть чат",
         "type_message": "Введіть повідомлення..."
     },
+    "follow": {
+        "followers": "Підписувачі",
+        "following": "Підписки",
+        "no_followers": "У вас немає передплатників!",
+        "no_following": "Ви не маєте підписок!"
+    },
     "notifications": {
+        "notifications": "Сповіщення",
         "no_notifications": "Повідомлень немає!",
         "follow": "{user_name} підписався на вас.",
         "article": "{user_name} опублікував нову статтю '{article_title}'.",
