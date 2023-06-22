@@ -12,6 +12,10 @@
   background-color: #e72a26;
 }
 
+main {
+  min-height: 75vh;
+}
+
 .link-facebook:hover {
   color: #1877f2 !important;
 }

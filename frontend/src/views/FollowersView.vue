@@ -108,9 +108,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.followers-view {
-  min-height: 50vh;
-}
-</style>

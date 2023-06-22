@@ -351,9 +351,3 @@ onMounted(() => {
     </Teleport>
   </div>
 </template>
-
-<style scoped>
-.social-links-view {
-  min-height: 50vh;
-}
-</style>
