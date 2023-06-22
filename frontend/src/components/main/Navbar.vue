@@ -179,7 +179,7 @@ const userStore = useUserStore()
       </div>
       <div
         v-else
-        class="d-flex align-items-center ms-lg-3"
+        class="d-flex align-items-center gap-1 ms-lg-3"
       >
         <LocaleRouterLink
           routeName="Login"
@@ -191,7 +191,7 @@ const userStore = useUserStore()
         <LocaleRouterLink
           routeName="Registration"
           @click="$refs.offcanvasMenuClose.click()"
-          class="btn btn-brand rounded-pill px-3 ms-1 d-flex d-none d-md-inline-flex"
+          class="btn btn-brand rounded-pill d-none d-md-inline-flex px-3"
         >
           {{ $t('auth.register') }}
         </LocaleRouterLink>
