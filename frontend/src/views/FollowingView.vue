@@ -8,6 +8,7 @@ const userStore = useUserStore()
 const followingLoading = ref(true)
 const followingMoreLoading = ref(false)
 const followingList = ref([])
+const followingCount = ref(0)
 const nextURL = ref(null)
 
 const getFollowing = async () => {
@@ -18,6 +19,7 @@ const getFollowing = async () => {
         + userStore.uuid
     )
     followingList.value = response.data.results
+    followingCount.value = response.data.count
     nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
@@ -46,9 +48,9 @@ onMounted(() => {
 
 <template>
   <div class="following-view">
-    <div class="px-1 px-lg-3 px-xl-5">
+    <div class="container my-5">
       <h1 class="display-6 mb-5">
-        {{ $t('auth.following') }}
+        {{ $t('follow.following') }} ({{ followingCount }})
       </h1>
       <LoadingIndicator v-if="followingLoading" />
       <div
@@ -58,7 +60,7 @@ onMounted(() => {
         <div
           v-for="follow in followingList"
           :key="follow.user.uuid"
-          class="col-12 col-sm-6 col-xl-4 text-center"
+          class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <LocaleRouterLink
             routeName="OrganizerDetail"
@@ -81,6 +83,12 @@ onMounted(() => {
         </div>
         <div v-if="nextURL" v-intersection="getMoreFollowing"></div>
         <LoadingIndicator v-if="followingMoreLoading" />
+      </div>
+      <div
+        v-else
+        class="lead fs-3 d-flex justify-content-center py-3"
+      >
+        {{ $t('follow.no_following') }}
       </div>
     </div>
   </div>

@@ -113,8 +113,8 @@ const router = createRouter({
         },
         {
           path: 'settings',
-          name: 'BaseAccount',
-          component: () => import('@/views/auth/BaseAccountView.vue'),
+          name: 'BaseSettings',
+          component: () => import('@/views/auth/BaseSettingsView.vue'),
           beforeEnter: [isAuthenticated],
           children: [
             {
@@ -156,16 +156,6 @@ const router = createRouter({
               path: 'portfolio/photos',
               name: 'PortfolioPhotoList',
               component: () => import('@/views/auth/portfolio/PhotoListView.vue')
-            },
-            {
-              path: 'following',
-              name: 'Following',
-              component: () => import('@/views/auth/FollowingView.vue')
-            },
-            {
-              path: 'followers',
-              name: 'Followers',
-              component: () => import('@/views/auth/FollowersView.vue')
             }
           ]
         },
@@ -175,6 +165,16 @@ const router = createRouter({
           component: () => import('@/views/MessengerView.vue'),
           beforeEnter: [isAuthenticated],
         },
+        {
+          path: 'followers',
+          name: 'Followers',
+          component: () => import('@/views/FollowersView.vue')
+        },
+        {
+          path: 'following',
+          name: 'Following',
+          component: () => import('@/views/FollowingView.vue')
+        }
       ]
     },
     {

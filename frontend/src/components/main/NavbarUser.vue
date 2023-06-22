@@ -62,7 +62,7 @@ const userStore = useUserStore()
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-message"></i>
-            {{ $t('auth.messenger') }}
+            {{ $t('messenger.messenger') }}
           </LocaleRouterLink>
           <LocaleRouterLink
             v-if="userStore.userType == userType.ORGANIZER"
@@ -71,7 +71,7 @@ const userStore = useUserStore()
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-users"></i>
-            {{ $t('auth.followers') }}
+            {{ $t('follow.followers') }}
           </LocaleRouterLink>
           <LocaleRouterLink
             routeName="Following"
@@ -79,7 +79,7 @@ const userStore = useUserStore()
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-user-group"></i>
-            {{ $t('auth.following') }}
+            {{ $t('follow.following') }}
           </LocaleRouterLink>
           <LocaleRouterLink
             routeName="Home"

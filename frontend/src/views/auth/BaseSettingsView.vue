@@ -17,97 +17,37 @@ const userStore = useUserStore()
             type="button"
             class="btn btn-light border w-100 d-lg-none"
             data-bs-toggle="offcanvas"
-            data-bs-target="#account-menu"
-            aria-controls="account-menu"
+            data-bs-target="#settings-menu"
+            aria-controls="settings-menu"
           >
-            {{ $t('auth.account_menu') }}
+            {{ $t('auth.settings_menu') }}
             <i class="fa-solid fa-bars"></i>
           </button>
           <div
-            id="account-menu"
+            id="settings-menu"
             tabindex="-1"
             class="offcanvas-lg offcanvas-end"
-            aria-labelledby="account-menu-label"
+            aria-labelledby="settings-menu-label"
           >
             <div class="offcanvas-header">
               <h5
-                id="account-menu-label"
+                id="settings-menu-label"
                 class="offcanvas-title"
               >
-                {{ $t('auth.account_menu') }}
+                {{ $t('auth.settings_menu') }}
               </h5>
               <button
                 ref="accountMenuClose"
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="offcanvas"
-                data-bs-target="#account-menu"
+                data-bs-target="#settings-menu"
                 aria-label="Close"
               ></button>
             </div>
             <div class="offcanvas-body d-lg-block">
               <div class="text-uppercase fw-bolder text-secondary">
-                {{ $t('auth.social') }}
-              </div>
-              <ul class="nav nav-pills flex-column">
-                <li
-                  v-if="userStore.userType == userType.ORGANIZER"
-                  :class="[
-                    'nav-item',
-                    this.$route.name == 'Followers' ? 'active' : null
-                  ]"
-                >
-                  <LocaleRouterLink
-                    routeName="Followers"
-                    @click="$refs.accountMenuClose.click()"
-                    :class="[
-                      'nav-link',
-                      this.$route.name == 'Followers' ? 'active' : 'text-dark'
-                    ]"
-                  >
-                    <i class="fa-solid fa-users"></i>
-                    {{ $t('auth.followers') }}
-                  </LocaleRouterLink>
-                </li>
-                <li
-                  :class="[
-                    'nav-item',
-                    this.$route.name == 'Following' ? 'active' : null
-                  ]"
-                >
-                  <LocaleRouterLink
-                    routeName="Following"
-                    @click="$refs.accountMenuClose.click()"
-                    :class="[
-                      'nav-link',
-                      this.$route.name == 'Following' ? 'active' : 'text-dark'
-                    ]"
-                  >
-                    <i class="fa-solid fa-user-group"></i>
-                    {{ $t('auth.following') }}
-                  </LocaleRouterLink>
-                </li>
-                <li
-                  :class="[
-                    'nav-item',
-                    this.$route.name == 'Home' ? 'active' : null
-                  ]"
-                >
-                  <LocaleRouterLink
-                    routeName="Home"
-                    @click="$refs.accountMenuClose.click()"
-                    :class="[
-                      'nav-link',
-                      this.$route.name == 'Home' ? 'active' : 'text-dark'
-                    ]"
-                  >
-                    <i class="fa-solid fa-star"></i>
-                    {{ $t('auth.favorites') }}
-                  </LocaleRouterLink>
-                </li>
-              </ul>
-              <div class="text-uppercase fw-bolder text-secondary mt-3">
-                {{ $t('auth.account') }}
+                {{ $t('auth.settings') }}
               </div>
               <ul class="nav nav-pills flex-column">
                 <li
@@ -238,7 +178,7 @@ const userStore = useUserStore()
   .col-lg-4.pt-5.pb-lg-5 {
     border-right: 1px solid #dee2e6;
   }
-  #account-menu {
+  #settings-menu {
     position: -webkit-sticky;
     position: sticky;
     top: 125px;
