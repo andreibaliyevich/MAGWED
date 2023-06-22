@@ -67,3 +67,9 @@ const deletingProfile = async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.profile-delete-view {
+  min-height: 50vh;
+}
+</style>

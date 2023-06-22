@@ -137,7 +137,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="external-links-view">
+  <div class="social-links-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">
         {{ $t('auth.sociallinks.social_links') }}
@@ -351,3 +351,9 @@ onMounted(() => {
     </Teleport>
   </div>
 </template>
+
+<style scoped>
+.social-links-view {
+  min-height: 50vh;
+}
+</style>
