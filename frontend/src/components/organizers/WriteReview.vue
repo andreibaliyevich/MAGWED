@@ -62,7 +62,7 @@ onMounted(() => {
 <template>
   <div class="write-review">
     <div class="card border border-light shadow-sm">
-      <div class="card-body">
+      <div class="card-body m-sm-3 m-md-4">
         <h5 class="card-title">{{ $t('organizers.write_review') }}</h5>
         <form
           @submit.prevent="sendReview()"
