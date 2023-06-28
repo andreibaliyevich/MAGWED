@@ -242,7 +242,14 @@
         "filters": "Filters",
         "per_hour": "per hour",
         "min_number_hours": "minimum 0 hours | minimum 1 hour | minimum {n} hours",
-        "no_organizers_available": "No organizers available!"
+        "no_organizers_available": "No organizers available!",
+        "reviews": "Reviews",
+        "no_reviews": "No reviews!",
+        "write_review": "Write a review",
+        "rating": "Rating",
+        "comment": "Comment",
+        "rating_options": "0 stars | 1 star | {n} stars",
+        "need_log_in": "To leave a review, you need to log in!"
     },
     "portfolio": {
         "portfolio": "Portfolio",
@@ -300,6 +307,7 @@
         "loading": "Loading...",
         "reset": "Reset",
         "show": "Show",
+        "send": "Send",
         "yes_i_am_sure": "Yes, I am sure",
         "no_cancel": "No, cancel",
         "cancel": "Cancel",
