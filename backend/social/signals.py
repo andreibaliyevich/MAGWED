@@ -8,8 +8,8 @@ from .models import Review
 @receiver([post_save, post_delete], sender=Review)
 def update_organizer_rating(sender, **kwargs):
     """ Update rating of organizer """
-    organizer = kwargs['instance'].organizer
-    organizer_rating = organizer.organizer_reviews.aggregate(
+    user = kwargs['instance'].user
+    user_rating = user.user_reviews.aggregate(
         total_rating=Coalesce(Avg('rating'), Value(0.0)))
-    organizer.rating = organizer_rating['total_rating']
-    organizer.save(update_fields=['rating'])
+    user.organizer.rating = user_rating['total_rating']
+    user.organizer.save(update_fields=['rating'])

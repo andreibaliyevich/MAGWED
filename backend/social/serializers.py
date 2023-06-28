@@ -69,6 +69,47 @@ class FollowingSerializer(serializers.ModelSerializer):
         ]
 
 
+class ReviewListCreateSerializer(serializers.ModelSerializer):
+    """ Review List Create Serializer """
+    user = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        queryset=UserModel.objects.all(),
+    )
+    author = UserShortReadSerializer(read_only=True)
+
+    def create(self, validated_data):
+        try:
+            instance = Review.objects.create(**validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError({
+                'create': _('You have already left a review here.')})
+        return instance
+
+    class Meta:
+        model = Review
+        fields = [
+            'uuid',
+            'user',
+            'author',
+            'rating',
+            'comment',
+            'created_at',
+        ]
+
+
+class ReviewRUDSerializer(serializers.ModelSerializer):
+    """ Review Retrieve Update Destroy Serializer """
+
+    class Meta:
+        model = Review
+        fields = [
+            'uuid',
+            'rating',
+            'comment',
+        ]
+
+
 class CommentListCreateSerializer(serializers.ModelSerializer):
     """ Comment List Create Serializer """
     author = UserShortReadSerializer(read_only=True)
@@ -100,39 +141,4 @@ class CommentRUDSerializer(serializers.ModelSerializer):
         fields = [
             'uuid',
             'content',
-        ]
-
-
-class ReviewListCreateSerializer(serializers.ModelSerializer):
-    """ Review List Create Serializer """
-    author = UserShortReadSerializer(read_only=True)
-
-    def create(self, validated_data):
-        try:
-            instance = Review.objects.create(**validated_data)
-        except IntegrityError:
-            raise serializers.ValidationError({
-                'create': _('You have already left a review here.')})
-        return instance
-
-    class Meta:
-        model = Review
-        fields = [
-            'uuid',
-            'author',
-            'rating',
-            'comment',
-            'created_at',
-        ]
-
-
-class ReviewRUDSerializer(serializers.ModelSerializer):
-    """ Review Retrieve Update Destroy Serializer """
-
-    class Meta:
-        model = Review
-        fields = [
-            'uuid',
-            'rating',
-            'comment',
         ]

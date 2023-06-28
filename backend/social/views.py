@@ -6,14 +6,14 @@ from rest_framework.permissions import (
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
-from accounts.models import Organizer
 from accounts.permissions import UserIsOrganizer
 from blog.models import Article
 from portfolio.models import Album, Photo
-from .filters import FollowFilter
-from .models import SocialLink, Follow, Comment, Review
-from .pagination import FollowPagination
+from .filters import FollowFilter, ReviewFilter
+from .models import SocialLink, Follow, Review, Comment
+from .pagination import FollowPagination, ReviewPagination
 from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
@@ -25,6 +25,9 @@ from .serializers import (
     ReviewListCreateSerializer,
     ReviewRUDSerializer,
 )
+
+
+UserModel = get_user_model()
 
 
 class SocialLinkListCreateView(generics.ListCreateAPIView):
@@ -98,6 +101,27 @@ class FollowListView(generics.ListAPIView):
         return FollowersSerializer
 
 
+class ReviewListCreateView(generics.ListCreateAPIView):
+    """ Review List Create View """
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Review.objects.all()
+    serializer_class = ReviewListCreateSerializer
+    pagination_class = ReviewPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ReviewFilter
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+
+class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
+    """ Review Retrieve Update Destroy View """
+    permission_classes = [IsAuthenticated, UserIsAuthor]
+    queryset = Review.objects.all()
+    lookup_field = 'uuid'
+    serializer_class = ReviewRUDSerializer
+
+
 class CommentListCreateView(generics.ListCreateAPIView):
     """ Comment List Create View """
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -155,49 +179,3 @@ class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     lookup_field = 'uuid'
     serializer_class = CommentRUDSerializer
-
-
-class ReviewListCreateView(generics.ListCreateAPIView):
-    """ Review List Create View """
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    serializer_class = ReviewListCreateSerializer
-
-    def validate_url(self, **kwargs):
-        profile_url = kwargs.get('profile_url')
-        try:
-            organizer = Organizer.objects.get(profile_url=profile_url)
-            self.user = organizer.user
-        except Organizer.DoesNotExist:
-            return False
-        return True
-
-    def get(self, request, *args, **kwargs):
-        if not self.validate_url(**kwargs):
-            return Response(
-                {'detail': _('Not found.')},
-                status=status.HTTP_404_NOT_FOUND)
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if not self.validate_url(**kwargs):
-            return Response(
-                {'detail': _('Not found.')},
-                status=status.HTTP_404_NOT_FOUND)
-        return self.create(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return self.user.user_reviews.all()
-
-    def perform_create(self, serializer):
-        serializer.save(
-            user=self.user,
-            author=self.request.user,
-        )
-
-
-class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Review Retrieve Update Destroy View """
-    permission_classes = [IsAuthenticated, UserIsAuthor]
-    queryset = Review.objects.all()
-    lookup_field = 'uuid'
-    serializer_class = ReviewRUDSerializer
