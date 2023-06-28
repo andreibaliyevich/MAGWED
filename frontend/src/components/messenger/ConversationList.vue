@@ -66,30 +66,27 @@ onMounted(() => {
           class="d-flex gap-3 p-3 text-dark"
           style="background-color: #efefef;"
         >
-          <div v-if="convo.convo_type == conversationType.DIALOG">
-            <UserAvatarExtended
-              :src="convo.details.avatar"
-              :width="48"
-              :height="48"
-              :online="convo.details.online"
-            />
-          </div>
-          <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <GroupAvatar
-              :src="convo.details.image"
-              :width="48"
-              :height="48"
-            />
-          </div>
-          <div v-else>
-            <img
-              src="/conversation.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-          </div>
-          <div class="flex-grow-1 ms-3">
+          <UserAvatarExtended
+            v-if="convo.convo_type == conversationType.DIALOG"
+            :src="convo.details.avatar"
+            :width="48"
+            :height="48"
+            :online="convo.details.online"
+          />
+          <GroupAvatar
+            v-else-if="convo.convo_type == conversationType.GROUP"
+            :src="convo.details.image"
+            :width="48"
+            :height="48"
+          />
+          <img
+            v-else
+            src="/conversation.jpg"
+            class="rounded-circle"
+            width="48"
+            height="48"
+          >
+          <div class="flex-grow-1 ms-1">
             <div class="d-flex justify-content-between">
               <div
                 v-if="convo.convo_type == conversationType.GROUP"
@@ -134,30 +131,27 @@ onMounted(() => {
           @click="$emit('setConversation', convo)"
           class="d-flex gap-3 p-3"
         >
-          <div v-if="convo.convo_type == conversationType.DIALOG">
-            <UserAvatarExtended
-              :src="convo.details.avatar"
-              :width="48"
-              :height="48"
-              :online="convo.details.online"
-            />
-          </div>
-          <div v-else-if="convo.convo_type == conversationType.GROUP">
-            <GroupAvatar
-              :src="convo.details.image"
-              :width="48"
-              :height="48"
-            />
-          </div>
-          <div v-else>
-            <img
-              src="/conversation.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-          </div>
-          <div class="flex-grow-1 ms-3">
+          <UserAvatarExtended
+            v-if="convo.convo_type == conversationType.DIALOG"
+            :src="convo.details.avatar"
+            :width="48"
+            :height="48"
+            :online="convo.details.online"
+          />
+          <GroupAvatar
+            v-else-if="convo.convo_type == conversationType.GROUP"
+            :src="convo.details.image"
+            :width="48"
+            :height="48"
+          />
+          <img
+            v-else
+            src="/conversation.jpg"
+            class="rounded-circle"
+            width="48"
+            height="48"
+          >
+          <div class="flex-grow-1 ms-1">
             <div class="d-flex justify-content-between">
               <div
                 v-if="convo.convo_type == conversationType.GROUP"
