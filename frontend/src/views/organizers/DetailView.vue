@@ -7,7 +7,9 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-import WriteReview from '@/components/organizers/WriteReview.vue'
+import AlbumList from '@/components/organizers/AlbumList.vue'
+import PhotoList from '@/components/organizers/PhotoList.vue'
+import ReviewList from '@/components/organizers/ReviewList.vue'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
@@ -42,84 +44,15 @@ const organizerData = ref({
 })
 
 const mediaDataTab = ref('photos')
-const mediaDataLoading = ref(true)
-const mediaDataMoreLoading = ref(false)
-const mediaDataList = ref([])
-const nextURL = ref(null)
 
 const errorStatus = ref(null)
 
 const { convertToCurrency } = useCurrencyConversion()
-const { getLocaleDateString, getLocaleDateTimeString } = useLocaleDateTime()
+const { getLocaleDateString } = useLocaleDateTime()
 
 const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]
 })
-
-const getOrganizerPhotos = async () => {
-  mediaDataList.value = []
-  try {
-    const response = await axios.get(
-      '/portfolio/photos/list/'
-        + '?owner='
-        + organizerData.value.user.uuid
-        + '&album_is_null=true'
-    )
-    mediaDataList.value = response.data.results
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    mediaDataLoading.value = false
-  }
-}
-
-const getOrganizerAlbums = async () => {
-  mediaDataList.value = []
-  try {
-    const response = await axios.get(
-      '/portfolio/albums/list/'
-        + '?owner='
-        + organizerData.value.user.uuid
-    )
-    mediaDataList.value = response.data.results
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    mediaDataLoading.value = false
-  }
-}
-
-const getOrganizerReviews = async () => {
-  mediaDataList.value = []
-  try {
-    const response = await axios.get(
-      '/social/reviews/'
-        + '?user='
-        + organizerData.value.user.uuid
-    )
-    mediaDataList.value = response.data.results
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    mediaDataLoading.value = false
-  }
-}
-
-const getMoreOrganizerMedia = async () => {
-  mediaDataMoreLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    mediaDataList.value = [...mediaDataList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    mediaDataMoreLoading.value = false
-  }
-}
 
 const getOrganizerData = async () => {
   try {
@@ -129,7 +62,6 @@ const getOrganizerData = async () => {
         + '/'
     )
     organizerData.value = response.data
-    getOrganizerPhotos()
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
@@ -166,17 +98,6 @@ const unfollowUser = async () => {
     console.error(error)
   }
 }
-
-watch(mediaDataTab, (newValue) => {
-  if (newValue == 'photos') {
-    getOrganizerPhotos()
-  } else if (newValue == 'albums') {
-    getOrganizerAlbums()
-  }
-   else if (newValue == 'reviews') {
-    getOrganizerReviews()
-  }
-})
 
 onMounted(() => {
   getOrganizerData()
@@ -425,266 +346,16 @@ onMounted(() => {
         </div>
       </div>
 
-      <LoadingIndicator v-if="mediaDataLoading" />
-
-      <div v-else-if="mediaDataTab == 'photos'">
-        <div
-          v-if="mediaDataList.length > 0"
-          class="row g-3 mt-3"
-        >
-          <div
-            v-for="mediaDataItem in mediaDataList"
-            :key="mediaDataItem.uuid"
-            class="col-12 col-md-6 col-lg-4 col-xl-3"
-          >
-            <div class="card border border-0 h-100">
-              <LocaleRouterLink
-                routeName="PhotoDetail"
-                :routeParams="{ uuid: mediaDataItem.uuid }"
-                :routeQuery="{ from: this.$route.query.filter }"
-                class="link-light"
-              >
-                <img
-                  :src="mediaDataItem.thumbnail"
-                  class="card-img"
-                >
-                <div class="card-img-overlay">
-                  <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                    <h5 class="card-title text-center">{{ mediaDataItem.title }}</h5>
-                  </div>
-                  <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-                    <i class="fa-regular fa-eye"></i>
-                    {{ mediaDataItem.num_views }}
-                  </div>
-                  <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-                    <i class="fa-regular fa-heart"></i>
-                    {{ mediaDataItem.likes_count }}
-                  </div>
-                  <div class="position-absolute bottom-0 end-0 me-2 mb-2">
-                    <i class="fa-regular fa-star"></i>
-                    {{ mediaDataItem.rating }}
-                  </div>
-                </div>
-              </LocaleRouterLink>
-            </div>
-          </div>
-          <div v-if="nextURL" v-intersection="getMoreOrganizerMedia"></div>
-          <LoadingIndicator v-if="mediaDataMoreLoading" />
-        </div>
-        <div
-          v-else
-          class="lead d-flex justify-content-center py-3"
-        >
-          {{ $t('portfolio.no_photos') }}
-        </div>
+      <div v-if="mediaDataTab == 'photos'">
+        <PhotoList :userUUID="organizerData.user.uuid" />
       </div>
-
       <div v-else-if="mediaDataTab == 'albums'">
-        <div
-          v-if="mediaDataList.length > 0"
-          class="row g-3 mt-3"
-        >
-          <div
-            v-for="mediaDataItem in mediaDataList"
-            :key="mediaDataItem.uuid"
-            class="col-12 col-md-6 col-lg-4 col-xl-3"
-          >
-            <div class="card border border-light shadow-sm h-100">
-              <LocaleRouterLink
-                routeName="AlbumDetail"
-                :routeParams="{ uuid: mediaDataItem.uuid }"
-              >
-                <img
-                  :src="mediaDataItem.thumbnail"
-                  :alt="mediaDataItem.title"
-                  class="card-img-top"
-                >
-              </LocaleRouterLink>
-              <div class="card-body">
-                <LocaleRouterLink
-                  routeName="AlbumDetail"
-                  :routeParams="{ uuid: mediaDataItem.uuid }"
-                  class="text-decoration-none link-dark"
-                >
-                  <h5 class="card-title">{{ mediaDataItem.title }}</h5>
-                </LocaleRouterLink>
-                <div class="d-flex justify-content-between mt-1">
-                  <div>
-                    <i class="fa-regular fa-eye"></i>
-                    {{ mediaDataItem.num_views }}
-                  </div>
-                  <div>
-                    <i class="fa-regular fa-heart"></i>
-                    {{ mediaDataItem.likes_count }}
-                  </div>
-                  <div>
-                    <i class="fa-regular fa-star"></i>
-                    {{ mediaDataItem.rating }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="nextURL" v-intersection="getMoreOrganizerMedia"></div>
-          <LoadingIndicator v-if="mediaDataMoreLoading" />
-        </div>
-        <div
-          v-else
-          class="lead d-flex justify-content-center py-3"
-        >
-          {{ $t('portfolio.no_albums') }}
-        </div>
+        <AlbumList :userUUID="organizerData.user.uuid" />
       </div>
-
       <div v-else-if="mediaDataTab == 'reviews'">
-        <div class="row flex-lg-row-reverse g-5 mt-3">
-          <div class="col-lg-6">
-            <WriteReview
-              v-if="userStore.isLoggedIn"
-              :userUUID="organizerData.user.uuid"
-              @reviewCreated="(review) => mediaDataList.unshift(review)"
-            />
-            <div
-              v-else
-              class="alert alert-info" role="alert"
-            >
-              {{ $t('organizers.need_log_in') }}
-              <LocaleRouterLink
-                routeName="Login"
-                :routeQuery="{ redirect: this.$route.path }"
-                class="alert-link"
-              >
-                {{ $t('auth.log_in') }}
-              </LocaleRouterLink>
-            </div>
-          </div>
-          <div
-            v-if="mediaDataList.length > 0"
-            class="col-lg-6"
-          >
-            <TransitionGroup
-              tag="ul"
-              name="list-group"
-              class="list-group list-group-flush"
-            >
-              <li
-                v-for="mediaDataItem in mediaDataList"
-                :key="mediaDataItem.uuid"
-                class="list-group-item"
-              >
-                <div
-                  v-if="mediaDataItem.author"
-                  class="d-flex gap-3 py-3"
-                >
-                  <LocaleRouterLink
-                    v-if="mediaDataItem.author.profile_url"
-                    routeName="OrganizerDetail"
-                    :routeParams="{ profile_url: mediaDataItem.author.profile_url }"
-                  >
-                    <UserAvatarExtended
-                      :src="mediaDataItem.author.avatar"
-                      :width="48"
-                      :height="48"
-                      :online="mediaDataItem.author.online"
-                    />
-                  </LocaleRouterLink>
-                  <UserAvatarExtended
-                    v-else
-                    :src="mediaDataItem.author.avatar"
-                    :width="48"
-                    :height="48"
-                    :online="mediaDataItem.author.online"
-                  />
-                  <div class="flex-grow-1 ms-1">
-                    <div class="d-flex justify-content-between">
-                      <LocaleRouterLink
-                        v-if="mediaDataItem.author.profile_url"
-                        routeName="OrganizerDetail"
-                        :routeParams="{ profile_url: mediaDataItem.author.profile_url }"
-                        class="text-decoration-none link-dark"
-                      >
-                        <strong class="mb-0">
-                          {{ mediaDataItem.author.name }}
-                        </strong>
-                      </LocaleRouterLink>
-                      <strong
-                        v-else
-                        class="mb-0"
-                      >
-                        {{ mediaDataItem.author.name }}
-                      </strong>
-                      <small>
-                        {{ getLocaleDateTimeString(mediaDataItem.created_at) }}
-                      </small>
-                    </div>
-                    <div v-if="mediaDataItem.rating == 1">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div v-else-if="mediaDataItem.rating == 2">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div v-else-if="mediaDataItem.rating == 3">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div v-else-if="mediaDataItem.rating == 4">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div v-else-if="mediaDataItem.rating == 5">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                    </div>
-                  </div>
-                </div>
-                <p>{{ mediaDataItem.comment }}</p>
-              </li>
-            </TransitionGroup>
-            <div v-if="nextURL" v-intersection="getMoreOrganizerMedia"></div>
-            <LoadingIndicator v-if="mediaDataMoreLoading" />
-          </div>
-          <div
-            v-else
-            class="col-lg-6 lead d-flex justify-content-center py-3"
-          >
-            {{ $t('organizers.no_reviews') }}
-          </div>
-        </div>
+        <ReviewList :userUUID="organizerData.user.uuid" />
       </div>
 
     </div>
   </div>
 </template>
-
-<style scoped>
-.list-group-enter-active,
-.list-group-leave-active {
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-}
-.list-group-enter-from,
-.list-group-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
-}
-</style>
