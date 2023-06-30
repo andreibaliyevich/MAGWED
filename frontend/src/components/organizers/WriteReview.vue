@@ -94,6 +94,12 @@ onMounted(() => {
             >
               {{ $t('btn.send') }}
             </SubmitButton>
+            <small
+              v-if="errors?.create"
+              class="text-danger"
+            >
+              {{ errors.create }}
+            </small>
           </div>
         </form>
       </div>
