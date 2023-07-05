@@ -30,9 +30,9 @@ const photosMoreLoading = ref(false)
 const photoList = ref([])
 const nextURL = ref(null)
 
-const errorStatus = ref(null)
-
 const { getLocaleDateString } = useLocaleDateTime()
+
+const errorStatus = ref(null)
 
 const getAlbumPhotos = async () => {
   try {

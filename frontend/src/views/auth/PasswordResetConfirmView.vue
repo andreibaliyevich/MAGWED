@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const loadingStatus = ref(false)
+
 const newPassword = ref('')
 const newPassword2 = ref('')
 

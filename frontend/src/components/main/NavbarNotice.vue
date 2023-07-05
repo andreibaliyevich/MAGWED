@@ -2,14 +2,13 @@
 import { reasonOfNotification } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
-
 defineProps({
   notice: {
     type: Object,
     required: true
   }
 })
+const { getLocaleDateTimeString } = useLocaleDateTime()
 </script>
 
 <template>

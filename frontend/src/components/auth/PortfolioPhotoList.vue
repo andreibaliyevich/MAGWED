@@ -3,16 +3,13 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
-
-const emit = defineEmits(['updatePhoto', 'removePhoto'])
-
 defineProps({
   photoList: {
     type: Array,
     required: true
   }
 })
+const emit = defineEmits(['updatePhoto', 'removePhoto'])
 
 const photoUpdating = ref(false)
 
@@ -33,6 +30,8 @@ const photoUploadedAt = ref(null)
 const photoNumViews = ref(0)
 const photoLikesCount = ref(0)
 const photoRating = ref(0)
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
 

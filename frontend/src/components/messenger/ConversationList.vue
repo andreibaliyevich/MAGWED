@@ -6,7 +6,6 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from './GroupAvatar.vue'
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
 const connectionBusStore = useConnectionBusStore()
 
 const props = defineProps({
@@ -18,6 +17,8 @@ const props = defineProps({
 
 const convoLoading = ref(true)
 const convoList = ref([])
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const getConversations = async () => {
   try {

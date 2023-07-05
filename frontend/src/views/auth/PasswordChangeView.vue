@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n({ useScope: 'global' })
 
 const passwordUpdating = ref(false)
+
 const currentPassword = ref('')
 const newPassword = ref('')
 const newPassword2 = ref('')

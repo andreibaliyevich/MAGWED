@@ -1,4 +1,3 @@
-
 <template>
   <div class="portfolio-view">
     <div class="px-1 px-lg-3 px-xl-5">

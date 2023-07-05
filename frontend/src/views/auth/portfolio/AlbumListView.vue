@@ -7,7 +7,6 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
-const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const albumsLoading = ref(true)
 const albumList = ref([])
@@ -18,6 +17,8 @@ const albumUuid = ref(null)
 const albumImage = ref(null)
 const albumTitle = ref('')
 const albumDescription = ref('')
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
 

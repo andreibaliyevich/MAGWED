@@ -3,8 +3,8 @@ import { userType } from '@/config.js'
 import { useLogout } from '@/composables/logout.js'
 import { useUserStore } from '@/stores/user.js'
 
-const { logout } = useLogout()
 const userStore = useUserStore()
+const { logout } = useLogout()
 </script>
 
 <template>

@@ -8,8 +8,10 @@ const route = useRoute()
 const { locale } = useI18n({ useScope: 'global' })
 
 const loadingStatus = ref(false)
+
 const username = ref('')
 const password = ref('')
+
 const errors = ref(null)
 
 const login = async () => {

@@ -45,10 +45,10 @@ const organizerData = ref({
 
 const mediaDataTab = ref('photos')
 
-const errorStatus = ref(null)
-
 const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString } = useLocaleDateTime()
+
+const errorStatus = ref(null)
 
 const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]

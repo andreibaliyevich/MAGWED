@@ -31,9 +31,9 @@ const photoData = ref({
   rating: 0
 })
 
-const errorStatus = ref(null)
-
 const { getLocaleDateString } = useLocaleDateTime()
+
+const errorStatus = ref(null)
 
 const getPhotoData = async () => {
   try {

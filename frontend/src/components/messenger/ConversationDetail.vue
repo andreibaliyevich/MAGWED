@@ -8,7 +8,6 @@ import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from './GroupAvatar.vue'
 import MessageContent from './MessageContent.vue'
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -25,6 +24,8 @@ const convoSocket = ref(null)
 const convoSocketConnect = ref(false)
 const message = ref('')
 const nextURL = ref(null)
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const scrollArea = ref(null)
 const msgTextarea = ref(null)

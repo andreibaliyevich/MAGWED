@@ -9,7 +9,6 @@ import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
 const route = useRoute()
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
-const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const albumLoading = ref(true)
 const albumUpdating = ref(false)
@@ -31,6 +30,8 @@ const albumPhotoList = ref([])
 
 const albumPhotosUploadStatus = ref(0)
 const albumPhotosUploading = ref(false)
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const uploadAlbumPhotosModal = ref(null)
 const uploadAlbumPhotosModalBootstrap = ref(null)
