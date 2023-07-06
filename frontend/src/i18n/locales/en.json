@@ -246,9 +246,12 @@
         "reviews": "Reviews",
         "no_reviews": "No reviews!",
         "write_review": "Write a review",
+        "updating_review": "Updating the review",
         "rating": "Rating",
         "comment": "Comment",
         "rating_options": "0 stars | 1 star | {n} stars",
+        "you_want_remove_review": "Are you sure you want to delete your review?",
+        "organizer_rating_will_be_updated": "Organizer rating will no longer take into account your review.",
         "need_log_in": "To leave a review, you need to log in!"
     },
     "portfolio": {
