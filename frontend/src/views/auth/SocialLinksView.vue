@@ -89,8 +89,8 @@ const updateSocialLink = async () => {
       return element.uuid == socialLinkUuid.value
     })
     socialLinkList.value[foundIndex] = response.data
-    organizerLinkModalBootstrap.value.hide()
     errors.value = null
+    organizerLinkModalBootstrap.value.hide()
   } catch (error) {
     errors.value = error.response.data
   } finally {
