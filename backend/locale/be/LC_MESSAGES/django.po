@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-09 14:16+0000\n"
+"POT-Creation-Date: 2023-07-07 14:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,7 @@ msgstr "Актыўны"
 
 #: accounts/models.py:144 accounts/models.py:160 accounts/models.py:194
 #: accounts/models.py:232 social/models.py:24 social/models.py:63
-#: social/models.py:95 social/models.py:178
+#: social/models.py:95 social/models.py:132
 msgid "User"
 msgstr "Карыстальнік"
 
@@ -315,7 +315,7 @@ msgid "Profile URL"
 msgstr "URL профілю"
 
 #: accounts/models.py:299 portfolio/models.py:61 portfolio/models.py:176
-#: social/models.py:189
+#: social/models.py:143
 msgid "Rating"
 msgstr "Рэйтынг"
 
@@ -356,7 +356,7 @@ msgstr "Карыстальнік з указаным адрасам электр
 msgid "Stale token for given user."
 msgstr "Састарэлы токен для дадзенага карыстальніка."
 
-#: accounts/views.py:140
+#: accounts/views.py:138
 msgid "The user does not have a password."
 msgstr "У карыстальніка няма пароля."
 
@@ -417,7 +417,7 @@ msgstr "Пераклад катэгорыі"
 msgid "Category Translations"
 msgstr "Пераклады катэгорый"
 
-#: blog/models.py:112 social/models.py:136 social/models.py:184
+#: blog/models.py:112 social/models.py:138 social/models.py:185
 msgid "Author"
 msgstr "Аўтар"
 
@@ -430,7 +430,7 @@ msgstr "Назва"
 msgid "Thumbnail"
 msgstr "Эскіз"
 
-#: blog/models.py:150 blog/models.py:228 social/models.py:139
+#: blog/models.py:150 blog/models.py:228 social/models.py:188
 msgid "Content"
 msgstr "Змест"
 
@@ -557,7 +557,7 @@ msgstr "Код"
 
 #: main/models.py:82 messenger/models.py:107 notifications/models.py:43
 #: portfolio/models.py:46 social/models.py:36 social/models.py:69
-#: social/models.py:105 social/models.py:144 social/models.py:196
+#: social/models.py:105 social/models.py:150 social/models.py:193
 msgid "Created at"
 msgstr "Створана ў"
 
@@ -646,7 +646,7 @@ msgstr "Адпраўнік"
 msgid "Message type"
 msgstr "Тып паведамлення"
 
-#: messenger/models.py:111 social/models.py:148 social/models.py:200
+#: messenger/models.py:111 social/models.py:154 social/models.py:197
 msgid "Updated at"
 msgstr "Абноўлена ў"
 
@@ -703,8 +703,7 @@ msgstr "Файлавыя паведамленні"
 msgid "You are not a member of the conversation."
 msgstr "Вы не з'яўляецеся ўдзельнікам размовы."
 
-#: messenger/views.py:49 social/views.py:77 social/views.py:84
-#: social/views.py:123 social/views.py:130
+#: messenger/views.py:47 social/views.py:155 social/views.py:162
 msgid "Not found."
 msgstr "Не знойдзена."
 
@@ -848,6 +847,30 @@ msgstr "Фота"
 msgid "Photos"
 msgstr "Фатаграфіі"
 
+#: portfolio/serializers.py:175
+msgid "Photo with given uuid does not exist."
+msgstr "Фота з дадзеным uuid не існуе."
+
+#: portfolio/serializers.py:316
+msgid "Album with given uuid does not exist."
+msgstr "Альбом з дадзеным uuid не існуе."
+
+#: portfolio/views.py:104
+msgid "You already liked this album!"
+msgstr "Вам ужо спадабаўся гэты альбом!"
+
+#: portfolio/views.py:119
+msgid "You do not like this album!"
+msgstr "Вам не падабаецца гэты альбом!"
+
+#: portfolio/views.py:208
+msgid "You already liked this photo!"
+msgstr "Вам ужо спадабалася гэтае фота!"
+
+#: portfolio/views.py:223
+msgid "You do not like this photo!"
+msgstr "Вам не падабаецца гэтае фота!"
+
 #: social/choices.py:6
 msgid "Facebook"
 msgstr "Facebook"
@@ -944,29 +967,41 @@ msgstr "Абранае"
 msgid "Favorites"
 msgstr "Выбраныя"
 
-#: social/models.py:158 social/models.py:191
+#: social/models.py:145 social/models.py:207
 msgid "Comment"
 msgstr "Каментарый"
 
-#: social/models.py:159
-msgid "Comments"
-msgstr "Каментары"
-
-#: social/models.py:204
+#: social/models.py:158
 msgid "Review"
 msgstr "Водгук"
 
-#: social/models.py:205
+#: social/models.py:159
 msgid "Reviews"
 msgstr "Водгукі"
+
+#: social/models.py:208
+msgid "Comments"
+msgstr "Каментары"
 
 #: social/permissions.py:7
 msgid "Only author have permission."
 msgstr "Дазвол ёсць толькі ў аўтара."
 
-#: social/serializers.py:72
+#: social/serializers.py:44
+msgid "User with given uuid does not exist."
+msgstr "Карыстальнік з дадзеным uuid не існуе."
+
+#: social/serializers.py:86
 msgid "You have already left a review here."
 msgstr "Вы ўжо пакідалі водгук тут."
+
+#: social/views.py:68
+msgid "You have already follow this user."
+msgstr "Вы ўжо падпісаліся на гэтага карыстальніка."
+
+#: social/views.py:83
+msgid "You do not follow this user."
+msgstr "Вы не падпісаны на гэтага карыстальніка."
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
