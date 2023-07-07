@@ -22,6 +22,7 @@ const albumData = ref({
   created_at: null,
   num_views: 0,
   likes_count: 0,
+  liked: null,
   rating: 0
 })
 
@@ -79,6 +80,32 @@ const getAlbumData = async () => {
   }
 }
 
+const likeAlbum = async () => {
+  try {
+    const response = await axios.post('/portfolio/albums/like/', {
+      'uuid': albumData.value.uuid
+    })
+    albumData.value.likes_count += 1
+    albumData.value.liked = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const dislikeAlbum = async () => {
+  try {
+    const response = await axios.delete('/portfolio/albums/like/', {
+      data: {
+        'uuid': albumData.value.uuid
+      }
+    })
+    albumData.value.likes_count -= 1
+    albumData.value.liked = false
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 onMounted(() => {
   getAlbumData()
 })
@@ -127,6 +154,17 @@ onMounted(() => {
             <div class="col-lg-6">
               <div class="d-flex justify-content-center justify-content-lg-end">
                 <button
+                  v-if="albumData.liked"
+                  @click="dislikeAlbum()"
+                  type="button"
+                  class="btn btn-brand"
+                >
+                  <i class="fa-regular fa-heart"></i>
+                  {{ albumData.likes_count }}
+                </button>
+                <button
+                  v-else
+                  @click="likeAlbum()"
                   type="button"
                   class="btn btn-outline-brand"
                 >

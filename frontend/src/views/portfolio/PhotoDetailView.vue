@@ -28,6 +28,7 @@ const photoData = ref({
   uploaded_at: null,
   num_views: 0,
   likes_count: 0,
+  liked: null,
   rating: 0
 })
 
@@ -47,6 +48,32 @@ const getPhotoData = async () => {
     errorStatus.value = error.response.status
   } finally {
     photoLoading.value = false
+  }
+}
+
+const likePhoto = async () => {
+  try {
+    const response = await axios.post('/portfolio/photos/like/', {
+      'uuid': photoData.value.uuid
+    })
+    photoData.value.likes_count += 1
+    photoData.value.liked = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const dislikePhoto = async () => {
+  try {
+    const response = await axios.delete('/portfolio/photos/like/', {
+      data: {
+        'uuid': photoData.value.uuid
+      }
+    })
+    photoData.value.likes_count -= 1
+    photoData.value.liked = false
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -105,6 +132,17 @@ onMounted(() => {
             <div class="col-lg-6">
               <div class="d-flex justify-content-center justify-content-lg-end">
                 <button
+                  v-if="photoData.liked"
+                  @click="dislikePhoto()"
+                  type="button"
+                  class="btn btn-brand"
+                >
+                  <i class="fa-regular fa-heart"></i>
+                  {{ photoData.likes_count }}
+                </button>
+                <button
+                  v-else
+                  @click="likePhoto()"
                   type="button"
                   class="btn btn-outline-brand"
                 >
