@@ -1,8 +1,9 @@
 from contextlib import suppress
 from exif import Image as ExifImage
-from rest_framework import filters
-from rest_framework import generics
+from rest_framework import filters, generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from accounts.permissions import UserIsOrganizer
 from .filters import AlbumFilter, PhotoFilter
@@ -15,11 +16,13 @@ from .serializers import (
     AlbumListShortSerializer,
     AlbumListSerializer,
     AlbumDetailSerializer,
+    AlbumLikeSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
     PhotoListShortSerializer,
     PhotoListSerializer,
     PhotoDetailSerializer,
+    PhotoLikeSerializer,
 )
 
 
@@ -83,6 +86,41 @@ class AlbumDetailView(generics.RetrieveAPIView):
     queryset = Album.objects.all()
     lookup_field = 'uuid'
     serializer_class = AlbumDetailSerializer
+
+
+class AlbumLikeView(APIView):
+    """ Album Like View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = AlbumLikeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        album = serializer.album
+
+        try:
+            album.likes.add(request.user)
+        except:
+            return Response(
+                {'detail': _('You already liked this album!')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = AlbumLikeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        album = serializer.album
+
+        try:
+            album.likes.remove(request.user)
+        except:
+            return Response(
+                {'detail': _('You do not like this album!')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PhotoListCreateView(generics.ListCreateAPIView):
@@ -152,3 +190,38 @@ class PhotoDetailView(generics.RetrieveAPIView):
     queryset = Photo.objects.all()
     lookup_field = 'uuid'
     serializer_class = PhotoDetailSerializer
+
+
+class PhotoLikeView(APIView):
+    """ Photo Like View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = PhotoLikeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        photo = serializer.photo
+
+        try:
+            photo.likes.add(request.user)
+        except:
+            return Response(
+                {'detail': _('You already liked this photo!')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = PhotoLikeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        photo = serializer.photo
+
+        try:
+            photo.likes.remove(request.user)
+        except:
+            return Response(
+                {'detail': _('You do not like this photo!')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

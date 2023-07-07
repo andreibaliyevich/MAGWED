@@ -163,6 +163,19 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
         ]
 
 
+class PhotoLikeSerializer(serializers.Serializer):
+    """ Photo Like Serializer """
+    uuid = serializers.UUIDField()
+
+    def validate_uuid(self, value):
+        try:
+            self.photo = Photo.objects.get(uuid=value)
+        except Photo.DoesNotExist:
+            raise serializers.ValidationError(
+                _('Photo with given uuid does not exist.'))
+        return value
+
+
 class AlbumListCreateSerializer(serializers.ModelSerializer):
     """ Album List Create Serializer """
     image = serializers.ImageField(write_only=True)
@@ -289,3 +302,16 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'liked',
             'rating',
         ]
+
+
+class AlbumLikeSerializer(serializers.Serializer):
+    """ Album Like Serializer """
+    uuid = serializers.UUIDField()
+
+    def validate_uuid(self, value):
+        try:
+            self.album = Album.objects.get(uuid=value)
+        except Album.DoesNotExist:
+            raise serializers.ValidationError(
+                _('Album with given uuid does not exist.'))
+        return value

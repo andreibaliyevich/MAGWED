@@ -13,6 +13,7 @@ urlpatterns = [
         ])),
         path('list/', views.AlbumListView.as_view()),
         path('detail/<uuid:uuid>/', views.AlbumDetailView.as_view()),
+        path('like/', views.AlbumLikeView.as_view()),
     ])),
 
     path('photos/', include([
@@ -22,5 +23,6 @@ urlpatterns = [
         ])),
         path('list/', views.PhotoListView.as_view()),
         path('detail/<uuid:uuid>/', views.PhotoDetailView.as_view()),
+        path('like/', views.PhotoLikeView.as_view()),
     ])),
 ]
