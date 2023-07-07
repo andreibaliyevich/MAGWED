@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-07 14:13+0000\n"
+"POT-Creation-Date: 2023-07-07 18:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -445,7 +445,7 @@ msgid "Published at"
 msgstr "Опубликовано в"
 
 #: blog/models.py:160 portfolio/models.py:51 portfolio/models.py:166
-msgid "Number of views"
+msgid "Count of views"
 msgstr "Количество просмотров"
 
 #: blog/models.py:189 blog/models.py:206
