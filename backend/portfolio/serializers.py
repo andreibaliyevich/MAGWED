@@ -128,11 +128,17 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
     owner = UserBriefReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True)
-    tags = TagRelatedField(read_only=True, many=True)
     likes_count = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
+    tags = TagRelatedField(read_only=True, many=True)
 
     def get_likes_count(self, obj):
         return obj.likes.count()
+
+    def get_liked(self, obj):
+        if self.context['request'].user.is_authenticated:
+            return self.context['request'].user in obj.likes.all()
+        return False
 
     class Meta:
         model = Photo
@@ -152,6 +158,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'uploaded_at',
             'num_views',
             'likes_count',
+            'liked',
             'rating',
         ]
 
@@ -255,11 +262,17 @@ class AlbumListSerializer(serializers.ModelSerializer):
 class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
     owner = UserBriefReadSerializer(read_only=True)
-    tags = TagRelatedField(read_only=True, many=True)
     likes_count = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
+    tags = TagRelatedField(read_only=True, many=True)
 
     def get_likes_count(self, obj):
         return obj.likes.count()
+
+    def get_liked(self, obj):
+        if self.context['request'].user.is_authenticated:
+            return self.context['request'].user in obj.likes.all()
+        return False
 
     class Meta:
         model = Album
@@ -273,5 +286,6 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'created_at',
             'num_views',
             'likes_count',
+            'liked',
             'rating',
         ]
