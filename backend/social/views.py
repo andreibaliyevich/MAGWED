@@ -65,7 +65,7 @@ class FollowView(APIView):
             Follow.objects.create(follower=request.user, user=user)
         except:
             return Response(
-                {'detail': _('You have already follow.')},
+                {'detail': _('You have already follow this user.')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -80,7 +80,7 @@ class FollowView(APIView):
             Follow.objects.get(follower=request.user, user=user).delete()
         except:
             return Response(
-                {'detail': _('You have already unfollow.')},
+                {'detail': _('You do not follow this user.')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
