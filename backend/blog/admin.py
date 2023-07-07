@@ -62,14 +62,14 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': ('image', 'get_preview'),
         }),
         (_('Info'), {
-            'fields': ('content', 'tags', 'published_at', 'num_views'),
+            'fields': ('content', 'tags', 'published_at', 'views_count'),
         }),
     )
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE()},
     }
     prepopulated_fields = {'slug': ('title',)}
-    readonly_fields = ('published_at', 'num_views', 'get_preview')
+    readonly_fields = ('published_at', 'views_count', 'get_preview')
     inlines = (ArticleTranslationInline,)
 
     def get_preview(self, obj):

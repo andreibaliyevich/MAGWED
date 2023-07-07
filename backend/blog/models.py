@@ -155,9 +155,9 @@ class Article(models.Model):
         auto_now_add=True,
         verbose_name=_('Published at'),
     )
-    num_views = models.IntegerField(
+    views_count = models.IntegerField(
         default=0,
-        verbose_name=_('Number of views'),
+        verbose_name=_('Count of views'),
     )
 
     comments = GenericRelation(

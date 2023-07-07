@@ -46,9 +46,9 @@ class Album(models.Model):
         verbose_name=_('Created at'),
     )
 
-    num_views = models.IntegerField(
+    views_count = models.IntegerField(
         default=0,
-        verbose_name=_('Number of views'),
+        verbose_name=_('Count of views'),
     )
     likes = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
@@ -161,9 +161,9 @@ class Photo(models.Model):
         verbose_name=_('Uploaded at'),
     )
 
-    num_views = models.IntegerField(
+    views_count = models.IntegerField(
         default=0,
-        verbose_name=_('Number of views'),
+        verbose_name=_('Count of views'),
     )
     likes = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

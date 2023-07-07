@@ -57,7 +57,7 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(read_only=True)
     tags = TagRelatedField(many=True)
     uploaded_at = serializers.DateTimeField(read_only=True)
-    num_views = serializers.IntegerField(read_only=True)
+    views_count = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
 
@@ -78,7 +78,7 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'uploaded_at',
-            'num_views',
+            'views_count',
             'likes_count',
             'rating',
         ]
@@ -97,7 +97,7 @@ class PhotoListShortSerializer(serializers.ModelSerializer):
             'uuid',
             'thumbnail',
             'title',
-            'num_views',
+            'views_count',
             'likes_count',
             'rating',
         ]
@@ -118,7 +118,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
             'owner',
             'thumbnail',
             'title',
-            'num_views',
+            'views_count',
             'likes_count',
             'rating',
         ]
@@ -156,7 +156,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'uploaded_at',
-            'num_views',
+            'views_count',
             'likes_count',
             'liked',
             'rating',
@@ -208,7 +208,7 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(read_only=True)
     tags = TagRelatedField(many=True)
     created_at = serializers.DateTimeField(read_only=True)
-    num_views = serializers.IntegerField(read_only=True)
+    views_count = serializers.IntegerField(read_only=True)
     likes_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
     photos = PhotoListCreateSerializer(read_only=True, many=True)
@@ -225,7 +225,7 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'created_at',
-            'num_views',
+            'views_count',
             'likes_count',
             'rating',
             'photos',
@@ -245,7 +245,7 @@ class AlbumListShortSerializer(serializers.ModelSerializer):
             'uuid',
             'thumbnail',
             'title',
-            'num_views',
+            'views_count',
             'likes_count',
             'rating',
         ]
@@ -266,7 +266,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
             'owner',
             'thumbnail',
             'title',
-            'num_views',
+            'views_count',
             'likes_count',
             'rating',
         ]
@@ -297,7 +297,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'created_at',
-            'num_views',
+            'views_count',
             'likes_count',
             'liked',
             'rating',
