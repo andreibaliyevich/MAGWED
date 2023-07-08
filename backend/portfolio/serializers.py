@@ -57,11 +57,11 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(read_only=True)
     tags = TagRelatedField(many=True)
     uploaded_at = serializers.DateTimeField(read_only=True)
-    views_count = serializers.IntegerField(read_only=True)
-    likes_count = serializers.SerializerMethodField()
+    view_count = serializers.IntegerField(read_only=True)
+    like_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     class Meta:
@@ -78,17 +78,17 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'uploaded_at',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'rating',
         ]
 
 
 class PhotoListShortSerializer(serializers.ModelSerializer):
     """ Photo List Short Serializer """
-    likes_count = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     class Meta:
@@ -97,8 +97,8 @@ class PhotoListShortSerializer(serializers.ModelSerializer):
             'uuid',
             'thumbnail',
             'title',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'rating',
         ]
 
@@ -106,9 +106,9 @@ class PhotoListShortSerializer(serializers.ModelSerializer):
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
     owner = UserBriefReadSerializer(read_only=True)
-    likes_count = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     class Meta:
@@ -118,8 +118,8 @@ class PhotoListSerializer(serializers.ModelSerializer):
             'owner',
             'thumbnail',
             'title',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'rating',
         ]
 
@@ -128,11 +128,11 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
     """ Photo Detail Serializer """
     owner = UserBriefReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True)
-    likes_count = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     tags = TagRelatedField(read_only=True, many=True)
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     def get_liked(self, obj):
@@ -156,8 +156,8 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'uploaded_at',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'liked',
             'rating',
         ]
@@ -208,12 +208,12 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(read_only=True)
     tags = TagRelatedField(many=True)
     created_at = serializers.DateTimeField(read_only=True)
-    views_count = serializers.IntegerField(read_only=True)
-    likes_count = serializers.SerializerMethodField()
+    view_count = serializers.IntegerField(read_only=True)
+    like_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
     photos = PhotoListCreateSerializer(read_only=True, many=True)
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     class Meta:
@@ -225,8 +225,8 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'created_at',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'rating',
             'photos',
         ]
@@ -234,9 +234,9 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
 
 class AlbumListShortSerializer(serializers.ModelSerializer):
     """ Album List Short Serializer """
-    likes_count = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     class Meta:
@@ -245,8 +245,8 @@ class AlbumListShortSerializer(serializers.ModelSerializer):
             'uuid',
             'thumbnail',
             'title',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'rating',
         ]
 
@@ -254,9 +254,9 @@ class AlbumListShortSerializer(serializers.ModelSerializer):
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
     owner = UserBriefReadSerializer(read_only=True)
-    likes_count = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     class Meta:
@@ -266,8 +266,8 @@ class AlbumListSerializer(serializers.ModelSerializer):
             'owner',
             'thumbnail',
             'title',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'rating',
         ]
 
@@ -275,11 +275,11 @@ class AlbumListSerializer(serializers.ModelSerializer):
 class AlbumDetailSerializer(serializers.ModelSerializer):
     """ Album Detail Serializer """
     owner = UserBriefReadSerializer(read_only=True)
-    likes_count = serializers.SerializerMethodField()
+    like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     tags = TagRelatedField(read_only=True, many=True)
 
-    def get_likes_count(self, obj):
+    def get_like_count(self, obj):
         return obj.likes.count()
 
     def get_liked(self, obj):
@@ -297,8 +297,8 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'description',
             'tags',
             'created_at',
-            'views_count',
-            'likes_count',
+            'view_count',
+            'like_count',
             'liked',
             'rating',
         ]

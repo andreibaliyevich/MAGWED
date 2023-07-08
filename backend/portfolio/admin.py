@@ -34,7 +34,7 @@ class AlbumAdmin(admin.ModelAdmin):
             'fields': ('title', 'description', 'tags', 'created_at'),
         }),
         (_('Social'), {
-            'fields': ('views_count', 'likes', 'rating', 'editors_choice'),
+            'fields': ('view_count', 'likes', 'rating', 'editors_choice'),
         }),
     )
     readonly_fields = ('created_at', 'get_preview')
@@ -81,7 +81,7 @@ class PhotoAdmin(admin.ModelAdmin):
             'fields': ('title', 'description', 'tags', 'uploaded_at'),
         }),
         (_('Social'), {
-            'fields': ('views_count', 'likes', 'rating', 'editors_choice'),
+            'fields': ('view_count', 'likes', 'rating', 'editors_choice'),
         }),
     )
     readonly_fields = ('uploaded_at', 'get_preview')

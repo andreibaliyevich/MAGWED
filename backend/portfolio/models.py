@@ -46,7 +46,7 @@ class Album(models.Model):
         verbose_name=_('Created at'),
     )
 
-    views_count = models.IntegerField(
+    view_count = models.IntegerField(
         default=0,
         verbose_name=_('Count of views'),
     )
@@ -161,7 +161,7 @@ class Photo(models.Model):
         verbose_name=_('Uploaded at'),
     )
 
-    views_count = models.IntegerField(
+    view_count = models.IntegerField(
         default=0,
         verbose_name=_('Count of views'),
     )

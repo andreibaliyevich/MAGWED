@@ -26,7 +26,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
             'translated_title',
             'thumbnail',
             'published_at',
-            'num_views',
+            'view_count',
         ]
 
 
@@ -62,7 +62,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'image',
             'content',
             'published_at',
-            'num_views',
+            'view_count',
         ]
 
 
