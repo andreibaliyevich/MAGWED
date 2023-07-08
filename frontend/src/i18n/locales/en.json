@@ -291,7 +291,7 @@
         "created_at": "Created at",
         "uploaded": "Uploaded",
         "uploaded_at": "Uploaded at",
-        "num_views": "Number of views",
+        "view_count": "Count of views",
         "likes": "Likes",
         "rating": "Rating",
         "you_want_remove_album": "Are you sure you want to delete this album?",
