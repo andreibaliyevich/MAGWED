@@ -3,9 +3,11 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
+import { useUserStore } from '@/stores/user.js'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
+const userStore = useUserStore()
 
 const photoLoading = ref(true)
 const photoData = ref({
@@ -26,8 +28,8 @@ const photoData = ref({
   description: '',
   tags: [],
   uploaded_at: null,
-  num_views: 0,
-  likes_count: 0,
+  view_count: 0,
+  like_count: 0,
   liked: null,
   rating: 0
 })
@@ -56,7 +58,7 @@ const likePhoto = async () => {
     const response = await axios.post('/portfolio/photos/like/', {
       'uuid': photoData.value.uuid
     })
-    photoData.value.likes_count += 1
+    photoData.value.like_count += 1
     photoData.value.liked = true
   } catch (error) {
     console.error(error)
@@ -70,7 +72,7 @@ const dislikePhoto = async () => {
         'uuid': photoData.value.uuid
       }
     })
-    photoData.value.likes_count -= 1
+    photoData.value.like_count -= 1
     photoData.value.liked = false
   } catch (error) {
     console.error(error)
@@ -119,7 +121,7 @@ onMounted(() => {
                     </li>
                     <li class="list-inline-item ms-3">
                       <i class="fa-regular fa-eye"></i>
-                      {{ photoData.num_views }}
+                      {{ photoData.view_count }}
                     </li>
                     <li class="list-inline-item ms-3">
                       <i class="fa-regular fa-star"></i>
@@ -130,7 +132,10 @@ onMounted(() => {
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="d-flex justify-content-center justify-content-lg-end">
+              <div
+                v-if="userStore.isLoggedIn"
+                class="d-flex justify-content-center justify-content-lg-end"
+              >
                 <button
                   v-if="photoData.liked"
                   @click="dislikePhoto()"
@@ -138,7 +143,7 @@ onMounted(() => {
                   class="btn btn-brand"
                 >
                   <i class="fa-regular fa-heart"></i>
-                  {{ photoData.likes_count }}
+                  {{ photoData.like_count }}
                 </button>
                 <button
                   v-else
@@ -147,7 +152,7 @@ onMounted(() => {
                   class="btn btn-outline-brand"
                 >
                   <i class="fa-regular fa-heart"></i>
-                  {{ photoData.likes_count }}
+                  {{ photoData.like_count }}
                 </button>
                 <button
                   type="button"

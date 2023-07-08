@@ -3,9 +3,11 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
+import { useUserStore } from '@/stores/user.js'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
+const userStore = useUserStore()
 
 const albumLoading = ref(true)
 const albumData = ref({
@@ -20,8 +22,8 @@ const albumData = ref({
   description: '',
   tags: [],
   created_at: null,
-  num_views: 0,
-  likes_count: 0,
+  view_count: 0,
+  like_count: 0,
   liked: null,
   rating: 0
 })
@@ -85,7 +87,7 @@ const likeAlbum = async () => {
     const response = await axios.post('/portfolio/albums/like/', {
       'uuid': albumData.value.uuid
     })
-    albumData.value.likes_count += 1
+    albumData.value.like_count += 1
     albumData.value.liked = true
   } catch (error) {
     console.error(error)
@@ -99,7 +101,7 @@ const dislikeAlbum = async () => {
         'uuid': albumData.value.uuid
       }
     })
-    albumData.value.likes_count -= 1
+    albumData.value.like_count -= 1
     albumData.value.liked = false
   } catch (error) {
     console.error(error)
@@ -141,7 +143,7 @@ onMounted(() => {
                     </li>
                     <li class="list-inline-item ms-3">
                       <i class="fa-regular fa-eye"></i>
-                      {{ albumData.num_views }}
+                      {{ albumData.view_count }}
                     </li>
                     <li class="list-inline-item ms-3">
                       <i class="fa-regular fa-star"></i>
@@ -152,7 +154,10 @@ onMounted(() => {
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="d-flex justify-content-center justify-content-lg-end">
+              <div
+                v-if="userStore.isLoggedIn"
+                class="d-flex justify-content-center justify-content-lg-end"
+              >
                 <button
                   v-if="albumData.liked"
                   @click="dislikeAlbum()"
@@ -160,7 +165,7 @@ onMounted(() => {
                   class="btn btn-brand"
                 >
                   <i class="fa-regular fa-heart"></i>
-                  {{ albumData.likes_count }}
+                  {{ albumData.like_count }}
                 </button>
                 <button
                   v-else
@@ -169,7 +174,7 @@ onMounted(() => {
                   class="btn btn-outline-brand"
                 >
                   <i class="fa-regular fa-heart"></i>
-                  {{ albumData.likes_count }}
+                  {{ albumData.like_count }}
                 </button>
                 <button
                   type="button"
@@ -260,11 +265,11 @@ onMounted(() => {
                 </div>
                 <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
                   <i class="fa-regular fa-eye"></i>
-                  {{ photoItem.num_views }}
+                  {{ photoItem.view_count }}
                 </div>
                 <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
                   <i class="fa-regular fa-heart"></i>
-                  {{ photoItem.likes_count }}
+                  {{ photoItem.like_count }}
                 </div>
                 <div class="position-absolute bottom-0 end-0 me-2 mb-2">
                   <i class="fa-regular fa-star"></i>

@@ -172,11 +172,11 @@ onMounted(() => {
               <div class="d-flex justify-content-between mt-1">
                 <div>
                   <i class="fa-regular fa-eye"></i>
-                  {{ albumItem.num_views }}
+                  {{ albumItem.view_count }}
                 </div>
                 <div>
                   <i class="fa-regular fa-heart"></i>
-                  {{ albumItem.likes_count }}
+                  {{ albumItem.like_count }}
                 </div>
                 <div>
                   <i class="fa-regular fa-star"></i>
