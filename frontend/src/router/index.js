@@ -163,17 +163,19 @@ const router = createRouter({
           path: 'messenger',
           name: 'Messenger',
           component: () => import('@/views/MessengerView.vue'),
-          beforeEnter: [isAuthenticated],
+          beforeEnter: [isAuthenticated]
         },
         {
           path: 'followers',
           name: 'Followers',
-          component: () => import('@/views/FollowersView.vue')
+          component: () => import('@/views/FollowersView.vue'),
+          beforeEnter: [isAuthenticated]
         },
         {
           path: 'following',
           name: 'Following',
-          component: () => import('@/views/FollowingView.vue')
+          component: () => import('@/views/FollowingView.vue'),
+          beforeEnter: [isAuthenticated]
         }
       ]
     },
