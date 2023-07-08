@@ -27,8 +27,8 @@ const photoDescription = ref('')
 const photoTags = ref([])
 
 const photoUploadedAt = ref(null)
-const photoNumViews = ref(0)
-const photoLikesCount = ref(0)
+const photoViewCount = ref(0)
+const photoLikeCount = ref(0)
 const photoRating = ref(0)
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
@@ -55,8 +55,8 @@ const getPhotoData = async (pUuid) => {
     photoTags.value = response.data.tags
 
     photoUploadedAt.value = response.data.uploaded_at
-    photoNumViews.value = response.data.num_views
-    photoLikesCount.value = response.data.likes_count
+    photoViewCount.value = response.data.view_count
+    photoLikeCount.value = response.data.like_count
     photoRating.value = response.data.rating
   } catch (error) {
     console.error(error)
@@ -116,8 +116,8 @@ onMounted(() => {
     photoTags.value = []
 
     photoUploadedAt.value = null
-    photoNumViews.value = 0
-    photoLikesCount.value = 0
+    photoViewCount.value = 0
+    photoLikeCount.value = 0
     photoRating.value = 0
 
     errors.value = null
@@ -320,12 +320,12 @@ onMounted(() => {
                   {{ getLocaleDateTimeString(photoUploadedAt) }}
                 </li>
                 <li>
-                  {{ $t('portfolio.num_views') }}:
-                  {{ photoNumViews }}
+                  {{ $t('portfolio.view_count') }}:
+                  {{ photoViewCount }}
                 </li>
                 <li>
                   {{ $t('portfolio.likes') }}:
-                  {{ photoLikesCount }}
+                  {{ photoLikeCount }}
                 </li>
                 <li>
                   {{ $t('portfolio.rating') }}:

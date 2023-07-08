@@ -58,7 +58,7 @@ const getAlbumData = async () => {
     albumTags.value = response.data.tags
 
     albumCreatedAt.value = response.data.created_at
-    albumNumViews.value = response.data.num_views
+    albumNumViews.value = response.data.views_count
     albumLikesCount.value = response.data.likes_count
     albumRating.value = response.data.rating
     
@@ -278,7 +278,7 @@ onMounted(() => {
       <hr>
       <ul class="list-unstyled my-0 px-xl-10">
         <li>{{ $t('portfolio.created_at') }} {{ getLocaleDateTimeString(albumCreatedAt) }}</li>
-        <li>{{ $t('portfolio.num_views') }}: {{ albumNumViews }}</li>
+        <li>{{ $t('portfolio.views_count') }}: {{ albumNumViews }}</li>
         <li>{{ $t('portfolio.likes') }}: {{ albumLikesCount }}</li>
         <li>{{ $t('portfolio.rating') }}: {{ albumRating }}</li>
       </ul>

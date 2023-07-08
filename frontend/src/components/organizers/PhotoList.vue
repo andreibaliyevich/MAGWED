@@ -78,11 +78,11 @@ onMounted(() => {
               </div>
               <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
                 <i class="fa-regular fa-eye"></i>
-                {{ photoItem.num_views }}
+                {{ photoItem.view_count }}
               </div>
               <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
                 <i class="fa-regular fa-heart"></i>
-                {{ photoItem.likes_count }}
+                {{ photoItem.like_count }}
               </div>
               <div class="position-absolute bottom-0 end-0 me-2 mb-2">
                 <i class="fa-regular fa-star"></i>
