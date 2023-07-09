@@ -92,6 +92,32 @@ const dislikePhoto = async () => {
   }
 }
 
+const addPhotoToFavorites = async () => {
+  try {
+    const response = await axios.post('/social/favorite/', {
+      'content_type': 'photo',
+      'object_uuid': photoData.value.uuid
+    })
+    photoData.value.favorite = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const removePhotoFromFavorites = async () => {
+  try {
+    const response = await axios.delete('/social/favorite/', {
+      data: {
+        'content_type': 'photo',
+        'object_uuid': photoData.value.uuid
+      }
+    })
+    photoData.value.favorite = false
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 onMounted(() => {
   getPhotoData()
 })
@@ -168,11 +194,22 @@ onMounted(() => {
                   {{ photoData.like_count }}
                 </button>
                 <button
+                  v-if="photoData.favorite"
+                  @click="removePhotoFromFavorites()"
+                  type="button"
+                  class="btn btn-light ms-2"
+                >
+                  <i class="fa-solid fa-bookmark"></i>
+                  {{ $t('favorites.remove_from_favourites') }}
+                </button>
+                <button
+                  v-else
+                  @click="addPhotoToFavorites()"
                   type="button"
                   class="btn btn-light ms-2"
                 >
                   <i class="fa-regular fa-bookmark"></i>
-                  Add to favourites
+                  {{ $t('favorites.add_to_favourites') }}
                 </button>
               </div>
             </div>

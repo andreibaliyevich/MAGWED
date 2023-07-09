@@ -121,6 +121,32 @@ const dislikeAlbum = async () => {
   }
 }
 
+const addAlbumToFavorites = async () => {
+  try {
+    const response = await axios.post('/social/favorite/', {
+      'content_type': 'album',
+      'object_uuid': albumData.value.uuid
+    })
+    albumData.value.favorite = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const removeAlbumFromFavorites = async () => {
+  try {
+    const response = await axios.delete('/social/favorite/', {
+      data: {
+        'content_type': 'album',
+        'object_uuid': albumData.value.uuid
+      }
+    })
+    albumData.value.favorite = false
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 onMounted(() => {
   getAlbumData()
 })
@@ -190,11 +216,22 @@ onMounted(() => {
                   {{ albumData.like_count }}
                 </button>
                 <button
+                  v-if="albumData.favorite"
+                  @click="removeAlbumFromFavorites()"
+                  type="button"
+                  class="btn btn-light ms-2"
+                >
+                  <i class="fa-solid fa-bookmark"></i>
+                  {{ $t('favorites.remove_from_favourites') }}
+                </button>
+                <button
+                  v-else
+                  @click="addAlbumToFavorites()"
                   type="button"
                   class="btn btn-light ms-2"
                 >
                   <i class="fa-regular fa-bookmark"></i>
-                  Add to favourites
+                  {{ $t('favorites.add_to_favourites') }}
                 </button>
               </div>
             </div>
