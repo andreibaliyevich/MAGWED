@@ -9,6 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from accounts.permissions import UserIsOrganizer
+from accounts.serializers import UserUUIDSerializer
 from blog.models import Article
 from portfolio.models import Album, Photo
 from .filters import FollowFilter, ReviewFilter
@@ -17,7 +18,6 @@ from .pagination import FollowPagination, ReviewPagination
 from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
-    FollowSerializer,
     FollowersSerializer,
     FollowingSerializer,
     CommentListCreateSerializer,
@@ -57,7 +57,7 @@ class FollowView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = FollowSerializer(data=request.data)
+        serializer = UserUUIDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
 
@@ -72,7 +72,7 @@ class FollowView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
-        serializer = FollowSerializer(data=request.data)
+        serializer = UserUUIDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
 

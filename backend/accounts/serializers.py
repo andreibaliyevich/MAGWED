@@ -311,6 +311,19 @@ class OrganizerCoverSerializer(serializers.ModelSerializer):
         fields = ['cover']
 
 
+class UserUUIDSerializer(serializers.Serializer):
+    """ User UUID Serializer """
+    uuid = serializers.UUIDField()
+
+    def validate_uuid(self, value):
+        try:
+            self.user = UserModel.objects.get(uuid=value)
+        except UserModel.DoesNotExist:
+            raise serializers.ValidationError(
+                _('User with given uuid does not exist.'))
+        return value
+
+
 class UserBriefReadSerializer(serializers.ModelSerializer):
     """ User Brief Read Serializer """
     profile_url = serializers.SerializerMethodField()

@@ -32,19 +32,6 @@ class SocialLinkReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class FollowSerializer(serializers.Serializer):
-    """ Follow Serializer """
-    uuid = serializers.UUIDField()
-
-    def validate_uuid(self, value):
-        try:
-            self.user = UserModel.objects.get(uuid=value)
-        except UserModel.DoesNotExist:
-            raise serializers.ValidationError(
-                _('User with given uuid does not exist.'))
-        return value
-
-
 class FollowersSerializer(serializers.ModelSerializer):
     """ Followers Serializer """
     follower = UserShortReadSerializer(read_only=True)
