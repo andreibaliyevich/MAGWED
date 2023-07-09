@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.contenttypes.models import ContentType
 from main.serializers import TagRelatedField
 from accounts.serializers import UserBriefReadSerializer
 from .models import Album, Photo
@@ -130,6 +131,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
     album = AlbumShortReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
+    favorite = serializers.SerializerMethodField()
     tags = TagRelatedField(read_only=True, many=True)
 
     def get_like_count(self, obj):
@@ -138,6 +140,14 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
     def get_liked(self, obj):
         if self.context['request'].user.is_authenticated:
             return self.context['request'].user in obj.likes.all()
+        return False
+
+    def get_favorite(self, obj):
+        if self.context['request'].user.is_authenticated:
+            return self.context['request'].user.favorites.filter(
+                content_type=ContentType.objects.get_for_model(obj),
+                object_uuid=obj.uuid,
+            ).exists()
         return False
 
     class Meta:
@@ -159,6 +169,7 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
             'view_count',
             'like_count',
             'liked',
+            'favorite',
             'rating',
         ]
 
@@ -277,6 +288,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
     owner = UserBriefReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
+    favorite = serializers.SerializerMethodField()
     tags = TagRelatedField(read_only=True, many=True)
 
     def get_like_count(self, obj):
@@ -285,6 +297,14 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
     def get_liked(self, obj):
         if self.context['request'].user.is_authenticated:
             return self.context['request'].user in obj.likes.all()
+        return False
+
+    def get_favorite(self, obj):
+        if self.context['request'].user.is_authenticated:
+            return self.context['request'].user.favorites.filter(
+                content_type=ContentType.objects.get_for_model(obj),
+                object_uuid=obj.uuid,
+            ).exists()
         return False
 
     class Meta:
@@ -300,6 +320,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
             'view_count',
             'like_count',
             'liked',
+            'favorite',
             'rating',
         ]
 
