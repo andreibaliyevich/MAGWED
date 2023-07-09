@@ -10,8 +10,12 @@ urlpatterns = [
         path('<uuid:uuid>/', views.SocialLinkRUDView.as_view()),
     ])),
     path('follow/', include([
-        path('', views.FollowView.as_view()),
+        path('', views.FollowCreateDestroyView.as_view()),
         path('list/', views.FollowListView.as_view()),
+    ])),
+    path('favorite/', include([
+        path('', views.FavoriteCreateDestroyView.as_view()),
+        path('list/', views.FavoriteListView.as_view()),
     ])),
     path('reviews/', include([
         path('', views.ReviewListCreateView.as_view()),

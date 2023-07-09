@@ -7,23 +7,26 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 from accounts.permissions import UserIsOrganizer
 from accounts.serializers import UserUUIDSerializer
 from blog.models import Article
 from portfolio.models import Album, Photo
 from .filters import FollowFilter, ReviewFilter
-from .models import SocialLink, Follow, Review, Comment
-from .pagination import FollowPagination, ReviewPagination
+from .models import SocialLink, Follow, Favorite, Review, Comment
+from .pagination import FollowPagination, FavoritePagination, ReviewPagination
 from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
     FollowersSerializer,
     FollowingSerializer,
-    CommentListCreateSerializer,
-    CommentRUDSerializer,
+    FavoriteContentObjectSerializer,
+    FavoriteListSerializer,
     ReviewListCreateSerializer,
     ReviewRUDSerializer,
+    CommentListCreateSerializer,
+    CommentRUDSerializer,
 )
 
 
@@ -52,8 +55,8 @@ class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
         return SocialLink.objects.filter(user=self.request.user)
 
 
-class FollowView(APIView):
-    """ Follow View """
+class FollowCreateDestroyView(APIView):
+    """ Follow Create Destroy View """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -99,6 +102,58 @@ class FollowListView(generics.ListAPIView):
         if self.request.GET.get('follower', None):
             return FollowingSerializer
         return FollowersSerializer
+
+
+class FavoriteCreateDestroyView(APIView):
+    """ Favorite Create Destroy View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = FavoriteContentObjectSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        content_object = serializer.content_object
+
+        try:
+            Favorite.objects.create(
+                user=request.user,
+                content_object=content_object,
+            )
+        except:
+            return Response(
+                {'detail': _('You already have this favorite.')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = FavoriteContentObjectSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        content_object = serializer.content_object
+
+        try:
+            Favorite.objects.get(
+                user=request.user,
+                content_type=ContentType.objects.get_for_model(content_object),
+                object_uuid=content_object.uuid,
+            ).delete()
+        except:
+            return Response(
+                {'detail': _('You do not have this favorite.')},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FavoriteListView(generics.ListAPIView):
+    """ Favorite List View """
+    permission_classes = [IsAuthenticated]
+    serializer_class = FavoriteListSerializer
+    pagination_class = FavoritePagination
+
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user)
 
 
 class ReviewListCreateView(generics.ListCreateAPIView):
@@ -153,14 +208,16 @@ class CommentListCreateView(generics.ListCreateAPIView):
         if not self.validate_url(**kwargs):
             return Response(
                 {'detail': _('Not found.')},
-                status=status.HTTP_404_NOT_FOUND)
+                status=status.HTTP_404_NOT_FOUND,
+            )
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if not self.validate_url(**kwargs):
             return Response(
                 {'detail': _('Not found.')},
-                status=status.HTTP_404_NOT_FOUND)
+                status=status.HTTP_404_NOT_FOUND,
+            )
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self):

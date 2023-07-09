@@ -3,7 +3,14 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
-from .models import SocialLink, Follow, Comment, Review
+from blog.models import Article
+from blog.serializers import ArticleShortReadSerializer
+from portfolio.models import Album, Photo
+from portfolio.serializers import (
+    AlbumShortReadSerializer,
+    PhotoShortReadSerializer,
+)
+from .models import SocialLink, Follow, Favorite, Comment, Review
 
 
 UserModel = get_user_model()
@@ -52,6 +59,62 @@ class FollowingSerializer(serializers.ModelSerializer):
         model = Follow
         fields = [
             'user',
+            'created_at',
+        ]
+
+
+class FavoriteContentObjectSerializer(serializers.Serializer):
+    """ Favorite Content Object Serializer """
+    content_type = serializers.CharField()
+    object_uuid = serializers.UUIDField()
+
+    def validate(self, data):
+        if data['content_type'] == 'article':
+            object_class = Article
+        elif data['content_type'] == 'album':
+            object_class = Album
+        elif data['content_type'] == 'photo':
+            object_class = Photo
+        else:
+            raise serializers.ValidationError({
+                'content_type': _('Wrong content type.')})
+
+        try:
+            self.content_object = object_class.objects.get(
+                uuid=data['object_uuid'])
+        except object_class.DoesNotExist:
+            raise serializers.ValidationError({
+                'object_uuid': _('Wrong object uuid.')})
+
+        return data
+
+
+class FavoriteObjectRelatedField(serializers.RelatedField):
+    """
+    A custom field to use for the 'content_object' generic relationship.
+    """
+
+    def to_representation(self, value):
+        if isinstance(value, Article):
+            serializer = ArticleShortReadSerializer(value, context=self.context)
+        elif isinstance(value, Album):
+            serializer = AlbumShortReadSerializer(value, context=self.context)
+        elif isinstance(value, Photo):
+            serializer = PhotoShortReadSerializer(value, context=self.context)
+        else:
+            raise Exception('Unexpected type of content object')
+        return serializer.data
+
+
+class FavoriteListSerializer(serializers.ModelSerializer):
+    """ Favorite List Serializer """
+    content_object = FavoriteObjectRelatedField(read_only=True)
+
+    class Meta:
+        model = Favorite
+        fields = [
+            'uuid',
+            'content_object',
             'created_at',
         ]
 
