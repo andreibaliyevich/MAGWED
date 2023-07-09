@@ -17,7 +17,7 @@ const nextURL = ref(null)
 const getOrganizerPhotos = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/photos/list/'
+      '/portfolio/photo/list/'
         + '?owner='
         + props.userUUID
         + '&album_is_null=true'
