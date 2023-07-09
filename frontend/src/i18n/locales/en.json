@@ -142,7 +142,6 @@
         "log_out": "Log out",
         "settings_menu": "Settings menu",
         "settings": "Settings",
-        "favorites": "Favorites",
         "sociallinks": {
             "social_links": "Social links",
             "add_link": "Add link",
@@ -223,6 +222,11 @@
         "following": "Following",
         "no_followers": "You don't have any followers!",
         "no_following": "You don't have any following!"
+    },
+    "favorites": {
+        "favorites": "Favorites",
+        "add_to_favourites": "Add to favourites",
+        "remove_from_favourites": "Remove from favourites"
     },
     "notifications": {
         "notifications": "Notifications",

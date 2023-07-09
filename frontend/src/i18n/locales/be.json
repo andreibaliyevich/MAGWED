@@ -142,7 +142,6 @@
         "log_out": "Выйсці",
         "settings_menu": "Меню настроек",
         "settings": "Налады",
-        "favorites": "Выбранае",
         "sociallinks": {
             "social_links": "Сацыяльныя спасылкі",
             "add_link": "Дадаць спасылку",
@@ -223,6 +222,11 @@
         "following": "Падпіскі",
         "no_followers": "У вас няма падпісантаў!",
         "no_following": "У вас няма падпісак!"
+    },
+    "favorites": {
+        "favorites": "Выбранае",
+        "add_to_favourites": "Дадаць у абранае",
+        "remove_from_favourites": "Выдаліць з абранага"
     },
     "notifications": {
         "notifications": "Апавяшчэнні",

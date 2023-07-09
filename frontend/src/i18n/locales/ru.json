@@ -142,7 +142,6 @@
         "log_out": "Выйти",
         "settings_menu": "Меню настроек",
         "settings": "Настройки",
-        "favorites": "Избранное",
         "sociallinks": {
             "social_links": "Социальные ссылки",
             "add_link": "Добавить ссылку",
@@ -223,6 +222,11 @@
         "following": "Подписки",
         "no_followers": "У вас нет подписчиков!",
         "no_following": "У вас нет подписок!"
+    },
+    "favorites": {
+        "favorites": "Избранное",
+        "add_to_favourites": "Добавить в избранное",
+        "remove_from_favourites": "Удалить из избранного"
     },
     "notifications": {
         "notifications": "Уведомления",
