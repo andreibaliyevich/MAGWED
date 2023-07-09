@@ -163,8 +163,8 @@ class PhotoDetailSerializer(serializers.ModelSerializer):
         ]
 
 
-class PhotoLikeSerializer(serializers.Serializer):
-    """ Photo Like Serializer """
+class PhotoUUIDSerializer(serializers.Serializer):
+    """ Photo UUID Serializer """
     uuid = serializers.UUIDField()
 
     def validate_uuid(self, value):
@@ -304,8 +304,8 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
         ]
 
 
-class AlbumLikeSerializer(serializers.Serializer):
-    """ Album Like Serializer """
+class AlbumUUIDSerializer(serializers.Serializer):
+    """ Album UUID Serializer """
     uuid = serializers.UUIDField()
 
     def validate_uuid(self, value):

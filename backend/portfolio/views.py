@@ -16,13 +16,13 @@ from .serializers import (
     AlbumListShortSerializer,
     AlbumListSerializer,
     AlbumDetailSerializer,
-    AlbumLikeSerializer,
+    AlbumUUIDSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
     PhotoListShortSerializer,
     PhotoListSerializer,
     PhotoDetailSerializer,
-    PhotoLikeSerializer,
+    PhotoUUIDSerializer,
 )
 
 
@@ -88,12 +88,27 @@ class AlbumDetailView(generics.RetrieveAPIView):
     serializer_class = AlbumDetailSerializer
 
 
+class AlbumUpViewCountView(APIView):
+    """ Album Up View Count View """
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = AlbumUUIDSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        album = serializer.album
+
+        album.view_count += 1
+        album.save(update_fields=['view_count'])
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class AlbumLikeView(APIView):
     """ Album Like View """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = AlbumLikeSerializer(data=request.data)
+        serializer = AlbumUUIDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         album = serializer.album
 
@@ -108,7 +123,7 @@ class AlbumLikeView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
-        serializer = AlbumLikeSerializer(data=request.data)
+        serializer = AlbumUUIDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         album = serializer.album
 
@@ -192,12 +207,27 @@ class PhotoDetailView(generics.RetrieveAPIView):
     serializer_class = PhotoDetailSerializer
 
 
+class PhotoUpViewCountView(APIView):
+    """ Photo Up View Count View """
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = PhotoUUIDSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        photo = serializer.photo
+
+        photo.view_count += 1
+        photo.save(update_fields=['view_count'])
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class PhotoLikeView(APIView):
     """ Photo Like View """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = PhotoLikeSerializer(data=request.data)
+        serializer = PhotoUUIDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         photo = serializer.photo
 
@@ -212,7 +242,7 @@ class PhotoLikeView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
-        serializer = PhotoLikeSerializer(data=request.data)
+        serializer = PhotoUUIDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         photo = serializer.photo
 
