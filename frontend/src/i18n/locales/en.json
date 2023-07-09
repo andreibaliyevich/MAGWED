@@ -217,6 +217,8 @@
         "type_message": "Type a message..."
     },
     "follow": {
+        "follow": "Follow",
+        "unfollow": "Unfollow",
         "followers": "Followers",
         "following": "Following",
         "no_followers": "You don't have any followers!",
