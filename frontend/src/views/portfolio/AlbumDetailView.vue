@@ -66,6 +66,17 @@ const getMoreOrganizerPhotos = async () => {
   }
 }
 
+const upAlbumViewCount = async () => {
+  try {
+    const response = await axios.post('/portfolio/albums/up-view-count/', {
+      'uuid': albumData.value.uuid
+    })
+    albumData.value.view_count += 1
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const getAlbumData = async () => {
   try {
     const response = await axios.get(
@@ -75,6 +86,7 @@ const getAlbumData = async () => {
     )
     albumData.value = response.data
     getAlbumPhotos()
+    setTimeout(upAlbumViewCount, 3000)
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {

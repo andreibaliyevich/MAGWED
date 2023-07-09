@@ -38,6 +38,17 @@ const { getLocaleDateString } = useLocaleDateTime()
 
 const errorStatus = ref(null)
 
+const upPhotoViewCount = async () => {
+  try {
+    const response = await axios.post('/portfolio/photos/up-view-count/', {
+      'uuid': photoData.value.uuid
+    })
+    photoData.value.view_count += 1
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const getPhotoData = async () => {
   try {
     const response = await axios.get(
@@ -46,6 +57,7 @@ const getPhotoData = async () => {
         + '/'
     )
     photoData.value = response.data
+    setTimeout(upPhotoViewCount, 3000)
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
