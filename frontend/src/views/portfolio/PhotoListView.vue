@@ -11,7 +11,7 @@ const photoList = ref([])
 const nextURL = ref(null)
 
 const getPhotos = async () => {
-  let photoListURL = '/portfolio/photos/list/'
+  let photoListURL = '/portfolio/photo/list/'
   if (route.query.tab == 'popular') {
     photoListURL += '?ordering=-rating'
   } else if (route.query.tab == 'fresh') {

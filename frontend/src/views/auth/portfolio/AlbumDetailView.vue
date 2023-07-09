@@ -22,7 +22,7 @@ const albumDescription = ref('')
 const albumTags = ref([])
 
 const albumCreatedAt = ref(null)
-const albumNumViews = ref(0)
+const albumViewCount = ref(0)
 const albumLikesCount = ref(0)
 const albumRating = ref(0)
 
@@ -46,7 +46,7 @@ const errors = ref(null)
 const getAlbumData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/albums/crud/'
+      '/portfolio/album/crud/detail/'
         + route.params.uuid
         +'/'
     )
@@ -58,7 +58,7 @@ const getAlbumData = async () => {
     albumTags.value = response.data.tags
 
     albumCreatedAt.value = response.data.created_at
-    albumNumViews.value = response.data.views_count
+    albumViewCount.value = response.data.view_count
     albumLikesCount.value = response.data.likes_count
     albumRating.value = response.data.rating
     
@@ -78,7 +78,7 @@ const updateAlbumImage = async (filelist) => {
 
   try {
     const response = await axios.put(
-      '/portfolio/albums/crud/'
+      '/portfolio/album/crud/detail/'
         + albumUuid.value
         +'/image/',
       albumImageData
@@ -98,7 +98,7 @@ const updateAlbum = async () => {
   albumUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/albums/crud/'
+      '/portfolio/album/crud/detail/'
         + albumUuid.value
         +'/',
       {
@@ -122,7 +122,7 @@ const updateAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/albums/crud/'
+      '/portfolio/album/crud/detail/'
         + albumUuid.value
         +'/'
     )
@@ -147,7 +147,10 @@ const uploadAlbumPhotos = async (filelist) => {
       photoData.append('image', filelist[i], filelist[i].name)
 
       try {
-        const response = await axios.post('/portfolio/photos/crud/', photoData)
+        const response = await axios.post(
+          '/portfolio/photo/crud/list/',
+          photoData
+        )
         albumPhotoList.value.unshift(response.data)
         albumPhotosUploadStatus.value += uploadStep
       } catch (error) {
@@ -278,7 +281,7 @@ onMounted(() => {
       <hr>
       <ul class="list-unstyled my-0 px-xl-10">
         <li>{{ $t('portfolio.created_at') }} {{ getLocaleDateTimeString(albumCreatedAt) }}</li>
-        <li>{{ $t('portfolio.views_count') }}: {{ albumNumViews }}</li>
+        <li>{{ $t('portfolio.view_count') }}: {{ albumViewCount }}</li>
         <li>{{ $t('portfolio.likes') }}: {{ albumLikesCount }}</li>
         <li>{{ $t('portfolio.rating') }}: {{ albumRating }}</li>
       </ul>

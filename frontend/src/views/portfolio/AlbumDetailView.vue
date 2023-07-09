@@ -25,6 +25,7 @@ const albumData = ref({
   view_count: 0,
   like_count: 0,
   liked: null,
+  favorite: null,
   rating: 0
 })
 
@@ -40,7 +41,7 @@ const errorStatus = ref(null)
 const getAlbumPhotos = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/photos/list/'
+      '/portfolio/photo/list/'
         + '?album='
         + albumData.value.uuid
     )
@@ -68,7 +69,7 @@ const getMoreOrganizerPhotos = async () => {
 
 const upAlbumViewCount = async () => {
   try {
-    const response = await axios.post('/portfolio/albums/up-view-count/', {
+    const response = await axios.post('/portfolio/album/up-view-count/', {
       'uuid': albumData.value.uuid
     })
     albumData.value.view_count += 1
@@ -80,7 +81,7 @@ const upAlbumViewCount = async () => {
 const getAlbumData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/albums/detail/'
+      '/portfolio/album/detail/'
         + route.params.uuid
         + '/'
     )
@@ -96,7 +97,7 @@ const getAlbumData = async () => {
 
 const likeAlbum = async () => {
   try {
-    const response = await axios.post('/portfolio/albums/like/', {
+    const response = await axios.post('/portfolio/album/like/', {
       'uuid': albumData.value.uuid
     })
     albumData.value.like_count += 1
@@ -108,7 +109,7 @@ const likeAlbum = async () => {
 
 const dislikeAlbum = async () => {
   try {
-    const response = await axios.delete('/portfolio/albums/like/', {
+    const response = await axios.delete('/portfolio/album/like/', {
       data: {
         'uuid': albumData.value.uuid
       }

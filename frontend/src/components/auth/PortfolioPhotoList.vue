@@ -40,7 +40,11 @@ const updatePhotoModalBootstrap = ref(null)
 
 const getPhotoData = async (pUuid) => {
   try {
-    const response = await axios.get('/portfolio/photos/crud/' + pUuid +'/')
+    const response = await axios.get(
+      '/portfolio/photo/crud/detail/'
+      + pUuid
+      +'/'
+    )
     photoUuid.value = response.data.uuid
     photoImage.value = response.data.image
 
@@ -67,7 +71,7 @@ const updatePhoto = async () => {
   photoUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/photos/crud/' + photoUuid.value +'/',
+      '/portfolio/photo/crud/detail/' + photoUuid.value +'/',
       {
         'device': photoDevice.value,
         'f_number': photoFNumber.value,
@@ -93,7 +97,7 @@ const updatePhoto = async () => {
 const removePhoto = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/photos/crud/' + photoUuid.value +'/'
+      '/portfolio/photo/crud/detail/' + photoUuid.value +'/'
     )
     emit('removePhoto', photoUuid.value)
   } catch (error) {

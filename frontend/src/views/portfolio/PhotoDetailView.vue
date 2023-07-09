@@ -31,6 +31,7 @@ const photoData = ref({
   view_count: 0,
   like_count: 0,
   liked: null,
+  favorite: null,
   rating: 0
 })
 
@@ -40,7 +41,7 @@ const errorStatus = ref(null)
 
 const upPhotoViewCount = async () => {
   try {
-    const response = await axios.post('/portfolio/photos/up-view-count/', {
+    const response = await axios.post('/portfolio/photo/up-view-count/', {
       'uuid': photoData.value.uuid
     })
     photoData.value.view_count += 1
@@ -52,7 +53,7 @@ const upPhotoViewCount = async () => {
 const getPhotoData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/photos/detail/'
+      '/portfolio/photo/detail/'
         + route.params.uuid
         + '/'
     )
@@ -67,7 +68,7 @@ const getPhotoData = async () => {
 
 const likePhoto = async () => {
   try {
-    const response = await axios.post('/portfolio/photos/like/', {
+    const response = await axios.post('/portfolio/photo/like/', {
       'uuid': photoData.value.uuid
     })
     photoData.value.like_count += 1
@@ -79,7 +80,7 @@ const likePhoto = async () => {
 
 const dislikePhoto = async () => {
   try {
-    const response = await axios.delete('/portfolio/photos/like/', {
+    const response = await axios.delete('/portfolio/photo/like/', {
       data: {
         'uuid': photoData.value.uuid
       }

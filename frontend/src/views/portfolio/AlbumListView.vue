@@ -11,7 +11,7 @@ const albumList = ref([])
 const nextURL = ref(null)
 
 const getAlbums = async () => {
-  let albumListURL = '/portfolio/albums/list/'
+  let albumListURL = '/portfolio/album/list/'
   if (route.query.tab == 'popular') {
     albumListURL += '?ordering=-rating'
   } else if (route.query.tab == 'fresh') {
