@@ -201,6 +201,20 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.list-group.overflow-auto::-webkit-scrollbar {
+  width: 0.2em;
+}
+.list-group.overflow-auto::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+.list-group.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 1em;
+}
+.list-group.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #e72a26;
+}
+
 .dropdown-menu.dropdown-menu-end {
   width: 330px;
 }

@@ -88,3 +88,19 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.overflow-auto.p-1::-webkit-scrollbar {
+  width: 0.2em;
+}
+.overflow-auto.p-1::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+.overflow-auto.p-1::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 1em;
+}
+.overflow-auto.p-1::-webkit-scrollbar-thumb:hover {
+  background-color: #e72a26;
+}
+</style>
