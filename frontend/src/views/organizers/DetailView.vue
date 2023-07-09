@@ -162,7 +162,7 @@ onMounted(() => {
               class="btn btn-brand"
             >
               <i class="fa-solid fa-user-minus"></i>
-              Unfollow
+              {{ $t('follow.unfollow') }}
             </button>
             <button
               v-else
@@ -171,7 +171,7 @@ onMounted(() => {
               class="btn btn-outline-brand"
             >
               <i class="fa-solid fa-user-plus"></i>
-              Follow
+              {{ $t('follow.follow') }}
             </button>
             <button
               type="button"
