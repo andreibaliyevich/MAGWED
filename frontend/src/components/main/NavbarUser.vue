@@ -82,12 +82,12 @@ const { logout } = useLogout()
             {{ $t('follow.following') }}
           </LocaleRouterLink>
           <LocaleRouterLink
-            routeName="Home"
+            routeName="Favorites"
             @click="$refs.dropdownUser.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-star"></i>
-            {{ $t('auth.favorites') }}
+            {{ $t('favorites.favorites') }}
           </LocaleRouterLink>
           <LocaleRouterLink
             routeName="Home"
