@@ -13,7 +13,7 @@ from accounts.permissions import UserIsOrganizer
 from accounts.serializers import UserUUIDSerializer
 from blog.models import Article
 from portfolio.models import Album, Photo
-from .filters import FollowFilter, ReviewFilter
+from .filters import FollowFilter, FavoriteFilter, ReviewFilter
 from .models import SocialLink, Follow, Favorite, Review, Comment
 from .pagination import FollowPagination, FavoritePagination, ReviewPagination
 from .permissions import UserIsAuthor
@@ -151,6 +151,8 @@ class FavoriteListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = FavoriteListSerializer
     pagination_class = FavoritePagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = FavoriteFilter
 
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user)

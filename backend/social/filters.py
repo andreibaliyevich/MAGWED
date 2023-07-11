@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Follow, Review
+from .models import Follow, Favorite, Review
 
 
 class FollowFilter(filters.FilterSet):
@@ -11,6 +11,15 @@ class FollowFilter(filters.FilterSet):
             'follower',
             'user',
         ]
+
+
+class FavoriteFilter(filters.FilterSet):
+    """ Favorite Filter """
+
+    class Meta:
+        model = Favorite
+        fields = ['content_type__model']
+
 
 class ReviewFilter(filters.FilterSet):
     """ Review Filter """
