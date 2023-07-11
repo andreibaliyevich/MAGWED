@@ -96,14 +96,26 @@ class FavoriteObjectRelatedField(serializers.RelatedField):
 
     def to_representation(self, value):
         if isinstance(value, Article):
-            serializer = ArticleShortReadSerializer(value, context=self.context)
+            serializer_data = ArticleShortReadSerializer(
+                value,
+                context=self.context,
+            ).data
+            serializer_data['content_type'] = 'article'
         elif isinstance(value, Album):
-            serializer = AlbumShortReadSerializer(value, context=self.context)
+            serializer_data = AlbumShortReadSerializer(
+                value,
+                context=self.context,
+            ).data
+            serializer_data['content_type'] = 'album'
         elif isinstance(value, Photo):
-            serializer = PhotoShortReadSerializer(value, context=self.context)
+            serializer_data = PhotoShortReadSerializer(
+                value,
+                context=self.context,
+            ).data
+            serializer_data['content_type'] = 'photo'
         else:
             raise Exception('Unexpected type of content object')
-        return serializer.data
+        return serializer_data
 
 
 class FavoriteListSerializer(serializers.ModelSerializer):
