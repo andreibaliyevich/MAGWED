@@ -56,7 +56,7 @@ onMounted(() => {
           class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <div
-            v-if="favorite.content_object.content_type == 'article'"
+            v-if="favorite.content_type_model == 'article'"
             class="card border border-light shadow-sm h-100"
           >
             <LocaleRouterLink
@@ -83,7 +83,7 @@ onMounted(() => {
             </div>
           </div>
           <div
-            v-else-if="favorite.content_object.content_type == 'album'"
+            v-else-if="favorite.content_type_model == 'album'"
             class="card border border-light shadow-sm h-100"
           >
             <LocaleRouterLink
@@ -110,7 +110,7 @@ onMounted(() => {
             </div>
           </div>
           <div
-            v-else-if="favorite.content_object.content_type == 'photo'"
+            v-else-if="favorite.content_type_model == 'photo'"
             class="card border border-light shadow-sm h-100"
           >
             <LocaleRouterLink
