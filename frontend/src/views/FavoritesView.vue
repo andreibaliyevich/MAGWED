@@ -1,16 +1,28 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-const favoritesLoading = ref(true)
+const route = useRoute()
+
+const favoritesLoading = ref(false)
 const favoritesMoreLoading = ref(false)
 const favoriteList = ref([])
 const favoriteCount = ref(0)
 const nextURL = ref(null)
 
 const getFavorites = async () => {
+  favoritesLoading.value = true
+
+  let params = new URLSearchParams()
+  if (route.query.type) {
+    params.append('content_type__model', route.query.type)
+  }
+
   try {
-    const response = await axios.get('/social/favorite/list/')
+    const response = await axios.get('/social/favorite/list/', {
+      params: params
+    })
     favoriteList.value = response.data.results
     favoriteCount.value = response.data.count
     nextURL.value = response.data.next
@@ -34,6 +46,15 @@ const getMoreFavorites = async () => {
   }
 }
 
+watch(
+  () => route.query.type,
+  (newValue) => {
+    if (route.name == 'Favorites') {
+      getFavorites()
+    }
+  }
+)
+
 onMounted(() => {
   getFavorites()
 })
@@ -45,6 +66,77 @@ onMounted(() => {
       <h1 class="display-6 text-center mb-5">
         {{ $t('favorites.favorites') }} ({{ favoriteCount }})
       </h1>
+
+      <ul class="nav nav-pills justify-content-center mb-3">
+        <li
+          :class="[
+            'nav-item',
+            !this.$route.query.type ? 'active' : null
+          ]"
+        >
+          <LocaleRouterLink
+            routeName="Favorites"
+            :class="[
+              'nav-link',
+              !this.$route.query.type ? 'active' : 'text-dark'
+            ]"
+          >
+            {{ $t('favorites.all') }}
+          </LocaleRouterLink>
+        </li>
+        <li
+          :class="[
+            'nav-item',
+            this.$route.query.type == 'article' ? 'active' : null
+          ]"
+        >
+          <LocaleRouterLink
+            routeName="Favorites"
+            :routeQuery="{ type: 'article' }"
+            :class="[
+              'nav-link',
+              this.$route.query.type == 'article' ? 'active' : 'text-dark'
+            ]"
+          >
+            {{ $t('favorites.articles') }}
+          </LocaleRouterLink>
+        </li>
+        <li
+          :class="[
+            'nav-item',
+            this.$route.query.type == 'album' ? 'active' : null
+          ]"
+        >
+          <LocaleRouterLink
+            routeName="Favorites"
+            :routeQuery="{ type: 'album' }"
+            :class="[
+              'nav-link',
+              this.$route.query.type == 'album' ? 'active' : 'text-dark'
+            ]"
+          >
+            {{ $t('favorites.albums') }}
+          </LocaleRouterLink>
+        </li>
+        <li
+          :class="[
+            'nav-item',
+            this.$route.query.type == 'photo' ? 'active' : null
+          ]"
+        >
+          <LocaleRouterLink
+            routeName="Favorites"
+            :routeQuery="{ type: 'photo' }"
+            :class="[
+              'nav-link',
+              this.$route.query.type == 'photo' ? 'active' : 'text-dark'
+            ]"
+          >
+            {{ $t('favorites.photos') }}
+          </LocaleRouterLink>
+        </li>
+      </ul>
+
       <LoadingIndicator v-if="favoritesLoading" />
       <div
         v-else-if="favoriteList.length > 0"
