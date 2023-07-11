@@ -225,6 +225,10 @@
     },
     "favorites": {
         "favorites": "Избранное",
+        "all": "Все",
+        "articles": "Статьи",
+        "albums": "Альбомы",
+        "photos": "Фотографии",
         "no_favorites": "Список избранного пуст!",
         "add_to_favourites": "Добавить в избранное",
         "remove_from_favourites": "Удалить из избранного"

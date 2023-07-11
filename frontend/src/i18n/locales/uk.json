@@ -225,6 +225,10 @@
     },
     "favorites": {
         "favorites": "Вибране",
+        "all": "Все",
+        "articles": "Статті",
+        "albums": "Альбоми",
+        "photos": "Фотографії",
         "no_favorites": "Список обраного порожній!",
         "add_to_favourites": "Додати в обране",
         "remove_from_favourites": "Видалити з вибраного"

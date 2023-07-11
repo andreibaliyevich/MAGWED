@@ -225,6 +225,10 @@
     },
     "favorites": {
         "favorites": "Выбранае",
+        "all": "Усе",
+        "articles": "Артыкулы",
+        "albums": "Альбомы",
+        "photos": "Фатаграфіі",
         "no_favorites": "Спіс абранага пусты!",
         "add_to_favourites": "Дадаць у абранае",
         "remove_from_favourites": "Выдаліць з абранага"
