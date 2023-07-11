@@ -176,6 +176,12 @@ const router = createRouter({
           name: 'Following',
           component: () => import('@/views/FollowingView.vue'),
           beforeEnter: [isAuthenticated]
+        },
+        {
+          path: 'favorites',
+          name: 'Favorites',
+          component: () => import('@/views/FavoritesView.vue'),
+          beforeEnter: [isAuthenticated]
         }
       ]
     },
