@@ -225,6 +225,7 @@
     },
     "favorites": {
         "favorites": "Favorites",
+        "no_favorites": "Favorites list is empty!",
         "add_to_favourites": "Add to favourites",
         "remove_from_favourites": "Remove from favourites"
     },

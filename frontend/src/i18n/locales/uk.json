@@ -225,6 +225,7 @@
     },
     "favorites": {
         "favorites": "Вибране",
+        "no_favorites": "Список обраного порожній!",
         "add_to_favourites": "Додати в обране",
         "remove_from_favourites": "Видалити з вибраного"
     },
