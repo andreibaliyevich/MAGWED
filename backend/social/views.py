@@ -13,9 +13,14 @@ from accounts.permissions import UserIsOrganizer
 from accounts.serializers import UserUUIDSerializer
 from blog.models import Article
 from portfolio.models import Album, Photo
-from .filters import FollowFilter, FavoriteFilter, ReviewFilter
+from .filters import FollowFilter, FavoriteFilter, ReviewFilter, CommentFilter
 from .models import SocialLink, Follow, Favorite, Review, Comment
-from .pagination import FollowPagination, FavoritePagination, ReviewPagination
+from .pagination import (
+    FollowPagination,
+    FavoritePagination,
+    ReviewPagination,
+    CommentPagination,
+)
 from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
@@ -182,54 +187,11 @@ class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
 class CommentListCreateView(generics.ListCreateAPIView):
     """ Comment List Create View """
     permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Comment.objects.all()
     serializer_class = CommentListCreateSerializer
-
-    def validate_url(self, **kwargs):
-        content_type = kwargs.get('content_type')
-        object_uuid = kwargs.get('object_uuid')
-
-        if content_type == 'article':
-            object_class = Article
-        elif content_type == 'album':
-            object_class = Album
-        elif content_type == 'photo':
-            object_class = Photo
-        elif content_type == 'comment':
-            object_class = Comment
-        else:
-            return False
-
-        try:
-            self.content_object = object_class.objects.get(uuid=object_uuid)
-        except object_class.DoesNotExist:
-            return False
-
-        return True
-
-    def get(self, request, *args, **kwargs):
-        if not self.validate_url(**kwargs):
-            return Response(
-                {'detail': _('Not found.')},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if not self.validate_url(**kwargs):
-            return Response(
-                {'detail': _('Not found.')},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        return self.create(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return self.content_object.comments.all()
-
-    def perform_create(self, serializer):
-        serializer.save(
-            content_object=self.content_object,
-            author=self.request.user,
-        )
+    pagination_class = CommentPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CommentFilter
 
 
 class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):

@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Follow, Favorite, Review
+from .models import Follow, Favorite, Review, Comment
 
 
 class FollowFilter(filters.FilterSet):
@@ -27,3 +27,14 @@ class ReviewFilter(filters.FilterSet):
     class Meta:
         model = Review
         fields = ['user']
+
+
+class CommentFilter(filters.FilterSet):
+    """ Comment Filter """
+
+    class Meta:
+        model = Comment
+        fields = [
+            'content_type__model',
+            'object_uuid',
+        ]
