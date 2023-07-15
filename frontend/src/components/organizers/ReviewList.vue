@@ -157,7 +157,6 @@ onMounted(() => {
     oldReviewUuid.value = null
     oldReviewRating.value = null
     oldReviewComment.value = ''
-    oldReviewErrors.value = null
   })
   updateReviewModalBootstrap.value = new bootstrap.Modal(
     updateReviewModal.value
@@ -179,7 +178,7 @@ onMounted(() => {
               @submit.prevent="sendReview()"
               class="row g-3 mt-3"
             >
-              <div class="col-md-12">
+              <div class="col-12">
                 <BaseSelect
                   v-model="newReviewRating"
                   :options="reviewRatingOptions"
@@ -193,7 +192,7 @@ onMounted(() => {
                   "
                 />
               </div>
-              <div class="col-md-12">
+              <div class="col-12">
                 <BaseTextarea
                   v-model="newReviewComment"
                   id="id_new_comment"
@@ -210,6 +209,7 @@ onMounted(() => {
                 <SubmitButton
                   :loadingStatus="newReviewSending"
                   buttonClass="btn btn-brand"
+                  :disabled="!newReviewRating || !newReviewComment"
                 >
                   {{ $t('btn.send') }}
                 </SubmitButton>
@@ -445,6 +445,7 @@ onMounted(() => {
                 :loadingStatus="oldReviewUpdating"
                 buttonClass="btn btn-brand"
                 form="reviewModalForm"
+                :disabled="!oldReviewRating || !oldReviewComment"
               >
                 {{ $t('btn.update') }}
               </SubmitButton>
