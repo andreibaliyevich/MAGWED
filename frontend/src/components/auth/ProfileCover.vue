@@ -93,13 +93,14 @@ onMounted(() => {
           >
             {{ $t('profile.cover_removed_successfully') }}
           </small>
-          <small
-            v-if="errors && errors.cover"
-            v-for="error in errors.cover"
+          <div
+            v-if="errors?.cover"
             class="text-danger"
           >
-            {{ error }}
-          </small>
+            <small v-for="error in errors.cover">
+              {{ error }}
+            </small>
+          </div>
           <div class="d-flex justify-content-center">
             <FileInputButton
               @selectedFiles="updateCover"

@@ -98,13 +98,14 @@ const removeAvatar = async () => {
             >
               {{ $t('profile.avatar_removed_successfully') }}
             </small>
-            <small
-              v-if="errors && errors.avatar"
-              v-for="error in errors.avatar"
+            <div
+              v-if="errors?.avatar"
               class="text-danger"
             >
-              {{ error }}
-            </small>
+              <small v-for="error in errors.avatar">
+                {{ error }}
+              </small>
+            </div>
             <div class="d-flex justify-content-center">
               <FileInputButton
                 @selectedFiles="updateAvatar"
