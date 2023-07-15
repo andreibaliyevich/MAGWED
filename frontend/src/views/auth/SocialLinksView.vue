@@ -294,8 +294,9 @@ onMounted(() => {
               <form
                 @submit.prevent="submitSocialLinkForm()"
                 id="socialLinkForm"
+                class="row g-3"
               >
-                <div class="mb-3">
+                <div class="col-md-12">
                   <BaseSelect
                     v-model="socialLinkType"
                     :options="linkTypeOptions"
@@ -305,7 +306,7 @@ onMounted(() => {
                     :errors="errors?.link_type ? errors.link_type : []"
                   />
                 </div>
-                <div class="mb-3">
+                <div class="col-md-12">
                   <BaseInput
                     v-model="socialLinkUrl"
                     type="url"

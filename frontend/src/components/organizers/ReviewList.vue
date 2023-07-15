@@ -402,7 +402,7 @@ onMounted(() => {
               <form
                 @submit.prevent="updateReview()"
                 id="reviewModalForm"
-                class="row g-3 mt-1 px-xl-10"
+                class="row g-3"
               >
                 <div class="col-md-12">
                   <BaseSelect
