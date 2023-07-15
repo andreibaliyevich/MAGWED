@@ -97,6 +97,7 @@ onMounted(() => {
         <BaseInput
           v-model="name"
           type="text"
+          maxlength="255"
           id="id_name"
           name="name"
           :label="$t('profile.name')"
