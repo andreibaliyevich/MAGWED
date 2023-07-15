@@ -227,7 +227,7 @@ watch(() => props.conversation, (newValue) => {
 })
 
 watch(message, (newValue) => {
-  msgTextarea.value.rows = message.value.split('\n').length
+  msgTextarea.value.rows = newValue.split('\n').length
 })
 
 onMounted(() => {
