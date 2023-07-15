@@ -185,7 +185,7 @@ class Comment(models.Model):
         verbose_name=_('Author'),
     )
 
-    content = models.CharField(max_length=255, verbose_name=_('Content'))
+    content = models.TextField(verbose_name=_('Content'))
 
     created_at = models.DateTimeField(
         db_index=True,
