@@ -34,7 +34,7 @@ export default {
         v-bind="$attrs"
         :class="['form-control', { 'is-invalid': errors.length }]"
         :aria-invalid="errors.length ? true : null"
-        :aria-describedby="errors.length ? `${id}-errors` : null"
+        :aria-describedby="errors.length ? `${id}_errors` : null"
       >
       <label
         v-if="label"
@@ -44,7 +44,7 @@ export default {
       </label>
       <div
         v-if="errors.length"
-        :id="`${id}-errors`"
+        :id="`${id}_errors`"
         class="invalid-feedback"
         aria-live="assertive"
       >

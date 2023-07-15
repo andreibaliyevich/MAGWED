@@ -99,7 +99,7 @@ export default {
       v-bind="$attrs"
       class="position-relative"
       :aria-invalid="errors.length ? true : null"
-      :aria-describedby="errors.length ? `${id}-errors` : null"
+      :aria-describedby="errors.length ? `${id}_errors` : null"
     >
       <div
         :class="[
@@ -187,7 +187,7 @@ export default {
     </div>
     <div
       v-if="errors.length"
-      :id="`${id}-errors`"
+      :id="`${id}_errors`"
       class="invalid-feedback"
       aria-live="assertive"
     >

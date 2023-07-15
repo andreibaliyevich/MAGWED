@@ -65,7 +65,7 @@ export default {
       v-bind="$attrs"
       class="row p-1 g-1"
       :aria-invalid="errors.length ? true : null"
-      :aria-describedby="errors.length ? `${id}-errors` : null"
+      :aria-describedby="errors.length ? `${id}_errors` : null"
     >
       <div class="col-6">
         <div class="input-group input-group-sm">
@@ -102,7 +102,7 @@ export default {
     </div>
     <div
       v-if="errors.length"
-      :id="`${id}-errors`"
+      :id="`${id}_errors`"
       class="invalid-feedback"
       aria-live="assertive"
     >
