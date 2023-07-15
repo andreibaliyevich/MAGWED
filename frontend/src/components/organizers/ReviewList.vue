@@ -183,7 +183,7 @@ onMounted(() => {
                   v-model="newReviewRating"
                   :options="reviewRatingOptions"
                   id="id_new_rating"
-                  name="new_rating"
+                  name="rating"
                   :label="$t('organizers.rating')"
                   :errors="
                     newReviewErrors?.rating
@@ -196,7 +196,7 @@ onMounted(() => {
                 <BaseTextarea
                   v-model="newReviewComment"
                   id="id_new_comment"
-                  name="new_comment"
+                  name="comment"
                   :label="$t('organizers.comment')"
                   :errors="
                     newReviewErrors?.comment
@@ -409,7 +409,7 @@ onMounted(() => {
                     v-model="oldReviewRating"
                     :options="reviewRatingOptions"
                     id="id_old_rating"
-                    name="old_rating"
+                    name="rating"
                     :label="$t('organizers.rating')"
                     :errors="
                       oldReviewErrors?.rating
@@ -422,7 +422,7 @@ onMounted(() => {
                   <BaseTextarea
                     v-model="oldReviewComment"
                     id="id_old_comment"
-                    name="old_comment"
+                    name="comment"
                     :label="$t('organizers.comment')"
                     :errors="
                       oldReviewErrors?.comment
