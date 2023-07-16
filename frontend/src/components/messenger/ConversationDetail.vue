@@ -132,6 +132,10 @@ const sendMessage = () => {
       'content': message.value
     }))
     message.value = ''
+    nextTick(() => {
+      updateTextareaStyles()
+      msgTextarea.value.focus()
+    })
   }
 }
 
@@ -178,6 +182,24 @@ const setMessageViewed = (msg_uuid) => {
   }))
 }
 
+const updateTextareaStyles = () => {
+  const { style } = msgTextarea.value
+  style.height = style.minHeight = 'auto'
+  style.minHeight = `${
+    Math.min(msgTextarea.value.scrollHeight,
+      parseInt(style.maxHeight))
+  }px`
+  style.height = `${ msgTextarea.value.scrollHeight }px`
+}
+
+const updateUserStatus = (mutation, state) => {
+  messages.value.forEach((element) => {
+    if (element.sender.uuid == state.user_uuid) {
+      element.sender.online = state.online
+    }
+  })
+}
+
 const vIntersectionMessages = {
   mounted(el) {
     const options = {
@@ -211,14 +233,6 @@ const vIntersectionMessage = {
   }
 }
 
-const updateUserStatus = (mutation, state) => {
-  messages.value.forEach((element) => {
-    if (element.sender.uuid == state.user_uuid) {
-      element.sender.online = state.online
-    }
-  })
-}
-
 watch(() => props.conversation, (newValue) => {
   messages.value = []
   closeConversation()
@@ -227,12 +241,13 @@ watch(() => props.conversation, (newValue) => {
 })
 
 watch(message, (newValue) => {
-  msgTextarea.value.rows = newValue.split('\n').length
+  updateTextareaStyles()
 })
 
 onMounted(() => {
   getMessages()
   openConvoSocket()
+  updateTextareaStyles()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 
@@ -365,7 +380,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="card-footer bg-white">
-        <div class="hstack gap-2">
+        <div class="d-flex align-items-end gap-2">
           <FileInputButton
             @selectedFiles="sendImages"
             buttonClass="btn btn-light"
@@ -381,22 +396,25 @@ onUnmounted(() => {
           >
             <i class="fa-solid fa-file"></i>
           </FileInputButton>
-          <textarea
-            ref="msgTextarea"
-            v-model="message"
-            @keyup.ctrl.enter="sendMessage()"
-            rows="1"
-            :placeholder="$t('messenger.type_message')"
-            class="form-control me-auto"
-          ></textarea>
-          <button
-            @click="sendMessage()"
-            type="button"
-            class="btn btn-primary"
-            :disabled="!message"
-          >
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
+          <div class="d-flex align-items-center border rounded w-100">
+            <textarea
+              ref="msgTextarea"
+              v-model="message"
+              @keyup.ctrl.enter="sendMessage()"
+              :placeholder="$t('messenger.type_message')"
+              rows="1"
+              class="form-control border-0"
+              style="max-height: 150px;"
+            ></textarea>
+            <button
+              @click="sendMessage()"
+              type="button"
+              class="btn btn-link"
+              :disabled="!message"
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
         <small>{{ $t('form_help.textarea_message') }}</small>
       </div>
@@ -426,7 +444,25 @@ onUnmounted(() => {
   white-space: pre-line;
 }
 
+.d-flex.align-items-center.border.rounded.w-100:hover,
+.d-flex.align-items-center.border.rounded.w-100:focus-within {
+  border-color: #e72a26 !important;
+}
+
 textarea {
   resize: none;
+}
+textarea::-webkit-scrollbar {
+  width: 0.2em;
+}
+textarea::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+textarea::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 1em;
+}
+textarea::-webkit-scrollbar-thumb:hover {
+  background-color: #e72a26;
 }
 </style>
