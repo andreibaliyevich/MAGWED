@@ -26,14 +26,14 @@ function getStartingLocale() {
 }
 
 export async function loadLocaleMessages(i18n, locale) {
-  const messages = await import(`./locales/${locale}.json`)
+  const messages = await import(`./locales/${ locale }.json`)
   i18n.global.setLocaleMessage(locale, messages.default)
   return nextTick()
 }
 
 export function setI18nLanguage(i18n, locale) {
   i18n.global.locale.value = locale
-  axios.defaults.baseURL = `${API_URL}/${locale}`
+  axios.defaults.baseURL = `${ API_URL }/${ locale }`
   axios.defaults.headers.common['Accept-Language'] = locale
   document.querySelector('html').setAttribute('lang', locale)
 }

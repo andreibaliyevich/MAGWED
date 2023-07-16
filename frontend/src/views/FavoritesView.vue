@@ -5,14 +5,13 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const favoritesLoading = ref(false)
-const favoritesMoreLoading = ref(false)
+const favoriteListLoading = ref(false)
 const favoriteList = ref([])
 const favoriteCount = ref(0)
 const nextURL = ref(null)
 
-const getFavorites = async () => {
-  favoritesLoading.value = true
+const getFavoriteList = async () => {
+  favoriteListLoading.value = true
 
   let params = new URLSearchParams()
   if (route.query.type) {
@@ -29,12 +28,12 @@ const getFavorites = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    favoritesLoading.value = false
+    favoriteListLoading.value = false
   }
 }
 
-const getMoreFavorites = async () => {
-  favoritesMoreLoading.value = true
+const getMoreFavoriteList = async () => {
+  favoriteListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     favoriteList.value = [...favoriteList.value, ...response.data.results]
@@ -42,7 +41,7 @@ const getMoreFavorites = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    favoritesMoreLoading.value = false
+    favoriteListLoading.value = false
   }
 }
 
@@ -50,13 +49,13 @@ watch(
   () => route.query.type,
   (newValue) => {
     if (route.name == 'Favorites') {
-      getFavorites()
+      getFavoriteList()
     }
   }
 )
 
 onMounted(() => {
-  getFavorites()
+  getFavoriteList()
 })
 </script>
 
@@ -137,9 +136,8 @@ onMounted(() => {
         </li>
       </ul>
 
-      <LoadingIndicator v-if="favoritesLoading" />
       <div
-        v-else-if="favoriteList.length > 0"
+        v-if="favoriteList.length > 0"
         class="row g-3"
       >
         <div
@@ -229,15 +227,15 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div v-if="nextURL" v-intersection="getMoreFavorites"></div>
-        <LoadingIndicator v-if="favoritesMoreLoading" />
       </div>
       <div
-        v-else
+        v-else-if="!favoriteListLoading"
         class="lead fs-3 d-flex justify-content-center py-3"
       >
         {{ $t('favorites.no_favorites') }}
       </div>
+      <div v-if="nextURL" v-intersection="getMoreFavoriteList"></div>
+      <LoadingIndicator v-if="favoriteListLoading" />
     </div>
   </div>
 </template>

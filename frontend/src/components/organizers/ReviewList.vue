@@ -15,8 +15,7 @@ const props = defineProps({
   }
 })
 
-const reviewLoading = ref(true)
-const reviewMoreLoading = ref(false)
+const reviewListLoading = ref(true)
 const newReviewSending = ref(false)
 const oldReviewUpdating = ref(false)
 
@@ -40,7 +39,7 @@ const oldReviewErrors = ref(null)
 const updateReviewModal = ref(null)
 const updateReviewModalBootstrap = ref(null)
 
-const getOrganizerReviews = async () => {
+const getReviewList = async () => {
   try {
     const response = await axios.get(
       '/social/reviews/'
@@ -52,12 +51,12 @@ const getOrganizerReviews = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    reviewLoading.value = false
+    reviewListLoading.value = false
   }
 }
 
-const getMoreOrganizerReviews = async () => {
-  reviewMoreLoading.value = true
+const getMoreReviewList = async () => {
+  reviewListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     reviewList.value = [...reviewList.value, ...response.data.results]
@@ -65,7 +64,7 @@ const getMoreOrganizerReviews = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    reviewMoreLoading.value = false
+    reviewListLoading.value = false
   }
 }
 
@@ -151,7 +150,7 @@ watch(locale, () => {
 })
 
 onMounted(() => {
-  getOrganizerReviews()
+  getReviewList()
   setReviewRatingOptions()
   updateReviewModal.value.addEventListener('hidden.bs.modal', () => {
     oldReviewUuid.value = null
@@ -238,8 +237,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="col-lg-6">
-        <LoadingIndicator v-if="reviewLoading" />
-        <div v-else-if="reviewList.length > 0">
+        <div v-if="reviewList.length > 0">
           <TransitionGroup
             tag="ul"
             name="list-group"
@@ -358,15 +356,15 @@ onMounted(() => {
               </div>
             </li>
           </TransitionGroup>
-          <div v-if="nextURL" v-intersection="getMoreOrganizerReviews"></div>
-          <LoadingIndicator v-if="reviewMoreLoading" />
         </div>
         <div
-          v-else
+          v-else-if="!reviewListLoading"
           class="lead d-flex justify-content-center py-3"
         >
           {{ $t('organizers.no_reviews') }}
         </div>
+        <div v-if="nextURL" v-intersection="getMoreReviewList"></div>
+        <LoadingIndicator v-if="reviewListLoading" />
       </div>
     </div>
 

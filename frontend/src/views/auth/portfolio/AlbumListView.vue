@@ -8,7 +8,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
 
-const albumsLoading = ref(true)
+const albumListLoading = ref(true)
 const albumList = ref([])
 
 const albumCreating = ref(false)
@@ -25,14 +25,14 @@ const errors = ref(null)
 const createAlbumModal = ref(null)
 const createAlbumModalBootstrap = ref(null)
 
-const getAlbums = async () => {
+const getAlbumList = async () => {
   try {
     const response = await axios.get('/portfolio/album/crud/list/')
     albumList.value = response.data
   } catch (error) {
     console.error(error)
   } finally {
-    albumsLoading.value = false
+    albumListLoading.value = false
   }
 }
 
@@ -77,7 +77,7 @@ const removeAlbum = async () => {
 }
 
 onMounted(() => {
-  getAlbums()
+  getAlbumList()
   createAlbumModal.value.addEventListener('hidden.bs.modal', () => {
     albumImage.value = null
     albumTitle.value = ''
@@ -105,7 +105,7 @@ onMounted(() => {
         <i class="fa-regular fa-square-plus"></i>
       </button>
 
-      <LoadingIndicator v-if="albumsLoading" />
+      <LoadingIndicator v-if="albumListLoading" />
       <div
         v-else-if="albumList.length > 0"
         class="row g-1 mt-1"

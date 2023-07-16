@@ -14,8 +14,7 @@ const route = useRoute()
 const currencyStore = useCurrencyStore()
 const connectionBusStore = useConnectionBusStore()
 
-const organizersLoading = ref(true)
-const organizersMoreLoading = ref(false)
+const organizerListLoading = ref(true)
 const organizerList = ref([])
 const nextURL = ref(null)
 
@@ -42,8 +41,8 @@ const costWorkMaxBorder = computed(() => {
   return Math.ceil(costWorkMax.value * currencyStore.conversionRate)
 })
 
-const getOrganizers = async () => {
-  organizersLoading.value = true
+const getOrganizerList = async () => {
+  organizerListLoading.value = true
 
   let params = new URLSearchParams()
   if (route.query.role) {
@@ -72,7 +71,7 @@ const getOrganizers = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    organizersLoading.value = false
+    organizerListLoading.value = false
     if (window.innerWidth < 992) {
       filterMenuClose.value.click()
     }
@@ -80,8 +79,8 @@ const getOrganizers = async () => {
   }
 }
 
-const getMoreOrganizers = async () => {
-  organizersMoreLoading.value = true
+const getMoreOrganizerList = async () => {
+  organizerListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     organizerList.value = [...organizerList.value, ...response.data.results]
@@ -89,7 +88,7 @@ const getMoreOrganizers = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    organizersMoreLoading.value = false
+    organizerListLoading.value = false
   }
 }
 
@@ -119,7 +118,7 @@ const resetParamsAndGetOrganizers = () => {
   costWorkMaxInCurrency.value = Math.ceil(
     costWorkMax.value * currencyStore.conversionRate
   )
-  getOrganizers()
+  getOrganizerList()
 }
 
 const updateUserStatus = (mutation, state) => {
@@ -134,7 +133,7 @@ watch(
   () => route.query.role,
   (newValue) => {
     if (route.name == 'OrganizerList') {
-      getOrganizers()
+      getOrganizerList()
     }
   }
 )
@@ -170,7 +169,7 @@ watch(
 )
 
 onMounted(() => {
-  getOrganizers()
+  getOrganizerList()
   getCostWorkMinMax()
   connectionBusStore.$subscribe(updateUserStatus)
 })
@@ -294,7 +293,7 @@ onMounted(() => {
                   {{ $t('btn.reset') }}
                 </button>
                 <button
-                  @click="getOrganizers()"
+                  @click="getOrganizerList()"
                   type="button"
                   class="btn btn-brand btn-sm ms-1"
                   :disabled="
@@ -312,9 +311,8 @@ onMounted(() => {
           </div>
         </div>
         <div class="col-lg-9">
-          <LoadingIndicator v-if="organizersLoading" />
           <div
-            v-else-if="organizerList.length > 0"
+            v-if="organizerList.length > 0"
             class="row"
           >
             <div
@@ -351,15 +349,15 @@ onMounted(() => {
                 </span>
               </p>
             </div>
-            <div v-if="nextURL" v-intersection="getMoreOrganizers"></div>
-            <LoadingIndicator v-if="organizersMoreLoading" />
           </div>
           <div
-            v-else
+            v-else-if="!organizerListLoading"
             class="lead fs-3 d-flex justify-content-center py-3"
           >
             {{ $t('organizers.no_organizers_available') }}
           </div>
+          <div v-if="nextURL" v-intersection="getMoreOrganizerList"></div>
+          <LoadingIndicator v-if="organizerListLoading" />
         </div>
       </div>
     </div>

@@ -5,12 +5,11 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const albumsLoading = ref(true)
-const albumsMoreLoading = ref(false)
+const albumListLoading = ref(true)
 const albumList = ref([])
 const nextURL = ref(null)
 
-const getAlbums = async () => {
+const getAlbumList = async () => {
   let albumListURL = '/portfolio/album/list/'
   if (route.query.tab == 'popular') {
     albumListURL += '?ordering=-rating'
@@ -29,12 +28,12 @@ const getAlbums = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    albumsLoading.value = false
+    albumListLoading.value = false
   }
 }
 
-const getMoreAlbums = async () => {
-  albumsMoreLoading.value = true
+const getMoreAlbumList = async () => {
+  albumListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     albumList.value = [...albumList.value, ...response.data.results]
@@ -42,7 +41,7 @@ const getMoreAlbums = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    albumsMoreLoading.value = false
+    albumListLoading.value = false
   }
 }
 
@@ -50,13 +49,13 @@ watch(
   () => route.query.tab,
   (newValue) => {
     if (route.name == 'AlbumList') {
-      getAlbums()
+      getAlbumList()
     }
   }
 )
 
 onMounted(() => {
-  getAlbums()
+  getAlbumList()
 })
 </script>
 
@@ -121,9 +120,8 @@ onMounted(() => {
         </li>
       </ul>
 
-      <LoadingIndicator v-if="albumsLoading" />
       <div
-        v-else-if="albumList.length > 0"
+        v-if="albumList.length > 0"
         class="row g-3"
       >
         <div
@@ -186,15 +184,15 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div v-if="nextURL" v-intersection="getMoreAlbums"></div>
-        <LoadingIndicator v-if="albumsMoreLoading" />
       </div>
       <div
-        v-else
+        v-else-if="!albumListLoading"
         class="lead d-flex justify-content-center py-3"
       >
         {{ $t('portfolio.no_albums') }}
       </div>
+      <div v-if="nextURL" v-intersection="getMoreAlbumList"></div>
+      <LoadingIndicator v-if="albumListLoading" />
     </div>
   </div>
 </template>

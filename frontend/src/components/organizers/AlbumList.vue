@@ -9,12 +9,11 @@ const props = defineProps({
   }
 })
 
-const albumLoading = ref(true)
-const albumMoreLoading = ref(false)
+const albumListLoading = ref(true)
 const albumList = ref([])
 const nextURL = ref(null)
 
-const getOrganizerAlbums = async () => {
+const getAlbumList = async () => {
   try {
     const response = await axios.get(
       '/portfolio/album/list/'
@@ -26,12 +25,12 @@ const getOrganizerAlbums = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    albumLoading.value = false
+    albumListLoading.value = false
   }
 }
 
-const getMoreOrganizerAlbums = async () => {
-  albumMoreLoading.value = true
+const getMoreAlbumList = async () => {
+  albumListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     albumList.value = [...albumList.value, ...response.data.results]
@@ -39,20 +38,19 @@ const getMoreOrganizerAlbums = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    albumMoreLoading.value = false
+    albumListLoading.value = false
   }
 }
 
 onMounted(() => {
-  getOrganizerAlbums()
+  getAlbumList()
 })
 </script>
 
 <template>
   <div class="album-list">
-    <LoadingIndicator v-if="albumLoading" />
     <div
-      v-else-if="albumList.length > 0"
+      v-if="albumList.length > 0"
       class="row g-3 mt-3"
     >
       <div
@@ -96,14 +94,14 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div v-if="nextURL" v-intersection="getMoreOrganizerAlbums"></div>
-      <LoadingIndicator v-if="albumMoreLoading" />
     </div>
     <div
-      v-else
+      v-else-if="!albumListLoading"
       class="lead d-flex justify-content-center py-3"
     >
       {{ $t('portfolio.no_albums') }}
     </div>
+    <div v-if="nextURL" v-intersection="getMoreAlbumList"></div>
+    <LoadingIndicator v-if="albumListLoading" />
   </div>
 </template>

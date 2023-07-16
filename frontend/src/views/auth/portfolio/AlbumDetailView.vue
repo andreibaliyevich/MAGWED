@@ -10,8 +10,8 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
 
-const albumLoading = ref(true)
-const albumUpdating = ref(false)
+const albumDataLoading = ref(true)
+const albumDataUpdating = ref(false)
 const albumImageUpdating = ref(false)
 
 const albumUuid = ref(null)
@@ -66,7 +66,7 @@ const getAlbumData = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    albumLoading.value = false
+    albumDataLoading.value = false
   }
 }
 
@@ -95,7 +95,7 @@ const updateAlbumImage = async (filelist) => {
 }
 
 const updateAlbum = async () => {
-  albumUpdating.value = true
+  albumDataUpdating.value = true
   try {
     const response = await axios.put(
       '/portfolio/album/crud/detail/'
@@ -115,7 +115,7 @@ const updateAlbum = async () => {
     status.value = null
     errors.value = error.response.data
   } finally {
-    albumUpdating.value = false
+    albumDataUpdating.value = false
   }
 }
 
@@ -193,7 +193,7 @@ onMounted(() => {
 
 <template>
   <div class="portfolio-album-detail-view">
-    <LoadingIndicator v-if="albumLoading" />
+    <LoadingIndicator v-if="albumDataLoading" />
     <div
       v-else
       class="px-1 px-lg-3 px-xl-5"
@@ -296,7 +296,7 @@ onMounted(() => {
           {{ $t('btn.delete') }}
         </button>
         <SubmitButton
-          :loadingStatus="albumUpdating"
+          :loadingStatus="albumDataUpdating"
           buttonClass="btn btn-brand w-100"
           form="albumForm"
         >
@@ -392,7 +392,7 @@ onMounted(() => {
                   :aria-valuenow="photosUploadStatusRound"
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  :style="`width: ${photosUploadStatusRound}%`"
+                  :style="`width: ${ photosUploadStatusRound }%`"
                 >{{ photosUploadStatusRound }}%</div>
               </div>
             </div>

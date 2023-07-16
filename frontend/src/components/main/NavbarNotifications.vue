@@ -7,17 +7,17 @@ import NavbarNotice from './NavbarNotice.vue'
 
 const userStore = useUserStore()
 
-const notificationsLoading = ref(true)
-const notificationsMoreLoading = ref(false)
+const notificationListLoading = ref(true)
 const notificationList = ref([])
+const nextURL = ref(null)
+const countNotViewed = ref(0)
+
 const notificationsSocket = ref(null)
 const notificationsSocketConnect = ref(null)
-const countNotViewed = ref(0)
-const nextURL = ref(null)
 
-const scrollArea = ref(null)
+const notificationListDropdown = ref(null)
 
-const getNotifications = async () => {
+const getNotificationList = async () => {
   try {
     const response = await axios.get('/notifications/')
     notificationList.value = response.data.results
@@ -30,12 +30,12 @@ const getNotifications = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    notificationsLoading.value = false
+    notificationListLoading.value = false
   }
 }
 
-const getMoreNotifications = async () => {
-  notificationsMoreLoading.value = true
+const getMoreNotificationList = async () => {
+  notificationListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     notificationList.value = [...notificationList.value, ...response.data.results]
@@ -48,7 +48,7 @@ const getMoreNotifications = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    notificationsMoreLoading.value = false
+    notificationListLoading.value = false
   }
 }
 
@@ -101,13 +101,13 @@ const setNoticeViewed = (notice_uuid) => {
 const vIntersectionNotifications = {
   mounted(el) {
     const options = {
-      root: scrollArea.value,
+      root: notificationListDropdown.value,
       rootMargin: '0px',
       threshold: 1.0
     }
     const callback = (entries, observer) => {
       if (entries[0].isIntersecting) {
-        getMoreNotifications()
+        getMoreNotificationList()
       }
     }
     const observer = new IntersectionObserver(callback, options)
@@ -117,7 +117,7 @@ const vIntersectionNotifications = {
 const vIntersectionNotice = {
   mounted(el, binding) {
     const options = {
-      root: scrollArea.value,
+      root: notificationListDropdown.value,
       rootMargin: '0px',
       threshold: 1.0
     }
@@ -132,7 +132,7 @@ const vIntersectionNotice = {
 }
 
 onMounted(() => {
-  getNotifications()
+  getNotificationList()
   connectSocket()
 })
 </script>
@@ -158,15 +158,15 @@ onMounted(() => {
         </span>
       </a>
       <ul
-        ref="scrollArea"
+        ref="notificationListDropdown"
         class="dropdown-menu dropdown-menu-end border border-light shadow"
-        aria-labelledby="dropdown-notifications"
+        aria-labelledby="notification-list-dropdown"
       >
-        <li v-if="notificationsLoading">
-          <LoadingIndicator />
-        </li>
-        <li v-else-if="notificationList.length > 0">
-          <ul class="list-group list-group-flush overflow-auto">
+        <li class="overflow-auto">
+          <ul
+            v-if="notificationList.length > 0"
+            class="list-group list-group-flush"
+          >
             <li
               v-for="notice in notificationList"
               :key="notice.uuid"
@@ -184,16 +184,15 @@ onMounted(() => {
                 v-intersection-notice="notice.uuid"
               />
             </li>
-            <li v-if="nextURL" v-intersection-notifications></li>
-            <li v-if="notificationsMoreLoading">
-              <LoadingIndicator />
-            </li>
           </ul>
-        </li>
-        <li v-else>
-          <div class="lead d-flex justify-content-center py-3">
+          <div
+            v-else-if="!notificationListLoading"
+            class="lead d-flex justify-content-center py-3"
+          >
             {{ $t('notifications.no_notifications') }}
           </div>
+          <div v-if="nextURL" v-intersection-notifications></div>
+          <LoadingIndicator v-if="!notificationListLoading" />
         </li>
       </ul>
     </div>
@@ -201,24 +200,24 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.list-group.overflow-auto::-webkit-scrollbar {
-  width: 0.2em;
-}
-.list-group.overflow-auto::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-}
-.list-group.overflow-auto::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 1em;
-}
-.list-group.overflow-auto::-webkit-scrollbar-thumb:hover {
-  background-color: #e72a26;
-}
-
 .dropdown-menu.dropdown-menu-end {
   width: 330px;
 }
-.list-group.list-group-flush.overflow-auto {
+
+li.overflow-auto {
   max-height: 550px;
+}
+li.overflow-auto::-webkit-scrollbar {
+  width: 0.2em;
+}
+li.overflow-auto::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+li.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 1em;
+}
+li.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #e72a26;
 }
 </style>

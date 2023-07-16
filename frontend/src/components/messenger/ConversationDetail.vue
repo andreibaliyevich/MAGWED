@@ -18,12 +18,14 @@ const props = defineProps({
   }
 })
 
-const messagesLoading = ref(true)
-const messages = ref([])
+const messageListLoading = ref(true)
+const messageList = ref([])
+const nextURL = ref(null)
+
 const convoSocket = ref(null)
 const convoSocketConnect = ref(false)
+
 const message = ref('')
-const nextURL = ref(null)
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
@@ -31,23 +33,23 @@ const scrollArea = ref(null)
 const msgTextarea = ref(null)
 
 const reversedMessages = computed(() => {
-  return [...messages.value].reverse()
+  return [...messageList.value].reverse()
 })
 
-const getMessages = async () => {
-  messagesLoading.value = true
+const getMessageList = async () => {
+  messageList.value = true
   try {
     const response = await axios.get(
       '/messenger/messages/'
       + props.conversation.uuid
       + '/'
     )
-    messages.value = response.data.results
+    messageList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
-    messagesLoading.value = false
+    messageListLoading.value = false
     nextTick(() => {
       scrollArea.value.scrollTo({
         top: scrollArea.value.scrollHeight,
@@ -58,17 +60,17 @@ const getMessages = async () => {
   }
 }
 
-const getMoreMessages = async () => {
-  messagesLoading.value = true
+const getMoreMessageList = async () => {
+  messageListLoading.value = true
   const scrollHeight = scrollArea.value.scrollHeight
   try {
     const response = await axios.get(nextURL.value)
-    messages.value = [...messages.value, ...response.data.results]
+    messageList.value = [...messageList.value, ...response.data.results]
     nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
-    messagesLoading.value = false
+    messageListLoading.value = false
     nextTick(() => {
       scrollArea.value.scrollTo({
         top: scrollArea.value.scrollHeight - scrollHeight,
@@ -92,7 +94,7 @@ const openConvoSocket = async () => {
   convoSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
     if (data.action == 'new_msg') {
-      messages.value.unshift(data.data)
+      messageList.value.unshift(data.data)
       nextTick(() => {
         scrollArea.value.scrollTo({
           top: scrollArea.value.scrollHeight,
@@ -100,11 +102,11 @@ const openConvoSocket = async () => {
         })
       })
     } else if (data.action == 'viewed') {
-      const foundIndex = messages.value.findIndex((element) => {
+      const foundIndex = messageList.value.findIndex((element) => {
         return element.uuid == data.data.msg_uuid
       })
       if (foundIndex != -1) {
-        messages.value[foundIndex].viewed = data.data.msg_viewed
+        messageList.value[foundIndex].viewed = data.data.msg_viewed
       }
     }
   }
@@ -193,7 +195,7 @@ const updateTextareaStyles = () => {
 }
 
 const updateUserStatus = (mutation, state) => {
-  messages.value.forEach((element) => {
+  messageList.value.forEach((element) => {
     if (element.sender.uuid == state.user_uuid) {
       element.sender.online = state.online
     }
@@ -209,7 +211,7 @@ const vIntersectionMessages = {
     }
     const callback = (entries, observer) => {
       if (entries[0].isIntersecting) {
-        getMoreMessages()
+        getMoreMessageList()
       }
     }
     const observer = new IntersectionObserver(callback, options)
@@ -234,9 +236,9 @@ const vIntersectionMessage = {
 }
 
 watch(() => props.conversation, (newValue) => {
-  messages.value = []
+  messageList.value = []
   closeConversation()
-  getMessages()
+  getMessageList()
   openConvoSocket()
 })
 
@@ -245,7 +247,7 @@ watch(message, (newValue) => {
 })
 
 onMounted(() => {
-  getMessages()
+  getMessageList()
   openConvoSocket()
   updateTextareaStyles()
   connectionBusStore.$subscribe(updateUserStatus)
@@ -292,57 +294,74 @@ onUnmounted(() => {
         ref="scrollArea"
         class="card-body overflow-auto"
       >
-        <LoadingIndicator v-if="messagesLoading" />
-        <p v-if="nextURL" v-intersection-messages></p>
+        <LoadingIndicator v-if="messageListLoading" />
+        <div v-if="nextURL" v-intersection-messages></div>
         <div
-          v-if="messages.length > 0"
-          v-for="msg in reversedMessages"
+          v-if="messageList.length > 0"
           class="my-3"
         >
-          <div
-            v-if="msg.sender.uuid == userStore.uuid"
-            class="d-flex justify-content-end"
-          >
-            <div class="my-0">
-              <div class="bg-primary rounded p-2">
-                <MessageContent
-                  :msgType="msg.msg_type"
-                  :msgContent="msg.content"
-                  textClass="fs-6 text-white"
-                />
-                <div class="d-flex justify-content-end text-white mt-2">
-                  <i
-                    v-if="msg.viewed"
-                    class="fa-solid fa-check-double fa-sm"
-                  ></i>
-                  <i
-                    v-else
-                    class="fa-solid fa-check fa-sm"
-                  ></i>
+          <div v-for="msg in reversedMessages">
+            <div
+              v-if="msg.sender.uuid == userStore.uuid"
+              class="d-flex justify-content-end"
+            >
+              <div class="my-0">
+                <div class="bg-primary rounded p-2">
+                  <MessageContent
+                    :msgType="msg.msg_type"
+                    :msgContent="msg.content"
+                    textClass="fs-6 text-white"
+                  />
+                  <div class="d-flex justify-content-end text-white mt-2">
+                    <i
+                      v-if="msg.viewed"
+                      class="fa-solid fa-check-double fa-sm"
+                    ></i>
+                    <i
+                      v-else
+                      class="fa-solid fa-check fa-sm"
+                    ></i>
+                  </div>
                 </div>
+                <small class="d-flex justify-content-end text-muted">
+                  {{ getLocaleDateTimeString(msg.created_at) }}
+                </small>
               </div>
-              <small class="d-flex justify-content-end text-muted">
-                {{ getLocaleDateTimeString(msg.created_at) }}
-              </small>
             </div>
-          </div>
-          <div
-            v-else
-            class="d-flex justify-content-start"
-          >
-            <div class="my-0">
-              <div
-                v-if="conversation.convo_type == conversationType.GROUP"
-                class="d-flex align-items-start"
-              >
-                <UserAvatarExtended
-                  :src="msg.sender.avatar"
-                  :width="48"
-                  :height="48"
-                  :online="msg.sender.online"
-                />
-                <div class="bg-light rounded p-2 ms-2">
-                  <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
+            <div
+              v-else
+              class="d-flex justify-content-start"
+            >
+              <div class="my-0">
+                <div
+                  v-if="conversation.convo_type == conversationType.GROUP"
+                  class="d-flex align-items-start"
+                >
+                  <UserAvatarExtended
+                    :src="msg.sender.avatar"
+                    :width="48"
+                    :height="48"
+                    :online="msg.sender.online"
+                  />
+                  <div class="bg-light rounded p-2 ms-2">
+                    <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
+                    <MessageContent
+                      v-if="msg.viewed || !convoSocketConnect"
+                      :msgType="msg.msg_type"
+                      :msgContent="msg.content"
+                    />
+                    <MessageContent
+                      v-else
+                      :msgType="msg.msg_type"
+                      :msgContent="msg.content"
+                      v-intersection-message="msg.uuid"
+                    />
+                  </div>
+                </div>
+                <div
+                  v-else
+                  class="bg-light rounded p-2"
+                >
                   <MessageContent
                     v-if="msg.viewed || !convoSocketConnect"
                     :msgType="msg.msg_type"
@@ -355,26 +374,10 @@ onUnmounted(() => {
                     v-intersection-message="msg.uuid"
                   />
                 </div>
+                <small class="text-muted">
+                  {{ getLocaleDateTimeString(msg.created_at) }}
+                </small>
               </div>
-              <div
-                v-else
-                class="bg-light rounded p-2"
-              >
-                <MessageContent
-                  v-if="msg.viewed || !convoSocketConnect"
-                  :msgType="msg.msg_type"
-                  :msgContent="msg.content"
-                />
-                <MessageContent
-                  v-else
-                  :msgType="msg.msg_type"
-                  :msgContent="msg.content"
-                  v-intersection-message="msg.uuid"
-                />
-              </div>
-              <small class="text-muted">
-                {{ getLocaleDateTimeString(msg.created_at) }}
-              </small>
             </div>
           </div>
         </div>

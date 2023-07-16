@@ -8,7 +8,7 @@ import { useCurrencyStore } from '@/stores/currency.js'
 const router = useRouter()
 const currencyStore = useCurrencyStore()
 
-const magazineLoading = ref(true)
+const magazineDataLoading = ref(true)
 const magazineData = ref({})
 
 const getMagazine = async () => {
@@ -18,7 +18,7 @@ const getMagazine = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    magazineLoading.value = false
+    magazineDataLoading.value = false
   }
 }
 
@@ -41,7 +41,7 @@ onMounted(() => {
     <div class="container pt-5">
       <div class="row">
         <div class="col-md-3">
-          <LoadingIndicator v-if="magazineLoading" />
+          <LoadingIndicator v-if="magazineDataLoading" />
           <a
             v-else
             :href="magazineData.file"

@@ -75,7 +75,7 @@ export default {
       v-bind="$attrs"
       class="position-relative"
       :aria-invalid="errors.length ? true : null"
-      :aria-describedby="errors.length ? `${id}_errors` : null"
+      :aria-describedby="errors.length ? `${ id }_errors` : null"
     >
       <div
         :class="[
@@ -126,7 +126,7 @@ export default {
     <small>{{ $t('form_help.list_input') }}</small>
     <div
       v-if="errors.length"
-      :id="`${id}_errors`"
+      :id="`${ id }_errors`"
       class="invalid-feedback"
       aria-live="assertive"
     >

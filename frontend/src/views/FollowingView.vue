@@ -5,13 +5,12 @@ import { useUserStore } from '@/stores/user.js'
 
 const userStore = useUserStore()
 
-const followingLoading = ref(true)
-const followingMoreLoading = ref(false)
+const followingListLoading = ref(true)
 const followingList = ref([])
 const followingCount = ref(0)
 const nextURL = ref(null)
 
-const getFollowing = async () => {
+const getFollowingList = async () => {
   try {
     const response = await axios.get(
       '/social/follow/list/'
@@ -24,12 +23,12 @@ const getFollowing = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    followingLoading.value = false
+    followingListLoading.value = false
   }
 }
 
-const getMoreFollowing = async () => {
-  followingMoreLoading.value = true
+const getMoreFollowingList = async () => {
+  followingListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     followingList.value = [...followingList.value, ...response.data.results]
@@ -37,12 +36,12 @@ const getMoreFollowing = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    followingMoreLoading.value = false
+    followingListLoading.value = false
   }
 }
 
 onMounted(() => {
-  getFollowing()
+  getFollowingList()
 })
 </script>
 
@@ -52,9 +51,9 @@ onMounted(() => {
       <h1 class="display-6 text-center mb-5">
         {{ $t('follow.following') }} ({{ followingCount }})
       </h1>
-      <LoadingIndicator v-if="followingLoading" />
+
       <div
-        v-else-if="followingList.length > 0"
+        v-if="followingList.length > 0"
         class="row g-3"
       >
         <div
@@ -81,15 +80,15 @@ onMounted(() => {
             <h2 class="fw-normal">{{ follow.user.name }}</h2>
           </LocaleRouterLink>
         </div>
-        <div v-if="nextURL" v-intersection="getMoreFollowing"></div>
-        <LoadingIndicator v-if="followingMoreLoading" />
       </div>
       <div
-        v-else
+        v-else-if="!followingListLoading"
         class="lead fs-3 d-flex justify-content-center py-3"
       >
         {{ $t('follow.no_following') }}
       </div>
+      <div v-if="nextURL" v-intersection="getMoreFollowingList"></div>
+      <LoadingIndicator v-if="followingListLoading" />
     </div>
   </div>
 </template>

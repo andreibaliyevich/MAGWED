@@ -23,9 +23,9 @@ const login = async () => {
     })
     window.localStorage.setItem('user', JSON.stringify(response.data))
     if (route.query.redirect) {
-      window.location.assign(`${route.query.redirect}`)
+      window.location.assign(`${ route.query.redirect }`)
     } else {
-      window.location.assign(`/${locale.value}`)
+      window.location.assign(`/${ locale.value }`)
     }
   } catch (error) {
     errors.value = error.response.data

@@ -5,12 +5,11 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const photosLoading = ref(true)
-const photosMoreLoading = ref(false)
+const photoListLoading = ref(true)
 const photoList = ref([])
 const nextURL = ref(null)
 
-const getPhotos = async () => {
+const getPhotoList = async () => {
   let photoListURL = '/portfolio/photo/list/'
   if (route.query.tab == 'popular') {
     photoListURL += '?ordering=-rating'
@@ -29,12 +28,12 @@ const getPhotos = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    photosLoading.value = false
+    photoListLoading.value = false
   }
 }
 
-const getMorePhotos = async () => {
-  photosMoreLoading.value = true
+const getMorePhotoList = async () => {
+  photoListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     photoList.value = [...photoList.value, ...response.data.results]
@@ -42,7 +41,7 @@ const getMorePhotos = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    photosMoreLoading.value = false
+    photoListLoading.value = false
   }
 }
 
@@ -50,13 +49,13 @@ watch(
   () => route.query.tab,
   (newValue) => {
     if (route.name == 'PhotoList') {
-      getPhotos()
+      getPhotoList()
     }
   }
 )
 
 onMounted(() => {
-  getPhotos()
+  getPhotoList()
 })
 </script>
 
@@ -121,9 +120,8 @@ onMounted(() => {
         </li>
       </ul>
 
-      <LoadingIndicator v-if="photosLoading" />
       <div
-        v-else-if="photoList.length > 0"
+        v-if="photoList.length > 0"
         class="row g-3"
       >
         <div
@@ -183,15 +181,15 @@ onMounted(() => {
             </LocaleRouterLink>
           </div>
         </div>
-        <div v-if="nextURL" v-intersection="getMorePhotos"></div>
-        <LoadingIndicator v-if="photosMoreLoading" />
       </div>
       <div
-        v-else
+        v-else-if="!photoListLoading"
         class="lead d-flex justify-content-center py-3"
       >
         {{ $t('portfolio.no_photos') }}
       </div>
+      <div v-if="nextURL" v-intersection="getMorePhotoList"></div>
+      <LoadingIndicator v-if="photoListLoading" />
     </div>
   </div>
 </template>

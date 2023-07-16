@@ -53,7 +53,7 @@ export default {
       class="overflow-auto p-1"
       style="max-height: 135px"
       :aria-invalid="errors.length ? true : null"
-      :aria-describedby="errors.length ? `${id}_errors` : null"
+      :aria-describedby="errors.length ? `${ id }_errors` : null"
     >
       <div
         v-for="option in options"
@@ -78,7 +78,7 @@ export default {
     </div>
     <div
       v-if="errors.length"
-      :id="`${id}_errors`"
+      :id="`${ id }_errors`"
       class="invalid-feedback"
       aria-live="assertive"
     >

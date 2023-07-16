@@ -9,12 +9,11 @@ const props = defineProps({
   }
 })
 
-const photoLoading = ref(true)
-const photoMoreLoading = ref(false)
+const photoListLoading = ref(true)
 const photoList = ref([])
 const nextURL = ref(null)
 
-const getOrganizerPhotos = async () => {
+const getPhotoList = async () => {
   try {
     const response = await axios.get(
       '/portfolio/photo/list/'
@@ -27,12 +26,12 @@ const getOrganizerPhotos = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    photoLoading.value = false
+    photoListLoading.value = false
   }
 }
 
-const getMoreOrganizerPhotos = async () => {
-  photoMoreLoading.value = true
+const getMorePhotoList = async () => {
+  photoListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     photoList.value = [...photoList.value, ...response.data.results]
@@ -40,20 +39,19 @@ const getMoreOrganizerPhotos = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    photoMoreLoading.value = false
+    photoListLoading.value = false
   }
 }
 
 onMounted(() => {
-  getOrganizerPhotos()
+  getPhotoList()
 })
 </script>
 
 <template>
   <div class="photo-list">
-    <LoadingIndicator v-if="photoLoading" />
     <div
-      v-else-if="photoList.length > 0"
+      v-if="photoList.length > 0"
       class="row g-3 mt-3"
     >
       <div
@@ -92,14 +90,14 @@ onMounted(() => {
           </LocaleRouterLink>
         </div>
       </div>
-      <div v-if="nextURL" v-intersection="getMoreOrganizerPhotos"></div>
-      <LoadingIndicator v-if="photoMoreLoading" />
     </div>
     <div
-      v-else
+      v-else-if="!photoListLoading"
       class="lead d-flex justify-content-center py-3"
     >
       {{ $t('portfolio.no_photos') }}
     </div>
+    <div v-if="nextURL" v-intersection="getMorePhotoList"></div>
+    <LoadingIndicator v-if="photoListLoading" />
   </div>
 </template>

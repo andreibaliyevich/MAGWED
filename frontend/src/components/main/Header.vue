@@ -6,12 +6,12 @@ import { useCurrencyStore } from '@/stores/currency.js'
 
 const currencyStore = useCurrencyStore()
 
-const currencyList = ref(null)
+const currencyLi = ref(null)
 
 const changeCurrency = (event) => {
   window.localStorage.setItem('currency', event.target.value)
   currencyStore.setCurrency(event.target.value)
-  currencyList.value.click()
+  currencyLi.value.click()
 }
 </script>
 
@@ -94,7 +94,7 @@ const changeCurrency = (event) => {
             aria-expanded="false"
           >
             <img
-              :src="`/flags/${$i18n.locale}.png`"
+              :src="`/flags/${ $i18n.locale }.png`"
               width="20"
               :alt="$i18n.locale"
             >
@@ -107,7 +107,7 @@ const changeCurrency = (event) => {
             aria-labelledby="dropdown_locale"
           >
             <li
-              ref="currencyList"
+              ref="currencyLi"
               class="dropdown-item"
             >
               <select
@@ -133,7 +133,7 @@ const changeCurrency = (event) => {
                 class="dropdown-item"
                 >
                 <img
-                  :src="`/flags/${language.value}.png`"
+                  :src="`/flags/${ language.value }.png`"
                   width="20"
                   :alt="language.value"
                 >

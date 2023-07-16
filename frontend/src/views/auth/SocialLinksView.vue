@@ -5,8 +5,8 @@ import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n({ useScope: 'global' })
 
-const linksLoading = ref(true)
-const linksUpdating = ref(false)
+const socialLinkListLoading = ref(true)
+const socialLinkListUpdating = ref(false)
 const socialLinkList = ref([])
 
 const socialLinkUuid = ref(null)
@@ -41,12 +41,12 @@ const getSocialLinks = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    linksLoading.value = false
+    socialLinkListLoading.value = false
   }
 }
 
 const addSocialLink = async () => {
-  linksUpdating.value = true
+  socialLinkListUpdating.value = true
   try {
     const response = await axios.post('/social/links/', {
       link_type: socialLinkType.value,
@@ -58,7 +58,7 @@ const addSocialLink = async () => {
   } catch (error) {
     errors.value = error.response.data
   } finally {
-    linksUpdating.value = false
+    socialLinkListUpdating.value = false
   }
 }
 
@@ -74,7 +74,7 @@ const getSocialLinkData = async (olUuid) => {
 }
 
 const updateSocialLink = async () => {
-  linksUpdating.value = true
+  socialLinkListUpdating.value = true
   try {
     const response = await axios.put(
       '/social/links/'
@@ -94,7 +94,7 @@ const updateSocialLink = async () => {
   } catch (error) {
     errors.value = error.response.data
   } finally {
-    linksUpdating.value = false
+    socialLinkListUpdating.value = false
   }
 }
 
@@ -143,7 +143,7 @@ onMounted(() => {
         {{ $t('auth.sociallinks.social_links') }}
       </h1>
 
-      <LoadingIndicator v-if="linksLoading" />
+      <LoadingIndicator v-if="socialLinkListLoading" />
       <ul
         v-else-if="socialLinkList.length > 0"
         class="list-group list-group-flush"
@@ -329,7 +329,7 @@ onMounted(() => {
               </button>
               <SubmitButton
                 v-if="socialLinkUuid"
-                :loadingStatus="linksUpdating"
+                :loadingStatus="socialLinkListUpdating"
                 form="socialLinkForm"
                 buttonClass="btn btn-brand"
                 :disabled="!socialLinkType || !socialLinkUrl"
@@ -338,7 +338,7 @@ onMounted(() => {
               </SubmitButton>
               <SubmitButton
                 v-else
-                :loadingStatus="linksUpdating"
+                :loadingStatus="socialLinkListUpdating"
                 form="socialLinkForm"
                 buttonClass="btn btn-brand"
                 :disabled="!socialLinkType || !socialLinkUrl"

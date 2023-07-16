@@ -9,7 +9,7 @@ import NotFound from '@/components/NotFound.vue'
 const route = useRoute()
 const userStore = useUserStore()
 
-const albumLoading = ref(true)
+const albumDataLoading = ref(true)
 const albumData = ref({
   uuid: '',
   owner: {
@@ -29,8 +29,7 @@ const albumData = ref({
   rating: 0
 })
 
-const photosLoading = ref(true)
-const photosMoreLoading = ref(false)
+const photoListLoading = ref(true)
 const photoList = ref([])
 const nextURL = ref(null)
 
@@ -38,7 +37,7 @@ const { getLocaleDateString } = useLocaleDateTime()
 
 const errorStatus = ref(null)
 
-const getAlbumPhotos = async () => {
+const getPhotoList = async () => {
   try {
     const response = await axios.get(
       '/portfolio/photo/list/'
@@ -50,12 +49,12 @@ const getAlbumPhotos = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    photosLoading.value = false
+    photoListLoading.value = false
   }
 }
 
-const getMoreOrganizerPhotos = async () => {
-  photosMoreLoading.value = true
+const getMorePhotoList = async () => {
+  photoListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     photoList.value = [...photoList.value, ...response.data.results]
@@ -63,7 +62,7 @@ const getMoreOrganizerPhotos = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    photosMoreLoading.value = false
+    photoListLoading.value = false
   }
 }
 
@@ -86,12 +85,12 @@ const getAlbumData = async () => {
         + '/'
     )
     albumData.value = response.data
-    getAlbumPhotos()
+    getPhotoList()
     setTimeout(upAlbumViewCount, 3000)
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
-    albumLoading.value = false
+    albumDataLoading.value = false
   }
 }
 
@@ -155,7 +154,7 @@ onMounted(() => {
 <template>
   <div class="album-detail-view">
     <LoadingIndicator
-      v-if="albumLoading"
+      v-if="albumDataLoading"
       class="my-5"
     />
     <NotFound v-else-if="errorStatus == 404" />
@@ -288,7 +287,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <LoadingIndicator v-if="photosLoading" />
       <div
         v-if="photoList.length > 0"
         class="row g-3 mt-3"
@@ -329,15 +327,15 @@ onMounted(() => {
             </LocaleRouterLink>
           </div>
         </div>
-        <div v-if="nextURL" v-intersection="getMoreOrganizerPhotos"></div>
-        <LoadingIndicator v-if="photosMoreLoading" />
       </div>
       <div
-        v-else
+        v-else-if="!photoListLoading"
         class="lead d-flex justify-content-center py-3"
       >
         {{ $t('portfolio.no_photos') }}
       </div>
+      <div v-if="nextURL" v-intersection="getMorePhotoList"></div>
+      <LoadingIndicator v-if="photoListLoading" />
     </div>
   </div>
 </template>

@@ -15,19 +15,19 @@ const props = defineProps({
   }
 })
 
-const convoLoading = ref(true)
+const convoListLoading = ref(true)
 const convoList = ref([])
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
-const getConversations = async () => {
+const getConvoList = async () => {
   try {
     const response = await axios.get('/messenger/conversations/')
     convoList.value = response.data
   } catch (error) {
     console.error(error)
   } finally {
-    convoLoading.value = false
+    convoListLoading.value = false
   }
 }
 
@@ -43,7 +43,7 @@ const updateUserStatus = (mutation, state) => {
 }
 
 onMounted(() => {
-  getConversations()
+  getConvoList()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>
@@ -52,7 +52,7 @@ onMounted(() => {
   <div class="conversation-list">
     <h4 class="mb-3">{{ $t('messenger.chats') }}</h4>
 
-    <LoadingIndicator v-if="convoLoading" />
+    <LoadingIndicator v-if="convoListLoading" />
     <div
       v-else-if="convoList.length > 0"
       class="list-group list-group-flush"

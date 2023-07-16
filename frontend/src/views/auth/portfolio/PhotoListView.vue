@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ref, computed, onMounted } from 'vue'
 import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
 
-const photosLoading = ref(true)
+const photoListLoading = ref(true)
 const photoList = ref([])
 
 const photosUploadStatus = ref(0)
@@ -16,14 +16,14 @@ const photosUploadStatusRound = computed(() => {
   return Math.round(photosUploadStatus.value)
 })
 
-const getPhotos = async () => {
+const getPhotoList = async () => {
   try {
     const response = await axios.get('/portfolio/photo/crud/list/')
     photoList.value = response.data
   } catch (error) {
     console.error(error)
   } finally {
-    photosLoading.value = false
+    photoListLoading.value = false
   }
 }
 
@@ -72,7 +72,7 @@ const removePhotoList = (pUuid) => {
 }
 
 onMounted(() => {
-  getPhotos()
+  getPhotoList()
   uploadPhotosModal.value.addEventListener('hidden.bs.modal', () => {
     photosUploadStatus.value = 0
   })
@@ -99,7 +99,7 @@ onMounted(() => {
         <i class="fa-solid fa-upload"></i>
       </FileInputButton>
 
-      <LoadingIndicator v-if="photosLoading" />
+      <LoadingIndicator v-if="photoListLoading" />
       <PortfolioPhotoList
         v-else
         :photoList="photoList"
@@ -138,7 +138,7 @@ onMounted(() => {
                   :aria-valuenow="photosUploadStatusRound"
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  :style="`width: ${photosUploadStatusRound}%`"
+                  :style="`width: ${ photosUploadStatusRound }%`"
                 >{{ photosUploadStatusRound }}%</div>
               </div>
             </div>

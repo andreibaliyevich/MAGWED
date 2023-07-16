@@ -5,13 +5,12 @@ import { useUserStore } from '@/stores/user.js'
 
 const userStore = useUserStore()
 
-const followersLoading = ref(true)
-const followersMoreLoading = ref(false)
+const followersListLoading = ref(true)
 const followersList = ref([])
 const followersCount = ref(0)
 const nextURL = ref(null)
 
-const getFollowers = async () => {
+const getFollowersList = async () => {
   try {
     const response = await axios.get(
       '/social/follow/list/'
@@ -24,12 +23,12 @@ const getFollowers = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    followersLoading.value = false
+    followersListLoading.value = false
   }
 }
 
-const getMoreFollowers = async () => {
-  followersMoreLoading.value = true
+const getMoreFollowersList = async () => {
+  followersListLoading.value = true
   try {
     const response = await axios.get(nextURL.value)
     followersList.value = [...followersList.value, ...response.data.results]
@@ -37,12 +36,12 @@ const getMoreFollowers = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    followersMoreLoading.value = false
+    followersListLoading.value = false
   }
 }
 
 onMounted(() => {
-  getFollowers()
+  getFollowersList()
 })
 </script>
 
@@ -52,9 +51,9 @@ onMounted(() => {
       <h1 class="display-6 text-center mb-5">
         {{ $t('follow.followers') }} ({{ followersCount }})
       </h1>
-      <LoadingIndicator v-if="followersLoading" />
+
       <div
-        v-else-if="followersList.length > 0"
+        v-if="followersList.length > 0"
         class="row g-3"
       >
         <div
@@ -96,15 +95,15 @@ onMounted(() => {
             {{ follow.follower.name }}
           </h2>
         </div>
-        <div v-if="nextURL" v-intersection="getMoreFollowers"></div>
-        <LoadingIndicator v-if="followersMoreLoading" />
       </div>
       <div
-        v-else
+        v-else-if="!followersListLoading"
         class="lead fs-3 d-flex justify-content-center py-3"
       >
         {{ $t('follow.no_followers') }}
       </div>
+      <div v-if="nextURL" v-intersection="getMoreFollowersList"></div>
+      <LoadingIndicator v-if="followersListLoading" />
     </div>
   </div>
 </template>
