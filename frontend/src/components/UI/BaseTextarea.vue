@@ -15,33 +15,10 @@ export default {
       type: String,
       default: ''
     },
-    maxHeight: {
-      type: Number,
-      default: 150
-    },
     errors: {
       type: Array,
       default: []
     }
-  },
-  methods: {
-    updateTextareaStyles() {
-      const { style } = this.$refs.modelTextarea
-      style.height = style.minHeight = 'auto'
-      style.minHeight = `${
-        Math.min(this.$refs.modelTextarea.scrollHeight + 4,
-          parseInt(this.maxHeight))
-      }px`
-      style.height = `${ this.$refs.modelTextarea.scrollHeight + 4 }px`
-    }
-  },
-  watch: {
-    modelValue(newValue) {
-      this.updateTextareaStyles()
-    }
-  },
-  mounted() {
-    this.updateTextareaStyles()
   }
 }
 </script>
@@ -50,18 +27,16 @@ export default {
   <div class="base-textarea">
     <div class="form-floating">
       <textarea
-        ref="modelTextarea"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        rows="1"
         :placeholder="label"
         :id="id"
         v-bind="$attrs"
         :class="['form-control', { 'is-invalid': errors.length }]"
-        :style="{ 'max-height': maxHeight + 'px' }"
+        style="min-height: 150px;"
         :aria-invalid="errors.length ? true : null"
         :aria-describedby="errors.length ? `${ id }_errors` : null"
-      ><i class="fa-solid fa-paper-plane"></i></textarea>
+      ></textarea>
       <label
         v-if="label"
         :for="id"
@@ -83,9 +58,6 @@ export default {
 </template>
 
 <style scoped>
-textarea {
-  resize: vertical;
-}
 textarea::-webkit-scrollbar {
   width: 0.2em;
 }
