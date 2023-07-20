@@ -432,40 +432,28 @@ onUnmounted(() => {
 .card-body.overflow-auto::-webkit-scrollbar {
   width: 0.3em;
 }
-.card-body.overflow-auto::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-}
-.card-body.overflow-auto::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 1em;
-}
-.card-body.overflow-auto::-webkit-scrollbar-thumb:hover {
-  background-color: #e72a26;
-}
-
-.text-sm.mb-0 {
-  white-space: pre-line;
-}
-
-.d-flex.align-items-center.border.rounded.w-100:hover,
-.d-flex.align-items-center.border.rounded.w-100:focus-within {
-  border-color: #e72a26 !important;
-}
-
 textarea {
   resize: none;
 }
 textarea::-webkit-scrollbar {
   width: 0.2em;
 }
+.card-body.overflow-auto::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
+.card-body.overflow-auto::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 1em;
 }
+.card-body.overflow-auto::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
+}
+
+.d-flex.align-items-center.border.rounded.w-100:hover,
+.d-flex.align-items-center.border.rounded.w-100:focus-within {
+  border-color: #e72a26 !important;
 }
 </style>
