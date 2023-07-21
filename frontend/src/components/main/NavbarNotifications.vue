@@ -140,11 +140,11 @@ onMounted(() => {
 <template>
   <div class="dropdown-notifications">
     <div class="dropdown">
-      <a
+      <button
         ref="dropdownNotifications"
         id="dropdown-notifications"
-        href="#"
-        class="text-decoration-none link-secondary"
+        type="button"
+        class="btn btn-link link-secondary p-0"
         data-bs-toggle="dropdown"
         data-bs-auto-close="outside"
         aria-expanded="false"
@@ -156,7 +156,7 @@ onMounted(() => {
         >
           <span class="visually-hidden">New notifications</span>
         </span>
-      </a>
+      </button>
       <ul
         ref="notificationListDropdown"
         class="dropdown-menu dropdown-menu-end border border-light shadow"
@@ -192,7 +192,7 @@ onMounted(() => {
             {{ $t('notifications.no_notifications') }}
           </div>
           <div v-if="nextURL" v-intersection-notifications></div>
-          <LoadingIndicator v-if="!notificationListLoading" />
+          <LoadingIndicator v-if="notificationListLoading" />
         </li>
       </ul>
     </div>

@@ -24,14 +24,14 @@ onMounted(() => {
 
 <template>
   <div class="navbar-search">
-    <a
-      href="#"
-      class="text-decoration-none link-secondary"
+    <button
+      type="button"
+      class="btn btn-link link-secondary p-0"
       data-bs-toggle="modal"
       data-bs-target="#searchModal"
     >
       <i class="fa-solid fa-magnifying-glass"></i>
-    </a>
+    </button>
 
     <Teleport to="body">
       <div

@@ -10,11 +10,11 @@ const { logout } = useLogout()
 <template>
   <div class="navbar-user">
     <div class="dropdown">
-      <a
+      <button
         ref="dropdownUser"
         id="dropdown-user"
-        href="#"
-        class="text-decoration-none"
+        type="button"
+        class="btn btn-link p-0"
         data-bs-toggle="dropdown"
         data-bs-auto-close="outside"
         aria-expanded="false"
@@ -25,7 +25,7 @@ const { logout } = useLogout()
           :height="32"
           alt="avatar"
         />
-      </a>
+      </button>
       <ul
         class="dropdown-menu dropdown-menu-end border border-light shadow"
         aria-labelledby="dropdown-user"
