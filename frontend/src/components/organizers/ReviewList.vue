@@ -289,7 +289,7 @@ onMounted(() => {
                     >
                       {{ reviewItem.author.name }}
                     </strong>
-                    <small>
+                    <small class="text-secondary">
                       {{ getLocaleDateTimeString(reviewItem.created_at) }}
                     </small>
                   </div>
