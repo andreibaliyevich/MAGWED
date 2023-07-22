@@ -338,20 +338,22 @@ onMounted(() => {
                 <button
                   @click="getReviewData(reviewItem.uuid)"
                   type="button"
-                  class="btn btn-light btn-sm"
+                  class="btn btn-link btn-sm link-secondary"
                   data-bs-toggle="modal"
                   data-bs-target="#updateReviewModal"
                 >
-                  <i class="fa-solid fa-pen fa-sm"></i>
+                  <i class="fa-solid fa-pen"></i>
+                  {{ $t('btn.edit') }}
                 </button>
                 <button
                   @click="oldReviewUuid = reviewItem.uuid"
-                  class="btn btn-danger btn-sm ms-1"
                   type="button"
+                  class="btn btn-link btn-sm link-secondary"
                   data-bs-toggle="modal"
                   data-bs-target="#removeReviewModalChoice"
                 >
-                  <i class="fa-solid fa-trash fa-sm"></i>
+                  <i class="fa-solid fa-trash"></i>
+                  {{ $t('btn.delete') }}
                 </button>
               </div>
             </li>
