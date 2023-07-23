@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-09 15:48+0000\n"
+"POT-Creation-Date: 2023-07-23 21:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,8 +216,8 @@ msgid "Active"
 msgstr "Активний"
 
 #: accounts/models.py:144 accounts/models.py:160 accounts/models.py:194
-#: accounts/models.py:232 social/models.py:24 social/models.py:63
-#: social/models.py:95 social/models.py:132
+#: accounts/models.py:232 reviews/models.py:20 social/models.py:21
+#: social/models.py:60 social/models.py:92
 msgid "User"
 msgstr "Користувач"
 
@@ -316,7 +316,7 @@ msgid "Profile URL"
 msgstr "URL профілю"
 
 #: accounts/models.py:299 portfolio/models.py:61 portfolio/models.py:176
-#: social/models.py:143
+#: reviews/models.py:31
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -422,7 +422,7 @@ msgstr "Переклад категорії"
 msgid "Category Translations"
 msgstr "Переклади категорій"
 
-#: blog/models.py:112 social/models.py:138 social/models.py:185
+#: blog/models.py:112 comments/models.py:28 reviews/models.py:26
 msgid "Author"
 msgstr "Автор"
 
@@ -435,7 +435,7 @@ msgstr "Назва"
 msgid "Thumbnail"
 msgstr "Ескіз"
 
-#: blog/models.py:150 blog/models.py:228 social/models.py:188
+#: blog/models.py:150 blog/models.py:228 comments/models.py:31
 msgid "Content"
 msgstr "Зміст"
 
@@ -483,6 +483,46 @@ msgstr "Зображення статей"
 #: blog/views.py:52
 msgid "Form not valid!"
 msgstr "Форма недійсна!"
+
+#: comments/apps.py:8 comments/models.py:51
+msgid "Comments"
+msgstr "Коментарі"
+
+#: comments/models.py:36 main/models.py:82 messenger/models.py:107
+#: notifications/models.py:43 portfolio/models.py:46 reviews/models.py:38
+#: social/models.py:33 social/models.py:66 social/models.py:102
+msgid "Created at"
+msgstr "Створено в"
+
+#: comments/models.py:40 messenger/models.py:111 reviews/models.py:42
+msgid "Updated at"
+msgstr "Оновлено у"
+
+#: comments/models.py:50 reviews/models.py:33
+msgid "Comment"
+msgstr "Коментарій"
+
+#: comments/permissions.py:7 reviews/permissions.py:7
+msgid "Only author have permission."
+msgstr "Дозвіл є лише у автора."
+
+#: comments/serializers.py:35
+#, fuzzy
+#| msgid "Invalid user type."
+msgid "Invalid content_type."
+msgstr "Неприпустимий тип користувача."
+
+#: comments/serializers.py:42
+#, fuzzy
+#| msgid "User with given uuid does not exist."
+msgid "Object does not exist."
+msgstr "Користувач із даним uuid не існує."
+
+#: comments/serializers.py:55
+#, fuzzy
+#| msgid "You have already left a review here."
+msgid "You have already commented here."
+msgstr "Ви вже залишали відгук."
 
 #: main/apps.py:8
 msgid "Main app"
@@ -559,12 +599,6 @@ msgstr "Українська"
 #: main/models.py:17 main/models.py:35 main/models.py:59
 msgid "Code"
 msgstr "Код"
-
-#: main/models.py:82 messenger/models.py:107 notifications/models.py:43
-#: portfolio/models.py:46 social/models.py:36 social/models.py:69
-#: social/models.py:105 social/models.py:150 social/models.py:193
-msgid "Created at"
-msgstr "Створено в"
 
 #: main/models.py:89
 msgid "Tag"
@@ -651,10 +685,6 @@ msgstr "Відправник"
 msgid "Message type"
 msgstr "Тип повідомлення"
 
-#: messenger/models.py:111 social/models.py:154 social/models.py:197
-msgid "Updated at"
-msgstr "Оновлено у"
-
 #: messenger/models.py:114 notifications/models.py:45
 msgid "Viewed"
 msgstr "Переглянуто"
@@ -708,7 +738,7 @@ msgstr "Файлові повідомлення"
 msgid "You are not a member of the conversation."
 msgstr "Ви не є учасником розмови."
 
-#: messenger/views.py:47 social/views.py:210 social/views.py:218
+#: messenger/views.py:47
 msgid "Not found."
 msgstr "Не знайдено."
 
@@ -876,6 +906,42 @@ msgstr "Вам вже сподобалося це фото!"
 msgid "You do not like this photo!"
 msgstr "Вам не подобається це фото!"
 
+#: reviews/apps.py:8 reviews/models.py:47
+msgid "Reviews"
+msgstr "Відгуки"
+
+#: reviews/choices.py:6
+msgid "5 stars"
+msgstr "5 зірок"
+
+#: reviews/choices.py:7
+msgid "4 stars"
+msgstr "4 зірки"
+
+#: reviews/choices.py:8
+msgid "3 stars"
+msgstr "3 зірки"
+
+#: reviews/choices.py:9
+msgid "2 stars"
+msgstr "2 зірки"
+
+#: reviews/choices.py:10
+msgid "1 star"
+msgstr "1 зірка"
+
+#: reviews/choices.py:12
+msgid "Choose rating"
+msgstr "Оберіть рейтинг"
+
+#: reviews/models.py:46
+msgid "Review"
+msgstr "Відгук"
+
+#: reviews/serializers.py:26
+msgid "You have already left a review here."
+msgstr "Ви вже залишали відгук."
+
 #: social/choices.py:6
 msgid "Facebook"
 msgstr "Facebook"
@@ -912,111 +978,63 @@ msgstr "Pinterest"
 msgid "VK"
 msgstr "VK"
 
-#: social/choices.py:18
-msgid "5 stars"
-msgstr "5 зірок"
-
-#: social/choices.py:19
-msgid "4 stars"
-msgstr "4 зірки"
-
-#: social/choices.py:20
-msgid "3 stars"
-msgstr "3 зірки"
-
-#: social/choices.py:21
-msgid "2 stars"
-msgstr "2 зірки"
-
-#: social/choices.py:22
-msgid "1 star"
-msgstr "1 зірка"
-
-#: social/choices.py:24
-msgid "Choose rating"
-msgstr "Оберіть рейтинг"
-
-#: social/models.py:29
+#: social/models.py:26
 msgid "Type of Link"
 msgstr "Тип посилання"
 
-#: social/models.py:31
+#: social/models.py:28
 msgid "URL of Link"
 msgstr "URL посилання"
 
-#: social/models.py:40
+#: social/models.py:37
 msgid "Social Link"
 msgstr "Соціальне посилання"
 
-#: social/models.py:41
+#: social/models.py:38
 msgid "Social Links"
 msgstr "Соціальні посилання"
 
-#: social/models.py:57
+#: social/models.py:54
 msgid "Follower"
 msgstr "Передплатник"
 
-#: social/models.py:73
+#: social/models.py:70
 msgid "Follow object"
 msgstr "Об'єкт Follow"
 
-#: social/models.py:74
+#: social/models.py:71
 msgid "Follow objects"
 msgstr "Об'єкти Follow"
 
-#: social/models.py:109
+#: social/models.py:106
 msgid "Favorite"
 msgstr "Вибране"
 
-#: social/models.py:110
+#: social/models.py:107
 msgid "Favorites"
 msgstr "Вибрані"
 
-#: social/models.py:145 social/models.py:207
-msgid "Comment"
-msgstr "Коментарій"
-
-#: social/models.py:158
-msgid "Review"
-msgstr "Відгук"
-
-#: social/models.py:159
-msgid "Reviews"
-msgstr "Відгуки"
-
-#: social/models.py:208
-msgid "Comments"
-msgstr "Коментарі"
-
-#: social/permissions.py:7
-msgid "Only author have permission."
-msgstr "Дозвіл є лише у автора."
-
-#: social/serializers.py:80
+#: social/serializers.py:75
 msgid "Wrong content type."
 msgstr ""
 
-#: social/serializers.py:87
+#: social/serializers.py:82
 msgid "Wrong object uuid."
 msgstr ""
 
-#: social/serializers.py:136
-msgid "You have already left a review here."
-msgstr "Ви вже залишали відгук."
-
-#: social/views.py:71
+#: social/views.py:60
 msgid "You have already follow this user."
 msgstr "Ви вже передплатили цього користувача."
 
-#: social/views.py:86
+#: social/views.py:75
 msgid "You do not follow this user."
 msgstr "Ви не підписані на цього користувача."
 
-#: social/views.py:123
+#: social/views.py:112
 msgid "You already have this favorite."
 msgstr "Ви вже маєте цей фаворит."
 
-#: social/views.py:142
+#: social/views.py:131
 msgid "You do not have this favorite."
 msgstr "У вас цього фаворита немає."
 
