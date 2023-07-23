@@ -16,15 +16,14 @@ const props = defineProps({
 })
 
 const reviewListLoading = ref(true)
-const newReviewSending = ref(false)
-const oldReviewUpdating = ref(false)
-
 const reviewList = ref([])
 const nextURL = ref(null)
 
+const newReviewSending = ref(false)
 const newReviewRating = ref(null)
 const newReviewComment = ref('')
 
+const oldReviewUpdating = ref(false)
 const oldReviewUuid = ref(null)
 const oldReviewRating = ref(null)
 const oldReviewComment = ref('')
@@ -38,6 +37,7 @@ const oldReviewErrors = ref(null)
 
 const updateReviewModal = ref(null)
 const updateReviewModalBootstrap = ref(null)
+const removeReviewModalChoice = ref(null)
 
 const getReviewList = async () => {
   try {
@@ -160,6 +160,9 @@ onMounted(() => {
   updateReviewModalBootstrap.value = new bootstrap.Modal(
     updateReviewModal.value
   )
+  removeReviewModalChoice.value.addEventListener('hidden.bs.modal', () => {
+    oldReviewUuid.value = null
+  })
 })
 </script>
 
@@ -455,6 +458,7 @@ onMounted(() => {
       </div>
 
       <div
+        ref="removeReviewModalChoice"
         id="removeReviewModalChoice"
         class="modal fade"
         role="dialog"
