@@ -7,7 +7,9 @@ from portfolio.serializers import (
     AlbumShortReadSerializer,
     PhotoShortReadSerializer,
 )
-from social.models import Follow, Comment, Review
+from reviews.models import Review
+from comments.models import Comment
+from social.models import Follow
 from .models import Notification
 
 

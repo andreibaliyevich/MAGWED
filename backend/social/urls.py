@@ -17,12 +17,4 @@ urlpatterns = [
         path('', views.FavoriteCreateDestroyView.as_view()),
         path('list/', views.FavoriteListView.as_view()),
     ])),
-    path('reviews/', include([
-        path('', views.ReviewListCreateView.as_view()),
-        path('<uuid:uuid>/', views.ReviewRUDView.as_view()),
-    ])),
-    path('comments/', include([
-        path('', views.CommentListCreateView.as_view()),
-        path('<uuid:uuid>/', views.CommentRUDView.as_view()),
-    ])),
 ]

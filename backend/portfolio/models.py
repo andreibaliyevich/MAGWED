@@ -66,7 +66,7 @@ class Album(models.Model):
     )
 
     comments = GenericRelation(
-        'social.Comment',
+        'comments.Comment',
         content_type_field='content_type',
         object_id_field='object_uuid',
     )
@@ -181,7 +181,7 @@ class Photo(models.Model):
     )
 
     comments = GenericRelation(
-        'social.Comment',
+        'comments.Comment',
         content_type_field='content_type',
         object_id_field='object_uuid',
     )

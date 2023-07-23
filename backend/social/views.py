@@ -1,41 +1,25 @@
 from rest_framework import generics, status
-from rest_framework.permissions import (
-    IsAuthenticated,
-    IsAuthenticatedOrReadOnly,
-)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 from accounts.permissions import UserIsOrganizer
 from accounts.serializers import UserUUIDSerializer
-from blog.models import Article
-from portfolio.models import Album, Photo
-from .filters import FollowFilter, FavoriteFilter, ReviewFilter, CommentFilter
-from .models import SocialLink, Follow, Favorite, Review, Comment
+from .filters import FollowFilter, FavoriteFilter
+from .models import SocialLink, Follow, Favorite
 from .pagination import (
     FollowPagination,
     FavoritePagination,
-    ReviewPagination,
-    CommentPagination,
 )
-from .permissions import UserIsAuthor
 from .serializers import (
     SocialLinkSerializer,
     FollowersSerializer,
     FollowingSerializer,
     FavoriteContentObjectSerializer,
     FavoriteListSerializer,
-    ReviewListCreateSerializer,
-    ReviewRUDSerializer,
-    CommentListCreateSerializer,
-    CommentRUDSerializer,
 )
-
-
-UserModel = get_user_model()
 
 
 class SocialLinkListCreateView(generics.ListCreateAPIView):
@@ -161,42 +145,3 @@ class FavoriteListView(generics.ListAPIView):
 
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user)
-
-
-class ReviewListCreateView(generics.ListCreateAPIView):
-    """ Review List Create View """
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Review.objects.all()
-    serializer_class = ReviewListCreateSerializer
-    pagination_class = ReviewPagination
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = ReviewFilter
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-
-class ReviewRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Review Retrieve Update Destroy View """
-    permission_classes = [IsAuthenticated, UserIsAuthor]
-    queryset = Review.objects.all()
-    lookup_field = 'uuid'
-    serializer_class = ReviewRUDSerializer
-
-
-class CommentListCreateView(generics.ListCreateAPIView):
-    """ Comment List Create View """
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Comment.objects.all()
-    serializer_class = CommentListCreateSerializer
-    pagination_class = CommentPagination
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = CommentFilter
-
-
-class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Comment Retrieve Update Destroy View """
-    permission_classes = [IsAuthenticated, UserIsAuthor]
-    queryset = Comment.objects.all()
-    lookup_field = 'uuid'
-    serializer_class = CommentRUDSerializer
