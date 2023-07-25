@@ -51,5 +51,8 @@ class Comment(models.Model):
         verbose_name_plural = _('Comments')
         ordering = ['created_at']
         indexes = [
-            models.Index(fields=['content_type', 'object_uuid']),
+            models.Index(
+                fields=['content_type', 'object_uuid'],
+                name='comment_index',
+            )
         ]
