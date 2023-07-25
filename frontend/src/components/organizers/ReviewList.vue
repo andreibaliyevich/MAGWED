@@ -42,7 +42,7 @@ const removeReviewModalChoice = ref(null)
 const getReviewList = async () => {
   try {
     const response = await axios.get(
-      '/social/reviews/'
+      '/reviews/'
         + '?user='
         + props.userUUID
     )
@@ -81,7 +81,7 @@ const setReviewRatingOptions = () => {
 const sendReview = async () => {
   newReviewSending.value = true
   try {
-    const response = await axios.post('/social/reviews/', {
+    const response = await axios.post('/reviews/', {
       user: props.userUUID,
       rating: newReviewRating.value,
       comment: newReviewComment.value
@@ -99,7 +99,7 @@ const sendReview = async () => {
 
 const getReviewData = async (rUuid) => {
   try {
-    const response = await axios.get('/social/reviews/' + rUuid +'/')
+    const response = await axios.get('/reviews/' + rUuid +'/')
     oldReviewUuid.value = response.data.uuid
     oldReviewRating.value = response.data.rating
     oldReviewComment.value = response.data.comment
@@ -112,7 +112,7 @@ const updateReview = async () => {
   oldReviewUpdating.value = true
   try {
     const response = await axios.put(
-      '/social/reviews/'
+      '/reviews/'
         + oldReviewUuid.value
         +'/',
       {
@@ -136,7 +136,7 @@ const updateReview = async () => {
 
 const removeReview = async () => {
   try {
-    const response = axios.delete('/social/reviews/' + oldReviewUuid.value +'/')
+    const response = axios.delete('/reviews/' + oldReviewUuid.value +'/')
     reviewList.value = reviewList.value.filter((element) => {
       return element.uuid != oldReviewUuid.value
     })
