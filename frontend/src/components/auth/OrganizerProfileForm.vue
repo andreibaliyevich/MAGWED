@@ -259,7 +259,6 @@ onMounted(() => {
           v-model="website"
           type="url"
           maxlength="200"
-          required=""
           id="id_website"
           name="website"
           :label="$t('profile.website')"
