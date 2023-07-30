@@ -413,7 +413,7 @@ onUnmounted(() => {
               @click="sendMessage()"
               type="button"
               class="btn btn-link"
-              :disabled="!message"
+              :disabled="!convoSocketConnect || !message"
             >
               <i class="fa-solid fa-paper-plane"></i>
             </button>
