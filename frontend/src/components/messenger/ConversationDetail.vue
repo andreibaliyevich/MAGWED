@@ -120,7 +120,7 @@ const openConvoSocket = async () => {
   }
 }
 
-const closeConversation = () => {
+const closeConvoSocket = () => {
   if (convoSocket.value) {
     convoSocket.value.close()
   }
@@ -237,7 +237,7 @@ const vIntersectionMessage = {
 
 watch(() => props.conversation, (newValue) => {
   messageList.value = []
-  closeConversation()
+  closeConvoSocket()
   getMessageList()
   openConvoSocket()
 })
@@ -254,7 +254,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  closeConversation()
+  closeConvoSocket()
 })
 </script>
 
