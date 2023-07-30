@@ -1,10 +1,10 @@
 from contextlib import suppress
 from exif import Image as ExifImage
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
 from accounts.permissions import UserIsOrganizer
 from .filters import AlbumFilter, PhotoFilter
 from .models import Album, Photo

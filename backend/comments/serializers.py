@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
 from blog.models import Article
@@ -50,9 +49,9 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
                 content_object=self.content_object,
                 content=validated_data['content'],
             )
-        except IntegrityError:
+        except:
             raise serializers.ValidationError({
-                'create': _('You have already commented here.')})
+                'create': _('Failed to create comment.')})
         return comment
 
     class Meta:

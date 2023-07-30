@@ -14,7 +14,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         self.convo_group_name = f'convo-{self.convo_uuid}'
         self.conversation = await self.get_conversation()
 
-        if self.conversation and await self.check_is_member():
+        if self.conversation is not None and await self.check_is_member():
             await self.channel_layer.group_add(
                 self.convo_group_name,
                 self.channel_name,
@@ -58,9 +58,10 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
     @database_sync_to_async
     def get_conversation(self):
         try:
-            return Conversation.objects.get(uuid=self.convo_uuid)
+            convo = Conversation.objects.get(uuid=self.convo_uuid)
         except Conversation.DoesNotExist:
             return None
+        return convo
 
     @database_sync_to_async
     def check_is_member(self):
