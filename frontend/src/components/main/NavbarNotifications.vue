@@ -12,8 +12,8 @@ const notificationList = ref([])
 const nextURL = ref(null)
 const countNotViewed = ref(0)
 
-const notificationsSocket = ref(null)
-const notificationsSocketConnect = ref(null)
+const notificationSocket = ref(null)
+const notificationSocketConnect = ref(null)
 
 const notificationListDropdown = ref(null)
 
@@ -53,15 +53,15 @@ const getMoreNotificationList = async () => {
 }
 
 const connectSocket = async () => {
-  notificationsSocket.value = new WebSocket(
+  notificationSocket.value = new WebSocket(
     WS_URL
     + '/ws/notifications/?'
     + userStore.token
   )
-  notificationsSocket.value.onopen = (event) => {
-    notificationsSocketConnect.value = true
+  notificationSocket.value.onopen = (event) => {
+    notificationSocketConnect.value = true
   }
-  notificationsSocket.value.onmessage = (event) => {
+  notificationSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
     if (data.action == 'created') {
       notificationList.value.unshift(data.notice)
@@ -82,18 +82,18 @@ const connectSocket = async () => {
       }
     }
   }
-  notificationsSocket.value.onclose = (event) => {
-    notificationsSocket.value = null
-    notificationsSocketConnect.value = false
+  notificationSocket.value.onclose = (event) => {
+    notificationSocket.value = null
+    notificationSocketConnect.value = false
   }
-  notificationsSocket.value.onerror = (error) => {
-    notificationsSocket.value = null
-    notificationsSocketConnect.value = false
+  notificationSocket.value.onerror = (error) => {
+    notificationSocket.value = null
+    notificationSocketConnect.value = false
   }
 }
 
 const setNoticeViewed = (notice_uuid) => {
-  notificationsSocket.value.send(JSON.stringify({
+  notificationSocket.value.send(JSON.stringify({
     'notice_uuid': notice_uuid
   }))
 }
@@ -173,7 +173,7 @@ onMounted(() => {
               class="list-group-item list-group-item-action"
             >
               <NavbarNotice
-                v-if="notice.viewed || !notificationsSocketConnect"
+                v-if="notice.viewed || !notificationSocketConnect"
                 :notice="notice"
                 @clickLink="$refs.dropdownNotifications.click()"
               />

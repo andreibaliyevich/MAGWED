@@ -4,23 +4,23 @@ from .models import Notification
 from .serializers import NotificationListSerializer
 
 
-class NotificationsConsumer(AsyncJsonWebsocketConsumer):
-    """ Notifications Consumer """
+class NotificationConsumer(AsyncJsonWebsocketConsumer):
+    """ Notification Consumer """
 
     async def connect(self):
         self.user = self.scope['user']
-        self.notifications_group_name = f'notifications-{self.user.uuid}'
+        self.notification_group_name = f'notification-{self.user.uuid}'
 
         if self.user.is_authenticated:
             await self.channel_layer.group_add(
-                self.notifications_group_name,
+                self.notification_group_name,
                 self.channel_name,
             )
             await self.accept()
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
-            self.notifications_group_name,
+            self.notification_group_name,
             self.channel_name,
         )
 
