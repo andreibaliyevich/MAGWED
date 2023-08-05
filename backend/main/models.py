@@ -138,7 +138,7 @@ class Magazine(models.Model):
     )
 
     def __str__(self):
-        return f'{ self.title } | { self.published_at }'
+        return f'{self.title} | {self.published_at}'
 
     class Meta:
         verbose_name = _('Magazine')

@@ -130,7 +130,7 @@ class MWUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email', 'name']
 
     def __str__(self):
-        return f'{ self.username } | { self.email }'
+        return f'{self.username} | {self.email}'
 
     def clean(self):
         super().clean()
