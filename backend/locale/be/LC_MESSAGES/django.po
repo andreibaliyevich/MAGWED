@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 21:20+0000\n"
+"POT-Creation-Date: 2023-08-05 08:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -505,23 +505,17 @@ msgstr "Каментарый"
 msgid "Only author have permission."
 msgstr "Дазвол ёсць толькі ў аўтара."
 
-#: comments/serializers.py:35
-#, fuzzy
-#| msgid "Invalid user type."
-msgid "Invalid content_type."
-msgstr "Недапушчальны тып карыстальніка."
+#: comments/serializers.py:34
+msgid "Invalid content type."
+msgstr "Недапушчальны тып кантэнту."
 
-#: comments/serializers.py:42
-#, fuzzy
-#| msgid "User with given uuid does not exist."
+#: comments/serializers.py:41
 msgid "Object does not exist."
-msgstr "Карыстальнік з дадзеным uuid не існуе."
+msgstr "Аб'ект не існуе."
 
-#: comments/serializers.py:55
-#, fuzzy
-#| msgid "You have already left a review here."
-msgid "You have already commented here."
-msgstr "Вы ўжо пакідалі водгук тут."
+#: comments/serializers.py:54
+msgid "Failed to create comment."
+msgstr "Не ўдалося стварыць каментар."
 
 #: main/apps.py:8
 msgid "Main app"
@@ -897,11 +891,11 @@ msgstr "Вам ужо спадабаўся гэты альбом!"
 msgid "You do not like this album!"
 msgstr "Вам не падабаецца гэты альбом!"
 
-#: portfolio/views.py:238
+#: portfolio/views.py:240
 msgid "You already liked this photo!"
 msgstr "Вам ужо спадабалася гэтае фота!"
 
-#: portfolio/views.py:253
+#: portfolio/views.py:255
 msgid "You do not like this photo!"
 msgstr "Вам не падабаецца гэтае фота!"
 

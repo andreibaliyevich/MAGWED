@@ -31,7 +31,7 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
             object_class = Comment
         else:
             raise serializers.ValidationError({
-                'content_type': _('Invalid content_type.')})
+                'content_type': _('Invalid content type.')})
 
         try:
             self.content_object = object_class.objects.get(
