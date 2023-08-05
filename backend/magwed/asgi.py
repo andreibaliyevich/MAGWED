@@ -13,6 +13,7 @@ from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 from accounts.middleware import WebSocketAuthMiddleware
 import accounts.routing
+import comments.routing
 import messenger.routing
 import notifications.routing
 
@@ -25,6 +26,7 @@ application = ProtocolTypeRouter({
         WebSocketAuthMiddleware(
             URLRouter(
                 accounts.routing.websocket_urlpatterns
+                + comments.routing.websocket_urlpatterns
                 + messenger.routing.websocket_urlpatterns
                 + notifications.routing.websocket_urlpatterns
             )

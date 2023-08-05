@@ -1,15 +1,21 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import (
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
+from rest_framework.response import Response
 from django.contrib.contenttypes.models import ContentType
 from .filters import CommentFilter
 from .models import Comment
 from .pagination import CommentPagination
 from .permissions import UserIsAuthor
 from .serializers import CommentListCreateSerializer, CommentRUDSerializer
+
+
+channel_layer = get_channel_layer()
 
 
 class CommentListCreateView(generics.ListCreateAPIView):
@@ -21,6 +27,33 @@ class CommentListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = CommentFilter
 
+    def get_content_type_object_uuid(self, instance):
+        if instance.content_type.model == 'comment':
+            return self.get_content_object(instance.content_object)
+        else:
+            return (instance.content_type.model, instance.object_uuid)
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+
+        content_type, object_uuid = self.get_content_type_object_uuid(instance)
+        async_to_sync(channel_layer.group_send)(
+            f'comment-{content_type}-{object_uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'create',
+                'data': serializer.data,
+            }
+        )
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(status=status.HTTP_201_CREATED, headers=headers)
+
 
 class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
     """ Comment Retrieve Update Destroy View """
@@ -28,3 +61,52 @@ class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     lookup_field = 'uuid'
     serializer_class = CommentRUDSerializer
+
+    def get_content_type_object_uuid(self, instance):
+        if instance.content_type.model == 'comment':
+            return self.get_content_object(instance.content_object)
+        else:
+            return (instance.content_type.model, instance.object_uuid)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance,
+            data=request.data,
+            partial=partial,
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        content_type, object_uuid = self.get_content_type_object_uuid(instance)
+        async_to_sync(channel_layer.group_send)(
+            f'comment-{content_type}-{object_uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'update',
+                'data': serializer.data,
+            }
+        )
+
+        return Response(status=status.HTTP_200_OK)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance_uuid = instance.uuid
+        content_type, object_uuid = self.get_content_type_object_uuid(instance)
+        self.perform_destroy(instance)
+
+        async_to_sync(channel_layer.group_send)(
+            f'comment-{content_type}-{object_uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'destroy',
+                'data': str(instance_uuid),
+            }
+        )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
