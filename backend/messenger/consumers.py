@@ -43,13 +43,13 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         await self.channel_layer.group_send(
             self.convo_group_name,
             {
-                'type': 'conversation_message',
+                'type': 'send_json_data',
                 'action': content['action'],
                 'data': data,
             }
         )
 
-    async def conversation_message(self, event):
+    async def send_json_data(self, event):
         await self.send_json({
             'action': event['action'],
             'data': event['data'],

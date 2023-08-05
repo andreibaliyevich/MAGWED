@@ -34,7 +34,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
             'notice_viewed': notice_viewed,
         })
 
-    async def send_notice(self, event):
+    async def send_json_data(self, event):
         await self.send_json({
             'action': event['action'],
             'notice': event['notice'],

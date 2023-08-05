@@ -21,9 +21,9 @@ def send_notification(notice, action):
         notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{url}'
 
     async_to_sync(channel_layer.group_send)(
-        f'notifications_{notice.recipient.uuid}',
+        f'notifications-{notice.recipient.uuid}',
         {
-            'type': 'send_notice',
+            'type': 'send_json_data',
             'action': action,
             'notice': notice_data,
         }
