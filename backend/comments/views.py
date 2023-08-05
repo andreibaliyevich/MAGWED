@@ -29,7 +29,7 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
     def get_content_type_object_uuid(self, instance):
         if instance.content_type.model == 'comment':
-            return self.get_content_object(instance.content_object)
+            return self.get_content_type_object_uuid(instance.content_object)
         else:
             return (instance.content_type.model, instance.object_uuid)
 
@@ -64,7 +64,7 @@ class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_content_type_object_uuid(self, instance):
         if instance.content_type.model == 'comment':
-            return self.get_content_object(instance.content_object)
+            return self.get_content_type_object_uuid(instance.content_object)
         else:
             return (instance.content_type.model, instance.object_uuid)
 
