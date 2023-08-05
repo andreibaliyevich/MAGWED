@@ -8,7 +8,7 @@ export function useLogout() {
     axios.post('/accounts/auth/logout/')
     .then(() => {
       window.localStorage.removeItem('user')
-      window.location.assign(`/${ locale.value }`)
+      window.location.assign(`/${locale.value}`)
     })
   }
 

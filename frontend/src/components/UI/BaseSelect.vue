@@ -37,7 +37,7 @@ export default {
         v-bind="$attrs"
         :class="['form-select', { 'is-invalid': errors.length }]"
         :aria-invalid="errors.length ? true : null"
-        :aria-describedby="errors.length ? `${ id }_errors` : null"
+        :aria-describedby="errors.length ? `${id}_errors` : null"
       >
         <option disabled value="">{{ $t('form_help.select_option') }}</option>
         <option
@@ -57,7 +57,7 @@ export default {
       </label>
       <div
         v-if="errors.length"
-        :id="`${ id }_errors`"
+        :id="`${id}_errors`"
         class="invalid-feedback"
         aria-live="assertive"
       >

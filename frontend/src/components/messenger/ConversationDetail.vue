@@ -188,10 +188,12 @@ const updateTextareaStyles = () => {
   const { style } = msgTextarea.value
   style.height = style.minHeight = 'auto'
   style.minHeight = `${
-    Math.min(msgTextarea.value.scrollHeight,
-      parseInt(style.maxHeight))
+    Math.min(
+      msgTextarea.value.scrollHeight,
+      parseInt(style.maxHeight)
+    )
   }px`
-  style.height = `${ msgTextarea.value.scrollHeight }px`
+  style.height = `${msgTextarea.value.scrollHeight}px`
 }
 
 const updateUserStatus = (mutation, state) => {

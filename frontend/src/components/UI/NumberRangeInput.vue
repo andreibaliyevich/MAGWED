@@ -65,7 +65,7 @@ export default {
       v-bind="$attrs"
       class="row p-1 g-1"
       :aria-invalid="errors.length ? true : null"
-      :aria-describedby="errors.length ? `${ id }_errors` : null"
+      :aria-describedby="errors.length ? `${id}_errors` : null"
     >
       <div class="col-6">
         <div class="input-group input-group-sm">
@@ -77,8 +77,8 @@ export default {
             :min="min"
             :max="maxValue"
             :step="step"
-            :id="`${ id }_min`"
-            :name="`${ name }_min`"
+            :id="`${id}_min`"
+            :name="`${name}_min`"
             class="form-control"
           >
         </div>
@@ -93,8 +93,8 @@ export default {
             :min="minValue"
             :max="max"
             :step="step"
-            :id="`${ id }_max`"
-            :name="`${ name }_max`"
+            :id="`${id}_max`"
+            :name="`${name}_max`"
             class="form-control"
           >
         </div>
@@ -102,7 +102,7 @@ export default {
     </div>
     <div
       v-if="errors.length"
-      :id="`${ id }_errors`"
+      :id="`${id}_errors`"
       class="invalid-feedback"
       aria-live="assertive"
     >

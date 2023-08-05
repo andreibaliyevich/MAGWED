@@ -42,14 +42,14 @@ if (currency) {
 const userString = window.localStorage.getItem('user')
 if (userString) {
   const userData = JSON.parse(userString)
-  axios.defaults.headers.common['Authorization'] = `Token ${ userData.token }`
+  axios.defaults.headers.common['Authorization'] = `Token ${userData.token}`
   userStore.setUserData(userData)
 }
 
 onMounted(async () => {
-  let connectionSocketURL = `${WS_URL}/ws/connection/${ deviceUUID.value }/`
+  let connectionSocketURL = `${WS_URL}/ws/connection/${deviceUUID.value}/`
   if (userStore.isLoggedIn) {
-    connectionSocketURL += `?${ userStore.token }`
+    connectionSocketURL += `?${userStore.token}`
   }
   connectionSocket.value = new WebSocket(connectionSocketURL)
   connectionSocket.value.onmessage = (event) => {

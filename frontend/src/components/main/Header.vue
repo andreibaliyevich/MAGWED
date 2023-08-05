@@ -94,7 +94,7 @@ const changeCurrency = (event) => {
             aria-expanded="false"
           >
             <img
-              :src="`/flags/${ $i18n.locale }.png`"
+              :src="`/flags/${$i18n.locale}.png`"
               width="20"
               :alt="$i18n.locale"
             >
@@ -133,7 +133,7 @@ const changeCurrency = (event) => {
                 class="dropdown-item"
                 >
                 <img
-                  :src="`/flags/${ language.value }.png`"
+                  :src="`/flags/${language.value}.png`"
                   width="20"
                   :alt="language.value"
                 >

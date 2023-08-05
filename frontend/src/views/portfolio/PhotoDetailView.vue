@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
+import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
@@ -333,9 +334,12 @@ onMounted(() => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
+      <CommentList
+        contentType="photo"
+        :objectUUID="photoData.uuid"
+      />
     </div>
   </div>
 </template>

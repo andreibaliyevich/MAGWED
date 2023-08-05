@@ -146,7 +146,7 @@ onMounted(() => {
                 class="col"
               >
                 <span class="badge text-bg-light">
-                  {{ $t(`roles.${ roleValue }`) }}
+                  {{ $t(`roles.${roleValue}`) }}
                 </span>
               </div>
             </div>
@@ -193,8 +193,8 @@ onMounted(() => {
             class="list-inline-item ms-3"
           >
             <i class="fa-solid fa-location-dot me-1"></i>
-            {{ $t(`cities.${ organizerData.user.city }`) }},
-            {{ $t(`countries.${ organizerData.user.country }`) }}
+            {{ $t(`cities.${organizerData.user.city}`) }},
+            {{ $t(`countries.${organizerData.user.country}`) }}
           </li>
           <li
             v-if="organizerData.user.phone"
@@ -202,7 +202,7 @@ onMounted(() => {
           >
             <i class="fa-solid fa-phone me-1"></i>
             <a
-              :href="`tel:${ organizerData.user.phone }`"
+              :href="`tel:${organizerData.user.phone}`"
               class="text-decoration-none link-dark"
             >
               {{ organizerData.user.phone }}
@@ -243,7 +243,7 @@ onMounted(() => {
               :key="countryValue"
               class="badge text-bg-light fw-normal ms-1"
             >
-              {{ $t(`countries.${ countryValue }`) }}
+              {{ $t(`countries.${countryValue}`) }}
             </span>
           </li>
           <li
@@ -257,7 +257,7 @@ onMounted(() => {
               :key="cityValue"
               class="badge text-bg-light fw-normal ms-1"
             >
-              {{ $t(`cities.${ cityValue }`) }}
+              {{ $t(`cities.${cityValue}`) }}
             </span>
           </li>
           <li
@@ -271,7 +271,7 @@ onMounted(() => {
               :key="languageValue"
               class="badge text-bg-light fw-normal ms-1"
             >
-              {{ $t(`languages.${ languageValue }`) }}
+              {{ $t(`languages.${languageValue}`) }}
             </span>
           </li>
           <li

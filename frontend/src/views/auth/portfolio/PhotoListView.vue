@@ -138,7 +138,7 @@ onMounted(() => {
                   :aria-valuenow="photosUploadStatusRound"
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  :style="`width: ${ photosUploadStatusRound }%`"
+                  :style="`width: ${photosUploadStatusRound}%`"
                 >{{ photosUploadStatusRound }}%</div>
               </div>
             </div>
