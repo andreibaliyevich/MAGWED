@@ -157,17 +157,19 @@ class PhotoListCreateView(generics.ListCreateAPIView):
 
         exif_img = ExifImage(self.request.data['image'])
         with suppress(Exception):
-            extra_data['device'] = f'{ exif_img.make } { exif_img.model }'
+            extra_data['device'] = f'{exif_img.make} {exif_img.model}'
         with suppress(Exception):
             extra_data['f_number'] = exif_img.f_number
         with suppress(Exception):
-            exposure_time = f'1/{ int(1 / float(exif_img.exposure_time)) }'
-            extra_data['exposure_time'] = exposure_time
+            extra_data['exposure_time'] = f'''1/{
+                int(1 / float(exif_img.exposure_time))
+            }'''
         with suppress(Exception):
             extra_data['focal_length'] = exif_img.focal_length
         with suppress(Exception):
-            photographic_sensitivity = exif_img.photographic_sensitivity
-            extra_data['photographic_sensitivity'] = photographic_sensitivity
+            extra_data['photographic_sensitivity'] = f'''{
+                exif_img.photographic_sensitivity
+            }'''
 
         serializer.save(**extra_data)
 

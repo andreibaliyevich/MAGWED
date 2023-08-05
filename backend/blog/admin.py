@@ -73,7 +73,7 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = (ArticleTranslationInline,)
 
     def get_preview(self, obj):
-        return mark_safe(f'<img src="{ obj.thumbnail.url }" height="100">')
+        return mark_safe(f'<img src="{obj.thumbnail.url}" height="100">')
     get_preview.short_description = _('Preview')
 
 
@@ -84,5 +84,5 @@ class ArticleImageAdmin(admin.ModelAdmin):
     readonly_fields = ('get_preview',)
 
     def get_preview(self, obj):
-        return mark_safe(f'<img src="{ obj.file.url }" height="100">')
+        return mark_safe(f'<img src="{obj.file.url}" height="100">')
     get_preview.short_description = _('Preview')

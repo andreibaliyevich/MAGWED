@@ -47,6 +47,6 @@ def article_upload_image(request):
         article_image = ArticleImage()
         article_image.file = request.FILES['file']
         article_image.save()
-        return JsonResponse({ 'location': article_image.file.url })
+        return JsonResponse({'location': article_image.file.url})
     else:
         return HttpResponse(_('Form not valid!'), status=400)

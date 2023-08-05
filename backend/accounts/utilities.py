@@ -25,4 +25,4 @@ def get_avatar_path(instance, filename):
     """ Get path of avatar """
     filepath = timezone.now().strftime('%Y/%m/%d/%H%M%S%f')
     file_ext = splitext(filename)[1].lower()
-    return f'avatars/{ filepath }{ file_ext }'
+    return f'avatars/{filepath}{file_ext}'

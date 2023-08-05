@@ -19,18 +19,18 @@ def get_cover_path(instance, filename):
     """ Get path of cover """
     filepath = timezone.now().strftime('%Y/%m/%d/%H%M%S%f')
     file_ext = splitext(filename)[1].lower()
-    return f'covers/{ filepath }{ file_ext }'
+    return f'covers/{filepath}{file_ext}'
 
 
 def get_thumbnail_path(instance, filename):
     """ Get path of thumbnail """
     filepath = timezone.now().strftime('%Y/%m/%d/%H%M%S%f')
     file_ext = splitext(filename)[1].lower()
-    return f'thumbnails/{ filepath }{ file_ext }'
+    return f'thumbnails/{filepath}{file_ext}'
 
 
 def get_magazine_path(instance, filename):
     """ Get path of Magazine """
     filepath = timezone.now().strftime('%Y/%m-%d-%H%M%S%f')
     file_ext = splitext(filename)[1].lower()
-    return f'magazines/{ filepath }{ file_ext }'
+    return f'magazines/{filepath}{file_ext}'

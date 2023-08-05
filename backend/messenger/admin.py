@@ -37,7 +37,7 @@ class ImageMessageInline(admin.TabularInline):
     readonly_fields = ('get_preview',)
 
     def get_preview(self, obj):
-        return mark_safe(f'<img src="{ obj.content.url }" height="100">')
+        return mark_safe(f'<img src="{obj.content.url}" height="100">')
     get_preview.short_description = _('Preview')
 
 
