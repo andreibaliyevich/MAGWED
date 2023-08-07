@@ -97,17 +97,6 @@ const sendReview = async () => {
   }
 }
 
-const getReviewData = async (rUuid) => {
-  try {
-    const response = await axios.get('/reviews/' + rUuid +'/')
-    oldReviewUuid.value = response.data.uuid
-    oldReviewRating.value = response.data.rating
-    oldReviewComment.value = response.data.comment
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 const updateReview = async () => {
   oldReviewUpdating.value = true
   try {
@@ -339,7 +328,11 @@ onMounted(() => {
                 class="d-flex justify-content-end"
               >
                 <button
-                  @click="getReviewData(reviewItem.uuid)"
+                  @click="() => {
+                    oldReviewUuid = reviewItem.uuid
+                    oldReviewRating = reviewItem.rating
+                    oldReviewComment = reviewItem.comment
+                  }"
                   type="button"
                   class="btn btn-link btn-sm link-secondary"
                   data-bs-toggle="modal"
