@@ -62,17 +62,6 @@ const addSocialLink = async () => {
   }
 }
 
-const getSocialLinkData = async (olUuid) => {
-  try {
-    const response = await axios.get('/social/links/' + olUuid +'/')
-    socialLinkUuid.value = response.data.uuid
-    socialLinkType.value = response.data.link_type
-    socialLinkUrl.value = response.data.link_url
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 const updateSocialLink = async () => {
   socialLinkListUpdating.value = true
   try {
@@ -220,7 +209,11 @@ onMounted(() => {
             </div>
             <div class="col-3 col-md-2 d-flex justify-content-end">
               <button
-                @click="getSocialLinkData(socialLinkItem.uuid)"
+                @click="() => {
+                  socialLinkUuid = socialLinkItem.uuid
+                  socialLinkType = socialLinkItem.link_type
+                  socialLinkUrl = socialLinkItem.link_url
+                }"
                 type="button"
                 class="btn btn-light btn-sm"
                 data-bs-toggle="modal"
