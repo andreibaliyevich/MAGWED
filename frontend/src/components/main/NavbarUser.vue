@@ -11,7 +11,7 @@ const { logout } = useLogout()
   <div class="navbar-user">
     <div class="dropdown">
       <button
-        ref="dropdownUser"
+        ref="userDropdown"
         id="dropdown-user"
         type="button"
         class="btn btn-link p-0"
@@ -49,7 +49,7 @@ const { logout } = useLogout()
           </div>
           <LocaleRouterLink
             routeName="Profile"
-            @click="$refs.dropdownUser.click()"
+            @click="$refs.userDropdown.click()"
             class="btn btn-soft-brand btn-sm text-center w-100"
           >
             {{ $t('profile.edit_profile') }}
@@ -58,7 +58,7 @@ const { logout } = useLogout()
         <li>
           <LocaleRouterLink
             routeName="Messenger"
-            @click="$refs.dropdownUser.click()"
+            @click="$refs.userDropdown.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-message"></i>
@@ -67,7 +67,7 @@ const { logout } = useLogout()
           <LocaleRouterLink
             v-if="userStore.userType == userType.ORGANIZER"
             routeName="Followers"
-            @click="$refs.dropdownUser.click()"
+            @click="$refs.userDropdown.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-users"></i>
@@ -75,7 +75,7 @@ const { logout } = useLogout()
           </LocaleRouterLink>
           <LocaleRouterLink
             routeName="Following"
-            @click="$refs.dropdownUser.click()"
+            @click="$refs.userDropdown.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-user-group"></i>
@@ -83,7 +83,7 @@ const { logout } = useLogout()
           </LocaleRouterLink>
           <LocaleRouterLink
             routeName="Favorites"
-            @click="$refs.dropdownUser.click()"
+            @click="$refs.userDropdown.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-star"></i>
@@ -91,7 +91,7 @@ const { logout } = useLogout()
           </LocaleRouterLink>
           <LocaleRouterLink
             routeName="Home"
-            @click="$refs.dropdownUser.click()"
+            @click="$refs.userDropdown.click()"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-comment-dots"></i>
