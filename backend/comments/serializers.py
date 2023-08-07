@@ -10,7 +10,13 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
     """ Comment List Create Serializer """
     content_type = serializers.CharField(write_only=True)
     object_uuid = serializers.UUIDField(write_only=True)
+    comment_uuid = serializers.SerializerMethodField()
     author = UserShortReadSerializer(read_only=True)
+
+    def get_comment_uuid(self, obj):
+        if obj.content_type.model == 'comment':
+            return str(obj.object_uuid)
+        return None
 
     def get_fields(self):
         fields = super().get_fields()
@@ -60,6 +66,7 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
             'uuid',
             'content_type',
             'object_uuid',
+            'comment_uuid',
             'author',
             'content',
             'created_at',
