@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status
+from rest_framework import generics, mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -34,14 +34,23 @@ class SocialLinkListCreateView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class SocialLinkRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Social Link Retrieve Update Destroy View """
+class SocialLinkUpdateDestroyView(
+        mixins.UpdateModelMixin,
+        mixins.DestroyModelMixin,
+        generics.GenericAPIView):
+    """ Social Link Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
     lookup_field = 'uuid'
     serializer_class = SocialLinkSerializer
 
     def get_queryset(self):
         return SocialLink.objects.filter(user=self.request.user)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class FollowCreateDestroyView(APIView):

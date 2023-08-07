@@ -7,7 +7,7 @@ app_name = 'social'
 urlpatterns = [
     path('links/', include([
         path('', views.SocialLinkListCreateView.as_view()),
-        path('<uuid:uuid>/', views.SocialLinkRUDView.as_view()),
+        path('<uuid:uuid>/', views.SocialLinkUpdateDestroyView.as_view()),
     ])),
     path('follow/', include([
         path('', views.FollowCreateDestroyView.as_view()),
