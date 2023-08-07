@@ -67,8 +67,8 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
         ]
 
 
-class CommentRUDSerializer(serializers.ModelSerializer):
-    """ Comment Retrieve Update Destroy Serializer """
+class CommentUpdateDestroySerializer(serializers.ModelSerializer):
+    """ Comment Update Destroy Serializer """
 
     class Meta:
         model = Comment

@@ -1,7 +1,7 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status
+from rest_framework import generics, mixins, status
 from rest_framework.permissions import (
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
@@ -12,7 +12,10 @@ from .filters import CommentFilter
 from .models import Comment
 from .pagination import CommentPagination
 from .permissions import UserIsAuthor
-from .serializers import CommentListCreateSerializer, CommentRUDSerializer
+from .serializers import (
+    CommentListCreateSerializer,
+    CommentUpdateDestroySerializer,
+)
 
 
 channel_layer = get_channel_layer()
@@ -55,12 +58,15 @@ class CommentListCreateView(generics.ListCreateAPIView):
         return Response(status=status.HTTP_201_CREATED, headers=headers)
 
 
-class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
-    """ Comment Retrieve Update Destroy View """
+class CommentUpdateDestroyView(
+        mixins.UpdateModelMixin,
+        mixins.DestroyModelMixin,
+        generics.GenericAPIView):
+    """ Comment Update Destroy View """
     permission_classes = [IsAuthenticated, UserIsAuthor]
     queryset = Comment.objects.all()
     lookup_field = 'uuid'
-    serializer_class = CommentRUDSerializer
+    serializer_class = CommentUpdateDestroySerializer
 
     def get_content_type_object_uuid(self, instance):
         if instance.content_type.model == 'comment':
@@ -94,6 +100,9 @@ class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
 
         return Response(status=status.HTTP_200_OK)
 
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance_uuid = instance.uuid
@@ -110,3 +119,6 @@ class CommentRUDView(generics.RetrieveUpdateDestroyAPIView):
         )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

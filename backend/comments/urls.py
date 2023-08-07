@@ -6,5 +6,5 @@ app_name = 'comments'
 
 urlpatterns = [
     path('', views.CommentListCreateView.as_view()),
-    path('<uuid:uuid>/', views.CommentRUDView.as_view()),
+    path('<uuid:uuid>/', views.CommentUpdateDestroyView.as_view()),
 ]
