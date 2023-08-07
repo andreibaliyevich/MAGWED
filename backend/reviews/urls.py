@@ -6,5 +6,5 @@ app_name = 'reviews'
 
 urlpatterns = [
     path('', views.ReviewListCreateView.as_view()),
-    path('<uuid:uuid>/', views.ReviewRUDView.as_view()),
+    path('<uuid:uuid>/', views.ReviewUpdateDestroyView.as_view()),
 ]

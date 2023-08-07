@@ -38,8 +38,8 @@ class ReviewListCreateSerializer(serializers.ModelSerializer):
         ]
 
 
-class ReviewRUDSerializer(serializers.ModelSerializer):
-    """ Review Retrieve Update Destroy Serializer """
+class ReviewUpdateDestroySerializer(serializers.ModelSerializer):
+    """ Review Update Destroy Serializer """
 
     class Meta:
         model = Review
