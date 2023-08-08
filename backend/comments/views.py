@@ -30,11 +30,15 @@ class CommentListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = CommentFilter
 
+    def get_comment_uuid(self, instance):
+        if instance.content_type.model == 'comment':
+            return str(instance.object_uuid)
+        return None
+
     def get_content_type_object_uuid(self, instance):
         if instance.content_type.model == 'comment':
             return self.get_content_type_object_uuid(instance.content_object)
-        else:
-            return (instance.content_type.model, instance.object_uuid)
+        return (instance.content_type.model, instance.object_uuid)
 
     def perform_create(self, serializer):
         return serializer.save()
@@ -50,7 +54,10 @@ class CommentListCreateView(generics.ListCreateAPIView):
             {
                 'type': 'send_json_data',
                 'action': 'create',
-                'data': serializer.data,
+                'data': {
+                    'comment_uuid': self.get_comment_uuid(instance),
+                    'instance': serializer.data,
+                },
             }
         )
 
@@ -71,8 +78,7 @@ class CommentUpdateDestroyView(
     def get_content_type_object_uuid(self, instance):
         if instance.content_type.model == 'comment':
             return self.get_content_type_object_uuid(instance.content_object)
-        else:
-            return (instance.content_type.model, instance.object_uuid)
+        return (instance.content_type.model, instance.object_uuid)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
