@@ -233,6 +233,14 @@
         "add_to_favourites": "Додати в обране",
         "remove_from_favourites": "Видалити з вибраного"
     },
+    "comments": {
+        "comments": "Коментарі",
+        "add_comment": "Додати коментар...",
+        "updating_comment": "Оновлення коментаря",
+        "content": "Зміст",
+        "you_want_remove_comment": "Ви впевнені, що хочете видалити свій коментар?",
+        "you_can_update_this_comment": "Ви можете оновити цей коментар."
+    },
     "notifications": {
         "notifications": "Сповіщення",
         "no_notifications": "Повідомлень немає!",
@@ -317,8 +325,11 @@
         "add": "Додати",
         "create": "Створити",
         "update": "Оновити",
+        "edit": "Редагувати",
         "delete": "Видалити",
         "loading": "Завантаження...",
+        "reply": "Відповісти",
+        "report": "Поскаржитись",
         "reset": "Скинути",
         "show": "Показати",
         "send": "Відправити",

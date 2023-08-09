@@ -233,6 +233,14 @@
         "add_to_favourites": "Дадаць у абранае",
         "remove_from_favourites": "Выдаліць з абранага"
     },
+    "comments": {
+        "comments": "Каментары",
+        "add_comment": "Дадайце каментар...",
+        "updating_comment": "Абнаўленне каментара",
+        "content": "Змест",
+        "you_want_remove_comment": "Вы ўпэўненыя, што хочаце выдаліць свой каментар?",
+        "you_can_update_this_comment": "Вы можаце абнавіць гэты каментар."
+    },
     "notifications": {
         "notifications": "Апавяшчэнні",
         "no_notifications": "Апавяшчэнняў няма!",
@@ -317,8 +325,11 @@
         "add": "Дадаць",
         "create": "Стварыць",
         "update": "Абнавіць",
+        "edit": "Рэдагаваць",
         "delete": "Выдаліць",
         "loading": "Загрузка...",
+        "reply": "Адказаць",
+        "report": "Паскардзіцца",
         "reset": "Скінуць",
         "show": "Паказаць",
         "send": "Адправіць",

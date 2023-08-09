@@ -233,6 +233,14 @@
         "add_to_favourites": "Add to favourites",
         "remove_from_favourites": "Remove from favourites"
     },
+    "comments": {
+        "comments": "Comments",
+        "add_comment": "Add a comment...",
+        "updating_comment": "Updating comment",
+        "content": "Content",
+        "you_want_remove_comment": "Are you sure you want to delete your comment?",
+        "you_can_update_this_comment": "You can update this comment."
+    },
     "notifications": {
         "notifications": "Notifications",
         "no_notifications": "No notifications!",
@@ -317,8 +325,11 @@
         "add": "Add",
         "create": "Create",
         "update": "Update",
+        "edit": "Edit",
         "delete": "Delete",
         "loading": "Loading...",
+        "reply": "Reply",
+        "report": "Report",
         "reset": "Reset",
         "show": "Show",
         "send": "Send",

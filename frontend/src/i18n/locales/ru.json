@@ -233,6 +233,14 @@
         "add_to_favourites": "Добавить в избранное",
         "remove_from_favourites": "Удалить из избранного"
     },
+    "comments": {
+        "comments": "Комментарии",
+        "add_comment": "Добавьте комментарий...",
+        "updating_comment": "Обновление комментария",
+        "content": "Содержание",
+        "you_want_remove_comment": "Вы уверены, что хотите удалить свой комментарий?",
+        "you_can_update_this_comment": "Вы можете обновить этот комментарий."
+    },
     "notifications": {
         "notifications": "Уведомления",
         "no_notifications": "Уведомлений нет!",
@@ -317,8 +325,11 @@
         "add": "Добавить",
         "create": "Создать",
         "update": "Обновить",
+        "edit": "Редактировать",
         "delete": "Удалить",
         "loading": "Загрузка...",
+        "reply": "Ответить",
+        "report": "Пожаловаться",
         "reset": "Сбросить",
         "show": "Показать",
         "send": "Отправить",
