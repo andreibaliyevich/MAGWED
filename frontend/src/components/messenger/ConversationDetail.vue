@@ -41,8 +41,8 @@ const getMessageList = async () => {
   try {
     const response = await axios.get(
       '/messenger/messages/'
-      + props.conversation.uuid
-      + '/'
+        + props.conversation.uuid
+        + '/'
     )
     messageList.value = response.data.results
     nextURL.value = response.data.next
@@ -83,10 +83,10 @@ const getMoreMessageList = async () => {
 const openConvoSocket = async () => {
   convoSocket.value = new WebSocket(
     WS_URL
-    + '/ws/messenger/'
-    + props.conversation.uuid
-    + '/?'
-    + userStore.token
+      + '/ws/messenger/'
+      + props.conversation.uuid
+      + '/?'
+      + userStore.token
   )
   convoSocket.value.onopen = (event) => {
     convoSocketConnect.value = true
