@@ -239,7 +239,8 @@
         "updating_comment": "Updating comment",
         "content": "Content",
         "you_want_remove_comment": "Are you sure you want to delete your comment?",
-        "you_can_update_this_comment": "You can update this comment."
+        "you_can_update_this_comment": "You can update this comment.",
+        "need_log_in": "To leave a comment, you need to log in!"
     },
     "notifications": {
         "notifications": "Notifications",

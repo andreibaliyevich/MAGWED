@@ -239,7 +239,8 @@
         "updating_comment": "Абнаўленне каментара",
         "content": "Змест",
         "you_want_remove_comment": "Вы ўпэўненыя, што хочаце выдаліць свой каментар?",
-        "you_can_update_this_comment": "Вы можаце абнавіць гэты каментар."
+        "you_can_update_this_comment": "Вы можаце абнавіць гэты каментар.",
+        "need_log_in": "Каб пакінуць каментар, вам неабходна аўтарызавацца!"
     },
     "notifications": {
         "notifications": "Апавяшчэнні",

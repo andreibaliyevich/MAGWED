@@ -239,7 +239,8 @@
         "updating_comment": "Оновлення коментаря",
         "content": "Зміст",
         "you_want_remove_comment": "Ви впевнені, що хочете видалити свій коментар?",
-        "you_can_update_this_comment": "Ви можете оновити цей коментар."
+        "you_can_update_this_comment": "Ви можете оновити цей коментар.",
+        "need_log_in": "Щоб залишити коментар, вам необхідно авторизуватись!"
     },
     "notifications": {
         "notifications": "Сповіщення",
