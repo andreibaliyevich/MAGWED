@@ -96,16 +96,16 @@ onMounted(() => {
       >
         <UserAvatarExtended
           :src="commentItem.author.avatar"
-          :width="48"
-          :height="48"
+          :width="32"
+          :height="32"
           :online="commentItem.author.online"
         />
       </LocaleRouterLink>
       <UserAvatarExtended
         v-else
         :src="commentItem.author.avatar"
-        :width="48"
-        :height="48"
+        :width="32"
+        :height="32"
         :online="commentItem.author.online"
       />
       <div class="flex-grow-1 ms-1">

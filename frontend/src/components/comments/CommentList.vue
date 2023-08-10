@@ -248,6 +248,7 @@ onUnmounted(() => {
     <LoadingIndicator v-if="commentListLoading" />
 
     <form
+      v-if="userStore.isLoggedIn"
       @submit.prevent="sendComment()"
       class="mt-3 mx-lg-5"
     >
@@ -259,6 +260,19 @@ onUnmounted(() => {
         :errors="newCommentErrors?.content ? newCommentErrors.content : []"
       />
     </form>
+    <div
+      v-else
+      class="alert alert-info" role="alert"
+    >
+      {{ $t('comments.need_log_in') }}
+      <LocaleRouterLink
+        routeName="Login"
+        :routeQuery="{ redirect: this.$route.path }"
+        class="alert-link"
+      >
+        {{ $t('auth.log_in') }}
+      </LocaleRouterLink>
+    </div>
   </div>
 </template>
 

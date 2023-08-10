@@ -3,7 +3,10 @@ import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
+import { useUserStore } from '@/stores/user.js'
 import SubmitContent from './SubmitContent.vue'
+
+const userStore = useUserStore()
 
 const props = defineProps({
   commentItem: {
@@ -49,16 +52,16 @@ onMounted(() => {
       >
         <UserAvatarExtended
           :src="commentItem.author.avatar"
-          :width="48"
-          :height="48"
+          :width="32"
+          :height="32"
           :online="commentItem.author.online"
         />
       </LocaleRouterLink>
       <UserAvatarExtended
         v-else
         :src="commentItem.author.avatar"
-        :width="48"
-        :height="48"
+        :width="32"
+        :height="32"
         :online="commentItem.author.online"
       />
       <div class="flex-grow-1 ms-1">
@@ -98,7 +101,7 @@ onMounted(() => {
                 <i class="fa-solid fa-ellipsis"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li>
+                <li v-if="userStore.isLoggedIn">
                   <button
                     @click="() => {
                       commentDropdownBootstrap.hide()
