@@ -161,7 +161,10 @@ class ConnectionHistory(models.Model):
     )
 
     device_uuid = models.UUIDField(verbose_name=_('Device UUID'))
-    online = models.BooleanField(default=True, verbose_name=_('Online'))
+    connection_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_('Count of connections'),
+    )
 
     first_login = models.DateTimeField(
         auto_now_add=True,
