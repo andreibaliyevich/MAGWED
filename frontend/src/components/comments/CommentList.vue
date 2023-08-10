@@ -4,11 +4,13 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { WS_URL } from '@/config.js'
 import { useSendComment } from '@/composables/sendComment.js'
 import { useUserStore } from '@/stores/user.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import AuthorCommentItem from './AuthorCommentItem.vue'
 import CommentItem from './CommentItem.vue'
 import SubmitContent from './SubmitContent.vue'
 
 const userStore = useUserStore()
+const connectionBusStore = useConnectionBusStore()
 
 const props = defineProps({
   contentType: {
@@ -179,9 +181,23 @@ const closeCommentSocket = () => {
   }
 }
 
+const updateUserStatus = (cList, state) => {
+  cList.forEach((element) => {
+    if (element.author.uuid == state.user_uuid) {
+      element.author.online = state.online
+    }
+    if (element.comments.length > 0) {
+      updateUserStatus(element.comments, state)
+    }
+  })
+}
+
 onMounted(() => {
   getCommentList()
   openCommentSocket()
+  connectionBusStore.$subscribe((mutation, state) => {
+    updateUserStatus(commentList.value, state)
+  })
 })
 
 onUnmounted(() => {

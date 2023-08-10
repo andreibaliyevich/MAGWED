@@ -4,9 +4,11 @@ import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const { t, locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
+const connectionBusStore = useConnectionBusStore()
 
 const props = defineProps({
   userUUID: {
@@ -134,6 +136,14 @@ const removeReview = async () => {
   }
 }
 
+const updateUserStatus = (mutation, state) => {
+  reviewList.value.forEach((element) => {
+    if (element.author.uuid == state.user_uuid) {
+      element.author.online = state.online
+    }
+  })
+}
+
 watch(locale, () => {
   setReviewRatingOptions()
 })
@@ -141,6 +151,7 @@ watch(locale, () => {
 onMounted(() => {
   getReviewList()
   setReviewRatingOptions()
+  connectionBusStore.$subscribe(updateUserStatus)
   updateReviewModal.value.addEventListener('hidden.bs.modal', () => {
     oldReviewUuid.value = null
     oldReviewRating.value = null
