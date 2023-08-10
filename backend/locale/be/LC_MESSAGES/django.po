@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-05 08:45+0000\n"
+"POT-Creation-Date: 2023-08-10 18:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,11 +68,11 @@ msgstr "Уліковыя запісы"
 msgid "Administrator"
 msgstr "Адміністратар"
 
-#: accounts/choices.py:7 accounts/models.py:203
+#: accounts/choices.py:7 accounts/models.py:206
 msgid "Customer"
 msgstr "Кліент"
 
-#: accounts/choices.py:8 accounts/models.py:307
+#: accounts/choices.py:8 accounts/models.py:310
 msgid "Organizer"
 msgstr "Арганізатар"
 
@@ -165,7 +165,7 @@ msgstr "Тып карыстальніка"
 msgid "Name"
 msgstr "Імя"
 
-#: accounts/models.py:70 accounts/models.py:249 main/models.py:118
+#: accounts/models.py:70 accounts/models.py:252 main/models.py:118
 #: messenger/models.py:64
 #, python-format
 msgid ""
@@ -214,8 +214,8 @@ msgstr ""
 msgid "Active"
 msgstr "Актыўны"
 
-#: accounts/models.py:144 accounts/models.py:160 accounts/models.py:194
-#: accounts/models.py:232 reviews/models.py:20 social/models.py:21
+#: accounts/models.py:144 accounts/models.py:160 accounts/models.py:197
+#: accounts/models.py:235 reviews/models.py:20 social/models.py:21
 #: social/models.py:60 social/models.py:92
 msgid "User"
 msgstr "Карыстальнік"
@@ -228,102 +228,102 @@ msgstr "Карыстальнікі"
 msgid "Device UUID"
 msgstr "Ідэнтыфікатар прылады"
 
-#: accounts/models.py:164
-msgid "Online"
-msgstr "Онлайн"
+#: accounts/models.py:166
+msgid "Count of connections"
+msgstr "Колькасць падлучэнняў"
 
-#: accounts/models.py:168
+#: accounts/models.py:171
 msgid "First login"
 msgstr "Першы ўваход"
 
-#: accounts/models.py:172
+#: accounts/models.py:175
 msgid "Last visit"
 msgstr "Апошняе наведванне"
 
-#: accounts/models.py:176
+#: accounts/models.py:179
 msgid "Connection History"
 msgstr "Гісторыя падключэння"
 
-#: accounts/models.py:177
+#: accounts/models.py:180
 msgid "Connection Histories"
 msgstr "Гісторыі падлучэнняў"
 
-#: accounts/models.py:199
+#: accounts/models.py:202
 msgid "Date of Wedding"
 msgstr "Дата вяселля"
 
-#: accounts/models.py:204
+#: accounts/models.py:207
 msgid "Customers"
 msgstr "Кліенты"
 
-#: accounts/models.py:213
+#: accounts/models.py:216
 msgid "Identifier"
 msgstr "Ідэнтыфікатар"
 
-#: accounts/models.py:220
+#: accounts/models.py:223
 msgid "Role of Organizer"
 msgstr "Роля арганізатара"
 
-#: accounts/models.py:221
+#: accounts/models.py:224
 msgid "Roles of Organizers"
 msgstr "Ролі арганізатараў"
 
-#: accounts/models.py:237
+#: accounts/models.py:240
 msgid "Roles"
 msgstr "Ролі"
 
-#: accounts/models.py:255
+#: accounts/models.py:258
 msgid "Cover"
 msgstr "Вокладка"
 
-#: accounts/models.py:257 blog/models.py:27 blog/models.py:79
+#: accounts/models.py:260 blog/models.py:27 blog/models.py:79
 #: blog/models.py:126 blog/models.py:219 portfolio/models.py:40
 #: portfolio/models.py:155
 msgid "Description"
 msgstr "Апісанне"
 
-#: accounts/models.py:262 main/models.py:25
+#: accounts/models.py:265 main/models.py:25
 msgid "Countries"
 msgstr "Краіны"
 
-#: accounts/models.py:267 main/models.py:49
+#: accounts/models.py:270 main/models.py:49
 msgid "Cities"
 msgstr "Гарады"
 
-#: accounts/models.py:272 main/models.py:67
+#: accounts/models.py:275 main/models.py:67
 msgid "Languages"
 msgstr "Мовы"
 
-#: accounts/models.py:280
+#: accounts/models.py:283
 msgid "Cost of work"
 msgstr "Кошт працы"
 
-#: accounts/models.py:281
+#: accounts/models.py:284
 msgid "Please enter in USD ($)"
 msgstr "Калі ласка, увядзіце ў далярах ЗША ($)"
 
-#: accounts/models.py:285
+#: accounts/models.py:288
 msgid "Number of hours"
 msgstr "Колькасць гадзін"
 
-#: accounts/models.py:288
+#: accounts/models.py:291
 msgid "Website"
 msgstr "Інтэрнэт сайт"
 
-#: accounts/models.py:292
+#: accounts/models.py:295
 msgid "Profile URL"
 msgstr "URL профілю"
 
-#: accounts/models.py:299 portfolio/models.py:61 portfolio/models.py:176
+#: accounts/models.py:302 portfolio/models.py:61 portfolio/models.py:176
 #: reviews/models.py:31
 msgid "Rating"
 msgstr "Рэйтынг"
 
-#: accounts/models.py:303
+#: accounts/models.py:306
 msgid "Pro-account valid time"
 msgstr "Тэрмін дзеяння Pro-акаўнта"
 
-#: accounts/models.py:308
+#: accounts/models.py:311
 msgid "Organizers"
 msgstr "Арганізатары"
 
@@ -1015,19 +1015,19 @@ msgstr ""
 msgid "Wrong object uuid."
 msgstr ""
 
-#: social/views.py:60
+#: social/views.py:69
 msgid "You have already follow this user."
 msgstr "Вы ўжо падпісаліся на гэтага карыстальніка."
 
-#: social/views.py:75
+#: social/views.py:84
 msgid "You do not follow this user."
 msgstr "Вы не падпісаны на гэтага карыстальніка."
 
-#: social/views.py:112
+#: social/views.py:121
 msgid "You already have this favorite."
 msgstr "У вас ужо ёсьць гэты фаварыт."
 
-#: social/views.py:131
+#: social/views.py:140
 msgid "You do not have this favorite."
 msgstr "У вас няма гэтага фаварыта."
 
