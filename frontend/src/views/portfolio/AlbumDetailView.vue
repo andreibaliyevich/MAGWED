@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
+import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
@@ -287,55 +288,65 @@ onMounted(() => {
         </div>
       </div>
 
-      <div
-        v-if="photoList.length > 0"
-        class="row g-3 mt-3"
-      >
-        <div
-          v-for="photoItem in photoList"
-          :key="photoItem.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3"
-        >
-          <div class="card border border-0 h-100">
-            <LocaleRouterLink
-              routeName="PhotoDetail"
-              :routeParams="{ uuid: photoItem.uuid }"
-              :routeQuery="{ from: this.$route.query.filter }"
-              class="link-light"
+      <div class="row g-3 mt-3">
+        <div class="col-xl-7">
+          <div
+            v-if="photoList.length > 0"
+            class="row g-3"
+          >
+            <div
+              v-for="photoItem in photoList"
+              :key="photoItem.uuid"
+              class="col-12 col-md-6 col-lg-4 col-xl-4"
             >
-              <img
-                :src="photoItem.thumbnail"
-                class="card-img"
-              >
-              <div class="card-img-overlay">
-                <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                  <h5 class="card-title text-center">{{ photoItem.title }}</h5>
-                </div>
-                <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-                  <i class="fa-regular fa-eye"></i>
-                  {{ photoItem.view_count }}
-                </div>
-                <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-                  <i class="fa-regular fa-heart"></i>
-                  {{ photoItem.like_count }}
-                </div>
-                <div class="position-absolute bottom-0 end-0 me-2 mb-2">
-                  <i class="fa-regular fa-star"></i>
-                  {{ photoItem.rating }}
-                </div>
+              <div class="card border border-0 h-100">
+                <LocaleRouterLink
+                  routeName="PhotoDetail"
+                  :routeParams="{ uuid: photoItem.uuid }"
+                  :routeQuery="{ from: this.$route.query.filter }"
+                  class="link-light"
+                >
+                  <img
+                    :src="photoItem.thumbnail"
+                    class="card-img"
+                  >
+                  <div class="card-img-overlay">
+                    <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
+                      <h5 class="card-title text-center">{{ photoItem.title }}</h5>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
+                      <i class="fa-regular fa-eye"></i>
+                      {{ photoItem.view_count }}
+                    </div>
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+                      <i class="fa-regular fa-heart"></i>
+                      {{ photoItem.like_count }}
+                    </div>
+                    <div class="position-absolute bottom-0 end-0 me-2 mb-2">
+                      <i class="fa-regular fa-star"></i>
+                      {{ photoItem.rating }}
+                    </div>
+                  </div>
+                </LocaleRouterLink>
               </div>
-            </LocaleRouterLink>
+            </div>
           </div>
+          <div
+            v-else-if="!photoListLoading"
+            class="lead d-flex justify-content-center py-3"
+          >
+            {{ $t('portfolio.no_photos') }}
+          </div>
+          <div v-if="nextURL" v-intersection="getMorePhotoList"></div>
+          <LoadingIndicator v-if="photoListLoading" />
+        </div>
+        <div class="col-xl-5">
+          <CommentList
+            contentType="album"
+            :objectUUID="albumData.uuid"
+          />
         </div>
       </div>
-      <div
-        v-else-if="!photoListLoading"
-        class="lead d-flex justify-content-center py-3"
-      >
-        {{ $t('portfolio.no_photos') }}
-      </div>
-      <div v-if="nextURL" v-intersection="getMorePhotoList"></div>
-      <LoadingIndicator v-if="photoListLoading" />
     </div>
   </div>
 </template>

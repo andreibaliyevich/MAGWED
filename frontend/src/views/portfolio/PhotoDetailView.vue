@@ -135,138 +135,148 @@ onMounted(() => {
       v-else
       class="container my-5"
     >
-      <div class="card border border-light shadow-sm">
-        <div class="d-flex justify-content-center">
-          <img
-            :src="photoData.image"
-            class="card-img-top"
-          >
-        </div>
-        <div class="card-body mx-3 mx-lg-5">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="d-flex justify-content-center justify-content-lg-start">
-                <div class="d-inline-block">
-                  <h1
-                    v-if="photoData.title"
-                    class="h3"
+
+      <div class="d-flex justify-content-center">
+        <img
+          :src="photoData.image"
+          class="card-img-top"
+        >
+      </div>
+
+      <div class="row g-3 mt-3">
+        <div class="col-xl-7">
+          <div class="card border border-light shadow-sm">
+            <div class="card-body mx-3 mx-lg-1">
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="d-flex justify-content-center justify-content-lg-start">
+                    <div class="d-inline-block">
+                      <h1
+                        v-if="photoData.title"
+                        class="h3"
+                      >
+                        {{ photoData.title }}
+                      </h1>
+                      <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                          <i class="fa-regular fa-calendar-days"></i>
+                          {{ $t('portfolio.uploaded') }}
+                          {{ getLocaleDateString(photoData.uploaded_at) }}
+                        </li>
+                        <li class="list-inline-item ms-3">
+                          <i class="fa-regular fa-eye"></i>
+                          {{ photoData.view_count }}
+                        </li>
+                        <li class="list-inline-item ms-3">
+                          <i class="fa-regular fa-star"></i>
+                          {{ photoData.rating }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div
+                    v-if="userStore.isLoggedIn"
+                    class="d-flex justify-content-center justify-content-lg-end"
                   >
-                    {{ photoData.title }}
-                  </h1>
-                  <ul class="list-inline mb-2">
-                    <li class="list-inline-item">
-                      <i class="fa-regular fa-calendar-days"></i>
-                      {{ $t('portfolio.uploaded') }}
-                      {{ getLocaleDateString(photoData.uploaded_at) }}
-                    </li>
-                    <li class="list-inline-item ms-3">
-                      <i class="fa-regular fa-eye"></i>
-                      {{ photoData.view_count }}
-                    </li>
-                    <li class="list-inline-item ms-3">
-                      <i class="fa-regular fa-star"></i>
-                      {{ photoData.rating }}
-                    </li>
-                  </ul>
+                    <button
+                      v-if="photoData.liked"
+                      @click="dislikePhoto()"
+                      type="button"
+                      class="btn btn-brand"
+                    >
+                      <i class="fa-regular fa-heart"></i>
+                      {{ photoData.like_count }}
+                    </button>
+                    <button
+                      v-else
+                      @click="likePhoto()"
+                      type="button"
+                      class="btn btn-outline-brand"
+                    >
+                      <i class="fa-regular fa-heart"></i>
+                      {{ photoData.like_count }}
+                    </button>
+                    <button
+                      v-if="photoData.favorite"
+                      @click="removePhotoFromFavorites()"
+                      type="button"
+                      class="btn btn-light ms-2"
+                    >
+                      <i class="fa-solid fa-bookmark"></i>
+                      {{ $t('favorites.remove_from_favourites') }}
+                    </button>
+                    <button
+                      v-else
+                      @click="addPhotoToFavorites()"
+                      type="button"
+                      class="btn btn-light ms-2"
+                    >
+                      <i class="fa-regular fa-bookmark"></i>
+                      {{ $t('favorites.add_to_favourites') }}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-6">
-              <div
-                v-if="userStore.isLoggedIn"
-                class="d-flex justify-content-center justify-content-lg-end"
-              >
-                <button
-                  v-if="photoData.liked"
-                  @click="dislikePhoto()"
-                  type="button"
-                  class="btn btn-brand"
-                >
-                  <i class="fa-regular fa-heart"></i>
-                  {{ photoData.like_count }}
-                </button>
-                <button
-                  v-else
-                  @click="likePhoto()"
-                  type="button"
-                  class="btn btn-outline-brand"
-                >
-                  <i class="fa-regular fa-heart"></i>
-                  {{ photoData.like_count }}
-                </button>
-                <button
-                  v-if="photoData.favorite"
-                  @click="removePhotoFromFavorites()"
-                  type="button"
-                  class="btn btn-light ms-2"
-                >
-                  <i class="fa-solid fa-bookmark"></i>
-                  {{ $t('favorites.remove_from_favourites') }}
-                </button>
-                <button
-                  v-else
-                  @click="addPhotoToFavorites()"
-                  type="button"
-                  class="btn btn-light ms-2"
-                >
-                  <i class="fa-regular fa-bookmark"></i>
-                  {{ $t('favorites.add_to_favourites') }}
-                </button>
-              </div>
-            </div>
-          </div>
 
-          <div class="row g-1 my-3">
-            <div class="col-lg-6">
-              <div class="d-flex align-items-center justify-content-start">
-                <LocaleRouterLink
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: photoData.owner.profile_url }"
-                >
-                  <UserAvatar
-                    :src="photoData.owner.avatar"
-                    :width="32"
-                    :height="32"
-                  />
-                </LocaleRouterLink>
-                <LocaleRouterLink
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: photoData.owner.profile_url  }"
-                  class="text-decoration-none link-dark ms-2"
-                >
-                  {{ photoData.owner.name }}
-                </LocaleRouterLink>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div
-                v-if="photoData.album"
-                class="d-flex align-items-center justify-content-start justify-content-lg-end"
-              >
-                <LocaleRouterLink
-                  routeName="AlbumDetail"
-                  :routeParams="{ uuid: photoData.album.uuid }"
-                >
-                  <img
-                    :src="photoData.album.thumbnail"
-                    :width="32"
-                    :height="32"
-                    class="rounded-circle"
+              <div class="row g-1 my-3">
+                <div class="col-lg-6">
+                  <div class="d-flex align-items-center justify-content-start">
+                    <LocaleRouterLink
+                      routeName="OrganizerDetail"
+                      :routeParams="{ profile_url: photoData.owner.profile_url }"
+                    >
+                      <UserAvatar
+                        :src="photoData.owner.avatar"
+                        :width="32"
+                        :height="32"
+                      />
+                    </LocaleRouterLink>
+                    <LocaleRouterLink
+                      routeName="OrganizerDetail"
+                      :routeParams="{ profile_url: photoData.owner.profile_url  }"
+                      class="text-decoration-none link-dark ms-2"
+                    >
+                      {{ photoData.owner.name }}
+                    </LocaleRouterLink>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div
+                    v-if="photoData.album"
+                    class="d-flex align-items-center justify-content-start justify-content-lg-end"
                   >
-                </LocaleRouterLink>
-                <LocaleRouterLink
-                  routeName="AlbumDetail"
-                  :routeParams="{ uuid: photoData.album.uuid  }"
-                  class="text-decoration-none link-dark ms-2"
-                >
-                  {{ photoData.album.title }}
-                </LocaleRouterLink>
+                    <LocaleRouterLink
+                      routeName="AlbumDetail"
+                      :routeParams="{ uuid: photoData.album.uuid }"
+                    >
+                      <img
+                        :src="photoData.album.thumbnail"
+                        :width="32"
+                        :height="32"
+                        class="rounded-circle"
+                      >
+                    </LocaleRouterLink>
+                    <LocaleRouterLink
+                      routeName="AlbumDetail"
+                      :routeParams="{ uuid: photoData.album.uuid  }"
+                      class="text-decoration-none link-dark ms-2"
+                    >
+                      {{ photoData.album.title }}
+                    </LocaleRouterLink>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div class="row flex-lg-row-reverse align-items-center g-3">
-            <div class="col-lg-4">
+              <p
+                v-if="photoData.description"
+                class="card-text lead"
+              >
+                {{ photoData.description }}
+              </p>
+
               <ul class="list-group list-group-flush">
                 <li
                   v-if="photoData.device"
@@ -304,17 +314,10 @@ onMounted(() => {
                   {{ photoData.photographic_sensitivity }}
                 </li>
               </ul>
-            </div>
-            <div class="col-lg-8">
-              <p
-                v-if="photoData.description"
-                class="card-text lead"
-              >
-                {{ photoData.description }}
-              </p>
+
               <div
                 v-if="photoData.tags.length > 0"
-                class="d-inline-block"
+                class="d-inline-block mt-3"
               >
                 <div class="row g-1">
                   <div
@@ -332,14 +335,23 @@ onMounted(() => {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
+
+        <div class="col-xl-5">
+          <div class="card border border-light shadow-sm">
+            <div class="card-body mx-3 mx-lg-1">
+              <CommentList
+                contentType="photo"
+                :objectUUID="photoData.uuid"
+              />
+            </div>
+          </div>
+        </div>
+
       </div>
-      <CommentList
-        contentType="photo"
-        :objectUUID="photoData.uuid"
-      />
     </div>
   </div>
 </template>
