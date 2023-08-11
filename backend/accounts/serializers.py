@@ -348,8 +348,7 @@ class UserShortReadSerializer(serializers.ModelSerializer):
     profile_url = serializers.SerializerMethodField()
 
     def get_online(self, obj):
-        return bool(obj.connection_histories.filter(
-            connection_count__gt=0).count())
+        return bool(obj.connection_histories.filter(online=True).count())
 
     def get_profile_url(self, obj):
         if obj.user_type == UserType.ORGANIZER:
@@ -381,8 +380,7 @@ class UserDetailReadSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
 
     def get_online(self, obj):
-        return bool(obj.connection_histories.filter(
-            connection_count__gt=0).count())
+        return bool(obj.connection_histories.filter(online=True).count())
 
     def get_following(self, obj):
         if self.context['request'].user.is_authenticated:
