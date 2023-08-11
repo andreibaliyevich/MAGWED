@@ -18,7 +18,7 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         await self.accept()
 
         if self.user.is_authenticated:
-            await self.update_user_incr()
+            await self.set_user_online()
             await self.send_status(True)
 
     async def disconnect(self, close_code):
@@ -28,8 +28,11 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         )
 
         if self.user.is_authenticated:
-            online = await self.update_user_decr()
+            online = await self.set_user_offline()
             await self.send_status(online)
+
+    async def receive_json(self, content):
+        await self.send_status(content['online'])
 
     async def send_status(self, online):
         await self.channel_layer.group_send(
@@ -48,25 +51,24 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         })
 
     @database_sync_to_async
-    def update_user_incr(self):
-        ch_obj, created = ConnectionHistory.objects.get_or_create(
-            user=self.user,
-            device_uuid=self.device_uuid,
-        )
-
-        ch_obj.connection_count += 1
-        ch_obj.save(update_fields=['connection_count', 'last_visit'])
-
-    @database_sync_to_async
-    def update_user_decr(self):
+    def set_user_online(self):
         ch_obj, created = ConnectionHistory.objects.get_or_create(
             user=self.user,
             device_uuid=self.device_uuid,
         )
 
         if not created:
-            ch_obj.connection_count -= 1
-            ch_obj.save(update_fields=['connection_count', 'last_visit'])
+            ch_obj.online = True
+            ch_obj.save(update_fields=['online', 'last_visit'])
 
-        return bool(self.user.connection_histories.filter(
-            connections__gt=0).count())
+    @database_sync_to_async
+    def set_user_offline(self):
+        ch_obj, created = ConnectionHistory.objects.get_or_create(
+            user=self.user,
+            device_uuid=self.device_uuid,
+        )
+
+        ch_obj.online = False
+        ch_obj.save(update_fields=['online', 'last_visit'])
+
+        return bool(self.user.connection_histories.filter(online=True).count())

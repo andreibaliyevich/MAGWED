@@ -53,7 +53,12 @@ onMounted(async () => {
   }
   connectionSocket.value = new WebSocket(connectionSocketURL)
   connectionSocket.value.onmessage = (event) => {
-    connectionBusStore.setUserStatus(JSON.parse(event.data))
+    const data = JSON.parse(event.data)
+    if ((data.user_uuid == userStore.uuid) && !data.online) {
+      connectionSocket.value.send(JSON.stringify({'online': true}))
+    } else {
+      connectionBusStore.setUserStatus(data)
+    }
   }
 })
 </script>
