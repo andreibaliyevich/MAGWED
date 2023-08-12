@@ -50,7 +50,7 @@ const setConversation = (convo) => {
           <div
             v-else
             class="text-center h-100"
-            style="min-height: 60vh;"
+            style="min-height: 80vh;"
           >
             <div class="my-0">
               <i class="fa-solid fa-comments fa-2xl"></i>

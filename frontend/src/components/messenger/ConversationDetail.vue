@@ -36,13 +36,24 @@ const reversedMessages = computed(() => {
   return [...messageList.value].reverse()
 })
 
+const updateTextareaStyles = () => {
+  const { style } = msgTextarea.value
+  style.height = style.minHeight = 'auto'
+  style.minHeight = `${
+    Math.min(
+      msgTextarea.value.scrollHeight,
+      parseInt(style.maxHeight)
+    )
+  }px`
+  style.height = `${msgTextarea.value.scrollHeight}px`
+}
+
 const getMessageList = async () => {
   messageList.value = true
   try {
     const response = await axios.get(
-      '/messenger/messages/'
+      '/messenger/messages/?conversation='
         + props.conversation.uuid
-        + '/'
     )
     messageList.value = response.data.results
     nextURL.value = response.data.next
@@ -126,18 +137,19 @@ const closeConvoSocket = () => {
   }
 }
 
-const sendMessage = () => {
-  if (message.value) {
-    convoSocket.value.send(JSON.stringify({
-      'action': 'new_msg',
-      'msg_type': messageType.TEXT,
-      'content': message.value
-    }))
+const sendMessage = async () => {
+  try {
+    const response = await axios.post('/messenger/messages/text/', {
+      conversation: props.conversation.uuid,
+      content: message.value
+    })
     message.value = ''
     nextTick(() => {
       updateTextareaStyles()
       msgTextarea.value.focus()
     })
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -148,12 +160,7 @@ const sendImages = async (filelist) => {
     imagesData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/message/images/', imagesData)
-    convoSocket.value.send(JSON.stringify({
-      'action': 'new_msg',
-      'msg_type': messageType.IMAGES,
-      'data': response.data
-    }))
+    const response = await axios.post('/messenger/messages/images/', imagesData)
   } catch (error) {
     console.error(error)
   }
@@ -166,12 +173,7 @@ const sendFiles = async (filelist) => {
     filesData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/message/files/', filesData)
-    convoSocket.value.send(JSON.stringify({
-      'action': 'new_msg',
-      'msg_type': messageType.FILES,
-      'data': response.data
-    }))
+    const response = await axios.post('/messenger/messages/files/', filesData)
   } catch (error) {
     console.error(error)
   }
@@ -182,18 +184,6 @@ const setMessageViewed = (msg_uuid) => {
     'action': 'viewed',
     'msg_uuid': msg_uuid
   }))
-}
-
-const updateTextareaStyles = () => {
-  const { style } = msgTextarea.value
-  style.height = style.minHeight = 'auto'
-  style.minHeight = `${
-    Math.min(
-      msgTextarea.value.scrollHeight,
-      parseInt(style.maxHeight)
-    )
-  }px`
-  style.height = `${msgTextarea.value.scrollHeight}px`
 }
 
 const updateUserStatus = (mutation, state) => {
@@ -249,9 +239,9 @@ watch(message, (newValue) => {
 })
 
 onMounted(() => {
+  updateTextareaStyles()
   getMessageList()
   openConvoSocket()
-  updateTextareaStyles()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 
