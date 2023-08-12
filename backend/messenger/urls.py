@@ -6,8 +6,9 @@ app_name = 'messenger'
 
 urlpatterns = [
     path('conversations/', views.ConversationListView.as_view()),
-    path('messages/<uuid:convo_uuid>/', views.MessageListView.as_view()),
-    path('message/', include([
+    path('messages/', include([
+        path('', views.MessageListView.as_view()),
+        path('text/', views.TextMessageView.as_view()),
         path('images/', views.ImageMessageView.as_view()),
         path('files/', views.FileMessageView.as_view()),
     ])),

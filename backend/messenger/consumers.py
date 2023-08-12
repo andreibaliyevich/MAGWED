@@ -1,8 +1,6 @@
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .choices import MessageType
 from .models import Conversation, Message
-from .serializers import MessageFullReadSerializer, TextMessageSerializer
 
 
 class MessengerConsumer(AsyncJsonWebsocketConsumer):
@@ -28,12 +26,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         )
 
     async def receive_json(self, content):
-        if content['action'] == 'new_msg':
-            if content['msg_type'] == MessageType.TEXT:
-                data = await self.save_message(content['content'])
-            else:
-                data = content['data']
-        elif content['action'] == 'viewed':
+        if content['action'] == 'viewed':
             msg_viewed = await self.set_message_viewed(content['msg_uuid'])
             data = {
                 'msg_uuid': content['msg_uuid'],
@@ -66,18 +59,6 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
     @database_sync_to_async
     def check_is_member(self):
         return self.user in self.conversation.members.all()
-
-    @database_sync_to_async
-    def save_message(self, content):
-        serializer = TextMessageSerializer(data={'content': content})
-        serializer.is_valid(raise_exception=True)
-        msg = Message.objects.create(
-            conversation=self.conversation,
-            sender=self.user,
-            msg_type=MessageType.TEXT,
-        )
-        serializer.save(message=msg)
-        return MessageFullReadSerializer(msg).data
 
     @database_sync_to_async
     def set_message_viewed(self, msg_uuid):
