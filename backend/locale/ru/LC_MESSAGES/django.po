@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-11 06:26+0000\n"
+"POT-Creation-Date: 2023-08-14 10:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -644,32 +644,32 @@ msgid "Files"
 msgstr "Файлы"
 
 #: messenger/models.py:24
-msgid "Conversation type"
-msgstr "Тип беседы"
+msgid "Chat type"
+msgstr "Тип чата"
 
 #: messenger/models.py:29
 msgid "Members"
 msgstr "Члены"
 
 #: messenger/models.py:33 messenger/models.py:45 messenger/models.py:91
-msgid "Conversation"
-msgstr "Беседа"
+msgid "Chat"
+msgstr "Чат"
 
 #: messenger/models.py:34
-msgid "Conversations"
-msgstr "Беседы"
+msgid "Chats"
+msgstr "Чаты"
 
 #: messenger/models.py:51 portfolio/models.py:24 portfolio/models.py:91
 msgid "Owner"
 msgstr "Владелец"
 
 #: messenger/models.py:74
-msgid "Group Conversation"
-msgstr "Групповой разговор"
+msgid "Group Chat"
+msgstr "Групповой чат"
 
 #: messenger/models.py:75
-msgid "Group Conversations"
-msgstr "Групповые беседы"
+msgid "Group Chats"
+msgstr "Групповые чаты"
 
 #: messenger/models.py:96
 msgid "Sender"
@@ -729,12 +729,8 @@ msgid "File Messages"
 msgstr "Файловые сообщения"
 
 #: messenger/serializers.py:24
-msgid "You are not a member of the conversation."
-msgstr "Вы не являетесь участником беседы."
-
-#: messenger/views.py:47
-msgid "Not found."
-msgstr "Не найдено."
+msgid "You are not a member of the chat."
+msgstr "Вы не являетесь участником чата."
 
 #: notifications/admin.py:8
 msgid "Date created"
