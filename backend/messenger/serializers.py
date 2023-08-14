@@ -150,12 +150,12 @@ class ChatListSerializer(serializers.ModelSerializer):
     def get_details(self, obj):
         request = self.context['request']
 
-        if obj.convo_type == ChatType.DIALOG:
+        if obj.chat_type == ChatType.DIALOG:
             return UserShortReadSerializer(
                 obj.members.exclude(uuid=request.user.uuid).first(),
                 context={'request': request},
             ).data
-        elif obj.convo_type == ChatType.GROUP:
+        elif obj.chat_type == ChatType.GROUP:
             return GroupChatSerializer(
                 obj.group_details,
                 context={'request': request},
@@ -172,7 +172,7 @@ class ChatListSerializer(serializers.ModelSerializer):
         model = Chat
         fields = [
             'uuid',
-            'convo_type',
+            'chat_type',
             'members',
             'details',
             'last_message',
