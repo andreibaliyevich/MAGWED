@@ -7,4 +7,4 @@ class MessageFilter(filters.FilterSet):
 
     class Meta:
         model = Message
-        fields = ['conversation']
+        fields = ['chat']

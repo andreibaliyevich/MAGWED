@@ -4,7 +4,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from main.validators import MinimumImageSizeValidator
-from .choices import ConversationType, MessageType
+from .choices import ChatType, MessageType
 from .utilities import (
     get_conversation_path,
     get_image_message_path,
@@ -12,37 +12,37 @@ from .utilities import (
 )
 
 
-class Conversation(models.Model):
-    """ Conversation Model """
+class Chat(models.Model):
+    """ Chat Model """
     uuid = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False,
     )
-    convo_type = models.PositiveSmallIntegerField(
-        choices=ConversationType.choices,
-        verbose_name=_('Conversation type'),
+    chat_type = models.PositiveSmallIntegerField(
+        choices=ChatType.choices,
+        verbose_name=_('Chat type'),
     )
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name='conversations',
+        related_name='chats',
         verbose_name=_('Members'),
     )
 
     class Meta:
-        verbose_name = _('Conversation')
-        verbose_name_plural = _('Conversations')
+        verbose_name = _('Chat')
+        verbose_name_plural = _('Chats')
         ordering = ['-uuid']
 
 
-class GroupConversation(models.Model):
-    """ Group Conversation Model """
-    conversation = models.OneToOneField(
-        Conversation,
+class GroupChat(models.Model):
+    """ Group Chat Model """
+    chat = models.OneToOneField(
+        Chat,
         on_delete=models.CASCADE,
         primary_key=True,
         related_name='group_details',
-        verbose_name=_('Conversation'),
+        verbose_name=_('Chat'),
     )
 
     owner = models.ForeignKey(
@@ -71,9 +71,9 @@ class GroupConversation(models.Model):
     )
 
     class Meta:
-        verbose_name = _('Group Conversation')
-        verbose_name_plural = _('Group Conversations')
-        ordering = ['conversation']
+        verbose_name = _('Group Chat')
+        verbose_name_plural = _('Group Chats')
+        ordering = ['chat']
 
 
 class Message(models.Model):
@@ -84,11 +84,11 @@ class Message(models.Model):
         editable=False,
     )
 
-    conversation = models.ForeignKey(
-        Conversation,
+    chat = models.ForeignKey(
+        Chat,
         on_delete=models.CASCADE,
         related_name='messages',
-        verbose_name=_('Conversation'),
+        verbose_name=_('Chat'),
     )
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,

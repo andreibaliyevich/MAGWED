@@ -1,6 +1,6 @@
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .models import Conversation, Message
+from .models import Chat, Message
 
 
 class MessengerConsumer(AsyncJsonWebsocketConsumer):
@@ -8,20 +8,20 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope['user']
-        self.convo_uuid = self.scope['url_route']['kwargs']['convo_uuid']
-        self.convo_group_name = f'convo-{self.convo_uuid}'
-        self.conversation = await self.get_conversation()
+        self.chat_uuid = self.scope['url_route']['kwargs']['chat_uuid']
+        self.chat_group_name = f'chat-{self.chat_uuid}'
+        self.chat = await self.get_chat()
 
-        if self.conversation is not None and await self.check_is_member():
+        if self.chat is not None and await self.check_is_member():
             await self.channel_layer.group_add(
-                self.convo_group_name,
+                self.chat_group_name,
                 self.channel_name,
             )
             await self.accept()
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
-            self.convo_group_name,
+            self.chat_group_name,
             self.channel_name,
         )
 
@@ -34,7 +34,7 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
             }
 
         await self.channel_layer.group_send(
-            self.convo_group_name,
+            self.chat_group_name,
             {
                 'type': 'send_json_data',
                 'action': content['action'],
@@ -49,16 +49,16 @@ class MessengerConsumer(AsyncJsonWebsocketConsumer):
         })
 
     @database_sync_to_async
-    def get_conversation(self):
+    def get_chat(self):
         try:
-            convo = Conversation.objects.get(uuid=self.convo_uuid)
-        except Conversation.DoesNotExist:
+            chat = Chat.objects.get(uuid=self.chat_uuid)
+        except Chat.DoesNotExist:
             return None
-        return convo
+        return chat
 
     @database_sync_to_async
     def check_is_member(self):
-        return self.user in self.conversation.members.all()
+        return self.user in self.chat.members.all()
 
     @database_sync_to_async
     def set_message_viewed(self, msg_uuid):

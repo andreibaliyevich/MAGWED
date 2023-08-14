@@ -8,10 +8,10 @@ from rest_framework.views import APIView
 from django.utils.translation import ugettext_lazy as _
 from .choices import MessageType
 from .filters import MessageFilter
-from .models import Conversation, Message
+from .models import Chat, Message
 from .pagination import MessagePagination
 from .serializers import (
-    ConversationListSerializer,
+    ChatListSerializer,
     MessageFullReadSerializer,
     MessageCreateSerializer,
     TextMessageSerializer,
@@ -23,13 +23,13 @@ from .serializers import (
 channel_layer = get_channel_layer()
 
 
-class ConversationListView(generics.ListAPIView):
-    """ Conversation List View """
+class ChatListView(generics.ListAPIView):
+    """ Chat List View """
     permission_classes = [IsAuthenticated]
-    serializer_class = ConversationListSerializer
+    serializer_class = ChatListSerializer
 
     def get_queryset(self):
-        return Conversation.objects.filter(members=self.request.user)
+        return Chat.objects.filter(members=self.request.user)
 
 
 class MessageListView(generics.ListAPIView):
@@ -50,7 +50,7 @@ class TextMessageView(APIView):
 
     def post(self, request, *args, **kwargs):
         msg_serializer = MessageCreateSerializer(
-            data={'conversation': request.data['conversation']},
+            data={'chat': request.data['chat']},
             context={'request': request},
         )
         msg_serializer.is_valid(raise_exception=True)
@@ -71,7 +71,7 @@ class TextMessageView(APIView):
         ).data
 
         async_to_sync(channel_layer.group_send)(
-            f'convo-{msg.conversation.uuid}',
+            f'convo-{msg.chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
@@ -87,7 +87,7 @@ class ImageMessageView(APIView):
 
     def post(self, request, *args, **kwargs):
         msg_serializer = MessageCreateSerializer(
-            data={'conversation': request.data['conversation']},
+            data={'chat': request.data['chat']},
             context={'request': request},
         )
         msg_serializer.is_valid(raise_exception=True)
@@ -108,7 +108,7 @@ class ImageMessageView(APIView):
         ).data
 
         async_to_sync(channel_layer.group_send)(
-            f'convo-{msg.conversation.uuid}',
+            f'convo-{msg.chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
@@ -124,7 +124,7 @@ class FileMessageView(APIView):
 
     def post(self, request, *args, **kwargs):
         msg_serializer = MessageCreateSerializer(
-            data={'conversation': request.data['conversation']},
+            data={'chat': request.data['chat']},
             context={'request': request},
         )
         msg_serializer.is_valid(raise_exception=True)
@@ -145,7 +145,7 @@ class FileMessageView(APIView):
         ).data
 
         async_to_sync(channel_layer.group_send)(
-            f'convo-{msg.conversation.uuid}',
+            f'convo-{msg.chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',

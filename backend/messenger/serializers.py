@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
-from .choices import ConversationType, MessageType
+from .choices import ChatType, MessageType
 from .models import (
-    Conversation,
-    GroupConversation,
+    Chat,
+    GroupChat,
     Message,
     TextMessage,
     ImageMessage,
@@ -17,18 +17,18 @@ class MessageCreateSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         user = self.context['request'].user
-        members = data['conversation'].members.all()
+        members = data['chat'].members.all()
 
         if not user in members:
             raise serializers.ValidationError({
-                'conversation': _('You are not a member of the conversation.')
+                'chat': _('You are not a member of the chat.')
             })
 
         return data
 
     class Meta:
         model = Message
-        fields = ['conversation']
+        fields = ['chat']
 
 
 class TextMessageSerializer(serializers.ModelSerializer):
@@ -130,11 +130,11 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class GroupConversationSerializer(serializers.ModelSerializer):
-    """ GroupConversation Serializer """
+class GroupChatSerializer(serializers.ModelSerializer):
+    """ Group Chat Serializer """
 
     class Meta:
-        model = GroupConversation
+        model = GroupChat
         fields = [
             'owner',
             'name',
@@ -142,21 +142,21 @@ class GroupConversationSerializer(serializers.ModelSerializer):
         ]
 
 
-class ConversationListSerializer(serializers.ModelSerializer):
-    """ Conversation List Serializer """
+class ChatListSerializer(serializers.ModelSerializer):
+    """ Chat List Serializer """
     details = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
 
     def get_details(self, obj):
         request = self.context['request']
 
-        if obj.convo_type == ConversationType.DIALOG:
+        if obj.convo_type == ChatType.DIALOG:
             return UserShortReadSerializer(
                 obj.members.exclude(uuid=request.user.uuid).first(),
                 context={'request': request},
             ).data
-        elif obj.convo_type == ConversationType.GROUP:
-            return GroupConversationSerializer(
+        elif obj.convo_type == ChatType.GROUP:
+            return GroupChatSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
@@ -169,7 +169,7 @@ class ConversationListSerializer(serializers.ModelSerializer):
         ).data
 
     class Meta:
-        model = Conversation
+        model = Chat
         fields = [
             'uuid',
             'convo_type',

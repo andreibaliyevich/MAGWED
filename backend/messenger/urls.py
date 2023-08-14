@@ -5,7 +5,7 @@ from . import views
 app_name = 'messenger'
 
 urlpatterns = [
-    path('conversations/', views.ConversationListView.as_view()),
+    path('chats/', views.ChatListView.as_view()),
     path('messages/', include([
         path('', views.MessageListView.as_view()),
         path('text/', views.TextMessageView.as_view()),

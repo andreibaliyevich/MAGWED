@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from .models import (
-    Conversation,
-    GroupConversation,
+    Chat,
+    GroupChat,
     Message,
     TextMessage,
     ImageMessage,
@@ -11,17 +11,17 @@ from .models import (
 )
 
 
-class GroupConversationInline(admin.TabularInline):
-    """ Group Conversation in line for ConversationAdmin """
-    model = GroupConversation
+class GroupChatInline(admin.TabularInline):
+    """ Group Chat in line for ChatAdmin """
+    model = GroupChat
     extra = 0
 
 
-@admin.register(Conversation)
-class ConversationAdmin(admin.ModelAdmin):
-    """ Conversation Model for admin """
-    list_display = ('uuid', 'convo_type')
-    inlines = (GroupConversationInline,)
+@admin.register(Chat)
+class ChatAdmin(admin.ModelAdmin):
+    """ Chat Model for admin """
+    list_display = ('uuid', 'chat_type')
+    inlines = (GroupChatInline,)
 
 
 class TextMessageInline(admin.TabularInline):
@@ -50,6 +50,6 @@ class FileMessageInline(admin.TabularInline):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     """ Message Model for admin """
-    list_display = ('uuid', 'conversation', 'sender', 'msg_type', 'created_at')
+    list_display = ('uuid', 'chat', 'sender', 'msg_type', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     inlines = (TextMessageInline, ImageMessageInline, FileMessageInline)
