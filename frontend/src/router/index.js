@@ -161,9 +161,21 @@ const router = createRouter({
         },
         {
           path: 'messenger',
-          name: 'Messenger',
-          component: () => import('@/views/MessengerView.vue'),
-          beforeEnter: [isAuthenticated]
+          name: 'BaseMessenger',
+          component: () => import('@/views/messenger/BaseMessengerView.vue'),
+          beforeEnter: [isAuthenticated],
+          children: [
+            {
+              path: '',
+              name: 'Messenger',
+              component: () => import('@/views/messenger/MessengerView.vue')
+            },
+            {
+              path: ':uuid',
+              name: 'Chat',
+              component: () => import('@/views/messenger/ChatView.vue')
+            }
+          ]
         },
         {
           path: 'followers',

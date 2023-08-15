@@ -22,7 +22,7 @@ export const userType = {
   ORGANIZER: 3
 }
 
-export const conversationType = {
+export const chatType = {
   DIALOG: 1,
   GROUP: 2
 }

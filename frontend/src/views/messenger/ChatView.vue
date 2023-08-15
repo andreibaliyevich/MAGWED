@@ -1,33 +1,43 @@
 <script setup>
 import axios from 'axios'
 import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
-import { WS_URL, conversationType, messageType } from '@/config.js'
+import { useRoute } from 'vue-router'
+import { WS_URL, chatType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-import GroupAvatar from './GroupAvatar.vue'
-import MessageContent from './MessageContent.vue'
+import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
+import MessageContent from '@/components/messenger/MessageContent.vue'
 
+const route = useRoute()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
-const props = defineProps({
-  conversation: {
-    type: Object,
-    required: true
+const chatLoading = ref(false)
+const chat = ref({
+  uuid: '',
+  chat_type: null,
+  details: {
+    uuid: '',
+    name: '',
+    avatar: '',
+    online: null,
+    profile_url: null
   }
 })
 
-const messageListLoading = ref(true)
+const messageListLoading = ref(false)
 const messageList = ref([])
 const nextURL = ref(null)
 
-const convoSocket = ref(null)
-const convoSocketConnect = ref(false)
+const chatSocket = ref(null)
+const chatSocketConnect = ref(false)
 
 const message = ref('')
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
+
+const errorStatus = ref(null)
 
 const scrollArea = ref(null)
 const msgTextarea = ref(null)
@@ -49,11 +59,11 @@ const updateTextareaStyles = () => {
 }
 
 const getMessageList = async () => {
-  messageList.value = true
+  messageListLoading.value = true
   try {
     const response = await axios.get(
-      '/messenger/messages/?conversation='
-        + props.conversation.uuid
+      '/messenger/messages/?chat='
+        + chat.value.uuid
     )
     messageList.value = response.data.results
     nextURL.value = response.data.next
@@ -92,17 +102,17 @@ const getMoreMessageList = async () => {
 }
 
 const openConvoSocket = async () => {
-  convoSocket.value = new WebSocket(
+  chatSocket.value = new WebSocket(
     WS_URL
       + '/ws/messenger/'
-      + props.conversation.uuid
+      + chat.value.uuid
       + '/?'
       + userStore.token
   )
-  convoSocket.value.onopen = (event) => {
-    convoSocketConnect.value = true
+  chatSocket.value.onopen = (event) => {
+    chatSocketConnect.value = true
   }
-  convoSocket.value.onmessage = (event) => {
+  chatSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
     if (data.action == 'new_msg') {
       messageList.value.unshift(data.data)
@@ -121,26 +131,44 @@ const openConvoSocket = async () => {
       }
     }
   }
-  convoSocket.value.onclose = (event) => {
-    convoSocket.value = null
-    convoSocketConnect.value = false
+  chatSocket.value.onclose = (event) => {
+    chatSocket.value = null
+    chatSocketConnect.value = false
   }
-  convoSocket.value.onerror = (error) => {
-    convoSocket.value = null
-    convoSocketConnect.value = false
+  chatSocket.value.onerror = (error) => {
+    chatSocket.value = null
+    chatSocketConnect.value = false
   }
 }
 
 const closeConvoSocket = () => {
-  if (convoSocket.value) {
-    convoSocket.value.close()
+  if (chatSocket.value) {
+    chatSocket.value.close()
+  }
+}
+
+const getChatData = async () => {
+  chatLoading.value = true
+  try {
+    const response = await axios.get(
+      '/messenger/chats/'
+        + route.params.uuid
+        +'/'
+    )
+    chat.value = response.data
+    getMessageList()
+    openConvoSocket()
+  } catch (error) {
+    errorStatus.value = error.response.status
+  } finally {
+    chatLoading.value = false
   }
 }
 
 const sendMessage = async () => {
   try {
     const response = await axios.post('/messenger/messages/text/', {
-      conversation: props.conversation.uuid,
+      chat: chat.value.uuid,
       content: message.value
     })
     message.value = ''
@@ -155,7 +183,7 @@ const sendMessage = async () => {
 
 const sendImages = async (filelist) => {
   const imagesData = new FormData()
-  imagesData.append('conversation', props.conversation.uuid)
+  imagesData.append('chat', chat.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
     imagesData.append('content', filelist[i], filelist[i].name)
   }
@@ -168,7 +196,7 @@ const sendImages = async (filelist) => {
 
 const sendFiles = async (filelist) => {
   const filesData = new FormData()
-  filesData.append('conversation', props.conversation.uuid)
+  filesData.append('chat', chat.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
     filesData.append('content', filelist[i], filelist[i].name)
   }
@@ -180,7 +208,7 @@ const sendFiles = async (filelist) => {
 }
 
 const setMessageViewed = (msg_uuid) => {
-  convoSocket.value.send(JSON.stringify({
+  chatSocket.value.send(JSON.stringify({
     'action': 'viewed',
     'msg_uuid': msg_uuid
   }))
@@ -227,12 +255,17 @@ const vIntersectionMessage = {
   }
 }
 
-watch(() => props.conversation, (newValue) => {
-  messageList.value = []
-  closeConvoSocket()
-  getMessageList()
-  openConvoSocket()
-})
+watch(
+  () => route.params.uuid,
+  (newValue) => {
+    if (route.name == 'Chat') {
+      messageList.value = []
+      errorStatus.value = null
+      closeConvoSocket()
+      getChatData()
+    }
+  }
+)
 
 watch(message, (newValue) => {
   updateTextareaStyles()
@@ -240,8 +273,7 @@ watch(message, (newValue) => {
 
 onMounted(() => {
   updateTextareaStyles()
-  getMessageList()
-  openConvoSocket()
+  getChatData()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 
@@ -251,34 +283,47 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="conversation-detail">
-    <div class="card border-0">
+  <div class="chat-view">
+    <LoadingIndicator v-if="chatLoading" />
+    <div
+      v-else-if="errorStatus == 404"
+      class="d-flex justify-content-center align-items-center h-100"
+      style="min-height: 75vh;"
+    >
+      <div class="text-center">
+        <h3>{{ $t('errors.chat_not_found') }}</h3>
+      </div>
+    </div>
+    <div
+      v-else
+      class="card border-0"
+    >
       <div class="card-header bg-white">
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0">
             <UserAvatarExtended
-              v-if="conversation.convo_type == conversationType.DIALOG"
-              :src="conversation.details.avatar"
+              v-if="chat.chat_type == chatType.DIALOG"
+              :src="chat.details.avatar"
               :width="48"
               :height="48"
-              :online="conversation.details.online"
+              :online="chat.details.online"
             />
             <GroupAvatar
-              v-else-if="conversation.convo_type == conversationType.GROUP"
-              :src="conversation.details.image"
+              v-else-if="chat.chat_type == chatType.GROUP"
+              :src="chat.details.image"
               :width="48"
               :height="48"
             />
             <img
               v-else
-              src="/conversation.jpg"
+              src="/chat.jpg"
               class="rounded-circle"
               width="48"
               height="48"
             >
           </div>
           <div class="flex-grow-1 ms-3">
-            <strong>{{ this.conversation.details.name }}</strong>
+            <strong>{{ chat.details.name }}</strong>
           </div>
         </div>
       </div>
@@ -326,7 +371,7 @@ onUnmounted(() => {
             >
               <div class="my-0">
                 <div
-                  v-if="conversation.convo_type == conversationType.GROUP"
+                  v-if="chat.chat_type == chatType.GROUP"
                   class="d-flex align-items-start"
                 >
                   <UserAvatarExtended
@@ -338,7 +383,7 @@ onUnmounted(() => {
                   <div class="bg-light rounded p-2 ms-2">
                     <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
                     <MessageContent
-                      v-if="msg.viewed || !convoSocketConnect"
+                      v-if="msg.viewed || !chatSocketConnect"
                       :msgType="msg.msg_type"
                       :msgContent="msg.content"
                     />
@@ -355,7 +400,7 @@ onUnmounted(() => {
                   class="bg-light rounded p-2"
                 >
                   <MessageContent
-                    v-if="msg.viewed || !convoSocketConnect"
+                    v-if="msg.viewed || !chatSocketConnect"
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
                   />
@@ -405,7 +450,7 @@ onUnmounted(() => {
               @click="sendMessage()"
               type="button"
               class="btn btn-link"
-              :disabled="!convoSocketConnect || !message"
+              :disabled="!message"
             >
               <i class="fa-solid fa-paper-plane"></i>
             </button>

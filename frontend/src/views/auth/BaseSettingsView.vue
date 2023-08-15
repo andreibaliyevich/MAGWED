@@ -21,7 +21,8 @@ const { logout } = useLogout()
             aria-controls="settings-menu"
           >
             {{ $t('auth.settings_menu') }}
-            <i class="fa-solid fa-bars"></i>
+            
+            <i class="fa-solid fa-sliders"></i>
           </button>
           <div
             id="settings-menu"
@@ -46,7 +47,7 @@ const { logout } = useLogout()
               ></button>
             </div>
             <div class="offcanvas-body d-lg-block">
-              <div class="text-uppercase fw-bolder text-secondary">
+              <div class="d-none d-lg-block text-uppercase fw-bolder text-secondary mb-3">
                 {{ $t('auth.settings') }}
               </div>
               <ul class="nav nav-pills flex-column">
