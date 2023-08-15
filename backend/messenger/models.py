@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from main.validators import MinimumImageSizeValidator
 from .choices import ChatType, MessageType
 from .utilities import (
-    get_conversation_path,
+    get_chat_path,
     get_image_message_path,
     get_file_message_path,
 )
@@ -55,7 +55,7 @@ class GroupChat(models.Model):
     image = models.ImageField(
         blank=True,
         null=True,
-        upload_to=get_conversation_path,
+        upload_to=get_chat_path,
         validators=[
             FileExtensionValidator(allowed_extensions=('jpg', 'png')),
             MinimumImageSizeValidator(500, 500),
