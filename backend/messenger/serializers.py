@@ -177,3 +177,32 @@ class ChatListSerializer(serializers.ModelSerializer):
             'details',
             'last_message',
         ]
+
+
+class ChatRetrieveSerializer(serializers.ModelSerializer):
+    """ Chat Retrieve Serializer """
+    details = serializers.SerializerMethodField()
+
+    def get_details(self, obj):
+        request = self.context['request']
+
+        if obj.chat_type == ChatType.DIALOG:
+            return UserShortReadSerializer(
+                obj.members.exclude(uuid=request.user.uuid).first(),
+                context={'request': request},
+            ).data
+        elif obj.chat_type == ChatType.GROUP:
+            return GroupChatSerializer(
+                obj.group_details,
+                context={'request': request},
+            ).data
+        else:
+            return None
+
+    class Meta:
+        model = Chat
+        fields = [
+            'uuid',
+            'chat_type',
+            'details',
+        ]
