@@ -82,7 +82,7 @@ class TextMessageView(APIView):
         ).data
 
         async_to_sync(channel_layer.group_send)(
-            f'convo-{msg.chat.uuid}',
+            f'chat-{msg.chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
@@ -119,7 +119,7 @@ class ImageMessageView(APIView):
         ).data
 
         async_to_sync(channel_layer.group_send)(
-            f'convo-{msg.chat.uuid}',
+            f'chat-{msg.chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
@@ -156,7 +156,7 @@ class FileMessageView(APIView):
         ).data
 
         async_to_sync(channel_layer.group_send)(
-            f'convo-{msg.chat.uuid}',
+            f'chat-{msg.chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
