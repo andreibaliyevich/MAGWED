@@ -28,7 +28,7 @@ from .serializers import (
     OrganizerCoverSerializer,
     OrganizerProfileSerializer,
     OrganizerListSerializer,
-    OrganizerDetailSerializer,
+    OrganizerRetrieveSerializer,
 )
 from .services import send_activation_email, send_password_reset_email
 
@@ -283,9 +283,9 @@ class CostWorkMinMaxView(APIView):
         return Response(cost_work_min_max, status=status.HTTP_200_OK)
 
 
-class OrganizerDetailView(generics.RetrieveAPIView):
-    """ Organizer Detail View """
+class OrganizerRetrieveView(generics.RetrieveAPIView):
+    """ Organizer Retrieve View """
     permission_classes = [AllowAny]
     queryset = Organizer.objects.filter(user__is_active=True)
     lookup_field = 'profile_url'
-    serializer_class = OrganizerDetailSerializer
+    serializer_class = OrganizerRetrieveSerializer

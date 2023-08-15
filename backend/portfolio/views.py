@@ -15,13 +15,13 @@ from .serializers import (
     AlbumRUDSerializer,
     AlbumListShortSerializer,
     AlbumListSerializer,
-    AlbumDetailSerializer,
+    AlbumRetrieveSerializer,
     AlbumUUIDSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
     PhotoListShortSerializer,
     PhotoListSerializer,
-    PhotoDetailSerializer,
+    PhotoRetrieveSerializer,
     PhotoUUIDSerializer,
 )
 
@@ -80,12 +80,12 @@ class AlbumListView(generics.ListAPIView):
         return AlbumListSerializer
 
 
-class AlbumDetailView(generics.RetrieveAPIView):
-    """ Album Detail View """
+class AlbumRetrieveView(generics.RetrieveAPIView):
+    """ Album Retrieve View """
     permission_classes = [AllowAny]
     queryset = Album.objects.all()
     lookup_field = 'uuid'
-    serializer_class = AlbumDetailSerializer
+    serializer_class = AlbumRetrieveSerializer
 
 
 class AlbumUpViewCountView(APIView):
@@ -201,12 +201,12 @@ class PhotoListView(generics.ListAPIView):
         return PhotoListSerializer
 
 
-class PhotoDetailView(generics.RetrieveAPIView):
-    """ Photo Detail View """
+class PhotoRetrieveView(generics.RetrieveAPIView):
+    """ Photo Retrieve View """
     permission_classes = [AllowAny]
     queryset = Photo.objects.all()
     lookup_field = 'uuid'
-    serializer_class = PhotoDetailSerializer
+    serializer_class = PhotoRetrieveSerializer
 
 
 class PhotoUpViewCountView(APIView):

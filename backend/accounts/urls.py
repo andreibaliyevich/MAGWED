@@ -24,6 +24,6 @@ urlpatterns = [
     path('organizers/', include([
         path('', views.OrganizerListView.as_view()),
         path('cost-work-min-max/', views.CostWorkMinMaxView.as_view()),
-        path('<slug:profile_url>/', views.OrganizerDetailView.as_view()),
+        path('<slug:profile_url>/', views.OrganizerRetrieveView.as_view()),
     ])),
 ]

@@ -125,8 +125,8 @@ class PhotoListSerializer(serializers.ModelSerializer):
         ]
 
 
-class PhotoDetailSerializer(serializers.ModelSerializer):
-    """ Photo Detail Serializer """
+class PhotoRetrieveSerializer(serializers.ModelSerializer):
+    """ Photo Retrieve Serializer """
     owner = UserBriefReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
@@ -283,8 +283,8 @@ class AlbumListSerializer(serializers.ModelSerializer):
         ]
 
 
-class AlbumDetailSerializer(serializers.ModelSerializer):
-    """ Album Detail Serializer """
+class AlbumRetrieveSerializer(serializers.ModelSerializer):
+    """ Album Retrieve Serializer """
     owner = UserBriefReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
