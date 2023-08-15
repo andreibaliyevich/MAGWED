@@ -211,6 +211,7 @@
     "messenger": {
         "messenger": "Messenger",
         "chats": "Chats",
+        "chat_list": "Chat list",
         "no_chats": "You don't have chats!",
         "select_chat": "Select a chat",
         "type_message": "Type a message..."
@@ -348,6 +349,7 @@
         "textarea_message": "Hold down 'Ctrl' key and press 'Enter' to send message."
     },
     "errors": {
-        "page_not_found": "Page Not Found (404)"
+        "page_not_found": "Page Not Found (404)",
+        "chat_not_found": "Chat Not Found (404)"
     }
 }
