@@ -42,7 +42,7 @@ const removePhotoModalChoice = ref(null)
 const getPhotoData = async (pUuid) => {
   try {
     const response = await axios.get(
-      '/portfolio/photo/crud/detail/'
+      '/portfolio/photo/owner/rud/'
       + pUuid
       +'/'
     )
@@ -72,7 +72,7 @@ const updatePhoto = async () => {
   photoUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/photo/crud/detail/' + photoUuid.value +'/',
+      '/portfolio/photo/owner/rud/' + photoUuid.value +'/',
       {
         'device': photoDevice.value,
         'f_number': photoFNumber.value,
@@ -98,7 +98,7 @@ const updatePhoto = async () => {
 const removePhoto = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/photo/crud/detail/' + photoUuid.value +'/'
+      '/portfolio/photo/owner/rud/' + photoUuid.value +'/'
     )
     emit('removePhoto', photoUuid.value)
   } catch (error) {
@@ -407,9 +407,24 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar {
+  width: 0.3em;
+}
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 1em;
+}
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: #e72a26;
+}
+
 .max-vh-75 {
   max-height: 75vh !important;
 }
+
 @media (min-width: 1200px) {
   .px-xl-10 {
     padding-right: 10rem !important;

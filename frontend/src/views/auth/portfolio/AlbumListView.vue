@@ -27,7 +27,7 @@ const removeAlbumModalChoice = ref(null)
 
 const getAlbumList = async () => {
   try {
-    const response = await axios.get('/portfolio/album/crud/list/')
+    const response = await axios.get('/portfolio/album/owner/list-create/')
     albumList.value = response.data
   } catch (error) {
     console.error(error)
@@ -44,7 +44,10 @@ const createAlbum = async () => {
     albumData.append('title', albumTitle.value)
     albumData.append('description', albumDescription.value)
 
-    const response = await axios.post('/portfolio/album/crud/list/', albumData)
+    const response = await axios.post(
+      '/portfolio/album/owner/list-create/',
+      albumData
+    )
     errors.value = null
     createAlbumModalBootstrap.value.hide()
     router.push({
@@ -64,7 +67,7 @@ const createAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/album/crud/detail/'
+      '/portfolio/album/owner/detail/'
         + albumUuid.value
         +'/'
     )

@@ -46,7 +46,7 @@ const errors = ref(null)
 const getAlbumData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/album/crud/detail/'
+      '/portfolio/album/owner/rud/'
         + route.params.uuid
         +'/'
     )
@@ -78,9 +78,9 @@ const updateAlbumImage = async (filelist) => {
 
   try {
     const response = await axios.put(
-      '/portfolio/album/crud/detail/'
+      '/portfolio/album/owner/image-update/'
         + albumUuid.value
-        +'/image/',
+        +'/',
       albumImageData
     )
     albumImage.value = response.data.image
@@ -98,7 +98,7 @@ const updateAlbum = async () => {
   albumDataUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/album/crud/detail/'
+      '/portfolio/album/owner/rud/'
         + albumUuid.value
         +'/',
       {
@@ -122,7 +122,7 @@ const updateAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/album/crud/detail/'
+      '/portfolio/album/owner/rud/'
         + albumUuid.value
         +'/'
     )
@@ -148,7 +148,7 @@ const uploadAlbumPhotos = async (filelist) => {
 
       try {
         const response = await axios.post(
-          '/portfolio/photo/crud/list/',
+          '/portfolio/photo/owner/list-create/',
           photoData
         )
         albumPhotoList.value.unshift(response.data)

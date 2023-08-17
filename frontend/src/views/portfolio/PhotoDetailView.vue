@@ -54,7 +54,7 @@ const upPhotoViewCount = async () => {
 const getPhotoData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/photo/detail/'
+      '/portfolio/photo/retrieve/'
         + route.params.uuid
         + '/'
     )

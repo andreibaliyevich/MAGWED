@@ -81,7 +81,7 @@ const upAlbumViewCount = async () => {
 const getAlbumData = async () => {
   try {
     const response = await axios.get(
-      '/portfolio/album/detail/'
+      '/portfolio/album/retrieve/'
         + route.params.uuid
         + '/'
     )
