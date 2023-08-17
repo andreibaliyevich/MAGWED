@@ -62,7 +62,7 @@ const getMessageList = async () => {
   messageListLoading.value = true
   try {
     const response = await axios.get(
-      '/messenger/messages/?chat='
+      '/messenger/message/list/?chat='
         + chat.value.uuid
     )
     messageList.value = response.data.results
@@ -151,7 +151,7 @@ const getChatData = async () => {
   chatLoading.value = true
   try {
     const response = await axios.get(
-      '/messenger/chats/'
+      '/messenger/chat/retrieve/'
         + route.params.uuid
         +'/'
     )
@@ -167,7 +167,7 @@ const getChatData = async () => {
 
 const sendMessage = async () => {
   try {
-    const response = await axios.post('/messenger/messages/text/', {
+    const response = await axios.post('/messenger/message/text/', {
       chat: chat.value.uuid,
       content: message.value
     })
@@ -188,7 +188,7 @@ const sendImages = async (filelist) => {
     imagesData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/messages/images/', imagesData)
+    const response = await axios.post('/messenger/message/images/', imagesData)
   } catch (error) {
     console.error(error)
   }
@@ -201,7 +201,7 @@ const sendFiles = async (filelist) => {
     filesData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/messages/files/', filesData)
+    const response = await axios.post('/messenger/message/files/', filesData)
   } catch (error) {
     console.error(error)
   }

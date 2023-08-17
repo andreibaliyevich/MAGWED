@@ -16,7 +16,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const getChatList = async () => {
   try {
-    const response = await axios.get('/messenger/chats/')
+    const response = await axios.get('/messenger/chat/list/')
     chatList.value = response.data
   } catch (error) {
     console.error(error)
