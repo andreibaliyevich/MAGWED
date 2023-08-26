@@ -14,5 +14,6 @@ urlpatterns = [
         path('text/', views.TextMessageView.as_view()),
         path('images/', views.ImageMessageView.as_view()),
         path('files/', views.FileMessageView.as_view()),
+        path('write/', views.WriteMessageView.as_view()),
     ])),
 ]

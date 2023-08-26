@@ -21,8 +21,7 @@ class MessageCreateSerializer(serializers.ModelSerializer):
 
         if not user in members:
             raise serializers.ValidationError({
-                'chat': _('You are not a member of the chat.')
-            })
+                'chat': _('You are not a member of the chat.')})
 
         return data
 

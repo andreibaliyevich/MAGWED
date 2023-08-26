@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils.translation import ugettext_lazy as _
-from .choices import MessageType
+from accounts.serializers import UserUUIDSerializer
+from .choices import ChatType, MessageType
 from .filters import MessageFilter
 from .models import Chat, Message
 from .pagination import MessagePagination
@@ -71,8 +72,7 @@ class TextMessageView(APIView):
         )
 
         text_serializer = TextMessageSerializer(data={
-            'content': request.data['content']
-        })
+            'content': request.data['content']})
         text_serializer.is_valid(raise_exception=True)
         text_serializer.save(message=msg)
 
@@ -157,6 +157,56 @@ class FileMessageView(APIView):
 
         async_to_sync(channel_layer.group_send)(
             f'chat-{msg.chat.uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'new_msg',
+                'data': msg_data,
+            }
+        )
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class WriteMessageView(APIView):
+    """ Write Message View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user_serializer = UserUUIDSerializer(data={
+            'uuid': request.data['uuid']})
+        user_serializer.is_valid(raise_exception=True)
+        user = user_serializer.user
+
+        chat = None
+        dialog_chats = Chat.objects.filter(
+            chat_type=ChatType.DIALOG,
+            members=request.user,
+        )
+        for dialog in dialog_chats:
+            if user == dialog.members.exclude(uuid=request.user.uuid).first():
+                chat = dialog
+                break
+        if chat is None:
+            chat = Chat.objects.create(chat_type=ChatType.DIALOG)
+            chat.members.add(request.user, user)
+
+        msg = Message.objects.create(
+            chat=chat,
+            sender=request.user,
+            msg_type=MessageType.TEXT,
+        )
+
+        text_serializer = TextMessageSerializer(data={
+            'content': request.data['content']})
+        text_serializer.is_valid(raise_exception=True)
+        text_serializer.save(message=msg)
+
+        msg_data = MessageFullReadSerializer(
+            msg,
+            context={'request': request},
+        ).data
+
+        async_to_sync(channel_layer.group_send)(
+            f'chat-{chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
