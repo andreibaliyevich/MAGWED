@@ -43,12 +43,19 @@ const organizerData = ref({
   rating: 0.0
 })
 
+const messageSending = ref(false)
+const textContent = ref('')
+
 const mediaDataTab = ref('photos')
 
 const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString } = useLocaleDateTime()
 
+const errors = ref(null)
 const errorStatus = ref(null)
+
+const writeMessageModal = ref(null)
+const writeMessageModalBootstrap = ref(null)
 
 const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]
@@ -99,9 +106,28 @@ const unfollowUser = async () => {
   }
 }
 
+const writeMessage = async () => {
+  messageSending.value = true
+  try {
+    const response = await axios.post('/messenger/message/write/', {
+      'uuid': organizerData.value.user.uuid,
+      'content': textContent.value
+    })
+    writeMessageModalBootstrap.value.hide()
+    textContent.value = ''
+  } catch (error) {
+    errors.value = error.response.data
+  } finally {
+    messageSending.value = false
+  }
+}
+
 onMounted(() => {
   getOrganizerData()
   connectionBusStore.$subscribe(updateUserStatus)
+  writeMessageModalBootstrap.value = new bootstrap.Modal(
+    writeMessageModal.value
+  )
 })
 </script>
 
@@ -176,9 +202,11 @@ onMounted(() => {
             <button
               type="button"
               class="btn btn-light ms-2"
+              data-bs-toggle="modal"
+              data-bs-target="#writeMessageModal"
             >
               <i class="fa-solid fa-pen"></i>
-              Write
+              {{ $t('messenger.write') }}
             </button>
           </div>
         </div>
@@ -357,5 +385,73 @@ onMounted(() => {
       </div>
 
     </div>
+
+    <Teleport to="body">
+      <div
+        ref="writeMessageModal"
+        id="writeMessageModal"
+        class="modal fade"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="writeMessageModalLabel"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                id="writeMessageModalLabel"
+                class="modal-title"
+              >
+                {{ $t('messenger.new_message') }}
+              </h5>
+              <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form
+                @submit.prevent="writeMessage()"
+                id="writeMessageModalForm"
+              >
+                <BaseTextarea
+                  v-model="textContent"
+                  id="id_content"
+                  name="content"
+                  :label="$t('messenger.content')"
+                  :errors="
+                    errors?.content
+                    ? errors.content
+                    : []
+                  "
+                />
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-light"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.cancel') }}
+              </button>
+              <SubmitButton
+                :loadingStatus="messageSending"
+                buttonClass="btn btn-brand"
+                form="writeMessageModalForm"
+                :disabled="!textContent"
+              >
+                {{ $t('btn.send') }}
+              </SubmitButton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
