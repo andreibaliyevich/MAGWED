@@ -169,7 +169,10 @@ onMounted(() => {
                 </li>
                 <li>
                   <button
-                    @click="oldCommentContent = commentItem.content"
+                    @click="() => {
+                      commentDropdownBootstrap.hide()
+                      oldCommentContent = commentItem.content
+                    }"
                     type="button"
                     class="dropdown-item btn btn-link"
                     data-bs-toggle="modal"
@@ -181,6 +184,7 @@ onMounted(() => {
                 </li>
                 <li>
                   <button
+                    @click="commentDropdownBootstrap.hide()"
                     type="button"
                     class="dropdown-item btn btn-link"
                     data-bs-toggle="modal"
