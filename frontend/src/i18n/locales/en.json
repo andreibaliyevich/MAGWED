@@ -214,6 +214,9 @@
         "chat_list": "Chat list",
         "no_chats": "You don't have chats!",
         "select_chat": "Select a chat",
+        "write": "Write",
+        "new_message": "New message",
+        "content": "Content",
         "type_message": "Type a message..."
     },
     "follow": {
