@@ -33,10 +33,12 @@ const nextURL = ref(null)
 const chatSocket = ref(null)
 const chatSocketConnect = ref(false)
 
-const message = ref('')
+const messageSending = ref(false)
+const textContent = ref('')
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
+const errors = ref(null)
 const errorStatus = ref(null)
 
 const scrollArea = ref(null)
@@ -165,23 +167,27 @@ const getChatData = async () => {
   }
 }
 
-const sendMessage = async () => {
+const sendTextMessage = async () => {
+  messageSending.value = true
   try {
     const response = await axios.post('/messenger/message/text/', {
       chat: chat.value.uuid,
-      content: message.value
+      content: textContent.value
     })
-    message.value = ''
+    textContent.value = ''
     nextTick(() => {
       updateTextareaStyles()
       msgTextarea.value.focus()
     })
   } catch (error) {
-    console.error(error)
+    errors.value = error.response.data
+  } finally {
+    messageSending.value = false
   }
 }
 
-const sendImages = async (filelist) => {
+const sendImageMessage = async (filelist) => {
+  messageSending.value = true
   const imagesData = new FormData()
   imagesData.append('chat', chat.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
@@ -190,11 +196,14 @@ const sendImages = async (filelist) => {
   try {
     const response = await axios.post('/messenger/message/images/', imagesData)
   } catch (error) {
-    console.error(error)
+    errors.value = error.response.data
+  } finally {
+    messageSending.value = false
   }
 }
 
-const sendFiles = async (filelist) => {
+const sendFileMessage = async (filelist) => {
+  messageSending.value = true
   const filesData = new FormData()
   filesData.append('chat', chat.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
@@ -203,7 +212,9 @@ const sendFiles = async (filelist) => {
   try {
     const response = await axios.post('/messenger/message/files/', filesData)
   } catch (error) {
-    console.error(error)
+    errors.value = error.response.data
+  } finally {
+    messageSending.value = false
   }
 }
 
@@ -267,7 +278,7 @@ watch(
   }
 )
 
-watch(message, (newValue) => {
+watch(textContent, (newValue) => {
   updateTextareaStyles()
 })
 
@@ -418,11 +429,22 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
+        <div
+          v-if="messageSending"
+          class="d-flex justify-content-end"
+        >
+          <div
+            role="status"
+            class="spinner-border spinner-border-sm"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
       </div>
       <div class="card-footer bg-white">
         <div class="d-flex align-items-end gap-2">
           <FileInputButton
-            @selectedFiles="sendImages"
+            @selectedFiles="sendImageMessage"
             buttonClass="btn btn-light"
             accept="image/*"
             multiple
@@ -430,7 +452,7 @@ onUnmounted(() => {
             <i class="fa-solid fa-file-image"></i>
           </FileInputButton>
           <FileInputButton
-            @selectedFiles="sendFiles"
+            @selectedFiles="sendFileMessage"
             buttonClass="btn btn-light"
             multiple
           >
@@ -439,18 +461,18 @@ onUnmounted(() => {
           <div class="d-flex align-items-center border rounded w-100">
             <textarea
               ref="msgTextarea"
-              v-model="message"
-              @keyup.ctrl.enter="sendMessage()"
+              v-model="textContent"
+              @keyup.ctrl.enter="sendTextMessage()"
               :placeholder="$t('messenger.type_message')"
               rows="1"
               class="form-control border-0"
               style="max-height: 150px;"
             ></textarea>
             <button
-              @click="sendMessage()"
+              @click="sendTextMessage()"
               type="button"
               class="btn btn-link"
-              :disabled="!message"
+              :disabled="!textContent"
             >
               <i class="fa-solid fa-paper-plane"></i>
             </button>
