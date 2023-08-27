@@ -21,6 +21,7 @@ class GroupChatInline(admin.TabularInline):
 class ChatAdmin(admin.ModelAdmin):
     """ Chat Model for admin """
     list_display = ('uuid', 'chat_type')
+    radio_fields = {'chat_type': admin.HORIZONTAL}
     inlines = (GroupChatInline,)
 
 
