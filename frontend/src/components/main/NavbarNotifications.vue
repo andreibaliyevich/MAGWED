@@ -162,7 +162,7 @@ onMounted(() => {
         class="dropdown-menu dropdown-menu-end border border-light shadow"
         aria-labelledby="notification-list-dropdown"
       >
-        <li class="overflow-auto">
+        <li class="overflow-y-auto">
           <ul
             v-if="notificationList.length > 0"
             class="list-group list-group-flush"
@@ -204,20 +204,20 @@ onMounted(() => {
   width: 330px;
 }
 
-li.overflow-auto {
+li.overflow-y-auto {
   max-height: 550px;
 }
-li.overflow-auto::-webkit-scrollbar {
+li.overflow-y-auto::-webkit-scrollbar {
   width: 0.2em;
 }
-li.overflow-auto::-webkit-scrollbar-track {
+li.overflow-y-auto::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
-li.overflow-auto::-webkit-scrollbar-thumb {
+li.overflow-y-auto::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 1em;
 }
-li.overflow-auto::-webkit-scrollbar-thumb:hover {
+li.overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
 }
 </style>

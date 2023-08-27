@@ -193,10 +193,9 @@ onMounted(() => {
             <div class="modal-body">
               <form
                 @submit.prevent="createAlbum()"
-                id="albumModalForm"
-                class="row g-3"
+                id="createAlbumForm"
               >
-                <div class="col-md-12">
+                <div class="mb-3">
                   <span v-if="albumImage">
                     {{ $t('portfolio.chosen_image') }}:
                     {{ albumImage.name }}
@@ -220,7 +219,7 @@ onMounted(() => {
                     </small>
                   </div>
                 </div>
-                <div class="col-md-12">
+                <div class="mb-3">
                   <BaseInput
                     v-model="albumTitle"
                     type="text"
@@ -231,7 +230,7 @@ onMounted(() => {
                     :errors="errors?.title ? errors.title : []"
                   />
                 </div>
-                <div class="col-md-12">
+                <div class="mb-3">
                   <BaseTextarea
                     v-model="albumDescription"
                     id="id_description"
@@ -253,7 +252,7 @@ onMounted(() => {
               <SubmitButton
                 :loadingStatus="albumCreating"
                 buttonClass="btn btn-brand"
-                form="albumModalForm"
+                form="createAlbumForm"
                 :disabled="!albumImage || !albumTitle"
               >
                 {{ $t('btn.create') }}

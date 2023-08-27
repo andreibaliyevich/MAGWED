@@ -340,7 +340,7 @@ onUnmounted(() => {
       </div>
       <div
         ref="scrollArea"
-        class="card-body overflow-auto"
+        class="card-body overflow-y-auto"
       >
         <LoadingIndicator v-if="messageListLoading" />
         <div v-if="nextURL" v-intersection-messages></div>
@@ -485,10 +485,10 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.card-body.overflow-auto {
+.card-body.overflow-y-auto {
   height: 60vh;
 }
-.card-body.overflow-auto::-webkit-scrollbar {
+.card-body.overflow-y-auto::-webkit-scrollbar {
   width: 0.3em;
 }
 textarea {
@@ -497,16 +497,16 @@ textarea {
 textarea::-webkit-scrollbar {
   width: 0.2em;
 }
-.card-body.overflow-auto::-webkit-scrollbar-track,
+.card-body.overflow-y-auto::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
-.card-body.overflow-auto::-webkit-scrollbar-thumb,
+.card-body.overflow-y-auto::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 1em;
 }
-.card-body.overflow-auto::-webkit-scrollbar-thumb:hover,
+.card-body.overflow-y-auto::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
 }
