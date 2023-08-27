@@ -325,14 +325,14 @@ onMounted(() => {
         <div
           role="group"
           class="btn-group"
-          aria-label="Basic radio toggle button group"
+          aria-label="Media Data Tab"
         >
           <input
             v-model="mediaDataTab"
-            id="id_radio_tab_photos"
-            name="radio_tab_photos"
-            type="radio"
             value="photos"
+            id="id_radio_tab_photos"
+            name="radio_tab"
+            type="radio"
             class="btn-check"
           >
           <label
@@ -344,10 +344,10 @@ onMounted(() => {
 
           <input
             v-model="mediaDataTab"
-            id="id_radio_tab_albums"
-            name="radio_tab_albums"
-            type="radio"
             value="albums"
+            id="id_radio_tab_albums"
+            name="radio_tab"
+            type="radio"
             class="btn-check"
           >
           <label
@@ -359,10 +359,10 @@ onMounted(() => {
 
           <input
             v-model="mediaDataTab"
-            id="id_radio_tab_reviews"
-            name="radio_tab_reviews"
-            type="radio"
             value="reviews"
+            id="id_radio_tab_reviews"
+            name="radio_tab"
+            type="radio"
             class="btn-check"
           >
           <label
