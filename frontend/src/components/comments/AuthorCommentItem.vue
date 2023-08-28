@@ -98,7 +98,7 @@ onMounted(() => {
           :src="commentItem.author.avatar"
           :width="32"
           :height="32"
-          :online="commentItem.author.online"
+          :online="commentItem.author.status == 'online' ? true : false"
         />
       </LocaleRouterLink>
       <UserAvatarExtended
@@ -106,7 +106,7 @@ onMounted(() => {
         :src="commentItem.author.avatar"
         :width="32"
         :height="32"
-        :online="commentItem.author.online"
+        :online="commentItem.author.status == 'online' ? true : false"
       />
       <div class="flex-grow-1 ms-1">
         <div class="d-flex justify-content-between">

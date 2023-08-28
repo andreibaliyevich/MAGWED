@@ -184,7 +184,7 @@ const closeCommentSocket = () => {
 const updateUserStatus = (cList, state) => {
   cList.forEach((element) => {
     if (element.author.uuid == state.user_uuid) {
-      element.author.online = state.online
+      element.author.status = state.status
     }
     if (element.comments.length > 0) {
       updateUserStatus(element.comments, state)

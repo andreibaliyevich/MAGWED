@@ -139,7 +139,7 @@ const removeReview = async () => {
 const updateUserStatus = (mutation, state) => {
   reviewList.value.forEach((element) => {
     if (element.author.uuid == state.user_uuid) {
-      element.author.online = state.online
+      element.author.status = state.status
     }
   })
 }
@@ -264,7 +264,7 @@ onMounted(() => {
                     :src="reviewItem.author.avatar"
                     :width="48"
                     :height="48"
-                    :online="reviewItem.author.online"
+                    :online="reviewItem.author.status == 'online' ? true : false"
                   />
                 </LocaleRouterLink>
                 <UserAvatarExtended
@@ -272,7 +272,7 @@ onMounted(() => {
                   :src="reviewItem.author.avatar"
                   :width="48"
                   :height="48"
-                  :online="reviewItem.author.online"
+                  :online="reviewItem.author.status == 'online' ? true : false"
                 />
                 <div class="flex-grow-1 ms-1">
                   <div class="d-flex justify-content-between">
