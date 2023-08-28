@@ -324,8 +324,8 @@ class UserUUIDSerializer(serializers.Serializer):
         return value
 
 
-class UserBriefReadSerializer(serializers.ModelSerializer):
-    """ User Brief Read Serializer """
+class UserOwnerReadSerializer(serializers.ModelSerializer):
+    """ User Owner Read Serializer """
     profile_url = serializers.SerializerMethodField()
 
     def get_profile_url(self, obj):
@@ -342,13 +342,42 @@ class UserBriefReadSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserBriefReadSerializer(serializers.ModelSerializer):
+    """ User Brief Read Serializer """
+    status = serializers.SerializerMethodField()
+
+    def get_status(self, obj):
+        ch_set = obj.connection_histories.all()
+        if ch_set.filter(online=True).count() > 0:
+            return 'online'
+        ch_obj = ch_set.first()
+        if ch_obj is not None:
+            return ch_obj.last_visit
+        return None
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'uuid',
+            'name',
+            'avatar',
+            'status',
+        ]
+
+
 class UserShortReadSerializer(serializers.ModelSerializer):
     """ User Short Read Serializer """
-    online = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
     profile_url = serializers.SerializerMethodField()
 
-    def get_online(self, obj):
-        return bool(obj.connection_histories.filter(online=True).count())
+    def get_status(self, obj):
+        ch_set = obj.connection_histories.all()
+        if ch_set.filter(online=True).count() > 0:
+            return 'online'
+        ch_obj = ch_set.first()
+        if ch_obj is not None:
+            return ch_obj.last_visit
+        return None
 
     def get_profile_url(self, obj):
         if obj.user_type == UserType.ORGANIZER:
@@ -361,7 +390,7 @@ class UserShortReadSerializer(serializers.ModelSerializer):
             'uuid',
             'name',
             'avatar',
-            'online',
+            'status',
             'profile_url',
         ]
 
@@ -376,11 +405,17 @@ class UserRetrieveReadSerializer(serializers.ModelSerializer):
         allow_null=True,
         queryset=City.objects.all(),
     )
-    online = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
 
-    def get_online(self, obj):
-        return bool(obj.connection_histories.filter(online=True).count())
+    def get_status(self, obj):
+        ch_set = obj.connection_histories.all()
+        if ch_set.filter(online=True).count() > 0:
+            return 'online'
+        ch_obj = ch_set.first()
+        if ch_obj is not None:
+            return ch_obj.last_visit
+        return None
 
     def get_following(self, obj):
         if self.context['request'].user.is_authenticated:
@@ -400,7 +435,7 @@ class UserRetrieveReadSerializer(serializers.ModelSerializer):
             'city',
             'phone',
             'date_joined',
-            'online',
+            'status',
             'following',
         ]
 

@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.utils.translation import ugettext_lazy as _
-from accounts.serializers import UserShortReadSerializer
+from accounts.serializers import (
+    UserBriefReadSerializer,
+    UserShortReadSerializer,
+)
 from .choices import ChatType, MessageType
 from .models import (
     Chat,
@@ -72,7 +75,7 @@ class FileMessageSerializer(serializers.ModelSerializer):
 
 class MessageFullReadSerializer(serializers.ModelSerializer):
     """ Message Full Read Serializer """
-    sender = UserShortReadSerializer(read_only=True)
+    sender = UserBriefReadSerializer(read_only=True)
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
@@ -150,7 +153,7 @@ class ChatListSerializer(serializers.ModelSerializer):
         request = self.context['request']
 
         if obj.chat_type == ChatType.DIALOG:
-            return UserShortReadSerializer(
+            return UserBriefReadSerializer(
                 obj.members.exclude(uuid=request.user.uuid).first(),
                 context={'request': request},
             ).data

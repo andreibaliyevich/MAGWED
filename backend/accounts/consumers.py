@@ -19,7 +19,7 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
 
         if self.user.is_authenticated:
             await self.set_user_online()
-            await self.send_status(True)
+            await self.send_status('online')
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -28,26 +28,26 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         )
 
         if self.user.is_authenticated:
-            online = await self.set_user_offline()
-            await self.send_status(online)
+            status = await self.set_user_offline()
+            await self.send_status(status)
 
     async def receive_json(self, content):
-        await self.send_status(content['online'])
+        await self.send_status(content['status'])
 
-    async def send_status(self, online):
+    async def send_status(self, status):
         await self.channel_layer.group_send(
             self.ch_group_name,
             {
                 'type': 'send_json_data',
                 'user_uuid': str(self.user.uuid),
-                'online': online,
+                'status': status,
             }
         )
 
     async def send_json_data(self, event):
         await self.send_json({
             'user_uuid': event['user_uuid'],
-            'online': event['online'],
+            'status': event['status'],
         })
 
     @database_sync_to_async
@@ -71,4 +71,6 @@ class ConnectionHistoryConsumer(AsyncJsonWebsocketConsumer):
         ch_obj.online = False
         ch_obj.save(update_fields=['online', 'last_visit'])
 
-        return bool(self.user.connection_histories.filter(online=True).count())
+        if self.user.connection_histories.filter(online=True).count() > 0:
+            return 'online'
+        return str(ch_obj.last_visit)

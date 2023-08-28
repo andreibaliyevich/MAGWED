@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.contenttypes.models import ContentType
 from main.serializers import TagRelatedField
-from accounts.serializers import UserBriefReadSerializer
+from accounts.serializers import UserOwnerReadSerializer
 from .models import Album, Photo
 
 
@@ -106,7 +106,7 @@ class PhotoListShortSerializer(serializers.ModelSerializer):
 
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
-    owner = UserBriefReadSerializer(read_only=True)
+    owner = UserOwnerReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
 
     def get_like_count(self, obj):
@@ -127,7 +127,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoRetrieveSerializer(serializers.ModelSerializer):
     """ Photo Retrieve Serializer """
-    owner = UserBriefReadSerializer(read_only=True)
+    owner = UserOwnerReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
@@ -264,7 +264,7 @@ class AlbumListShortSerializer(serializers.ModelSerializer):
 
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
-    owner = UserBriefReadSerializer(read_only=True)
+    owner = UserOwnerReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
 
     def get_like_count(self, obj):
@@ -285,7 +285,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 class AlbumRetrieveSerializer(serializers.ModelSerializer):
     """ Album Retrieve Serializer """
-    owner = UserBriefReadSerializer(read_only=True)
+    owner = UserOwnerReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
