@@ -28,7 +28,7 @@ const organizerData = ref({
     city: null,
     phone: '',
     date_joined: null,
-    online: null,
+    status: null,
     following: null
   },
   roles: [],
@@ -49,7 +49,7 @@ const textContent = ref('')
 const mediaDataTab = ref('photos')
 
 const { convertToCurrency } = useCurrencyConversion()
-const { getLocaleDateString } = useLocaleDateTime()
+const { getLocaleDateString, getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
 const errorStatus = ref(null)
@@ -78,7 +78,7 @@ const getOrganizerData = async () => {
 
 const updateUserStatus = (mutation, state) => {
   if (organizerData.value.user.uuid == state.user_uuid) {
-    organizerData.value.user.online = state.online
+    organizerData.value.user.status = state.status
   }
 }
 
@@ -155,16 +155,30 @@ onMounted(() => {
         >
         <div class="d-lg-flex align-items-start text-center mx-3 mx-lg-5 mb-3">
           <div class="position-relative" style="margin-top: -5rem;">
-            <UserAvatarExtended
+            <UserAvatar
               :src="organizerData.user.avatar"
               :width="180"
               :height="180"
-              :online="organizerData.user.online"
               class="border border-light border-3"
             />
           </div>
           <div class="d-inline-block mt-3 ms-lg-3">
             <h1 class="h3">{{ organizerData.user.name }}</h1>
+            <div
+              v-if="organizerData.user.status == 'online'"
+              class="text-dark"
+            >
+              <i class="fa-solid fa-circle fa-sm text-primary"></i>
+              {{ $t('user.online') }}
+            </div>
+            <span
+              v-else
+              class="text-secondary"
+            >
+              <i class="fa-solid fa-circle fa-sm"></i>
+              {{ $t('user.last_visit') }}
+              {{ getLocaleDateTimeString(organizerData.user.status) }}
+            </span>
             <div class="row g-1">
               <div
                 v-for="roleValue in organizerData.roles"

@@ -124,7 +124,7 @@ const resetParamsAndGetOrganizers = () => {
 const updateUserStatus = (mutation, state) => {
   organizerList.value.forEach((element) => {
     if (element.user.uuid == state.user_uuid) {
-      element.user.online = state.online
+      element.user.status = state.status
     }
   })
 }
@@ -328,7 +328,7 @@ onMounted(() => {
                   :src="organizer.user.avatar"
                   :width="180"
                   :height="180"
-                  :online="organizer.user.online"
+                  :online="organizer.user.status == 'online' ? true : false"
                 />
               </LocaleRouterLink>
               <LocaleRouterLink

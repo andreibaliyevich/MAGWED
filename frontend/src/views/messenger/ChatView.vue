@@ -21,7 +21,7 @@ const chat = ref({
     uuid: '',
     name: '',
     avatar: '',
-    online: null,
+    status: null,
     profile_url: null
   }
 })
@@ -226,9 +226,12 @@ const setMessageViewed = (msg_uuid) => {
 }
 
 const updateUserStatus = (mutation, state) => {
+  if (chat.value.details.uuid == state.user_uuid) {
+    chat.value.details.status = state.status
+  }
   messageList.value.forEach((element) => {
     if (element.sender.uuid == state.user_uuid) {
-      element.sender.online = state.online
+      element.sender.status = state.status
     }
   })
 }
@@ -317,7 +320,7 @@ onUnmounted(() => {
               :src="chat.details.avatar"
               :width="48"
               :height="48"
-              :online="chat.details.online"
+              :online="chat.details.status == 'online' ? true : false"
             />
             <GroupAvatar
               v-else-if="chat.chat_type == chatType.GROUP"
@@ -389,7 +392,7 @@ onUnmounted(() => {
                     :src="msg.sender.avatar"
                     :width="48"
                     :height="48"
-                    :online="msg.sender.online"
+                    :online="msg.sender.status == 'online' ? true : false"
                   />
                   <div class="bg-light rounded p-2 ms-2">
                     <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
