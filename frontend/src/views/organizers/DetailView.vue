@@ -164,22 +164,22 @@ onMounted(() => {
           </div>
           <div class="d-inline-block mt-3 ms-lg-3">
             <h1 class="h3">{{ organizerData.user.name }}</h1>
-            <div
+            <span
               v-if="organizerData.user.status == 'online'"
               class="text-dark"
             >
-              <i class="fa-solid fa-circle fa-sm text-primary"></i>
+              <i class="fa-solid fa-circle fa-xs text-success"></i>
               {{ $t('user.online') }}
-            </div>
+            </span>
             <span
               v-else
               class="text-secondary"
             >
-              <i class="fa-solid fa-circle fa-sm"></i>
+              <i class="fa-solid fa-circle fa-xs"></i>
               {{ $t('user.last_visit') }}
               {{ getLocaleDateTimeString(organizerData.user.status) }}
             </span>
-            <div class="row g-1">
+            <div class="row g-1 mt-1">
               <div
                 v-for="roleValue in organizerData.roles"
                 :key="roleValue"

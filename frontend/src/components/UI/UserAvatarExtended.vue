@@ -56,7 +56,7 @@ export default {
       <span
         :class="[
           'position-absolute bottom-0 end-0 border border-light border-2 rounded-circle',
-          online ? 'bg-primary' : 'bg-secondary'
+          online ? 'bg-success' : 'bg-secondary'
         ]"
         :style="{
           'width': statusWidth + 'px',
