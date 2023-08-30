@@ -28,9 +28,6 @@ const oldCommentContent = ref('')
 
 const oldCommentErrors = ref(null)
 
-const commentDropdown = ref(null)
-const commentDropdownBootstrap = ref(null)
-
 const updateCommentModal = ref(null)
 const updateCommentModalBootstrap = ref(null)
 const removeCommentModalChoice = ref(null)
@@ -72,9 +69,6 @@ watch(newCommentContent, (newValue) => {
 })
 
 onMounted(() => {
-  commentDropdownBootstrap.value = new bootstrap.Dropdown(
-    commentDropdown.value
-  )
   updateCommentModalBootstrap.value = new bootstrap.Modal(
     updateCommentModal.value
   )
@@ -135,11 +129,10 @@ onMounted(() => {
           <div class="d-flex justify-content-end">
             <div class="dropdown">
               <button
-                ref="commentDropdown"
                 type="button"
                 class="btn btn-link link-dark"
                 data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
+                data-bs-auto-close="true"
                 aria-expanded="false"
               >
                 <i class="fa-solid fa-ellipsis"></i>
@@ -147,10 +140,7 @@ onMounted(() => {
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
                   <button
-                    @click="() => {
-                      commentDropdownBootstrap.hide()
-                      replyComment = true
-                    }"
+                    @click="replyComment = true"
                     type="button"
                     class="dropdown-item btn btn-link"
                   >
@@ -169,10 +159,7 @@ onMounted(() => {
                 </li>
                 <li>
                   <button
-                    @click="() => {
-                      commentDropdownBootstrap.hide()
-                      oldCommentContent = commentItem.content
-                    }"
+                    @click="oldCommentContent = commentItem.content"
                     type="button"
                     class="dropdown-item btn btn-link"
                     data-bs-toggle="modal"
@@ -184,7 +171,6 @@ onMounted(() => {
                 </li>
                 <li>
                   <button
-                    @click="commentDropdownBootstrap.hide()"
                     type="button"
                     class="dropdown-item btn btn-link"
                     data-bs-toggle="modal"

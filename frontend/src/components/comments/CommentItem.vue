@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
 import { useUserStore } from '@/stores/user.js'
@@ -26,19 +26,10 @@ const {
   sendComment
 } = useSendComment('comment', props.commentItem.uuid)
 
-const commentDropdown = ref(null)
-const commentDropdownBootstrap = ref(null)
-
 watch(newCommentContent, (newValue) => {
   if (!newValue) {
     replyComment.value = false
   }
-})
-
-onMounted(() => {
-  commentDropdownBootstrap.value = new bootstrap.Dropdown(
-    commentDropdown.value
-  )
 })
 </script>
 
@@ -95,7 +86,7 @@ onMounted(() => {
                 type="button"
                 class="btn btn-link link-dark"
                 data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
+                data-bs-auto-close="true"
                 aria-expanded="false"
               >
                 <i class="fa-solid fa-ellipsis"></i>
@@ -103,10 +94,7 @@ onMounted(() => {
               <ul class="dropdown-menu dropdown-menu-end">
                 <li v-if="userStore.isLoggedIn">
                   <button
-                    @click="() => {
-                      commentDropdownBootstrap.hide()
-                      replyComment = true
-                    }"
+                    @click="replyComment = true"
                     type="button"
                     class="dropdown-item btn btn-link"
                   >
