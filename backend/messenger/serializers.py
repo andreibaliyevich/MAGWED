@@ -81,20 +81,22 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
     def get_content(self, obj):
         if obj.msg_type == MessageType.TEXT:
             return TextMessageSerializer(obj.text).data['content']
-        elif obj.msg_type == MessageType.IMAGES:
+
+        if obj.msg_type == MessageType.IMAGES:
             return ImageMessageSerializer(
                 obj.images.all(),
                 many=True,
                 context=self.context,
             ).data
-        elif obj.msg_type == MessageType.FILES:
+
+        if obj.msg_type == MessageType.FILES:
             return FileMessageSerializer(
                 obj.files.all(),
                 many=True,
                 context=self.context,
             ).data
-        else:
-            return None
+
+        return None
 
     class Meta:
         model = Message
@@ -115,12 +117,14 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
     def get_content(self, obj):
         if obj.msg_type == MessageType.TEXT:
             return TextMessageSerializer(obj.text).data['content']
-        elif obj.msg_type == MessageType.IMAGES:
+
+        if obj.msg_type == MessageType.IMAGES:
             return obj.images.all().count()
-        elif obj.msg_type == MessageType.FILES:
+
+        if obj.msg_type == MessageType.FILES:
             return obj.files.all().count()
-        else:
-            return None
+
+        return None
 
     class Meta:
         model = Message
@@ -132,8 +136,19 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class GroupChatSerializer(serializers.ModelSerializer):
-    """ Group Chat Serializer """
+class GroupChatListSerializer(serializers.ModelSerializer):
+    """ Group Chat List Serializer """
+
+    class Meta:
+        model = GroupChat
+        fields = [
+            'name',
+            'image',
+        ]
+
+
+class GroupChatRetrieveSerializer(serializers.ModelSerializer):
+    """ Group Chat Retrieve Serializer """
 
     class Meta:
         model = GroupChat
@@ -157,13 +172,14 @@ class ChatListSerializer(serializers.ModelSerializer):
                 obj.members.exclude(uuid=request.user.uuid).first(),
                 context={'request': request},
             ).data
-        elif obj.chat_type == ChatType.GROUP:
-            return GroupChatSerializer(
+
+        if obj.chat_type == ChatType.GROUP:
+            return GroupChatListSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
-        else:
-            return None
+
+        return None
 
     def get_last_message(self, obj):
         return MessageShortReadSerializer(
@@ -193,13 +209,16 @@ class ChatRetrieveSerializer(serializers.ModelSerializer):
                 obj.members.exclude(uuid=request.user.uuid).first(),
                 context={'request': request},
             ).data
-        elif obj.chat_type == ChatType.GROUP:
-            return GroupChatSerializer(
+
+        if obj.chat_type == ChatType.GROUP:
+            group_data = GroupChatRetrieveSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
-        else:
-            return None
+            group_data['member_count'] = obj.members.all().count()
+            return group_data
+
+        return None
 
     class Meta:
         model = Chat
