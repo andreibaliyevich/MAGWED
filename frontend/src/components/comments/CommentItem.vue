@@ -82,7 +82,6 @@ watch(newCommentContent, (newValue) => {
           <div class="d-flex justify-content-end">
             <div class="dropdown">
               <button
-                ref="commentDropdown"
                 type="button"
                 class="btn btn-link link-dark"
                 data-bs-toggle="dropdown"
