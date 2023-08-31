@@ -66,7 +66,7 @@ const { logout } = useLogout()
                     ]"
                   >
                     <i class="fa-solid fa-user"></i>
-                    {{ $t('profile.profile') }}
+                    {{ $t('user.profile') }}
                   </LocaleRouterLink>
                 </li>
                 <li

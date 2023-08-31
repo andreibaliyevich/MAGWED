@@ -173,7 +173,9 @@
             "delete_profile": "Выдаліць профіль"
         }
     },
-    "profile": {
+    "user": {
+        "online": "У сетцы",
+        "last_visit": "Апошняе наведванне",
         "profile": "Профіль",
         "profile_settings": "Наладкі профілю",
         "edit_profile": "Рэдагаваць профіль",
@@ -212,6 +214,13 @@
         "messenger": "Месенджэр",
         "chats": "Чаты",
         "chat_list": "Спіс чатаў",
+        "create_chat": "Стварыць чат",
+        "creating_chat": "Стварэнне чата",
+        "dialog": "Дыялог",
+        "group": "Група",
+        "group_name": "Назва групы",
+        "choose_image": "Выбраць выяву",
+        "chosen_image": "Выбрана выява",
         "no_chats": "У вас няма чатаў!",
         "select_chat": "Абярыце чат",
         "write": "Напісаць",

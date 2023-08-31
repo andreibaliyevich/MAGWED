@@ -52,7 +52,7 @@ const { logout } = useLogout()
             @click="$refs.userDropdown.click()"
             class="btn btn-soft-brand btn-sm text-center w-100"
           >
-            {{ $t('profile.edit_profile') }}
+            {{ $t('user.edit_profile') }}
           </LocaleRouterLink>
         </li>
         <li>

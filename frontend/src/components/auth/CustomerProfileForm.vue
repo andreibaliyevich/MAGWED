@@ -100,7 +100,7 @@ onMounted(() => {
           maxlength="255"
           id="id_name"
           name="name"
-          :label="$t('profile.name')"
+          :label="$t('user.name')"
           :errors="errors?.user?.name ? errors.user.name : []"
         />
       </div>
@@ -110,7 +110,7 @@ onMounted(() => {
           :options="countryOptions"
           id="id_country"
           name="country"
-          :label="$t('profile.country')"
+          :label="$t('user.country')"
           :errors="errors?.user?.country ? errors.user.country : []"
         />
       </div>
@@ -120,7 +120,7 @@ onMounted(() => {
           :options="cityOptions"
           id="id_city"
           name="city"
-          :label="$t('profile.city')"
+          :label="$t('user.city')"
           :errors="errors?.user?.city ? errors.user.city : []"
         />
       </div>
@@ -131,7 +131,7 @@ onMounted(() => {
           maxlength="21"
           id="id_phone"
           name="phone"
-          :label="$t('profile.phone')"
+          :label="$t('user.phone')"
           :errors="errors?.user?.phone ? errors.user.phone : []"
         />
       </div>
@@ -141,7 +141,7 @@ onMounted(() => {
           type="date"
           id="id_date_of_wedding"
           name="date_of_wedding"
-          :label="$t('profile.date_of_wedding')"
+          :label="$t('user.date_of_wedding')"
           :errors="errors?.date_of_wedding ? errors.date_of_wedding : []"
         />
       </div>
@@ -150,7 +150,7 @@ onMounted(() => {
           :loadingStatus="profileUpdating"
           buttonClass="btn btn-brand btn-lg"
         >
-          {{ $t('profile.update_profile') }}
+          {{ $t('user.update_profile') }}
         </SubmitButton>
       </div>
     </form>

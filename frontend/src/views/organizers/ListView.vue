@@ -245,7 +245,7 @@ onMounted(() => {
                 :options="countryOptions"
                 id="id_countries"
                 name="countries"
-                :label="$t('profile.countries')"
+                :label="$t('user.countries')"
               />
               <br v-if="countries.length > 0">
               <CheckboxMultipleSelect
@@ -254,7 +254,7 @@ onMounted(() => {
                 :options="cityOptionsExtra"
                 id="id_cities"
                 name="cities"
-                :label="$t('profile.cities')"
+                :label="$t('user.cities')"
               />
               <br>
               <CheckboxMultipleSelect
@@ -262,7 +262,7 @@ onMounted(() => {
                 :options="languageOptions"
                 id="id_languages"
                 name="languages"
-                :label="$t('profile.languages')"
+                :label="$t('user.languages')"
               />
               <br>
               <NumberRangeInput
@@ -272,7 +272,7 @@ onMounted(() => {
                 :max="costWorkMaxBorder"
                 id="id_cost_work"
                 name="cost_work"
-                :label="$t('profile.cost_work')"
+                :label="$t('user.cost_work')"
                 :minLabel="currencyStore.currencyText"
                 :maxLabel="currencyStore.currencyText"
               />

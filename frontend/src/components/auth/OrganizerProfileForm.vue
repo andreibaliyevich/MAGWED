@@ -144,7 +144,7 @@ onMounted(() => {
           maxlength="255"
           id="id_name"
           name="name"
-          :label="$t('profile.name')"
+          :label="$t('user.name')"
           :errors="errors?.user?.name ? errors.user.name : []"
         />
       </div>
@@ -154,7 +154,7 @@ onMounted(() => {
           :options="countryOptions"
           id="id_country"
           name="country"
-          :label="$t('profile.country')"
+          :label="$t('user.country')"
           :errors="errors?.user?.country ? errors.user.country : []"
         />
       </div>
@@ -164,7 +164,7 @@ onMounted(() => {
           :options="cityOptions"
           id="id_city"
           name="city"
-          :label="$t('profile.city')"
+          :label="$t('user.city')"
           :errors="errors?.user?.city ? errors.user.city : []"
         />
       </div>
@@ -175,7 +175,7 @@ onMounted(() => {
           maxlength="21"
           id="id_phone"
           name="phone"
-          :label="$t('profile.phone')"
+          :label="$t('user.phone')"
           :errors="errors?.user?.phone ? errors.user.phone : []"
         />
       </div>
@@ -185,7 +185,7 @@ onMounted(() => {
           :options="roleTypeOptions"
           id="id_roles"
           name="roles"
-          :label="$t('profile.roles')"
+          :label="$t('user.roles')"
           :errors="errors?.roles ? errors.roles : []"
         />
       </div>
@@ -194,7 +194,7 @@ onMounted(() => {
           v-model="description"
           id="id_description"
           name="description"
-          :label="$t('profile.description')"
+          :label="$t('user.description')"
           :errors="errors?.description ? errors.description : []"
         />
       </div>
@@ -204,7 +204,7 @@ onMounted(() => {
           :options="countryOptions"
           id="id_countries"
           name="countries"
-          :label="$t('profile.countries')"
+          :label="$t('user.countries')"
           :errors="errors?.countries ? errors.countries : []"
         />
       </div>
@@ -214,7 +214,7 @@ onMounted(() => {
           :options="cityOptionsExtra"
           id="id_cities"
           name="cities"
-          :label="$t('profile.cities')"
+          :label="$t('user.cities')"
           :errors="errors?.cities ? errors.cities : []"
         />
       </div>
@@ -224,7 +224,7 @@ onMounted(() => {
           :options="languageOptions"
           id="id_languages"
           name="languages"
-          :label="$t('profile.languages')"
+          :label="$t('user.languages')"
           :errors="errors?.languages ? errors.languages : []"
         />
       </div>
@@ -237,7 +237,7 @@ onMounted(() => {
           required=""
           id="id_cost_work"
           name="cost_work"
-          :label="$t('profile.cost_work')"
+          :label="$t('user.cost_work')"
           :errors="errors?.cost_work ? errors.cost_work : []"
         />
         <div class="form-text">{{ $t('form_help.cost_work') }}</div>
@@ -250,7 +250,7 @@ onMounted(() => {
           required=""
           id="id_number_hours"
           name="number_hours"
-          :label="$t('profile.number_hours')"
+          :label="$t('user.number_hours')"
           :errors="errors?.number_hours ? errors.number_hours : []"
         />
       </div>
@@ -261,7 +261,7 @@ onMounted(() => {
           maxlength="200"
           id="id_website"
           name="website"
-          :label="$t('profile.website')"
+          :label="$t('user.website')"
           :errors="errors?.website ? errors.website : []"
         />
       </div>
@@ -273,7 +273,7 @@ onMounted(() => {
           required=""
           id="id_profile_url"
           name="profile_url"
-          :label="$t('profile.profile_url')"
+          :label="$t('user.profile_url')"
           :errors="errors?.profile_url ? errors.profile_url : []"
         />
       </div>
@@ -282,7 +282,7 @@ onMounted(() => {
           :loadingStatus="profileUpdating"
           buttonClass="btn btn-brand btn-lg"
         >
-          {{ $t('profile.update_profile') }}
+          {{ $t('user.update_profile') }}
         </SubmitButton>
       </div>
     </form>
