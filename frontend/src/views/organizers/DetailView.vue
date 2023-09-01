@@ -217,7 +217,7 @@ onMounted(() => {
               type="button"
               class="btn btn-light ms-2"
               data-bs-toggle="modal"
-              data-bs-target="#writeMessageModal"
+              data-bs-target="#write_message_modal"
             >
               <i class="fa-solid fa-pen"></i>
               {{ $t('messenger.write') }}
@@ -403,12 +403,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="writeMessageModal"
-        id="writeMessageModal"
+        id="write_message_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="writeMessageModalLabel"
+        aria-labelledby="write_message_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -416,7 +416,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="writeMessageModalLabel"
+                id="write_message_modal_label"
                 class="modal-title"
               >
                 {{ $t('messenger.new_message') }}
@@ -431,7 +431,7 @@ onMounted(() => {
             <div class="modal-body">
               <form
                 @submit.prevent="writeMessage()"
-                id="writeMessageModalForm"
+                id="write_message_modal_form"
               >
                 <BaseTextarea
                   v-model="textContent"
@@ -457,7 +457,7 @@ onMounted(() => {
               <SubmitButton
                 :loadingStatus="messageSending"
                 buttonClass="btn btn-brand"
-                form="writeMessageModalForm"
+                form="write_message_modal_form"
                 :disabled="!textContent"
               >
                 {{ $t('btn.send') }}

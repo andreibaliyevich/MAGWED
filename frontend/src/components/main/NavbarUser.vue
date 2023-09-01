@@ -11,7 +11,7 @@ const { logout } = useLogout()
   <div class="navbar-user">
     <div class="dropdown">
       <button
-        id="dropdown-user"
+        id="user_dropdown"
         type="button"
         class="btn btn-link p-0"
         data-bs-toggle="dropdown"
@@ -27,7 +27,7 @@ const { logout } = useLogout()
       </button>
       <ul
         class="dropdown-menu dropdown-menu-end border border-light shadow"
-        aria-labelledby="dropdown-user"
+        aria-labelledby="user_dropdown"
       >
         <li class="px-3 pt-2 pb-3">
           <div class="d-flex align-items-center gap-2 mb-1">

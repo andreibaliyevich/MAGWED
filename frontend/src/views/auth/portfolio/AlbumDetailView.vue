@@ -244,7 +244,7 @@ onMounted(() => {
 
       <form
         @submit.prevent="updateAlbum()"
-        id="albumForm"
+        id="album_form"
         class="row g-3"
       >
         <div class="col-md-12">
@@ -291,14 +291,14 @@ onMounted(() => {
           class="btn btn-outline-dark"
           type="button"
           data-bs-toggle="modal"
-          data-bs-target="#removeAlbumModalChoice"
+          data-bs-target="#remove_album_modal_choice"
         >
           {{ $t('btn.delete') }}
         </button>
         <SubmitButton
           :loadingStatus="albumDataUpdating"
           buttonClass="btn btn-brand w-100"
-          form="albumForm"
+          form="album_form"
         >
           {{ $t('btn.update') }}
         </SubmitButton>
@@ -323,7 +323,7 @@ onMounted(() => {
     </div>
     <Teleport to="body">
       <div
-        id="removeAlbumModalChoice"
+        id="remove_album_modal_choice"
         class="modal fade"
         role="dialog"
         tabindex="-1"
@@ -364,12 +364,12 @@ onMounted(() => {
 
       <div
         ref="uploadAlbumPhotosModal"
-        id="uploadAlbumPhotosModal"
+        id="upload_album_photos_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="uploadAlbumPhotosModalLabel"
+        aria-labelledby="upload_photos_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -377,7 +377,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="uploadPhotosModalLabel"
+                id="upload_photos_modal_label"
                 class="modal-title"
               >
                 {{ $t('portfolio.uploading_photos') }}

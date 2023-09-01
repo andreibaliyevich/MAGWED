@@ -106,7 +106,7 @@ onMounted(() => {
         class="btn btn-soft-brand w-100"
         type="button"
         data-bs-toggle="modal"
-        data-bs-target="#createAlbumModal"
+        data-bs-target="#create_album_modal"
       >
         {{ $t('portfolio.create_album') }}
         <i class="fa-regular fa-square-plus"></i>
@@ -146,7 +146,7 @@ onMounted(() => {
                   class="btn btn-danger btn-sm ms-1"
                   type="button"
                   data-bs-toggle="modal"
-                  data-bs-target="#removeAlbumModalChoice"
+                  data-bs-target="#remove_album_modal_choice"
                 >
                   <i class="fa-solid fa-trash fa-sm"></i>
                 </button>
@@ -165,12 +165,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="createAlbumModal"
-        id="createAlbumModal"
+        id="create_album_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="createAlbumModalLabel"
+        aria-labelledby="create_album_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -178,7 +178,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="createAlbumModalLabel"
+                id="create_album_modal_label"
                 class="modal-title"
               >
                 {{ $t('portfolio.creating_album') }}
@@ -193,7 +193,7 @@ onMounted(() => {
             <div class="modal-body">
               <form
                 @submit.prevent="createAlbum()"
-                id="createAlbumForm"
+                id="create_album_form"
               >
                 <div class="mb-3">
                   <span v-if="albumImage">
@@ -252,7 +252,7 @@ onMounted(() => {
               <SubmitButton
                 :loadingStatus="albumCreating"
                 buttonClass="btn btn-brand"
-                form="createAlbumForm"
+                form="create_album_form"
                 :disabled="!albumImage || !albumTitle"
               >
                 {{ $t('btn.create') }}
@@ -264,7 +264,7 @@ onMounted(() => {
 
       <div
         ref="removeAlbumModalChoice"
-        id="removeAlbumModalChoice"
+        id="remove_album_modal_choice"
         class="modal fade"
         role="dialog"
         tabindex="-1"

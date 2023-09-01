@@ -110,12 +110,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="uploadPhotosModal"
-        id="uploadPhotosModal"
+        id="upload_photos_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="uploadPhotosModalLabel"
+        aria-labelledby="upload_photos_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -123,7 +123,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="uploadPhotosModalLabel"
+                id="upload_photos_modal_label"
                 class="modal-title"
               >
                 {{ $t('portfolio.uploading_photos') }}

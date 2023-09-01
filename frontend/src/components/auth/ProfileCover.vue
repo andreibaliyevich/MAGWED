@@ -114,7 +114,7 @@ onMounted(() => {
               class="btn btn-outline-dark m-1"
               type="button"
               data-bs-toggle="modal"
-              data-bs-target="#removeCoverModalChoice"
+              data-bs-target="#remove_cover_modal_choice"
             >
               {{ $t('user.remove_cover') }}
             </button>
@@ -127,7 +127,7 @@ onMounted(() => {
     </div>
     <Teleport to="body">
       <div
-        id="removeCoverModalChoice"
+        id="remove_cover_modal_choice"
         class="modal fade"
         role="dialog"
         tabindex="-1"

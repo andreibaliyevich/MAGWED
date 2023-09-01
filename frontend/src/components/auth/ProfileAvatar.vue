@@ -119,7 +119,7 @@ const removeAvatar = async () => {
                 class="btn btn-outline-dark m-1"
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target="#removeAvatarModalChoice"
+                data-bs-target="#remove_avatar_modal_choice"
               >
                 {{ $t('user.remove_avatar') }}
               </button>
@@ -133,7 +133,7 @@ const removeAvatar = async () => {
     </div>
     <Teleport to="body">
       <div
-        id="removeAvatarModalChoice"
+        id="remove_avatar_modal_choice"
         class="modal fade"
         role="dialog"
         tabindex="-1"

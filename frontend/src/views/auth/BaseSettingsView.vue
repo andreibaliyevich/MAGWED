@@ -17,22 +17,22 @@ const { logout } = useLogout()
             type="button"
             class="btn btn-light border w-100 d-lg-none"
             data-bs-toggle="offcanvas"
-            data-bs-target="#settings-menu"
-            aria-controls="settings-menu"
+            data-bs-target="#settings_menu"
+            aria-controls="settings_menu"
           >
             {{ $t('auth.settings_menu') }}
             
             <i class="fa-solid fa-sliders"></i>
           </button>
           <div
-            id="settings-menu"
+            id="settings_menu"
             tabindex="-1"
             class="offcanvas-lg offcanvas-end"
-            aria-labelledby="settings-menu-label"
+            aria-labelledby="settings_menu_label"
           >
             <div class="offcanvas-header">
               <h5
-                id="settings-menu-label"
+                id="settings_menu_label"
                 class="offcanvas-title"
               >
                 {{ $t('auth.settings_menu') }}
@@ -42,7 +42,7 @@ const { logout } = useLogout()
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="offcanvas"
-                data-bs-target="#settings-menu"
+                data-bs-target="#settings_menu"
                 aria-label="Close"
               ></button>
             </div>
@@ -179,7 +179,7 @@ const { logout } = useLogout()
   .col-lg-4.pt-5.pb-lg-5 {
     border-right: 1px solid #dee2e6;
   }
-  #settings-menu {
+  #settings_menu {
     position: -webkit-sticky;
     position: sticky;
     top: 125px;

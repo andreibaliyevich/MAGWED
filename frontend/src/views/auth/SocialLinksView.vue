@@ -217,7 +217,7 @@ onMounted(() => {
                 type="button"
                 class="btn btn-light btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#organizerLinkModal"
+                data-bs-target="#organizer_link_modal"
               >
                 <i class="fa-solid fa-pen fa-sm"></i>
               </button>
@@ -242,7 +242,7 @@ onMounted(() => {
         class="btn btn-brand mt-4"
         type="button"
         data-bs-toggle="modal"
-        data-bs-target="#organizerLinkModal"
+        data-bs-target="#organizer_link_modal"
       >
         {{ $t('auth.sociallinks.add_link') }}
       </button>
@@ -250,12 +250,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="organizerLinkModal"
-        id="organizerLinkModal"
+        id="organizer_link_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="organizerLinkModalLabel"
+        aria-labelledby="organizer_link_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -264,14 +264,14 @@ onMounted(() => {
             <div class="modal-header">
               <h5
                 v-if="socialLinkUuid"
-                id="organizerLinkModalLabel"
+                id="organizer_link_modal_label"
                 class="modal-title"
               >
                 {{ $t('auth.sociallinks.changing_the_link') }}
               </h5>
               <h5
                 v-else
-                id="organizerLinkModalLabel"
+                id="organizer_link_modal_label"
                 class="modal-title"
               >
                 {{ $t('auth.sociallinks.adding_a_link') }}
@@ -286,7 +286,7 @@ onMounted(() => {
             <div class="modal-body">
               <form
                 @submit.prevent="submitSocialLinkForm()"
-                id="socialLinkForm"
+                id="social_link_form"
                 class="row g-3"
               >
                 <div class="col-md-12">
@@ -323,7 +323,7 @@ onMounted(() => {
               <SubmitButton
                 v-if="socialLinkUuid"
                 :loadingStatus="socialLinkListUpdating"
-                form="socialLinkForm"
+                form="social_link_form"
                 buttonClass="btn btn-brand"
                 :disabled="!socialLinkType || !socialLinkUrl"
               >
@@ -332,7 +332,7 @@ onMounted(() => {
               <SubmitButton
                 v-else
                 :loadingStatus="socialLinkListUpdating"
-                form="socialLinkForm"
+                form="social_link_form"
                 buttonClass="btn btn-brand"
                 :disabled="!socialLinkType || !socialLinkUrl"
               >

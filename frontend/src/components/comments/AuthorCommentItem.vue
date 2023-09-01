@@ -163,7 +163,7 @@ onMounted(() => {
                     type="button"
                     class="dropdown-item btn btn-link"
                     data-bs-toggle="modal"
-                    :data-bs-target="`#updateCommentModal_${commentItem.uuid}`"
+                    :data-bs-target="`#update_comment_modal_${commentItem.uuid}`"
                   >
                     <i class="fa-solid fa-pen"></i>
                     {{ $t('btn.edit') }}
@@ -174,7 +174,7 @@ onMounted(() => {
                     type="button"
                     class="dropdown-item btn btn-link"
                     data-bs-toggle="modal"
-                    :data-bs-target="`#removeCommentModalChoice_${commentItem.uuid}`"
+                    :data-bs-target="`#remove_comment_modal_choice_${commentItem.uuid}`"
                   >
                     <i class="fa-solid fa-trash"></i>
                     {{ $t('btn.delete') }}
@@ -203,12 +203,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="updateCommentModal"
-        :id="`updateCommentModal_${commentItem.uuid}`"
+        :id="`update_comment_modal_${commentItem.uuid}`"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="updateCommentModalLabel"
+        aria-labelledby="update_comment_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -216,7 +216,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="updateCommentModalLabel"
+                id="update_comment_modal_label"
                 class="modal-title"
               >
                 {{ $t('comments.updating_comment') }}
@@ -231,7 +231,7 @@ onMounted(() => {
             <div class="modal-body">
               <form
                 @submit.prevent="updateComment()"
-                :id="`reviewModalForm_${commentItem.uuid}`"
+                :id="`review_modal_form_${commentItem.uuid}`"
               >
                 <BaseTextarea
                   v-model="oldCommentContent"
@@ -257,7 +257,7 @@ onMounted(() => {
               <SubmitButton
                 :loadingStatus="oldCommentUpdating"
                 buttonClass="btn btn-brand"
-                :form="`reviewModalForm_${commentItem.uuid}`"
+                :form="`review_modal_form_${commentItem.uuid}`"
                 :disabled="!oldCommentContent"
               >
                 {{ $t('btn.update') }}
@@ -269,7 +269,7 @@ onMounted(() => {
 
       <div
         ref="removeCommentModalChoice"
-        :id="`removeCommentModalChoice_${commentItem.uuid}`"
+        :id="`remove_comment_modal_choice_${commentItem.uuid}`"
         class="modal fade"
         role="dialog"
         tabindex="-1"

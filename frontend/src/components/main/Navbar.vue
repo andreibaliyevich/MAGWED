@@ -14,8 +14,8 @@ const userStore = useUserStore()
         type="button"
         class="navbar-toggler"
         data-bs-toggle="offcanvas"
-        data-bs-target="#main-menu"
-        aria-controls="main-menu"
+        data-bs-target="#main_menu"
+        aria-controls="main_menu"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -38,15 +38,15 @@ const userStore = useUserStore()
         >
       </LocaleRouterLink>
       <div
-        id="main-menu"
+        id="main_menu"
         tabindex="-1"
         class="offcanvas offcanvas-start"
-        aria-labelledby="offcanvasNavbarLabel"
+        aria-labelledby="main_menu_label"
       >
         <div class="offcanvas-header">
           <h5
             class="offcanvas-title"
-            id="offcanvasNavbarLabel"
+            id="main_menu_label"
           >
             {{ $t('nav.menu') }}
           </h5>
@@ -55,7 +55,7 @@ const userStore = useUserStore()
             type="button"
             class="btn-close text-reset"
             data-bs-dismiss="offcanvas"
-            data-bs-target="#main-menu"
+            data-bs-target="#main_menu"
             aria-label="Close"
           ></button>
         </div>

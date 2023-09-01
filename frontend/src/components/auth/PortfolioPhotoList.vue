@@ -162,7 +162,7 @@ onMounted(() => {
                 type="button"
                 class="btn btn-outline-light btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#updatePhotoModal"
+                data-bs-target="#update_photo_modal"
               >
                 <i class="fa-solid fa-pen fa-sm"></i>
               </button>
@@ -171,7 +171,7 @@ onMounted(() => {
                 class="btn btn-danger btn-sm ms-1"
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target="#removePhotoModalChoice"
+                data-bs-target="#remove_photo_modal_choice"
               >
                 <i class="fa-solid fa-trash fa-sm"></i>
               </button>
@@ -195,12 +195,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="updatePhotoModal"
-        id="updatePhotoModal"
+        id="update_photo_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="updatePhotoModalLabel"
+        aria-labelledby="update_photo_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -208,7 +208,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="updatePhotoModalLabel"
+                id="update_photo_modal_label"
                 class="modal-title"
               >
                 {{ $t('portfolio.updating_photo') }}
@@ -230,7 +230,7 @@ onMounted(() => {
               </div>
               <form
                 @submit.prevent="updatePhoto()"
-                id="photoModalForm"
+                id="photo_modal_form"
                 class="row g-3 mt-1 px-xl-10"
               >
                 <div class="col-md-12">
@@ -353,7 +353,7 @@ onMounted(() => {
               <SubmitButton
                 :loadingStatus="photoUpdating"
                 buttonClass="btn btn-brand"
-                form="photoModalForm"
+                form="photo_modal_form"
               >
                 {{ $t('btn.update') }}
               </SubmitButton>
@@ -364,7 +364,7 @@ onMounted(() => {
 
       <div
         ref="removePhotoModalChoice"
-        id="removePhotoModalChoice"
+        id="remove_photo_modal_choice"
         class="modal fade"
         role="dialog"
         tabindex="-1"

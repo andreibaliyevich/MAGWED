@@ -347,7 +347,7 @@ onMounted(() => {
                   type="button"
                   class="btn btn-link btn-sm link-secondary"
                   data-bs-toggle="modal"
-                  data-bs-target="#updateReviewModal"
+                  data-bs-target="#update_review_modal"
                 >
                   <i class="fa-solid fa-pen"></i>
                   {{ $t('btn.edit') }}
@@ -357,7 +357,7 @@ onMounted(() => {
                   type="button"
                   class="btn btn-link btn-sm link-secondary"
                   data-bs-toggle="modal"
-                  data-bs-target="#removeReviewModalChoice"
+                  data-bs-target="#remove_review_modal_choice"
                 >
                   <i class="fa-solid fa-trash"></i>
                   {{ $t('btn.delete') }}
@@ -380,12 +380,12 @@ onMounted(() => {
     <Teleport to="body">
       <div
         ref="updateReviewModal"
-        id="updateReviewModal"
+        id="update_review_modal"
         class="modal fade"
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="updateReviewModalLabel"
+        aria-labelledby="update_review_modal_label"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -393,7 +393,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="updateReviewModalLabel"
+                id="update_review_modal_label"
                 class="modal-title"
               >
                 {{ $t('organizers.updating_review') }}
@@ -463,7 +463,7 @@ onMounted(() => {
 
       <div
         ref="removeReviewModalChoice"
-        id="removeReviewModalChoice"
+        id="remove_review_modal_choice"
         class="modal fade"
         role="dialog"
         tabindex="-1"

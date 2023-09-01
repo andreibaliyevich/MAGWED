@@ -138,11 +138,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="dropdown-notifications">
+  <div class="notifications_dropdown">
     <div class="dropdown">
       <button
         ref="notificationsDropdown"
-        id="dropdown-notifications"
+        id="notifications_dropdown"
         type="button"
         class="btn btn-link link-secondary p-0"
         data-bs-toggle="dropdown"

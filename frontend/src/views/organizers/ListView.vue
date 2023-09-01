@@ -208,8 +208,8 @@ onMounted(() => {
         type="button"
         class="btn btn-light border w-100 mb-5 d-lg-none"
         data-bs-toggle="offcanvas"
-        data-bs-target="#filter-menu"
-        aria-controls="filter-menu"
+        data-bs-target="#filter_menu"
+        aria-controls="filter_menu"
       >
         {{ $t('organizers.filters') }}
         <i class="fa-solid fa-filter"></i>
@@ -218,14 +218,14 @@ onMounted(() => {
       <div class="row">
         <div class="col-lg-3">
           <div
-            id="filter-menu"
+            id="filter_menu"
             tabindex="-1"
             class="offcanvas-lg offcanvas-end"
-            aria-labelledby="filter-menu-label"
+            aria-labelledby="filter_menu_label"
           >
             <div class="offcanvas-header">
               <h5
-                id="filter-menu-label"
+                id="filter_menu_label"
                 class="offcanvas-title"
               >
                 {{ $t('organizers.filters') }}
@@ -235,7 +235,7 @@ onMounted(() => {
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="offcanvas"
-                data-bs-target="#filter-menu"
+                data-bs-target="#filter_menu"
                 aria-label="Close"
               ></button>
             </div>
