@@ -70,7 +70,7 @@ onMounted(() => {
               :src="follow.follower.avatar"
               :width="180"
               :height="180"
-              :online="follow.follower.online"
+              :online="follow.follower.status == 'online' ? true : false"
             />
           </LocaleRouterLink>
           <UserAvatarExtended
@@ -78,7 +78,7 @@ onMounted(() => {
             :src="follow.follower.avatar"
             :width="180"
             :height="180"
-            :online="follow.follower.online"
+            :online="follow.follower.status == 'online' ? true : false"
           />
           <LocaleRouterLink
             v-if="follow.follower.profile_url"

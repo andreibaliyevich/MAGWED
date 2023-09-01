@@ -69,7 +69,7 @@ onMounted(() => {
               :src="follow.user.avatar"
               :width="180"
               :height="180"
-              :online="follow.user.online"
+              :online="follow.user.status == 'online' ? true : false"
             />
           </LocaleRouterLink>
           <LocaleRouterLink
