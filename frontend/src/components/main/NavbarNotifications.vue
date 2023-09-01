@@ -141,12 +141,12 @@ onMounted(() => {
   <div class="dropdown-notifications">
     <div class="dropdown">
       <button
-        ref="dropdownNotifications"
+        ref="notificationsDropdown"
         id="dropdown-notifications"
         type="button"
         class="btn btn-link link-secondary p-0"
         data-bs-toggle="dropdown"
-        data-bs-auto-close="outside"
+        data-bs-auto-close="true"
         aria-expanded="false"
       >
         <i class="fa-solid fa-bell fa-lg"></i>
@@ -175,12 +175,10 @@ onMounted(() => {
               <NavbarNotice
                 v-if="notice.viewed || !notificationSocketConnect"
                 :notice="notice"
-                @clickLink="$refs.dropdownNotifications.click()"
               />
               <NavbarNotice
                 v-else
                 :notice="notice"
-                @clickLink="$refs.dropdownNotifications.click()"
                 v-intersection-notice="notice.uuid"
               />
             </li>

@@ -18,7 +18,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-if="notice.initiator.profile_url"
         :href="`#${notice.initiator.profile_url}`"
-        @click="$emit('clickLink')"
       >
         <UserAvatar
           :src="notice.initiator.avatar"
@@ -47,7 +46,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.ARTICLE"
         :href="`#${notice.content_object.slug}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -63,7 +61,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.ALBUM"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -79,7 +76,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.PHOTO"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -95,7 +91,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.LIKE_ALBUM"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -111,7 +106,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.LIKE_PHOTO"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -127,7 +121,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.COMMENT_ARTICLE"
         :href="`#${notice.content_object.slug}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -143,7 +136,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.COMMENT_ALBUM"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -159,7 +151,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.COMMENT_PHOTO"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -175,7 +166,6 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <a
         v-else-if="notice.reason == reasonOfNotification.COMMENT"
         :href="`#${notice.content_object.uuid}`"
-        @click="$emit('clickLink')"
         class="d-flex justify-content-between align-items-center text-decoration-none w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">

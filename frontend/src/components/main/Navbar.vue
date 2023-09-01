@@ -90,7 +90,7 @@ const userStore = useUserStore()
                     : 'text-dark'
                 ]"
                 data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
+                data-bs-auto-close="true"
                 aria-expanded="false"
               >
                 {{ $t('nav.photos') }}
@@ -183,14 +183,12 @@ const userStore = useUserStore()
       >
         <LocaleRouterLink
           routeName="Login"
-          @click="$refs.offcanvasMenuClose.click()"
           class="btn btn-outline-brand border-secondary rounded-pill px-3"
         >
           {{ $t('auth.log_in') }}
         </LocaleRouterLink>
         <LocaleRouterLink
           routeName="Registration"
-          @click="$refs.offcanvasMenuClose.click()"
           class="btn btn-brand rounded-pill d-none d-md-inline-flex px-3"
         >
           {{ $t('auth.register') }}
