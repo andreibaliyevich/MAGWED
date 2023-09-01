@@ -352,7 +352,7 @@ class UserBriefReadSerializer(serializers.ModelSerializer):
             return 'online'
         ch_obj = ch_set.first()
         if ch_obj is not None:
-            return ch_obj.last_visit
+            return str(ch_obj.last_visit)
         return None
 
     class Meta:
@@ -376,7 +376,7 @@ class UserShortReadSerializer(serializers.ModelSerializer):
             return 'online'
         ch_obj = ch_set.first()
         if ch_obj is not None:
-            return ch_obj.last_visit
+            return str(ch_obj.last_visit)
         return None
 
     def get_profile_url(self, obj):
@@ -414,7 +414,7 @@ class UserRetrieveReadSerializer(serializers.ModelSerializer):
             return 'online'
         ch_obj = ch_set.first()
         if ch_obj is not None:
-            return ch_obj.last_visit
+            return str(ch_obj.last_visit)
         return None
 
     def get_following(self, obj):
