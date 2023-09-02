@@ -91,7 +91,7 @@ const removeSocialLink = async (olUuid) => {
   try {
     const response = axios.delete('/social/links/' + olUuid +'/')
     socialLinkList.value = socialLinkList.value.filter((element) => {
-      return element.uuid != olUuid
+      return element.uuid !== olUuid
     })
   } catch (error) {
     console.error(error)

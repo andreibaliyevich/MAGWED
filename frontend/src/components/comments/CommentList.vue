@@ -120,7 +120,7 @@ const removeCommentFromList = (cList, data) => {
       if (result[0]) {
         if (result[1]) {
           cList[i].comments = cList[i].comments.filter((element) => {
-            return element.uuid != data
+            return element.uuid !== data
           })
           return [true, false]
         } else {
@@ -159,7 +159,7 @@ const openCommentSocket = async () => {
       const result = removeCommentFromList(commentList.value, data.data)
       if (result[0] && result[1]) {
         commentList.value = commentList.value.filter((element) => {
-          return element.uuid != data.data
+          return element.uuid !== data.data
         })
         commentCount.value -= 1
       }

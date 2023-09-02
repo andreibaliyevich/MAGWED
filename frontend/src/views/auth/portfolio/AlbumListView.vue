@@ -72,7 +72,7 @@ const removeAlbum = async () => {
         +'/'
     )
     albumList.value = albumList.value.filter((element) => {
-      return element.uuid != albumUuid.value
+      return element.uuid !== albumUuid.value
     })
   } catch (error) {
     console.error(error)

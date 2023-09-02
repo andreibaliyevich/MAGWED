@@ -129,7 +129,7 @@ const removeReview = async () => {
   try {
     const response = axios.delete('/reviews/' + oldReviewUuid.value +'/')
     reviewList.value = reviewList.value.filter((element) => {
-      return element.uuid != oldReviewUuid.value
+      return element.uuid !== oldReviewUuid.value
     })
   } catch (error) {
     console.error(error)

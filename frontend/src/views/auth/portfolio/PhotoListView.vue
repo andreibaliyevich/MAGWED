@@ -67,7 +67,7 @@ const updatePhotoList = (pUuid, pTitle) => {
 
 const removePhotoList = (pUuid) => {
   photoList.value = photoList.value.filter((element) => {
-    return element.uuid != pUuid
+    return element.uuid !== pUuid
   })
 }
 

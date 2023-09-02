@@ -176,7 +176,7 @@ const updateAlbumPhotoList = (pUuid, pTitle) => {
 
 const removeAlbumPhotoList = (pUuid) => {
   albumPhotoList.value = albumPhotoList.value.filter((element) => {
-    return element.uuid != pUuid
+    return element.uuid !== pUuid
   })
 }
 
