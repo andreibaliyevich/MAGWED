@@ -173,7 +173,7 @@ class ProfileView(APIView):
             serializer = OrganizerProfileSerializer(organizer)
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
         if request.user.user_type == UserType.ADMIN:
