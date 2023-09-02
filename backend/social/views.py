@@ -165,7 +165,11 @@ class RelatedUsersView(APIView):
         queryset = UserModel.objects.filter(
             Q(uuid__in=following_uuid) | Q(uuid__in=followers_uuid)
         )
-        serializer = UserBriefReadSerializer(queryset, many=True)
+        serializer = UserBriefReadSerializer(
+            queryset,
+            many=True,
+            context={'request': request},
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
