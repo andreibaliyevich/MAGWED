@@ -3,10 +3,12 @@ from rest_framework import generics, mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from accounts.permissions import UserIsOrganizer
-from accounts.serializers import UserUUIDSerializer
+from accounts.serializers import UserUUIDSerializer, UserBriefReadSerializer
 from .filters import FollowFilter, FavoriteFilter
 from .models import SocialLink, Follow, Favorite
 from .pagination import (
@@ -20,6 +22,9 @@ from .serializers import (
     FavoriteContentObjectSerializer,
     FavoriteListSerializer,
 )
+
+
+UserModel = get_user_model()
 
 
 class SocialLinkListCreateView(generics.ListCreateAPIView):
@@ -142,6 +147,26 @@ class FavoriteCreateDestroyView(APIView):
             )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RelatedUsersView(APIView):
+    """ Related Users View """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        following_uuid = request.user.following.values_list(
+            'user__uuid',
+            flat=True,
+        )
+        followers_uuid = request.user.followers.values_list(
+            'follower__uuid',
+            flat=True,
+        )
+        queryset = UserModel.objects.filter(
+            Q(uuid__in=following_uuid) | Q(uuid__in=followers_uuid)
+        )
+        serializer = UserBriefReadSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class FavoriteListView(generics.ListAPIView):
