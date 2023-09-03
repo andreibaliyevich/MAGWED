@@ -15,11 +15,11 @@ const errors = ref(null)
 const updateAvatar = async (filelist) => {
   avatarLoading.value = true
 
-  const avatarData = new FormData()
-  avatarData.append('avatar', filelist[0], filelist[0].name)
+  let formData = new FormData()
+  formData.append('avatar', filelist[0], filelist[0].name)
 
   try {
-    const response = await axios.put('/accounts/auth/avatar/', avatarData)
+    const response = await axios.put('/accounts/auth/avatar/', formData)
     userStore.updateAvatar(response.data.avatar)
     window.localStorage.setItem('user', JSON.stringify({
       'uuid': userStore.uuid,

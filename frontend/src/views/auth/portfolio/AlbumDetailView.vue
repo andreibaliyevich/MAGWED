@@ -73,15 +73,15 @@ const getAlbumData = async () => {
 const updateAlbumImage = async (filelist) => {
   albumImageUpdating.value = true
 
-  const albumImageData = new FormData()
-  albumImageData.append('image', filelist[0], filelist[0].name)
+  let formData = new FormData()
+  formData.append('image', filelist[0], filelist[0].name)
 
   try {
     const response = await axios.put(
       '/portfolio/album/owner/image-update/'
         + albumUuid.value
         +'/',
-      albumImageData
+      formData
     )
     albumImage.value = response.data.image
     status.value = response.status
@@ -142,14 +142,14 @@ const uploadAlbumPhotos = async (filelist) => {
 
   for (let i = 0; i < filelist.length; i++) {
     if (albumPhotosUploading.value) {
-      const photoData = new FormData()
-      photoData.append('album', albumUuid.value)
-      photoData.append('image', filelist[i], filelist[i].name)
+      let formData = new FormData()
+      formData.append('album', albumUuid.value)
+      formData.append('image', filelist[i], filelist[i].name)
 
       try {
         const response = await axios.post(
           '/portfolio/photo/owner/list-create/',
-          photoData
+          formData
         )
         albumPhotoList.value.unshift(response.data)
         albumPhotosUploadStatus.value += uploadStep

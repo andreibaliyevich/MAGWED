@@ -26,11 +26,11 @@ const getCover = async () => {
 const updateCover = async (filelist) => {
   coverLoading.value = true
 
-  const coverData = new FormData()
-  coverData.append('cover', filelist[0], filelist[0].name)
+  let formData = new FormData()
+  formData.append('cover', filelist[0], filelist[0].name)
 
   try {
-    const response = await axios.put('/accounts/auth/cover/', coverData)
+    const response = await axios.put('/accounts/auth/cover/', formData)
     cover.value = response.data.cover
     status.value = response.status
     errors.value = null

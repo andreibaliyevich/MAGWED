@@ -10,19 +10,21 @@ const albumList = ref([])
 const nextURL = ref(null)
 
 const getAlbumList = async () => {
-  let albumListURL = '/portfolio/album/list/'
+  let params = new URLSearchParams()
   if (route.query.tab == 'popular') {
-    albumListURL += '?ordering=-rating'
+    params.append('ordering', '-rating')
   } else if (route.query.tab == 'fresh') {
-    albumListURL += '?ordering=-created_at'
+    params.append('ordering', '-created_at')
   } else if (route.query.tab == 'editors') {
-    albumListURL += '?editors_choice=true'
+    params.append('editors_choice', true)
   } else {
-    albumListURL += '?ordering=rating'
+    params.append('ordering', 'rating')
   }
 
   try {
-    const response = await axios.get(albumListURL)
+    const response = await axios.get('/portfolio/album/list/', {
+      params: params
+    })
     albumList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {

@@ -10,19 +10,21 @@ const photoList = ref([])
 const nextURL = ref(null)
 
 const getPhotoList = async () => {
-  let photoListURL = '/portfolio/photo/list/'
+  let params = new URLSearchParams()
   if (route.query.tab == 'popular') {
-    photoListURL += '?ordering=-rating'
+    params.append('ordering', '-rating')
   } else if (route.query.tab == 'fresh') {
-    photoListURL += '?ordering=-uploaded_at'
+    params.append('ordering', '-uploaded_at')
   } else if (route.query.tab == 'editors') {
-    photoListURL += '?editors_choice=true'
+    params.append('editors_choice', true)
   } else {
-    photoListURL += '?ordering=rating'
+    params.append('ordering', 'rating')
   }
 
   try {
-    const response = await axios.get(photoListURL)
+    const response = await axios.get('/portfolio/photo/list/', {
+      params: params
+    })
     photoList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {

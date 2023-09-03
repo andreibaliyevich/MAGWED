@@ -34,13 +34,13 @@ const uploadPhotos = async (filelist) => {
 
   for (let i = 0; i < filelist.length; i++) {
     if (photosUploading.value) {
-      const photoData = new FormData()
-      photoData.append('image', filelist[i], filelist[i].name)
+      let formData = new FormData()
+      formData.append('image', filelist[i], filelist[i].name)
 
       try {
         const response = await axios.post(
           '/portfolio/photo/owner/list-create/',
-          photoData
+          formData
         )
         photoList.value.unshift(response.data)
         photosUploadStatus.value += uploadStep

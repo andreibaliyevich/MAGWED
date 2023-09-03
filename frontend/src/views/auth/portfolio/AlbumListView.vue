@@ -39,14 +39,14 @@ const getAlbumList = async () => {
 const createAlbum = async () => {
   albumCreating.value = true
   try {
-    const albumData = new FormData()
-    albumData.append('image', albumImage.value, albumImage.value.name)
-    albumData.append('title', albumTitle.value)
-    albumData.append('description', albumDescription.value)
+    let formData = new FormData()
+    formData.append('image', albumImage.value, albumImage.value.name)
+    formData.append('title', albumTitle.value)
+    formData.append('description', albumDescription.value)
 
     const response = await axios.post(
       '/portfolio/album/owner/list-create/',
-      albumData
+      formData
     )
     errors.value = null
     createAlbumModalBootstrap.value.hide()
@@ -67,7 +67,7 @@ const createAlbum = async () => {
 const removeAlbum = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/album/owner/detail/'
+      '/portfolio/album/owner/rud/'
         + albumUuid.value
         +'/'
     )
