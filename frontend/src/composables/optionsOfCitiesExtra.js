@@ -5,20 +5,22 @@ import { useI18n } from 'vue-i18n'
 export function useOptionsOfCitiesExtra(countries) {
   const { t, locale } = useI18n({ useScope: 'global' })
   const cityValuesExtra = ref([])
+  const cityOptionsExtra = ref([])
 
-  const cityOptionsExtra = computed(() => {
-    return cityValuesExtra.value.map((element) => {
+  const setCityOptionsExtra = () => {
+    cityOptionsExtra.value = cityValuesExtra.value.map((element) => {
       return {
         'value': element.code,
         'text': t(`cities.${element.code}`)
       }
     })
-  })
+  }
 
   const getAndSetCityOptionsExtra = async (params) => {
     try {
       const response = await axios.get('/main/cities/', { params: params })
       cityValuesExtra.value = response.data
+      setCityOptionsExtra()
     } catch (error) {
       console.error(error)
     }
@@ -35,9 +37,7 @@ export function useOptionsOfCitiesExtra(countries) {
   })
 
   watch(locale, () => {
-    let params = new URLSearchParams()
-    countries.value.forEach((element) => params.append('country', element))
-    getAndSetCityOptionsExtra(params)
+    setCityOptionsExtra()
   })
 
   return { cityOptionsExtra }
