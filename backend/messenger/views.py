@@ -13,6 +13,8 @@ from .models import Chat, Message
 from .pagination import MessagePagination
 from .serializers import (
     ChatListSerializer,
+    ChatCreateSerializer,
+    GroupChatListCreateSerializer,
     ChatRetrieveSerializer,
     MessageFullReadSerializer,
     MessageCreateSerializer,
@@ -32,6 +34,58 @@ class ChatListView(generics.ListAPIView):
 
     def get_queryset(self):
         return Chat.objects.filter(members=self.request.user)
+
+
+class ChatCreateView(APIView):
+    """ Chat Create View """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        chat_serializer = ChatCreateSerializer(
+            data={
+                'chat_type': request.data['chat_type'],
+                'members': request.data.getlist('members', []),
+            },
+            context={'request': request},
+        )
+        chat_serializer.is_valid(raise_exception=True)
+        chat_valid_data = chat_serializer.validated_data
+        chat = None
+
+        if chat_valid_data['chat_type'] == ChatType.DIALOG:
+            dialog_chats = Chat.objects.filter(
+                chat_type=ChatType.DIALOG,
+                members=request.user,
+            )
+            for dialog in dialog_chats:
+                if chat_valid_data['members'][0] == dialog.members.exclude(
+                        uuid=request.user.uuid).first():
+                    chat = dialog
+                    break
+            if chat is None:
+                chat = chat_serializer.save()
+                chat.members.add(request.user)
+            else:
+                return Response(chat.uuid, status=status.HTTP_400_BAD_REQUEST)
+        elif chat_valid_data['chat_type'] == ChatType.GROUP:
+            chat = chat_serializer.save()
+            chat.members.add(request.user)
+
+            group_chat_serializer = GroupChatListCreateSerializer(
+                data={
+                    'name': request.data['name'],
+                    'image': request.data['image'],
+                },
+                context={'request': request},
+            )
+            group_chat_serializer.is_valid(raise_exception=True)
+            group_chat_serializer.save(chat=chat, owner=request.user)
+
+        chat_data = ChatListSerializer(
+            chat,
+            context={'request': request},
+        ).data
+        return Response(chat_data, status=status.HTTP_201_CREATED)
 
 
 class ChatRetrieveView(generics.RetrieveAPIView):
@@ -107,7 +161,7 @@ class ImageMessageView(APIView):
             msg_type=MessageType.IMAGES,
         )
 
-        images = request.FILES.getlist('content', None)
+        images = request.data.getlist('content', None)
         for img in images:
             img_serializer = ImageMessageSerializer(data={'content': img})
             img_serializer.is_valid(raise_exception=True)
@@ -144,7 +198,7 @@ class FileMessageView(APIView):
             msg_type=MessageType.FILES,
         )
 
-        files = request.FILES.getlist('content', None)
+        files = request.data.getlist('content', None)
         for file in files:
             file_serializer = FileMessageSerializer(data={'content': file})
             file_serializer.is_valid(raise_exception=True)
