@@ -114,7 +114,7 @@ class PasswordChangeView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = PasswordChangeSerializer(
             data=request.data,
-            context={'user': request.user},
+            context={'request': request},
         )
         serializer.is_valid(raise_exception=True)
 
@@ -196,7 +196,7 @@ class ProfileView(APIView):
     def delete(self, request, *args, **kwargs):
         serializer = ProfileDeleteSerializer(
             data=request.data,
-            context={'user': request.user},
+            context={'request': request},
         )
         serializer.is_valid(raise_exception=True)
 

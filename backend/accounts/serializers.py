@@ -105,7 +105,8 @@ class PasswordChangeSerializer(serializers.Serializer):
     new_password2 = serializers.CharField(write_only=True)
 
     def validate_current_password(self, value):
-        if not self.context['user'].check_password(value):
+        user = self.context['request'].user
+        if not user.check_password(value):
             raise serializers.ValidationError(_('Invalid current password.'))
         return value
 
@@ -290,7 +291,8 @@ class ProfileDeleteSerializer(serializers.Serializer):
     current_password = serializers.CharField(write_only=True)
 
     def validate_current_password(self, value):
-        if not self.context['user'].check_password(value):
+        user = self.context['request'].user
+        if not user.check_password(value):
             raise serializers.ValidationError(_('Invalid current password.'))
         return value
 
