@@ -41,13 +41,7 @@ class ChatCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        chat_serializer = ChatCreateSerializer(
-            data={
-                'chat_type': request.data['chat_type'],
-                'members': request.data.getlist('members', []),
-            },
-            context={'request': request},
-        )
+        chat_serializer = ChatCreateSerializer(data=request.data)
         chat_serializer.is_valid(raise_exception=True)
         chat_valid_data = chat_serializer.validated_data
         chat = None
@@ -68,17 +62,12 @@ class ChatCreateView(APIView):
             else:
                 return Response(chat.uuid, status=status.HTTP_400_BAD_REQUEST)
         elif chat_valid_data['chat_type'] == ChatType.GROUP:
+            group_chat_serializer = GroupChatListCreateSerializer(
+                data=request.data)
+            group_chat_serializer.is_valid(raise_exception=True)
+
             chat = chat_serializer.save()
             chat.members.add(request.user)
-
-            group_chat_serializer = GroupChatListCreateSerializer(
-                data={
-                    'name': request.data['name'],
-                    'image': request.data['image'],
-                },
-                context={'request': request},
-            )
-            group_chat_serializer.is_valid(raise_exception=True)
             group_chat_serializer.save(chat=chat, owner=request.user)
 
         chat_data = ChatListSerializer(
@@ -116,18 +105,18 @@ class TextMessageView(APIView):
 
     def post(self, request, *args, **kwargs):
         msg_serializer = MessageCreateSerializer(
-            data={'chat': request.data['chat']},
+            data=request.data,
             context={'request': request},
         )
         msg_serializer.is_valid(raise_exception=True)
+
+        text_serializer = TextMessageSerializer(data=request.data)
+        text_serializer.is_valid(raise_exception=True)
+
         msg = msg_serializer.save(
             sender=request.user,
             msg_type=MessageType.TEXT,
         )
-
-        text_serializer = TextMessageSerializer(data={
-            'content': request.data['content']})
-        text_serializer.is_valid(raise_exception=True)
         text_serializer.save(message=msg)
 
         msg_data = MessageFullReadSerializer(
@@ -152,7 +141,7 @@ class ImageMessageView(APIView):
 
     def post(self, request, *args, **kwargs):
         msg_serializer = MessageCreateSerializer(
-            data={'chat': request.data['chat']},
+            data=request.data,
             context={'request': request},
         )
         msg_serializer.is_valid(raise_exception=True)
@@ -161,7 +150,7 @@ class ImageMessageView(APIView):
             msg_type=MessageType.IMAGES,
         )
 
-        images = request.data.getlist('content', None)
+        images = request.data.getlist('content', [])
         for img in images:
             img_serializer = ImageMessageSerializer(data={'content': img})
             img_serializer.is_valid(raise_exception=True)
@@ -189,7 +178,7 @@ class FileMessageView(APIView):
 
     def post(self, request, *args, **kwargs):
         msg_serializer = MessageCreateSerializer(
-            data={'chat': request.data['chat']},
+            data=request.data,
             context={'request': request},
         )
         msg_serializer.is_valid(raise_exception=True)
@@ -198,7 +187,7 @@ class FileMessageView(APIView):
             msg_type=MessageType.FILES,
         )
 
-        files = request.data.getlist('content', None)
+        files = request.data.getlist('content', [])
         for file in files:
             file_serializer = FileMessageSerializer(data={'content': file})
             file_serializer.is_valid(raise_exception=True)
@@ -225,16 +214,19 @@ class WriteMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        user_serializer = UserUUIDSerializer(data={
-            'uuid': request.data['uuid']})
+        user_serializer = UserUUIDSerializer(data=request.data)
         user_serializer.is_valid(raise_exception=True)
-        user = user_serializer.user
 
+        text_serializer = TextMessageSerializer(data=request.data)
+        text_serializer.is_valid(raise_exception=True)
+        
+        user = user_serializer.user
         chat = None
         dialog_chats = Chat.objects.filter(
             chat_type=ChatType.DIALOG,
             members=request.user,
         )
+
         for dialog in dialog_chats:
             if user == dialog.members.exclude(uuid=request.user.uuid).first():
                 chat = dialog
@@ -248,10 +240,6 @@ class WriteMessageView(APIView):
             sender=request.user,
             msg_type=MessageType.TEXT,
         )
-
-        text_serializer = TextMessageSerializer(data={
-            'content': request.data['content']})
-        text_serializer.is_valid(raise_exception=True)
         text_serializer.save(message=msg)
 
         msg_data = MessageFullReadSerializer(

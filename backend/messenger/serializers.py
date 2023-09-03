@@ -22,7 +22,7 @@ class MessageCreateSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         members = data['chat'].members.all()
 
-        if not user in members:
+        if user not in members:
             raise serializers.ValidationError({
                 'chat': _('You are not a member of the chat.')})
 
