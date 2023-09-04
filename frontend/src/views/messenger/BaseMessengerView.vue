@@ -1,18 +1,52 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
-import { RouterView } from 'vue-router'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRouter, RouterView } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { chatType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 
+const router = useRouter()
+const { locale } = useI18n({ useScope: 'global' })
 const connectionBusStore = useConnectionBusStore()
 
 const chatListLoading = ref(true)
 const chatList = ref([])
 
+const relatedUsersLoading = ref(false)
+const relatedUsers = ref([])
+
+const chatCreating = ref(false)
+const selectedChatType = ref(chatType.DIALOG)
+const selectedMembers = ref([])
+const groupChatName = ref('')
+const groupChatImage = ref(null)
+
 const { getLocaleDateTimeString } = useLocaleDateTime()
+
+const errors = ref(null)
+
+const createChatModal = ref(null)
+const createChatModalBootstrap = ref(null)
+
+const chatCreationDisabled = computed(() => {
+  if (
+    selectedChatType.value == chatType.DIALOG &&
+    selectedMembers.value.length > 0
+  ) {
+    return false
+  }
+  if (
+    selectedChatType.value == chatType.GROUP &&
+    selectedMembers.value.length > 0 &&
+    groupChatName.value
+  ) {
+    return false
+  }
+  return true
+})
 
 const getChatList = async () => {
   try {
@@ -25,20 +59,112 @@ const getChatList = async () => {
   }
 }
 
+const getRelatedUsers = async () => {
+  relatedUsersLoading.value = true
+  try {
+    const response = await axios.get('/social/follow/related-users/')
+    relatedUsers.value = response.data
+  } catch (error) {
+    console.error(error)
+  } finally {
+    relatedUsersLoading.value = false
+  }
+}
+
+const createChat = async () => {
+  chatCreating.value = true
+
+  let formData = new FormData()
+  formData.append('chat_type', selectedChatType.value)
+
+  if (selectedChatType.value == chatType.DIALOG) {
+    formData.append('members', selectedMembers.value[0])
+  } else if (selectedChatType.value == chatType.GROUP) {
+    selectedMembers.value.forEach((element) => {
+      formData.append('members', element)
+    })
+    formData.append('name', groupChatName.value)
+    if (groupChatImage.value) {
+      formData.append('image', groupChatImage.value)
+    }
+  }
+
+  try {
+    const response = await axios.post('/messenger/chat/create/', formData)
+    chatList.value.push(response.data)
+    router.push({
+      name: 'Chat',
+      params: {
+        locale: locale.value,
+        uuid: response.data.uuid
+      }
+    })
+    createChatModalBootstrap.value.hide()
+  } catch (error) {
+    if (error.response.data.uuid) {
+      router.push({
+        name: 'Chat',
+        params: {
+          locale: locale.value,
+          uuid: error.response.data.uuid
+        }
+      })
+      createChatModalBootstrap.value.hide()
+    } else {
+      errors.value = error.response.data
+    }
+  } finally {
+    chatCreating.value = false
+  }
+}
+
+const changeSelectedMembers = (user_uuid) => {
+  if (selectedChatType.value == chatType.DIALOG) {
+    selectedMembers.value = [user_uuid]
+  } else if (selectedChatType.value == chatType.GROUP) {
+    if (selectedMembers.value.includes(user_uuid)) {
+      selectedMembers.value = selectedMembers.value.filter((element) => {
+        return element !== user_uuid
+      })
+    } else {
+      selectedMembers.value.push(user_uuid)
+    }
+  }
+}
+
 const updateUserStatus = (mutation, state) => {
   chatList.value.forEach((element) => {
     if (
       element.chat_type == chatType.DIALOG &&
       element.details.uuid == state.user_uuid
     ) {
-      element.details.online = state.online
+      element.details.status = state.status
     }
   })
 }
 
+watch(selectedChatType, (newValue) => {
+  selectedMembers.value = []
+  groupChatName.value = ''
+  groupChatImage.value = null
+  errors.value = null
+})
+
 onMounted(() => {
   getChatList()
   connectionBusStore.$subscribe(updateUserStatus)
+  createChatModal.value.addEventListener('show.bs.modal', () => {
+    getRelatedUsers()
+  })
+  createChatModal.value.addEventListener('hidden.bs.modal', () => {
+    selectedChatType.value = chatType.DIALOG
+    selectedMembers.value = []
+    groupChatName.value = ''
+    groupChatImage.value = null
+    relatedUsers.value = []
+    errors.value = null
+  })
+  createChatModalBootstrap.value = new bootstrap.Modal(createChatModal.value)
 })
 </script>
 
@@ -47,25 +173,49 @@ onMounted(() => {
     <div class="container">
       <div class="row">
         <div class="col-lg-4 py-4">
-          <button
-            type="button"
-            class="btn btn-light border w-100 d-lg-none"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#chat-list"
-            aria-controls="chat-list"
-          >
-            <i class="fa-regular fa-comments"></i>
-            {{ $t('messenger.chat_list') }}
-          </button>
+          <div class="d-flex justify-content-evenly d-lg-none">
+            <button
+              type="button"
+              class="btn btn-light border"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#chat_list"
+              aria-controls="chat_list"
+            >
+              <i class="fa-regular fa-comments"></i>
+              {{ $t('messenger.chat_list') }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-light border"
+              data-bs-toggle="modal"
+              data-bs-target="#create_chat_modal"
+            >
+              {{ $t('messenger.create_chat') }}
+              <i class="fa-regular fa-square-plus"></i>
+            </button>
+          </div>
+          <div class="d-none d-lg-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+            <div class="d-inline-block text-uppercase fw-bolder text-secondary">
+              {{ $t('messenger.chats') }}
+            </div>
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#create_chat_modal"
+            >
+              <i class="fa-regular fa-square-plus"></i>
+            </button>
+          </div>
           <div
-            id="chat-list"
+            id="chat_list"
             tabindex="-1"
             class="offcanvas-lg offcanvas-start"
-            aria-labelledby="chat-list-label"
+            aria-labelledby="chat_list_label"
           >
-            <div class="offcanvas-header">
+            <div class="offcanvas-header border-bottom">
               <h5
-                id="chat-list-label"
+                id="chat_list_label"
                 class="offcanvas-title"
               >
                 {{ $t('messenger.chats') }}
@@ -75,15 +225,11 @@ onMounted(() => {
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="offcanvas"
-                data-bs-target="#chat-list"
+                data-bs-target="#chat_list"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body overflow-auto d-lg-block">
-              <div class="d-none d-lg-block text-uppercase fw-bolder text-secondary mb-3">
-                {{ $t('messenger.chats') }}
-              </div>
-
+            <div class="offcanvas-body overflow-y-auto d-lg-block">
               <LoadingIndicator v-if="chatListLoading" />
               <ul
                 v-else-if="chatList.length > 0"
@@ -111,7 +257,7 @@ onMounted(() => {
                         :src="chat.details.avatar"
                         :width="48"
                         :height="48"
-                        :online="chat.details.online"
+                        :online="chat.details.status == 'online' ? true : false"
                       />
                       <GroupAvatar
                         v-else-if="chat.chat_type == chatType.GROUP"
@@ -183,21 +329,224 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <Teleport to="body">
+      <div
+        ref="createChatModal"
+        id="create_chat_modal"
+        class="modal fade"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="create_chat_modal_label"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                id="create_chat_modal_label"
+                class="modal-title"
+              >
+                {{ $t('messenger.creating_chat') }}
+              </h5>
+              <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form
+                @submit.prevent="createChat()"
+                id="create_chat_form"
+              >
+                <div class="d-flex justify-content-center mb-3">
+                  <div
+                    role="group"
+                    class="btn-group"
+                    aria-label="Chat Type"
+                  >
+                    <input
+                      v-model="selectedChatType"
+                      :value="chatType.DIALOG"
+                      id="id_chat_type_1"
+                      name="chat_type"
+                      type="radio"
+                      class="btn-check"
+                    >
+                    <label
+                      for="id_chat_type_1"
+                      class="btn btn-outline-dark"
+                    >
+                      {{ $t('messenger.dialog') }}
+                    </label>
+
+                    <input
+                      v-model="selectedChatType"
+                      :value="chatType.GROUP"
+                      id="id_chat_type_2"
+                      name="chat_type"
+                      type="radio"
+                      class="btn-check"
+                    >
+                    <label
+                      for="id_chat_type_2"
+                      class="btn btn-outline-dark"
+                    >
+                      {{ $t('messenger.group') }}
+                    </label>
+                  </div>
+                </div>
+                <div
+                  v-if="selectedChatType == chatType.GROUP"
+                  class="mb-3"
+                >
+                  <BaseInput
+                    v-model="groupChatName"
+                    type="text"
+                    maxlength="150"
+                    id="id_name"
+                    name="name"
+                    :label="$t('messenger.group_name')"
+                    :errors="errors?.name ? errors.name : []"
+                  />
+                </div>
+                <div
+                  v-if="selectedChatType == chatType.GROUP"
+                  class="mb-3"
+                >
+                  <span v-if="groupChatImage">
+                    {{ $t('messenger.chosen_image') }}:
+                    {{ groupChatImage.name }}
+                  </span>
+                  <FileInputButton
+                    @selectedFiles="(filelist) => groupChatImage = filelist[0]"
+                    buttonClass="btn btn-soft-brand w-100"
+                    accept="image/*"
+                  >
+                    {{ $t('messenger.choose_image') }}
+                    <i class="fa-regular fa-image"></i>
+                  </FileInputButton>
+                  <div
+                    v-if="errors && errors.image"
+                    id="id_image-errors"
+                    class="text-danger"
+                    aria-live="assertive"
+                  >
+                    <small v-for="error in errors.image">
+                      {{ error }}
+                    </small>
+                  </div>
+                </div>
+                
+                <LoadingIndicator v-if="relatedUsersLoading" />
+                <div
+                  v-else
+                  class="border rounded overflow-y-auto"
+                  style="max-height: 500px;"
+                >
+                  <div
+                    v-if="selectedChatType == chatType.DIALOG"
+                    class="list-group list-group-flush"
+                  >
+                    <label
+                      v-for="user in relatedUsers"
+                      class="list-group-item d-flex align-items-center gap-2"
+                    >
+                      <input
+                        :value="user.uuid"
+                        :checked="selectedMembers.includes(user.uuid)"
+                        @change="changeSelectedMembers(user.uuid)"
+                        type="radio"
+                        name="dialog_members"
+                        :id="`dialog_member_${user.uuid}`"
+                        class="form-check-input"
+                      >
+                      <UserAvatarExtended
+                        :src="user.avatar"
+                        :width="32"
+                        :height="32"
+                        :online="user.status == 'online' ? true : false"
+                      />
+                      <span class="fw-medium">
+                        {{ user.name }}
+                      </span>
+                    </label>
+                  </div>
+                  <div
+                    v-else-if="selectedChatType == chatType.GROUP"
+                    class="list-group list-group-flush"
+                  >
+                    <label
+                      v-for="user in relatedUsers"
+                      class="list-group-item d-flex align-items-center gap-2"
+                    >
+                      <input
+                        :value="user.uuid"
+                        :checked="selectedMembers.includes(user.uuid)"
+                        @change="changeSelectedMembers(user.uuid)"
+                        type="checkbox"
+                        name="group_members"
+                        :id="`group_member_${user.uuid}`"
+                        class="form-check-input"
+                      >
+                      <UserAvatarExtended
+                        :src="user.avatar"
+                        :width="32"
+                        :height="32"
+                        :online="user.status == 'online' ? true : false"
+                      />
+                      <span class="fw-medium">
+                        {{ user.name }}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-light"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.cancel') }}
+              </button>
+              <SubmitButton
+                :loadingStatus="chatCreating"
+                buttonClass="btn btn-brand"
+                form="create_chat_form"
+                :disabled="chatCreationDisabled"
+              >
+                {{ $t('btn.create') }}
+              </SubmitButton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <style scoped>
-.offcanvas-body.overflow-auto::-webkit-scrollbar {
+.offcanvas-body.overflow-y-auto::-webkit-scrollbar,
+.border.rounded.overflow-y-auto::-webkit-scrollbar {
   width: 0.3em;
 }
-.offcanvas-body.overflow-auto::-webkit-scrollbar-track {
+.offcanvas-body.overflow-y-auto::-webkit-scrollbar-track,
+.border.rounded.overflow-y-auto::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
-.offcanvas-body.overflow-auto::-webkit-scrollbar-thumb {
+.offcanvas-body.overflow-y-auto::-webkit-scrollbar-thumb,
+.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 1em;
 }
-.offcanvas-body.overflow-auto::-webkit-scrollbar-thumb:hover {
+.offcanvas-body.overflow-y-auto::-webkit-scrollbar-thumb:hover,
+.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
 }
 
@@ -211,8 +560,14 @@ small,
 }
 
 @media(min-width: 992px) {
-  .offcanvas-body.overflow-auto {
-    min-height: 75vh;
+  .container > .row {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem
+  }
+  .offcanvas-body.overflow-y-auto {
+    height: 70vh;
   }
   .col-lg-4.py-4 {
     border-right: 1px solid #dee2e6;
