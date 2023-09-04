@@ -222,7 +222,7 @@ onMounted(() => {
             class="offcanvas-lg offcanvas-end"
             aria-labelledby="filter_menu_label"
           >
-            <div class="offcanvas-header">
+            <div class="offcanvas-header border-bottom">
               <h5
                 id="filter_menu_label"
                 class="offcanvas-title"

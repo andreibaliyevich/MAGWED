@@ -43,7 +43,7 @@ const userStore = useUserStore()
         class="offcanvas offcanvas-start"
         aria-labelledby="main_menu_label"
       >
-        <div class="offcanvas-header">
+        <div class="offcanvas-header border-bottom">
           <h5
             class="offcanvas-title"
             id="main_menu_label"
