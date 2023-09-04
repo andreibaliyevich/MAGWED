@@ -60,7 +60,10 @@ class ChatCreateView(APIView):
                 chat = chat_serializer.save()
                 chat.members.add(request.user)
             else:
-                return Response(chat.uuid, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {'uuid': chat.uuid},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         elif chat_valid_data['chat_type'] == ChatType.GROUP:
             group_chat_serializer = GroupChatListCreateSerializer(
                 data=request.data)
