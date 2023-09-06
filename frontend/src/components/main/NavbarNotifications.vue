@@ -114,6 +114,7 @@ const vIntersectionNotifications = {
     observer.observe(el)
   }
 }
+
 const vIntersectionNotice = {
   mounted(el, binding) {
     const options = {
