@@ -15,7 +15,7 @@ const countNotViewed = ref(0)
 const notificationSocket = ref(null)
 const notificationSocketConnect = ref(null)
 
-const notificationListDropdown = ref(null)
+const notificationListArea = ref(null)
 
 const getNotificationList = async () => {
   try {
@@ -101,7 +101,7 @@ const setNoticeViewed = (notice_uuid) => {
 const vIntersectionNotifications = {
   mounted(el) {
     const options = {
-      root: notificationListDropdown.value,
+      root: notificationListArea.value,
       rootMargin: '0px',
       threshold: 1.0
     }
@@ -118,7 +118,7 @@ const vIntersectionNotifications = {
 const vIntersectionNotice = {
   mounted(el, binding) {
     const options = {
-      root: notificationListDropdown.value,
+      root: notificationListArea.value,
       rootMargin: '0px',
       threshold: 1.0
     }
@@ -158,12 +158,14 @@ onMounted(() => {
           <span class="visually-hidden">New notifications</span>
         </span>
       </button>
-      <ul
-        ref="notificationListDropdown"
+      <div
         class="dropdown-menu dropdown-menu-end border border-light shadow"
         aria-labelledby="notification-list-dropdown"
       >
-        <li class="overflow-y-auto">
+        <div
+          ref="notificationListArea"
+          class="overflow-y-auto"
+        >
           <ul
             v-if="notificationList.length > 0"
             class="list-group list-group-flush"
@@ -192,8 +194,8 @@ onMounted(() => {
           </div>
           <div v-if="nextURL" v-intersection-notifications></div>
           <LoadingIndicator v-if="notificationListLoading" />
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -203,20 +205,20 @@ onMounted(() => {
   width: 330px;
 }
 
-li.overflow-y-auto {
+div.overflow-y-auto {
   max-height: 550px;
 }
-li.overflow-y-auto::-webkit-scrollbar {
+div.overflow-y-auto::-webkit-scrollbar {
   width: 0.2em;
 }
-li.overflow-y-auto::-webkit-scrollbar-track {
+div.overflow-y-auto::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
-li.overflow-y-auto::-webkit-scrollbar-thumb {
+div.overflow-y-auto::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 1em;
 }
-li.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+div.overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
 }
 </style>
