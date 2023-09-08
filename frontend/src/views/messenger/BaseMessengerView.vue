@@ -16,8 +16,9 @@ const chatListLoading = ref(true)
 const chatList = ref([])
 const nextURL = ref(null)
 
-const relatedUsersLoading = ref(false)
-const relatedUsers = ref([])
+const relatedUserListLoading = ref(false)
+const relatedUserList = ref([])
+const relatedUserListNextURL = ref(null)
 
 const chatCreating = ref(false)
 const selectedChatType = ref(chatType.DIALOG)
@@ -32,6 +33,7 @@ const errors = ref(null)
 const chatListArea = ref(null)
 const createChatModal = ref(null)
 const createChatModalBootstrap = ref(null)
+const relatedUserArea = ref(null)
 
 const chatCreationDisabled = computed(() => {
   if (
@@ -75,15 +77,29 @@ const getMoreChatList = async () => {
   }
 }
 
-const getRelatedUsers = async () => {
-  relatedUsersLoading.value = true
+const getRelatedUserList = async () => {
+  relatedUserListLoading.value = true
   try {
     const response = await axios.get('/social/follow/related-users/')
-    relatedUsers.value = response.data
+    relatedUserList.value = response.data.results
+    relatedUserListNextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
-    relatedUsersLoading.value = false
+    relatedUserListLoading.value = false
+  }
+}
+
+const getMoreRelatedUserList = async () => {
+  relatedUserListLoading.value = true
+  try {
+    const response = await axios.get(relatedUserListNextURL.value)
+    relatedUserList.value = [...relatedUserList.value, ...response.data.results]
+    relatedUserListNextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    relatedUserListLoading.value = false
   }
 }
 
@@ -170,14 +186,15 @@ onMounted(() => {
   getChatList()
   connectionBusStore.$subscribe(updateUserStatus)
   createChatModal.value.addEventListener('show.bs.modal', () => {
-    getRelatedUsers()
+    getRelatedUserList()
   })
   createChatModal.value.addEventListener('hidden.bs.modal', () => {
     selectedChatType.value = chatType.DIALOG
     selectedMembers.value = []
     groupChatName.value = ''
     groupChatImage.value = null
-    relatedUsers.value = []
+    relatedUserList.value = []
+    relatedUserListNextURL.value = null
     errors.value = null
   })
   createChatModalBootstrap.value = new bootstrap.Modal(createChatModal.value)
@@ -470,67 +487,84 @@ onMounted(() => {
                   </div>
                 </div>
                 
-                <LoadingIndicator v-if="relatedUsersLoading" />
                 <div
-                  v-else
+                  ref="relatedUserArea"
                   class="border rounded overflow-y-auto"
                 >
-                  <div
-                    v-if="selectedChatType == chatType.DIALOG"
-                    class="list-group list-group-flush"
-                  >
-                    <label
-                      v-for="user in relatedUsers"
-                      class="list-group-item d-flex align-items-center gap-2"
+                  <div v-if="relatedUserList.length > 0">
+                    <div
+                      v-if="selectedChatType == chatType.DIALOG"
+                      class="list-group list-group-flush"
                     >
-                      <input
-                        :value="user.uuid"
-                        :checked="selectedMembers.includes(user.uuid)"
-                        @change="changeSelectedMembers(user.uuid)"
-                        type="radio"
-                        name="dialog_members"
-                        :id="`dialog_member_${user.uuid}`"
-                        class="form-check-input"
+                      <label
+                        v-for="user in relatedUserList"
+                        class="list-group-item d-flex align-items-center gap-2"
                       >
-                      <UserAvatarExtended
-                        :src="user.avatar"
-                        :width="32"
-                        :height="32"
-                        :online="user.status == 'online' ? true : false"
-                      />
-                      <span class="fw-medium">
-                        {{ user.name }}
-                      </span>
-                    </label>
+                        <input
+                          :value="user.uuid"
+                          :checked="selectedMembers.includes(user.uuid)"
+                          @change="changeSelectedMembers(user.uuid)"
+                          type="radio"
+                          name="dialog_members"
+                          :id="`dialog_member_${user.uuid}`"
+                          class="form-check-input"
+                        >
+                        <UserAvatarExtended
+                          :src="user.avatar"
+                          :width="32"
+                          :height="32"
+                          :online="user.status == 'online' ? true : false"
+                        />
+                        <span class="fw-medium">
+                          {{ user.name }}
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      v-else-if="selectedChatType == chatType.GROUP"
+                      class="list-group list-group-flush"
+                    >
+                      <label
+                        v-for="user in relatedUserList"
+                        class="list-group-item d-flex align-items-center gap-2"
+                      >
+                        <input
+                          :value="user.uuid"
+                          :checked="selectedMembers.includes(user.uuid)"
+                          @change="changeSelectedMembers(user.uuid)"
+                          type="checkbox"
+                          name="group_members"
+                          :id="`group_member_${user.uuid}`"
+                          class="form-check-input"
+                        >
+                        <UserAvatarExtended
+                          :src="user.avatar"
+                          :width="32"
+                          :height="32"
+                          :online="user.status == 'online' ? true : false"
+                        />
+                        <span class="fw-medium">
+                          {{ user.name }}
+                        </span>
+                      </label>
+                    </div>
                   </div>
                   <div
-                    v-else-if="selectedChatType == chatType.GROUP"
-                    class="list-group list-group-flush"
+                    v-else-if="!relatedUserListLoading"
+                    class="lead d-flex justify-content-center py-3"
                   >
-                    <label
-                      v-for="user in relatedUsers"
-                      class="list-group-item d-flex align-items-center gap-2"
-                    >
-                      <input
-                        :value="user.uuid"
-                        :checked="selectedMembers.includes(user.uuid)"
-                        @change="changeSelectedMembers(user.uuid)"
-                        type="checkbox"
-                        name="group_members"
-                        :id="`group_member_${user.uuid}`"
-                        class="form-check-input"
-                      >
-                      <UserAvatarExtended
-                        :src="user.avatar"
-                        :width="32"
-                        :height="32"
-                        :online="user.status == 'online' ? true : false"
-                      />
-                      <span class="fw-medium">
-                        {{ user.name }}
-                      </span>
-                    </label>
+                    {{ $t('follow.no_followers_and_following') }}
                   </div>
+                  <div
+                    v-if="relatedUserListNextURL"
+                    style="min-height: 1px; margin-bottom: 1px;"
+                    v-intersection="{
+                      'scrollArea': relatedUserArea,
+                      'callbackFunction': getMoreRelatedUserList,
+                      'functionArguments': []
+                    }"
+                  ></div>
+                  <LoadingIndicator v-if="relatedUserListLoading" />
                 </div>
               </form>
             </div>
@@ -560,8 +594,7 @@ onMounted(() => {
 
 <style scoped>
 .border.rounded.overflow-y-auto {
-  max-height: 100px;
-/*  max-height: 50vh;*/
+  max-height: 50vh;
 }
 .offcanvas-body.overflow-y-auto::-webkit-scrollbar,
 .border.rounded.overflow-y-auto::-webkit-scrollbar {
