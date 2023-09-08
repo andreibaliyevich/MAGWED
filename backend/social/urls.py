@@ -12,7 +12,7 @@ urlpatterns = [
     path('follow/', include([
         path('', views.FollowCreateDestroyView.as_view()),
         path('list/', views.FollowListView.as_view()),
-        path('related-users/', views.RelatedUsersView.as_view()),
+        path('related-users/', views.RelatedUserListView.as_view()),
     ])),
     path('favorite/', include([
         path('', views.FavoriteCreateDestroyView.as_view()),
