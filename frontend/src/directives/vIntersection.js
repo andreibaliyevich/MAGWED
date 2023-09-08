@@ -3,13 +3,13 @@ export default {
 
   mounted(el, binding) {
     const options = {
-      root: null,
+      root: binding.value.scrollArea,
       rootMargin: '0px',
       threshold: 1.0
     }
     const callback = (entries, observer) => {
       if (entries[0].isIntersecting) {
-        binding.value()
+        binding.value.callbackFunction(...binding.value.functionArguments)
       }
     }
     const observer = new IntersectionObserver(callback, options)

@@ -87,7 +87,15 @@ onMounted(() => {
       >
         {{ $t('follow.no_following') }}
       </div>
-      <div v-if="nextURL" v-intersection="getMoreFollowingList"></div>
+      <div
+        v-if="nextURL"
+        style="min-height: 1px; margin-bottom: 1px;"
+        v-intersection="{
+          'scrollArea': null,
+          'callbackFunction': getMoreFollowingList,
+          'functionArguments': []
+        }"
+      ></div>
       <LoadingIndicator v-if="followingListLoading" />
     </div>
   </div>

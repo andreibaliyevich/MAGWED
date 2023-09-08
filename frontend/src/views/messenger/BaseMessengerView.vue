@@ -166,23 +166,6 @@ watch(selectedChatType, (newValue) => {
   errors.value = null
 })
 
-const vIntersectionChats = {
-  mounted(el) {
-    const options = {
-      root: chatListArea.value,
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        getMoreChatList()
-      }
-    }
-    const observer = new IntersectionObserver(callback, options)
-    observer.observe(el)
-  }
-}
-
 onMounted(() => {
   getChatList()
   connectionBusStore.$subscribe(updateUserStatus)
@@ -359,7 +342,11 @@ onMounted(() => {
               <div
                 v-if="nextURL"
                 style="min-height: 1px; margin-bottom: 1px;"
-                v-intersection-chats
+                v-intersection="{
+                  'scrollArea': chatListArea,
+                  'callbackFunction': getMoreChatList,
+                  'functionArguments': []
+                }"
               ></div>
               <LoadingIndicator v-if="chatListLoading" />
             </div>

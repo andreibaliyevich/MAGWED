@@ -234,7 +234,15 @@ onMounted(() => {
       >
         {{ $t('favorites.no_favorites') }}
       </div>
-      <div v-if="nextURL" v-intersection="getMoreFavoriteList"></div>
+      <div
+        v-if="nextURL"
+        style="min-height: 1px; margin-bottom: 1px;"
+        v-intersection="{
+          'scrollArea': null,
+          'callbackFunction': getMoreFavoriteList,
+          'functionArguments': []
+        }"
+      ></div>
       <LoadingIndicator v-if="favoriteListLoading" />
     </div>
   </div>

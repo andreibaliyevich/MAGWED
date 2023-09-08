@@ -10,7 +10,7 @@ const userStore = useUserStore()
 const notificationListLoading = ref(true)
 const notificationList = ref([])
 const nextURL = ref(null)
-const countNotViewed = ref(0)
+const notViewedCount = ref(0)
 
 const notificationSocket = ref(null)
 const notificationSocketConnect = ref(null)
@@ -23,7 +23,7 @@ const getNotificationList = async () => {
     notificationList.value = response.data.results
     notificationList.value.forEach(element => {
       if (!element.viewed) {
-        countNotViewed.value += 1
+        notViewedCount.value += 1
       }
     })
     nextURL.value = response.data.next
@@ -41,7 +41,7 @@ const getMoreNotificationList = async () => {
     notificationList.value = [...notificationList.value, ...response.data.results]
     response.data.results.forEach(element => {
       if (!element.viewed) {
-        countNotViewed.value += 1
+        notViewedCount.value += 1
       }
     })
     nextURL.value = response.data.next
@@ -78,7 +78,7 @@ const connectSocket = async () => {
       })
       if (foundIndex != -1) {
         notificationList.value[foundIndex].viewed = data.notice_viewed
-        countNotViewed.value -= 1
+        notViewedCount.value -= 1
       }
     }
   }
@@ -96,40 +96,6 @@ const setNoticeViewed = (notice_uuid) => {
   notificationSocket.value.send(JSON.stringify({
     'notice_uuid': notice_uuid
   }))
-}
-
-const vIntersectionNotifications = {
-  mounted(el) {
-    const options = {
-      root: notificationListArea.value,
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        getMoreNotificationList()
-      }
-    }
-    const observer = new IntersectionObserver(callback, options)
-    observer.observe(el)
-  }
-}
-
-const vIntersectionNotice = {
-  mounted(el, binding) {
-    const options = {
-      root: notificationListArea.value,
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        setNoticeViewed(binding.value)
-      }
-    }
-    const observer = new IntersectionObserver(callback, options)
-    observer.observe(el)
-  }
 }
 
 onMounted(() => {
@@ -152,7 +118,7 @@ onMounted(() => {
       >
         <i class="fa-solid fa-bell fa-lg"></i>
         <span
-          v-if="countNotViewed > 0"
+          v-if="notViewedCount > 0"
           class="position-absolute top-0 start-100 translate-middle p-1 rounded-circle bg-danger"
         >
           <span class="visually-hidden">New notifications</span>
@@ -182,7 +148,11 @@ onMounted(() => {
               <NavbarNotice
                 v-else
                 :notice="notice"
-                v-intersection-notice="notice.uuid"
+                v-intersection="{
+                  'scrollArea': notificationListArea,
+                  'callbackFunction': setNoticeViewed,
+                  'functionArguments': [notice.uuid]
+                }"
               />
             </li>
           </ul>
@@ -192,7 +162,15 @@ onMounted(() => {
           >
             {{ $t('notifications.no_notifications') }}
           </div>
-          <div v-if="nextURL" v-intersection-notifications></div>
+          <div
+            v-if="nextURL"
+            style="min-height: 1px; margin-bottom: 1px;"
+            v-intersection="{
+              'scrollArea': notificationListArea,
+              'callbackFunction': getMoreNotificationList,
+              'functionArguments': []
+            }"
+          ></div>
           <LoadingIndicator v-if="notificationListLoading" />
         </div>
       </div>

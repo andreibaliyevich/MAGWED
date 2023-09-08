@@ -260,7 +260,15 @@ onUnmounted(() => {
     >
       {{ $t('organizers.no_reviews') }}
     </div>
-    <div v-if="nextURL" v-intersection="getMoreCommentList"></div>
+    <div
+      v-if="nextURL"
+      style="min-height: 1px; margin-bottom: 1px;"
+      v-intersection="{
+        'scrollArea': null,
+        'callbackFunction': getMoreCommentList,
+        'functionArguments': []
+      }"
+    ></div>
     <LoadingIndicator v-if="commentListLoading" />
 
     <form

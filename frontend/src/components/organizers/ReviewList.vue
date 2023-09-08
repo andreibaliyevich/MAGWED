@@ -372,7 +372,15 @@ onMounted(() => {
         >
           {{ $t('organizers.no_reviews') }}
         </div>
-        <div v-if="nextURL" v-intersection="getMoreReviewList"></div>
+        <div
+          v-if="nextURL"
+          style="min-height: 1px; margin-bottom: 1px;"
+          v-intersection="{
+            'scrollArea': null,
+            'callbackFunction': getMoreReviewList,
+            'functionArguments': []
+          }"
+        ></div>
         <LoadingIndicator v-if="reviewListLoading" />
       </div>
     </div>
