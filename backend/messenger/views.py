@@ -10,7 +10,7 @@ from accounts.serializers import UserUUIDSerializer
 from .choices import ChatType, MessageType
 from .filters import MessageFilter
 from .models import Chat, Message
-from .pagination import MessagePagination
+from .pagination import ChatPagination, MessagePagination
 from .serializers import (
     ChatListSerializer,
     ChatCreateSerializer,
@@ -31,6 +31,7 @@ class ChatListView(generics.ListAPIView):
     """ Chat List View """
     permission_classes = [IsAuthenticated]
     serializer_class = ChatListSerializer
+    pagination_class = ChatPagination
 
     def get_queryset(self):
         return Chat.objects.filter(members=self.request.user)
