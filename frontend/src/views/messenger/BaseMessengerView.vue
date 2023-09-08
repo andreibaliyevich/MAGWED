@@ -14,6 +14,7 @@ const connectionBusStore = useConnectionBusStore()
 
 const chatListLoading = ref(true)
 const chatList = ref([])
+const nextURL = ref(null)
 
 const relatedUsersLoading = ref(false)
 const relatedUsers = ref([])
@@ -28,6 +29,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
 
+const chatListArea = ref(null)
 const createChatModal = ref(null)
 const createChatModalBootstrap = ref(null)
 
@@ -51,7 +53,21 @@ const chatCreationDisabled = computed(() => {
 const getChatList = async () => {
   try {
     const response = await axios.get('/messenger/chat/list/')
-    chatList.value = response.data
+    chatList.value = response.data.results
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    chatListLoading.value = false
+  }
+}
+
+const getMoreChatList = async () => {
+  chatListLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    chatList.value = [...chatList.value, ...response.data.results]
+    nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
@@ -150,6 +166,23 @@ watch(selectedChatType, (newValue) => {
   errors.value = null
 })
 
+const vIntersectionChats = {
+  mounted(el) {
+    const options = {
+      root: chatListArea.value,
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        getMoreChatList()
+      }
+    }
+    const observer = new IntersectionObserver(callback, options)
+    observer.observe(el)
+  }
+}
+
 onMounted(() => {
   getChatList()
   connectionBusStore.$subscribe(updateUserStatus)
@@ -172,7 +205,7 @@ onMounted(() => {
   <div class="base-messenger-view">
     <div class="container">
       <div class="row">
-        <div class="col-lg-4 py-4">
+        <div class="col-lg-4 py-3">
           <div class="d-flex justify-content-evenly d-lg-none">
             <button
               type="button"
@@ -229,10 +262,12 @@ onMounted(() => {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body overflow-y-auto d-lg-block">
-              <LoadingIndicator v-if="chatListLoading" />
+            <div
+              ref="chatListArea"
+              class="offcanvas-body overflow-y-auto d-lg-block"
+            >
               <ul
-                v-else-if="chatList.length > 0"
+                v-if="chatList.length > 0"
                 class="nav nav-pills flex-column px-1"
               >
                 <li
@@ -316,15 +351,21 @@ onMounted(() => {
                 </li>
               </ul>
               <div
-                v-else
+                v-else-if="!chatListLoading"
                 class="lead d-flex justify-content-center py-3"
               >
                 {{ $t('messenger.no_chats') }}
               </div>
+              <div
+                v-if="nextURL"
+                style="min-height: 1px; margin-bottom: 1px;"
+                v-intersection-chats
+              ></div>
+              <LoadingIndicator v-if="chatListLoading" />
             </div>
           </div>
         </div>
-        <div class="col-lg-8 p-lg-3">
+        <div class="col-lg-8 py-lg-2">
           <RouterView />
         </div>
       </div>
@@ -446,7 +487,6 @@ onMounted(() => {
                 <div
                   v-else
                   class="border rounded overflow-y-auto"
-                  style="max-height: 500px;"
                 >
                   <div
                     v-if="selectedChatType == chatType.DIALOG"
@@ -532,6 +572,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.border.rounded.overflow-y-auto {
+  max-height: 100px;
+/*  max-height: 50vh;*/
+}
 .offcanvas-body.overflow-y-auto::-webkit-scrollbar,
 .border.rounded.overflow-y-auto::-webkit-scrollbar {
   width: 0.3em;
@@ -567,9 +611,9 @@ small,
     margin-bottom: 0.25rem
   }
   .offcanvas-body.overflow-y-auto {
-    height: 70vh;
+    height: 73vh;
   }
-  .col-lg-4.py-4 {
+  .col-lg-4.py-3 {
     border-right: 1px solid #dee2e6;
   }
 }
