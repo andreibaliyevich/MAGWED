@@ -355,7 +355,15 @@ onMounted(() => {
           >
             {{ $t('organizers.no_organizers_available') }}
           </div>
-          <div v-if="nextURL" v-intersection="getMoreOrganizerList"></div>
+          <div
+            v-if="nextURL"
+            style="min-height: 1px; margin-bottom: 1px;"
+            v-intersection="{
+              'scrollArea': null,
+              'callbackFunction': getMoreOrganizerList,
+              'functionArguments': []
+            }"
+          ></div>
           <LoadingIndicator v-if="organizerListLoading" />
         </div>
       </div>

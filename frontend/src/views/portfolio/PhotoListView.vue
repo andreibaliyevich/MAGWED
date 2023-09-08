@@ -190,7 +190,15 @@ onMounted(() => {
       >
         {{ $t('portfolio.no_photos') }}
       </div>
-      <div v-if="nextURL" v-intersection="getMorePhotoList"></div>
+      <div
+        v-if="nextURL"
+        style="min-height: 1px; margin-bottom: 1px;"
+        v-intersection="{
+          'scrollArea': null,
+          'callbackFunction': getMorePhotoList,
+          'functionArguments': []
+        }"
+      ></div>
       <LoadingIndicator v-if="photoListLoading" />
     </div>
   </div>
