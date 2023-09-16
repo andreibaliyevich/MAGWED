@@ -177,6 +177,7 @@
         "online": "В сети",
         "last_visit": "Последнее посещение",
         "profile": "Профиль",
+        "view_profile": "Просмотреть профиль",
         "profile_settings": "Настройки профиля",
         "edit_profile": "Редактировать профиль",
         "joined_on": "Присоединился",
@@ -218,6 +219,10 @@
         "creating_chat": "Создание чата",
         "dialog": "Диалог",
         "group": "Группа",
+        "view_group_detail": "Просмотр сведений о группе",
+        "group_chat_details": "Подробности группового чата",
+        "member_count": "0 участников | 1 участник | {n} участника | {n} участников",
+        "members": "Участники",
         "group_name": "Название группы",
         "choose_image": "Выбрать изображение",
         "chosen_image": "Выбрано изображение",
@@ -234,7 +239,8 @@
         "followers": "Подписчики",
         "following": "Подписки",
         "no_followers": "У вас нет подписчиков!",
-        "no_following": "У вас нет подписок!"
+        "no_following": "У вас нет подписок!",
+        "no_followers_and_following": "У Вас нет подписчиков и подписок!"
     },
     "favorites": {
         "favorites": "Избранное",

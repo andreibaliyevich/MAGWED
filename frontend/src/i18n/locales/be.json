@@ -177,6 +177,7 @@
         "online": "У сетцы",
         "last_visit": "Апошняе наведванне",
         "profile": "Профіль",
+        "view_profile": "Прагледзець профіль",
         "profile_settings": "Наладкі профілю",
         "edit_profile": "Рэдагаваць профіль",
         "joined_on": "Далучыўся",
@@ -218,6 +219,10 @@
         "creating_chat": "Стварэнне чата",
         "dialog": "Дыялог",
         "group": "Група",
+        "view_group_detail": "Прагляд звестак аб групе",
+        "group_chat_details": "Падрабязнасці групавога чата",
+        "member_count": "0 удзельнікаў | 1 удзельнік | {n} удзельнікі | {n} удзельнікаў",
+        "members": "Удзельнікі",
         "group_name": "Назва групы",
         "choose_image": "Выбраць выяву",
         "chosen_image": "Выбрана выява",
@@ -234,7 +239,8 @@
         "followers": "Падпісчыкі",
         "following": "Падпіскі",
         "no_followers": "У вас няма падпісантаў!",
-        "no_following": "У вас няма падпісак!"
+        "no_following": "У вас няма падпісак!",
+        "no_followers_and_following": "У Вас няма падпісантаў і падпісак!"
     },
     "favorites": {
         "favorites": "Выбранае",

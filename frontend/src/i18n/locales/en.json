@@ -177,6 +177,7 @@
         "online": "Online",
         "last_visit": "Last visit",
         "profile": "Profile",
+        "view_profile": "View profile",
         "profile_settings": "Profile settings",
         "edit_profile": "Edit Profile",
         "joined_on": "Joined on",
@@ -218,6 +219,10 @@
         "creating_chat": "Creating chat",
         "dialog": "Dialog",
         "group": "Group",
+        "view_group_detail": "View group detail",
+        "group_chat_details": "Group chat details",
+        "member_count": "0 members | 1 member | {n} members",
+        "members": "Members",
         "group_name": "Group name",
         "choose_image": "Choose image",
         "chosen_image": "Chosen image",
@@ -234,7 +239,8 @@
         "followers": "Followers",
         "following": "Following",
         "no_followers": "You don't have any followers!",
-        "no_following": "You don't have any following!"
+        "no_following": "You don't have any following!",
+        "no_followers_and_following": "You don't have any followers and following!"
     },
     "favorites": {
         "favorites": "Favorites",
