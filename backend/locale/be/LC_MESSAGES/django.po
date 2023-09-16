@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-14 10:49+0000\n"
+"POT-Creation-Date: 2023-09-16 08:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -331,28 +331,28 @@ msgstr "Арганізатары"
 msgid "Only organizers have permission."
 msgstr "Дазвол ёсць толькі ў арганізатараў."
 
-#: accounts/serializers.py:40 accounts/serializers.py:115
-#: accounts/serializers.py:161
+#: accounts/serializers.py:40 accounts/serializers.py:116
+#: accounts/serializers.py:162
 msgid "Password fields did not match."
 msgstr "Палі пароля не супадаюць."
 
-#: accounts/serializers.py:85 accounts/serializers.py:149
+#: accounts/serializers.py:85 accounts/serializers.py:150
 msgid "Invalid user uuid or user does not exist."
 msgstr "Недапушчальны ідэнтыфікатар карыстальніка ці карыстач не існуе."
 
-#: accounts/serializers.py:91 accounts/serializers.py:155
+#: accounts/serializers.py:91 accounts/serializers.py:156
 msgid "Invalid token for given user."
 msgstr "Недапушчальны токен для дадзенага карыстальніка."
 
-#: accounts/serializers.py:109 accounts/serializers.py:294
+#: accounts/serializers.py:110 accounts/serializers.py:296
 msgid "Invalid current password."
 msgstr "Няправільны бягучы пароль."
 
-#: accounts/serializers.py:128
+#: accounts/serializers.py:129
 msgid "User with given email does not exist."
 msgstr "Карыстальнік з указаным адрасам электроннай пошты не існуе."
 
-#: accounts/serializers.py:323
+#: accounts/serializers.py:325
 msgid "User with given uuid does not exist."
 msgstr "Карыстальнік з дадзеным uuid не існуе."
 
@@ -378,7 +378,7 @@ msgstr "Малюнак"
 msgid "Info"
 msgstr "Інфармацыя"
 
-#: blog/admin.py:77 blog/admin.py:88 messenger/admin.py:41
+#: blog/admin.py:77 blog/admin.py:88 messenger/admin.py:42
 #: portfolio/admin.py:45 portfolio/admin.py:91
 #, fuzzy
 #| msgid "Review"
@@ -727,7 +727,11 @@ msgstr "Файлавае паведамленне"
 msgid "File Messages"
 msgstr "Файлавыя паведамленні"
 
-#: messenger/serializers.py:24
+#: messenger/permissions.py:8
+msgid "This chat is not a group chat."
+msgstr "Гэты чат не з'яўляецца групавым."
+
+#: messenger/serializers.py:27
 msgid "You are not a member of the chat."
 msgstr "Вы не з'яўляецеся ўдзельнікам чата."
 
@@ -1011,19 +1015,19 @@ msgstr ""
 msgid "Wrong object uuid."
 msgstr ""
 
-#: social/views.py:69
+#: social/views.py:74
 msgid "You have already follow this user."
 msgstr "Вы ўжо падпісаліся на гэтага карыстальніка."
 
-#: social/views.py:84
+#: social/views.py:89
 msgid "You do not follow this user."
 msgstr "Вы не падпісаны на гэтага карыстальніка."
 
-#: social/views.py:121
+#: social/views.py:147
 msgid "You already have this favorite."
 msgstr "У вас ужо ёсьць гэты фаварыт."
 
-#: social/views.py:140
+#: social/views.py:166
 msgid "You do not have this favorite."
 msgstr "У вас няма гэтага фаварыта."
 
