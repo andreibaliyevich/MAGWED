@@ -397,8 +397,8 @@ class UserShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserRetrieveReadSerializer(serializers.ModelSerializer):
-    """ User Retrieve Read Serializer """
+class UserRetrieveSerializer(serializers.ModelSerializer):
+    """ User Retrieve Serializer """
     country = serializers.PrimaryKeyRelatedField(
         allow_null=True,
         queryset=Country.objects.all(),
@@ -457,7 +457,7 @@ class OrganizerListSerializer(serializers.ModelSerializer):
 
 class OrganizerRetrieveSerializer(serializers.ModelSerializer):
     """ Organizer Retrieve Serializer """
-    user = UserRetrieveReadSerializer(read_only=True)
+    user = UserRetrieveSerializer(read_only=True)
     countries = serializers.PrimaryKeyRelatedField(
         allow_null=True,
         many=True,

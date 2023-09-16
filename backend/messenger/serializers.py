@@ -136,8 +136,8 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class GroupChatListCreateSerializer(serializers.ModelSerializer):
-    """ Group Chat List Create Serializer """
+class GroupChatShortSerializer(serializers.ModelSerializer):
+    """ Group Chat Short Serializer """
 
     class Meta:
         model = GroupChat
@@ -147,8 +147,8 @@ class GroupChatListCreateSerializer(serializers.ModelSerializer):
         ]
 
 
-class GroupChatRetrieveSerializer(serializers.ModelSerializer):
-    """ Group Chat Retrieve Serializer """
+class GroupChatSerializer(serializers.ModelSerializer):
+    """ Group Chat Serializer """
 
     class Meta:
         model = GroupChat
@@ -174,7 +174,7 @@ class ChatListSerializer(serializers.ModelSerializer):
             ).data
 
         if obj.chat_type == ChatType.GROUP:
-            return GroupChatListCreateSerializer(
+            return GroupChatShortSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
@@ -221,7 +221,7 @@ class ChatRetrieveSerializer(serializers.ModelSerializer):
             ).data
 
         if obj.chat_type == ChatType.GROUP:
-            group_data = GroupChatRetrieveSerializer(
+            group_data = GroupChatShortSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
@@ -236,4 +236,18 @@ class ChatRetrieveSerializer(serializers.ModelSerializer):
             'uuid',
             'chat_type',
             'details',
+        ]
+
+
+class GroupChatRetrieveSerializer(serializers.ModelSerializer):
+    """ Group Chat Retrieve Serializer """
+    members = UserShortReadSerializer(read_only=True, many=True)
+    group_details = GroupChatSerializer(read_only=True)
+
+    class Meta:
+        model = Chat
+        fields = [
+            'uuid',
+            'members',
+            'group_details',
         ]

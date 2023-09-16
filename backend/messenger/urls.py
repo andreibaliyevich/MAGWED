@@ -9,6 +9,8 @@ urlpatterns = [
         path('list/', views.ChatListView.as_view()),
         path('create/', views.ChatCreateView.as_view()),
         path('retrieve/<uuid:uuid>/', views.ChatRetrieveView.as_view()),
+        path('group-retrieve/<uuid:uuid>/',
+            views.GroupChatRetrieveView.as_view()),
     ])),
     path('message/', include([
         path('list/', views.MessageListView.as_view()),

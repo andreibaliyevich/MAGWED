@@ -11,11 +11,13 @@ from .choices import ChatType, MessageType
 from .filters import MessageFilter
 from .models import Chat, Message
 from .pagination import ChatPagination, MessagePagination
+from .permissions import ChatIsGroupChat
 from .serializers import (
     ChatListSerializer,
     ChatCreateSerializer,
-    GroupChatListCreateSerializer,
+    GroupChatShortSerializer,
     ChatRetrieveSerializer,
+    GroupChatRetrieveSerializer,
     MessageFullReadSerializer,
     MessageCreateSerializer,
     TextMessageSerializer,
@@ -66,8 +68,7 @@ class ChatCreateView(APIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         elif chat_valid_data['chat_type'] == ChatType.GROUP:
-            group_chat_serializer = GroupChatListCreateSerializer(
-                data=request.data)
+            group_chat_serializer = GroupChatShortSerializer(data=request.data)
             group_chat_serializer.is_valid(raise_exception=True)
 
             chat = chat_serializer.save()
@@ -86,6 +87,16 @@ class ChatRetrieveView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     lookup_field = 'uuid'
     serializer_class = ChatRetrieveSerializer
+
+    def get_queryset(self):
+        return Chat.objects.filter(members=self.request.user)
+
+
+class GroupChatRetrieveView(generics.RetrieveAPIView):
+    """ Group Chat Retrieve View """
+    permission_classes = [IsAuthenticated, ChatIsGroupChat]
+    lookup_field = 'uuid'
+    serializer_class = GroupChatRetrieveSerializer
 
     def get_queryset(self):
         return Chat.objects.filter(members=self.request.user)
