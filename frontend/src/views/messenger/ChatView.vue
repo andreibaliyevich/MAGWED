@@ -13,8 +13,8 @@ const route = useRoute()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
-const chatLoading = ref(false)
-const chat = ref({
+const chatDataLoading = ref(false)
+const chatData = ref({
   uuid: '',
   chat_type: null,
   details: {
@@ -23,6 +23,17 @@ const chat = ref({
     avatar: '',
     status: null,
     profile_url: null
+  }
+})
+
+const groupChatDataLoading = ref(false)
+const groupChatData = ref({
+  uuid: '',
+  members: [],
+  group_details: {
+    owner: '',
+    name: '',
+    image: null
   }
 })
 
@@ -41,8 +52,11 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 const errors = ref(null)
 const errorStatus = ref(null)
 
-const scrollArea = ref(null)
+const messageListArea = ref(null)
 const msgTextarea = ref(null)
+
+const groupDetailModal = ref(null)
+const groupDetailModalBootstrap = ref(null)
 
 const reversedMessages = computed(() => {
   return [...messageList.value].reverse()
@@ -65,7 +79,7 @@ const getMessageList = async () => {
   try {
     const response = await axios.get(
       '/messenger/message/list/?chat='
-        + chat.value.uuid
+        + chatData.value.uuid
     )
     messageList.value = response.data.results
     nextURL.value = response.data.next
@@ -74,8 +88,8 @@ const getMessageList = async () => {
   } finally {
     messageListLoading.value = false
     nextTick(() => {
-      scrollArea.value.scrollTo({
-        top: scrollArea.value.scrollHeight,
+      messageListArea.value.scrollTo({
+        top: messageListArea.value.scrollHeight,
         behavior: 'instant'
       })
       msgTextarea.value.focus()
@@ -85,7 +99,7 @@ const getMessageList = async () => {
 
 const getMoreMessageList = async () => {
   messageListLoading.value = true
-  const scrollHeight = scrollArea.value.scrollHeight
+  const scrollHeight = messageListArea.value.scrollHeight
   try {
     const response = await axios.get(nextURL.value)
     messageList.value = [...messageList.value, ...response.data.results]
@@ -95,8 +109,8 @@ const getMoreMessageList = async () => {
   } finally {
     messageListLoading.value = false
     nextTick(() => {
-      scrollArea.value.scrollTo({
-        top: scrollArea.value.scrollHeight - scrollHeight,
+      messageListArea.value.scrollTo({
+        top: messageListArea.value.scrollHeight - scrollHeight,
         behavior: 'instant'
       })
     })
@@ -107,7 +121,7 @@ const openConvoSocket = async () => {
   chatSocket.value = new WebSocket(
     WS_URL
       + '/ws/messenger/'
-      + chat.value.uuid
+      + chatData.value.uuid
       + '/?'
       + userStore.token
   )
@@ -119,8 +133,8 @@ const openConvoSocket = async () => {
     if (data.action == 'new_msg') {
       messageList.value.unshift(data.data)
       nextTick(() => {
-        scrollArea.value.scrollTo({
-          top: scrollArea.value.scrollHeight,
+        messageListArea.value.scrollTo({
+          top: messageListArea.value.scrollHeight,
           behavior: 'smooth'
         })
       })
@@ -150,20 +164,36 @@ const closeConvoSocket = () => {
 }
 
 const getChatData = async () => {
-  chatLoading.value = true
+  chatDataLoading.value = true
   try {
     const response = await axios.get(
       '/messenger/chat/retrieve/'
         + route.params.uuid
         +'/'
     )
-    chat.value = response.data
+    chatData.value = response.data
     getMessageList()
     openConvoSocket()
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
-    chatLoading.value = false
+    chatDataLoading.value = false
+  }
+}
+
+const getGroupChatData = async () => {
+  groupChatDataLoading.value = true
+  try {
+    const response = await axios.get(
+      '/messenger/chat/group-retrieve/'
+        + chatData.value.uuid
+        +'/'
+    )
+    groupChatData.value = response.data
+  } catch (error) {
+    errorStatus.value = error.response.status
+  } finally {
+    groupChatDataLoading.value = false
   }
 }
 
@@ -171,7 +201,7 @@ const sendTextMessage = async () => {
   messageSending.value = true
   try {
     const response = await axios.post('/messenger/message/text/', {
-      chat: chat.value.uuid,
+      chat: chatData.value.uuid,
       content: textContent.value
     })
     textContent.value = ''
@@ -188,13 +218,13 @@ const sendTextMessage = async () => {
 
 const sendImageMessage = async (filelist) => {
   messageSending.value = true
-  const imagesData = new FormData()
-  imagesData.append('chat', chat.value.uuid)
+  let formData = new FormData()
+  formData.append('chat', chatData.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
-    imagesData.append('content', filelist[i], filelist[i].name)
+    formData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/message/images/', imagesData)
+    const response = await axios.post('/messenger/message/images/', formData)
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -204,13 +234,13 @@ const sendImageMessage = async (filelist) => {
 
 const sendFileMessage = async (filelist) => {
   messageSending.value = true
-  const filesData = new FormData()
-  filesData.append('chat', chat.value.uuid)
+  let formData = new FormData()
+  formData.append('chat', chatData.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
-    filesData.append('content', filelist[i], filelist[i].name)
+    formData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/message/files/', filesData)
+    const response = await axios.post('/messenger/message/files/', formData)
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -226,47 +256,14 @@ const setMessageViewed = (msg_uuid) => {
 }
 
 const updateUserStatus = (mutation, state) => {
-  if (chat.value.details.uuid == state.user_uuid) {
-    chat.value.details.status = state.status
+  if (chatData.value.details.uuid == state.user_uuid) {
+    chatData.value.details.status = state.status
   }
   messageList.value.forEach((element) => {
     if (element.sender.uuid == state.user_uuid) {
       element.sender.status = state.status
     }
   })
-}
-
-const vIntersectionMessages = {
-  mounted(el) {
-    const options = {
-      root: scrollArea.value,
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        getMoreMessageList()
-      }
-    }
-    const observer = new IntersectionObserver(callback, options)
-    observer.observe(el)
-  }
-}
-const vIntersectionMessage = {
-  mounted(el, binding) {
-    const options = {
-      root: scrollArea.value,
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        setMessageViewed(binding.value)
-      }
-    }
-    const observer = new IntersectionObserver(callback, options)
-    observer.observe(el)
-  }
 }
 
 watch(
@@ -289,6 +286,12 @@ onMounted(() => {
   updateTextareaStyles()
   getChatData()
   connectionBusStore.$subscribe(updateUserStatus)
+  groupDetailModal.value.addEventListener('show.bs.modal', () => {
+    getGroupChatData()
+  })
+  groupDetailModalBootstrap.value = new bootstrap.Modal(
+    groupDetailModal.value
+  )
 })
 
 onUnmounted(() => {
@@ -298,7 +301,7 @@ onUnmounted(() => {
 
 <template>
   <div class="chat-view">
-    <LoadingIndicator v-if="chatLoading" />
+    <LoadingIndicator v-if="chatDataLoading" />
     <div
       v-else-if="errorStatus == 404"
       class="d-flex justify-content-center align-items-center h-100"
@@ -313,45 +316,169 @@ onUnmounted(() => {
       class="card border-0"
     >
       <div class="card-header bg-white">
-        <div class="d-flex align-items-center">
-          <div class="flex-shrink-0">
-            <UserAvatarExtended
-              v-if="chat.chat_type == chatType.DIALOG"
-              :src="chat.details.avatar"
-              :width="48"
-              :height="48"
-              :online="chat.details.status == 'online' ? true : false"
-            />
-            <GroupAvatar
-              v-else-if="chat.chat_type == chatType.GROUP"
-              :src="chat.details.image"
-              :width="48"
-              :height="48"
-            />
-            <img
-              v-else
-              src="/chat.jpg"
-              class="rounded-circle"
-              width="48"
-              height="48"
-            >
-          </div>
+        <div
+          v-if="chatData.chat_type == chatType.DIALOG"
+          class="d-flex align-items-center"
+        >
+          <UserAvatar
+            :src="chatData.details.avatar"
+            :width="48"
+            :height="48"
+          />
           <div class="flex-grow-1 ms-3">
-            <strong>{{ chat.details.name }}</strong>
+            <h6 class="mt-1 mb-0">{{ chatData.details.name }}</h6>
+            <span
+              v-if="chatData.details.status == 'online'"
+              class="text-dark"
+            >
+              <i class="fa-solid fa-circle fa-xs text-success"></i>
+              {{ $t('user.online') }}
+            </span>
+            <span
+              v-else
+              class="text-secondary"
+            >
+              <i class="fa-solid fa-circle fa-xs"></i>
+              {{ $t('user.last_visit') }}
+              {{ getLocaleDateTimeString(chatData.details.status) }}
+            </span>
           </div>
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              data-bs-toggle="dropdown"
+              data-bs-auto-close="true"
+              aria-expanded="false"
+            >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li v-if="chatData.details.profile_url">
+                <LocaleRouterLink
+                  routeName="OrganizerDetail"
+                  :routeParams="{ profile_url: chatData.details.profile_url }"
+                  class="dropdown-item"
+                >
+                  <i class="fa-solid fa-user"></i>
+                  {{ $t('user.view_profile') }}
+                </LocaleRouterLink>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item btn btn-link"
+                >
+                  <i class="fa-solid fa-check"></i>
+                  Mark as read
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item btn btn-link"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                  Delete chat
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          v-else-if="chatData.chat_type == chatType.GROUP"
+          class="d-flex align-items-center"
+        >
+          <GroupAvatar
+            :src="chatData.details.image"
+            :width="48"
+            :height="48"
+          />
+          <div class="flex-grow-1 ms-3">
+            <h6 class="mt-1 mb-0">{{ chatData.details.name }}</h6>
+            <span class="text-secondary">
+              {{ $t('messenger.member_count', {n: chatData.details.member_count}) }}
+            </span>
+          </div>
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              data-bs-toggle="dropdown"
+              data-bs-auto-close="true"
+              aria-expanded="false"
+            >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item btn btn-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#group_detail_modal"
+                >
+                  <i class="fa-solid fa-user-group"></i>
+                  {{ $t('messenger.view_group_detail') }}
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item btn btn-link"
+                >
+                  <i class="fa-solid fa-check"></i>
+                  Mark as read
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item btn btn-link"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                  Delete chat
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          v-else
+          class="d-flex align-items-center"
+        >
+          <img
+            src="/chat.jpg"
+            class="rounded-circle"
+            width="48"
+            height="48"
+          >
         </div>
       </div>
       <div
-        ref="scrollArea"
+        ref="messageListArea"
         class="card-body overflow-y-auto"
       >
         <LoadingIndicator v-if="messageListLoading" />
-        <div v-if="nextURL" v-intersection-messages></div>
+        <div
+          v-if="nextURL"
+          style="min-height: 1px; margin-top: 1px;"
+          v-intersection="{
+            'scrollArea': messageListArea,
+            'callbackFunction': getMoreMessageList,
+            'functionArguments': []
+          }"
+        ></div>
         <div
           v-if="messageList.length > 0"
           class="my-3"
         >
-          <div v-for="msg in reversedMessages">
+          <div
+            v-for="msg in reversedMessages"
+            class="my-3"
+          >
             <div
               v-if="msg.sender.uuid == userStore.uuid"
               class="d-flex justify-content-end"
@@ -385,13 +512,13 @@ onUnmounted(() => {
             >
               <div class="my-0">
                 <div
-                  v-if="chat.chat_type == chatType.GROUP"
+                  v-if="chatData.chat_type == chatType.GROUP"
                   class="d-flex align-items-start"
                 >
                   <UserAvatarExtended
                     :src="msg.sender.avatar"
-                    :width="48"
-                    :height="48"
+                    :width="36"
+                    :height="36"
                     :online="msg.sender.status == 'online' ? true : false"
                   />
                   <div class="bg-light rounded p-2 ms-2">
@@ -405,7 +532,11 @@ onUnmounted(() => {
                       v-else
                       :msgType="msg.msg_type"
                       :msgContent="msg.content"
-                      v-intersection-message="msg.uuid"
+                      v-intersection="{
+                        'scrollArea': messageListArea,
+                        'callbackFunction': setMessageViewed,
+                        'functionArguments': [msg.uuid]
+                      }"
                     />
                   </div>
                 </div>
@@ -422,7 +553,11 @@ onUnmounted(() => {
                     v-else
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
-                    v-intersection-message="msg.uuid"
+                    v-intersection="{
+                      'scrollArea': messageListArea,
+                      'callbackFunction': setMessageViewed,
+                      'functionArguments': [msg.uuid]
+                    }"
                   />
                 </div>
                 <small class="text-muted">
@@ -484,14 +619,133 @@ onUnmounted(() => {
         <small>{{ $t('form_help.textarea_message') }}</small>
       </div>
     </div>
+
+    <Teleport to="body">
+      <div
+        ref="groupDetailModal"
+        id="group_detail_modal"
+        class="modal fade"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="group_detail_modal_label"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                id="group_detail_modal_label"
+                class="modal-title"
+              >
+                {{ $t('messenger.group_chat_details') }}
+              </h5>
+              <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <LoadingIndicator v-if="groupChatDataLoading" />
+              <div v-else>
+                <div class="d-flex align-items-center">
+                  <GroupAvatar
+                    :src="groupChatData.group_details.image"
+                    :width="64"
+                    :height="64"
+                  />
+                  <div class="ms-3">
+                    <p class="h4 mb-0">{{ groupChatData.group_details.name }}</p>
+                    <span class="text-secondary">
+                      {{ $t('messenger.member_count', {n: groupChatData.members.length}) }}
+                    </span>
+                  </div>
+                </div>
+
+                <p class="lead mt-3">{{ $t('messenger.members') }}:</p>
+                <div class="border rounded overflow-y-auto">
+                  <div
+                    v-if="groupChatData.members.length > 0"
+                    class="list-group list-group-flush"
+                  >
+                    <label
+                      v-for="user in groupChatData.members"
+                      class="list-group-item list-group-item-action"
+                    >
+                      <LocaleRouterLink
+                        v-if="user.profile_url"
+                        routeName="OrganizerDetail"
+                        :routeParams="{ profile_url: user.profile_url }"
+                        @click="groupDetailModalBootstrap.hide()"
+                        class="text-decoration-none link-dark d-flex align-items-center gap-2"
+                      >
+                        <UserAvatarExtended
+                          :src="user.avatar"
+                          :width="32"
+                          :height="32"
+                          :online="user.status == 'online' ? true : false"
+                        />
+                        <span class="fw-medium">
+                          {{ user.name }}
+                        </span>
+                        <i
+                          v-if="user.uuid == groupChatData.group_details.owner"
+                          class="fa-solid fa-star"
+                        ></i>
+                      </LocaleRouterLink>
+                      <div
+                        v-else
+                        class="d-flex align-items-center gap-2"
+                      >
+                        <UserAvatarExtended
+                          :src="user.avatar"
+                          :width="32"
+                          :height="32"
+                          :online="user.status == 'online' ? true : false"
+                        />
+                        <span class="fw-medium">
+                          {{ user.name }}
+                        </span>
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    v-else
+                    class="lead d-flex justify-content-center py-3"
+                  >
+                    {{ $t('follow.no_followers_and_following') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-light"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.close') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <style scoped>
 .card-body.overflow-y-auto {
-  height: 60vh;
+  height: 65vh;
 }
-.card-body.overflow-y-auto::-webkit-scrollbar {
+.border.rounded.overflow-y-auto {
+  max-height: 50vh;
+}
+.card-body.overflow-y-auto::-webkit-scrollbar,
+.border.rounded.overflow-y-auto::-webkit-scrollbar {
   width: 0.3em;
 }
 textarea {
@@ -501,15 +755,18 @@ textarea::-webkit-scrollbar {
   width: 0.2em;
 }
 .card-body.overflow-y-auto::-webkit-scrollbar-track,
+.border.rounded.overflow-y-auto::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
 .card-body.overflow-y-auto::-webkit-scrollbar-thumb,
+.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb {
   background-color: #c0c0c0;
   border-radius: 1em;
 }
 .card-body.overflow-y-auto::-webkit-scrollbar-thumb:hover,
+.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
 }
