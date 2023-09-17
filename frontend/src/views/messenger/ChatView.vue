@@ -200,10 +200,14 @@ const getGroupChatData = async () => {
 const sendTextMessage = async () => {
   messageSending.value = true
   try {
-    const response = await axios.post('/messenger/message/text/', {
-      chat: chatData.value.uuid,
-      content: textContent.value
-    })
+    const response = await axios.post(
+      '/messenger/message/new/'
+        + chatData.value.uuid
+        + '/'
+        + messageType.TEXT
+        + '/',
+      {content: textContent.value}
+    )
     textContent.value = ''
     nextTick(() => {
       updateTextareaStyles()
@@ -219,12 +223,21 @@ const sendTextMessage = async () => {
 const sendImageMessage = async (filelist) => {
   messageSending.value = true
   let formData = new FormData()
-  formData.append('chat', chatData.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
     formData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/message/images/', formData)
+    const response = await axios.post(
+      '/messenger/message/new/'
+        + chatData.value.uuid
+        + '/'
+        + messageType.IMAGES
+        + '/',
+      formData
+    )
+    nextTick(() => {
+      msgTextarea.value.focus()
+    })
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -235,12 +248,21 @@ const sendImageMessage = async (filelist) => {
 const sendFileMessage = async (filelist) => {
   messageSending.value = true
   let formData = new FormData()
-  formData.append('chat', chatData.value.uuid)
   for (let i = 0; i < filelist.length; i++) {
     formData.append('content', filelist[i], filelist[i].name)
   }
   try {
-    const response = await axios.post('/messenger/message/files/', formData)
+    const response = await axios.post(
+      '/messenger/message/new/'
+        + chatData.value.uuid
+        + '/'
+        + messageType.FILES
+        + '/',
+      formData
+    )
+    nextTick(() => {
+      msgTextarea.value.focus()
+    })
   } catch (error) {
     errors.value = error.response.data
   } finally {
