@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-17 15:18+0000\n"
+"POT-Creation-Date: 2023-09-17 15:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -731,6 +731,10 @@ msgstr "Цей чат не є груповим."
 #: messenger/permissions.py:16
 msgid "You cannot delete this chat."
 msgstr "Ви не можете видалити цей чат."
+
+#: messenger/views.py:179
+msgid "Not found."
+msgstr "Не знайдено."
 
 #: notifications/admin.py:8
 msgid "Date created"
