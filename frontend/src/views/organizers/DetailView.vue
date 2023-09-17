@@ -84,9 +84,11 @@ const updateUserStatus = (mutation, state) => {
 
 const followUser = async () => {
   try {
-    const response = await axios.post('/social/follow/', {
-      'uuid': organizerData.value.user.uuid
-    })
+    const response = await axios.post(
+      '/social/follow/user/'
+        + organizerData.value.user.uuid
+        +'/'
+    )
     organizerData.value.user.following = true
   } catch (error) {
     console.error(error)
@@ -95,11 +97,11 @@ const followUser = async () => {
 
 const unfollowUser = async () => {
   try {
-    const response = await axios.delete('/social/follow/', {
-      data: {
-        'uuid': organizerData.value.user.uuid
-      }
-    })
+    const response = await axios.delete(
+      '/social/follow/user/'
+        + organizerData.value.user.uuid
+        +'/'
+    )
     organizerData.value.user.following = false
   } catch (error) {
     console.error(error)
@@ -109,10 +111,12 @@ const unfollowUser = async () => {
 const writeMessage = async () => {
   messageSending.value = true
   try {
-    const response = await axios.post('/messenger/message/write/', {
-      'uuid': organizerData.value.user.uuid,
-      'content': textContent.value
-    })
+    const response = await axios.post(
+      '/messenger/message/write/'
+        + organizerData.value.user.uuid
+        + '/',
+      {'content': textContent.value}
+    )
     writeMessageModalBootstrap.value.hide()
     textContent.value = ''
   } catch (error) {
