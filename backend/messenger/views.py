@@ -175,7 +175,10 @@ class NewMessageView(APIView):
                 file_serializer.is_valid(raise_exception=True)
                 file_serializer.save(message=msg)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {'detail': _('Not found.')},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
         msg_data = MessageFullReadSerializer(
             msg,
