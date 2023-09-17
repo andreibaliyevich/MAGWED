@@ -87,7 +87,7 @@ const followUser = async () => {
     const response = await axios.post(
       '/social/follow/user/'
         + organizerData.value.user.uuid
-        +'/'
+        + '/'
     )
     organizerData.value.user.following = true
   } catch (error) {
@@ -100,7 +100,7 @@ const unfollowUser = async () => {
     const response = await axios.delete(
       '/social/follow/user/'
         + organizerData.value.user.uuid
-        +'/'
+        + '/'
     )
     organizerData.value.user.following = false
   } catch (error) {
