@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-16 08:41+0000\n"
+"POT-Creation-Date: 2023-09-17 15:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -353,10 +353,6 @@ msgstr "Неправильний поточний пароль."
 msgid "User with given email does not exist."
 msgstr "Користувач із вказаною адресою електронної пошти не існує."
 
-#: accounts/serializers.py:325
-msgid "User with given uuid does not exist."
-msgstr "Користувач із даним uuid не існує."
-
 #: accounts/views.py:101
 msgid "Stale token for given user."
 msgstr "Застарілий токен для цього користувача."
@@ -506,11 +502,11 @@ msgstr "Коментарій"
 msgid "Only author have permission."
 msgstr "Дозвіл є лише у автора."
 
-#: comments/serializers.py:34
+#: comments/serializers.py:34 social/serializers.py:75
 msgid "Invalid content type."
 msgstr "Неприпустимий тип контенту."
 
-#: comments/serializers.py:41
+#: comments/serializers.py:41 social/serializers.py:82
 msgid "Object does not exist."
 msgstr "Об'єкта не існує."
 
@@ -732,9 +728,9 @@ msgstr "Файлові повідомлення"
 msgid "This chat is not a group chat."
 msgstr "Цей чат не є груповим."
 
-#: messenger/serializers.py:27
-msgid "You are not a member of the chat."
-msgstr "Ви не є учасником чату."
+#: messenger/permissions.py:16
+msgid "You cannot delete this chat."
+msgstr "Ви не можете видалити цей чат."
 
 #: notifications/admin.py:8
 msgid "Date created"
@@ -876,27 +872,19 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фотографії"
 
-#: portfolio/serializers.py:186
-msgid "Photo with given uuid does not exist."
-msgstr "Фото з даним uuid не існує."
-
-#: portfolio/serializers.py:337
-msgid "Album with given uuid does not exist."
-msgstr "Альбом із даним uuid не існує."
-
-#: portfolio/views.py:119
+#: portfolio/views.py:111
 msgid "You already liked this album!"
 msgstr "Вам уже сподобався цей альбом!"
 
-#: portfolio/views.py:134
+#: portfolio/views.py:122
 msgid "You do not like this album!"
 msgstr "Вам не подобається цей альбом!"
 
-#: portfolio/views.py:240
+#: portfolio/views.py:220
 msgid "You already liked this photo!"
 msgstr "Вам вже сподобалося це фото!"
 
-#: portfolio/views.py:255
+#: portfolio/views.py:231
 msgid "You do not like this photo!"
 msgstr "Вам не подобається це фото!"
 
@@ -1008,27 +996,19 @@ msgstr "Вибране"
 msgid "Favorites"
 msgstr "Вибрані"
 
-#: social/serializers.py:75
-msgid "Wrong content type."
-msgstr ""
-
-#: social/serializers.py:82
-msgid "Wrong object uuid."
-msgstr ""
-
-#: social/views.py:74
+#: social/views.py:72
 msgid "You have already follow this user."
 msgstr "Ви вже передплатили цього користувача."
 
-#: social/views.py:89
+#: social/views.py:83
 msgid "You do not follow this user."
 msgstr "Ви не підписані на цього користувача."
 
-#: social/views.py:147
+#: social/views.py:140
 msgid "You already have this favorite."
 msgstr "Ви вже маєте цей фаворит."
 
-#: social/views.py:166
+#: social/views.py:159
 msgid "You do not have this favorite."
 msgstr "У вас цього фаворита немає."
 
