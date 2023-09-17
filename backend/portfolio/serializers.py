@@ -174,19 +174,6 @@ class PhotoRetrieveSerializer(serializers.ModelSerializer):
         ]
 
 
-class PhotoUUIDSerializer(serializers.Serializer):
-    """ Photo UUID Serializer """
-    uuid = serializers.UUIDField()
-
-    def validate_uuid(self, value):
-        try:
-            self.photo = Photo.objects.get(uuid=value)
-        except Photo.DoesNotExist:
-            raise serializers.ValidationError(
-                _('Photo with given uuid does not exist.'))
-        return value
-
-
 class AlbumListCreateSerializer(serializers.ModelSerializer):
     """ Album List Create Serializer """
     image = serializers.ImageField(write_only=True)
@@ -323,16 +310,3 @@ class AlbumRetrieveSerializer(serializers.ModelSerializer):
             'favorite',
             'rating',
         ]
-
-
-class AlbumUUIDSerializer(serializers.Serializer):
-    """ Album UUID Serializer """
-    uuid = serializers.UUIDField()
-
-    def validate_uuid(self, value):
-        try:
-            self.album = Album.objects.get(uuid=value)
-        except Album.DoesNotExist:
-            raise serializers.ValidationError(
-                _('Album with given uuid does not exist.'))
-        return value

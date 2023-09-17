@@ -14,8 +14,9 @@ urlpatterns = [
         ])),
         path('list/', views.AlbumListView.as_view()),
         path('retrieve/<uuid:uuid>/', views.AlbumRetrieveView.as_view()),
-        path('up-view-count/', views.AlbumUpViewCountView.as_view()),
-        path('like/', views.AlbumLikeView.as_view()),
+        path('up-view-count/<uuid:uuid>/',
+            views.AlbumUpViewCountView.as_view()),
+        path('like/<uuid:uuid>/', views.AlbumLikeView.as_view()),
     ])),
 
     path('photo/', include([
@@ -25,7 +26,8 @@ urlpatterns = [
         ])),
         path('list/', views.PhotoListView.as_view()),
         path('retrieve/<uuid:uuid>/', views.PhotoRetrieveView.as_view()),
-        path('up-view-count/', views.PhotoUpViewCountView.as_view()),
-        path('like/', views.PhotoLikeView.as_view()),
+        path('up-view-count/<uuid:uuid>/',
+            views.PhotoUpViewCountView.as_view()),
+        path('like/<uuid:uuid>/', views.PhotoLikeView.as_view()),
     ])),
 ]

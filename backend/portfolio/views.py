@@ -5,6 +5,7 @@ from rest_framework import filters, generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 from accounts.permissions import UserIsOrganizer
 from .filters import AlbumFilter, PhotoFilter
 from .models import Album, Photo
@@ -16,13 +17,11 @@ from .serializers import (
     AlbumListShortSerializer,
     AlbumListSerializer,
     AlbumRetrieveSerializer,
-    AlbumUUIDSerializer,
     PhotoListCreateSerializer,
     PhotoRUDSerializer,
     PhotoListShortSerializer,
     PhotoListSerializer,
     PhotoRetrieveSerializer,
-    PhotoUUIDSerializer,
 )
 
 
@@ -93,13 +92,9 @@ class AlbumUpViewCountView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        serializer = AlbumUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        album = serializer.album
-
-        album.view_count += 1
-        album.save(update_fields=['view_count'])
-
+        obj = get_object_or_404(Album, uuid=kwargs['uuid'])
+        obj.view_count += 1
+        obj.save(update_fields=['view_count'])
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -108,33 +103,25 @@ class AlbumLikeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = AlbumUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        album = serializer.album
-
+        obj = get_object_or_404(Album, uuid=kwargs['uuid'])
         try:
-            album.likes.add(request.user)
+            obj.likes.add(request.user)
         except:
             return Response(
                 {'detail': _('You already liked this album!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
-        serializer = AlbumUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        album = serializer.album
-
+        obj = get_object_or_404(Album, uuid=kwargs['uuid'])
         try:
-            album.likes.remove(request.user)
+            obj.likes.remove(request.user)
         except:
             return Response(
                 {'detail': _('You do not like this album!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -214,13 +201,9 @@ class PhotoUpViewCountView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        serializer = PhotoUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        photo = serializer.photo
-
-        photo.view_count += 1
-        photo.save(update_fields=['view_count'])
-
+        obj = get_object_or_404(Photo, uuid=kwargs['uuid'])
+        obj.view_count += 1
+        obj.save(update_fields=['view_count'])
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -229,31 +212,23 @@ class PhotoLikeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = PhotoUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        photo = serializer.photo
-
+        obj = get_object_or_404(Photo, uuid=kwargs['uuid'])
         try:
-            photo.likes.add(request.user)
+            obj.likes.add(request.user)
         except:
             return Response(
                 {'detail': _('You already liked this photo!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
-        serializer = PhotoUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        photo = serializer.photo
-
+        obj = get_object_or_404(Photo, uuid=kwargs['uuid'])
         try:
-            photo.likes.remove(request.user)
+            obj.likes.remove(request.user)
         except:
             return Response(
                 {'detail': _('You do not like this photo!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
