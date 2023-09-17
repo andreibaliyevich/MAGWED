@@ -136,19 +136,9 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class GroupChatShortSerializer(serializers.ModelSerializer):
-    """ Group Chat Short Serializer """
-
-    class Meta:
-        model = GroupChat
-        fields = [
-            'name',
-            'image',
-        ]
-
-
 class GroupChatSerializer(serializers.ModelSerializer):
     """ Group Chat Serializer """
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = GroupChat
@@ -174,7 +164,7 @@ class ChatListSerializer(serializers.ModelSerializer):
             ).data
 
         if obj.chat_type == ChatType.GROUP:
-            return GroupChatShortSerializer(
+            return GroupChatSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data
@@ -221,7 +211,7 @@ class ChatRetrieveSerializer(serializers.ModelSerializer):
             ).data
 
         if obj.chat_type == ChatType.GROUP:
-            group_data = GroupChatShortSerializer(
+            group_data = GroupChatSerializer(
                 obj.group_details,
                 context={'request': request},
             ).data

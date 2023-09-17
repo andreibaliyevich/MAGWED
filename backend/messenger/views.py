@@ -5,17 +5,18 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserUUIDSerializer
 from .choices import ChatType, MessageType
 from .filters import MessageFilter
 from .models import Chat, Message
 from .pagination import ChatPagination, MessagePagination
-from .permissions import ChatIsGroupChat
+from .permissions import ChatIsGroupChat, ChatDestroyPermission
 from .serializers import (
     ChatListSerializer,
     ChatCreateSerializer,
-    GroupChatShortSerializer,
+    GroupChatSerializer,
     ChatRetrieveSerializer,
     GroupChatRetrieveSerializer,
     MessageFullReadSerializer,
@@ -68,7 +69,7 @@ class ChatCreateView(APIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         elif chat_valid_data['chat_type'] == ChatType.GROUP:
-            group_chat_serializer = GroupChatShortSerializer(data=request.data)
+            group_chat_serializer = GroupChatSerializer(data=request.data)
             group_chat_serializer.is_valid(raise_exception=True)
 
             chat = chat_serializer.save()
@@ -100,6 +101,26 @@ class GroupChatRetrieveView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Chat.objects.filter(members=self.request.user)
+
+
+class ChatDestroyView(generics.DestroyAPIView):
+    """ Chat Destroy View """
+    permission_classes = [IsAuthenticated, ChatDestroyPermission]
+    lookup_field = 'uuid'
+
+    def get_queryset(self):
+        return Chat.objects.filter(members=self.request.user)
+
+
+class ChatLeaveView(APIView):
+    """ Chat Leave View """
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        queryset = Chat.objects.filter(members=self.request.user)
+        obj = get_object_or_404(queryset, uuid=kwargs['uuid'])
+        obj.members.remove(request.user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class MessageListView(generics.ListAPIView):

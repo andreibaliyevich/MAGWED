@@ -9,3 +9,16 @@ class ChatIsGroupChat(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return obj.chat_type == ChatType.GROUP
+
+
+class ChatDestroyPermission(permissions.BasePermission):
+    """ Chat Destroy Permission """
+    message = _('You cannot delete this chat.')
+
+    def has_object_permission(self, request, view, obj):
+        if obj.chat_type == ChatType.DIALOG:
+            return True
+        if (obj.chat_type == ChatType.GROUP
+                and obj.group_details.owner == request.user):
+            return True
+        return False
