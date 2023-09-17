@@ -5,9 +5,9 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from accounts.serializers import UserUUIDSerializer
 from .choices import ChatType, MessageType
 from .filters import MessageFilter
 from .models import Chat, Message
@@ -27,6 +27,7 @@ from .serializers import (
 )
 
 
+UserModel = get_user_model()
 channel_layer = get_channel_layer()
 
 
@@ -250,13 +251,11 @@ class WriteMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        user_serializer = UserUUIDSerializer(data=request.data)
-        user_serializer.is_valid(raise_exception=True)
+        user = get_object_or_404(UserModel, uuid=kwargs['uuid'])
 
         text_serializer = TextMessageSerializer(data=request.data)
         text_serializer.is_valid(raise_exception=True)
         
-        user = user_serializer.user
         chat = None
         dialog_chats = Chat.objects.filter(
             chat_type=ChatType.DIALOG,

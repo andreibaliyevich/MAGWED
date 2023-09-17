@@ -10,7 +10,7 @@ urlpatterns = [
         path('<uuid:uuid>/', views.SocialLinkUpdateDestroyView.as_view()),
     ])),
     path('follow/', include([
-        path('', views.FollowCreateDestroyView.as_view()),
+        path('user/<uuid:uuid>/', views.FollowCreateDestroyView.as_view()),
         path('list/', views.FollowListView.as_view()),
         path('related-users/', views.RelatedUserListView.as_view()),
     ])),

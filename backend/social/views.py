@@ -6,9 +6,10 @@ from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from accounts.permissions import UserIsOrganizer
-from accounts.serializers import UserUUIDSerializer, UserBriefReadSerializer
+from accounts.serializers import UserBriefReadSerializer
 from .filters import FollowFilter, FavoriteFilter
 from .models import SocialLink, Follow, Favorite
 from .pagination import (
@@ -63,10 +64,7 @@ class FollowCreateDestroyView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = UserUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.user
-
+        user = get_object_or_404(UserModel, uuid=kwargs['uuid'])
         try:
             Follow.objects.create(follower=request.user, user=user)
         except:
@@ -74,14 +72,10 @@ class FollowCreateDestroyView(APIView):
                 {'detail': _('You have already follow this user.')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
-        serializer = UserUUIDSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.user
-
+        user = get_object_or_404(UserModel, uuid=kwargs['uuid'])
         try:
             Follow.objects.get(follower=request.user, user=user).delete()
         except:
@@ -89,7 +83,6 @@ class FollowCreateDestroyView(APIView):
                 {'detail': _('You do not follow this user.')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
