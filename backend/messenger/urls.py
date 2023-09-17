@@ -16,9 +16,8 @@ urlpatterns = [
     ])),
     path('message/', include([
         path('list/', views.MessageListView.as_view()),
-        path('text/', views.TextMessageView.as_view()),
-        path('images/', views.ImageMessageView.as_view()),
-        path('files/', views.FileMessageView.as_view()),
-        path('write/<uuid:uuid>/', views.WriteMessageView.as_view()),
+        path('new/<uuid:chat_uuid>/<int:msg_type>/',
+            views.NewMessageView.as_view()),
+        path('write/<uuid:user_uuid>/', views.WriteMessageView.as_view()),
     ])),
 ]

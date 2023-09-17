@@ -15,24 +15,6 @@ from .models import (
 )
 
 
-class MessageCreateSerializer(serializers.ModelSerializer):
-    """ Message Create Serializer """
-
-    def validate(self, data):
-        user = self.context['request'].user
-        members = data['chat'].members.all()
-
-        if user not in members:
-            raise serializers.ValidationError({
-                'chat': _('You are not a member of the chat.')})
-
-        return data
-
-    class Meta:
-        model = Message
-        fields = ['chat']
-
-
 class TextMessageSerializer(serializers.ModelSerializer):
     """ Text Message Serializer """
 
@@ -73,13 +55,39 @@ class FileMessageSerializer(serializers.ModelSerializer):
         ]
 
 
+class MessageShortReadSerializer(serializers.ModelSerializer):
+    """ Message Short Read Serializer """
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        if obj.msg_type == MessageType.TEXT and hasattr(obj, 'text'):
+            return TextMessageSerializer(obj.text).data['content']
+
+        if obj.msg_type == MessageType.IMAGES:
+            return obj.images.all().count()
+
+        if obj.msg_type == MessageType.FILES:
+            return obj.files.all().count()
+
+        return None
+
+    class Meta:
+        model = Message
+        fields = [
+            'msg_type',
+            'viewed',
+            'created_at',
+            'content',
+        ]
+
+
 class MessageFullReadSerializer(serializers.ModelSerializer):
     """ Message Full Read Serializer """
     sender = UserBriefReadSerializer(read_only=True)
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
-        if obj.msg_type == MessageType.TEXT:
+        if obj.msg_type == MessageType.TEXT and hasattr(obj, 'text'):
             return TextMessageSerializer(obj.text).data['content']
 
         if obj.msg_type == MessageType.IMAGES:
@@ -106,32 +114,6 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
             'msg_type',
             'created_at',
             'viewed',
-            'content',
-        ]
-
-
-class MessageShortReadSerializer(serializers.ModelSerializer):
-    """ Message Short Read Serializer """
-    content = serializers.SerializerMethodField()
-
-    def get_content(self, obj):
-        if obj.msg_type == MessageType.TEXT:
-            return TextMessageSerializer(obj.text).data['content']
-
-        if obj.msg_type == MessageType.IMAGES:
-            return obj.images.all().count()
-
-        if obj.msg_type == MessageType.FILES:
-            return obj.files.all().count()
-
-        return None
-
-    class Meta:
-        model = Message
-        fields = [
-            'msg_type',
-            'viewed',
-            'created_at',
             'content',
         ]
 

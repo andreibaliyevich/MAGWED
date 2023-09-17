@@ -19,11 +19,10 @@ from .serializers import (
     GroupChatSerializer,
     ChatRetrieveSerializer,
     GroupChatRetrieveSerializer,
-    MessageFullReadSerializer,
-    MessageCreateSerializer,
     TextMessageSerializer,
     ImageMessageSerializer,
     FileMessageSerializer,
+    MessageFullReadSerializer,
 )
 
 
@@ -136,105 +135,52 @@ class MessageListView(generics.ListAPIView):
         return Message.objects.filter(chat__members=self.request.user)
 
 
-class TextMessageView(APIView):
-    """ Text Message View """
+class NewMessageView(APIView):
+    """ New Message View """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        msg_serializer = MessageCreateSerializer(
-            data=request.data,
-            context={'request': request},
-        )
-        msg_serializer.is_valid(raise_exception=True)
+        chats = Chat.objects.filter(members=self.request.user)
+        chat = get_object_or_404(chats, uuid=kwargs['chat_uuid'])
 
-        text_serializer = TextMessageSerializer(data=request.data)
-        text_serializer.is_valid(raise_exception=True)
-
-        msg = msg_serializer.save(
-            sender=request.user,
-            msg_type=MessageType.TEXT,
-        )
-        text_serializer.save(message=msg)
+        if kwargs['msg_type'] == MessageType.TEXT:
+            text_serializer = TextMessageSerializer(data=request.data)
+            text_serializer.is_valid(raise_exception=True)
+            msg = Message.objects.create(
+                chat=chat,
+                sender=request.user,
+                msg_type=MessageType.TEXT,
+            )
+            text_serializer.save(message=msg)
+        elif kwargs['msg_type'] == MessageType.IMAGES:
+            msg = Message.objects.create(
+                chat=chat,
+                sender=request.user,
+                msg_type=MessageType.IMAGES,
+            )
+            images = request.data.getlist('content', [])
+            for img in images:
+                img_serializer = ImageMessageSerializer(data={'content': img})
+                img_serializer.is_valid(raise_exception=True)
+                img_serializer.save(message=msg)
+        elif kwargs['msg_type'] == MessageType.FILES:
+            msg = Message.objects.create(
+                chat=chat,
+                sender=request.user,
+                msg_type=MessageType.FILES,
+            )
+            files = request.data.getlist('content', [])
+            for file in files:
+                file_serializer = FileMessageSerializer(data={'content': file})
+                file_serializer.is_valid(raise_exception=True)
+                file_serializer.save(message=msg)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         msg_data = MessageFullReadSerializer(
             msg,
             context={'request': request},
         ).data
-
-        async_to_sync(channel_layer.group_send)(
-            f'chat-{msg.chat.uuid}',
-            {
-                'type': 'send_json_data',
-                'action': 'new_msg',
-                'data': msg_data,
-            }
-        )
-        return Response(status=status.HTTP_201_CREATED)
-
-
-class ImageMessageView(APIView):
-    """ Image Message View """
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        msg_serializer = MessageCreateSerializer(
-            data=request.data,
-            context={'request': request},
-        )
-        msg_serializer.is_valid(raise_exception=True)
-        msg = msg_serializer.save(
-            sender=request.user,
-            msg_type=MessageType.IMAGES,
-        )
-
-        images = request.data.getlist('content', [])
-        for img in images:
-            img_serializer = ImageMessageSerializer(data={'content': img})
-            img_serializer.is_valid(raise_exception=True)
-            img_serializer.save(message=msg)
-
-        msg_data = MessageFullReadSerializer(
-            msg,
-            context={'request': request},
-        ).data
-
-        async_to_sync(channel_layer.group_send)(
-            f'chat-{msg.chat.uuid}',
-            {
-                'type': 'send_json_data',
-                'action': 'new_msg',
-                'data': msg_data,
-            }
-        )
-        return Response(status=status.HTTP_201_CREATED)
-
-
-class FileMessageView(APIView):
-    """ File Message View """
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        msg_serializer = MessageCreateSerializer(
-            data=request.data,
-            context={'request': request},
-        )
-        msg_serializer.is_valid(raise_exception=True)
-        msg = msg_serializer.save(
-            sender=request.user,
-            msg_type=MessageType.FILES,
-        )
-
-        files = request.data.getlist('content', [])
-        for file in files:
-            file_serializer = FileMessageSerializer(data={'content': file})
-            file_serializer.is_valid(raise_exception=True)
-            file_serializer.save(message=msg)
-
-        msg_data = MessageFullReadSerializer(
-            msg,
-            context={'request': request},
-        ).data
-
         async_to_sync(channel_layer.group_send)(
             f'chat-{msg.chat.uuid}',
             {
@@ -251,7 +197,7 @@ class WriteMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        user = get_object_or_404(UserModel, uuid=kwargs['uuid'])
+        user = get_object_or_404(UserModel, uuid=kwargs['user_uuid'])
 
         text_serializer = TextMessageSerializer(data=request.data)
         text_serializer.is_valid(raise_exception=True)
