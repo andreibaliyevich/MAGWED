@@ -72,14 +72,14 @@ class FavoriteContentObjectSerializer(serializers.Serializer):
             object_class = Photo
         else:
             raise serializers.ValidationError({
-                'content_type': _('Wrong content type.')})
+                'content_type': _('Invalid content type.')})
 
         try:
             self.content_object = object_class.objects.get(
                 uuid=data['object_uuid'])
         except object_class.DoesNotExist:
             raise serializers.ValidationError({
-                'object_uuid': _('Wrong object uuid.')})
+                'object_uuid': _('Object does not exist.')})
 
         return data
 
