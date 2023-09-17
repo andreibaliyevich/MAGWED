@@ -42,9 +42,11 @@ const errorStatus = ref(null)
 
 const upPhotoViewCount = async () => {
   try {
-    const response = await axios.post('/portfolio/photo/up-view-count/', {
-      'uuid': photoData.value.uuid
-    })
+    const response = await axios.post(
+      '/portfolio/photo/up-view-count/'
+        + photoData.value.uuid
+        + '/'
+    )
     photoData.value.view_count += 1
   } catch (error) {
     console.error(error)
@@ -69,9 +71,11 @@ const getPhotoData = async () => {
 
 const likePhoto = async () => {
   try {
-    const response = await axios.post('/portfolio/photo/like/', {
-      'uuid': photoData.value.uuid
-    })
+    const response = await axios.post(
+      '/portfolio/photo/like/'
+        + photoData.value.uuid
+        + '/'
+    )
     photoData.value.like_count += 1
     photoData.value.liked = true
   } catch (error) {
@@ -81,11 +85,11 @@ const likePhoto = async () => {
 
 const dislikePhoto = async () => {
   try {
-    const response = await axios.delete('/portfolio/photo/like/', {
-      data: {
-        'uuid': photoData.value.uuid
-      }
-    })
+    const response = await axios.delete(
+      '/portfolio/photo/like/'
+        + photoData.value.uuid
+        + '/'
+    )
     photoData.value.like_count -= 1
     photoData.value.liked = false
   } catch (error) {

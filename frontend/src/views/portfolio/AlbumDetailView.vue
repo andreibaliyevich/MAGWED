@@ -69,9 +69,11 @@ const getMorePhotoList = async () => {
 
 const upAlbumViewCount = async () => {
   try {
-    const response = await axios.post('/portfolio/album/up-view-count/', {
-      'uuid': albumData.value.uuid
-    })
+    const response = await axios.post(
+      '/portfolio/album/up-view-count/'
+        + albumData.value.uuid
+        + '/'
+    )
     albumData.value.view_count += 1
   } catch (error) {
     console.error(error)
@@ -97,9 +99,11 @@ const getAlbumData = async () => {
 
 const likeAlbum = async () => {
   try {
-    const response = await axios.post('/portfolio/album/like/', {
-      'uuid': albumData.value.uuid
-    })
+    const response = await axios.post(
+      '/portfolio/album/like/'
+        + albumData.value.uuid
+        + '/'
+    )
     albumData.value.like_count += 1
     albumData.value.liked = true
   } catch (error) {
@@ -109,11 +113,11 @@ const likeAlbum = async () => {
 
 const dislikeAlbum = async () => {
   try {
-    const response = await axios.delete('/portfolio/album/like/', {
-      data: {
-        'uuid': albumData.value.uuid
-      }
-    })
+    const response = await axios.delete(
+      '/portfolio/album/like/'
+        + albumData.value.uuid
+        + '/'
+    )
     albumData.value.like_count -= 1
     albumData.value.liked = false
   } catch (error) {
