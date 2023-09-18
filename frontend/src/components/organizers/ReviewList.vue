@@ -370,7 +370,7 @@ onMounted(() => {
           v-else-if="!reviewListLoading"
           class="lead d-flex justify-content-center py-3"
         >
-          {{ $t('organizers.no_reviews') }}
+          {{ $t('organizers.no_reviews_yet') }}
         </div>
         <div
           v-if="nextURL"

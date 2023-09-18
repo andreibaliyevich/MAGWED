@@ -258,7 +258,7 @@ onUnmounted(() => {
       v-else-if="!commentListLoading"
       class="lead d-flex justify-content-center py-3"
     >
-      {{ $t('organizers.no_reviews') }}
+      {{ $t('comments.no_comments_yet') }}
     </div>
     <div
       v-if="nextURL"

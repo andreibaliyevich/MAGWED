@@ -30,7 +30,6 @@ const oldCommentErrors = ref(null)
 
 const updateCommentModal = ref(null)
 const updateCommentModalBootstrap = ref(null)
-const removeCommentModalChoice = ref(null)
 
 const updateComment = async () => {
   oldCommentUpdating.value = true
@@ -74,8 +73,6 @@ onMounted(() => {
   )
   updateCommentModal.value.addEventListener('hidden.bs.modal', () => {
     oldCommentContent.value = ''
-  })
-  removeCommentModalChoice.value.addEventListener('hidden.bs.modal', () => {
   })
 })
 </script>
@@ -268,7 +265,6 @@ onMounted(() => {
       </div>
 
       <div
-        ref="removeCommentModalChoice"
         :id="`remove_comment_modal_choice_${commentItem.uuid}`"
         class="modal fade"
         role="dialog"
