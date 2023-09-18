@@ -57,6 +57,8 @@ const msgTextarea = ref(null)
 
 const groupDetailModal = ref(null)
 const groupDetailModalBootstrap = ref(null)
+const removeChatModalChoice = ref(null)
+const leaveChatModalChoice = ref(null)
 
 const reversedMessages = computed(() => {
   return [...messageList.value].reverse()
@@ -277,6 +279,26 @@ const setMessageViewed = (msg_uuid) => {
   }))
 }
 
+const removeChat = async () => {
+  try {
+    const response = await axios.delete(
+      '/messenger/chat/destroy/' + chatData.value.uuid +'/'
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const leaveChat = async () => {
+  try {
+    const response = await axios.delete(
+      '/messenger/chat/leave/' + chatData.value.uuid +'/'
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const updateUserStatus = (mutation, state) => {
   if (chatData.value.details.uuid == state.user_uuid) {
     chatData.value.details.status = state.status
@@ -399,9 +421,11 @@ onUnmounted(() => {
                 <button
                   type="button"
                   class="dropdown-item btn btn-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#remove_chat_modal_choice"
                 >
                   <i class="fa-solid fa-trash"></i>
-                  Delete chat
+                  {{ $t('messenger.delete_chat') }}
                 </button>
               </li>
             </ul>
@@ -454,13 +478,26 @@ onUnmounted(() => {
                   Mark as read
                 </button>
               </li>
-              <li>
+              <li v-if="chatData.details.owner == userStore.uuid">
                 <button
                   type="button"
                   class="dropdown-item btn btn-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#remove_chat_modal_choice"
                 >
                   <i class="fa-solid fa-trash"></i>
-                  Delete chat
+                  {{ $t('messenger.delete_and_leave_group') }}
+                </button>
+              </li>
+              <li v-else>
+                <button
+                  type="button"
+                  class="dropdown-item btn btn-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#leave_chat_modal_choice"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                  {{ $t('messenger.leave_group') }}
                 </button>
               </li>
             </ul>
@@ -750,6 +787,88 @@ onUnmounted(() => {
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.close') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        ref="removeChatModalChoice"
+        id="remove_chat_modal_choice"
+        class="modal fade"
+        role="dialog"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+              <h5 class="mb-0">{{ $t('messenger.you_want_remove_chat') }}</h5>
+              <p class="mb-0">{{ $t('messenger.chat_messages_will_lost') }}</p>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+              <button
+                @click="removeChat()"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+              </button>
+              <button
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.no_cancel') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        ref="leaveChatModalChoice"
+        id="leave_chat_modal_choice"
+        class="modal fade"
+        role="dialog"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+              <h5 class="mb-0">{{ $t('messenger.you_want_leave_chat') }}</h5>
+              <p class="mb-0">{{ $t('messenger.you_will_lose_access_chat_messages') }}</p>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+              <button
+                @click="leaveChat()"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+              </button>
+              <button
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.no_cancel') }}
               </button>
             </div>
           </div>
