@@ -29,10 +29,19 @@ class Chat(models.Model):
         verbose_name=_('Members'),
     )
 
+    last_message = models.ForeignKey(
+        'Message',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='last_message',
+        verbose_name=_('Last message'),
+    )
+
     class Meta:
         verbose_name = _('Chat')
         verbose_name_plural = _('Chats')
-        ordering = ['-uuid']
+        ordering = ['-last_message__created_at']
 
 
 class GroupChat(models.Model):

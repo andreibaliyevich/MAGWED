@@ -180,6 +180,9 @@ class NewMessageView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        chat.last_message = msg
+        chat.save(update_fields=['last_message'])
+
         msg_data = MessageFullReadSerializer(
             msg,
             context={'request': request},
