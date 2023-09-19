@@ -412,15 +412,6 @@ onUnmounted(() => {
                 <button
                   type="button"
                   class="dropdown-item btn btn-link"
-                >
-                  <i class="fa-solid fa-check"></i>
-                  Mark as read
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  class="dropdown-item btn btn-link"
                   data-bs-toggle="modal"
                   data-bs-target="#remove_chat_modal_choice"
                 >
@@ -467,15 +458,6 @@ onUnmounted(() => {
                 >
                   <i class="fa-solid fa-user-group"></i>
                   {{ $t('messenger.view_group_detail') }}
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  class="dropdown-item btn btn-link"
-                >
-                  <i class="fa-solid fa-check"></i>
-                  Mark as read
                 </button>
               </li>
               <li v-if="chatData.details.owner == userStore.uuid">
@@ -624,6 +606,15 @@ onUnmounted(() => {
                 </small>
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          v-else-if="!messageListLoading"
+          class="d-flex justify-content-center align-items-center h-100"
+        >
+          <div class="text-center">
+            <i class="fa-regular fa-message fa-2xl"></i>
+            <p class="lead mt-3">{{ $t('messenger.no_messages') }}</p>
           </div>
         </div>
         <div
