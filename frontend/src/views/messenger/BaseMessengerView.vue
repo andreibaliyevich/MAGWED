@@ -323,28 +323,30 @@ onMounted(() => {
                           >
                             {{ chat.details.name }}
                           </strong>
-                          <small v-if="chat.last_message.created_at">
+                          <small v-if="chat.last_message">
                             {{ getLocaleDateTimeString(chat.last_message.created_at) }}
                           </small>
                         </div>
-                        <p
-                          v-if="chat.last_message.msg_type == messageType.TEXT"
-                          class="mb-0 opacity-75"
-                        >
-                          {{ chat.last_message.content }}
-                        </p>
-                        <p
-                          v-else-if="chat.last_message.msg_type == messageType.IMAGES"
-                          class="mb-0 opacity-75"
-                        >
-                          {{ chat.last_message.content }} Images
-                        </p>
-                        <p
-                          v-else-if="chat.last_message.msg_type == messageType.FILES"
-                          class="mb-0 opacity-75"
-                        >
-                          {{ chat.last_message.content }} Files
-                        </p>
+                        <div v-if="chat.last_message">
+                          <p
+                            v-if="chat.last_message.msg_type == messageType.TEXT"
+                            class="mb-0 opacity-75"
+                          >
+                            {{ chat.last_message.content }}
+                          </p>
+                          <p
+                            v-else-if="chat.last_message.msg_type == messageType.IMAGES"
+                            class="mb-0 opacity-75"
+                          >
+                            {{ chat.last_message.content }} Images
+                          </p>
+                          <p
+                            v-else-if="chat.last_message.msg_type == messageType.FILES"
+                            class="mb-0 opacity-75"
+                          >
+                            {{ chat.last_message.content }} Files
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </LocaleRouterLink>
