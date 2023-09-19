@@ -5,7 +5,7 @@
       style="min-height: 75vh;"
     >
       <div class="text-center">
-        <i class="fa-solid fa-comments fa-2xl"></i>
+        <i class="fa-regular fa-comments fa-2xl"></i>
         <p class="lead mt-3">{{ $t('messenger.select_chat') }}</p>
       </div>
     </div>
