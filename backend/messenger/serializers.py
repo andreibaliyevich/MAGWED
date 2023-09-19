@@ -134,7 +134,7 @@ class GroupChatSerializer(serializers.ModelSerializer):
 class ChatListSerializer(serializers.ModelSerializer):
     """ Chat List Serializer """
     details = serializers.SerializerMethodField()
-    last_message = serializers.SerializerMethodField()
+    last_message = MessageShortReadSerializer(read_only=True)
 
     def get_details(self, obj):
         request = self.context['request']
@@ -152,11 +152,6 @@ class ChatListSerializer(serializers.ModelSerializer):
             ).data
 
         return None
-
-    def get_last_message(self, obj):
-        return MessageShortReadSerializer(
-            obj.messages.order_by('created_at').last(),
-        ).data
 
     class Meta:
         model = Chat
