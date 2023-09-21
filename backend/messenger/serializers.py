@@ -135,6 +135,7 @@ class ChatListSerializer(serializers.ModelSerializer):
     """ Chat List Serializer """
     details = serializers.SerializerMethodField()
     last_message = MessageShortReadSerializer(read_only=True)
+    unviewed_msg_count = serializers.SerializerMethodField()
 
     def get_details(self, obj):
         request = self.context['request']
@@ -153,6 +154,12 @@ class ChatListSerializer(serializers.ModelSerializer):
 
         return None
 
+    def get_unviewed_msg_count(self, obj):
+        request = self.context['request']
+        return obj.messages.exclude(
+            sender=request.user).filter(
+            viewed=False).count()
+
     class Meta:
         model = Chat
         fields = [
@@ -160,6 +167,7 @@ class ChatListSerializer(serializers.ModelSerializer):
             'chat_type',
             'details',
             'last_message',
+            'unviewed_msg_count',
         ]
 
 
