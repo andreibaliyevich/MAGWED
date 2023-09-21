@@ -1,13 +1,14 @@
 <script setup>
 import axios from 'axios'
 import { ref, computed, watch, onMounted } from 'vue'
-import { useRouter, RouterView } from 'vue-router'
+import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { chatType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 
+const route = useRoute()
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
 const connectionBusStore = useConnectionBusStore()
@@ -34,6 +35,12 @@ const chatListArea = ref(null)
 const createChatModal = ref(null)
 const createChatModalBootstrap = ref(null)
 const relatedUserArea = ref(null)
+
+const chatIndex = computed(() => {
+  return chatList.value.findIndex((element) => {
+    return element.uuid == route.params.uuid
+  })
+})
 
 const chatCreationDisabled = computed(() => {
   if (
@@ -307,8 +314,8 @@ onMounted(() => {
                         width="48"
                         height="48"
                       >
-                      <div class="flex-grow-1 ms-1">
-                        <div class="d-flex justify-content-between">
+                      <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center">
                           <div
                             v-if="chat.chat_type == chatType.GROUP"
                             class="d-flex align-items-center"
@@ -327,25 +334,34 @@ onMounted(() => {
                             {{ getLocaleDateTimeString(chat.last_message.created_at) }}
                           </small>
                         </div>
-                        <div v-if="chat.last_message">
-                          <p
+                        <div
+                          v-if="chat.last_message"
+                          class="d-flex justify-content-between align-items-center"
+                        >
+                          <span
                             v-if="chat.last_message.msg_type == messageType.TEXT"
                             class="mb-0 opacity-75"
                           >
                             {{ chat.last_message.content }}
-                          </p>
-                          <p
+                          </span>
+                          <span
                             v-else-if="chat.last_message.msg_type == messageType.IMAGES"
                             class="mb-0 opacity-75"
                           >
                             {{ chat.last_message.content }} Images
-                          </p>
-                          <p
+                          </span>
+                          <span
                             v-else-if="chat.last_message.msg_type == messageType.FILES"
                             class="mb-0 opacity-75"
                           >
                             {{ chat.last_message.content }} Files
-                          </p>
+                          </span>
+                          <span
+                            v-if="chat.unviewed_msg_count > 0"
+                            class="badge text-bg-primary rounded-pill"
+                          >
+                            {{ chat.unviewed_msg_count }}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -372,7 +388,9 @@ onMounted(() => {
           </div>
         </div>
         <div class="col-lg-8 py-lg-2">
-          <RouterView />
+          <RouterView
+            @msgViewed="chatList[chatIndex].unviewed_msg_count -= 1"
+          />
         </div>
       </div>
     </div>

@@ -9,6 +9,8 @@ import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 
+const emit = defineEmits(['msgViewed'])
+
 const route = useRoute()
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
@@ -277,6 +279,7 @@ const setMessageViewed = (msg_uuid) => {
     'action': 'viewed',
     'msg_uuid': msg_uuid
   }))
+  emit('msgViewed')
 }
 
 const removeChat = async () => {
