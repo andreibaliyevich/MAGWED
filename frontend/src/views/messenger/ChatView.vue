@@ -121,10 +121,10 @@ const getMoreMessageList = async () => {
   }
 }
 
-const openConvoSocket = async () => {
+const openChatSocket = async () => {
   chatSocket.value = new WebSocket(
     WS_URL
-      + '/ws/messenger/'
+      + '/ws/chat/'
       + chatData.value.uuid
       + '/?'
       + userStore.token
@@ -161,7 +161,7 @@ const openConvoSocket = async () => {
   }
 }
 
-const closeConvoSocket = () => {
+const closeChatSocket = () => {
   if (chatSocket.value) {
     chatSocket.value.close()
   }
@@ -177,7 +177,7 @@ const getChatData = async () => {
     )
     chatData.value = response.data
     getMessageList()
-    openConvoSocket()
+    openChatSocket()
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
@@ -319,7 +319,7 @@ watch(
     if (route.name == 'Chat') {
       messageList.value = []
       errorStatus.value = null
-      closeConvoSocket()
+      closeChatSocket()
       getChatData()
     }
   }
@@ -342,7 +342,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  closeConvoSocket()
+  closeChatSocket()
 })
 </script>
 

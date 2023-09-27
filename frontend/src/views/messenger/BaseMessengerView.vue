@@ -1,21 +1,25 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { chatType, messageType } from '@/config.js'
+import { WS_URL, chatType, messageType } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
+import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 
 const route = useRoute()
 const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
+const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
 const chatListLoading = ref(true)
 const chatList = ref([])
 const nextURL = ref(null)
+
+const chatListSocket = ref(null)
 
 const relatedUserListLoading = ref(false)
 const relatedUserList = ref([])
@@ -35,6 +39,16 @@ const chatListArea = ref(null)
 const createChatModal = ref(null)
 const createChatModalBootstrap = ref(null)
 const relatedUserArea = ref(null)
+
+const sortedChatList = computed(() => {
+  return [...chatList.value].sort((chat1, chat2) => {
+    return new Date(
+      chat2.last_message?.created_at ? chat2.last_message.created_at : Date()
+    ) - new Date(
+      chat1.last_message?.created_at ? chat1.last_message.created_at : Date()
+    )
+  })
+})
 
 const chatIndex = computed(() => {
   return chatList.value.findIndex((element) => {
@@ -59,11 +73,44 @@ const chatCreationDisabled = computed(() => {
   return true
 })
 
+const openChatListSocket = async () => {
+  chatListSocket.value = new WebSocket(
+    WS_URL
+      + '/ws/chat-list/?'
+      + userStore.token
+  )
+  chatListSocket.value.onmessage = (event) => {
+    const data = JSON.parse(event.data)
+    if (data.action == 'new_msg') {
+      const foundIndex = chatList.value.findIndex((element) => {
+        return element.uuid == data.data.chat_uuid
+      })
+      chatList.value[foundIndex].last_message = data.data.msg
+      if (data.data.sender_uuid != userStore.uuid) {
+        chatList.value[foundIndex].unviewed_msg_count += 1
+      }
+    }
+  }
+  chatListSocket.value.onclose = (event) => {
+    chatListSocket.value = null
+  }
+  chatListSocket.value.onerror = (error) => {
+    chatListSocket.value = null
+  }
+}
+
+const closeChatListSocket = () => {
+  if (chatListSocket.value) {
+    chatListSocket.value.close()
+  }
+}
+
 const getChatList = async () => {
   try {
     const response = await axios.get('/messenger/chat/list/')
     chatList.value = response.data.results
     nextURL.value = response.data.next
+    openChatListSocket()
   } catch (error) {
     console.error(error)
   } finally {
@@ -206,6 +253,10 @@ onMounted(() => {
   })
   createChatModalBootstrap.value = new bootstrap.Modal(createChatModal.value)
 })
+
+onUnmounted(() => {
+  closeChatListSocket()
+})
 </script>
 
 <template>
@@ -234,7 +285,7 @@ onMounted(() => {
               <i class="fa-regular fa-square-plus"></i>
             </button>
           </div>
-          <div class="d-none d-lg-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+          <div class="d-none d-lg-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
             <div class="d-inline-block text-uppercase fw-bolder text-secondary">
               {{ $t('messenger.chats') }}
             </div>
@@ -278,7 +329,7 @@ onMounted(() => {
                 class="nav nav-pills flex-column px-1"
               >
                 <li
-                  v-for="chat in chatList"
+                  v-for="chat in sortedChatList"
                   :class="[
                     'nav-item',
                     this.$route.params.uuid == chat.uuid ? 'active' : null
@@ -336,23 +387,23 @@ onMounted(() => {
                         </div>
                         <div
                           v-if="chat.last_message"
-                          class="d-flex justify-content-between align-items-center"
+                          class="d-flex align-items-center"
                         >
                           <span
                             v-if="chat.last_message.msg_type == messageType.TEXT"
-                            class="mb-0 opacity-75"
+                            class="mb-0 opacity-75 me-auto"
                           >
                             {{ chat.last_message.content }}
                           </span>
                           <span
                             v-else-if="chat.last_message.msg_type == messageType.IMAGES"
-                            class="mb-0 opacity-75"
+                            class="mb-0 opacity-75 me-auto"
                           >
                             {{ chat.last_message.content }} Images
                           </span>
                           <span
                             v-else-if="chat.last_message.msg_type == messageType.FILES"
-                            class="mb-0 opacity-75"
+                            class="mb-0 opacity-75 me-auto"
                           >
                             {{ chat.last_message.content }} Files
                           </span>
