@@ -22,6 +22,7 @@ from .serializers import (
     TextMessageSerializer,
     ImageMessageSerializer,
     FileMessageSerializer,
+    MessageShortReadSerializer,
     MessageFullReadSerializer,
 )
 
@@ -183,16 +184,34 @@ class NewMessageView(APIView):
         chat.last_message = msg
         chat.save(update_fields=['last_message'])
 
-        msg_data = MessageFullReadSerializer(
+        msg_short_data = MessageShortReadSerializer(
             msg,
             context={'request': request},
         ).data
+        msg_full_data = MessageFullReadSerializer(
+            msg,
+            context={'request': request},
+        ).data
+
+        for member in chat.members.all():
+            async_to_sync(channel_layer.group_send)(
+                f'chat-list-{member.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'new_msg',
+                    'data': {
+                        'chat_uuid': str(chat.uuid),
+                        'sender_uuid': str(msg.sender.uuid),
+                        'msg': msg_short_data,
+                    },
+                }
+            )
         async_to_sync(channel_layer.group_send)(
-            f'chat-{msg.chat.uuid}',
+            f'chat-{chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
-                'data': msg_data,
+                'data': msg_full_data,
             }
         )
         return Response(status=status.HTTP_201_CREATED)
@@ -229,17 +248,34 @@ class WriteMessageView(APIView):
         )
         text_serializer.save(message=msg)
 
-        msg_data = MessageFullReadSerializer(
+        msg_short_data = MessageShortReadSerializer(
+            msg,
+            context={'request': request},
+        ).data
+        msg_full_data = MessageFullReadSerializer(
             msg,
             context={'request': request},
         ).data
 
+        for member in chat.members.all():
+            async_to_sync(channel_layer.group_send)(
+                f'chat-list-{member.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'new_msg',
+                    'data': {
+                        'chat_uuid': str(chat.uuid),
+                        'sender_uuid': str(msg.sender.uuid),
+                        'msg': msg_short_data,
+                    },
+                }
+            )
         async_to_sync(channel_layer.group_send)(
             f'chat-{chat.uuid}',
             {
                 'type': 'send_json_data',
                 'action': 'new_msg',
-                'data': msg_data,
+                'data': msg_full_data,
             }
         )
         return Response(status=status.HTTP_201_CREATED)

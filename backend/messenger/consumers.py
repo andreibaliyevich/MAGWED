@@ -3,8 +3,35 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import Chat, Message
 
 
-class MessengerConsumer(AsyncJsonWebsocketConsumer):
-    """ Messenger Consumer """
+class ChatListConsumer(AsyncJsonWebsocketConsumer):
+    """ Chat List Consumer """
+
+    async def connect(self):
+        self.user = self.scope['user']
+        self.chat_list_group_name = f'chat-list-{self.user.uuid}'
+
+        if self.user.is_authenticated:
+            await self.channel_layer.group_add(
+                self.chat_list_group_name,
+                self.channel_name,
+            )
+            await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.chat_list_group_name,
+            self.channel_name,
+        )
+
+    async def send_json_data(self, event):
+        await self.send_json({
+            'action': event['action'],
+            'data': event['data'],
+        })
+
+
+class ChatConsumer(AsyncJsonWebsocketConsumer):
+    """ Chat Consumer """
 
     async def connect(self):
         self.user = self.scope['user']

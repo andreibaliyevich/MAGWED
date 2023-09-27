@@ -75,7 +75,6 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         model = Message
         fields = [
             'msg_type',
-            'viewed',
             'created_at',
             'content',
         ]
