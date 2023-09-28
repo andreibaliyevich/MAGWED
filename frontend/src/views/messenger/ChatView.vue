@@ -318,6 +318,7 @@ watch(
   (newValue) => {
     if (route.name == 'Chat') {
       messageList.value = []
+      nextURL.value = null
       errorStatus.value = null
       closeChatSocket()
       getChatData()
