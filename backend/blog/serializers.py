@@ -3,20 +3,12 @@ from accounts.serializers import UserShortReadSerializer
 from .models import Category, Article
 
 
-class CategoryListSerializer(serializers.ModelSerializer):
-    """ Category List Serializer """
-
-    class Meta:
-        model = Category
-        fields = [
-            'slug',
-            'translated_name',
-        ]
-
-
 class ArticleListSerializer(serializers.ModelSerializer):
     """ Article List Serializer """
-    categories = CategoryListSerializer(read_only=True, many=True)
+    categories = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Category.objects.all(),
+    )
 
     class Meta:
         model = Article
@@ -33,7 +25,10 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
     author = UserShortReadSerializer(read_only=True)
-    categories = CategoryListSerializer(read_only=True, many=True)
+    categories = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Category.objects.all(),
+    )
 
     class Meta:
         model = Article

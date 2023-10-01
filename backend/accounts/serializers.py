@@ -445,20 +445,6 @@ class OrganizerListSerializer(serializers.ModelSerializer):
 class OrganizerRetrieveSerializer(serializers.ModelSerializer):
     """ Organizer Retrieve Serializer """
     user = UserRetrieveSerializer(read_only=True)
-    countries = serializers.PrimaryKeyRelatedField(
-        allow_null=True,
-        many=True,
-        queryset=Country.objects.all(),
-    )
-    cities = serializers.PrimaryKeyRelatedField(
-        allow_null=True,
-        many=True,
-        queryset=City.objects.all(),
-    )
-    languages = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Language.objects.all(),
-    )
 
     class Meta:
         model = Organizer
