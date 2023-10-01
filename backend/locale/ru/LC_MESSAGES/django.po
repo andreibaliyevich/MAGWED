@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 15:53+0000\n"
+"POT-Creation-Date: 2023-10-01 17:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,7 +120,7 @@ msgstr "Визажист"
 msgid "Hairdresser"
 msgstr "Парикмахер"
 
-#: accounts/choices.py:24
+#: accounts/choices.py:24 blog/choices.py:15
 msgid "(Unknown)"
 msgstr "(Неизвестно)"
 
@@ -160,8 +160,7 @@ msgstr "Адрес электронной почты"
 msgid "User type"
 msgstr "Тип пользователя"
 
-#: accounts/models.py:60 blog/models.py:21 blog/models.py:74 main/models.py:78
-#: messenger/models.py:63
+#: accounts/models.py:60 main/models.py:78 messenger/models.py:63
 msgid "Name"
 msgstr "Имя"
 
@@ -276,9 +275,8 @@ msgstr "Роли"
 msgid "Cover"
 msgstr "Обложка"
 
-#: accounts/models.py:257 blog/models.py:27 blog/models.py:79
-#: blog/models.py:126 blog/models.py:219 portfolio/models.py:40
-#: portfolio/models.py:155
+#: accounts/models.py:257 blog/models.py:58 blog/models.py:151
+#: portfolio/models.py:40 portfolio/models.py:155
 msgid "Description"
 msgstr "Описание"
 
@@ -361,24 +359,22 @@ msgstr "Устаревший токен для данного пользоват
 msgid "The user does not have a password."
 msgstr "У пользователя нет пароля."
 
-#: blog/admin.py:28 blog/admin.py:58
+#: blog/admin.py:43
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: blog/admin.py:61 blog/models.py:137 main/models.py:124
-#: messenger/models.py:79 portfolio/admin.py:30 portfolio/admin.py:68
-#: portfolio/models.py:27 portfolio/models.py:102
+#: blog/admin.py:46 blog/models.py:69 main/models.py:124 messenger/models.py:79
+#: portfolio/admin.py:30 portfolio/admin.py:68 portfolio/models.py:27
+#: portfolio/models.py:102
 msgid "Image"
 msgstr "Изображение"
 
-#: blog/admin.py:64 portfolio/admin.py:33 portfolio/admin.py:80
+#: blog/admin.py:49 portfolio/admin.py:33 portfolio/admin.py:80
 msgid "Info"
 msgstr "Информация"
 
-#: blog/admin.py:77 blog/admin.py:88 messenger/admin.py:42
+#: blog/admin.py:62 blog/admin.py:73 messenger/admin.py:42
 #: portfolio/admin.py:45 portfolio/admin.py:91
-#, fuzzy
-#| msgid "Review"
 msgid "Preview"
 msgstr "Отзыв"
 
@@ -386,97 +382,121 @@ msgstr "Отзыв"
 msgid "Blog"
 msgstr "Блог"
 
-#: blog/models.py:22 blog/models.py:121 main/models.py:103
+#: blog/choices.py:6
+msgid "Design"
+msgstr "Дизайн"
+
+#: blog/choices.py:7
+msgid "Fashion"
+msgstr "Мода"
+
+#: blog/choices.py:8
+msgid "Inspiration"
+msgstr "Вдохновение"
+
+#: blog/choices.py:9
+msgid "Journey"
+msgstr "Путешествие"
+
+#: blog/choices.py:10
+msgid "Lifestyle"
+msgstr "Стиль жизни"
+
+#: blog/choices.py:11
+msgid "Photography"
+msgstr "Фотография"
+
+#: blog/choices.py:12
+msgid "Technology"
+msgstr "Технологии"
+
+#: blog/choices.py:13
+msgid "Wedding"
+msgstr "Свадьба"
+
+#: blog/models.py:20 blog/models.py:53 main/models.py:103
 msgid "Slug"
 msgstr "Слаг"
 
-#: blog/models.py:32 blog/models.py:84 blog/models.py:131 blog/models.py:224
-msgid "Separate keywords with commas."
-msgstr "Разделяйте ключевые слова запятыми."
-
-#: blog/models.py:33 blog/models.py:85 blog/models.py:132 blog/models.py:225
-msgid "Keywords"
-msgstr "Ключевые слова"
-
-#: blog/models.py:49 blog/models.py:66
+#: blog/models.py:27
 msgid "Category"
 msgstr "Категория"
 
-#: blog/models.py:50 blog/models.py:117
+#: blog/models.py:28 blog/models.py:49
 msgid "Categories"
 msgstr "Категории"
 
-#: blog/models.py:71 blog/models.py:211 main/models.py:66
-msgid "Language"
-msgstr "Язык"
-
-#: blog/models.py:89
-msgid "Category Translation"
-msgstr "Перевод категории"
-
-#: blog/models.py:90
-msgid "Category Translations"
-msgstr "Переводы категорий"
-
-#: blog/models.py:112 comments/models.py:28 reviews/models.py:26
+#: blog/models.py:44 comments/models.py:28 reviews/models.py:26
 msgid "Author"
 msgstr "Автор"
 
-#: blog/models.py:120 blog/models.py:214 main/models.py:102
+#: blog/models.py:52 blog/models.py:146 main/models.py:102
 #: portfolio/models.py:39 portfolio/models.py:153
 msgid "Title"
 msgstr "Название"
 
-#: blog/models.py:147 portfolio/models.py:36 portfolio/models.py:111
+#: blog/models.py:63 blog/models.py:156
+msgid "Separate keywords with commas."
+msgstr "Разделяйте ключевые слова запятыми."
+
+#: blog/models.py:64 blog/models.py:157
+msgid "Keywords"
+msgstr "Ключевые слова"
+
+#: blog/models.py:79 portfolio/models.py:36 portfolio/models.py:111
 msgid "Thumbnail"
 msgstr "Эскиз"
 
-#: blog/models.py:150 blog/models.py:228 comments/models.py:31
+#: blog/models.py:82 blog/models.py:160 comments/models.py:31
 msgid "Content"
 msgstr "Содержание"
 
-#: blog/models.py:151 main/models.py:90 portfolio/models.py:41
+#: blog/models.py:83 main/models.py:90 portfolio/models.py:41
 #: portfolio/models.py:156
 msgid "Tags"
 msgstr "Теги"
 
-#: blog/models.py:156 main/models.py:137
+#: blog/models.py:88 main/models.py:137
 msgid "Published at"
 msgstr "Опубликовано в"
 
-#: blog/models.py:160 portfolio/models.py:51 portfolio/models.py:166
+#: blog/models.py:92 portfolio/models.py:51 portfolio/models.py:166
 msgid "Count of views"
 msgstr "Количество просмотров"
 
-#: blog/models.py:189 blog/models.py:206
+#: blog/models.py:121 blog/models.py:138
 msgid "Article"
 msgstr "Статья"
 
-#: blog/models.py:190
+#: blog/models.py:122
 msgid "Articles"
 msgstr "Статьи"
 
-#: blog/models.py:231
+#: blog/models.py:143 main/models.py:66
+msgid "Language"
+msgstr "Язык"
+
+#: blog/models.py:163
 msgid "Article Translation"
 msgstr "Перевод статьи"
 
-#: blog/models.py:232
+#: blog/models.py:164
 msgid "Article Translations"
 msgstr "Переводы статей"
 
-#: blog/models.py:249 main/models.py:131
+#: blog/models.py:181 main/models.py:131
 msgid "File"
 msgstr "Файл"
 
-#: blog/models.py:252
+#: blog/models.py:184
 msgid "Image of Article"
 msgstr "Изображение статьи"
 
-#: blog/models.py:253
+#: blog/models.py:185
 msgid "Images of Articles"
 msgstr "Изображения статей"
 
-#: blog/views.py:52
+#: blog/views.py:44
 msgid "Form not valid!"
 msgstr "Форма недействительна!"
 
@@ -736,7 +756,7 @@ msgstr "Этот чат не является групповым."
 msgid "You cannot delete this chat."
 msgstr "Вы не можете удалить этот чат."
 
-#: messenger/views.py:179
+#: messenger/views.py:180
 msgid "Not found."
 msgstr "Не найдено."
 
@@ -1111,3 +1131,9 @@ msgstr "Сброс пароля"
 #: templates/email/password_reset_text.html:10
 msgid "Thanks for using our site!"
 msgstr "Спасибо за использование нашего сайта!"
+
+#~ msgid "Category Translation"
+#~ msgstr "Перевод категории"
+
+#~ msgid "Category Translations"
+#~ msgstr "Переводы категорий"
