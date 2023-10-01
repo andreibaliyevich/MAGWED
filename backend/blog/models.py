@@ -7,94 +7,26 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import gettext_lazy as _
 from main.models import Tag
 from main.utilities import get_translated_field, get_thumbnail_path
+from .choices import CategoryChoices
 from .utilities import get_article_path
 
 
 class Category(models.Model):
     """ Category Model """
-    uuid = models.UUIDField(
+    slug = models.CharField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
+        max_length=16,
+        choices=CategoryChoices.choices,
+        verbose_name=_('Slug'),
     )
-
-    name = models.CharField(max_length=64, verbose_name=_('Name'))
-    slug = models.SlugField(max_length=64, unique=True, verbose_name=_('Slug'))
-
-    meta_description = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Description'),
-    )
-    meta_keywords = models.CharField(
-        blank=True,
-        max_length=255,
-        help_text=_('Separate keywords with commas.'),
-        verbose_name=_('Keywords'),
-    )
-
-    def translated_name(self):
-        return get_translated_field(self, 'name')
-
-    def translated_meta_description(self):
-        return get_translated_field(self, 'meta_description')
-
-    def translated_meta_keywords(self):
-        return get_translated_field(self, 'meta_keywords')
 
     def __str__(self):
-        return self.translated_name()
+        return self.get_slug_display()
 
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
-        ordering = ['name', 'uuid']
-
-
-class CategoryTranslation(models.Model):
-    """ Category Translation Model """
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
-
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        related_name='translations',
-        verbose_name=_('Category'),
-    )
-    language = models.CharField(
-        max_length=2,
-        choices=settings.LANGUAGES[1:],
-        verbose_name=_('Language'),
-    )
-
-    name = models.CharField(max_length=64, verbose_name=_('Name'))
-
-    meta_description = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Description'),
-    )
-    meta_keywords = models.CharField(
-        blank=True,
-        max_length=255,
-        help_text=_('Separate keywords with commas.'),
-        verbose_name=_('Keywords'),
-    )
-
-    class Meta:
-        verbose_name = _('Category Translation')
-        verbose_name_plural = _('Category Translations')
-        ordering = ['category', 'language']
-        constraints = [
-            models.UniqueConstraint(
-                fields=['category', 'language'],
-                name='unique_categorytranslation',
-            )
-        ]
+        ordering = ['slug']
 
 
 class Article(models.Model):

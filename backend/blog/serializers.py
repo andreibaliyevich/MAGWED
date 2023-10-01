@@ -30,21 +30,6 @@ class ArticleListSerializer(serializers.ModelSerializer):
         ]
 
 
-class CategoryDetailSerializer(serializers.ModelSerializer):
-    """ Category Detail Serializer """
-    articles = ArticleListSerializer(read_only=True, many=True)
-
-    class Meta:
-        model = Category
-        fields = [
-            'slug',
-            'translated_name',
-            'translated_meta_description',
-            'translated_meta_keywords',
-            'articles',
-        ]
-
-
 class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
     author = UserShortReadSerializer(read_only=True)
