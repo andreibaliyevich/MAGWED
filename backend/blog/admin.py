@@ -5,32 +5,17 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from .models import (
     Category,
-    CategoryTranslation,
     Article,
     ArticleTranslation,
     ArticleImage,
 )
 
 
-class CategoryTranslationInline(admin.StackedInline):
-    model = CategoryTranslation
-    extra = 0
-
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """ Category Model for admin """
     list_display = ('__str__',)
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'slug'),
-        }),
-        (_('Metadata'), {
-            'fields': ('meta_description', 'meta_keywords'),
-        }),
-    )
-    prepopulated_fields = {'slug': ('name',)}
-    inlines = (CategoryTranslationInline,)
+    search_fields = ('slug',)
 
 
 class ArticleTranslationInline(admin.StackedInline):
