@@ -1,8 +1,10 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from .models import Category, Article, ArticleImage
+from .filters import ArticleFilter
+from .models import Article, ArticleImage
 from .pagination import ArticlePagination
 from .serializers import (
     ArticleListSerializer,
@@ -15,6 +17,8 @@ class ArticleListView(generics.ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
     pagination_class = ArticlePagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ArticleFilter
 
 
 class ArticleDetailView(generics.RetrieveAPIView):
