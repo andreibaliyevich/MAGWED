@@ -13,20 +13,20 @@ from .utilities import get_article_path
 
 class Category(models.Model):
     """ Category Model """
-    slug = models.CharField(
+    code = models.CharField(
         primary_key=True,
         max_length=16,
         choices=CategoryChoices.choices,
-        verbose_name=_('Slug'),
+        verbose_name=_('Code'),
     )
 
     def __str__(self):
-        return self.get_slug_display()
+        return self.get_code_display()
 
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
-        ordering = ['slug']
+        ordering = ['code']
 
 
 class Article(models.Model):

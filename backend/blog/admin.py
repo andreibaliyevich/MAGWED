@@ -15,7 +15,7 @@ from .models import (
 class CategoryAdmin(admin.ModelAdmin):
     """ Category Model for admin """
     list_display = ('__str__',)
-    search_fields = ('slug',)
+    search_fields = ('code',)
 
 
 class ArticleTranslationInline(admin.StackedInline):
