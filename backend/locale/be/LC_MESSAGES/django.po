@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-01 17:56+0000\n"
+"POT-Creation-Date: 2023-10-02 04:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -413,9 +413,9 @@ msgstr "Тэхналогіі"
 msgid "Wedding"
 msgstr "Вяселле"
 
-#: blog/models.py:20 blog/models.py:53 main/models.py:103
-msgid "Slug"
-msgstr "Слаг"
+#: blog/models.py:20 main/models.py:17 main/models.py:35 main/models.py:59
+msgid "Code"
+msgstr "Код"
 
 #: blog/models.py:27
 msgid "Category"
@@ -433,6 +433,10 @@ msgstr "Аўтар"
 #: portfolio/models.py:39 portfolio/models.py:153
 msgid "Title"
 msgstr "Назва"
+
+#: blog/models.py:53 main/models.py:103
+msgid "Slug"
+msgstr "Слаг"
 
 #: blog/models.py:63 blog/models.py:156
 msgid "Separate keywords with commas."
@@ -495,7 +499,7 @@ msgstr "Выява артыкула"
 msgid "Images of Articles"
 msgstr "Выявы артыкулаў"
 
-#: blog/views.py:44
+#: blog/views.py:41
 msgid "Form not valid!"
 msgstr "Форма несапраўдная!"
 
@@ -604,10 +608,6 @@ msgstr "Руская"
 #: main/choices.py:30
 msgid "Ukrainian"
 msgstr "Украінская"
-
-#: main/models.py:17 main/models.py:35 main/models.py:59
-msgid "Code"
-msgstr "Код"
 
 #: main/models.py:89
 msgid "Tag"
