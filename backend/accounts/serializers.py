@@ -166,14 +166,6 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """ User Profile Serializer """
-    country = serializers.PrimaryKeyRelatedField(
-        allow_null=True,
-        queryset=Country.objects.all(),
-    )
-    city = serializers.PrimaryKeyRelatedField(
-        allow_null=True,
-        queryset=City.objects.all(),
-    )
 
     class Meta:
         model = UserModel
@@ -216,22 +208,6 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
 class OrganizerProfileSerializer(serializers.ModelSerializer):
     """ Organizer Profile Serializer """
     user = UserProfileSerializer()
-    roles = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=OrganizerRole.objects.all(),
-    )
-    countries = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Country.objects.all(),
-    )
-    cities = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=City.objects.all(),
-    )
-    languages = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Language.objects.all(),
-    )
     rating = serializers.DecimalField(
         read_only=True,
         max_digits=2,
@@ -386,14 +362,6 @@ class UserShortReadSerializer(serializers.ModelSerializer):
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
     """ User Retrieve Serializer """
-    country = serializers.PrimaryKeyRelatedField(
-        allow_null=True,
-        queryset=Country.objects.all(),
-    )
-    city = serializers.PrimaryKeyRelatedField(
-        allow_null=True,
-        queryset=City.objects.all(),
-    )
     status = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
 

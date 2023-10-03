@@ -5,10 +5,6 @@ from .models import Category, Article
 
 class ArticleListSerializer(serializers.ModelSerializer):
     """ Article List Serializer """
-    categories = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Category.objects.all(),
-    )
 
     class Meta:
         model = Article
@@ -19,17 +15,12 @@ class ArticleListSerializer(serializers.ModelSerializer):
             'thumbnail',
             'translated_description',
             'published_at',
-            'view_count',
         ]
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     """ Article Detail Serializer """
     author = UserShortReadSerializer(read_only=True)
-    categories = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Category.objects.all(),
-    )
 
     class Meta:
         model = Article
