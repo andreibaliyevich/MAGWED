@@ -17,6 +17,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
             'categories',
             'translated_title',
             'thumbnail',
+            'translated_description',
             'published_at',
             'view_count',
         ]
@@ -37,8 +38,6 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             'author',
             'categories',
             'translated_title',
-            'translated_meta_description',
-            'translated_meta_keywords',
             'image',
             'content',
             'published_at',

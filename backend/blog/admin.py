@@ -40,14 +40,17 @@ class ArticleAdmin(admin.ModelAdmin):
                 'slug',
             ),
         }),
-        (_('Metadata'), {
-            'fields': ('meta_description', 'meta_keywords'),
-        }),
         (_('Image'), {
             'fields': ('image', 'get_preview'),
         }),
         (_('Info'), {
-            'fields': ('content', 'tags', 'published_at', 'view_count'),
+            'fields': (
+                'description',
+                'content',
+                'tags',
+                'published_at',
+                'view_count',
+            ),
         }),
     )
     formfield_overrides = {

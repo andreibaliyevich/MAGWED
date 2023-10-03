@@ -52,18 +52,6 @@ class Article(models.Model):
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     slug = models.SlugField(max_length=128, unique=True, verbose_name=_('Slug'))
 
-    meta_description = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Description'),
-    )
-    meta_keywords = models.CharField(
-        blank=True,
-        max_length=255,
-        help_text=_('Separate keywords with commas.'),
-        verbose_name=_('Keywords'),
-    )
-
     image = models.ImageField(
         upload_to=get_article_path,
         verbose_name=_('Image'),
@@ -79,6 +67,10 @@ class Article(models.Model):
         verbose_name=_('Thumbnail'),
     )
 
+    description = models.CharField(
+        max_length=255,
+        verbose_name=_('Description'),
+    )
     content = models.TextField(verbose_name=_('Content'))
     tags = models.ManyToManyField(Tag, blank=True, verbose_name=_('Tags'))
 
@@ -105,11 +97,8 @@ class Article(models.Model):
     def translated_title(self):
         return get_translated_field(self, 'title')
 
-    def translated_meta_description(self):
-        return get_translated_field(self, 'meta_description')
-
-    def translated_meta_keywords(self):
-        return get_translated_field(self, 'meta_keywords')
+    def translated_description(self):
+        return get_translated_field(self, 'description')
 
     def translated_content(self):
         return get_translated_field(self, 'content')
@@ -144,19 +133,10 @@ class ArticleTranslation(models.Model):
     )
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
-
-    meta_description = models.CharField(
-        blank=True,
+    description = models.CharField(
         max_length=255,
         verbose_name=_('Description'),
     )
-    meta_keywords = models.CharField(
-        blank=True,
-        max_length=255,
-        help_text=_('Separate keywords with commas.'),
-        verbose_name=_('Keywords'),
-    )
-
     content = models.TextField(verbose_name=_('Content'))
 
     class Meta:
