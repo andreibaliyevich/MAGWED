@@ -243,6 +243,13 @@ onMounted(() => {
             {{ $t(`countries.${organizerData.user.country}`) }}
           </li>
           <li
+            v-else-if="organizerData.user.country"
+            class="list-inline-item ms-3"
+          >
+            <i class="fa-solid fa-location-dot me-1"></i>
+            {{ $t(`countries.${organizerData.user.country}`) }}
+          </li>
+          <li
             v-if="organizerData.user.phone"
             class="list-inline-item ms-3"
           >
