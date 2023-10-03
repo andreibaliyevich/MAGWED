@@ -237,9 +237,24 @@ input:focus-visible {
   max-height: 230px;
   opacity: 1;
 }
+
 .list-group.list-group-flush.overflow-auto {
   max-height: 230px;
 }
+.list-group.list-group-flush.overflow-auto::-webkit-scrollbar {
+  width: 0.3em;
+}
+.list-group.list-group-flush.overflow-auto::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+.list-group.list-group-flush.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 1em;
+}
+.list-group.list-group-flush.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #e72a26;
+}
+
 .list-group-item.py-1:hover {
   color: #e72a26 !important;
   cursor: pointer;
