@@ -1,12 +1,11 @@
 <script setup>
 import axios from 'axios'
 import { ref, computed, watch, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 const route = useRoute()
-const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
 
 const articleListLoading = ref(true)

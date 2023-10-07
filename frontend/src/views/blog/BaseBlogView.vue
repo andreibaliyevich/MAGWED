@@ -254,3 +254,13 @@ const getYears = () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@media(min-width: 992px) {
+  #filter_menu {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 125px;
+  }
+}
+</style>
