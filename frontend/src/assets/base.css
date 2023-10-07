@@ -254,29 +254,29 @@ nav .dropdown-menu.show {
   border-color: #e72a26 !important;
 }
 
-.nav-pills .nav-item {
+.nav.nav-pills .nav-item {
   transition: all 0.3s ease-out;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -ms-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
 }
-.nav-pills.flex-column .nav-item {
+.nav.nav-pills.flex-column .nav-item {
   border-left-width: 0.2rem;
   border-left-color: rgba(231, 42, 38, 0);
   border-left-style: solid;
   padding-left: 0.25rem;
 }
-.nav-pills.flex-column .nav-item.active {
+.nav.nav-pills.flex-column .nav-item.active {
   border-left-color: rgba(231, 42, 38, 1);
 }
-.nav-pills.justify-content-center .nav-item {
+.nav.nav-pills .nav-item {
   border-bottom-width: 2px;
   border-bottom-color: rgba(231, 42, 38, 0);
   border-bottom-style: solid;
   padding-bottom: 0.25rem;
 }
-.nav-pills.justify-content-center .nav-item.active {
+.nav.nav-pills .nav-item.active {
   border-bottom-color: rgba(231, 42, 38, 1);
 }
 
