@@ -62,8 +62,20 @@ const router = createRouter({
         },
         {
           path: 'blog',
-          name: 'Blog',
-          component: () => import('@/views/blog/ArticleListView.vue')
+          name: 'BaseBlog',
+          component: () => import('@/views/blog/BaseBlogView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'ArticleList',
+              component: () => import('@/views/blog/ArticleListView.vue')
+            },
+            {
+              path: ':slug',
+              name: 'ArticleDetail',
+              component: () => import('@/views/blog/ArticleDetailView.vue')
+            }
+          ]
         },
         {
           path: 'about',

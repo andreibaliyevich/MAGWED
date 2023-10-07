@@ -156,11 +156,11 @@ const userStore = useUserStore()
             </li>
             <li class="nav-item ms-xl-3">
               <LocaleRouterLink
-                routeName="Blog"
+                routeName="ArticleList"
                 @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
-                  this.$route.name == 'Blog' ? 'active' : 'text-dark'
+                  this.$route.name == 'ArticleList' ? 'active' : 'text-dark'
                 ]"
               >
                 {{ $t('nav.blog') }}

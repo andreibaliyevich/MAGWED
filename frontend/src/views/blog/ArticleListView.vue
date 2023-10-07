@@ -1,51 +1,145 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
+const route = useRoute()
+const router = useRouter()
 const { locale } = useI18n({ useScope: 'global' })
 
-const articlesLoading = ref(false)
-const responseData = ref(false)
+const articleListLoading = ref(true)
+const articleList = ref([])
+const nextURL = ref(null)
 
-const getArticles = async () => {
-  articlesLoading.value = true
+const { getLocaleDateString } = useLocaleDateTime()
+
+const getArticleList = async () => {
+  articleListLoading.value = true
+
+  let params = new URLSearchParams()
+  if (route.query.category) {
+    params.append('categories', route.query.category)
+  }
+  if (route.query.year) {
+    params.append('published_at_year', route.query.year)
+  }
+
   try {
-    const response = await axios.get('/blog/articles/')
-    responseData.value = response.data
+    const response = await axios.get('/blog/articles/', {
+      params: params
+    })
+    articleList.value = response.data.results
+    nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
-    articlesLoading.value = false
+    articleListLoading.value = false
+  }
+}
+
+const getMoreArticleList = async () => {
+  articleListLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    articleList.value = [...articleList.value, ...response.data.results]
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    articleListLoading.value = false
   }
 }
 
 watch(locale, () => {
-  getArticles()
+  getArticleList()
 })
 
+watch(
+  () => route.query,
+  (newValue) => {
+    if (route.name == 'ArticleList') {
+      getArticleList()
+    }
+  }
+)
+
 onMounted(() => {
-  getArticles()
+  getArticleList()
 })
 </script>
 
 <template>
   <div class="article-list-view">
-    <h3>{{ $t('blog.blog') }}</h3>
-    <div v-if="responseData.count > 0" class="article-list">
-      <div v-for="article in responseData.results">
-        <div><strong>Slug:</strong> {{ article.slug }}</div>
-        <div><strong>Title:</strong> {{ article.get_translated_title }}</div>
-        <div><strong>Published at:</strong> {{ article.published_at }}</div>
+    <h1 class="display-6 text-center mb-5">
+      {{ $t('blog.articles') }}
+    </h1>
+
+    <div v-if="articleList.length > 0">
+      <div
+        v-for="article in articleList"
+        class="card border border-light shadow-sm mb-3"
+      >
+        <div class="row g-0">
+          <div class="col-md-4 d-flex align-items-center">
+            <LocaleRouterLink
+              routeName="ArticleDetail"
+              :routeParams="{ slug: article.slug }"
+            >
+              <img
+                :src="article.thumbnail"
+                class="img-fluid rounded"
+                :alt="article.translated_title"
+              >
+            </LocaleRouterLink>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <LocaleRouterLink
+                routeName="ArticleDetail"
+                :routeParams="{ slug: article.slug }"
+                class="text-decoration-none link-dark"
+              >
+                <h5 class="card-title">{{ article.translated_title }}</h5>
+              </LocaleRouterLink>
+              <div class="mb-1">
+                <span
+                  v-for="category in article.categories"
+                  :key="category"
+                  class="badge text-bg-light ms-1"
+                >
+                  {{ $t(`category_choices.${category}`) }}
+                </span>
+              </div>
+              
+              <p class="card-text">{{ article.translated_description }}</p>
+              <p class="card-text">
+                <small class="text-body-secondary">
+                  <i class="fa-regular fa-calendar-days"></i>
+                  {{ getLocaleDateString(article.published_at) }}
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <h2 v-else style="color: red;">List is empty!</h2>
+    <div
+      v-else-if="!articleListLoading"
+      class="lead fs-3 d-flex justify-content-center py-3"
+    >
+      {{ $t('blog.no_articles') }}
+    </div>
+    <div
+      v-if="nextURL"
+      style="min-height: 1px; margin-bottom: 1px;"
+      v-intersection="{
+        'scrollArea': null,
+        'callbackFunction': getMoreArticleList,
+        'functionArguments': []
+      }"
+    ></div>
+    <LoadingIndicator v-if="articleListLoading" />
   </div>
 </template>
-
-<style>
-.article-list-view {
-  width: 500px;
-  margin: 0 auto;
-}
-</style>
