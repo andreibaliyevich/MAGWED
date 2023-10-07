@@ -48,6 +48,16 @@
         "10": "Visagistes",
         "11": "Hairdressers"
     },
+    "category_choices": {
+        "design": "Design",
+        "fashion": "Fashion",
+        "inspiration": "Inspiration",
+        "journey": "Journey",
+        "lifestyle": "Lifestyle",
+        "photography": "Photography",
+        "technology": "Technology",
+        "wedding": "Wedding"
+    },
     "nav": {
         "menu": "Menu",
         "organizers": "Organizers",
@@ -348,7 +358,12 @@
         "photo_information_will_lost": "All information associated with this photo will be lost."
     },
     "blog": {
-        "blog": "Blog"
+        "blog": "Blog",
+        "articles": "Articles",
+        "no_articles": "No Articles!",
+        "filters": "Filters",
+        "categories": "Categories",
+        "years": "Years"
     },
     "btn": {
         "add": "Add",

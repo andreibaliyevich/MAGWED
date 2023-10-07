@@ -48,6 +48,16 @@
         "10": "Визажисты",
         "11": "Парикмахеры"
     },
+    "category_choices": {
+        "design": "Дизайн",
+        "fashion": "Мода",
+        "inspiration": "Вдохновение",
+        "journey": "Путешествие",
+        "lifestyle": "Стиль жизни",
+        "photography": "Фотография",
+        "technology": "Технологии",
+        "wedding": "Свадьба"
+    },
     "nav": {
         "menu": "Меню",
         "organizers": "Организаторы",
@@ -348,7 +358,12 @@
         "photo_information_will_lost": "Вся информация, связанная с этой фотографией, будет потеряна."
     },
     "blog": {
-        "blog": "Блог"
+        "blog": "Блог",
+        "articles": "Статьи",
+        "no_articles": "Нет статей!",
+        "filters": "Фильтры",
+        "categories": "Категории",
+        "years": "Года"
     },
     "btn": {
         "add": "Добавить",

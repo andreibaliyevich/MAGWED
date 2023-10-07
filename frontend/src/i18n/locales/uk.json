@@ -48,6 +48,16 @@
         "10": "Візажисти",
         "11": "Перукарі"
     },
+    "category_choices": {
+        "design": "Дизайн",
+        "fashion": "Мода",
+        "inspiration": "Натхнення",
+        "journey": "Подорож",
+        "lifestyle": "Стиль життя",
+        "photography": "Світлина",
+        "technology": "Технології",
+        "wedding": "Весілля"
+    },
     "nav": {
         "menu": "Меню",
         "organizers": "Організатори",
@@ -348,7 +358,12 @@
         "photo_information_will_lost": "Уся інформація, пов'язана з цією фотографією, буде втрачена."
     },
     "blog": {
-        "blog": "Блог"
+        "blog": "Блог",
+        "articles": "Статті",
+        "no_articles": "Немає статей!",
+        "filters": "Фільтри",
+        "categories": "Категорії",
+        "years": "Року"
     },
     "btn": {
         "add": "Додати",

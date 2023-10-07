@@ -48,6 +48,16 @@
         "10": "Візажысты",
         "11": "Цырульнікі"
     },
+    "category_choices": {
+        "design": "Дызайн",
+        "fashion": "Мода",
+        "inspiration": "Натхненне",
+        "journey": "Падарожжа",
+        "lifestyle": "Стыль жыцця",
+        "photography": "Фатаграфія",
+        "technology": "Тэхналогіі",
+        "wedding": "Вяселле"
+    },
     "nav": {
         "menu": "Меню",
         "organizers": "Арганізатары",
@@ -348,7 +358,12 @@
         "photo_information_will_lost": "Уся інфармацыя, звязаная з гэтай фатаграфіяй, будзе страчана."
     },
     "blog": {
-        "blog": "Блог"
+        "blog": "Блог",
+        "articles": "Артыкулы",
+        "no_articles": "Няма артыкулаў!",
+        "filters": "Фільтры",
+        "categories": "Катэгорыі",
+        "years": "Гады"
     },
     "btn": {
         "add": "Дадаць",
