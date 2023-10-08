@@ -16,6 +16,7 @@ const { getLocaleDateString } = useLocaleDateTime()
 
 const getArticleList = async () => {
   articleListLoading.value = true
+  articleList.value = []
 
   let params = new URLSearchParams()
   if (route.query.category) {

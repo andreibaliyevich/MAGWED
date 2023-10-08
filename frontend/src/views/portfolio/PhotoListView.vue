@@ -10,6 +10,9 @@ const photoList = ref([])
 const nextURL = ref(null)
 
 const getPhotoList = async () => {
+  photoListLoading.value = true
+  photoList.value = []
+
   let params = new URLSearchParams()
   if (route.query.tab == 'popular') {
     params.append('ordering', '-rating')

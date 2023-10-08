@@ -10,6 +10,9 @@ const albumList = ref([])
 const nextURL = ref(null)
 
 const getAlbumList = async () => {
+  albumListLoading.value = true
+  albumList.value = []
+
   let params = new URLSearchParams()
   if (route.query.tab == 'popular') {
     params.append('ordering', '-rating')

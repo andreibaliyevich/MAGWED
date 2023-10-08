@@ -43,6 +43,7 @@ const costWorkMaxBorder = computed(() => {
 
 const getOrganizerList = async () => {
   organizerListLoading.value = true
+  organizerList.value = []
 
   let params = new URLSearchParams()
   if (route.query.role) {
