@@ -3,6 +3,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_protect
@@ -53,6 +54,8 @@ def upload_image(request):
         image = BlogImage()
         image.file = request.FILES['file']
         image.save()
-        return JsonResponse({'location': image.file.url})
+        return JsonResponse({
+            'location': f'{settings.API_URL}{image.file.url}'
+        })
     else:
         return HttpResponse(_('Form not valid!'), status=400)
