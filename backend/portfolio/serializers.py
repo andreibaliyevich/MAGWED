@@ -153,7 +153,6 @@ class PhotoRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'uuid',
             'owner',
             'album',
             'image',
@@ -297,7 +296,6 @@ class AlbumRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'uuid',
             'owner',
             'image',
             'title',
