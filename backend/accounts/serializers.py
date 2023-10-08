@@ -289,6 +289,17 @@ class OrganizerCoverSerializer(serializers.ModelSerializer):
         fields = ['cover']
 
 
+class UserAuthorReadSerializer(serializers.ModelSerializer):
+    """ User Author Read Serializer """
+
+    class Meta:
+        model = UserModel
+        fields = [
+            'uuid',
+            'name',
+        ]
+
+
 class UserOwnerReadSerializer(serializers.ModelSerializer):
     """ User Owner Read Serializer """
     profile_url = serializers.SerializerMethodField()
