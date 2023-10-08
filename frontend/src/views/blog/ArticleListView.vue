@@ -27,7 +27,7 @@ const getArticleList = async () => {
   }
 
   try {
-    const response = await axios.get('/blog/articles/', {
+    const response = await axios.get('/blog/article/list/', {
       params: params
     })
     articleList.value = response.data.results
