@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from accounts.serializers import UserShortReadSerializer
+from accounts.serializers import UserAuthorReadSerializer
+from main.serializers import TagRelatedField
 from .models import Category, Article
 
 
@@ -18,18 +19,21 @@ class ArticleListSerializer(serializers.ModelSerializer):
         ]
 
 
-class ArticleDetailSerializer(serializers.ModelSerializer):
-    """ Article Detail Serializer """
-    author = UserShortReadSerializer(read_only=True)
+class ArticleRetrieveSerializer(serializers.ModelSerializer):
+    """ Article Retrieve Serializer """
+    author = UserAuthorReadSerializer(read_only=True)
+    tags = TagRelatedField(read_only=True, many=True)
 
     class Meta:
         model = Article
         fields = [
+            'uuid',
             'author',
             'categories',
             'translated_title',
             'image',
-            'content',
+            'translated_content',
+            'tags',
             'published_at',
             'view_count',
         ]

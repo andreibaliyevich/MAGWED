@@ -12,6 +12,7 @@ class ArticleFilter(filters.FilterSet):
     class Meta:
         model = Article
         fields = [
+            'author',
             'categories',
             'published_at_year',
         ]

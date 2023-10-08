@@ -12,7 +12,7 @@ from .models import Article, BlogImage
 from .pagination import ArticlePagination
 from .serializers import (
     ArticleListSerializer,
-    ArticleDetailSerializer,
+    ArticleRetrieveSerializer,
 )
 
 
@@ -26,12 +26,12 @@ class ArticleListView(generics.ListAPIView):
     filterset_class = ArticleFilter
 
 
-class ArticleDetailView(generics.RetrieveAPIView):
-    """ Article Detail View """
+class ArticleRetrieveView(generics.RetrieveAPIView):
+    """ Article Retrieve View """
     permission_classes = [AllowAny]
     queryset = Article.objects.all()
     lookup_field = 'slug'
-    serializer_class = ArticleDetailSerializer
+    serializer_class = ArticleRetrieveSerializer
 
 
 class ArticleUpViewCountView(APIView):
