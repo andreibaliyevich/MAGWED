@@ -12,11 +12,10 @@ const userStore = useUserStore()
 
 const photoLoading = ref(true)
 const photoData = ref({
-  uuid: '',
   owner: {
     name: '',
     avatar: null,
-    profile_url: ''
+    profile_url: null
   },
   album: null,
   image: null,
@@ -44,7 +43,7 @@ const upPhotoViewCount = async () => {
   try {
     const response = await axios.post(
       '/portfolio/photo/up-view-count/'
-        + photoData.value.uuid
+        + route.params.uuid
         + '/'
     )
     photoData.value.view_count += 1
@@ -73,7 +72,7 @@ const likePhoto = async () => {
   try {
     const response = await axios.post(
       '/portfolio/photo/like/'
-        + photoData.value.uuid
+        + route.params.uuid
         + '/'
     )
     photoData.value.like_count += 1
@@ -87,7 +86,7 @@ const dislikePhoto = async () => {
   try {
     const response = await axios.delete(
       '/portfolio/photo/like/'
-        + photoData.value.uuid
+        + route.params.uuid
         + '/'
     )
     photoData.value.like_count -= 1
@@ -101,7 +100,7 @@ const addPhotoToFavorites = async () => {
   try {
     const response = await axios.post('/social/favorite/', {
       'content_type': 'photo',
-      'object_uuid': photoData.value.uuid
+      'object_uuid': route.params.uuid
     })
     photoData.value.favorite = true
   } catch (error) {
@@ -114,7 +113,7 @@ const removePhotoFromFavorites = async () => {
     const response = await axios.delete('/social/favorite/', {
       data: {
         'content_type': 'photo',
-        'object_uuid': photoData.value.uuid
+        'object_uuid': route.params.uuid
       }
     })
     photoData.value.favorite = false
@@ -349,7 +348,7 @@ onMounted(() => {
             <div class="card-body mx-3 mx-lg-1">
               <CommentList
                 contentType="photo"
-                :objectUUID="photoData.uuid"
+                :objectUUID="$route.params.uuid"
               />
             </div>
           </div>

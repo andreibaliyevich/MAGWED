@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'

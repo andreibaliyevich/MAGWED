@@ -12,11 +12,10 @@ const userStore = useUserStore()
 
 const albumDataLoading = ref(true)
 const albumData = ref({
-  uuid: '',
   owner: {
     name: '',
     avatar: null,
-    profile_url: ''
+    profile_url: null
   },
   image: null,
   title: '',
@@ -43,7 +42,7 @@ const getPhotoList = async () => {
     const response = await axios.get(
       '/portfolio/photo/list/'
         + '?album='
-        + albumData.value.uuid
+        + route.params.uuid
     )
     photoList.value = response.data.results
     nextURL.value = response.data.next
@@ -71,7 +70,7 @@ const upAlbumViewCount = async () => {
   try {
     const response = await axios.post(
       '/portfolio/album/up-view-count/'
-        + albumData.value.uuid
+        + route.params.uuid
         + '/'
     )
     albumData.value.view_count += 1
@@ -101,7 +100,7 @@ const likeAlbum = async () => {
   try {
     const response = await axios.post(
       '/portfolio/album/like/'
-        + albumData.value.uuid
+        + route.params.uuid
         + '/'
     )
     albumData.value.like_count += 1
@@ -115,7 +114,7 @@ const dislikeAlbum = async () => {
   try {
     const response = await axios.delete(
       '/portfolio/album/like/'
-        + albumData.value.uuid
+        + route.params.uuid
         + '/'
     )
     albumData.value.like_count -= 1
@@ -129,7 +128,7 @@ const addAlbumToFavorites = async () => {
   try {
     const response = await axios.post('/social/favorite/', {
       'content_type': 'album',
-      'object_uuid': albumData.value.uuid
+      'object_uuid': route.params.uuid
     })
     albumData.value.favorite = true
   } catch (error) {
@@ -142,7 +141,7 @@ const removeAlbumFromFavorites = async () => {
     const response = await axios.delete('/social/favorite/', {
       data: {
         'content_type': 'album',
-        'object_uuid': albumData.value.uuid
+        'object_uuid': route.params.uuid
       }
     })
     albumData.value.favorite = false
@@ -355,7 +354,7 @@ onMounted(() => {
         <div class="col-xl-5">
           <CommentList
             contentType="album"
-            :objectUUID="albumData.uuid"
+            :objectUUID="$route.params.uuid"
           />
         </div>
       </div>
