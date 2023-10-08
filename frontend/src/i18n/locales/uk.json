@@ -363,7 +363,8 @@
         "no_articles": "Немає статей!",
         "filters": "Фільтри",
         "categories": "Категорії",
-        "years": "Року"
+        "years": "Року",
+        "author": "Автор"
     },
     "btn": {
         "add": "Додати",

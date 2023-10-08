@@ -363,7 +363,8 @@
         "no_articles": "No Articles!",
         "filters": "Filters",
         "categories": "Categories",
-        "years": "Years"
+        "years": "Years",
+        "author": "Author"
     },
     "btn": {
         "add": "Add",
