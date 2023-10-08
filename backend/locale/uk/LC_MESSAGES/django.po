@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-03 04:52+0000\n"
+"POT-Creation-Date: 2023-10-08 14:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -343,7 +343,7 @@ msgstr "Неприпустимий ідентифікатор користува
 msgid "Invalid token for given user."
 msgstr "Неприпустимий токен для користувача."
 
-#: accounts/serializers.py:110 accounts/serializers.py:296
+#: accounts/serializers.py:110 accounts/serializers.py:272
 msgid "Invalid current password."
 msgstr "Неправильний поточний пароль."
 
@@ -481,14 +481,14 @@ msgid "File"
 msgstr "Файл"
 
 #: blog/models.py:164
-msgid "Image of Article"
-msgstr "Зображення статті"
+msgid "Image of Blog"
+msgstr "Зображення блогу"
 
 #: blog/models.py:165
-msgid "Images of Articles"
-msgstr "Зображення статей"
+msgid "Images of Blog"
+msgstr "Зображення блогу"
 
-#: blog/views.py:41
+#: blog/views.py:56
 msgid "Form not valid!"
 msgstr "Форма недійсна!"
 
