@@ -19,6 +19,9 @@ const getArticleList = async () => {
   articleList.value = []
 
   let params = new URLSearchParams()
+  if (route.query.author) {
+    params.append('author', route.query.author)
+  }
   if (route.query.category) {
     params.append('categories', route.query.category)
   }
@@ -75,7 +78,6 @@ onMounted(() => {
     <h1 class="display-6 text-center mb-5">
       {{ $t('blog.articles') }}
     </h1>
-
     <div v-if="articleList.length > 0">
       <div
         v-for="article in articleList"
@@ -112,7 +114,6 @@ onMounted(() => {
                   {{ $t(`category_choices.${category}`) }}
                 </span>
               </div>
-              
               <p class="card-text">{{ article.translated_description }}</p>
               <p class="card-text">
                 <small class="text-body-secondary">

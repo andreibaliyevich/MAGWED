@@ -61,6 +61,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'design',
                       year: this.$route.query.year
                     }"
@@ -82,6 +83,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'fashion',
                       year: this.$route.query.year
                     }"
@@ -103,6 +105,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'inspiration',
                       year: this.$route.query.year
                     }"
@@ -124,6 +127,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'journey',
                       year: this.$route.query.year
                     }"
@@ -145,6 +149,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'lifestyle',
                       year: this.$route.query.year
                     }"
@@ -166,6 +171,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'photography',
                       year: this.$route.query.year
                     }"
@@ -187,6 +193,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'technology',
                       year: this.$route.query.year
                     }"
@@ -208,6 +215,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: 'wedding',
                       year: this.$route.query.year
                     }"
@@ -234,6 +242,7 @@ const getYears = () => {
                   <LocaleRouterLink
                     routeName="ArticleList"
                     :routeQuery="{
+                      author: this.$route.query.author,
                       category: this.$route.query.category,
                       year: yearNumber
                     }"
