@@ -151,8 +151,8 @@ class ArticleTranslation(models.Model):
         ]
 
 
-class ArticleImage(models.Model):
-    """ Article Image Model """
+class BlogImage(models.Model):
+    """ Blog Image Model """
     uuid = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -161,6 +161,6 @@ class ArticleImage(models.Model):
     file = models.ImageField(upload_to=get_article_path, verbose_name=_('File'))
 
     class Meta:
-        verbose_name = _('Image of Article')
-        verbose_name_plural = _('Images of Articles')
+        verbose_name = _('Image of Blog')
+        verbose_name_plural = _('Images of Blog')
         ordering = ['-uuid']

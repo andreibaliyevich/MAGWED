@@ -7,7 +7,7 @@ from .models import (
     Category,
     Article,
     ArticleTranslation,
-    ArticleImage,
+    BlogImage,
 )
 
 
@@ -65,7 +65,7 @@ class ArticleAdmin(admin.ModelAdmin):
     get_preview.short_description = _('Preview')
 
 
-@admin.register(ArticleImage)
+@admin.register(BlogImage)
 class ArticleImageAdmin(admin.ModelAdmin):
     """ Article Image Model for admin """
     list_display = ('uuid', 'file', 'get_preview')

@@ -327,7 +327,7 @@ TINYMCE_CALLBACKS = {
         var csrftoken =  cookieValue;
         xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
-        xhr.open('POST', '/en/blog/article/upload/image/');
+        xhr.open('POST', '/en/blog/upload/image/');
         xhr.setRequestHeader("X-CSRFToken",csrftoken)
 
         xhr.onload = function() {
