@@ -161,7 +161,7 @@ onMounted(() => {
                       >
                         {{ photoData.title }}
                       </h1>
-                      <ul class="list-inline mb-2">
+                      <ul class="list-inline text-body-secondary mb-2">
                         <li class="list-inline-item">
                           <i class="fa-regular fa-calendar-days"></i>
                           {{ $t('portfolio.uploaded') }}
