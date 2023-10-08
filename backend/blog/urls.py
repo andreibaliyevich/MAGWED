@@ -5,9 +5,11 @@ from . import views
 app_name = 'blog'
 
 urlpatterns = [
-    path('articles/', include([
-        path('', views.ArticleListView.as_view()),
-        path('<slug:slug>/', views.ArticleDetailView.as_view()),
+    path('article/', include([
+        path('list/', views.ArticleListView.as_view()),
+        path('retrieve/<slug:slug>/', views.ArticleDetailView.as_view()),
+        path('up-view-count/<slug:slug>/',
+            views.ArticleUpViewCountView.as_view()),
     ])),
-    path('article/upload/image/', views.article_upload_image),
+    path('upload/image/', views.upload_image),
 ]
