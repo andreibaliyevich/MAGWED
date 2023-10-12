@@ -578,7 +578,7 @@ onUnmounted(() => {
                       :msgType="msg.msg_type"
                       :msgContent="msg.content"
                       v-intersection="{
-                        'scrollArea': messageListArea,
+                        'scrollArea': null,
                         'callbackFunction': setMessageViewed,
                         'functionArguments': [msg.uuid]
                       }"
@@ -599,7 +599,7 @@ onUnmounted(() => {
                     :msgType="msg.msg_type"
                     :msgContent="msg.content"
                     v-intersection="{
-                      'scrollArea': messageListArea,
+                      'scrollArea': null,
                       'callbackFunction': setMessageViewed,
                       'functionArguments': [msg.uuid]
                     }"
