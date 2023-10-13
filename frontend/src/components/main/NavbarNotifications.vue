@@ -64,20 +64,33 @@ const connectSocket = async () => {
   notificationSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
     if (data.action == 'created') {
-      notificationList.value.unshift(data.notice)
+      notificationList.value.unshift(data.data)
+      notViewedCount.value += 1
     } else if (data.action == 'updated') {
       const foundIndex = notificationList.value.findIndex((element) => {
-        return element.uuid == data.notice.uuid
+        return element.uuid == data.data.uuid
       })
       if (foundIndex != -1) {
-        notificationList.value[foundIndex] = data.notice
+        notificationList.value[foundIndex] = data.data
+      }
+    } else if (data.action == 'deleted') {
+      const foundIndex = notificationList.value.findIndex((element) => {
+        return element.uuid == data.data
+      })
+      if (foundIndex != -1) {
+        if (!notificationList.value[foundIndex].viewed) {
+          notViewedCount.value -= 1
+        }
+        notificationList.value = notificationList.value.filter((element) => {
+          return element.uuid !== data.data
+        })
       }
     } else if (data.action == 'viewed') {
       const foundIndex = notificationList.value.findIndex((element) => {
-        return element.uuid == data.notice_uuid
+        return element.uuid == data.data.uuid
       })
       if (foundIndex != -1) {
-        notificationList.value[foundIndex].viewed = data.notice_viewed
+        notificationList.value[foundIndex].viewed = data.data.viewed
         notViewedCount.value -= 1
       }
     }
@@ -149,7 +162,7 @@ onMounted(() => {
                 v-else
                 :notice="notice"
                 v-intersection="{
-                  'scrollArea': notificationListArea,
+                  'scrollArea': null,
                   'callbackFunction': setNoticeViewed,
                   'functionArguments': [notice.uuid]
                 }"

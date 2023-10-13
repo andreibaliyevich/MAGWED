@@ -30,7 +30,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
 
         await self.send_json({
             'action': 'viewed',
-            'notice': {
+            'data': {
                 'uuid': notice_uuid,
                 'viewed': notice_viewed,
             },
@@ -39,7 +39,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
     async def send_json_data(self, event):
         await self.send_json({
             'action': event['action'],
-            'notice': event['notice'],
+            'data': event['data'],
         })
 
     @database_sync_to_async
