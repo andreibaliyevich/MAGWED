@@ -4,6 +4,18 @@ from main.serializers import TagRelatedField
 from .models import Category, Article
 
 
+class ArticleShortReadSerializer(serializers.ModelSerializer):
+    """ Article Short Read Serializer """
+
+    class Meta:
+        model = Article
+        fields = [
+            'slug',
+            'translated_title',
+            'thumbnail',
+        ]
+
+
 class ArticleListSerializer(serializers.ModelSerializer):
     """ Article List Serializer """
 
@@ -36,16 +48,4 @@ class ArticleRetrieveSerializer(serializers.ModelSerializer):
             'tags',
             'published_at',
             'view_count',
-        ]
-
-
-class ArticleShortReadSerializer(serializers.ModelSerializer):
-    """ Article Short Read Serializer """
-
-    class Meta:
-        model = Article
-        fields = [
-            'slug',
-            'translated_title',
-            'thumbnail',
         ]

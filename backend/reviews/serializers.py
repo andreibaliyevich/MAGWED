@@ -9,6 +9,17 @@ from .models import Review
 UserModel = get_user_model()
 
 
+class ReviewShortReadSerializer(serializers.ModelSerializer):
+    """ Review Short Read Serializer """
+
+    class Meta:
+        model = Review
+        fields = [
+            'rating',
+            'comment',
+        ]
+
+
 class ReviewListCreateSerializer(serializers.ModelSerializer):
     """ Review List Create Serializer """
     user = serializers.PrimaryKeyRelatedField(

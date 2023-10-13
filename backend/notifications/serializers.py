@@ -8,7 +8,7 @@ from portfolio.serializers import (
     PhotoShortReadSerializer,
 )
 from reviews.models import Review
-from comments.models import Comment
+from reviews.serializers import ReviewShortReadSerializer
 from social.models import Follow
 from .models import Notification
 
@@ -22,15 +22,14 @@ class NotificationObjectRelatedField(serializers.RelatedField):
         if isinstance(value, Follow):
             return None
         elif isinstance(value, Article):
-            serializer = ArticleShortReadSerializer(value, context=self.context)
+            serializer = ArticleShortReadSerializer(
+                value, context=self.context)
         elif isinstance(value, Album):
             serializer = AlbumShortReadSerializer(value, context=self.context)
         elif isinstance(value, Photo):
             serializer = PhotoShortReadSerializer(value, context=self.context)
-        elif isinstance(value, Comment):
-            return None
         elif isinstance(value, Review):
-            return None
+            serializer = ReviewShortReadSerializer(value, context=self.context)
         else:
             raise Exception('Unexpected type of content object')
         return serializer.data
