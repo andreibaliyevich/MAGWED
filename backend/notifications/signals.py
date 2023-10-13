@@ -1,19 +1,75 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from blog.models import Article
+from comments.models import Comment
+from portfolio.models import Album, Photo
+from reviews.models import Review
+from social.models import Follow
+from .choices import ReasonOfNotification
 from .models import Notification
-from .services import send_notification
+from .serializers import NotificationListSerializer
 
 
-@receiver(post_save, sender=Notification)
-def saved_notification(sender, instance, created, **kwargs):
-    """ Send saved notification """
-    if created:
-        send_notification(instance, 'created')
-    else:
-        send_notification(instance, 'updated')
+channel_layer = get_channel_layer()
 
 
-@receiver(post_delete, sender=Notification)
-def deleted_notification(sender, instance, **kwargs):
-    """ Send deleted notification """
-    send_notification(instance, 'deleted')
+def send_notification(notice, action):
+    """ Send notification to Consumer """
+    notice_data = NotificationListSerializer(notice).data
+
+    if notice_data['initiator']['avatar']:
+        url = notice_data['initiator']['avatar']
+        notice_data['initiator']['avatar'] = f'{settings.API_URL}{url}'
+
+    if (notice_data['content_object']
+            and notice_data['content_object']['thumbnail']):
+        url = notice_data['content_object']['thumbnail']
+        notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{url}'
+
+    async_to_sync(channel_layer.group_send)(
+        f'notification-{notice.recipient.uuid}',
+        {
+            'type': 'send_json_data',
+            'action': action,
+            'data': notice_data,
+        }
+    )
+
+
+@receiver(post_save, sender=Follow)
+def follow_saved(sender, instance, created, **kwargs):
+    """ Save and send follow notification """
+    notice = Notification.objects.create(
+        initiator=instance.follower,
+        recipient=instance.user,
+        reason=ReasonOfNotification.FOLLOW,
+        content_object=instance,
+    )
+    send_notification(notice, 'created')
+
+
+@receiver(post_delete, sender=Follow)
+def follow_deleted(sender, instance, **kwargs):
+    """ Delete and send follow notification """
+    notice = Notification.objects.filter(
+        initiator=instance.follower,
+        recipient=instance.user,
+        reason=ReasonOfNotification.FOLLOW,
+        content_type=ContentType.objects.get_for_model(Follow),
+        object_uuid=instance.uuid,
+    ).first()
+    if notice is not None:
+        notice_uuid = str(notice.uuid)
+        notice.delete()
+        async_to_sync(channel_layer.group_send)(
+            f'notification-{instance.user.uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'deleted',
+                'data': notice_uuid,
+            }
+        )
