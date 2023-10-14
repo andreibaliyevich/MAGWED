@@ -13,6 +13,21 @@ from social.models import Follow
 from .models import Notification
 
 
+class NotificationShortSerializer(serializers.ModelSerializer):
+    """ Notification Short Serializer """
+    initiator = UserShortReadSerializer(read_only=True)
+
+    class Meta:
+        model = Notification
+        fields = [
+            'uuid',
+            'initiator',
+            'reason',
+            'created_at',
+            'viewed',
+        ]
+
+
 class NotificationObjectRelatedField(serializers.RelatedField):
     """
     A custom field to use for the 'content_object' generic relationship.

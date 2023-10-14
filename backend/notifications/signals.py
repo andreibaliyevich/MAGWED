@@ -5,39 +5,17 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from blog.models import Article
+from blog.serializers import ArticleShortReadSerializer
 from comments.models import Comment
 from portfolio.models import Album, Photo
 from reviews.models import Review
 from social.models import Follow
 from .choices import ReasonOfNotification
 from .models import Notification
-from .serializers import NotificationListSerializer
+from .serializers import NotificationShortSerializer
 
 
 channel_layer = get_channel_layer()
-
-
-def send_notification(notice, action):
-    """ Send notification to Consumer """
-    notice_data = NotificationListSerializer(notice).data
-
-    if notice_data['initiator']['avatar']:
-        url = notice_data['initiator']['avatar']
-        notice_data['initiator']['avatar'] = f'{settings.API_URL}{url}'
-
-    if (notice_data['content_object']
-            and notice_data['content_object']['thumbnail']):
-        url = notice_data['content_object']['thumbnail']
-        notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{url}'
-
-    async_to_sync(channel_layer.group_send)(
-        f'notification-{notice.recipient.uuid}',
-        {
-            'type': 'send_json_data',
-            'action': action,
-            'data': notice_data,
-        }
-    )
 
 
 @receiver(post_save, sender=Follow)
@@ -49,7 +27,21 @@ def follow_saved(sender, instance, created, **kwargs):
         reason=ReasonOfNotification.FOLLOW,
         content_object=instance,
     )
-    send_notification(notice, 'created')
+
+    notice_data = NotificationShortSerializer(notice).data
+    if notice_data['initiator']['avatar']:
+        avatar_url = notice_data['initiator']['avatar']
+        notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
+    notice_data['content_object'] = None
+
+    async_to_sync(channel_layer.group_send)(
+        f'notification-{notice.recipient.uuid}',
+        {
+            'type': 'send_json_data',
+            'action': 'created',
+            'data': notice_data,
+        }
+    )
 
 
 @receiver(post_delete, sender=Follow)
