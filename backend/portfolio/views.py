@@ -23,6 +23,7 @@ from .serializers import (
     PhotoListSerializer,
     PhotoRetrieveSerializer,
 )
+from .signals import like_obj, dislike_obj
 
 
 class AlbumListCreateView(generics.ListCreateAPIView):
@@ -111,6 +112,7 @@ class AlbumLikeView(APIView):
                 {'detail': _('You already liked this album!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        like_obj.send(sender=Album, instance=obj, user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
@@ -122,6 +124,7 @@ class AlbumLikeView(APIView):
                 {'detail': _('You do not like this album!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        dislike_obj.send(sender=Album, instance=obj, user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -220,6 +223,7 @@ class PhotoLikeView(APIView):
                 {'detail': _('You already liked this photo!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        like_obj.send(sender=Photo, instance=obj, user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
@@ -231,4 +235,5 @@ class PhotoLikeView(APIView):
                 {'detail': _('You do not like this photo!')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        dislike_obj.send(sender=Photo, instance=obj, user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
