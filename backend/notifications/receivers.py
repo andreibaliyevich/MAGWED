@@ -12,6 +12,7 @@ from portfolio.serializers import (
     AlbumShortReadSerializer,
     PhotoShortReadSerializer,
 )
+from portfolio.signals import like_obj, dislike_obj
 from reviews.models import Review
 from social.models import Follow
 from .choices import ReasonOfNotification
@@ -300,5 +301,113 @@ def photo_deleted(sender, instance, **kwargs):
                     'type': 'send_json_data',
                     'action': 'deleted',
                     'data': str(value['uuid']),
+                }
+            )
+
+
+@receiver(like_obj, sender=Album)
+def album_liked(sender, instance, user, **kwargs):
+    """ Save and send album liked notification """
+    if instance.owner.uuid != user.uuid:
+        notice = Notification.objects.create(
+            initiator=user,
+            recipient=instance.owner,
+            reason=ReasonOfNotification.LIKE_ALBUM,
+            content_object=instance,
+        )
+
+        notice_data = NotificationShortSerializer(notice).data
+        if notice_data['initiator']['avatar']:
+            avatar_url = notice_data['initiator']['avatar']
+            notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
+
+        notice_data['content_object'] = AlbumShortReadSerializer(instance).data
+        thumbnail_url = notice_data['content_object']['thumbnail']
+        notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
+
+        async_to_sync(channel_layer.group_send)(
+            f'notification-{notice.recipient.uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'created',
+                'data': notice_data,
+            }
+        )
+
+
+@receiver(dislike_obj, sender=Album)
+def album_disliked(sender, instance, user, **kwargs):
+    """ Delete and send album disliked notification """
+    if instance.owner.uuid != user.uuid:
+        notice = Notification.objects.filter(
+            initiator=user,
+            recipient=instance.owner,
+            reason=ReasonOfNotification.LIKE_ALBUM,
+            content_type=ContentType.objects.get_for_model(Album),
+            object_uuid=instance.uuid,
+        ).first()
+        if notice is not None:
+            notice_uuid = str(notice.uuid)
+            notice.delete()
+            async_to_sync(channel_layer.group_send)(
+                f'notification-{instance.owner.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'deleted',
+                    'data': notice_uuid,
+                }
+            )
+
+
+@receiver(like_obj, sender=Photo)
+def photo_liked(sender, instance, user, **kwargs):
+    """ Save and send album liked notification """
+    if instance.owner.uuid != user.uuid:
+        notice = Notification.objects.create(
+            initiator=user,
+            recipient=instance.owner,
+            reason=ReasonOfNotification.LIKE_PHOTO,
+            content_object=instance,
+        )
+
+        notice_data = NotificationShortSerializer(notice).data
+        if notice_data['initiator']['avatar']:
+            avatar_url = notice_data['initiator']['avatar']
+            notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
+        
+        notice_data['content_object'] = PhotoShortReadSerializer(instance).data
+        thumbnail_url = notice_data['content_object']['thumbnail']
+        notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
+
+        async_to_sync(channel_layer.group_send)(
+            f'notification-{notice.recipient.uuid}',
+            {
+                'type': 'send_json_data',
+                'action': 'created',
+                'data': notice_data,
+            }
+        )
+
+
+@receiver(dislike_obj, sender=Photo)
+def photo_disliked(sender, instance, user, **kwargs):
+    """ Delete and send album disliked notification """
+    if instance.owner.uuid != user.uuid:
+        notice = Notification.objects.filter(
+            initiator=user,
+            recipient=instance.owner,
+            reason=ReasonOfNotification.LIKE_PHOTO,
+            content_type=ContentType.objects.get_for_model(Photo),
+            object_uuid=instance.uuid,
+        ).first()
+        if notice is not None:
+            notice_uuid = str(notice.uuid)
+            notice.delete()
+            async_to_sync(channel_layer.group_send)(
+                f'notification-{instance.owner.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'deleted',
+                    'data': notice_uuid,
                 }
             )
