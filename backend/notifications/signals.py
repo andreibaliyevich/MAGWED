@@ -223,3 +223,82 @@ def album_deleted(sender, instance, **kwargs):
                 'data': str(value['uuid']),
             }
         )
+
+
+@receiver(post_save, sender=Photo)
+def photo_saved(sender, instance, created, **kwargs):
+    """ Save and send photo notification """
+    if instance.album is None:
+        if created:
+            for follow in instance.owner.followers.all():
+                notice = Notification.objects.create(
+                    initiator=instance.owner,
+                    recipient=follow.follower,
+                    reason=ReasonOfNotification.PHOTO,
+                    content_object=instance,
+                )
+
+                notice_data = NotificationShortSerializer(notice).data
+                if notice_data['initiator']['avatar']:
+                    avatar_url = notice_data['initiator']['avatar']
+                    notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
+
+                notice_data['content_object'] = PhotoShortReadSerializer(instance).data
+                thumbnail_url = notice_data['content_object']['thumbnail']
+                notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
+
+                async_to_sync(channel_layer.group_send)(
+                    f'notification-{notice.recipient.uuid}',
+                    {
+                        'type': 'send_json_data',
+                        'action': 'created',
+                        'data': notice_data,
+                    }
+                )
+        else:
+            content_object_data = PhotoShortReadSerializer(instance).data
+            thumbnail_url = content_object_data['thumbnail']
+            content_object_data['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
+
+            notices_values = Notification.objects.filter(
+                initiator=instance.owner,
+                reason=ReasonOfNotification.PHOTO,
+                content_type=ContentType.objects.get_for_model(Photo),
+                object_uuid=instance.uuid,
+            ).values('uuid', 'recipient__uuid')
+
+            for value in notices_values:
+                async_to_sync(channel_layer.group_send)(
+                    f"notification-{value['recipient__uuid']}",
+                    {
+                        'type': 'send_json_data',
+                        'action': 'updated',
+                        'data': {
+                            'uuid': str(value['uuid']),
+                            'content_object': content_object_data,
+                        },
+                    }
+                )
+
+
+@receiver(post_delete, sender=Photo)
+def photo_deleted(sender, instance, **kwargs):
+    """ Delete and send photo notification """
+    if instance.album is None:
+        notices = Notification.objects.filter(
+            initiator=instance.owner,
+            reason=ReasonOfNotification.PHOTO,
+            content_type=ContentType.objects.get_for_model(Photo),
+            object_uuid=instance.uuid,
+        )
+        values_list = list(notices.values('uuid', 'recipient__uuid'))
+        notices.delete()
+        for value in values_list:
+            async_to_sync(channel_layer.group_send)(
+                f"notification-{value['recipient__uuid']}",
+                {
+                    'type': 'send_json_data',
+                    'action': 'deleted',
+                    'data': str(value['uuid']),
+                }
+            )
