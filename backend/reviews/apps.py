@@ -8,4 +8,4 @@ class ReviewsConfig(AppConfig):
     verbose_name = _('Reviews')
 
     def ready(self):
-        import reviews.signals
+        import reviews.receivers
