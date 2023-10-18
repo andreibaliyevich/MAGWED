@@ -14,6 +14,7 @@ from portfolio.serializers import (
 )
 from portfolio.signals import like_obj, dislike_obj
 from reviews.models import Review
+from reviews.serializers import ReviewShortReadSerializer
 from social.models import Follow
 from .choices import ReasonOfNotification
 from .models import Notification
@@ -593,3 +594,78 @@ def comment_deleted(sender, instance, **kwargs):
                         'data': notice_uuid,
                     }
                 )
+
+
+@receiver(post_save, sender=Review)
+def review_saved(sender, instance, created, **kwargs):
+    """ Save and send review notification """
+    if instance.user.uuid != instance.author.uuid:
+        if created:
+            notice = Notification.objects.create(
+                initiator=instance.author,
+                recipient=instance.user,
+                reason=ReasonOfNotification.REVIEW,
+                content_object=instance,
+            )
+
+            notice_data = NotificationShortSerializer(notice).data
+            if notice_data['initiator']['avatar']:
+                avatar_url = notice_data['initiator']['avatar']
+                notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
+            notice_data['content_object'] = ReviewShortReadSerializer(instance).data
+
+            async_to_sync(channel_layer.group_send)(
+                f'notification-{notice.recipient.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'created',
+                    'data': notice_data,
+                }
+            )
+        else:
+            content_object_data = ReviewShortReadSerializer(instance).data
+            notice = Notification.objects.filter(
+                initiator=instance.author,
+                recipient=instance.user,
+                reason=ReasonOfNotification.REVIEW,
+                content_type=ContentType.objects.get_for_model(Review),
+                object_uuid=instance.uuid,
+            ).first()
+            
+            if notice is not None:
+                async_to_sync(channel_layer.group_send)(
+                    f'notification-{notice.recipient.uuid}',
+                    {
+                        'type': 'send_json_data',
+                        'action': 'updated',
+                        'data': {
+                            'uuid': str(notice.uuid),
+                            'content_object': content_object_data,
+                        },
+                    }
+                )
+
+
+@receiver(post_delete, sender=Review)
+def review_deleted(sender, instance, **kwargs):
+    """ Delete and send review notification """
+    if instance.user.uuid != instance.author.uuid:
+        notice = Notification.objects.filter(
+            initiator=instance.author,
+            recipient=instance.user,
+            reason=ReasonOfNotification.REVIEW,
+            content_type=ContentType.objects.get_for_model(Review),
+            object_uuid=instance.uuid,
+        ).first()
+
+        if notice is not None:
+            notice_uuid = str(notice.uuid)
+            notice.delete()
+            async_to_sync(channel_layer.group_send)(
+                f'notification-{instance.user.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'deleted',
+                    'data': notice_uuid,
+                }
+            )
