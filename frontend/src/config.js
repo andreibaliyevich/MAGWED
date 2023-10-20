@@ -40,9 +40,6 @@ export const reasonOfNotification = {
   PHOTO: 4,
   LIKE_ALBUM: 5,
   LIKE_PHOTO: 6,
-  COMMENT_ARTICLE: 7,
-  COMMENT_ALBUM: 8,
-  COMMENT_PHOTO: 9,
-  COMMENT: 10,
-  REVIEW: 11
+  COMMENT: 7,
+  REVIEW: 8
 }
