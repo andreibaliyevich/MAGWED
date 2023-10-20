@@ -86,16 +86,25 @@ class FavoriteContentObjectSerializer(serializers.Serializer):
 
 class FavoriteObjectRelatedField(serializers.RelatedField):
     """
-    A custom field to use for the 'content_object' generic relationship.
+    A favorite field to use for the 'content_object' generic relationship.
     """
 
     def to_representation(self, value):
         if isinstance(value, Article):
-            serializer = ArticleShortReadSerializer(value, context=self.context)
+            serializer = ArticleShortReadSerializer(
+                value,
+                context=self.context,
+            )
         elif isinstance(value, Album):
-            serializer = AlbumShortReadSerializer(value, context=self.context)
+            serializer = AlbumShortReadSerializer(
+                value,
+                context=self.context,
+            )
         elif isinstance(value, Photo):
-            serializer = PhotoShortReadSerializer(value, context=self.context)
+            serializer = PhotoShortReadSerializer(
+                value,
+                context=self.context,
+            )
         else:
             raise Exception('Unexpected type of content object')
         return serializer.data

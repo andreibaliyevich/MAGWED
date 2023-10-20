@@ -2,6 +2,8 @@ from rest_framework import serializers
 from accounts.serializers import UserShortReadSerializer
 from blog.models import Article
 from blog.serializers import ArticleShortReadSerializer
+from comments.models import Comment
+from comments.serializers import CommentShortReadSerializer
 from portfolio.models import Album, Photo
 from portfolio.serializers import (
     AlbumShortReadSerializer,
@@ -30,7 +32,7 @@ class NotificationShortSerializer(serializers.ModelSerializer):
 
 class NotificationObjectRelatedField(serializers.RelatedField):
     """
-    A custom field to use for the 'content_object' generic relationship.
+    A notification field to use for the 'content_object' generic relationship.
     """
 
     def to_representation(self, value):
@@ -38,13 +40,29 @@ class NotificationObjectRelatedField(serializers.RelatedField):
             return None
         elif isinstance(value, Article):
             serializer = ArticleShortReadSerializer(
-                value, context=self.context)
+                value,
+                context=self.context,
+            )
         elif isinstance(value, Album):
-            serializer = AlbumShortReadSerializer(value, context=self.context)
+            serializer = AlbumShortReadSerializer(
+                value,
+                context=self.context,
+            )
         elif isinstance(value, Photo):
-            serializer = PhotoShortReadSerializer(value, context=self.context)
+            serializer = PhotoShortReadSerializer(
+                value,
+                context=self.context,
+            )
+        elif isinstance(value, Comment):
+            serializer = CommentShortReadSerializer(
+                value,
+                context=self.context,
+            )
         elif isinstance(value, Review):
-            serializer = ReviewShortReadSerializer(value, context=self.context)
+            serializer = ReviewShortReadSerializer(
+                value,
+                context=self.context,
+            )
         else:
             raise Exception('Unexpected type of content object')
         return serializer.data

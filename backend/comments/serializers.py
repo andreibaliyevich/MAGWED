@@ -2,8 +2,59 @@ from rest_framework import serializers
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
 from blog.models import Article
+from blog.serializers import ArticleShortReadSerializer
 from portfolio.models import Album, Photo
+from portfolio.serializers import (
+    AlbumShortReadSerializer,
+    PhotoShortReadSerializer,
+)
 from .models import Comment
+
+
+class CommentObjectRelatedField(serializers.RelatedField):
+    """
+    A comment field to use for the 'content_object' generic relationship.
+    """
+
+    def to_representation(self, value):
+        if isinstance(value, Article):
+            serializer_data = ArticleShortReadSerializer(
+                value,
+                context=self.context,
+            ).data
+        elif isinstance(value, Album):
+            serializer_data = AlbumShortReadSerializer(
+                value,
+                context=self.context,
+            ).data
+        elif isinstance(value, Photo):
+            serializer_data = PhotoShortReadSerializer(
+                value,
+                context=self.context,
+            ).data
+        elif isinstance(value, Comment):
+            return self.to_representation(value.content_object)
+        else:
+            raise Exception('Unexpected type of content object')
+        serializer_data['model_name'] = value._meta.model_name
+        return serializer_data
+
+
+class CommentShortReadSerializer(serializers.ModelSerializer):
+    """ Comment Short Read Serializer """
+    content_type_model = serializers.SerializerMethodField()
+    content_object = CommentObjectRelatedField(read_only=True)
+
+    def get_content_type_model(self, obj):
+        return obj.content_type.model
+
+    class Meta:
+        model = Comment
+        fields = [
+            'content_type_model',
+            'content_object',
+            'content',
+        ]
 
 
 class CommentListCreateSerializer(serializers.ModelSerializer):
@@ -49,7 +100,7 @@ class CommentListCreateSerializer(serializers.ModelSerializer):
                 content_object=self.content_object,
                 content=validated_data['content'],
             )
-        except:
+        except BaseException:
             raise serializers.ValidationError({
                 'create': _('Failed to create comment.')})
         return comment
