@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 14:22+0000\n"
+"POT-Creation-Date: 2023-10-20 17:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -488,7 +488,7 @@ msgstr "Изображение блога"
 msgid "Images of Blog"
 msgstr "Изображения блога"
 
-#: blog/views.py:56
+#: blog/views.py:61
 msgid "Form not valid!"
 msgstr "Форма недействительна!"
 
@@ -514,15 +514,15 @@ msgstr "Комментарий"
 msgid "Only author have permission."
 msgstr "Разрешение есть только у автора."
 
-#: comments/serializers.py:34 social/serializers.py:75
+#: comments/serializers.py:85 social/serializers.py:75
 msgid "Invalid content type."
 msgstr "Недопустимый тип контента."
 
-#: comments/serializers.py:41 social/serializers.py:82
+#: comments/serializers.py:92 social/serializers.py:82
 msgid "Object does not exist."
 msgstr "Объект не существует."
 
-#: comments/serializers.py:54
+#: comments/serializers.py:105
 msgid "Failed to create comment."
 msgstr "Не удалось создать комментарий."
 
@@ -789,22 +789,10 @@ msgid "Like of photo"
 msgstr "Лайк фото"
 
 #: notifications/choices.py:12
-msgid "Comment of article"
-msgstr "Комментарий к статье"
-
-#: notifications/choices.py:13
-msgid "Comment of album"
-msgstr "Комментарий к альбому"
-
-#: notifications/choices.py:14
-msgid "Comment of photo"
-msgstr "Комментарий к фото"
-
-#: notifications/choices.py:15
 msgid "New comment"
 msgstr "Новый комментарий"
 
-#: notifications/choices.py:16
+#: notifications/choices.py:13
 msgid "New review"
 msgstr "Новый отзыв"
 
@@ -888,19 +876,19 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фотографии"
 
-#: portfolio/views.py:111
+#: portfolio/views.py:112
 msgid "You already liked this album!"
 msgstr "Вам уже понравился этот альбом!"
 
-#: portfolio/views.py:122
+#: portfolio/views.py:124
 msgid "You do not like this album!"
 msgstr "Вам не нравится этот альбом!"
 
-#: portfolio/views.py:220
+#: portfolio/views.py:223
 msgid "You already liked this photo!"
 msgstr "Вам уже понравилось это фото!"
 
-#: portfolio/views.py:231
+#: portfolio/views.py:235
 msgid "You do not like this photo!"
 msgstr "Вам не нравится это фото!"
 
@@ -936,7 +924,7 @@ msgstr "Выберите рейтинг"
 msgid "Review"
 msgstr "Отзыв"
 
-#: reviews/serializers.py:26
+#: reviews/serializers.py:37
 msgid "You have already left a review here."
 msgstr "Вы уже оставляли отзыв здесь."
 

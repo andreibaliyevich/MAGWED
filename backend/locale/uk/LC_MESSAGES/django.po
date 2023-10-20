@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 14:22+0000\n"
+"POT-Creation-Date: 2023-10-20 17:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -488,7 +488,7 @@ msgstr "Зображення блогу"
 msgid "Images of Blog"
 msgstr "Зображення блогу"
 
-#: blog/views.py:56
+#: blog/views.py:61
 msgid "Form not valid!"
 msgstr "Форма недійсна!"
 
@@ -514,15 +514,15 @@ msgstr "Коментарій"
 msgid "Only author have permission."
 msgstr "Дозвіл є лише у автора."
 
-#: comments/serializers.py:34 social/serializers.py:75
+#: comments/serializers.py:85 social/serializers.py:75
 msgid "Invalid content type."
 msgstr "Неприпустимий тип контенту."
 
-#: comments/serializers.py:41 social/serializers.py:82
+#: comments/serializers.py:92 social/serializers.py:82
 msgid "Object does not exist."
 msgstr "Об'єкта не існує."
 
-#: comments/serializers.py:54
+#: comments/serializers.py:105
 msgid "Failed to create comment."
 msgstr "Не вдалося створити коментар."
 
@@ -789,22 +789,10 @@ msgid "Like of photo"
 msgstr "Лайк фото"
 
 #: notifications/choices.py:12
-msgid "Comment of article"
-msgstr "Коментар до статті"
-
-#: notifications/choices.py:13
-msgid "Comment of album"
-msgstr "Коментар до альбому"
-
-#: notifications/choices.py:14
-msgid "Comment of photo"
-msgstr "Коментар до фото"
-
-#: notifications/choices.py:15
 msgid "New comment"
 msgstr "Новий коментар"
 
-#: notifications/choices.py:16
+#: notifications/choices.py:13
 msgid "New review"
 msgstr "Новий відгук"
 
@@ -888,19 +876,19 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фотографії"
 
-#: portfolio/views.py:111
+#: portfolio/views.py:112
 msgid "You already liked this album!"
 msgstr "Вам уже сподобався цей альбом!"
 
-#: portfolio/views.py:122
+#: portfolio/views.py:124
 msgid "You do not like this album!"
 msgstr "Вам не подобається цей альбом!"
 
-#: portfolio/views.py:220
+#: portfolio/views.py:223
 msgid "You already liked this photo!"
 msgstr "Вам вже сподобалося це фото!"
 
-#: portfolio/views.py:231
+#: portfolio/views.py:235
 msgid "You do not like this photo!"
 msgstr "Вам не подобається це фото!"
 
@@ -936,7 +924,7 @@ msgstr "Оберіть рейтинг"
 msgid "Review"
 msgstr "Відгук"
 
-#: reviews/serializers.py:26
+#: reviews/serializers.py:37
 msgid "You have already left a review here."
 msgstr "Ви вже залишали відгук."
 
