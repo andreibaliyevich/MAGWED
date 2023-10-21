@@ -307,8 +307,8 @@ const updateUserStatus = (mutation, state) => {
     chatData.value.details.status = state.status
   }
   messageList.value.forEach((element) => {
-    if (element.sender.uuid == state.user_uuid) {
-      element.sender.status = state.status
+    if (element.author.uuid == state.user_uuid) {
+      element.author.status = state.status
     }
   })
 }
@@ -525,7 +525,7 @@ onUnmounted(() => {
             class="my-3"
           >
             <div
-              v-if="msg.sender.uuid == userStore.uuid"
+              v-if="msg.author.uuid == userStore.uuid"
               class="d-flex justify-content-end"
             >
               <div class="my-0">
@@ -561,13 +561,13 @@ onUnmounted(() => {
                   class="d-flex align-items-start"
                 >
                   <UserAvatarExtended
-                    :src="msg.sender.avatar"
+                    :src="msg.author.avatar"
                     :width="36"
                     :height="36"
-                    :online="msg.sender.status == 'online' ? true : false"
+                    :online="msg.author.status == 'online' ? true : false"
                   />
                   <div class="bg-light rounded p-2 ms-2">
-                    <p class="fw-bold mb-0">{{ msg.sender.name }}</p>
+                    <p class="fw-bold mb-0">{{ msg.author.name }}</p>
                     <MessageContent
                       v-if="msg.viewed || !chatSocketConnect"
                       :msgType="msg.msg_type"
