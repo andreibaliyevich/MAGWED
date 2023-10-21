@@ -32,11 +32,11 @@ class AlbumListCreateView(generics.ListCreateAPIView):
     serializer_class = AlbumListCreateSerializer
 
     def get_queryset(self):
-        return Album.objects.filter(owner=self.request.user)
+        return Album.objects.filter(author=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(
-            owner=self.request.user,
+            author=self.request.user,
             thumbnail=self.request.data['image'],
         )
 
@@ -48,7 +48,7 @@ class AlbumImageUpdateView(generics.UpdateAPIView):
     serializer_class = AlbumImageSerializer
 
     def get_queryset(self):
-        return Album.objects.filter(owner=self.request.user)
+        return Album.objects.filter(author=self.request.user)
 
     def perform_update(self, serializer):
         serializer.save(thumbnail=self.request.data['image'])
@@ -61,7 +61,7 @@ class AlbumRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AlbumRUDSerializer
 
     def get_queryset(self):
-        return Album.objects.filter(owner=self.request.user)
+        return Album.objects.filter(author=self.request.user)
 
 
 class AlbumListView(generics.ListAPIView):
@@ -75,7 +75,7 @@ class AlbumListView(generics.ListAPIView):
     ordering = ['-created_at']
 
     def get_serializer_class(self):
-        if self.request.GET.get('owner', None):
+        if self.request.GET.get('author', None):
             return AlbumListShortSerializer
         return AlbumListSerializer
 
@@ -135,13 +135,13 @@ class PhotoListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Photo.objects.filter(
-            owner=self.request.user,
+            author=self.request.user,
             album__exact=None,
         )
 
     def perform_create(self, serializer):
         extra_data = {
-            'owner': self.request.user,
+            'author': self.request.user,
             'thumbnail': self.request.data['image'],
         }
 
@@ -171,7 +171,7 @@ class PhotoRUDView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoRUDSerializer
 
     def get_queryset(self):
-        return Photo.objects.filter(owner=self.request.user)
+        return Photo.objects.filter(author=self.request.user)
 
 
 class PhotoListView(generics.ListAPIView):
@@ -185,7 +185,7 @@ class PhotoListView(generics.ListAPIView):
     ordering = ['-uploaded_at']
 
     def get_serializer_class(self):
-        if (self.request.GET.get('owner', None)
+        if (self.request.GET.get('author', None)
                 or self.request.GET.get('album', None)):
             return PhotoListShortSerializer
         return PhotoListSerializer

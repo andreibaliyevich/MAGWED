@@ -106,7 +106,7 @@ class PhotoListShortSerializer(serializers.ModelSerializer):
 
 class PhotoListSerializer(serializers.ModelSerializer):
     """ Photo List Serializer """
-    owner = UserOwnerReadSerializer(read_only=True)
+    author = UserOwnerReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
 
     def get_like_count(self, obj):
@@ -116,7 +116,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
         model = Photo
         fields = [
             'uuid',
-            'owner',
+            'author',
             'thumbnail',
             'title',
             'view_count',
@@ -127,7 +127,7 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoRetrieveSerializer(serializers.ModelSerializer):
     """ Photo Retrieve Serializer """
-    owner = UserOwnerReadSerializer(read_only=True)
+    author = UserOwnerReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
@@ -153,7 +153,7 @@ class PhotoRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'owner',
+            'author',
             'album',
             'image',
             'device',
@@ -250,7 +250,7 @@ class AlbumListShortSerializer(serializers.ModelSerializer):
 
 class AlbumListSerializer(serializers.ModelSerializer):
     """ Album List Serializer """
-    owner = UserOwnerReadSerializer(read_only=True)
+    author = UserOwnerReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
 
     def get_like_count(self, obj):
@@ -260,7 +260,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
         model = Album
         fields = [
             'uuid',
-            'owner',
+            'author',
             'thumbnail',
             'title',
             'view_count',
@@ -271,7 +271,7 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 class AlbumRetrieveSerializer(serializers.ModelSerializer):
     """ Album Retrieve Serializer """
-    owner = UserOwnerReadSerializer(read_only=True)
+    author = UserOwnerReadSerializer(read_only=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
@@ -296,7 +296,7 @@ class AlbumRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'owner',
+            'author',
             'image',
             'title',
             'description',

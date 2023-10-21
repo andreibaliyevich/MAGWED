@@ -155,9 +155,9 @@ def article_deleted(sender, instance, **kwargs):
 def album_saved(sender, instance, created, **kwargs):
     """ Save and send album notification """
     if created:
-        for follow in instance.owner.followers.all():
+        for follow in instance.author.followers.all():
             notice = Notification.objects.create(
-                initiator=instance.owner,
+                initiator=instance.author,
                 recipient=follow.follower,
                 reason=ReasonOfNotification.ALBUM,
                 content_object=instance,
@@ -186,7 +186,7 @@ def album_saved(sender, instance, created, **kwargs):
         content_object_data['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
 
         notices_values = Notification.objects.filter(
-            initiator=instance.owner,
+            initiator=instance.author,
             reason=ReasonOfNotification.ALBUM,
             content_type=ContentType.objects.get_for_model(Album),
             object_uuid=instance.uuid,
@@ -210,7 +210,7 @@ def album_saved(sender, instance, created, **kwargs):
 def album_deleted(sender, instance, **kwargs):
     """ Delete and send album notification """
     notices = Notification.objects.filter(
-        initiator=instance.owner,
+        initiator=instance.author,
         reason=ReasonOfNotification.ALBUM,
         content_type=ContentType.objects.get_for_model(Album),
         object_uuid=instance.uuid,
@@ -233,9 +233,9 @@ def photo_saved(sender, instance, created, **kwargs):
     """ Save and send photo notification """
     if instance.album is None:
         if created:
-            for follow in instance.owner.followers.all():
+            for follow in instance.author.followers.all():
                 notice = Notification.objects.create(
-                    initiator=instance.owner,
+                    initiator=instance.author,
                     recipient=follow.follower,
                     reason=ReasonOfNotification.PHOTO,
                     content_object=instance,
@@ -264,7 +264,7 @@ def photo_saved(sender, instance, created, **kwargs):
             content_object_data['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
 
             notices_values = Notification.objects.filter(
-                initiator=instance.owner,
+                initiator=instance.author,
                 reason=ReasonOfNotification.PHOTO,
                 content_type=ContentType.objects.get_for_model(Photo),
                 object_uuid=instance.uuid,
@@ -289,7 +289,7 @@ def photo_deleted(sender, instance, **kwargs):
     """ Delete and send photo notification """
     if instance.album is None:
         notices = Notification.objects.filter(
-            initiator=instance.owner,
+            initiator=instance.author,
             reason=ReasonOfNotification.PHOTO,
             content_type=ContentType.objects.get_for_model(Photo),
             object_uuid=instance.uuid,
@@ -310,10 +310,10 @@ def photo_deleted(sender, instance, **kwargs):
 @receiver(like_obj, sender=Album)
 def album_liked(sender, instance, user, **kwargs):
     """ Save and send album liked notification """
-    if instance.owner.uuid != user.uuid:
+    if instance.author.uuid != user.uuid:
         notice = Notification.objects.create(
             initiator=user,
-            recipient=instance.owner,
+            recipient=instance.author,
             reason=ReasonOfNotification.LIKE_ALBUM,
             content_object=instance,
         )
@@ -340,10 +340,10 @@ def album_liked(sender, instance, user, **kwargs):
 @receiver(dislike_obj, sender=Album)
 def album_disliked(sender, instance, user, **kwargs):
     """ Delete and send album disliked notification """
-    if instance.owner.uuid != user.uuid:
+    if instance.author.uuid != user.uuid:
         notice = Notification.objects.filter(
             initiator=user,
-            recipient=instance.owner,
+            recipient=instance.author,
             reason=ReasonOfNotification.LIKE_ALBUM,
             content_type=ContentType.objects.get_for_model(Album),
             object_uuid=instance.uuid,
@@ -352,7 +352,7 @@ def album_disliked(sender, instance, user, **kwargs):
             notice_uuid = str(notice.uuid)
             notice.delete()
             async_to_sync(channel_layer.group_send)(
-                f'notification-{instance.owner.uuid}',
+                f'notification-{instance.author.uuid}',
                 {
                     'type': 'send_json_data',
                     'action': 'deleted',
@@ -364,10 +364,10 @@ def album_disliked(sender, instance, user, **kwargs):
 @receiver(like_obj, sender=Photo)
 def photo_liked(sender, instance, user, **kwargs):
     """ Save and send album liked notification """
-    if instance.owner.uuid != user.uuid:
+    if instance.author.uuid != user.uuid:
         notice = Notification.objects.create(
             initiator=user,
-            recipient=instance.owner,
+            recipient=instance.author,
             reason=ReasonOfNotification.LIKE_PHOTO,
             content_object=instance,
         )
@@ -394,10 +394,10 @@ def photo_liked(sender, instance, user, **kwargs):
 @receiver(dislike_obj, sender=Photo)
 def photo_disliked(sender, instance, user, **kwargs):
     """ Delete and send album disliked notification """
-    if instance.owner.uuid != user.uuid:
+    if instance.author.uuid != user.uuid:
         notice = Notification.objects.filter(
             initiator=user,
-            recipient=instance.owner,
+            recipient=instance.author,
             reason=ReasonOfNotification.LIKE_PHOTO,
             content_type=ContentType.objects.get_for_model(Photo),
             object_uuid=instance.uuid,
@@ -406,7 +406,7 @@ def photo_disliked(sender, instance, user, **kwargs):
             notice_uuid = str(notice.uuid)
             notice.delete()
             async_to_sync(channel_layer.group_send)(
-                f'notification-{instance.owner.uuid}',
+                f'notification-{instance.author.uuid}',
                 {
                     'type': 'send_json_data',
                     'action': 'deleted',
@@ -418,20 +418,11 @@ def photo_disliked(sender, instance, user, **kwargs):
 @receiver(post_save, sender=Comment)
 def comment_saved(sender, instance, created, **kwargs):
     """ Save and send comment notification """
-    if instance.content_type == ContentType.objects.get_for_model(Article):
-        recipient = instance.content_object.author
-    elif instance.content_type == ContentType.objects.get_for_model(Album):
-        recipient = instance.content_object.owner
-    elif instance.content_type == ContentType.objects.get_for_model(Photo):
-        recipient = instance.content_object.owner
-    elif instance.content_type == ContentType.objects.get_for_model(Comment):
-        recipient = instance.content_object.author
-
-    if instance.author.uuid != recipient.uuid:
+    if instance.author.uuid != instance.content_object.author.uuid:
         if created:
             notice = Notification.objects.create(
                 initiator=instance.author,
-                recipient=recipient,
+                recipient=instance.content_object.author,
                 reason=ReasonOfNotification.COMMENT,
                 content_object=instance,
             )
@@ -483,16 +474,7 @@ def comment_saved(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=Comment)
 def comment_deleted(sender, instance, **kwargs):
     """ Delete and send comment notification """
-    if instance.content_type == ContentType.objects.get_for_model(Article):
-        recipient = instance.content_object.author
-    elif instance.content_type == ContentType.objects.get_for_model(Album):
-        recipient = instance.content_object.owner
-    elif instance.content_type == ContentType.objects.get_for_model(Photo):
-        recipient = instance.content_object.owner
-    elif instance.content_type == ContentType.objects.get_for_model(Comment):
-        recipient = instance.content_object.author
-
-    if instance.author.uuid != recipient.uuid:
+    if instance.author.uuid != instance.content_object.author.uuid:
         notice = Notification.objects.filter(
             initiator=instance.author,
             recipient=recipient,

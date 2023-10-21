@@ -14,7 +14,7 @@ class AlbumAdmin(admin.ModelAdmin):
     """ Album Model for admin """
     list_display = (
         'uuid',
-        'owner',
+        'author',
         'title',
         'created_at',
         'rating',
@@ -24,7 +24,7 @@ class AlbumAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'owner',
+                'author',
             ),
         }),
         (_('Image'), {
@@ -50,7 +50,7 @@ class PhotoAdmin(admin.ModelAdmin):
     """ Photo Model for admin """
     list_display = (
         'uuid',
-        'owner',
+        'author',
         'album',
         'title',
         'uploaded_at',
@@ -61,7 +61,7 @@ class PhotoAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'owner',
+                'author',
                 'album',
             ),
         }),

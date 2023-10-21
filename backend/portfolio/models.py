@@ -17,11 +17,11 @@ class Album(models.Model):
         default=uuid.uuid4,
         editable=False,
     )
-    owner = models.ForeignKey(
+    author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='albums',
-        verbose_name=_('Owner'),
+        verbose_name=_('Author'),
     )
 
     image = models.ImageField(upload_to=get_cover_path, verbose_name=_('Image'))
@@ -84,11 +84,11 @@ class Photo(models.Model):
         default=uuid.uuid4,
         editable=False,
     )
-    owner = models.ForeignKey(
+    author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='photos',
-        verbose_name=_('Owner'),
+        verbose_name=_('Author'),
     )
     album = models.ForeignKey(
         Album,

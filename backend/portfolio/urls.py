@@ -6,7 +6,7 @@ app_name = 'portfolio'
 
 urlpatterns = [
     path('album/', include([
-        path('owner/', include([
+        path('author/', include([
             path('list-create/', views.AlbumListCreateView.as_view()),
             path('image-update/<uuid:uuid>/',
                 views.AlbumImageUpdateView.as_view()),
@@ -20,7 +20,7 @@ urlpatterns = [
     ])),
 
     path('photo/', include([
-        path('owner/', include([
+        path('author/', include([
             path('list-create/', views.PhotoListCreateView.as_view()),
             path('rud/<uuid:uuid>/', views.PhotoRUDView.as_view()),
         ])),

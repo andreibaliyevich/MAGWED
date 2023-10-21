@@ -8,7 +8,7 @@ class AlbumFilter(filters.FilterSet):
     class Meta:
         model = Album
         fields = [
-            'owner',
+            'author',
             'editors_choice',
         ]
 
@@ -22,7 +22,7 @@ class PhotoFilter(filters.FilterSet):
     class Meta:
         model = Photo
         fields = [
-            'owner',
+            'author',
             'album',
             'album_is_null',
             'editors_choice',
