@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 08:16+0000\n"
+"POT-Creation-Date: 2023-10-21 18:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -791,6 +791,10 @@ msgstr "Новы каментарый"
 #: notifications/choices.py:13
 msgid "New review"
 msgstr "Новий коментар"
+
+#: notifications/choices.py:14
+msgid "New message"
+msgstr "Новае паведамленне"
 
 #: notifications/models.py:22
 msgid "Initiator"
