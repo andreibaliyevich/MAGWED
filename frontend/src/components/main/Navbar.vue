@@ -169,30 +169,32 @@ const userStore = useUserStore()
           </ul>
         </div>
       </div>
-      <NavbarSearch />
-      <div
-        v-if="userStore.isLoggedIn"
-        class="d-flex align-items-center gap-3 ms-lg-3"
-      >
-        <NavbarNotifications />
-        <NavbarUser />
-      </div>
-      <div
-        v-else
-        class="d-flex align-items-center gap-1 ms-lg-3"
-      >
-        <LocaleRouterLink
-          routeName="Login"
-          class="btn btn-outline-brand border-secondary rounded-pill px-3"
+      <div class="d-flex align-items-center gap-3">
+        <NavbarSearch />
+        <div
+          v-if="userStore.isLoggedIn"
+          class="d-flex align-items-center gap-3"
         >
-          {{ $t('auth.log_in') }}
-        </LocaleRouterLink>
-        <LocaleRouterLink
-          routeName="Registration"
-          class="btn btn-brand rounded-pill d-none d-md-inline-flex px-3"
+          <NavbarNotifications />
+          <NavbarUser />
+        </div>
+        <div
+          v-else
+          class="d-flex align-items-center gap-1"
         >
-          {{ $t('auth.register') }}
-        </LocaleRouterLink>
+          <LocaleRouterLink
+            routeName="Login"
+            class="btn btn-outline-brand border-secondary rounded-pill px-3"
+          >
+            {{ $t('auth.log_in') }}
+          </LocaleRouterLink>
+          <LocaleRouterLink
+            routeName="Registration"
+            class="btn btn-brand rounded-pill d-none d-md-inline-flex px-3"
+          >
+            {{ $t('auth.register') }}
+          </LocaleRouterLink>
+        </div>
       </div>
     </div>
   </nav>
