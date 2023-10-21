@@ -12,7 +12,7 @@ const userStore = useUserStore()
 
 const photoLoading = ref(true)
 const photoData = ref({
-  owner: {
+  author: {
     name: '',
     avatar: null,
     profile_url: null
@@ -229,20 +229,20 @@ onMounted(() => {
                   <div class="d-flex align-items-center justify-content-start">
                     <LocaleRouterLink
                       routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: photoData.owner.profile_url }"
+                      :routeParams="{ profile_url: photoData.author.profile_url }"
                     >
                       <UserAvatar
-                        :src="photoData.owner.avatar"
+                        :src="photoData.author.avatar"
                         :width="32"
                         :height="32"
                       />
                     </LocaleRouterLink>
                     <LocaleRouterLink
                       routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: photoData.owner.profile_url  }"
+                      :routeParams="{ profile_url: photoData.author.profile_url  }"
                       class="text-decoration-none link-dark ms-2"
                     >
-                      {{ photoData.owner.name }}
+                      {{ photoData.author.name }}
                     </LocaleRouterLink>
                   </div>
                 </div>

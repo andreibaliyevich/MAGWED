@@ -150,20 +150,20 @@ onMounted(() => {
                   <div class="d-flex align-items-center">
                     <LocaleRouterLink
                       routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: photoItem.owner.profile_url }"
+                      :routeParams="{ profile_url: photoItem.author.profile_url }"
                     >
                       <UserAvatar
-                        :src="photoItem.owner.avatar"
+                        :src="photoItem.author.avatar"
                         :width="32"
                         :height="32"
                       />
                     </LocaleRouterLink>
                     <LocaleRouterLink
                       routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: photoItem.owner.profile_url  }"
+                      :routeParams="{ profile_url: photoItem.author.profile_url  }"
                       class="text-decoration-none link-light ms-2"
                     >
-                      {{ photoItem.owner.name }}
+                      {{ photoItem.author.name }}
                     </LocaleRouterLink>
                   </div>
                 </div>

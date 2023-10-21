@@ -17,7 +17,7 @@ const getAlbumList = async () => {
   try {
     const response = await axios.get(
       '/portfolio/album/list/'
-        + '?owner='
+        + '?author='
         + props.userUUID
     )
     albumList.value = response.data.results

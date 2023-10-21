@@ -12,7 +12,7 @@ const userStore = useUserStore()
 
 const albumDataLoading = ref(true)
 const albumData = ref({
-  owner: {
+  author: {
     name: '',
     avatar: null,
     profile_url: null
@@ -177,7 +177,7 @@ onMounted(() => {
               <div class="d-flex justify-content-center justify-content-lg-start">
                 <div class="d-inline-block">
                   <h1 class="h3">{{ albumData.title }}</h1>
-                  <ul class="list-inline mb-2">
+                  <ul class="list-inline text-body-secondary mb-2">
                     <li class="list-inline-item">
                       <i class="fa-regular fa-calendar-days"></i>
                       {{ $t('portfolio.created') }}
@@ -243,20 +243,20 @@ onMounted(() => {
           <div class="d-flex align-items-center mb-3">
             <LocaleRouterLink
               routeName="OrganizerDetail"
-              :routeParams="{ profile_url: albumData.owner.profile_url }"
+              :routeParams="{ profile_url: albumData.author.profile_url }"
             >
               <UserAvatar
-                :src="albumData.owner.avatar"
+                :src="albumData.author.avatar"
                 :width="32"
                 :height="32"
               />
             </LocaleRouterLink>
             <LocaleRouterLink
               routeName="OrganizerDetail"
-              :routeParams="{ profile_url: albumData.owner.profile_url  }"
+              :routeParams="{ profile_url: albumData.author.profile_url  }"
               class="text-decoration-none link-dark ms-2"
             >
-              {{ albumData.owner.name }}
+              {{ albumData.author.name }}
             </LocaleRouterLink>
           </div>
 

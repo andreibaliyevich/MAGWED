@@ -17,7 +17,7 @@ const getPhotoList = async () => {
   try {
     const response = await axios.get(
       '/portfolio/photo/list/'
-        + '?owner='
+        + '?author='
         + props.userUUID
         + '&album_is_null=true'
     )

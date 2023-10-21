@@ -42,7 +42,7 @@ const removePhotoModalChoice = ref(null)
 const getPhotoData = async (pUuid) => {
   try {
     const response = await axios.get(
-      '/portfolio/photo/owner/rud/'
+      '/portfolio/photo/author/rud/'
       + pUuid
       +'/'
     )
@@ -72,7 +72,7 @@ const updatePhoto = async () => {
   photoUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/photo/owner/rud/' + photoUuid.value +'/',
+      '/portfolio/photo/author/rud/' + photoUuid.value +'/',
       {
         'device': photoDevice.value,
         'f_number': photoFNumber.value,
@@ -98,7 +98,7 @@ const updatePhoto = async () => {
 const removePhoto = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/photo/owner/rud/' + photoUuid.value +'/'
+      '/portfolio/photo/author/rud/' + photoUuid.value +'/'
     )
     emit('removePhoto', photoUuid.value)
   } catch (error) {
