@@ -149,14 +149,14 @@ class NewMessageView(APIView):
             text_serializer.is_valid(raise_exception=True)
             msg = Message.objects.create(
                 chat=chat,
-                sender=request.user,
+                author=request.user,
                 msg_type=MessageType.TEXT,
             )
             text_serializer.save(message=msg)
         elif kwargs['msg_type'] == MessageType.IMAGES:
             msg = Message.objects.create(
                 chat=chat,
-                sender=request.user,
+                author=request.user,
                 msg_type=MessageType.IMAGES,
             )
             images = request.data.getlist('content', [])
@@ -167,7 +167,7 @@ class NewMessageView(APIView):
         elif kwargs['msg_type'] == MessageType.FILES:
             msg = Message.objects.create(
                 chat=chat,
-                sender=request.user,
+                author=request.user,
                 msg_type=MessageType.FILES,
             )
             files = request.data.getlist('content', [])
@@ -201,7 +201,7 @@ class NewMessageView(APIView):
                     'action': 'new_msg',
                     'data': {
                         'chat_uuid': str(chat.uuid),
-                        'sender_uuid': str(msg.sender.uuid),
+                        'author_uuid': str(msg.author.uuid),
                         'msg': msg_short_data,
                     },
                 }
@@ -243,7 +243,7 @@ class WriteMessageView(APIView):
 
         msg = Message.objects.create(
             chat=chat,
-            sender=request.user,
+            author=request.user,
             msg_type=MessageType.TEXT,
         )
         text_serializer.save(message=msg)
@@ -265,7 +265,7 @@ class WriteMessageView(APIView):
                     'action': 'new_msg',
                     'data': {
                         'chat_uuid': str(chat.uuid),
-                        'sender_uuid': str(msg.sender.uuid),
+                        'author_uuid': str(msg.author.uuid),
                         'msg': msg_short_data,
                     },
                 }

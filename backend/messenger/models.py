@@ -99,10 +99,10 @@ class Message(models.Model):
         related_name='messages',
         verbose_name=_('Chat'),
     )
-    sender = models.ForeignKey(
+    author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        verbose_name=_('Sender'),
+        verbose_name=_('Author'),
     )
 
     msg_type = models.PositiveSmallIntegerField(

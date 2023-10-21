@@ -82,7 +82,7 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
 
 class MessageFullReadSerializer(serializers.ModelSerializer):
     """ Message Full Read Serializer """
-    sender = UserBriefReadSerializer(read_only=True)
+    author = UserBriefReadSerializer(read_only=True)
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
@@ -109,7 +109,7 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
         model = Message
         fields = [
             'uuid',
-            'sender',
+            'author',
             'msg_type',
             'created_at',
             'viewed',
@@ -156,7 +156,7 @@ class ChatListSerializer(serializers.ModelSerializer):
     def get_unviewed_msg_count(self, obj):
         request = self.context['request']
         return obj.messages.exclude(
-            sender=request.user).filter(
+            author=request.user).filter(
             viewed=False).count()
 
     class Meta:

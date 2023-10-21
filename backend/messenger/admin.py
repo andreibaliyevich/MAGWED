@@ -51,6 +51,6 @@ class FileMessageInline(admin.TabularInline):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     """ Message Model for admin """
-    list_display = ('uuid', 'chat', 'sender', 'msg_type', 'created_at')
+    list_display = ('uuid', 'chat', 'author', 'msg_type', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     inlines = (TextMessageInline, ImageMessageInline, FileMessageInline)

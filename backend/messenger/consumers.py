@@ -94,7 +94,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         except Message.DoesNotExist:
             return None
 
-        if self.user != msg.sender:
+        if self.user != msg.author:
             msg.viewed = True
             msg.save(update_fields=['viewed'])
 
