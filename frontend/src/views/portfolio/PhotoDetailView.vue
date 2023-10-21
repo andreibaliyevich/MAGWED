@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
@@ -37,6 +37,7 @@ const photoData = ref({
 
 const { getLocaleDateString } = useLocaleDateTime()
 
+const upViewCountTimeout = ref(null)
 const errorStatus = ref(null)
 
 const upPhotoViewCount = async () => {
@@ -61,7 +62,7 @@ const getPhotoData = async () => {
         + '/'
     )
     photoData.value = response.data
-    setTimeout(upPhotoViewCount, 3000)
+    upViewCountTimeout.value = setTimeout(upPhotoViewCount, 3000)
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
@@ -134,6 +135,10 @@ watch(
 
 onMounted(() => {
   getPhotoData()
+})
+
+onUnmounted(() => {
+  clearTimeout(upViewCountTimeout.value)
 })
 </script>
 

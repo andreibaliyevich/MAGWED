@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
@@ -28,6 +28,7 @@ const articleData = ref({
 
 const { getLocaleDateString } = useLocaleDateTime()
 
+const upViewCountTimeout = ref(null)
 const errorStatus = ref(null)
 
 const upArticleViewCount = async () => {
@@ -52,7 +53,7 @@ const getArticleData = async () => {
         + '/'
     )
     articleData.value = response.data
-    setTimeout(upArticleViewCount, 3000)
+    upViewCountTimeout.value = setTimeout(upArticleViewCount, 3000)
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {
@@ -75,6 +76,10 @@ watch(
 
 onMounted(() => {
   getArticleData()
+})
+
+onUnmounted(() => {
+  clearTimeout(upViewCountTimeout.value)
 })
 </script>
 
