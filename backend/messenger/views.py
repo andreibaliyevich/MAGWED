@@ -25,6 +25,7 @@ from .serializers import (
     MessageShortReadSerializer,
     MessageFullReadSerializer,
 )
+from .signals import msg_saved
 
 
 UserModel = get_user_model()
@@ -214,6 +215,7 @@ class NewMessageView(APIView):
                 'data': msg_full_data,
             }
         )
+        msg_saved.send(sender=Message, instance=msg)
         return Response(status=status.HTTP_201_CREATED)
 
 
@@ -248,6 +250,9 @@ class WriteMessageView(APIView):
         )
         text_serializer.save(message=msg)
 
+        chat.last_message = msg
+        chat.save(update_fields=['last_message'])
+
         msg_short_data = MessageShortReadSerializer(
             msg,
             context={'request': request},
@@ -278,4 +283,5 @@ class WriteMessageView(APIView):
                 'data': msg_full_data,
             }
         )
+        msg_saved.send(sender=Message, instance=msg)
         return Response(status=status.HTTP_201_CREATED)
