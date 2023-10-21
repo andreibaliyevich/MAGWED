@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-20 17:29+0000\n"
+"POT-Creation-Date: 2023-10-21 08:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -422,7 +422,8 @@ msgstr "Категория"
 msgid "Categories"
 msgstr "Категории"
 
-#: blog/models.py:44 comments/models.py:28 reviews/models.py:26
+#: blog/models.py:44 comments/models.py:28 messenger/models.py:105
+#: portfolio/models.py:24 portfolio/models.py:91 reviews/models.py:26
 msgid "Author"
 msgstr "Автор"
 
@@ -667,7 +668,7 @@ msgstr "Чат"
 msgid "Chats"
 msgstr "Чаты"
 
-#: messenger/models.py:60 portfolio/models.py:24 portfolio/models.py:91
+#: messenger/models.py:60
 msgid "Owner"
 msgstr "Владелец"
 
@@ -678,10 +679,6 @@ msgstr "Групповой чат"
 #: messenger/models.py:84
 msgid "Group Chats"
 msgstr "Групповые чаты"
-
-#: messenger/models.py:105
-msgid "Sender"
-msgstr "Отправитель"
 
 #: messenger/models.py:110
 msgid "Message type"
