@@ -64,6 +64,15 @@ watch(locale, () => {
   getArticleData()
 })
 
+watch(
+  () => route.params.slug,
+  (newValue) => {
+    if (route.name == 'ArticleDetail') {
+      getArticleData()
+    }
+  }
+)
+
 onMounted(() => {
   getArticleData()
 })

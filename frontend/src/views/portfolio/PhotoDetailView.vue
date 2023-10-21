@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
@@ -53,6 +53,7 @@ const upPhotoViewCount = async () => {
 }
 
 const getPhotoData = async () => {
+  photoLoading.value = true
   try {
     const response = await axios.get(
       '/portfolio/photo/retrieve/'
@@ -121,6 +122,15 @@ const removePhotoFromFavorites = async () => {
     console.error(error)
   }
 }
+
+watch(
+  () => route.params.uuid,
+  (newValue) => {
+    if (route.name == 'PhotoDetail') {
+      getPhotoData()
+    }
+  }
+)
 
 onMounted(() => {
   getPhotoData()
