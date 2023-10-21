@@ -71,7 +71,7 @@ const connectSocket = async () => {
         return element.uuid == data.data.uuid
       })
       if (foundIndex != -1) {
-        notificationList.value[foundIndex] = data.data
+        notificationList.value[foundIndex].content_object = data.data.content_object
       }
     } else if (data.action == 'deleted') {
       const foundIndex = notificationList.value.findIndex((element) => {
@@ -152,7 +152,10 @@ onMounted(() => {
             <li
               v-for="notice in notificationList"
               :key="notice.uuid"
-              class="list-group-item list-group-item-action"
+              :class="[
+                'list-group-item list-group-item-action',
+                { 'bg-light': !notice.viewed }
+              ]"
             >
               <NavbarNotice
                 v-if="notice.viewed || !notificationSocketConnect"
