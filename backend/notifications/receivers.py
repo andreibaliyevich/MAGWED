@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from blog.models import Article
 from blog.serializers import ArticleShortReadSerializer
 from comments.models import Comment
+from comments.serializers import CommentShortReadSerializer
 from portfolio.models import Album, Photo
 from portfolio.serializers import (
     AlbumShortReadSerializer,
@@ -414,186 +415,102 @@ def photo_disliked(sender, instance, user, **kwargs):
             )
 
 
-def _get_content_object_data(instance):
-    if instance.content_type == ContentType.objects.get_for_model(Article):
-        content_object_data = ArticleShortReadSerializer(
-            instance.content_object,
-        ).data
-    elif instance.content_type == ContentType.objects.get_for_model(Album):
-        content_object_data = AlbumShortReadSerializer(
-            instance.content_object,
-        ).data
-    elif instance.content_type == ContentType.objects.get_for_model(Photo):
-        content_object_data = PhotoShortReadSerializer(
-            instance.content_object,
-        ).data
-    elif instance.content_type == ContentType.objects.get_for_model(Comment):
-        return _get_content_object_data(instance.content_object)
-    return (instance.content_object, content_object_data)
-
-
-def _send_notification(notice, content_object_data):
-    notice_data = NotificationShortSerializer(notice).data
-    if notice_data['initiator']['avatar']:
-        avatar_url = notice_data['initiator']['avatar']
-        notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
-    
-    notice_data['content_object'] = content_object_data
-    thumbnail_url = notice_data['content_object']['thumbnail']
-    notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
-
-    async_to_sync(channel_layer.group_send)(
-        f'notification-{notice.recipient.uuid}',
-        {
-            'type': 'send_json_data',
-            'action': 'created',
-            'data': notice_data,
-        }
-    )
-
-
 @receiver(post_save, sender=Comment)
 def comment_saved(sender, instance, created, **kwargs):
     """ Save and send comment notification """
-    if created:
-        if instance.content_type == ContentType.objects.get_for_model(Article):
-            if instance.author.uuid != instance.content_object.author.uuid:
-                notice = Notification.objects.create(
-                    initiator=instance.author,
-                    recipient=instance.content_object.author,
-                    reason=ReasonOfNotification.COMMENT_ARTICLE,
-                    content_object=instance.content_object,
-                )
-                content_object_data = ArticleShortReadSerializer(instance.content_object).data
-                _send_notification(notice, content_object_data)
-        elif instance.content_type == ContentType.objects.get_for_model(Album):
-            if instance.author.uuid != instance.content_object.owner.uuid:
-                notice = Notification.objects.create(
-                    initiator=instance.author,
-                    recipient=instance.content_object.owner,
-                    reason=ReasonOfNotification.COMMENT_ALBUM,
-                    content_object=instance.content_object,
-                )
-                content_object_data = AlbumShortReadSerializer(instance.content_object).data
-                _send_notification(notice, content_object_data)
-        elif instance.content_type == ContentType.objects.get_for_model(Photo):
-            if instance.author.uuid != instance.content_object.owner.uuid:
-                notice = Notification.objects.create(
-                    initiator=instance.author,
-                    recipient=instance.content_object.owner,
-                    reason=ReasonOfNotification.COMMENT_PHOTO,
-                    content_object=instance.content_object,
-                )
-                content_object_data = PhotoShortReadSerializer(instance.content_object).data
-                _send_notification(notice, content_object_data)
-        elif instance.content_type == ContentType.objects.get_for_model(Comment):
-            if instance.author.uuid != instance.content_object.author.uuid:
-                content_object, content_object_data = _get_content_object_data(instance.content_object)
-                notice = Notification.objects.create(
-                    initiator=instance.author,
-                    recipient=instance.content_object.author,
-                    reason=ReasonOfNotification.COMMENT,
-                    content_object=content_object,
-                )
-                _send_notification(notice, content_object_data)
-
-
-def _get_content_type_object_uuid(instance):
     if instance.content_type == ContentType.objects.get_for_model(Article):
-        content_type = ContentType.objects.get_for_model(Article)
+        recipient = instance.content_object.author
     elif instance.content_type == ContentType.objects.get_for_model(Album):
-        content_type = ContentType.objects.get_for_model(Album)
+        recipient = instance.content_object.owner
     elif instance.content_type == ContentType.objects.get_for_model(Photo):
-        content_type = ContentType.objects.get_for_model(Photo)
+        recipient = instance.content_object.owner
     elif instance.content_type == ContentType.objects.get_for_model(Comment):
-        return _get_content_type_object_uuid(instance.content_object)
-    return (content_type, instance.object_uuid)
+        recipient = instance.content_object.author
+
+    if instance.author.uuid != recipient.uuid:
+        if created:
+            notice = Notification.objects.create(
+                initiator=instance.author,
+                recipient=recipient,
+                reason=ReasonOfNotification.COMMENT,
+                content_object=instance,
+            )
+
+            notice_data = NotificationShortSerializer(notice).data
+            if notice_data['initiator']['avatar']:
+                avatar_url = notice_data['initiator']['avatar']
+                notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
+            
+            notice_data['content_object'] = CommentShortReadSerializer(instance).data
+            thumbnail_url = notice_data['content_object']['content_object']['thumbnail']
+            notice_data['content_object']['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
+
+            async_to_sync(channel_layer.group_send)(
+                f'notification-{notice.recipient.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'created',
+                    'data': notice_data,
+                }
+            )
+        else:
+            content_object_data = CommentShortReadSerializer(instance).data
+            thumbnail_url = content_object_data['content_object']['thumbnail']
+            content_object_data['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
+
+            notice = Notification.objects.filter(
+                initiator=instance.author,
+                recipient=recipient,
+                reason=ReasonOfNotification.COMMENT,
+                content_type=ContentType.objects.get_for_model(Comment),
+                object_uuid=instance.uuid,
+            ).first()
+
+            if notice is not None:
+                async_to_sync(channel_layer.group_send)(
+                    f'notification-{recipient.uuid}',
+                    {
+                        'type': 'send_json_data',
+                        'action': 'updated',
+                        'data': {
+                            'uuid': str(notice.uuid),
+                            'content_object': content_object_data,
+                        },
+                    }
+                )
 
 
 @receiver(post_delete, sender=Comment)
 def comment_deleted(sender, instance, **kwargs):
     """ Delete and send comment notification """
     if instance.content_type == ContentType.objects.get_for_model(Article):
-        if instance.author.uuid != instance.content_object.author.uuid:
-            notice = Notification.objects.filter(
-                initiator=instance.author,
-                recipient=instance.content_object.author,
-                reason=ReasonOfNotification.COMMENT_ARTICLE,
-                content_type=instance.content_type,
-                object_uuid=instance.object_uuid,
-            ).first()
-            if notice is not None:
-                notice_uuid = str(notice.uuid)
-                notice.delete()
-                async_to_sync(channel_layer.group_send)(
-                    f'notification-{instance.content_object.author.uuid}',
-                    {
-                        'type': 'send_json_data',
-                        'action': 'deleted',
-                        'data': notice_uuid,
-                    }
-                )
+        recipient = instance.content_object.author
     elif instance.content_type == ContentType.objects.get_for_model(Album):
-        if instance.author.uuid != instance.content_object.owner.uuid:
-            notice = Notification.objects.filter(
-                initiator=instance.author,
-                recipient=instance.content_object.owner,
-                reason=ReasonOfNotification.COMMENT_ALBUM,
-                content_type=instance.content_type,
-                object_uuid=instance.object_uuid,
-            ).first()
-            if notice is not None:
-                notice_uuid = str(notice.uuid)
-                notice.delete()
-                async_to_sync(channel_layer.group_send)(
-                    f'notification-{instance.content_object.owner.uuid}',
-                    {
-                        'type': 'send_json_data',
-                        'action': 'deleted',
-                        'data': notice_uuid,
-                    }
-                )
+        recipient = instance.content_object.owner
     elif instance.content_type == ContentType.objects.get_for_model(Photo):
-        if instance.author.uuid != instance.content_object.owner.uuid:
-            notice = Notification.objects.filter(
-                initiator=instance.author,
-                recipient=instance.content_object.owner,
-                reason=ReasonOfNotification.COMMENT_PHOTO,
-                content_type=instance.content_type,
-                object_uuid=instance.object_uuid,
-            ).first()
-            if notice is not None:
-                notice_uuid = str(notice.uuid)
-                notice.delete()
-                async_to_sync(channel_layer.group_send)(
-                    f'notification-{instance.content_object.owner.uuid}',
-                    {
-                        'type': 'send_json_data',
-                        'action': 'deleted',
-                        'data': notice_uuid,
-                    }
-                )
+        recipient = instance.content_object.owner
     elif instance.content_type == ContentType.objects.get_for_model(Comment):
-        if instance.author.uuid != instance.content_object.author.uuid:
-            content_type, object_uuid = _get_content_type_object_uuid(instance.content_object)
-            notice = Notification.objects.filter(
-                initiator=instance.author,
-                recipient=instance.content_object.author,
-                reason=ReasonOfNotification.COMMENT,
-                content_type=content_type,
-                object_uuid=object_uuid,
-            ).first()
-            if notice is not None:
-                notice_uuid = str(notice.uuid)
-                notice.delete()
-                async_to_sync(channel_layer.group_send)(
-                    f'notification-{instance.content_object.author.uuid}',
-                    {
-                        'type': 'send_json_data',
-                        'action': 'deleted',
-                        'data': notice_uuid,
-                    }
-                )
+        recipient = instance.content_object.author
+
+    if instance.author.uuid != recipient.uuid:
+        notice = Notification.objects.filter(
+            initiator=instance.author,
+            recipient=recipient,
+            reason=ReasonOfNotification.COMMENT,
+            content_type=ContentType.objects.get_for_model(Comment),
+            object_uuid=instance.uuid,
+        ).first()
+        if notice is not None:
+            notice_uuid = str(notice.uuid)
+            notice.delete()
+            async_to_sync(channel_layer.group_send)(
+                f'notification-{recipient.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'deleted',
+                    'data': notice_uuid,
+                }
+            )
 
 
 @receiver(post_save, sender=Review)
