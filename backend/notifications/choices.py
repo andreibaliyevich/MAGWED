@@ -11,3 +11,4 @@ class ReasonOfNotification(IntegerChoices):
     LIKE_PHOTO = 6, _('Like of photo')
     COMMENT = 7, _('New comment')
     REVIEW = 8, _('New review')
+    MESSAGE = 9, _('New message')
