@@ -86,7 +86,7 @@ const openChatListSocket = async () => {
         return element.uuid == data.data.chat_uuid
       })
       chatList.value[foundIndex].last_message = data.data.msg
-      if (data.data.sender_uuid != userStore.uuid) {
+      if (data.data.author_uuid != userStore.uuid) {
         chatList.value[foundIndex].unviewed_msg_count += 1
       }
     }
