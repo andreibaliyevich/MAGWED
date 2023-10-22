@@ -72,11 +72,11 @@ const getMoreReviewList = async () => {
 
 const setReviewRatingOptions = () => {
   reviewRatingOptions.value = [
-    { value: '5', text: t('organizers.rating_options', { n: 5 }) },
-    { value: '4', text: t('organizers.rating_options', { n: 4 }) },
-    { value: '3', text: t('organizers.rating_options', { n: 3 }) },
-    { value: '2', text: t('organizers.rating_options', { n: 2 }) },
-    { value: '1', text: t('organizers.rating_options', { n: 1 }) }
+    { value: '5', text: t('reviews.rating_options', { n: 5 }) },
+    { value: '4', text: t('reviews.rating_options', { n: 4 }) },
+    { value: '3', text: t('reviews.rating_options', { n: 3 }) },
+    { value: '2', text: t('reviews.rating_options', { n: 2 }) },
+    { value: '1', text: t('reviews.rating_options', { n: 1 }) }
   ]
 }
 
@@ -175,7 +175,7 @@ onMounted(() => {
           class="card border border-light shadow-sm"
         >
           <div class="card-body m-sm-3 m-md-4">
-            <h5 class="card-title">{{ $t('organizers.write_review') }}</h5>
+            <h5 class="card-title">{{ $t('reviews.write_review') }}</h5>
             <form
               @submit.prevent="sendReview()"
               class="row g-3 mt-3"
@@ -186,7 +186,7 @@ onMounted(() => {
                   :options="reviewRatingOptions"
                   id="id_new_rating"
                   name="rating"
-                  :label="$t('organizers.rating')"
+                  :label="$t('reviews.rating')"
                   :errors="
                     newReviewErrors?.rating
                     ? newReviewErrors.rating
@@ -199,7 +199,7 @@ onMounted(() => {
                   v-model="newReviewComment"
                   id="id_new_comment"
                   name="comment"
-                  :label="$t('organizers.comment')"
+                  :label="$t('reviews.comment')"
                   :errors="
                     newReviewErrors?.comment
                     ? newReviewErrors.comment
@@ -229,7 +229,7 @@ onMounted(() => {
           v-else
           class="alert alert-info" role="alert"
         >
-          {{ $t('organizers.need_log_in') }}
+          {{ $t('reviews.need_log_in') }}
           <LocaleRouterLink
             routeName="Login"
             :routeQuery="{ redirect: this.$route.path }"
@@ -370,7 +370,7 @@ onMounted(() => {
           v-else-if="!reviewListLoading"
           class="lead d-flex justify-content-center py-3"
         >
-          {{ $t('organizers.no_reviews_yet') }}
+          {{ $t('reviews.no_reviews_yet') }}
         </div>
         <div
           v-if="nextURL"
@@ -404,7 +404,7 @@ onMounted(() => {
                 id="update_review_modal_label"
                 class="modal-title"
               >
-                {{ $t('organizers.updating_review') }}
+                {{ $t('reviews.updating_review') }}
               </h5>
               <button
                 class="btn-close"
@@ -425,7 +425,7 @@ onMounted(() => {
                     :options="reviewRatingOptions"
                     id="id_old_rating"
                     name="rating"
-                    :label="$t('organizers.rating')"
+                    :label="$t('reviews.rating')"
                     :errors="
                       oldReviewErrors?.rating
                       ? oldReviewErrors.rating
@@ -438,7 +438,7 @@ onMounted(() => {
                     v-model="oldReviewComment"
                     id="id_old_comment"
                     name="comment"
-                    :label="$t('organizers.comment')"
+                    :label="$t('reviews.comment')"
                     :errors="
                       oldReviewErrors?.comment
                       ? oldReviewErrors.comment
@@ -486,8 +486,8 @@ onMounted(() => {
         >
           <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('organizers.you_want_remove_review') }}</h5>
-              <p class="mb-0">{{ $t('organizers.organizer_rating_will_be_updated') }}</p>
+              <h5 class="mb-0">{{ $t('reviews.you_want_remove_review') }}</h5>
+              <p class="mb-0">{{ $t('reviews.organizer_rating_will_be_updated') }}</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
               <button
