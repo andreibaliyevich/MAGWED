@@ -249,7 +249,9 @@
         "you_want_remove_chat": "Ви впевнені, що бажаєте видалити цей чат?",
         "chat_messages_will_lost": "Усі повідомлення чату будуть втрачені.",
         "you_want_leave_chat": "Ви впевнені, що хочете залишити цей чат?",
-        "you_will_lose_access_chat_messages": "Ви втратите доступ до повідомлень чату."
+        "you_will_lose_access_chat_messages": "Ви втратите доступ до повідомлень чату.",
+        "images": "0 зображень | 1 зображення | {n} зображення | {n} зображень",
+        "files": "0 файлів | 1 файл | {n} файли | {n} файлів"
     },
     "follow": {
         "follow": "Підписатися",
@@ -280,6 +282,18 @@
         "need_log_in": "Щоб залишити коментар, вам необхідно авторизуватись!",
         "no_comments_yet": "Коментарів поки що немає!"
     },
+    "reviews": {
+        "reviews": "Відгуки",
+        "no_reviews_yet": "Поки що немає відгуків!",
+        "write_review": "Написати відгук",
+        "updating_review": "Оновлення відгуку",
+        "rating": "Рейтинг",
+        "rating_options": "0 зірок | 1 зірка | {n} зірки | {n} зірок",
+        "comment": "Коментарій",
+        "you_want_remove_review": "Ви впевнені, що хочете видалити свій відгук?",
+        "organizer_rating_will_be_updated": "Рейтинг організатора більше не враховуватиме ваш відгук.",
+        "need_log_in": "Щоб залишити відгук, вам необхідно авторизуватись!"
+    },
     "notifications": {
         "notifications": "Сповіщення",
         "no_notifications": "Повідомлень немає!",
@@ -299,25 +313,15 @@
         "comment_comment_album": "{user_name} прокоментував ваш коментар під альбомом “{album_title}”: {content}",
         "comment_comment_photo": "{user_name} прокоментував ваш коментар під фотографією: {content}",
         "comment_comment_photo_title": "{user_name} прокоментував ваш коментар під фотографією “{photo_title}”: {content}",
-        "review": "{user_name} залишив вам відгук."
-        "review": "{user_name} залишив вам відгук (0 зірок): {comment} | {user_name} залишив вам відгук (1 зірка): {comment} | {user_name} залишив вам відгук ({rating} зірки): {comment} | {user_name} залишив вам відгук ({rating} зірок): {comment}"
+        "review": "{user_name} залишив вам відгук",
+        "message": "{user_name} надіслав вам повідомлення"
     },
     "organizers": {
         "organizers": "Організатори",
         "filters": "Фільтри",
         "per_hour": "в годину",
         "min_number_hours": "мінімум 0 годин | мінімум 1 година | мінімум {n} години | мінімум {n} годин",
-        "no_organizers_available": "Нема доступних організаторів!",
-        "reviews": "Відгуки",
-        "no_reviews_yet": "Поки що немає відгуків!",
-        "write_review": "Написати відгук",
-        "updating_review": "Оновлення відгуку",
-        "rating": "Рейтинг",
-        "comment": "Коментарій",
-        "rating_options": "0 зірок | 1 зірка | {n} зірки | {n} зірок",
-        "you_want_remove_review": "Ви впевнені, що хочете видалити свій відгук?",
-        "organizer_rating_will_be_updated": "Рейтинг організатора більше не враховуватиме ваш відгук.",
-        "need_log_in": "Щоб залишити відгук, вам необхідно авторизуватись!"
+        "no_organizers_available": "Нема доступних організаторів!"
     },
     "portfolio": {
         "portfolio": "Портфоліо",

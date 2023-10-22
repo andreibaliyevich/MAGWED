@@ -249,7 +249,9 @@
         "you_want_remove_chat": "Вы уверены, что хотите удалить этот чат?",
         "chat_messages_will_lost": "Все сообщения чата будут потеряны.",
         "you_want_leave_chat": "Вы уверены, что хотите покинуть этот чат?",
-        "you_will_lose_access_chat_messages": "Вы потеряете доступ к сообщениям чата."
+        "you_will_lose_access_chat_messages": "Вы потеряете доступ к сообщениям чата.",
+        "images": "0 изображений | 1 изображение | {n} изображения | {n} изображений",
+        "files": "0 файлов | 1 файл | {n} файла | {n} файлов"
     },
     "follow": {
         "follow": "Подписаться",
@@ -280,6 +282,18 @@
         "need_log_in": "Чтобы оставить комментарий, вам необходимо авторизоваться!",
         "no_comments_yet": "Комментариев пока нет!"
     },
+    "reviews": {
+        "reviews": "Отзывы",
+        "no_reviews_yet": "Пока нет отзывов!",
+        "write_review": "Написать отзыв",
+        "updating_review": "Обновление отзыва",
+        "rating": "Рейтинг",
+        "rating_options": "0 звезд | 1 звезда | {n} звезды | {n} звезд",
+        "comment": "Комментарий",
+        "you_want_remove_review": "Вы уверены, что хотите удалить свой отзыв?",
+        "organizer_rating_will_be_updated": "Рейтинг организатора больше не будет учитывать ваш отзыв.",
+        "need_log_in": "Чтобы оставить отзыв, вам необходимо авторизоваться!"
+    },
     "notifications": {
         "notifications": "Уведомления",
         "no_notifications": "Уведомлений нет!",
@@ -299,24 +313,15 @@
         "comment_comment_album": "{user_name} прокомментировал ваш комментарий под альбомом “{album_title}”: {content}",
         "comment_comment_photo": "{user_name} прокомментировал ваш комментарий под фотографией: {content}",
         "comment_comment_photo_title": "{user_name} прокомментировал ваш комментарий под фотографией “{photo_title}”: {content}",
-        "review": "{user_name} оставил вам отзыв (0 звезд): {comment} | {user_name} оставил вам отзыв (1 звезда): {comment} | {user_name} оставил вам отзыв ({rating} звезды): {comment} | {user_name} оставил вам отзыв ({rating} звезд): {comment}"
+        "review": "{user_name} оставил вам отзыв",
+        "message": "{user_name} отправил вам сообщение"
     },
     "organizers": {
         "organizers": "Организаторы",
         "filters": "Фильтры",
         "per_hour": "в час",
         "min_number_hours": "минимум 0 часов | минимум 1 час | минимум {n} часа | минимум {n} часов",
-        "no_organizers_available": "Нет доступных организаторов!",
-        "reviews": "Отзывы",
-        "no_reviews_yet": "Пока нет отзывов!",
-        "write_review": "Написать отзыв",
-        "updating_review": "Обновление отзыва",
-        "rating": "Рейтинг",
-        "comment": "Комментарий",
-        "rating_options": "0 звезд | 1 звезда | {n} звезды | {n} звезд",
-        "you_want_remove_review": "Вы уверены, что хотите удалить свой отзыв?",
-        "organizer_rating_will_be_updated": "Рейтинг организатора больше не будет учитывать ваш отзыв.",
-        "need_log_in": "Чтобы оставить отзыв, вам необходимо авторизоваться!"
+        "no_organizers_available": "Нет доступных организаторов!"
     },
     "portfolio": {
         "portfolio": "Портфолио",

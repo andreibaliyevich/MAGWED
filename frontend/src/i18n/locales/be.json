@@ -249,7 +249,9 @@
         "you_want_remove_chat": "Вы ўпэўненыя, што жадаеце выдаліць гэты чат?",
         "chat_messages_will_lost": "Усе паведамленні чата будуць страчаныя.",
         "you_want_leave_chat": "Вы ўпэўненыя, што хочаце пакінуць гэты чат?",
-        "you_will_lose_access_chat_messages": "Вы страціце доступ да паведамленняў чата."
+        "you_will_lose_access_chat_messages": "Вы страціце доступ да паведамленняў чата.",
+        "images": "0 выяў | 1 выява | {n} выявы | {n} выяв",
+        "files": "0 файлаў | 1 файл | {n} файлы | {n} файлаў"
     },
     "follow": {
         "follow": "Падпісацца",
@@ -280,6 +282,18 @@
         "need_log_in": "Каб пакінуць каментар, вам неабходна аўтарызавацца!",
         "no_comments_yet": "Каментароў пакуль няма!"
     },
+    "reviews": {
+        "reviews": "Водгукі",
+        "no_reviews_yet": "Пакуль няма водгукаў!",
+        "write_review": "Напісаць водгук",
+        "updating_review": "Абнаўленне водгуку",
+        "rating": "Рэйтынг",
+        "rating_options": "0 зорак | 1 зорка | {n} зоркі | {n} зорак",
+        "comment": "Каментарый",
+        "you_want_remove_review": "Вы ўпэўненыя, што хочаце выдаліць свой водгук?",
+        "organizer_rating_will_be_updated": "Рэйтынг арганізатара больш не будзе ўлічваць ваш водгук.",
+        "need_log_in": "Каб пакінуць водгук, вам неабходна аўтарызавацца!"
+    },
     "notifications": {
         "notifications": "Апавяшчэнні",
         "no_notifications": "Апавяшчэнняў няма!",
@@ -299,24 +313,15 @@
         "comment_comment_album": "{user_name} пракаментаваў ваш каментар пад альбомам “{album_title}”: {content}",
         "comment_comment_photo": "{user_name} пракаментаваў ваш каментар пад фатаграфіяй: {content}",
         "comment_comment_photo_title": "{user_name} commented under the photo “{photo_title}”: {content}",
-        "review": "{user_name} пакінуў вам водгук (0 зорак): {comment} | {user_name} пакінуў вам водгук (1 зорка): {comment} | {user_name} пакінуў вам водгук ({rating} зоркі): {comment} | {user_name} пакінуў вам водгук ({rating} зорак): {comment}"
+        "review": "{user_name} пакінуў вам водгук",
+        "message": "{user_name} адправіў вам паведамленне"
     },
     "organizers": {
         "organizers": "Арганізатары",
         "filters": "Фільтры",
         "per_hour": "у гадзіну",
         "min_number_hours": "мінімум 0 гадзін | мінімум 1 гадзіна | мінімум {n} гадзіны | мінімум {n} гадзін",
-        "no_organizers_available": "Няма даступных арганізатараў!",
-        "reviews": "Водгукі",
-        "no_reviews_yet": "Пакуль няма водгукаў!",
-        "write_review": "Напісаць водгук",
-        "updating_review": "Абнаўленне водгуку",
-        "rating": "Рэйтынг",
-        "comment": "Каментарый",
-        "rating_options": "0 зорак | 1 зорка | {n} зоркі | {n} зорак",
-        "you_want_remove_review": "Вы ўпэўненыя, што хочаце выдаліць свой водгук?",
-        "organizer_rating_will_be_updated": "Рэйтынг арганізатара больш не будзе ўлічваць ваш водгук.",
-        "need_log_in": "Каб пакінуць водгук, вам неабходна аўтарызавацца!"
+        "no_organizers_available": "Няма даступных арганізатараў!"
     },
     "portfolio": {
         "portfolio": "Партфоліё",
