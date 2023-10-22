@@ -22,7 +22,7 @@ from .serializers import (
     TextMessageSerializer,
     ImageMessageSerializer,
     FileMessageSerializer,
-    MessageShortReadSerializer,
+    MessageBriefReadSerializer,
     MessageFullReadSerializer,
 )
 from .signals import msg_saved
@@ -185,7 +185,7 @@ class NewMessageView(APIView):
         chat.last_message = msg
         chat.save(update_fields=['last_message'])
 
-        msg_short_data = MessageShortReadSerializer(
+        msg_short_data = MessageBriefReadSerializer(
             msg,
             context={'request': request},
         ).data
@@ -253,7 +253,7 @@ class WriteMessageView(APIView):
         chat.last_message = msg
         chat.save(update_fields=['last_message'])
 
-        msg_short_data = MessageShortReadSerializer(
+        msg_short_data = MessageBriefReadSerializer(
             msg,
             context={'request': request},
         ).data

@@ -4,6 +4,8 @@ from blog.models import Article
 from blog.serializers import ArticleShortReadSerializer
 from comments.models import Comment
 from comments.serializers import CommentShortReadSerializer
+from messenger.models import Message
+from messenger.serializers import MessageShortReadSerializer
 from portfolio.models import Album, Photo
 from portfolio.serializers import (
     AlbumShortReadSerializer,
@@ -60,6 +62,11 @@ class NotificationObjectRelatedField(serializers.RelatedField):
             )
         elif isinstance(value, Review):
             serializer = ReviewShortReadSerializer(
+                value,
+                context=self.context,
+            )
+        elif isinstance(value, Message):
+            serializer = MessageShortReadSerializer(
                 value,
                 context=self.context,
             )

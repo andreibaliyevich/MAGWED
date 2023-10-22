@@ -57,6 +57,35 @@ class FileMessageSerializer(serializers.ModelSerializer):
 
 class MessageShortReadSerializer(serializers.ModelSerializer):
     """ Message Short Read Serializer """
+    chat = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        pk_field=serializers.UUIDField(format='hex_verbose'),
+    )
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        if obj.msg_type == MessageType.TEXT and hasattr(obj, 'text'):
+            return TextMessageSerializer(obj.text).data['content']
+
+        if obj.msg_type == MessageType.IMAGES:
+            return obj.images.all().count()
+
+        if obj.msg_type == MessageType.FILES:
+            return obj.files.all().count()
+
+        return None
+
+    class Meta:
+        model = Message
+        fields = [
+            'chat',
+            'msg_type',
+            'content',
+        ]
+
+
+class MessageBriefReadSerializer(serializers.ModelSerializer):
+    """ Message Brief Read Serializer """
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
@@ -133,7 +162,7 @@ class GroupChatSerializer(serializers.ModelSerializer):
 class ChatListSerializer(serializers.ModelSerializer):
     """ Chat List Serializer """
     details = serializers.SerializerMethodField()
-    last_message = MessageShortReadSerializer(read_only=True)
+    last_message = MessageBriefReadSerializer(read_only=True)
     unviewed_msg_count = serializers.SerializerMethodField()
 
     def get_details(self, obj):
