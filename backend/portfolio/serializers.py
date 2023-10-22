@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.contenttypes.models import ContentType
-from main.serializers import TagRelatedField
+from main.serializers import TagRelatedField, TagSerializer
 from accounts.serializers import UserOwnerReadSerializer
 from .models import Album, Photo
 
@@ -132,7 +132,7 @@ class PhotoRetrieveSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
-    tags = TagRelatedField(read_only=True, many=True)
+    tags = TagSerializer(read_only=True, many=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()
@@ -275,7 +275,7 @@ class AlbumRetrieveSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
-    tags = TagRelatedField(read_only=True, many=True)
+    tags = TagSerializer(read_only=True, many=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()

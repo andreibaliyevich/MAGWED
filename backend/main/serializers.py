@@ -29,6 +29,17 @@ class TagRelatedField(serializers.RelatedField):
         return Tag.objects.all()
 
 
+class TagSerializer(serializers.ModelSerializer):
+    """ Tag Serializer """
+
+    class Meta:
+        model = Tag
+        fields = [
+            'uuid',
+            'name',
+        ]
+
+
 class MagazineSerializer(serializers.ModelSerializer):
     """ Magazine Serializer """
 

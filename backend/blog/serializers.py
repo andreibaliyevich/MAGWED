@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from accounts.serializers import UserAuthorReadSerializer
-from main.serializers import TagRelatedField
+from main.serializers import TagSerializer
 from .models import Category, Article
 
 
@@ -34,7 +34,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class ArticleRetrieveSerializer(serializers.ModelSerializer):
     """ Article Retrieve Serializer """
     author = UserAuthorReadSerializer(read_only=True)
-    tags = TagRelatedField(read_only=True, many=True)
+    tags = TagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Article
