@@ -2,7 +2,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.core.cache import cache
+from django.core.cache import caches
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from blog.models import Article
@@ -578,7 +578,7 @@ def review_deleted(sender, instance, **kwargs):
 def message_saved(sender, instance, **kwargs):
     """ Save and send message notification """
     for user in instance.chat.members.exclude(uuid=instance.author.uuid):
-        user_connect = cache.get(str(user.uuid), 0)
+        user_connect = caches['connections'].get(str(user.uuid), 0)
         if user_connect <= 0:
             notice = Notification.objects.create(
                 initiator=instance.author,
@@ -592,8 +592,6 @@ def message_saved(sender, instance, **kwargs):
                 avatar_url = notice_data['initiator']['avatar']
                 notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
             notice_data['content_object'] = MessageShortReadSerializer(instance).data
-
-            print(notice_data)
 
             async_to_sync(channel_layer.group_send)(
                 f'notification-{notice.recipient.uuid}',

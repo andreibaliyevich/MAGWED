@@ -1,6 +1,6 @@
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from django.core.cache import cache
+from django.core.cache import caches
 from .models import Chat, Message
 
 
@@ -18,9 +18,9 @@ class ChatListConsumer(AsyncJsonWebsocketConsumer):
             )
             await self.accept()
 
-            user_connect = cache.get(str(self.user.uuid), 0)
+            user_connect = caches['connections'].get(str(self.user.uuid), 0)
             user_connect += 1
-            cache.set(str(self.user.uuid), user_connect)
+            caches['connections'].set(str(self.user.uuid), user_connect)
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -28,9 +28,9 @@ class ChatListConsumer(AsyncJsonWebsocketConsumer):
             self.channel_name,
         )
 
-        user_connect = cache.get(str(self.user.uuid))
+        user_connect = caches['connections'].get(str(self.user.uuid))
         user_connect -= 1
-        cache.set(str(self.user.uuid), user_connect)
+        caches['connections'].set(str(self.user.uuid), user_connect)
 
     async def send_json_data(self, event):
         await self.send_json({

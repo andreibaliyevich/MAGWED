@@ -211,7 +211,7 @@ CACHES = {
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
-        'TIMEOUT': None,
+        'TIMEOUT': 60 * 10,
         'KEY_PREFIX': 'mw1',
     },
     'currencies': {
@@ -222,6 +222,15 @@ CACHES = {
         },
         'TIMEOUT': 60 * 60 * 24,
         'KEY_PREFIX': 'mw2',
+    },
+    'connections': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/3',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'TIMEOUT': None,
+        'KEY_PREFIX': 'mw3',
     },
 }
 
