@@ -394,7 +394,7 @@ onMounted(() => {
             for="id_radio_tab_reviews"
             class="btn btn-outline-dark"
           >
-            {{ $t('organizers.reviews') }}
+            {{ $t('reviews.reviews') }}
           </label>
         </div>
       </div>

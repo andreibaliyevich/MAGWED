@@ -399,13 +399,13 @@ onUnmounted(() => {
                             v-else-if="chat.last_message.msg_type == messageType.IMAGES"
                             class="mb-0 opacity-75 me-auto"
                           >
-                            {{ chat.last_message.content }} Images
+                            {{ $t('messenger.images', { n: chat.last_message.content }) }}
                           </span>
                           <span
                             v-else-if="chat.last_message.msg_type == messageType.FILES"
                             class="mb-0 opacity-75 me-auto"
                           >
-                            {{ chat.last_message.content }} Files
+                            {{ $t('messenger.files', { n: chat.last_message.content }) }}
                           </span>
                           <span
                             v-if="chat.unviewed_msg_count > 0"
