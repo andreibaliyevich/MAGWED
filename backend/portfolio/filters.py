@@ -9,6 +9,7 @@ class AlbumFilter(filters.FilterSet):
         model = Album
         fields = [
             'author',
+            'tags',
             'editors_choice',
         ]
 
@@ -25,5 +26,6 @@ class PhotoFilter(filters.FilterSet):
             'author',
             'album',
             'album_is_null',
+            'tags',
             'editors_choice',
         ]

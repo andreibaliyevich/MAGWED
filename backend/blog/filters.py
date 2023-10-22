@@ -14,5 +14,6 @@ class ArticleFilter(filters.FilterSet):
         fields = [
             'author',
             'categories',
+            'tags',
             'published_at_year',
         ]
