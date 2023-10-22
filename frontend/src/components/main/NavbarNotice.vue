@@ -1,5 +1,5 @@
 <script setup>
-import { reasonOfNotification } from '@/config.js'
+import { messageType, reasonOfNotification } from '@/config.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 defineProps({
@@ -346,14 +346,45 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         class="d-flex align-content-between flex-wrap h-100"
       >
         <p class="text-dark mb-0">
-          {{
-            $t('notifications.review', {
-              user_name: notice.initiator.name,
-              rating: notice.content_object.rating,
-              comment: notice.content_object.comment
-            })
-          }}
+          {{ $t('notifications.review', { user_name: notice.initiator.name }) }}
+          ({{ $t('reviews.rating_options', { n: notice.content_object.rating }) }}):
+          {{ notice.content_object.comment }}
         </p>
+        <small class="text-muted">
+          {{ getLocaleDateTimeString(notice.created_at) }}
+        </small>
+      </div>
+      <div
+        v-else-if="notice.reason == reasonOfNotification.MESSAGE"
+        class="d-flex align-content-between flex-wrap h-100"
+      >
+        <LocaleRouterLink
+          routeName="Chat"
+          :routeParams="{ uuid: notice.content_object.chat }"
+          class="text-decoration-none link-dark"
+        >
+          <p
+            v-if="notice.content_object.msg_type == messageType.TEXT"
+            class="mb-0"
+          >
+            {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:
+            {{ notice.content_object.content }}
+          </p>
+          <p
+            v-else-if="notice.content_object.msg_type == messageType.IMAGES"
+            class="mb-0"
+          >
+            {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:
+            {{ $t('messenger.images', { n: notice.content_object.content }) }}
+          </p>
+          <p
+            v-else-if="notice.content_object.msg_type == messageType.FILES"
+            class="mb-0"
+          >
+            {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:
+            {{ $t('messenger.files', { n: notice.content_object.content }) }}
+          </p>
+        </LocaleRouterLink>
         <small class="text-muted">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
