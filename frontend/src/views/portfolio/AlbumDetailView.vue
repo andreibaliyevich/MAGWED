@@ -288,17 +288,18 @@ onUnmounted(() => {
           >
             <div class="row g-1">
               <div
-                v-for="tagValue in albumData.tags"
-                :key="tagValue"
+                v-for="tag in albumData.tags"
+                :key="tag.uuid"
                 class="col"
               >
-                <a
-                  :href="tagValue"
-                  role="button"
+                <LocaleRouterLink
+                  routeName="TagDetail"
+                  :routeParams="{ uuid: tag.uuid }"
+                  :routeQuery="{ tab: 'albums' }"
                   class="btn btn-light btn-sm"
                 >
-                  #{{ tagValue }}
-                </a>
+                  #{{ tag.name }}
+                </LocaleRouterLink>
               </div>
             </div>
           </div>
@@ -321,7 +322,10 @@ onUnmounted(() => {
                 <LocaleRouterLink
                   routeName="PhotoDetail"
                   :routeParams="{ uuid: photoItem.uuid }"
-                  :routeQuery="{ from: this.$route.query.filter }"
+                  :routeQuery="{
+                    from: 'album',
+                    uuid: $route.params.uuid
+                  }"
                   class="link-light"
                 >
                   <img
