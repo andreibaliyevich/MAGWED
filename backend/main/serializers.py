@@ -12,6 +12,20 @@ class CitySerializer(serializers.ModelSerializer):
         fields = ['code']
 
 
+class MagazineSerializer(serializers.ModelSerializer):
+    """ Magazine Serializer """
+
+    class Meta:
+        model = Magazine
+        fields = [
+            'title',
+            'slug',
+            'image',
+            'file',
+            'published_at',
+        ]
+
+
 class TagRelatedField(serializers.RelatedField):
     """ Tag Related Field """
 
@@ -37,18 +51,4 @@ class TagSerializer(serializers.ModelSerializer):
         fields = [
             'uuid',
             'name',
-        ]
-
-
-class MagazineSerializer(serializers.ModelSerializer):
-    """ Magazine Serializer """
-
-    class Meta:
-        model = Magazine
-        fields = [
-            'title',
-            'slug',
-            'image',
-            'file',
-            'published_at',
         ]

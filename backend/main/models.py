@@ -68,29 +68,6 @@ class Language(models.Model):
         ordering = ['code']
 
 
-class Tag(models.Model):
-    """ Tag Model """
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
-    name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
-    created_at = models.DateTimeField(
-        db_index=True,
-        auto_now_add=True,
-        verbose_name=_('Created at'),
-    )
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Tag')
-        verbose_name_plural = _('Tags')
-        ordering = ['-created_at']
-
-
 class Magazine(models.Model):
     """ Magazine Model """
     uuid = models.UUIDField(
@@ -144,3 +121,26 @@ class Magazine(models.Model):
         verbose_name = _('Magazine')
         verbose_name_plural = _('Magazines')
         ordering = ['-published_at']
+
+
+class Tag(models.Model):
+    """ Tag Model """
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    name = models.CharField(unique=True, max_length=64, verbose_name=_('Name'))
+    created_at = models.DateTimeField(
+        db_index=True,
+        auto_now_add=True,
+        verbose_name=_('Created at'),
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Tag')
+        verbose_name_plural = _('Tags')
+        ordering = ['-created_at']

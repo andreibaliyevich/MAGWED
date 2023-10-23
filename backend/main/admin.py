@@ -24,17 +24,17 @@ class LanguageAdmin(admin.ModelAdmin):
     search_fields = ('code',)
 
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    """ Tag Model for admin """
-    list_display = ('__str__', 'created_at')
-    search_fields = ('name',)
-    readonly_fields = ('created_at',)
-
-
 @admin.register(Magazine)
 class MagazineAdmin(admin.ModelAdmin):
     """ Magazine Model for admin """
     list_display = ('__str__', 'published_at')
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('published_at',)
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    """ Tag Model for admin """
+    list_display = ('__str__', 'created_at')
+    search_fields = ('name',)
+    readonly_fields = ('created_at',)
