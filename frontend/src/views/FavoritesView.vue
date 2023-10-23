@@ -70,14 +70,14 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            !this.$route.query.type ? 'active' : null
+            !$route.query.type ? 'active' : null
           ]"
         >
           <LocaleRouterLink
             routeName="Favorites"
             :class="[
               'nav-link',
-              !this.$route.query.type ? 'active' : 'text-dark'
+              !$route.query.type ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.all') }}
@@ -86,7 +86,7 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            this.$route.query.type == 'article' ? 'active' : null
+            $route.query.type == 'article' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -94,7 +94,7 @@ onMounted(() => {
             :routeQuery="{ type: 'article' }"
             :class="[
               'nav-link',
-              this.$route.query.type == 'article' ? 'active' : 'text-dark'
+              $route.query.type == 'article' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.articles') }}
@@ -103,7 +103,7 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            this.$route.query.type == 'album' ? 'active' : null
+            $route.query.type == 'album' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -111,7 +111,7 @@ onMounted(() => {
             :routeQuery="{ type: 'album' }"
             :class="[
               'nav-link',
-              this.$route.query.type == 'album' ? 'active' : 'text-dark'
+              $route.query.type == 'album' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.albums') }}
@@ -120,7 +120,7 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            this.$route.query.type == 'photo' ? 'active' : null
+            $route.query.type == 'photo' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -128,7 +128,7 @@ onMounted(() => {
             :routeQuery="{ type: 'photo' }"
             :class="[
               'nav-link',
-              this.$route.query.type == 'photo' ? 'active' : 'text-dark'
+              $route.query.type == 'photo' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.photos') }}

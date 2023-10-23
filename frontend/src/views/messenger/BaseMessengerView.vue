@@ -332,7 +332,7 @@ onUnmounted(() => {
                   v-for="chat in sortedChatList"
                   :class="[
                     'nav-item',
-                    this.$route.params.uuid == chat.uuid ? 'active' : null
+                    $route.params.uuid == chat.uuid ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
@@ -341,7 +341,7 @@ onUnmounted(() => {
                     @click="$refs.chatListClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.params.uuid == chat.uuid ? 'active' : 'text-dark'
+                      $route.params.uuid == chat.uuid ? 'active' : 'text-dark'
                     ]"
                   >
                     <div class="d-flex gap-3">

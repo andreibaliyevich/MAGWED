@@ -54,7 +54,7 @@ const { logout } = useLogout()
                 <li
                   :class="[
                     'nav-item',
-                    this.$route.name == 'Profile' ? 'active' : null
+                    $route.name == 'Profile' ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
@@ -62,7 +62,7 @@ const { logout } = useLogout()
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'Profile' ? 'active' : 'text-dark'
+                      $route.name == 'Profile' ? 'active' : 'text-dark'
                     ]"
                   >
                     <i class="fa-solid fa-user"></i>
@@ -73,7 +73,7 @@ const { logout } = useLogout()
                   v-if="userStore.userType == userType.ORGANIZER"
                   :class="[
                     'nav-item',
-                    this.$route.name == 'SocialLinks' ? 'active' : null
+                    $route.name == 'SocialLinks' ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
@@ -81,7 +81,7 @@ const { logout } = useLogout()
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'SocialLinks' ? 'active' : 'text-dark'
+                      $route.name == 'SocialLinks' ? 'active' : 'text-dark'
                     ]"
                   >
                     <i class="fa-solid fa-link"></i>
@@ -92,10 +92,10 @@ const { logout } = useLogout()
                   v-if="userStore.userType == userType.ORGANIZER"
                   :class="[
                     'nav-item',
-                    this.$route.name == 'Portfolio'
-                      || this.$route.name == 'PortfolioAlbumList'
-                      || this.$route.name == 'PortfolioAlbumDetail'
-                      || this.$route.name == 'PortfolioPhotoList'
+                    $route.name == 'Portfolio'
+                      || $route.name == 'PortfolioAlbumList'
+                      || $route.name == 'PortfolioAlbumDetail'
+                      || $route.name == 'PortfolioPhotoList'
                       ? 'active'
                       : null
                   ]"
@@ -105,10 +105,10 @@ const { logout } = useLogout()
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'Portfolio'
-                        || this.$route.name == 'PortfolioAlbumList'
-                        || this.$route.name == 'PortfolioAlbumDetail'
-                        || this.$route.name == 'PortfolioPhotoList'
+                      $route.name == 'Portfolio'
+                        || $route.name == 'PortfolioAlbumList'
+                        || $route.name == 'PortfolioAlbumDetail'
+                        || $route.name == 'PortfolioPhotoList'
                         ? 'active'
                         : 'text-dark'
                     ]"
@@ -120,7 +120,7 @@ const { logout } = useLogout()
                 <li
                   :class="[
                     'nav-item',
-                    this.$route.name == 'PasswordChange' ? 'active' : null
+                    $route.name == 'PasswordChange' ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
@@ -128,7 +128,7 @@ const { logout } = useLogout()
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'PasswordChange' ? 'active' : 'text-dark'
+                      $route.name == 'PasswordChange' ? 'active' : 'text-dark'
                     ]"
                   >
                     <i class="fa-solid fa-key"></i>
@@ -138,7 +138,7 @@ const { logout } = useLogout()
                 <li
                   :class="[
                     'nav-item',
-                    this.$route.name == 'ProfileDelete' ? 'active' : null
+                    $route.name == 'ProfileDelete' ? 'active' : null
                   ]"
                 >
                   <LocaleRouterLink
@@ -146,7 +146,7 @@ const { logout } = useLogout()
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
-                      this.$route.name == 'ProfileDelete' ? 'active' : 'text-dark'
+                      $route.name == 'ProfileDelete' ? 'active' : 'text-dark'
                     ]"
                   >
                     <i class="fa-solid fa-user-xmark"></i>

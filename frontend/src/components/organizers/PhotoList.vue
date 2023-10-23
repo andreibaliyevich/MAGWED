@@ -63,7 +63,10 @@ onMounted(() => {
           <LocaleRouterLink
             routeName="PhotoDetail"
             :routeParams="{ uuid: photoItem.uuid }"
-            :routeQuery="{ from: this.$route.query.filter }"
+            :routeQuery="{
+              from: 'author',
+              uuid: props.userUUID
+            }"
             class="link-light"
           >
             <img

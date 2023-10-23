@@ -75,7 +75,7 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            this.$route.query.tab == 'popular' ? 'active' : null
+            $route.query.tab == 'popular' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -83,7 +83,7 @@ onMounted(() => {
             :routeQuery="{ tab: 'popular' }"
             :class="[
               'nav-link',
-              this.$route.query.tab == 'popular' ? 'active' : 'text-dark'
+              $route.query.tab == 'popular' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.popular_albums') }}
@@ -92,7 +92,7 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            this.$route.query.tab == 'fresh' ? 'active' : null
+            $route.query.tab == 'fresh' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -100,7 +100,7 @@ onMounted(() => {
             :routeQuery="{ tab: 'fresh' }"
             :class="[
               'nav-link',
-              this.$route.query.tab == 'fresh' ? 'active' : 'text-dark'
+              $route.query.tab == 'fresh' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.fresh_albums') }}
@@ -109,7 +109,7 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            this.$route.query.tab == 'editors' ? 'active' : null
+            $route.query.tab == 'editors' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -117,7 +117,7 @@ onMounted(() => {
             :routeQuery="{ tab: 'editors' }"
             :class="[
               'nav-link',
-              this.$route.query.tab == 'editors' ? 'active' : 'text-dark'
+              $route.query.tab == 'editors' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.editors_choice') }}
