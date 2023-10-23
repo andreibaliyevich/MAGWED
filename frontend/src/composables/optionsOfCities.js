@@ -10,8 +10,8 @@ export function useOptionsOfCities(country) {
   const setCityOptions = () => {
     cityOptions.value = cityValues.value.map((element) => {
       return {
-        'value': element.code,
-        'text': t(`cities.${element.code}`)
+        value: element.code,
+        text: t(`cities.${element.code}`)
       }
     })
   }
@@ -20,7 +20,7 @@ export function useOptionsOfCities(country) {
     try {
       const response = await axios.get('/main/cities/', {
         params: {
-          'country': countryValue
+          country: countryValue
         }
       })
       cityValues.value = response.data

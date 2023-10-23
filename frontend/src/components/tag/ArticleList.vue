@@ -18,11 +18,11 @@ const { getLocaleDateString } = useLocaleDateTime()
 
 const getArticleList = async () => {
   try {
-    const response = await axios.get(
-      '/blog/article/list/'
-        + '?tags='
-        + props.tagUUID
-    )
+    const response = await axios.get('/blog/article/list/', {
+      params: {
+        tags: props.tagUUID
+      }
+    })
     articleList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {

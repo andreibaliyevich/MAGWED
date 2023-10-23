@@ -46,20 +46,20 @@ const updateProfile = async () => {
 
   try {
     const response = await axios.put('/accounts/auth/profile/', {
-      'name': name.value,
-      'country': country.value,
-      'city': city.value,
-      'phone': phone.value
+      name: name.value,
+      country: country.value,
+      city: city.value,
+      phone: phone.value
     })
     userStore.updateName(name.value)
     window.localStorage.setItem('user', JSON.stringify({
-      'uuid': userStore.uuid,
-      'username': userStore.username,
-      'email': userStore.email,
-      'user_type': userStore.userType,
-      'name': name.value,
-      'avatar': userStore.avatar,
-      'token': userStore.token
+      uuid: userStore.uuid,
+      username: userStore.username,
+      email: userStore.email,
+      user_type: userStore.userType,
+      name: name.value,
+      avatar: userStore.avatar,
+      token: userStore.token
     }))
     errors.value = null
   } catch (error) {

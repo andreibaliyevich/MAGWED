@@ -102,9 +102,9 @@ const updateAlbum = async () => {
         + albumUuid.value
         +'/',
       {
-        'title': albumTitle.value,
-        'description': albumDescription.value,
-        'tags': albumTags.value
+        title: albumTitle.value,
+        description: albumDescription.value,
+        tags: albumTags.value
       }
     )
     router.push({

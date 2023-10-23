@@ -10,8 +10,8 @@ export function useOptionsOfCitiesExtra(countries) {
   const setCityOptionsExtra = () => {
     cityOptionsExtra.value = cityValuesExtra.value.map((element) => {
       return {
-        'value': element.code,
-        'text': t(`cities.${element.code}`)
+        value: element.code,
+        text: t(`cities.${element.code}`)
       }
     })
   }

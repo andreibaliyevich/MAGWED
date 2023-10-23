@@ -115,7 +115,7 @@ const writeMessage = async () => {
       '/messenger/message/write/'
         + organizerData.value.user.uuid
         + '/',
-      {'content': textContent.value}
+      { content: textContent.value }
     )
     writeMessageModalBootstrap.value.hide()
     textContent.value = ''

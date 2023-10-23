@@ -15,12 +15,12 @@ const nextURL = ref(null)
 
 const getPhotoList = async () => {
   try {
-    const response = await axios.get(
-      '/portfolio/photo/list/'
-        + '?author='
-        + props.userUUID
-        + '&album_is_null=true'
-    )
+    const response = await axios.get('/portfolio/photo/list/', {
+      params: {
+        author: props.userUUID,
+        album_is_null: true
+      }
+    })
     photoList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {

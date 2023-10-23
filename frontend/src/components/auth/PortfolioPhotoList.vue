@@ -43,8 +43,8 @@ const getPhotoData = async (pUuid) => {
   try {
     const response = await axios.get(
       '/portfolio/photo/author/rud/'
-      + pUuid
-      +'/'
+        + pUuid
+        +'/'
     )
     photoUuid.value = response.data.uuid
     photoImage.value = response.data.image
@@ -72,17 +72,18 @@ const updatePhoto = async () => {
   photoUpdating.value = true
   try {
     const response = await axios.put(
-      '/portfolio/photo/author/rud/' + photoUuid.value +'/',
+      '/portfolio/photo/author/rud/'
+        + photoUuid.value
+        +'/',
       {
-        'device': photoDevice.value,
-        'f_number': photoFNumber.value,
-        'exposure_time': photoExposureTime.value,
-        'focal_length': photoFocalLength.value,
-        'photographic_sensitivity': photoPhotographicSensitivity.value,
-
-        'title': photoTitle.value,
-        'description': photoDescription.value,
-        'tags': photoTags.value
+        device: photoDevice.value,
+        f_number: photoFNumber.value,
+        exposure_time: photoExposureTime.value,
+        focal_length: photoFocalLength.value,
+        photographic_sensitivity: photoPhotographicSensitivity.value,
+        title: photoTitle.value,
+        description: photoDescription.value,
+        tags: photoTags.value
       }
     )
     emit('updatePhoto', photoUuid.value, photoTitle.value)
@@ -98,7 +99,9 @@ const updatePhoto = async () => {
 const removePhoto = async () => {
   try {
     const response = await axios.delete(
-      '/portfolio/photo/author/rud/' + photoUuid.value +'/'
+      '/portfolio/photo/author/rud/'
+        + photoUuid.value
+        +'/'
     )
     emit('removePhoto', photoUuid.value)
   } catch (error) {

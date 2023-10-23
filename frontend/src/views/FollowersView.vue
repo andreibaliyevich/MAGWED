@@ -12,11 +12,11 @@ const nextURL = ref(null)
 
 const getFollowersList = async () => {
   try {
-    const response = await axios.get(
-      '/social/follow/list/'
-        + '?user='
-        + userStore.uuid
-    )
+    const response = await axios.get('/social/follow/list/', {
+      params: {
+        user: userStore.uuid
+      }
+    })
     followersList.value = response.data.results
     followersCount.value = response.data.count
     nextURL.value = response.data.next

@@ -15,11 +15,11 @@ const nextURL = ref(null)
 
 const getAlbumList = async () => {
   try {
-    const response = await axios.get(
-      '/portfolio/album/list/'
-        + '?tags='
-        + props.tagUUID
-    )
+    const response = await axios.get('/portfolio/album/list/', {
+      params: {
+        tags: props.tagUUID
+      }
+    })
     albumList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {

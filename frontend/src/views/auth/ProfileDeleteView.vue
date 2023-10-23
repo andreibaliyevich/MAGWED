@@ -18,7 +18,7 @@ const deletingProfile = async () => {
   try {
     const response = await axios.delete('/accounts/auth/profile/', {
       data: {
-        'current_password': currentPassword.value
+        current_password: currentPassword.value
       }
     })
     errors.value = null

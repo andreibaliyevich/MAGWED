@@ -101,8 +101,8 @@ const dislikePhoto = async () => {
 const addPhotoToFavorites = async () => {
   try {
     const response = await axios.post('/social/favorite/', {
-      'content_type': 'photo',
-      'object_uuid': route.params.uuid
+      content_type: 'photo',
+      object_uuid: route.params.uuid
     })
     photoData.value.favorite = true
   } catch (error) {
@@ -114,8 +114,8 @@ const removePhotoFromFavorites = async () => {
   try {
     const response = await axios.delete('/social/favorite/', {
       data: {
-        'content_type': 'photo',
-        'object_uuid': route.params.uuid
+        content_type: 'photo',
+        object_uuid: route.params.uuid
       }
     })
     photoData.value.favorite = false

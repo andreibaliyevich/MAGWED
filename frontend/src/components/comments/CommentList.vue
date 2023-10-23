@@ -40,12 +40,12 @@ const {
 
 const getCommentList = async () => {
   try {
-    const response = await axios.get(
-      '/comments/?content_type__model='
-        + props.contentType
-        + '&object_uuid='
-        + props.objectUUID
-    )
+    const response = await axios.get('/comments/', {
+      params: {
+        content_type__model: props.contentType,
+        object_uuid: props.objectUUID
+      }
+    })
     commentList.value = response.data.results
     commentCount.value = response.data.count
     nextURL.value = response.data.next

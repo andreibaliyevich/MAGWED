@@ -40,11 +40,11 @@ const errorStatus = ref(null)
 
 const getPhotoList = async () => {
   try {
-    const response = await axios.get(
-      '/portfolio/photo/list/'
-        + '?album='
-        + route.params.uuid
-    )
+    const response = await axios.get('/portfolio/photo/list/', {
+      params: {
+        album: route.params.uuid
+      }
+    })
     photoList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {
@@ -129,8 +129,8 @@ const dislikeAlbum = async () => {
 const addAlbumToFavorites = async () => {
   try {
     const response = await axios.post('/social/favorite/', {
-      'content_type': 'album',
-      'object_uuid': route.params.uuid
+      content_type: 'album',
+      object_uuid: route.params.uuid
     })
     albumData.value.favorite = true
   } catch (error) {
@@ -142,8 +142,8 @@ const removeAlbumFromFavorites = async () => {
   try {
     const response = await axios.delete('/social/favorite/', {
       data: {
-        'content_type': 'album',
-        'object_uuid': route.params.uuid
+        content_type: 'album',
+        object_uuid: route.params.uuid
       }
     })
     albumData.value.favorite = false

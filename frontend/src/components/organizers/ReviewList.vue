@@ -43,11 +43,11 @@ const removeReviewModalChoice = ref(null)
 
 const getReviewList = async () => {
   try {
-    const response = await axios.get(
-      '/reviews/'
-        + '?user='
-        + props.userUUID
-    )
+    const response = await axios.get('/reviews/', {
+      params: {
+        user: props.userUUID
+      }
+    })
     reviewList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {

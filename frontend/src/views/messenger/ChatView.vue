@@ -81,10 +81,11 @@ const updateTextareaStyles = () => {
 const getMessageList = async () => {
   messageListLoading.value = true
   try {
-    const response = await axios.get(
-      '/messenger/message/list/?chat='
-        + chatData.value.uuid
-    )
+    const response = await axios.get('/messenger/message/list/', {
+      params: {
+        chat: chatData.value.uuid
+      }
+    })
     messageList.value = response.data.results
     nextURL.value = response.data.next
   } catch (error) {
@@ -210,7 +211,7 @@ const sendTextMessage = async () => {
         + '/'
         + messageType.TEXT
         + '/',
-      {content: textContent.value}
+      { content: textContent.value }
     )
     textContent.value = ''
     nextTick(() => {
@@ -226,10 +227,12 @@ const sendTextMessage = async () => {
 
 const sendImageMessage = async (filelist) => {
   messageSending.value = true
+
   let formData = new FormData()
   for (let i = 0; i < filelist.length; i++) {
     formData.append('content', filelist[i], filelist[i].name)
   }
+
   try {
     const response = await axios.post(
       '/messenger/message/new/'
@@ -251,10 +254,12 @@ const sendImageMessage = async (filelist) => {
 
 const sendFileMessage = async (filelist) => {
   messageSending.value = true
+
   let formData = new FormData()
   for (let i = 0; i < filelist.length; i++) {
     formData.append('content', filelist[i], filelist[i].name)
   }
+
   try {
     const response = await axios.post(
       '/messenger/message/new/'
@@ -274,10 +279,10 @@ const sendFileMessage = async (filelist) => {
   }
 }
 
-const setMessageViewed = (msg_uuid) => {
+const setMessageViewed = (msgUUID) => {
   chatSocket.value.send(JSON.stringify({
-    'action': 'viewed',
-    'msg_uuid': msg_uuid
+    action: 'viewed',
+    msg_uuid: msgUUID
   }))
   emit('msgViewed')
 }
@@ -285,7 +290,9 @@ const setMessageViewed = (msg_uuid) => {
 const removeChat = async () => {
   try {
     const response = await axios.delete(
-      '/messenger/chat/destroy/' + chatData.value.uuid +'/'
+      '/messenger/chat/destroy/'
+        + chatData.value.uuid
+        +'/'
     )
   } catch (error) {
     console.error(error)
@@ -295,7 +302,9 @@ const removeChat = async () => {
 const leaveChat = async () => {
   try {
     const response = await axios.delete(
-      '/messenger/chat/leave/' + chatData.value.uuid +'/'
+      '/messenger/chat/leave/'
+        + chatData.value.uuid
+        +'/'
     )
   } catch (error) {
     console.error(error)
