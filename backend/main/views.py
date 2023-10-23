@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import render
 from .filters import CityFilter
-from .models import City, Magazine
-from .serializers import CitySerializer, MagazineSerializer
+from .models import City, Magazine, Tag
+from .serializers import CitySerializer, MagazineSerializer, TagSerializer
 
 
 class CityListView(generics.ListAPIView):
@@ -26,6 +26,14 @@ class MagazineView(APIView):
         obj = Magazine.objects.last()
         serializer = MagazineSerializer(obj, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class TagRetrieveView(generics.RetrieveAPIView):
+    """ Tag Retrieve View """
+    permission_classes = [AllowAny]
+    queryset = Tag.objects.all()
+    lookup_field = 'uuid'
+    serializer_class = TagSerializer
 
 
 def error_400(request, exception):
