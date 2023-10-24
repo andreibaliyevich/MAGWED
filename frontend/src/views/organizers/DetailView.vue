@@ -157,7 +157,7 @@ onMounted(() => {
           src="/cover.jpg"
           class="card-img-top"
         >
-        <div class="d-lg-flex align-items-start text-center mx-3 mx-lg-5 mb-3">
+        <div class="d-lg-flex align-items-lg-start text-center mx-3 mx-lg-5 mb-3">
           <div class="position-relative" style="margin-top: -5rem;">
             <UserAvatar
               :src="organizerData.user.avatar"

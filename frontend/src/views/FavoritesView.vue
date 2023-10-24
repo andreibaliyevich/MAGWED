@@ -2,8 +2,10 @@
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
+const { locale } = useI18n({ useScope: 'global' })
 
 const favoriteListLoading = ref(false)
 const favoriteList = ref([])
@@ -44,6 +46,10 @@ const getMoreFavoriteList = async () => {
     favoriteListLoading.value = false
   }
 }
+
+watch(locale, () => {
+  getFavoriteList()
+})
 
 watch(
   () => route.query.type,
@@ -86,18 +92,18 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.type == 'article' ? 'active' : null
+            $route.query.type == 'photo' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
             routeName="Favorites"
-            :routeQuery="{ type: 'article' }"
+            :routeQuery="{ type: 'photo' }"
             :class="[
               'nav-link',
-              $route.query.type == 'article' ? 'active' : 'text-dark'
+              $route.query.type == 'photo' ? 'active' : 'text-dark'
             ]"
           >
-            {{ $t('favorites.articles') }}
+            {{ $t('favorites.photos') }}
           </LocaleRouterLink>
         </li>
         <li
@@ -120,18 +126,18 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.type == 'photo' ? 'active' : null
+            $route.query.type == 'article' ? 'active' : null
           ]"
         >
           <LocaleRouterLink
             routeName="Favorites"
-            :routeQuery="{ type: 'photo' }"
+            :routeQuery="{ type: 'article' }"
             :class="[
               'nav-link',
-              $route.query.type == 'photo' ? 'active' : 'text-dark'
+              $route.query.type == 'article' ? 'active' : 'text-dark'
             ]"
           >
-            {{ $t('favorites.photos') }}
+            {{ $t('favorites.articles') }}
           </LocaleRouterLink>
         </li>
       </ul>
@@ -146,28 +152,28 @@ onMounted(() => {
           class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <div
-            v-if="favorite.content_type_model == 'article'"
+            v-if="favorite.content_type_model == 'photo'"
             class="card border border-light shadow-sm h-100"
           >
             <LocaleRouterLink
-              routeName="Blog"
-              :routeParams="{ slug: favorite.content_object.slug }"
+              routeName="PhotoDetail"
+              :routeParams="{ uuid: favorite.content_object.uuid }"
             >
               <img
                 :src="favorite.content_object.thumbnail"
-                :alt="favorite.content_object.translated_title"
+                :alt="favorite.content_object.title"
                 class="card-img-top"
               >
             </LocaleRouterLink>
             <div class="card-body">
               <LocaleRouterLink
-                routeName="Blog"
-                :routeParams="{ slug: favorite.content_object.slug }"
+                routeName="PhotoDetail"
+                :routeParams="{ uuid: favorite.content_object.uuid }"
                 class="text-decoration-none link-dark text-center"
               >
                 <h5 class="card-title">
-                  <i class="fa-regular fa-newspaper"></i>
-                  {{ favorite.content_object.translated_title }}
+                  <i class="fa-regular fa-image"></i>
+                  {{ favorite.content_object.title }}
                 </h5>
               </LocaleRouterLink>
             </div>
@@ -200,28 +206,28 @@ onMounted(() => {
             </div>
           </div>
           <div
-            v-else-if="favorite.content_type_model == 'photo'"
+            v-else-if="favorite.content_type_model == 'article'"
             class="card border border-light shadow-sm h-100"
           >
             <LocaleRouterLink
-              routeName="PhotoDetail"
-              :routeParams="{ uuid: favorite.content_object.uuid }"
+              routeName="ArticleDetail"
+              :routeParams="{ slug: favorite.content_object.slug }"
             >
               <img
                 :src="favorite.content_object.thumbnail"
-                :alt="favorite.content_object.title"
+                :alt="favorite.content_object.translated_title"
                 class="card-img-top"
               >
             </LocaleRouterLink>
             <div class="card-body">
               <LocaleRouterLink
-                routeName="PhotoDetail"
-                :routeParams="{ uuid: favorite.content_object.uuid }"
+                routeName="ArticleDetail"
+                :routeParams="{ slug: favorite.content_object.slug }"
                 class="text-decoration-none link-dark text-center"
               >
                 <h5 class="card-title">
-                  <i class="fa-regular fa-image"></i>
-                  {{ favorite.content_object.title }}
+                  <i class="fa-regular fa-newspaper"></i>
+                  {{ favorite.content_object.translated_title }}
                 </h5>
               </LocaleRouterLink>
             </div>

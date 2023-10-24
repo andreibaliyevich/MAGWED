@@ -25,8 +25,8 @@ const albumData = ref({
   view_count: 0,
   like_count: 0,
   liked: null,
-  favorite: null,
-  rating: 0
+  rating: 0,
+  favorite: null
 })
 
 const photoListLoading = ref(true)

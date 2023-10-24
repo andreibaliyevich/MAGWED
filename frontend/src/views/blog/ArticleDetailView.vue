@@ -23,7 +23,8 @@ const articleData = ref({
   translated_content: '',
   tags: [],
   published_at: null,
-  view_count: 0
+  view_count: 0,
+  favorite: null
 })
 
 const { getLocaleDateString } = useLocaleDateTime()
@@ -61,6 +62,32 @@ const getArticleData = async () => {
   }
 }
 
+const addArticleToFavorites = async () => {
+  try {
+    const response = await axios.post('/social/favorite/', {
+      content_type: 'article',
+      object_uuid: articleData.value.uuid
+    })
+    articleData.value.favorite = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const removeArticleFromFavorites = async () => {
+  try {
+    const response = await axios.delete('/social/favorite/', {
+      data: {
+        content_type: 'article',
+        object_uuid: articleData.value.uuid
+      }
+    })
+    articleData.value.favorite = false
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 watch(locale, () => {
   getArticleData()
 })
@@ -95,16 +122,40 @@ onUnmounted(() => {
         >
       </div>
       <h1 class="h3">{{ articleData.translated_title }}</h1>
-      <div class="mb-1">
-        <span
-          v-for="category in articleData.categories"
-          :key="category"
-          class="badge text-bg-light ms-1"
-        >
-          {{ $t(`category_choices.${category}`) }}
-        </span>
+      <div class="d-lg-flex align-items-lg-center text-center">
+        <div class="row g-1">
+          <div
+            v-for="categoryValue in articleData.categories"
+            :key="categoryValue"
+            class="col"
+          >
+            <span class="badge text-bg-light">
+              {{ $t(`category_choices.${categoryValue}`) }}
+            </span>
+          </div>
+        </div>
+        <div class="ms-lg-auto mt-2">
+          <button
+            v-if="articleData.favorite"
+            @click="removeArticleFromFavorites()"
+            type="button"
+            class="btn btn-light ms-2"
+          >
+            <i class="fa-solid fa-bookmark"></i>
+            {{ $t('favorites.remove_from_favourites') }}
+          </button>
+          <button
+            v-else
+            @click="addArticleToFavorites()"
+            type="button"
+            class="btn btn-light ms-2"
+          >
+            <i class="fa-regular fa-bookmark"></i>
+            {{ $t('favorites.add_to_favourites') }}
+          </button>
+        </div>
       </div>
-      <ul class="list-inline text-body-secondary mt-2 mb-3">
+      <ul class="list-inline text-body-secondary mt-2 mb-4">
         <li class="list-inline-item">
           {{ $t('blog.author') }}:
           <LocaleRouterLink

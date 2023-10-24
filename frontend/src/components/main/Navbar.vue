@@ -160,7 +160,10 @@ const userStore = useUserStore()
                 @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
-                  $route.name == 'ArticleList' ? 'active' : 'text-dark'
+                  $route.name == 'ArticleList'
+                    || $route.name == 'ArticleDetail'
+                    ? 'active'
+                    : 'text-dark'
                 ]"
               >
                 {{ $t('nav.blog') }}
