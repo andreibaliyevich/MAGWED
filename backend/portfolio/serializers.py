@@ -129,10 +129,10 @@ class PhotoRetrieveSerializer(serializers.ModelSerializer):
     """ Photo Retrieve Serializer """
     author = UserOwnerReadSerializer(read_only=True)
     album = AlbumShortReadSerializer(read_only=True)
+    tags = TagSerializer(read_only=True, many=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
-    tags = TagSerializer(read_only=True, many=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()
@@ -168,8 +168,8 @@ class PhotoRetrieveSerializer(serializers.ModelSerializer):
             'view_count',
             'like_count',
             'liked',
-            'favorite',
             'rating',
+            'favorite',
         ]
 
 
@@ -272,10 +272,10 @@ class AlbumListSerializer(serializers.ModelSerializer):
 class AlbumRetrieveSerializer(serializers.ModelSerializer):
     """ Album Retrieve Serializer """
     author = UserOwnerReadSerializer(read_only=True)
+    tags = TagSerializer(read_only=True, many=True)
     like_count = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
-    tags = TagSerializer(read_only=True, many=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()
@@ -305,6 +305,6 @@ class AlbumRetrieveSerializer(serializers.ModelSerializer):
             'view_count',
             'like_count',
             'liked',
-            'favorite',
             'rating',
+            'favorite',
         ]

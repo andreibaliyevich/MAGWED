@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.contenttypes.models import ContentType
 from accounts.serializers import UserAuthorReadSerializer
 from main.serializers import TagSerializer
 from .models import Category, Article
@@ -35,6 +36,15 @@ class ArticleRetrieveSerializer(serializers.ModelSerializer):
     """ Article Retrieve Serializer """
     author = UserAuthorReadSerializer(read_only=True)
     tags = TagSerializer(read_only=True, many=True)
+    favorite = serializers.SerializerMethodField()
+
+    def get_favorite(self, obj):
+        if self.context['request'].user.is_authenticated:
+            return self.context['request'].user.favorites.filter(
+                content_type=ContentType.objects.get_for_model(obj),
+                object_uuid=obj.uuid,
+            ).exists()
+        return False
 
     class Meta:
         model = Article
@@ -48,4 +58,5 @@ class ArticleRetrieveSerializer(serializers.ModelSerializer):
             'tags',
             'published_at',
             'view_count',
+            'favorite',
         ]
