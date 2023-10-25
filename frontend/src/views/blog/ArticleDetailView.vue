@@ -4,11 +4,13 @@ import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
+import { useUserStore } from '@/stores/user.js'
 import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
 const { locale } = useI18n({ useScope: 'global' })
+const userStore = useUserStore()
 
 const articleLoading = ref(true)
 const articleData = ref({
@@ -134,7 +136,10 @@ onUnmounted(() => {
             </span>
           </div>
         </div>
-        <div class="ms-lg-auto mt-2">
+        <div
+          v-if="userStore.isLoggedIn"
+          class="ms-lg-auto mt-2"
+        >
           <button
             v-if="articleData.favorite"
             @click="removeArticleFromFavorites()"
