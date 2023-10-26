@@ -95,7 +95,7 @@ class FollowListView(generics.ListAPIView):
     filterset_class = FollowFilter
 
     def get_serializer_class(self):
-        if self.request.GET.get('follower', None):
+        if self.request.query_params.get('follower', None):
             return FollowingSerializer
         return FollowersSerializer
 

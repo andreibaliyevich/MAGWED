@@ -75,7 +75,7 @@ class AlbumListView(generics.ListAPIView):
     ordering = ['-created_at']
 
     def get_serializer_class(self):
-        if self.request.GET.get('author', None):
+        if self.request.query_params.get('author', None):
             return AlbumListShortSerializer
         return AlbumListSerializer
 
@@ -185,8 +185,8 @@ class PhotoListView(generics.ListAPIView):
     ordering = ['-uploaded_at']
 
     def get_serializer_class(self):
-        if (self.request.GET.get('author', None)
-                or self.request.GET.get('album', None)):
+        if (self.request.query_params.get('author', None)
+                or self.request.query_params.get('album', None)):
             return PhotoListShortSerializer
         return PhotoListSerializer
 
