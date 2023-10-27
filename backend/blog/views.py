@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status
+from rest_framework import filters, generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,8 +23,14 @@ class ArticleListView(generics.ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
     pagination_class = ArticlePagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = ArticleFilter
+    search_fields = [
+        'title',
+        'content',
+        'translations__title',
+        'translations__content',
+    ]
 
 
 class ArticleRetrieveView(generics.RetrieveAPIView):

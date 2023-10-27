@@ -69,10 +69,15 @@ class AlbumListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Album.objects.all()
     pagination_class = PortfolioPagination
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
     filterset_class = AlbumFilter
     ordering_fields = ['created_at', 'rating']
     ordering = ['-created_at']
+    search_fields = ['title', 'description']
 
     def get_serializer_class(self):
         if self.request.query_params.get('author', None):
@@ -179,10 +184,15 @@ class PhotoListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Photo.objects.all()
     pagination_class = PortfolioPagination
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
     filterset_class = PhotoFilter
     ordering_fields = ['uploaded_at', 'rating']
     ordering = ['-uploaded_at']
+    search_fields = ['title', 'description']
 
     def get_serializer_class(self):
         if (self.request.query_params.get('author', None)

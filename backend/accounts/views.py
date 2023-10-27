@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status
+from rest_framework import filters, generics, status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -265,8 +265,9 @@ class OrganizerListView(generics.ListAPIView):
     queryset = Organizer.objects.filter(user__is_active=True)
     serializer_class = OrganizerListSerializer
     pagination_class = OrganizerPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = OrganizerFilter
+    search_fields = ['user__name', 'description']
 
 
 class CostWorkMinMaxView(APIView):
