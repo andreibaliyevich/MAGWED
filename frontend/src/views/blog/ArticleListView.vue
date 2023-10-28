@@ -81,6 +81,7 @@ onMounted(() => {
     <div v-if="articleList.length > 0">
       <div
         v-for="article in articleList"
+        :key="article.slug"
         class="card border border-light shadow-sm mb-3"
       >
         <div class="row g-0">

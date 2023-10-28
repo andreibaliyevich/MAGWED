@@ -144,6 +144,7 @@ onMounted(() => {
               <img
                 :src="photoItem.thumbnail"
                 class="card-img"
+                :alt="photoItem.title"
               >
               <div class="card-img-overlay">
                 <div class="position-absolute top-0 start-0 ms-2 mt-2">

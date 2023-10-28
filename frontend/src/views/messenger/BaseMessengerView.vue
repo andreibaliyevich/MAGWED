@@ -330,6 +330,7 @@ onUnmounted(() => {
               >
                 <li
                   v-for="chat in sortedChatList"
+                  :key="chat.uuid"
                   :class="[
                     'nav-item',
                     $route.params.uuid == chat.uuid ? 'active' : null
