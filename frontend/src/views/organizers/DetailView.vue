@@ -62,6 +62,7 @@ const organizerWebsiteShort = computed(() => {
 })
 
 const getOrganizerData = async () => {
+  organizerLoading.value = true
   try {
     const response = await axios.get(
       '/accounts/organizers/'
@@ -125,6 +126,15 @@ const writeMessage = async () => {
     messageSending.value = false
   }
 }
+
+watch(
+  () => route.params.profile_url,
+  (newValue) => {
+    if (route.name == 'OrganizerDetail') {
+      getOrganizerData()
+    }
+  }
+)
 
 onMounted(() => {
   getOrganizerData()
