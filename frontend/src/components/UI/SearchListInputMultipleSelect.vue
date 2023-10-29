@@ -154,7 +154,7 @@ export default {
       <div
         :class="[
           'position-absolute border rounded shadow',
-          {'show': isActive}
+          { 'show': isActive }
         ]"
       >
         <ul class="list-group list-group-flush overflow-auto">
