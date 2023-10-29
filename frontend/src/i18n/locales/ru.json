@@ -73,6 +73,7 @@
         "search1": "Поиск",
         "search2": "Поиск...",
         "searching": "Идет поиск...",
+        "enter_your_request": "Введите ваш запрос",
         "no_results_found": "Результатов не найдено"
     },
     "footer": {
