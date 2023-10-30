@@ -23,7 +23,6 @@ const errors = ref(null)
 
 const createAlbumModal = ref(null)
 const createAlbumModalBootstrap = ref(null)
-const removeAlbumModalChoice = ref(null)
 
 const getAlbumList = async () => {
   try {
@@ -76,6 +75,8 @@ const removeAlbum = async () => {
     })
   } catch (error) {
     console.error(error)
+  } finally {
+    albumUuid.value = null
   }
 }
 
@@ -89,9 +90,6 @@ onMounted(() => {
     errors.value = null
   })
   createAlbumModalBootstrap.value = new bootstrap.Modal(createAlbumModal.value)
-  removeAlbumModalChoice.value.addEventListener('hidden.bs.modal', () => {
-    albumUuid.value = null
-  })
 })
 </script>
 
@@ -263,7 +261,6 @@ onMounted(() => {
       </div>
 
       <div
-        ref="removeAlbumModalChoice"
         id="remove_album_modal_choice"
         class="modal fade"
         role="dialog"

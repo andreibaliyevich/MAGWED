@@ -37,7 +37,6 @@ const errors = ref(null)
 
 const updatePhotoModal = ref(null)
 const updatePhotoModalBootstrap = ref(null)
-const removePhotoModalChoice = ref(null)
 
 const getPhotoData = async (pUuid) => {
   try {
@@ -106,6 +105,8 @@ const removePhoto = async () => {
     emit('removePhoto', photoUuid.value)
   } catch (error) {
     console.error(error)
+  } finally {
+    photoUuid.value = null
   }
 }
 
@@ -132,9 +133,6 @@ onMounted(() => {
     errors.value = null
   })
   updatePhotoModalBootstrap.value = new bootstrap.Modal(updatePhotoModal.value)
-  removePhotoModalChoice.value.addEventListener('hidden.bs.modal', () => {
-    photoUuid.value = null
-  })
 })
 </script>
 
@@ -366,7 +364,6 @@ onMounted(() => {
       </div>
 
       <div
-        ref="removePhotoModalChoice"
         id="remove_photo_modal_choice"
         class="modal fade"
         role="dialog"
