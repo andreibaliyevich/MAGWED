@@ -305,15 +305,18 @@ onMounted(() => {
       </div>
 
       <hr>
-      <FileInputButton
+      <FileDragAndDropInputButton
         @selectedFiles="uploadAlbumPhotos"
-        buttonClass="btn btn-soft-brand w-100"
+        buttonClass="btn btn-soft-brand"
         accept="image/*"
         multiple
       >
-        {{ $t('portfolio.upload_photos') }}
-        <i class="fa-solid fa-upload"></i>
-      </FileInputButton>
+        <div class="px-2 my-2">{{ $t('portfolio.drag_and_drop_image') }}</div>
+        <template #button>
+          {{ $t('portfolio.upload_photos') }}
+          <i class="fa-solid fa-upload"></i>
+        </template>
+      </FileDragAndDropInputButton>
 
       <PortfolioPhotoList
         :photoList="albumPhotoList"
