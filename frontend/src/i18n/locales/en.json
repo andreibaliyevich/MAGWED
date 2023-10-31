@@ -340,6 +340,7 @@
         "no_albums": "No albums!",
         "no_photos": "No photos!",
         "create_album": "Create album",
+        "drag_and_drop_image": "Drag one or more images here for upload or click",
         "upload_photos": "Upload photos",
         "creating_album": "Creating album",
         "uploading_photos": "Uploading photos...",
