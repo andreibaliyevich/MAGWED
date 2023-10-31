@@ -12,7 +12,7 @@ export default {
     dropHandler(event) {
       const filelist = [...event.dataTransfer.files]
       this.$emit('selectedFiles', filelist)
-      this.$refs.dropZone.classList.remove('drag-over')
+      this.$refs.dropArea.classList.remove('drop-area-over')
     },
     changeInput(event) {
       const filelist = [...event.target.files]
@@ -26,9 +26,9 @@ export default {
 <template>
   <div class="file-drag-and-drop-input-button">
     <div
-      ref="dropZone"
-      @dragover.prevent="$refs.dropZone.classList.add('drag-over')"
-      @dragleave.prevent="$refs.dropZone.classList.remove('drag-over')"
+      ref="dropArea"
+      @dragover.prevent="$refs.dropArea.classList.add('drop-area-over')"
+      @dragleave.prevent="$refs.dropArea.classList.remove('drop-area-over')"
       @drop.prevent="dropHandler"
       class="d-flex justify-content-center align-items-center rounded-4"
     >
@@ -63,7 +63,7 @@ export default {
   border-style: dashed;
   border-color: #adb5bd;
 }
-.drag-over {
+.drop-area-over {
   background-color: #e2e3e5 !important;
   border-style: solid !important;
   border-color: #e72a26 !important;
