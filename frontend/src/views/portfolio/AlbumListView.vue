@@ -75,7 +75,10 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.tab == 'popular' ? 'active' : null
+            $route.query.tab == 'popular'
+              || $route.query.tab == undefined
+              ? 'active'
+              : null
           ]"
         >
           <LocaleRouterLink
@@ -83,7 +86,10 @@ onMounted(() => {
             :routeQuery="{ tab: 'popular' }"
             :class="[
               'nav-link',
-              $route.query.tab == 'popular' ? 'active' : 'text-dark'
+              $route.query.tab == 'popular'
+                || $route.query.tab == undefined
+                ? 'active'
+                : 'text-dark'
             ]"
           >
             {{ $t('portfolio.popular_albums') }}
