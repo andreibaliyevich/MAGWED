@@ -52,6 +52,16 @@ const getMoreNotificationList = async () => {
   }
 }
 
+const removeAllNotifications = async () => {
+  try {
+    const response = await axios.delete('/notifications/list-destroy/')
+    notificationList.value = []
+    nextURL.value = null
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const connectSocket = async () => {
   notificationSocket.value = new WebSocket(
     WS_URL
@@ -141,6 +151,17 @@ onMounted(() => {
         class="dropdown-menu dropdown-menu-end border border-light shadow"
         aria-labelledby="notification-list-dropdown"
       >
+        <div class="d-flex justify-content-between align-items-center border-bottom px-3 pb-1">
+          <h6 class="m-0">{{ $t('notifications.notifications') }}</h6>
+          <button
+            @click="removeAllNotifications()"
+            type="button"
+            class="btn btn-link btn-sm link-danger text-decoration-none"
+            :disabled="!notificationList.length"
+          >
+            {{ $t('notifications.clear_all') }}
+          </button>
+        </div>
         <div
           ref="notificationListArea"
           class="overflow-y-auto"
