@@ -96,9 +96,18 @@ onMounted(() => {
 <template>
   <div class="portfolio-album-list-view">
     <div class="px-1 px-lg-3 px-xl-5">
-      <h1 class="display-6 mb-5">
-        {{ $t('portfolio.albums') }}
-      </h1>
+      <div class="d-flex align-items-center mb-5">
+        <LocaleRouterLink
+          routeName="Portfolio"
+          class="link-danger text-decoration-none display-6"
+        >
+          {{ $t('portfolio.portfolio') }}
+        </LocaleRouterLink>
+        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
+        <h1 class="display-6 mb-0">
+          {{ $t('portfolio.albums') }}
+        </h1>
+      </div>
 
       <button
         class="btn btn-soft-brand w-100"
