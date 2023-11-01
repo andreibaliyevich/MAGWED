@@ -297,6 +297,7 @@
     },
     "notifications": {
         "notifications": "Апавяшчэнні",
+        "clear_all": "Ачысціць усё",
         "no_notifications": "Апавяшчэнняў няма!",
         "follow": "{user_name} падпісаўся на вас.",
         "article": "{user_name} апублікаваў новы артыкул “{article_title}”.",

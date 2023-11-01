@@ -297,6 +297,7 @@
     },
     "notifications": {
         "notifications": "Notifications",
+        "clear_all": "Clear all",
         "no_notifications": "No notifications!",
         "follow": "{user_name} starded following you.",
         "article": "{user_name} has posted new article “{article_title}”.",

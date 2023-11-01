@@ -297,6 +297,7 @@
     },
     "notifications": {
         "notifications": "Сповіщення",
+        "clear_all": "Очистити все",
         "no_notifications": "Повідомлень немає!",
         "follow": "{user_name} підписався на вас.",
         "article": "{user_name} опублікував нову статтю “{article_title}”.",
