@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 18:10+0000\n"
+"POT-Creation-Date: 2023-11-02 17:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +152,7 @@ msgstr "Username"
 msgid "A user with that email address already exists."
 msgstr "Пользователь с таким адресом электронной почты уже существует."
 
-#: accounts/models.py:52
+#: accounts/models.py:52 support/models.py:22
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
@@ -160,11 +160,11 @@ msgstr "Адрес электронной почты"
 msgid "User type"
 msgstr "Тип пользователя"
 
-#: accounts/models.py:60 main/models.py:78 messenger/models.py:63
+#: accounts/models.py:60 main/models.py:133 messenger/models.py:63
 msgid "Name"
 msgstr "Имя"
 
-#: accounts/models.py:70 accounts/models.py:249 main/models.py:118
+#: accounts/models.py:70 accounts/models.py:249 main/models.py:95
 #: messenger/models.py:73
 #, python-format
 msgid ""
@@ -359,7 +359,7 @@ msgstr "Устаревший токен для данного пользоват
 msgid "The user does not have a password."
 msgstr "У пользователя нет пароля."
 
-#: blog/admin.py:43 blog/models.py:57 main/models.py:124 messenger/models.py:79
+#: blog/admin.py:43 blog/models.py:57 main/models.py:101 messenger/models.py:79
 #: portfolio/admin.py:30 portfolio/admin.py:68 portfolio/models.py:27
 #: portfolio/models.py:102
 msgid "Image"
@@ -427,12 +427,12 @@ msgstr "Категории"
 msgid "Author"
 msgstr "Автор"
 
-#: blog/models.py:52 blog/models.py:135 main/models.py:102
+#: blog/models.py:52 blog/models.py:135 main/models.py:79
 #: portfolio/models.py:39 portfolio/models.py:153
 msgid "Title"
 msgstr "Название"
 
-#: blog/models.py:53 main/models.py:103
+#: blog/models.py:53 main/models.py:80
 msgid "Slug"
 msgstr "Слаг"
 
@@ -444,12 +444,12 @@ msgstr "Эскиз"
 msgid "Content"
 msgstr "Содержание"
 
-#: blog/models.py:75 main/models.py:90 portfolio/models.py:41
+#: blog/models.py:75 main/models.py:145 portfolio/models.py:41
 #: portfolio/models.py:156
 msgid "Tags"
 msgstr "Теги"
 
-#: blog/models.py:80 main/models.py:137
+#: blog/models.py:80 main/models.py:114
 msgid "Published at"
 msgstr "Опубликовано в"
 
@@ -477,7 +477,7 @@ msgstr "Перевод статьи"
 msgid "Article Translations"
 msgstr "Переводы статей"
 
-#: blog/models.py:161 main/models.py:131
+#: blog/models.py:161 main/models.py:108
 msgid "File"
 msgstr "Файл"
 
@@ -489,7 +489,7 @@ msgstr "Изображение блога"
 msgid "Images of Blog"
 msgstr "Изображения блога"
 
-#: blog/views.py:61
+#: blog/views.py:67
 msgid "Form not valid!"
 msgstr "Форма недействительна!"
 
@@ -497,9 +497,10 @@ msgstr "Форма недействительна!"
 msgid "Comments"
 msgstr "Комментарии"
 
-#: comments/models.py:36 main/models.py:82 messenger/models.py:116
+#: comments/models.py:36 main/models.py:137 messenger/models.py:116
 #: notifications/models.py:43 portfolio/models.py:46 reviews/models.py:38
 #: social/models.py:33 social/models.py:66 social/models.py:102
+#: support/models.py:28 support/models.py:59
 msgid "Created at"
 msgstr "Создано в"
 
@@ -507,7 +508,8 @@ msgstr "Создано в"
 msgid "Updated at"
 msgstr "Обновлено в"
 
-#: comments/models.py:50 reviews/models.py:33
+#: comments/models.py:50 reviews/models.py:33 support/models.py:23
+#: support/models.py:55
 msgid "Comment"
 msgstr "Комментарий"
 
@@ -599,19 +601,19 @@ msgstr "Русский"
 msgid "Ukrainian"
 msgstr "Украинский"
 
-#: main/models.py:89
-msgid "Tag"
-msgstr "Тег"
-
-#: main/models.py:144
+#: main/models.py:121
 msgid "Magazine"
 msgstr "Журнал"
 
-#: main/models.py:145
+#: main/models.py:122
 msgid "Magazines"
 msgstr "Журналы"
 
-#: main/serializers.py:25
+#: main/models.py:144
+msgid "Tag"
+msgstr "Тег"
+
+#: main/serializers.py:39
 msgid "Invalid data."
 msgstr "Неверные данные."
 
@@ -741,7 +743,7 @@ msgstr "Этот чат не является групповым."
 msgid "You cannot delete this chat."
 msgstr "Вы не можете удалить этот чат."
 
-#: messenger/views.py:180
+#: messenger/views.py:181
 msgid "Not found."
 msgstr "Не найдено."
 
@@ -877,19 +879,19 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фотографии"
 
-#: portfolio/views.py:112
+#: portfolio/views.py:117
 msgid "You already liked this album!"
 msgstr "Вам уже понравился этот альбом!"
 
-#: portfolio/views.py:124
+#: portfolio/views.py:129
 msgid "You do not like this album!"
 msgstr "Вам не нравится этот альбом!"
 
-#: portfolio/views.py:223
+#: portfolio/views.py:233
 msgid "You already liked this photo!"
 msgstr "Вам уже понравилось это фото!"
 
-#: portfolio/views.py:235
+#: portfolio/views.py:245
 msgid "You do not like this photo!"
 msgstr "Вам не нравится это фото!"
 
@@ -1016,6 +1018,54 @@ msgstr "У вас уже есть этот фаворит."
 #: social/views.py:159
 msgid "You do not have this favorite."
 msgstr "У вас нет этого фаворита."
+
+#: support/apps.py:8
+msgid "Support"
+msgstr "Служба поддержки"
+
+#: support/choices.py:6
+msgid "General questions and inquiries"
+msgstr "Общие вопросы и запросы"
+
+#: support/choices.py:7
+msgid "Moderation and deletion of photos"
+msgstr "Модерация и удаление фотографий"
+
+#: support/choices.py:8
+msgid "Technical issues"
+msgstr "Технические неисправности"
+
+#: support/choices.py:9
+msgid "Partnership and advertising"
+msgstr "Партнерство и реклама"
+
+#: support/choices.py:10
+msgid "Message for the administration"
+msgstr "Сообщение для администрации"
+
+#: support/models.py:20
+msgid "Subject"
+msgstr "Тема"
+
+#: support/models.py:32
+msgid "Feedback"
+msgstr "Обратная связь"
+
+#: support/models.py:33
+msgid "Feedback list"
+msgstr "Список отзывов"
+
+#: support/models.py:48
+msgid "Sender"
+msgstr "Отправитель"
+
+#: support/models.py:63
+msgid "Report"
+msgstr "Отчет"
+
+#: support/models.py:64
+msgid "Report list"
+msgstr "Список отчетов"
 
 #: templates/admin/base.html:40
 msgid "Welcome,"
