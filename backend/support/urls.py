@@ -1,5 +1,8 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 
 
-urlpatterns = []
+urlpatterns = [
+    path('feedback/', views.FeedbackCreateView.as_view()),
+    path('report/', views.ReportCreateView.as_view()),
+]
