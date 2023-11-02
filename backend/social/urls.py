@@ -2,8 +2,6 @@ from django.urls import path, include
 from . import views
 
 
-app_name = 'social'
-
 urlpatterns = [
     path('links/', include([
         path('', views.SocialLinkListCreateView.as_view()),

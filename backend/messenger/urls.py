@@ -2,8 +2,6 @@ from django.urls import path, include
 from . import views
 
 
-app_name = 'messenger'
-
 urlpatterns = [
     path('chat/', include([
         path('list/', views.ChatListView.as_view()),
