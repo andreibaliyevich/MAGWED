@@ -34,6 +34,7 @@ urlpatterns = i18n_patterns(
     path('social/', include('social.urls')),
     path('messenger/', include('messenger.urls')),
     path('notifications/', include('notifications.urls')),
+    path('support/', include('support.urls')),
 )
 
 if settings.DEBUG:
