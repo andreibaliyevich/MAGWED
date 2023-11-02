@@ -82,10 +82,10 @@ onMounted(() => {
             </li>
             <li class="nav-item mb-2">
               <LocaleRouterLink
-                routeName="Home"
+                routeName="Feedback"
                 class="nav-link p-0 text-white"
               >
-                {{ $t('footer.feedback') }}
+                {{ $t('feedback.feedback') }}
               </LocaleRouterLink>
             </li>
             <li class="nav-item mb-2">

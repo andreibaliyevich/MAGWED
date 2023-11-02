@@ -83,13 +83,6 @@ const { logout } = useLogout()
             <i class="fa-solid fa-star"></i>
             {{ $t('favorites.favorites') }}
           </LocaleRouterLink>
-          <LocaleRouterLink
-            routeName="Home"
-            class="dropdown-item d-flex align-items-center gap-2"
-          >
-            <i class="fa-solid fa-comment-dots"></i>
-            {{ $t('footer.feedback') }}
-          </LocaleRouterLink>
         </li>
         <li><hr class="dropdown-divider"></li>
         <li>
