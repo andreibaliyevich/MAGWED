@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 17:31+0000\n"
+"POT-Creation-Date: 2023-11-06 12:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -517,10 +517,12 @@ msgid "Only author have permission."
 msgstr "Дазвол ёсць толькі ў аўтара."
 
 #: comments/serializers.py:85 social/serializers.py:75
+#: support/serializers.py:40
 msgid "Invalid content type."
 msgstr "Недапушчальны тып кантэнту."
 
 #: comments/serializers.py:92 social/serializers.py:82
+#: support/serializers.py:47
 msgid "Object does not exist."
 msgstr "Аб'ект не існуе."
 
@@ -1141,7 +1143,7 @@ msgid ""
 "user account at "
 msgstr ""
 "Вы атрымалі гэты электронны ліст, таму што запыталі скід пароля для свайго "
-"ўліковага запісу карыстальніка на"
+"ўліковага запісу карыстальніка на "
 
 #: templates/email/password_reset_html.html:9
 #: templates/email/password_reset_text.html:7
