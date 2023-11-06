@@ -16,6 +16,3 @@ class ReportCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(sender=self.request.user)

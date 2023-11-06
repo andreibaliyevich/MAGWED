@@ -48,6 +48,18 @@ class ReportSerializer(serializers.ModelSerializer):
 
         return data
 
+    def create(self, validated_data):
+        try:
+            report = Report.objects.create(
+                sender=self.context['request'].user,
+                content_object=self.content_object,
+                comment=validated_data['comment'],
+            )
+        except BaseException:
+            raise serializers.ValidationError({
+                'create': _('Failed to create report.')})
+        return report
+
     class Meta:
         model = Report
         fields = [
