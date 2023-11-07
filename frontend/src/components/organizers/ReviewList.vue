@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
+import ReportDropdownItemModal from '../ReportDropdownItemModal.vue'
 
 const { t, locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
@@ -334,34 +335,54 @@ onMounted(() => {
                 </div>
               </div>
               <p>{{ reviewItem.comment }}</p>
-              <div
-                v-if="userStore.uuid == reviewItem.author.uuid"
-                class="d-flex justify-content-end"
-              >
-                <button
-                  @click="() => {
-                    oldReviewUuid = reviewItem.uuid
-                    oldReviewRating = reviewItem.rating
-                    oldReviewComment = reviewItem.comment
-                  }"
-                  type="button"
-                  class="btn btn-link btn-sm link-secondary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#update_review_modal"
-                >
-                  <i class="fa-solid fa-pen"></i>
-                  {{ $t('btn.edit') }}
-                </button>
-                <button
-                  @click="oldReviewUuid = reviewItem.uuid"
-                  type="button"
-                  class="btn btn-link btn-sm link-secondary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#remove_review_modal_choice"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                  {{ $t('btn.delete') }}
-                </button>
+              <div class="d-flex justify-content-end">
+                <div class="dropdown">
+                  <button
+                    type="button"
+                    class="btn btn-link link-dark"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa-solid fa-ellipsis"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <ReportDropdownItemModal
+                        contentType="review"
+                        :objectUUID="reviewItem.uuid"
+                      />
+                    </li>
+                    <li v-if="userStore.uuid == reviewItem.author.uuid">
+                      <button
+                        @click="() => {
+                          oldReviewUuid = reviewItem.uuid
+                          oldReviewRating = reviewItem.rating
+                          oldReviewComment = reviewItem.comment
+                        }"
+                        type="button"
+                        class="dropdown-item btn btn-link"
+                        data-bs-toggle="modal"
+                        data-bs-target="#update_review_modal"
+                      >
+                        <i class="fa-solid fa-pen"></i>
+                        {{ $t('btn.edit') }}
+                      </button>
+                    </li>
+                    <li v-if="userStore.uuid == reviewItem.author.uuid">
+                      <button
+                        @click="oldReviewUuid = reviewItem.uuid"
+                        type="button"
+                        class="dropdown-item btn btn-link"
+                        data-bs-toggle="modal"
+                        data-bs-target="#remove_review_modal_choice"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                        {{ $t('btn.delete') }}
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </li>
           </TransitionGroup>
