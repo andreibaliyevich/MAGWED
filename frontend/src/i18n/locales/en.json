@@ -395,6 +395,11 @@
         "years": "Years",
         "author": "Author"
     },
+    "report": {
+        "report": "Report",
+        "new_report": "New report",
+        "comment": "Comment"
+    },
     "btn": {
         "add": "Add",
         "create": "Create",
@@ -403,7 +408,6 @@
         "delete": "Delete",
         "loading": "Loading...",
         "reply": "Reply",
-        "report": "Report",
         "reset": "Reset",
         "show": "Show",
         "send": "Send",
