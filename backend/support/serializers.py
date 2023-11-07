@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from blog.models import Article
 from comments.models import Comment
@@ -25,7 +26,9 @@ class ReportSerializer(serializers.ModelSerializer):
     object_uuid = serializers.UUIDField(write_only=True)
 
     def validate(self, data):
-        if data['content_type'] == 'review':
+        if data['content_type'] == 'user':
+            object_class = get_user_model()
+        elif data['content_type'] == 'review':
             object_class = Review
         elif data['content_type'] == 'article':
             object_class = Article
