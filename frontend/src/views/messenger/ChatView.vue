@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
+import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
 const emit = defineEmits(['msgViewed'])
 
@@ -420,6 +421,12 @@ onUnmounted(() => {
                   <i class="fa-solid fa-user"></i>
                   {{ $t('user.view_profile') }}
                 </LocaleRouterLink>
+              </li>
+              <li>
+                <ReportDropdownItemModal
+                  contentType="user"
+                  :objectUUID="chatData.details.uuid"
+                />
               </li>
               <li>
                 <button
