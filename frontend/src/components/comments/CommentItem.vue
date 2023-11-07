@@ -5,6 +5,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
 import { useUserStore } from '@/stores/user.js'
 import SubmitContent from './SubmitContent.vue'
+import ReportDropdownItemModal from '../ReportDropdownItemModal.vue'
 
 const userStore = useUserStore()
 
@@ -102,13 +103,10 @@ watch(newCommentContent, (newValue) => {
                   </button>
                 </li>
                 <li>
-                  <button
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                  >
-                    <i class="fa-solid fa-flag"></i>
-                    {{ $t('btn.report') }}
-                  </button>
+                  <ReportDropdownItemModal
+                    contentType="comment"
+                    :objectUUID="commentItem.uuid"
+                  />
                 </li>
               </ul>
             </div>

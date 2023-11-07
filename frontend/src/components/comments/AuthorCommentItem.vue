@@ -4,6 +4,7 @@ import { ref, watch, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
 import SubmitContent from './SubmitContent.vue'
+import ReportDropdownItemModal from '../ReportDropdownItemModal.vue'
 
 const props = defineProps({
   commentItem: {
@@ -146,13 +147,10 @@ onMounted(() => {
                   </button>
                 </li>
                 <li>
-                  <button
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                  >
-                    <i class="fa-solid fa-flag"></i>
-                    {{ $t('btn.report') }}
-                  </button>
+                  <ReportDropdownItemModal
+                    contentType="comment"
+                    :objectUUID="commentItem.uuid"
+                  />
                 </li>
                 <li>
                   <button
@@ -205,7 +203,7 @@ onMounted(() => {
         tabindex="-1"
         aria-modal="true"
         aria-hidden="true"
-        aria-labelledby="update_comment_modal_label"
+        :aria-labelledby="`update_comment_modal_label_${commentItem.uuid}`"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
@@ -213,7 +211,7 @@ onMounted(() => {
           <div class="modal-content">
             <div class="modal-header">
               <h5
-                id="update_comment_modal_label"
+                :id="`update_comment_modal_label_${commentItem.uuid}`"
                 class="modal-title"
               >
                 {{ $t('comments.updating_comment') }}

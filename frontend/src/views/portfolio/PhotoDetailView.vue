@@ -6,6 +6,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
+import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -217,24 +218,48 @@ onUnmounted(() => {
                       <i class="fa-regular fa-heart"></i>
                       {{ photoData.like_count }}
                     </button>
-                    <button
-                      v-if="photoData.favorite"
-                      @click="removePhotoFromFavorites()"
-                      type="button"
-                      class="btn btn-light ms-2"
-                    >
-                      <i class="fa-solid fa-bookmark"></i>
-                      {{ $t('favorites.remove_from_favourites') }}
-                    </button>
-                    <button
-                      v-else
-                      @click="addPhotoToFavorites()"
-                      type="button"
-                      class="btn btn-light ms-2"
-                    >
-                      <i class="fa-regular fa-bookmark"></i>
-                      {{ $t('favorites.add_to_favourites') }}
-                    </button>
+
+                    <div class="d-flex justify-content-end">
+                      <div class="dropdown">
+                        <button
+                          type="button"
+                          class="btn btn-light ms-2"
+                          data-bs-toggle="dropdown"
+                          data-bs-auto-close="true"
+                          aria-expanded="false"
+                        >
+                          <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li>
+                            <button
+                              v-if="photoData.favorite"
+                              @click="removePhotoFromFavorites()"
+                              type="button"
+                              class="dropdown-item btn btn-link"
+                            >
+                              <i class="fa-solid fa-star"></i>
+                              {{ $t('favorites.remove_from_favourites') }}
+                            </button>
+                            <button
+                              v-else
+                              @click="addPhotoToFavorites()"
+                              type="button"
+                              class="dropdown-item btn btn-link"
+                            >
+                              <i class="fa-regular fa-star"></i>
+                              {{ $t('favorites.add_to_favourites') }}
+                            </button>
+                          </li>
+                          <li>
+                            <ReportDropdownItemModal
+                              contentType="photo"
+                              :objectUUID="$route.params.uuid"
+                            />
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
