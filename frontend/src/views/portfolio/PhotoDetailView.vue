@@ -6,6 +6,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
+import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
 const route = useRoute()
@@ -94,32 +95,6 @@ const dislikePhoto = async () => {
     )
     photoData.value.like_count -= 1
     photoData.value.liked = false
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const addPhotoToFavorites = async () => {
-  try {
-    const response = await axios.post('/social/favorite/', {
-      content_type: 'photo',
-      object_uuid: route.params.uuid
-    })
-    photoData.value.favorite = true
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const removePhotoFromFavorites = async () => {
-  try {
-    const response = await axios.delete('/social/favorite/', {
-      data: {
-        content_type: 'photo',
-        object_uuid: route.params.uuid
-      }
-    })
-    photoData.value.favorite = false
   } catch (error) {
     console.error(error)
   }
@@ -232,24 +207,14 @@ onUnmounted(() => {
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                           <li>
-                            <button
-                              v-if="photoData.favorite"
-                              @click="removePhotoFromFavorites()"
-                              type="button"
-                              class="dropdown-item btn btn-link"
-                            >
-                              <i class="fa-solid fa-star"></i>
-                              {{ $t('favorites.remove_from_favourites') }}
-                            </button>
-                            <button
-                              v-else
-                              @click="addPhotoToFavorites()"
-                              type="button"
-                              class="dropdown-item btn btn-link"
-                            >
-                              <i class="fa-regular fa-star"></i>
-                              {{ $t('favorites.add_to_favourites') }}
-                            </button>
+                            <FavoriteDropdownItem
+                              :objFavorite="photoData.favorite"
+                              contentType="photo"
+                              :objectUUID="$route.params.uuid"
+                              @updateFavorite="(status) => {
+                                photoData.favorite = status
+                              }"
+                            />
                           </li>
                           <li>
                             <ReportDropdownItemModal

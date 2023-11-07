@@ -6,6 +6,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
+import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
 const route = useRoute()
@@ -127,32 +128,6 @@ const dislikeAlbum = async () => {
   }
 }
 
-const addAlbumToFavorites = async () => {
-  try {
-    const response = await axios.post('/social/favorite/', {
-      content_type: 'album',
-      object_uuid: route.params.uuid
-    })
-    albumData.value.favorite = true
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const removeAlbumFromFavorites = async () => {
-  try {
-    const response = await axios.delete('/social/favorite/', {
-      data: {
-        content_type: 'album',
-        object_uuid: route.params.uuid
-      }
-    })
-    albumData.value.favorite = false
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 watch(
   () => route.params.uuid,
   (newValue) => {
@@ -248,24 +223,14 @@ onUnmounted(() => {
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                       <li>
-                        <button
-                          v-if="albumData.favorite"
-                          @click="removeAlbumFromFavorites()"
-                          type="button"
-                          class="dropdown-item btn btn-link"
-                        >
-                          <i class="fa-solid fa-star"></i>
-                          {{ $t('favorites.remove_from_favourites') }}
-                        </button>
-                        <button
-                          v-else
-                          @click="addAlbumToFavorites()"
-                          type="button"
-                          class="dropdown-item btn btn-link"
-                        >
-                          <i class="fa-regular fa-star"></i>
-                          {{ $t('favorites.add_to_favourites') }}
-                        </button>
+                        <FavoriteDropdownItem
+                          :objFavorite="albumData.favorite"
+                          contentType="album"
+                          :objectUUID="$route.params.uuid"
+                          @updateFavorite="(status) => {
+                            albumData.favorite = status
+                          }"
+                        />
                       </li>
                       <li>
                         <ReportDropdownItemModal

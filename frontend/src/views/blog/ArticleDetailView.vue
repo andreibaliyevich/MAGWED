@@ -7,6 +7,7 @@ import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
+import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
 const route = useRoute()
@@ -154,24 +155,14 @@ onUnmounted(() => {
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <button
-                    v-if="articleData.favorite"
-                    @click="removeArticleFromFavorites()"
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                  >
-                    <i class="fa-solid fa-star"></i>
-                    {{ $t('favorites.remove_from_favourites') }}
-                  </button>
-                  <button
-                    v-else
-                    @click="addArticleToFavorites()"
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                  >
-                    <i class="fa-regular fa-star"></i>
-                    {{ $t('favorites.add_to_favourites') }}
-                  </button>
+                  <FavoriteDropdownItem
+                    :objFavorite="articleData.favorite"
+                    contentType="article"
+                    :objectUUID="articleData.uuid"
+                    @updateFavorite="(status) => {
+                      articleData.favorite = status
+                    }"
+                  />
                 </li>
                 <li>
                   <ReportDropdownItemModal
