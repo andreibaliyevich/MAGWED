@@ -184,6 +184,22 @@ onMounted(() => {
 
       <ul class="nav nav-pills justify-content-center mb-3">
         <li
+          :class="[
+            'nav-item',
+            !$route.query.role ? 'active' : null
+          ]"
+        >
+          <LocaleRouterLink
+            routeName="OrganizerList"
+            :class="[
+              'nav-link',
+              !$route.query.role ? 'active' : 'text-dark'
+            ]"
+          >
+            {{ $t('organizers.all') }}
+          </LocaleRouterLink>
+        </li>
+        <li
           v-for="roleType in roleTypeOptions"
           :key="roleType.value"
           :class="[
