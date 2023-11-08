@@ -335,6 +335,7 @@
     },
     "organizers": {
         "organizers": "Organizers",
+        "all": "All",
         "filters": "Filters",
         "per_hour": "per hour",
         "min_number_hours": "minimum 0 hours | minimum 1 hour | minimum {n} hours",
