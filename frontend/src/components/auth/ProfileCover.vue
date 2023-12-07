@@ -191,7 +191,7 @@ onMounted(() => {
                 id="cover_cropper_modal_label"
                 class="modal-title"
               >
-                {{ $t('user.updating_avatar') }}
+                {{ $t('user.updating_cover') }}
               </h5>
               <button
                 class="btn-close"
