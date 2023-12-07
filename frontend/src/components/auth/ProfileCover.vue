@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios'
+import 'cropperjs/dist/cropper.css'
+import Cropper from 'cropperjs'
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -7,6 +9,12 @@ const { t } = useI18n({ useScope: 'global' })
 
 const coverLoading = ref(true)
 const cover = ref(null)
+
+const coverCropperModal = ref(null)
+const coverCropperModalBootstrap = ref(null)
+
+const coverImg = ref(null)
+const coverCropper = ref(null)
 
 const status = ref(null)
 const errors = ref(null)
@@ -23,11 +31,31 @@ const getCover = async () => {
   }
 }
 
+const loadCoverImg = async (filelist) => {
+  const reader = new FileReader()
+  reader.readAsDataURL(filelist[0])
+  reader.onload = () => {
+    coverImg.value.src = reader.result
+    coverImg.value.alt = filelist[0].name
+    coverCropperModalBootstrap.value.show()
+  }
+}
+
 const updateCover = async (filelist) => {
   coverLoading.value = true
 
+  const croppedCanvas = coverCropper.value.getCroppedCanvas({
+    width: 1500,
+    height: 500
+  })
+  const canvasBlob = await new Promise((resolve) => {
+    croppedCanvas.toBlob((blob) => {
+      resolve(blob)
+    })
+  })
+
   let formData = new FormData()
-  formData.append('cover', filelist[0], filelist[0].name)
+  formData.append('cover', canvasBlob, coverImg.value.alt)
 
   try {
     const response = await axios.put('/accounts/auth/cover/', formData)
@@ -39,6 +67,7 @@ const updateCover = async (filelist) => {
     errors.value = error.response.data
   } finally {
     coverLoading.value = false
+    coverCropperModalBootstrap.value.hide()
   }
 }
 
@@ -59,6 +88,23 @@ const removeCover = async () => {
 
 onMounted(() => {
   getCover()
+  coverCropperModal.value.addEventListener('shown.bs.modal', () => {
+    coverCropper.value = new Cropper(coverImg.value, {
+      viewMode: 1,
+      dragMode: 'crop',
+      aspectRatio: 3 / 1,
+      zoomable: false
+    })
+  })
+  coverCropperModal.value.addEventListener('hidden.bs.modal', () => {
+    coverCropper.value.destroy()
+    coverCropper.value = null
+    coverImg.value.src = ''
+    coverImg.value.alt = ''
+  })
+  coverCropperModalBootstrap.value = new bootstrap.Modal(
+    coverCropperModal.value
+  )
 })
 </script>
 
@@ -103,11 +149,11 @@ onMounted(() => {
           </div>
           <div class="d-flex justify-content-center">
             <FileInputButton
-              @selectedFiles="updateCover"
+              @selectedFiles="loadCoverImg"
               buttonClass="btn btn-soft-brand m-1"
               accept="image/*"
             >
-              {{ $t('user.upload_cover') }}
+              {{ $t('user.update_cover') }}
             </FileInputButton>
             <button
               v-if="cover"
@@ -125,7 +171,70 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
     <Teleport to="body">
+      <div
+        ref="coverCropperModal"
+        id="cover_cropper_modal"
+        class="modal fade"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="cover_cropper_modal_label"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                id="cover_cropper_modal_label"
+                class="modal-title"
+              >
+                {{ $t('user.updating_avatar') }}
+              </h5>
+              <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form
+                @submit.prevent="updateCover()"
+                id="cover_modal_form"
+              >
+                <div class="d-flex justify-content-center">
+                  <img
+                    ref="coverImg"
+                    src=""
+                    alt=""
+                    class="d-block mw-100"
+                  >
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-light"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.cancel') }}
+              </button>
+              <SubmitButton
+                :loadingStatus="coverLoading"
+                buttonClass="btn btn-brand"
+                form="cover_modal_form"
+              >
+                {{ $t('btn.update') }}
+              </SubmitButton>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         id="remove_cover_modal_choice"
         class="modal fade"
