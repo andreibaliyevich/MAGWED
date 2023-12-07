@@ -210,7 +210,7 @@ onMounted(() => {
                     ref="coverImg"
                     src=""
                     alt=""
-                    class="d-block mw-100"
+                    class="d-block mw-100 max-vh-75"
                   >
                 </div>
               </form>

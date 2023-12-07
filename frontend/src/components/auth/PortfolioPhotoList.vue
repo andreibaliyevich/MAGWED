@@ -421,10 +421,6 @@ onMounted(() => {
   background-color: #e72a26;
 }
 
-.max-vh-75 {
-  max-height: 75vh !important;
-}
-
 @media (min-width: 1200px) {
   .px-xl-10 {
     padding-right: 10rem !important;
