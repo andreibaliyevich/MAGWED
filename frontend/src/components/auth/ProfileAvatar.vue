@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios'
-import { ref } from 'vue'
+import 'cropperjs/dist/cropper.css'
+import Cropper from 'cropperjs'
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user.js'
 
@@ -9,14 +11,40 @@ const userStore = useUserStore()
 
 const avatarLoading = ref(false)
 
+const avatarCropperModal = ref(null)
+const avatarCropperModalBootstrap = ref(null)
+
+const avatarImg = ref(null)
+const avatarCropper = ref(null)
+
 const status = ref(null)
 const errors = ref(null)
 
-const updateAvatar = async (filelist) => {
+const loadAvatarImg = async (filelist) => {
+  const reader = new FileReader()
+  reader.readAsDataURL(filelist[0])
+  reader.onload = () => {
+    avatarImg.value.src = reader.result
+    avatarImg.value.alt = filelist[0].name
+    avatarCropperModalBootstrap.value.show()
+  }
+}
+
+const updateAvatar = async () => {
   avatarLoading.value = true
 
+  const croppedCanvas = avatarCropper.value.getCroppedCanvas({
+    width: 500,
+    height: 500
+  })
+  const canvasBlob = await new Promise((resolve) => {
+    croppedCanvas.toBlob((blob) => {
+      resolve(blob)
+    })
+  })
+
   let formData = new FormData()
-  formData.append('avatar', filelist[0], filelist[0].name)
+  formData.append('avatar', canvasBlob, avatarImg.value.alt)
 
   try {
     const response = await axios.put('/accounts/auth/avatar/', formData)
@@ -37,6 +65,7 @@ const updateAvatar = async (filelist) => {
     errors.value = error.response.data
   } finally {
     avatarLoading.value = false
+    avatarCropperModalBootstrap.value.hide()
   }
 }
 
@@ -63,19 +92,32 @@ const removeAvatar = async () => {
     avatarLoading.value = false
   }
 }
+
+onMounted(() => {
+  avatarCropperModal.value.addEventListener('shown.bs.modal', () => {
+    avatarCropper.value = new Cropper(avatarImg.value, {
+      viewMode: 1,
+      dragMode: 'crop',
+      aspectRatio: 1 / 1,
+      zoomable: false
+    })
+  })
+  avatarCropperModal.value.addEventListener('hidden.bs.modal', () => {
+    avatarCropper.value.destroy()
+    avatarCropper.value = null
+    avatarImg.value.src = ''
+    avatarImg.value.alt = ''
+  })
+  avatarCropperModalBootstrap.value = new bootstrap.Modal(
+    avatarCropperModal.value
+  )
+})
 </script>
 
 <template>
   <div class="profile-avatar">
     <div class="card mb-2">
-      <LoadingIndicator
-        v-if="avatarLoading"
-        :actionInfo="$t('user.uploading_avatar')"
-      />
-      <div
-        v-else
-        class="row d-flex align-items-center"
-      >
+      <div class="row d-flex align-items-center">
         <div class="col-md-3">
           <UserAvatar
             :src="userStore.avatar"
@@ -108,11 +150,11 @@ const removeAvatar = async () => {
             </div>
             <div class="d-flex justify-content-center">
               <FileInputButton
-                @selectedFiles="updateAvatar"
+                @selectedFiles="loadAvatarImg"
                 buttonClass="btn btn-soft-brand m-1"
                 accept="image/*"
               >
-                {{ $t('user.upload_avatar') }}
+                {{ $t('user.update_avatar') }}
               </FileInputButton>
               <button
                 v-if="userStore.avatar"
@@ -131,7 +173,70 @@ const removeAvatar = async () => {
         </div>
       </div>
     </div>
+
     <Teleport to="body">
+      <div
+        ref="avatarCropperModal"
+        id="avatar_cropper_modal"
+        class="modal fade"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="avatar_cropper_modal_label"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                id="avatar_cropper_modal_label"
+                class="modal-title"
+              >
+                {{ $t('user.updating_avatar') }}
+              </h5>
+              <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form
+                @submit.prevent="updateAvatar()"
+                id="avatar_modal_form"
+              >
+                <div class="d-flex justify-content-center">
+                  <img
+                    ref="avatarImg"
+                    src=""
+                    alt=""
+                    class="d-block mw-100"
+                  >
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-light"
+                type="button"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.cancel') }}
+              </button>
+              <SubmitButton
+                :loadingStatus="avatarLoading"
+                buttonClass="btn btn-brand"
+                form="avatar_modal_form"
+              >
+                {{ $t('btn.update') }}
+              </SubmitButton>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         id="remove_avatar_modal_choice"
         class="modal fade"
