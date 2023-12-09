@@ -285,48 +285,63 @@ onUnmounted(() => {
                 {{ photoData.description }}
               </p>
 
-              <ul class="list-group list-group-flush">
-                <li
-                  v-if="photoData.device"
-                  class="list-group-item"
-                >
-                  <i class="fa-solid fa-camera"></i>
-                  {{ photoData.device }}
-                </li>
-                <li
-                  v-if="photoData.f_number"
-                  class="list-group-item"
-                >
-                  {{ $t('portfolio.f_number') }}:
-                  f/{{ photoData.f_number }}
-                </li>
-                <li
-                  v-if="photoData.exposure_time"
-                  class="list-group-item"
-                >
-                  {{ $t('portfolio.exposure_time') }}:
-                  {{ photoData.exposure_time }}
-                </li>
-                <li
-                  v-if="photoData.focal_length"
-                  class="list-group-item"
-                >
-                  {{ $t('portfolio.focal_length') }}:
-                  {{ photoData.focal_length }}
-                </li>
-                <li
-                  v-if="photoData.photographic_sensitivity"
-                  class="list-group-item"
-                >
-                  {{ $t('portfolio.photographic_sensitivity') }}:
-                  {{ photoData.photographic_sensitivity }}
-                </li>
-              </ul>
+            </div>
+          </div>
 
+          <div
+            v-if="photoData.device"
+            class="card border border-light shadow-sm mt-2"
+          >
+            <div class="card-body mx-3 mx-lg-1">
+              <div>
+                <i class="fa-solid fa-camera"></i>
+                {{ photoData.device }}
+              </div>
               <div
-                v-if="photoData.tags.length > 0"
-                class="d-inline-block mt-3"
+                v-if="photoData.f_number
+                  || photoData.exposure_time
+                  || photoData.focal_length
+                  || photoData.photographic_sensitivity"
+                class="mt-2"
               >
+                <span
+                  v-if="photoData.f_number"
+                  :class="{
+                    'me-3': photoData.exposure_time
+                      || photoData.focal_length
+                      || photoData.photographic_sensitivity
+                  }"
+                >
+                  f/{{ photoData.f_number }}
+                </span>
+                <span
+                  v-if="photoData.exposure_time"
+                  :class="{
+                    'me-3': photoData.focal_length
+                      || photoData.photographic_sensitivity
+                  }"
+                >
+                  {{ photoData.exposure_time }}s
+                </span>
+                <span
+                  v-if="photoData.focal_length"
+                  :class="{ 'me-3': photoData.photographic_sensitivity }"
+                >
+                  {{ photoData.focal_length }}mm
+                </span>
+                <span v-if="photoData.photographic_sensitivity">
+                  ISO {{ photoData.photographic_sensitivity }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="photoData.tags.length > 0"
+            class="card border border-light shadow-sm mt-2"
+          >
+            <div class="card-body mx-3 mx-lg-1">
+              <div class="d-inline-block">
                 <div class="row g-1">
                   <div
                     v-for="tag in photoData.tags"
@@ -344,7 +359,6 @@ onUnmounted(() => {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
