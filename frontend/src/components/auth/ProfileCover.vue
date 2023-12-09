@@ -15,6 +15,7 @@ const coverCropperModalBootstrap = ref(null)
 
 const coverImg = ref(null)
 const coverCropper = ref(null)
+const coverCropperReady = ref(false)
 
 const status = ref(null)
 const errors = ref(null)
@@ -88,6 +89,9 @@ const removeCover = async () => {
 
 onMounted(() => {
   getCover()
+  coverImg.value.addEventListener('ready', () => {
+    coverCropperReady.value = true
+  })
   coverCropperModal.value.addEventListener('shown.bs.modal', () => {
     coverCropper.value = new Cropper(coverImg.value, {
       viewMode: 1,
@@ -101,6 +105,7 @@ onMounted(() => {
     coverCropper.value = null
     coverImg.value.src = ''
     coverImg.value.alt = ''
+    coverCropperReady.value = false
   })
   coverCropperModalBootstrap.value = new bootstrap.Modal(
     coverCropperModal.value
@@ -227,6 +232,7 @@ onMounted(() => {
                 :loadingStatus="coverLoading"
                 buttonClass="btn btn-brand"
                 form="cover_modal_form"
+                :disabled="!coverCropperReady"
               >
                 {{ $t('btn.update') }}
               </SubmitButton>

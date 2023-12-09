@@ -16,6 +16,7 @@ const avatarCropperModalBootstrap = ref(null)
 
 const avatarImg = ref(null)
 const avatarCropper = ref(null)
+const avatarCropperReady = ref(false)
 
 const status = ref(null)
 const errors = ref(null)
@@ -94,6 +95,9 @@ const removeAvatar = async () => {
 }
 
 onMounted(() => {
+  avatarImg.value.addEventListener('ready', () => {
+    avatarCropperReady.value = true
+  })
   avatarCropperModal.value.addEventListener('shown.bs.modal', () => {
     avatarCropper.value = new Cropper(avatarImg.value, {
       viewMode: 1,
@@ -107,6 +111,7 @@ onMounted(() => {
     avatarCropper.value = null
     avatarImg.value.src = ''
     avatarImg.value.alt = ''
+    avatarCropperReady.value = false
   })
   avatarCropperModalBootstrap.value = new bootstrap.Modal(
     avatarCropperModal.value
@@ -229,6 +234,7 @@ onMounted(() => {
                 :loadingStatus="avatarLoading"
                 buttonClass="btn btn-brand"
                 form="avatar_modal_form"
+                :disabled="!avatarCropperReady"
               >
                 {{ $t('btn.update') }}
               </SubmitButton>
