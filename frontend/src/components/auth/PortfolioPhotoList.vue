@@ -17,10 +17,10 @@ const photoUuid = ref(null)
 const photoImage = ref(null)
 
 const photoDevice = ref('')
-const photoFNumber = ref(0.00)
+const photoFNumber = ref(null)
 const photoExposureTime = ref('')
-const photoFocalLength = ref(0.00)
-const photoPhotographicSensitivity = ref(0)
+const photoFocalLength = ref(null)
+const photoPhotographicSensitivity = ref(null)
 
 const photoTitle = ref('')
 const photoDescription = ref('')
@@ -69,6 +69,17 @@ const getPhotoData = async (pUuid) => {
 
 const updatePhoto = async () => {
   photoUpdating.value = true
+
+  if (!photoFNumber.value) {
+    photoFNumber.value = null
+  }
+  if (!photoFocalLength.value) {
+    photoFocalLength.value = null
+  }
+  if (!photoPhotographicSensitivity.value) {
+    photoPhotographicSensitivity.value = null
+  }
+
   try {
     const response = await axios.put(
       '/portfolio/photo/author/rud/'
@@ -116,10 +127,10 @@ onMounted(() => {
     photoImage.value = null
 
     photoDevice.value = ''
-    photoFNumber.value = 0.00
+    photoFNumber.value = null
     photoExposureTime.value = ''
-    photoFocalLength.value = 0.00
-    photoPhotographicSensitivity.value = 0
+    photoFocalLength.value = null
+    photoPhotographicSensitivity.value = null
 
     photoTitle.value = ''
     photoDescription.value = ''
@@ -255,15 +266,6 @@ onMounted(() => {
                   />
                 </div>
                 <div class="col-md-12">
-                  <ListInput
-                    v-model="photoTags"
-                    id="id_tags"
-                    name="tags"
-                    :label="$t('portfolio.tags')"
-                    :errors="errors?.tags ? errors.tags : []"
-                  />
-                </div>
-                <div class="col-md-12">
                   <BaseInput
                     v-model="photoDevice"
                     type="text"
@@ -320,6 +322,15 @@ onMounted(() => {
                       ? errors.photographic_sensitivity
                       : []
                     "
+                  />
+                </div>
+                <div class="col-md-12">
+                  <ListInput
+                    v-model="photoTags"
+                    id="id_tags"
+                    name="tags"
+                    :label="$t('portfolio.tags')"
+                    :errors="errors?.tags ? errors.tags : []"
                   />
                 </div>
               </form>
