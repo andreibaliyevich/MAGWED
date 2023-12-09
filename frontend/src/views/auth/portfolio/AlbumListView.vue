@@ -23,6 +23,7 @@ const errors = ref(null)
 
 const createAlbumModal = ref(null)
 const createAlbumModalBootstrap = ref(null)
+const albumImg = ref(null)
 
 const getAlbumList = async () => {
   try {
@@ -32,6 +33,16 @@ const getAlbumList = async () => {
     console.error(error)
   } finally {
     albumListLoading.value = false
+  }
+}
+
+const loadAlbumImage = async (filelist) => {
+  albumImage.value = filelist[0]
+  const reader = new FileReader()
+  reader.readAsDataURL(filelist[0])
+  reader.onload = () => {
+    albumImg.value.src = reader.result
+    albumImg.value.alt = filelist[0].name
   }
 }
 
@@ -88,6 +99,8 @@ onMounted(() => {
     albumTitle.value = ''
     albumDescription.value = ''
     errors.value = null
+    albumImg.value.src = ''
+    albumImg.value.alt = ''
   })
   createAlbumModalBootstrap.value = new bootstrap.Modal(createAlbumModal.value)
 })
@@ -181,7 +194,7 @@ onMounted(() => {
         data-bs-backdrop="static"
         data-bs-keyboard="false"
       >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5
@@ -205,10 +218,17 @@ onMounted(() => {
                 <div class="mb-3">
                   <span v-if="albumImage">
                     {{ $t('portfolio.chosen_image') }}:
-                    {{ albumImage.name }}
                   </span>
+                  <div class="d-flex justify-content-center">
+                    <img
+                      ref="albumImg"
+                      src=""
+                      alt=""
+                      class="d-block mw-100 max-vh-75"
+                    >
+                  </div>
                   <FileInputButton
-                    @selectedFiles="(filelist) => albumImage = filelist[0]"
+                    @selectedFiles="loadAlbumImage"
                     buttonClass="btn btn-soft-brand w-100"
                     accept="image/*"
                   >
