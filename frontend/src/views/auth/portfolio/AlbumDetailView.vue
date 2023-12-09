@@ -198,10 +198,25 @@ onMounted(() => {
       v-else
       class="px-1 px-lg-3 px-xl-5"
     >
-      <h1 class="display-6 mb-3">
-        {{ $t('portfolio.album') }}:
-        {{ albumTitle }}
-      </h1>
+      <div class="d-flex align-items-center mb-3">
+        <LocaleRouterLink
+          routeName="Portfolio"
+          class="link-danger text-decoration-none display-6"
+        >
+          {{ $t('portfolio.portfolio') }}
+        </LocaleRouterLink>
+        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
+        <LocaleRouterLink
+          routeName="PortfolioAlbumList"
+          class="link-danger text-decoration-none display-6"
+        >
+          {{ $t('portfolio.albums') }}
+        </LocaleRouterLink>
+        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
+        <h1 class="display-6 mb-0">
+          {{ albumTitle }}
+        </h1>
+      </div>
       <div class="card mb-2">
         <LoadingIndicator
           v-if="albumImageUpdating"
