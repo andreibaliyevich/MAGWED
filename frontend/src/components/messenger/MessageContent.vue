@@ -1,7 +1,10 @@
 <script setup>
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'viewerjs'
+import { ref, onMounted } from 'vue'
 import { messageType } from '@/config.js'
 
-defineProps({
+const props = defineProps({
   msgType: {
     type: Number,
     required: true
@@ -16,6 +19,8 @@ defineProps({
   }
 })
 
+const messageImages = ref(null)
+
 const getName = (path) => {
   return path.split('/').at(-1)
 }
@@ -26,6 +31,18 @@ const getSize = (value) => {
   const i = Math.floor(Math.log(value) / Math.log(1024))
   return parseFloat((value / Math.pow(1024, i)).toFixed(1)) + ' ' + sizes[i]
 }
+
+onMounted(() => {
+  if (props.msgType == messageType.IMAGES) {
+    const galleryViewer = new Viewer(messageImages.value, {
+      toolbar: {
+        prev: true,
+        play: true,
+        next: true
+      }
+    })
+  }
+})
 </script>
 
 <template>
@@ -37,12 +54,17 @@ const getSize = (value) => {
       {{ msgContent }}
     </div>
     <div v-else-if="msgType == messageType.IMAGES">
-      <img
-        v-for="img in msgContent"
-        :src="img.content"
-        :alt="getSize(img.size)"
-        width="150"
+      <ul
+        ref="messageImages"
+        class="message-images"
       >
+        <li v-for="img in msgContent">
+          <img
+            :src="img.content"
+            :alt="getSize(img.size)"
+          >
+        </li>
+      </ul>
     </div>
     <div v-else-if="msgType == messageType.FILES">
       <div
@@ -83,7 +105,25 @@ const getSize = (value) => {
 </template>
 
 <style scoped>
+.message-content {
+  max-width: 30rem;
+}
+
 .text-pre-line {
   white-space: pre-line;
+}
+
+.message-images {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.message-images > li {
+  display: inline-flex;
+  margin: 1px;
+}
+.message-images > li > img {
+  cursor: zoom-in;
+  width: 150px;
 }
 </style>
