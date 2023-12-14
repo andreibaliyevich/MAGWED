@@ -204,7 +204,7 @@ onMounted(() => {
           :key="roleType.value"
           :class="[
             'nav-item',
-            this.$route.query.role == roleType.value ? 'active' : null
+            $route.query.role == roleType.value ? 'active' : null
           ]"
         >
           <LocaleRouterLink
@@ -212,7 +212,7 @@ onMounted(() => {
             :routeQuery="{ role: roleType.value }"
             :class="[
               'nav-link',
-              this.$route.query.role == roleType.value ? 'active' : 'text-dark'
+              $route.query.role == roleType.value ? 'active' : 'text-dark'
             ]"
           >
             {{ roleType.text }}
