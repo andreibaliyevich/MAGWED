@@ -14,7 +14,7 @@ services:
   redis:
     container_name: magwed-redis
     restart: always
-    image: redis:7.0.7
+    image: "redis:7.2.3"
     expose:
       - 6379
   backend:
