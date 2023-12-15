@@ -35,10 +35,15 @@ const getSize = (value) => {
 onMounted(() => {
   if (props.msgType == messageType.IMAGES) {
     const galleryViewer = new Viewer(messageImages.value, {
+      url: 'data-original',
+      transition: false,
       toolbar: {
         prev: true,
         play: true,
         next: true
+      },
+      title: function (image) {
+        return image.alt + ' (' + (this.index + 1) + '/' + this.length + ')'
       }
     })
   }
@@ -61,6 +66,7 @@ onMounted(() => {
         <li v-for="img in msgContent">
           <img
             :src="img.content"
+            :data-original="img.content"
             :alt="getSize(img.size)"
           >
         </li>
