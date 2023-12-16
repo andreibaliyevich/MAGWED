@@ -54,7 +54,7 @@ onMounted(async () => {
   connectionSocket.value = new WebSocket(connectionSocketURL)
   connectionSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
-    if ((data.user_uuid == userStore.uuid) && !data.online) {
+    if (data.user_uuid == userStore.uuid && data.status != 'online') {
       connectionSocket.value.send(JSON.stringify({'status': 'online'}))
     } else {
       connectionBusStore.setUserStatus(data)
