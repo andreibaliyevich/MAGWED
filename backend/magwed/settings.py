@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'channels',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
     'django_filters',
+    'channels',
     'django_cleanup.apps.CleanupConfig',
     'easy_thumbnails',
     'tinymce',
@@ -243,6 +243,15 @@ CACHES = {
 }
 
 
+# CORS
+# https://pypi.org/project/django-cors-headers/
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+
+
 # Django REST framework
 # https://www.django-rest-framework.org/#installation
 # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
@@ -256,15 +265,6 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
     'COERCE_DECIMAL_TO_STRING': False,
 }
-
-
-# CORS
-# https://pypi.org/project/django-cors-headers/
-
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-]
 
 
 # Channels
