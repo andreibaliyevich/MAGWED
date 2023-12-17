@@ -7,7 +7,9 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 export default defineConfig({
   plugins: [
     vue(),
-    VueI18nPlugin()
+    VueI18nPlugin({
+      runtimeOnly: false
+    })
   ],
   resolve: {
     alias: {
