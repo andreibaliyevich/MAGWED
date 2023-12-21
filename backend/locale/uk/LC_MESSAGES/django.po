@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-06 14:08+0000\n"
+"POT-Creation-Date: 2023-12-21 19:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,11 +161,11 @@ msgstr "Адреса електронної пошти"
 msgid "User type"
 msgstr "Тип користувача"
 
-#: accounts/models.py:60 main/models.py:133 messenger/models.py:63
+#: accounts/models.py:60 main/models.py:165 messenger/models.py:63
 msgid "Name"
 msgstr "Ім'я"
 
-#: accounts/models.py:70 accounts/models.py:249 main/models.py:95
+#: accounts/models.py:70 accounts/models.py:249 main/models.py:127
 #: messenger/models.py:73
 #, python-format
 msgid ""
@@ -178,11 +178,11 @@ msgstr ""
 msgid "Avatar"
 msgstr "Аватар"
 
-#: accounts/models.py:84 main/models.py:24 main/models.py:41
+#: accounts/models.py:84 main/models.py:56 main/models.py:73
 msgid "Country"
 msgstr "Країна"
 
-#: accounts/models.py:91 main/models.py:48
+#: accounts/models.py:91 main/models.py:80
 msgid "City"
 msgstr "Місто"
 
@@ -281,15 +281,15 @@ msgstr "Обкладинка"
 msgid "Description"
 msgstr "Опис"
 
-#: accounts/models.py:262 main/models.py:25
+#: accounts/models.py:262 main/models.py:57
 msgid "Countries"
 msgstr "Країни"
 
-#: accounts/models.py:267 main/models.py:49
+#: accounts/models.py:267 main/models.py:81
 msgid "Cities"
 msgstr "Міста"
 
-#: accounts/models.py:272 main/models.py:67
+#: accounts/models.py:272 main/models.py:99
 msgid "Languages"
 msgstr "Мови"
 
@@ -359,7 +359,7 @@ msgstr "Застарілий токен для цього користувача
 msgid "The user does not have a password."
 msgstr "Користувач не має пароля."
 
-#: blog/admin.py:43 blog/models.py:57 main/models.py:101 messenger/models.py:79
+#: blog/admin.py:43 blog/models.py:57 main/models.py:133 messenger/models.py:79
 #: portfolio/admin.py:30 portfolio/admin.py:68 portfolio/models.py:27
 #: portfolio/models.py:102
 msgid "Image"
@@ -410,7 +410,8 @@ msgstr "Технології"
 msgid "Wedding"
 msgstr "Весілля"
 
-#: blog/models.py:20 main/models.py:17 main/models.py:35 main/models.py:59
+#: blog/models.py:20 main/models.py:24 main/models.py:49 main/models.py:67
+#: main/models.py:91
 msgid "Code"
 msgstr "Код"
 
@@ -427,12 +428,12 @@ msgstr "Категорії"
 msgid "Author"
 msgstr "Автор"
 
-#: blog/models.py:52 blog/models.py:135 main/models.py:79
+#: blog/models.py:52 blog/models.py:135 main/models.py:111
 #: portfolio/models.py:39 portfolio/models.py:153
 msgid "Title"
 msgstr "Назва"
 
-#: blog/models.py:53 main/models.py:80
+#: blog/models.py:53 main/models.py:112
 msgid "Slug"
 msgstr "Слаг"
 
@@ -444,12 +445,12 @@ msgstr "Ескіз"
 msgid "Content"
 msgstr "Зміст"
 
-#: blog/models.py:75 main/models.py:145 portfolio/models.py:41
+#: blog/models.py:75 main/models.py:177 portfolio/models.py:41
 #: portfolio/models.py:156
 msgid "Tags"
 msgstr "Теги"
 
-#: blog/models.py:80 main/models.py:114
+#: blog/models.py:80 main/models.py:146
 msgid "Published at"
 msgstr "Опубліковано в"
 
@@ -465,7 +466,7 @@ msgstr "Стаття"
 msgid "Articles"
 msgstr "Статті"
 
-#: blog/models.py:132 main/models.py:66
+#: blog/models.py:132 main/models.py:98
 msgid "Language"
 msgstr "Мова"
 
@@ -477,7 +478,7 @@ msgstr "Переклад статті"
 msgid "Article Translations"
 msgstr "Переклади статей"
 
-#: blog/models.py:161 main/models.py:108
+#: blog/models.py:161 main/models.py:140
 msgid "File"
 msgstr "Файл"
 
@@ -497,7 +498,7 @@ msgstr "Форма недійсна!"
 msgid "Comments"
 msgstr "Коментарі"
 
-#: comments/models.py:36 main/models.py:137 messenger/models.py:116
+#: comments/models.py:36 main/models.py:169 messenger/models.py:116
 #: notifications/models.py:43 portfolio/models.py:46 reviews/models.py:38
 #: social/models.py:33 social/models.py:66 social/models.py:102
 #: support/models.py:28 support/models.py:59
@@ -518,12 +519,12 @@ msgid "Only author have permission."
 msgstr "Дозвіл є лише у автора."
 
 #: comments/serializers.py:85 social/serializers.py:75
-#: support/serializers.py:40
+#: support/serializers.py:43
 msgid "Invalid content type."
 msgstr "Неприпустимий тип контенту."
 
 #: comments/serializers.py:92 social/serializers.py:82
-#: support/serializers.py:47
+#: support/serializers.py:50
 msgid "Object does not exist."
 msgstr "Об'єкта не існує."
 
@@ -536,86 +537,118 @@ msgid "Main app"
 msgstr "Основний додаток"
 
 #: main/choices.py:6
+msgid "United States Dollar"
+msgstr "Долар США"
+
+#: main/choices.py:7
+msgid "Euro"
+msgstr "Євро"
+
+#: main/choices.py:8
+msgid "Russian Ruble"
+msgstr "Російський рубль"
+
+#: main/choices.py:9
+msgid "Belarusian Ruble"
+msgstr "Білоруський рубль"
+
+#: main/choices.py:10
+msgid "Ukrainian Hryvnia"
+msgstr "Українська гривня"
+
+#: main/choices.py:14
 msgid "Belarus"
 msgstr "Білорусь"
 
-#: main/choices.py:7
+#: main/choices.py:15
 msgid "Russia"
 msgstr "Росія"
 
-#: main/choices.py:8
+#: main/choices.py:16
 msgid "Ukraine"
 msgstr "Україна"
 
-#: main/choices.py:12
-msgid "Brest"
-msgstr "Брест"
+#: main/choices.py:20
+msgid "Brest (BY)"
+msgstr "Брест (BY)"
 
-#: main/choices.py:13
-msgid "Minsk"
-msgstr "Мінськ"
-
-#: main/choices.py:15
-msgid "Moscow"
-msgstr "Москва"
-
-#: main/choices.py:16
-msgid "Saint Petersburg"
-msgstr "Санкт-Петербург"
-
-#: main/choices.py:18
-msgid "Kyiv"
-msgstr "Київ"
-
-#: main/choices.py:19
-msgid "Odesa"
-msgstr "Одеса"
+#: main/choices.py:21
+msgid "Minsk (BY)"
+msgstr "Мінськ (BY)"
 
 #: main/choices.py:23
+msgid "Moscow (RU)"
+msgstr "Москва (RU)"
+
+#: main/choices.py:24
+msgid "Saint Petersburg (RU)"
+msgstr "Санкт-Петербург (RU)"
+
+#: main/choices.py:26
+msgid "Kyiv (UA)"
+msgstr "Київ (UA)"
+
+#: main/choices.py:27
+msgid "Odesa (UA)"
+msgstr "Одеса (UA)"
+
+#: main/choices.py:31
 msgid "Belarusian"
 msgstr "Білоруська"
 
-#: main/choices.py:24
+#: main/choices.py:32
 msgid "English"
 msgstr "Англійська"
 
-#: main/choices.py:25
+#: main/choices.py:33
 msgid "French"
 msgstr "Французька"
 
-#: main/choices.py:26
+#: main/choices.py:34
 msgid "German"
 msgstr "Німецька"
 
-#: main/choices.py:27
+#: main/choices.py:35
 msgid "Polish"
 msgstr "Польська"
 
-#: main/choices.py:28
+#: main/choices.py:36
 msgid "Portuguese"
 msgstr "Португальська"
 
-#: main/choices.py:29
+#: main/choices.py:37
 msgid "Russian"
 msgstr "Російська"
 
-#: main/choices.py:30
+#: main/choices.py:38
 msgid "Ukrainian"
 msgstr "Українська"
 
-#: main/models.py:121
+#: main/models.py:31
+msgid "Conversion rate"
+msgstr "Курс конверсії"
+
+#: main/models.py:38
+msgid "Currency"
+msgstr "Валюта"
+
+#: main/models.py:39
+msgid "Currencies"
+msgstr "Валюти"
+
+#: main/models.py:153
 msgid "Magazine"
 msgstr "Журнал"
 
-#: main/models.py:122
+#: main/models.py:154
 msgid "Magazines"
 msgstr "Журнали"
 
-#: main/models.py:144
+#: main/models.py:176
 msgid "Tag"
 msgstr "Тег"
 
-#: main/serializers.py:39
+#: main/serializers.py:47
 msgid "Invalid data."
 msgstr "Невірні данні."
 
@@ -1069,7 +1102,7 @@ msgstr "Звіт"
 msgid "Report list"
 msgstr "Список звітів"
 
-#: support/serializers.py:60
+#: support/serializers.py:63
 msgid "Failed to create report."
 msgstr "Не вдалось створити звіт."
 
