@@ -275,7 +275,7 @@ class Organizer(models.Model):
     cost_work = models.DecimalField(
         max_digits=8,
         decimal_places=2,
-        default=0.0,
+        default=0.00,
         validators=[MinValueValidator(Decimal('0.00'))],
         verbose_name=_('Cost of work'),
         help_text=_('Please enter in USD ($)'),

@@ -1,11 +1,43 @@
 import uuid
+from decimal import Decimal
 from easy_thumbnails.fields import ThumbnailerImageField
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
-from .choices import CountryChoices, CityChoices, LanguageChoices
+from .choices import (
+    CurrencyChoices,
+    CountryChoices,
+    CityChoices,
+    LanguageChoices,
+)
 from .utilities import get_magazine_path
 from .validators import MinimumImageSizeValidator
+
+
+class Currency(models.Model):
+    """ Currency Model """
+    code = models.CharField(
+        primary_key=True,
+        max_length=3,
+        choices=CurrencyChoices.choices,
+        verbose_name=_('Code'),
+    )
+    conversion_rate = models.DecimalField(
+        max_digits=8,
+        decimal_places=4,
+        default=0.0000,
+        validators=[MinValueValidator(Decimal('0.0000'))],
+        verbose_name=_('Conversion rate'),
+    )
+
+    def __str__(self):
+        return self.get_code_display()
+
+    class Meta:
+        verbose_name = _('Currency')
+        verbose_name_plural = _('Currencies')
+        ordering = ['code']
 
 
 class Country(models.Model):

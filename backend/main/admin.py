@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Country, City, Language, Tag, Magazine
+from .models import Currency, Country, City, Language, Tag, Magazine
+
+
+@admin.register(Currency)
+class CurrencyAdmin(admin.ModelAdmin):
+    """ Currency Model for admin """
+    list_display = ('__str__', 'conversion_rate')
+    list_editable = ('conversion_rate',)
 
 
 @admin.register(Country)

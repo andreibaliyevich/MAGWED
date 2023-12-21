@@ -4,8 +4,21 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .filters import CityFilter
-from .models import City, Magazine, Tag
-from .serializers import CitySerializer, MagazineSerializer, TagSerializer
+from .models import Currency, City, Magazine, Tag
+from .serializers import (
+    CurrencySerializer,
+    CitySerializer,
+    MagazineSerializer,
+    TagSerializer,
+)
+
+
+class CurrencyRetrieveView(generics.RetrieveAPIView):
+    """ Currency Retrieve View """
+    permission_classes = [AllowAny]
+    queryset = Currency.objects.all()
+    lookup_field = 'code'
+    serializer_class = CurrencySerializer
 
 
 class CityListView(generics.ListAPIView):

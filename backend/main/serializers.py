@@ -1,7 +1,15 @@
 from rest_framework import serializers
 from django.db.utils import DataError
 from django.utils.translation import gettext_lazy as _
-from .models import City, Tag, Magazine
+from .models import Currency, City, Tag, Magazine
+
+
+class CurrencySerializer(serializers.ModelSerializer):
+    """ Currency Serializer """
+
+    class Meta:
+        model = Currency
+        fields = ['conversion_rate']
 
 
 class CitySerializer(serializers.ModelSerializer):
