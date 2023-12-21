@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useOptionsOfRoleTypes } from '@/composables/optionsOfRoleTypes.js'
 import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
@@ -30,7 +29,6 @@ const { roleTypeOptions } = useOptionsOfRoleTypes('plural_roles')
 const { countryOptions } = useOptionsOfCountries()
 const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
 const { languageOptions } = useOptionsOfLanguages()
-const { convertToCurrency } = useCurrencyConversion()
 
 const filterMenuClose = ref(null)
 
@@ -355,7 +353,7 @@ onMounted(() => {
                 <h2 class="fw-normal">{{ organizer.user.name }}</h2>
               </LocaleRouterLink>
               <p v-if="organizer.cost_work">
-                {{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}
+                {{ currencyStore.currencyText }}{{ currencyStore.convertCurrency(organizer.cost_work) }}
                 {{ $t('organizers.per_hour') }}
                 <span
                   v-if="organizer.number_hours"

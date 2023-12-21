@@ -18,23 +18,19 @@ export const useCurrencyStore = defineStore('currencyStore', {
         }
       })
 
-      const EXCHANGERATE_API_KEY = import.meta.env.VITE_EXCHANGERATE_API_KEY
-      const exchangerateAPI = axios.create({
-        baseURL: 'https://v6.exchangerate-api.com/v6/'
-      })
-
       try {
-        const response = await exchangerateAPI.get(
-          EXCHANGERATE_API_KEY
-          + '/pair/'
-          + CURRENCIES[0].value
-          + '/'
-          + value
+        const response = await axios.get(
+          '/main/currencies/'
+            + value
+            + '/'
         )
         this.conversionRate = response.data.conversion_rate
       } catch (error) {
         console.error(error)
       }
+    },
+    convertCurrency(value) {
+      return (value * this.conversionRate).toFixed(2)
     }
   }
 })

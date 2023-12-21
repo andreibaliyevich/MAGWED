@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 import { useUserStore } from '@/stores/user.js'
@@ -48,7 +47,6 @@ const textContent = ref('')
 
 const mediaDataTab = ref('photos')
 
-const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString, getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
@@ -343,7 +341,7 @@ onMounted(() => {
           >
             <i class="fa-solid fa-money-bills"></i>
             {{ $t('user.cost_work') }}:
-            {{ currencyStore.currencyText }}{{ convertToCurrency(organizerData.cost_work) }}
+            {{ currencyStore.currencyText }}{{ currencyStore.convertCurrency(organizerData.cost_work) }}
           </li>
           <li
             v-if="organizerData.number_hours"

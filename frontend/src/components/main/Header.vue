@@ -5,7 +5,6 @@ import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 
 const currencyStore = useCurrencyStore()
-
 const currencyLi = ref(null)
 
 const changeCurrency = (event) => {

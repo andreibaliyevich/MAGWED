@@ -1,7 +1,6 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
-import { useCurrencyConversion } from '@/composables/currencyConversion.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 
@@ -19,7 +18,6 @@ const searchModalBootstrap = ref(null)
 const searchInput = ref(null)
 const searchModalBody = ref(null)
 
-const { convertToCurrency } = useCurrencyConversion()
 const { getLocaleDateString } = useLocaleDateTime()
 
 const searchItems = async () => {
@@ -255,7 +253,7 @@ onMounted(() => {
                             v-if="organizer.cost_work"
                             class="card-text"
                           >
-                            {{ currencyStore.currencyText }}{{ convertToCurrency(organizer.cost_work) }}
+                            {{ currencyStore.currencyText }}{{ currencyStore.convertCurrency(organizer.cost_work) }}
                             {{ $t('organizers.per_hour') }}
                             <span
                               v-if="organizer.number_hours"
