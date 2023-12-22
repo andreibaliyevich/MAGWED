@@ -1,8 +1,8 @@
 <script setup>
 import axios from 'axios'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 
 const router = useRouter()

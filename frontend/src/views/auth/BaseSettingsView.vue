@@ -1,8 +1,8 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import { userType } from '@/config.js'
-import { useLogout } from '@/composables/logout.js'
 import { useUserStore } from '@/stores/user.js'
+import { useLogout } from '@/composables/logout.js'
 
 const userStore = useUserStore()
 const { logout } = useLogout()

@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ref, watch, onMounted } from 'vue'
 
 const { t, locale } = useI18n({ useScope: 'global' })
 

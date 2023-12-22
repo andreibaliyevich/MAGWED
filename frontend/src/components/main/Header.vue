@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
 import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 

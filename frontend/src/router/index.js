@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import i18n, {
   SUPPORT_LOCALES,
   loadLocaleMessages,
   setI18nLanguage
 } from '@/i18n'
+import { createRouter, createWebHistory } from 'vue-router'
 import Root from './Root.vue'
 
 function isAuthenticated(to, from) {

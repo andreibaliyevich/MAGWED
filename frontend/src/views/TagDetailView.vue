@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import AlbumList from '@/components/tag/AlbumList.vue'
 import ArticleList from '@/components/tag/ArticleList.vue'
 import PhotoList from '@/components/tag/PhotoList.vue'

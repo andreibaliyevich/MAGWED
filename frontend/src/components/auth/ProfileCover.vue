@@ -2,8 +2,8 @@
 import axios from 'axios'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ref, onMounted } from 'vue'
 
 const { t } = useI18n({ useScope: 'global' })
 

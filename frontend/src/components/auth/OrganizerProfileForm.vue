@@ -1,12 +1,12 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
+import { useUserStore } from '@/stores/user.js'
 import { useOptionsOfRoleTypes } from '@/composables/optionsOfRoleTypes.js'
 import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
 import { useOptionsOfCities } from '@/composables/optionsOfCities.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
-import { useUserStore } from '@/stores/user.js'
 
 const userStore = useUserStore()
 

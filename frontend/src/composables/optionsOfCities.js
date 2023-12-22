@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ref, computed, watch } from 'vue'
 
 export function useOptionsOfCities(country) {
   const { t, locale } = useI18n({ useScope: 'global' })

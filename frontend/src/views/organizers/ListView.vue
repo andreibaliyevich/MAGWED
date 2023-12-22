@@ -1,13 +1,13 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useCurrencyStore } from '@/stores/currency.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import { useOptionsOfRoleTypes } from '@/composables/optionsOfRoleTypes.js'
 import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
 import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
-import { useCurrencyStore } from '@/stores/currency.js'
-import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const route = useRoute()
 const currencyStore = useCurrencyStore()

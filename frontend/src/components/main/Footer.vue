@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 

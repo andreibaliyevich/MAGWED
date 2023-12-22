@@ -1,8 +1,8 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
-import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useCurrencyStore } from '@/stores/currency.js'
+import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 const currencyStore = useCurrencyStore()
 

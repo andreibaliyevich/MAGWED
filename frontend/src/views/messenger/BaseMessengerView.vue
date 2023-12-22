@@ -1,12 +1,12 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-import { useRoute, useRouter, RouterView } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter, RouterView } from 'vue-router'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { WS_URL, chatType, messageType } from '@/config.js'
-import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
+import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 
 const route = useRoute()

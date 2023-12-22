@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { ref, watch, onMounted } from 'vue'
 
 const route = useRoute()
 

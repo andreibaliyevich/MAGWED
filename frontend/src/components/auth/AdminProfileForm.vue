@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch, onMounted } from 'vue'
+import { useUserStore } from '@/stores/user.js'
 import { useOptionsOfCountries } from '@/composables/optionsOfCountries.js'
 import { useOptionsOfCities } from '@/composables/optionsOfCities.js'
-import { useUserStore } from '@/stores/user.js'
 
 const userStore = useUserStore()
 

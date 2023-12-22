@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios'
 import { ref, watch } from 'vue'
+import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
-import { useUserStore } from '@/stores/user.js'
 import SubmitContent from './SubmitContent.vue'
 import ReportDropdownItemModal from '../ReportDropdownItemModal.vue'
 

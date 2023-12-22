@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
+import { nextTick } from 'vue'
 import { API_URL, LANGUAGES } from '@/config.js'
 import { pluralSlavicRule } from './rules.js'
 
