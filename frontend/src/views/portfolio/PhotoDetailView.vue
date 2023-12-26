@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
@@ -9,6 +10,7 @@ import NotFound from '@/components/NotFound.vue'
 import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
+const { locale } = useI18n({ useScope: 'global' })
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
@@ -125,13 +127,19 @@ const keyUpArrowLeftRight = (event) => {
   if (event.keyCode === 37 && photoData.value.prev_photo_uuid) {
     router.push({
       name: 'PhotoDetail',
-      params: { uuid: photoData.value.prev_photo_uuid },
+      params: {
+        locale: locale.value,
+        uuid: photoData.value.prev_photo_uuid
+      },
       query: route.query
     })
   } else if (event.keyCode === 39 && photoData.value.next_photo_uuid) {
     router.push({
       name: 'PhotoDetail',
-      params: { uuid: photoData.value.next_photo_uuid },
+      params: {
+        locale: locale.value,
+        uuid: photoData.value.next_photo_uuid
+      },
       query: route.query
     })
   }
