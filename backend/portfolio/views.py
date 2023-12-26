@@ -207,6 +207,41 @@ class PhotoRetrieveView(generics.RetrieveAPIView):
     queryset = Photo.objects.all()
     lookup_field = 'uuid'
     serializer_class = PhotoRetrieveSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+    filterset_class = PhotoFilter
+    ordering_fields = ['uploaded_at', 'rating']
+    ordering = ['-uploaded_at']
+
+    def get_prev_and_next(self, queryset, obj):
+        uuid_list = list(queryset.values_list('uuid', flat=True))
+        uuid_index = uuid_list.index(obj.uuid)
+
+        if uuid_index == 0:
+            prev_photo_uuid = None
+            next_photo_uuid = uuid_list[uuid_index + 1]
+        elif uuid_index == len(uuid_list) - 1:
+            prev_photo_uuid = uuid_list[uuid_index - 1]
+            next_photo_uuid = None
+        else:
+            prev_photo_uuid = uuid_list[uuid_index - 1]
+            next_photo_uuid = uuid_list[uuid_index + 1]
+
+        data = {
+            'prev_photo_uuid': prev_photo_uuid,
+            'next_photo_uuid': next_photo_uuid,
+        }
+        return data
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, uuid=kwargs['uuid'])
+        serializer = self.get_serializer(obj)
+        data = serializer.data
+        data.update(self.get_prev_and_next(queryset, obj))
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class PhotoUpViewCountView(APIView):

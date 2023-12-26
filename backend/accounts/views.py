@@ -59,7 +59,7 @@ class LoginView(ObtainAuthToken):
         ).data
         user_data['token'] = token.key
 
-        return Response(user_data)
+        return Response(user_data, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
