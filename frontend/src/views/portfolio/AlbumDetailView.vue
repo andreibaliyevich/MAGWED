@@ -314,7 +314,7 @@ onUnmounted(() => {
                   :routeParams="{ uuid: photoItem.uuid }"
                   :routeQuery="{
                     from: 'album',
-                    uuid: $route.params.uuid
+                    album: $route.params.uuid
                   }"
                   class="link-light"
                 >

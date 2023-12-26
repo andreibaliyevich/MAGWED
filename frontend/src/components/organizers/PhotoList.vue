@@ -65,7 +65,7 @@ onMounted(() => {
             :routeParams="{ uuid: photoItem.uuid }"
             :routeQuery="{
               from: 'author',
-              uuid: props.userUUID
+              author: props.userUUID
             }"
             class="link-light"
           >

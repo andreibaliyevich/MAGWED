@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
@@ -10,6 +10,7 @@ import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
 const route = useRoute()
+const router = useRouter()
 const userStore = useUserStore()
 
 const photoLoading = ref(true)
@@ -34,7 +35,9 @@ const photoData = ref({
   like_count: 0,
   liked: null,
   rating: 0,
-  favorite: null
+  favorite: null,
+  prev_photo_uuid: null,
+  next_photo_uuid: null
 })
 
 const { getLocaleDateString } = useLocaleDateTime()
@@ -57,11 +60,29 @@ const upPhotoViewCount = async () => {
 
 const getPhotoData = async () => {
   photoLoading.value = true
+
+  let params = new URLSearchParams()
+  if (route.query.from == 'popular') {
+    params.append('ordering', '-rating')
+  } else if (route.query.from == 'fresh') {
+    params.append('ordering', '-uploaded_at')
+  } else if (route.query.from == 'editors') {
+    params.append('editors_choice', true)
+  } else if (route.query.from == 'album') {
+    params.append('album', route.query.album)
+  } else if (route.query.from == 'author') {
+    params.append('author', route.query.author)
+    params.append('album_is_null', true)
+  } else {
+    params.append('ordering', 'rating')
+  }
+
   try {
     const response = await axios.get(
       '/portfolio/photo/retrieve/'
         + route.params.uuid
-        + '/'
+        + '/',
+      { params: params }
     )
     photoData.value = response.data
     upViewCountTimeout.value = setTimeout(upPhotoViewCount, 3000)
@@ -100,6 +121,22 @@ const dislikePhoto = async () => {
   }
 }
 
+const keyUpArrowLeftRight = (event) => {
+  if (event.keyCode === 37 && photoData.value.prev_photo_uuid) {
+    router.push({
+      name: 'PhotoDetail',
+      params: { uuid: photoData.value.prev_photo_uuid },
+      query: route.query
+    })
+  } else if (event.keyCode === 39 && photoData.value.next_photo_uuid) {
+    router.push({
+      name: 'PhotoDetail',
+      params: { uuid: photoData.value.next_photo_uuid },
+      query: route.query
+    })
+  }
+}
+
 watch(
   () => route.params.uuid,
   (newValue) => {
@@ -111,10 +148,12 @@ watch(
 
 onMounted(() => {
   getPhotoData()
+  window.addEventListener('keyup', keyUpArrowLeftRight)
 })
 
 onUnmounted(() => {
   clearTimeout(upViewCountTimeout.value)
+  window.removeEventListener('keyup', keyUpArrowLeftRight)
 })
 </script>
 
@@ -130,11 +169,44 @@ onUnmounted(() => {
       class="container my-5"
     >
 
-      <div class="d-flex justify-content-center">
-        <img
-          :src="photoData.image"
-          class="card-img-top"
-        >
+      <div class="card border-0">
+        <div class="d-flex justify-content-center">
+          <img
+            :src="photoData.image"
+            class="card-img"
+          >
+          <div
+            class="card-img-overlay mx-1"
+            style="background-color: rgba(33, 37, 41, 0);"
+          >
+            <div
+              v-if="photoData.prev_photo_uuid"
+              class="position-absolute top-50 start-0 translate-middle-y"
+            >
+              <LocaleRouterLink
+                routeName="PhotoDetail"
+                :routeParams="{ uuid: photoData.prev_photo_uuid }"
+                :routeQuery="$route.query"
+                class="btn btn-light"
+              >
+                <i class="fa-solid fa-chevron-left"></i>
+              </LocaleRouterLink>
+            </div>
+            <div
+              v-if="photoData.next_photo_uuid"
+              class="position-absolute top-50 end-0 translate-middle-y"
+            >
+              <LocaleRouterLink
+                routeName="PhotoDetail"
+                :routeParams="{ uuid: photoData.next_photo_uuid }"
+                :routeQuery="$route.query"
+                class="btn btn-light"
+              >
+                <i class="fa-solid fa-chevron-right"></i>
+              </LocaleRouterLink>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="row g-3 mt-3">
@@ -380,7 +452,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.card-img-top {
+.card-img {
   width: auto;
   max-width: 100%;
   height: 100%;
