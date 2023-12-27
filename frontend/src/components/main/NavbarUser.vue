@@ -46,43 +46,58 @@ const { logout } = useLogout()
               </small>
             </div>
           </div>
-          <LocaleRouterLink
-            routeName="Profile"
+          <router-link
+            :to="{
+              name: 'Profile',
+              params: { locale: $i18n.locale }
+            }"
             class="btn btn-soft-brand btn-sm text-center w-100"
           >
             {{ $t('user.edit_profile') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li>
-          <LocaleRouterLink
-            routeName="Messenger"
+          <router-link
+            :to="{
+              name: 'Messenger',
+              params: { locale: $i18n.locale }
+            }"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-message"></i>
             {{ $t('messenger.messenger') }}
-          </LocaleRouterLink>
-          <LocaleRouterLink
+          </router-link>
+          <router-link
             v-if="userStore.userType == userType.ORGANIZER"
-            routeName="Followers"
+            :to="{
+              name: 'Followers',
+              params: { locale: $i18n.locale }
+            }"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-users"></i>
             {{ $t('follow.followers') }}
-          </LocaleRouterLink>
-          <LocaleRouterLink
-            routeName="Following"
+          </router-link>
+          <router-link
+            :to="{
+              name: 'Following',
+              params: { locale: $i18n.locale }
+            }"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-user-group"></i>
             {{ $t('follow.following') }}
-          </LocaleRouterLink>
-          <LocaleRouterLink
-            routeName="Favorites"
+          </router-link>
+          <router-link
+            :to="{
+              name: 'Favorites',
+              params: { locale: $i18n.locale }
+            }"
             class="dropdown-item d-flex align-items-center gap-2"
           >
             <i class="fa-solid fa-star"></i>
             {{ $t('favorites.favorites') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li><hr class="dropdown-divider"></li>
         <li>

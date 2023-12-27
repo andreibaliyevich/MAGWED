@@ -1,5 +1,4 @@
 <script setup>
-import { RouterView } from 'vue-router'
 import { userType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 import { useLogout } from '@/composables/logout.js'
@@ -57,8 +56,8 @@ const { logout } = useLogout()
                     $route.name == 'Profile' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="Profile"
+                  <router-link
+                    :to="{ name: 'Profile' }"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
@@ -67,7 +66,7 @@ const { logout } = useLogout()
                   >
                     <i class="fa-solid fa-user"></i>
                     {{ $t('user.profile') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   v-if="userStore.userType == userType.ORGANIZER"
@@ -76,8 +75,8 @@ const { logout } = useLogout()
                     $route.name == 'SocialLinks' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="SocialLinks"
+                  <router-link
+                    :to="{ name: 'SocialLinks' }"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
@@ -86,7 +85,7 @@ const { logout } = useLogout()
                   >
                     <i class="fa-solid fa-link"></i>
                     {{ $t('auth.sociallinks.social_links') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   v-if="userStore.userType == userType.ORGANIZER"
@@ -100,8 +99,8 @@ const { logout } = useLogout()
                       : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="Portfolio"
+                  <router-link
+                    :to="{ name: 'Portfolio' }"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
@@ -115,7 +114,7 @@ const { logout } = useLogout()
                   >
                     <i class="fa-solid fa-briefcase"></i>
                     {{ $t('portfolio.portfolio') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -123,8 +122,8 @@ const { logout } = useLogout()
                     $route.name == 'PasswordChange' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="PasswordChange"
+                  <router-link
+                    :to="{ name: 'PasswordChange' }"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
@@ -133,7 +132,7 @@ const { logout } = useLogout()
                   >
                     <i class="fa-solid fa-key"></i>
                     {{ $t('auth.password.change_password') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -141,8 +140,8 @@ const { logout } = useLogout()
                     $route.name == 'ProfileDelete' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ProfileDelete"
+                  <router-link
+                    :to="{ name: 'ProfileDelete' }"
                     @click="$refs.accountMenuClose.click()"
                     :class="[
                       'nav-link',
@@ -151,7 +150,7 @@ const { logout } = useLogout()
                   >
                     <i class="fa-solid fa-user-xmark"></i>
                     {{ $t('auth.profile_delete.profile_delete') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li class="nav-item">
                   <div
@@ -167,7 +166,7 @@ const { logout } = useLogout()
           </div>
         </div>
         <div class="col-lg-8 py-5 px-lg-5">
-          <RouterView />
+          <router-view></router-view>
         </div>
       </div>
     </div>

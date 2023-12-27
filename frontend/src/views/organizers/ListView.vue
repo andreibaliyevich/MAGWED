@@ -187,15 +187,15 @@ onMounted(() => {
             !$route.query.role ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="OrganizerList"
+          <router-link
+            :to="{ name: 'OrganizerList' }"
             :class="[
               'nav-link',
               !$route.query.role ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('organizers.all') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           v-for="roleType in roleTypeOptions"
@@ -205,16 +205,15 @@ onMounted(() => {
             $route.query.role == roleType.value ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="OrganizerList"
-            :routeQuery="{ role: roleType.value }"
+          <router-link
+            :to="{ query: { role: roleType.value } }"
             :class="[
               'nav-link',
               $route.query.role == roleType.value ? 'active' : 'text-dark'
             ]"
           >
             {{ roleType.text }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
       </ul>
 
@@ -334,9 +333,11 @@ onMounted(() => {
               :key="organizer.user.uuid"
               class="col-12 col-sm-6 col-xl-4 text-center"
             >
-              <LocaleRouterLink
-                routeName="OrganizerDetail"
-                :routeParams="{ profile_url: organizer.user.profile_url }"
+              <router-link
+                :to="{
+                  name: 'OrganizerDetail',
+                  params: { profile_url: organizer.user.profile_url }
+                }"
               >
                 <UserAvatarExtended
                   :src="organizer.user.avatar"
@@ -344,14 +345,16 @@ onMounted(() => {
                   :height="180"
                   :online="organizer.user.status == 'online' ? true : false"
                 />
-              </LocaleRouterLink>
-              <LocaleRouterLink
-                routeName="OrganizerDetail"
-                :routeParams="{ profile_url: organizer.user.profile_url }"
+              </router-link>
+              <router-link
+                :to="{
+                  name: 'OrganizerDetail',
+                  params: { profile_url: organizer.user.profile_url }
+                }"
                 class="text-decoration-none link-dark"
               >
                 <h2 class="fw-normal">{{ organizer.user.name }}</h2>
-              </LocaleRouterLink>
+              </router-link>
               <p v-if="organizer.cost_work">
                 {{ currencyStore.currencyText }}{{ currencyStore.convertCurrency(organizer.cost_work) }}
                 {{ $t('organizers.per_hour') }}

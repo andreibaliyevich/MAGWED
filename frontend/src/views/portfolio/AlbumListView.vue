@@ -81,9 +81,8 @@ onMounted(() => {
               : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="AlbumList"
-            :routeQuery="{ tab: 'popular' }"
+          <router-link
+            :to="{ query: { tab: 'popular' } }"
             :class="[
               'nav-link',
               $route.query.tab == 'popular'
@@ -93,7 +92,7 @@ onMounted(() => {
             ]"
           >
             {{ $t('portfolio.popular_albums') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -101,16 +100,15 @@ onMounted(() => {
             $route.query.tab == 'fresh' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="AlbumList"
-            :routeQuery="{ tab: 'fresh' }"
+          <router-link
+            :to="{ query: { tab: 'fresh' } }"
             :class="[
               'nav-link',
               $route.query.tab == 'fresh' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.fresh_albums') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -118,16 +116,15 @@ onMounted(() => {
             $route.query.tab == 'editors' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="AlbumList"
-            :routeQuery="{ tab: 'editors' }"
+          <router-link
+            :to="{ query: { tab: 'editors' } }"
             :class="[
               'nav-link',
               $route.query.tab == 'editors' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.editors_choice') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
       </ul>
 
@@ -141,42 +138,50 @@ onMounted(() => {
           class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <div class="card border border-light shadow-sm h-100">
-            <LocaleRouterLink
-              routeName="AlbumDetail"
-              :routeParams="{ uuid: albumItem.uuid }"
+            <router-link
+              :to="{
+                name: 'AlbumDetail',
+                params: { uuid: albumItem.uuid }
+              }"
             >
               <img
                 :src="albumItem.thumbnail"
                 :alt="albumItem.title"
                 class="card-img-top"
               >
-            </LocaleRouterLink>
+            </router-link>
             <div class="card-body">
-              <LocaleRouterLink
-                routeName="AlbumDetail"
-                :routeParams="{ uuid: albumItem.uuid }"
+              <router-link
+                :to="{
+                  name: 'AlbumDetail',
+                  params: { uuid: albumItem.uuid }
+                }"
                 class="text-decoration-none link-dark"
               >
                 <h5 class="card-title">{{ albumItem.title }}</h5>
-              </LocaleRouterLink>
+              </router-link>
               <div class="d-flex align-items-center">
-                <LocaleRouterLink
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: albumItem.author.profile_url }"
+                <router-link
+                  :to="{
+                    name: 'OrganizerDetail',
+                    params: { profile_url: albumItem.author.profile_url }
+                  }"
                 >
                   <UserAvatar
                     :src="albumItem.author.avatar"
                     :width="32"
                     :height="32"
                   />
-                </LocaleRouterLink>
-                <LocaleRouterLink
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: albumItem.author.profile_url  }"
+                </router-link>
+                <router-link
+                  :to="{
+                    name: 'OrganizerDetail',
+                    params: { profile_url: albumItem.author.profile_url }
+                  }"
                   class="text-decoration-none link-dark ms-2"
                 >
                   {{ albumItem.author.name }}
-                </LocaleRouterLink>
+                </router-link>
               </div>
               <div class="d-flex justify-content-between mt-1">
                 <div>

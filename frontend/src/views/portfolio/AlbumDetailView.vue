@@ -246,23 +246,27 @@ onUnmounted(() => {
           </div>
 
           <div class="d-flex align-items-center mb-3">
-            <LocaleRouterLink
-              routeName="OrganizerDetail"
-              :routeParams="{ profile_url: albumData.author.profile_url }"
+            <router-link
+              :to="{
+                name: 'OrganizerDetail',
+                params: { profile_url: albumData.author.profile_url }
+              }"
             >
               <UserAvatar
                 :src="albumData.author.avatar"
                 :width="32"
                 :height="32"
               />
-            </LocaleRouterLink>
-            <LocaleRouterLink
-              routeName="OrganizerDetail"
-              :routeParams="{ profile_url: albumData.author.profile_url  }"
+            </router-link>
+            <router-link
+              :to="{
+                name: 'OrganizerDetail',
+                params: { profile_url: albumData.author.profile_url  }
+              }"
               class="text-decoration-none link-dark ms-2"
             >
               {{ albumData.author.name }}
-            </LocaleRouterLink>
+            </router-link>
           </div>
 
           <p
@@ -282,14 +286,16 @@ onUnmounted(() => {
                 :key="tag.uuid"
                 class="col"
               >
-                <LocaleRouterLink
-                  routeName="TagDetail"
-                  :routeParams="{ uuid: tag.uuid }"
-                  :routeQuery="{ tab: 'albums' }"
+                <router-link
+                  :to="{
+                    name: 'TagDetail',
+                    params: { uuid: tag.uuid },
+                    query: { tab: 'albums' }
+                  }"
                   class="btn btn-light btn-sm"
                 >
                   #{{ tag.name }}
-                </LocaleRouterLink>
+                </router-link>
               </div>
             </div>
           </div>
@@ -309,12 +315,14 @@ onUnmounted(() => {
               class="col-12 col-md-6 col-lg-4 col-xl-4"
             >
               <div class="card border border-0 h-100">
-                <LocaleRouterLink
-                  routeName="PhotoDetail"
-                  :routeParams="{ uuid: photoItem.uuid }"
-                  :routeQuery="{
-                    from: 'album',
-                    album: $route.params.uuid
+                <router-link
+                  :to="{
+                    name: 'PhotoDetail',
+                    params: { uuid: photoItem.uuid },
+                    query: {
+                      from: 'album',
+                      album: $route.params.uuid
+                    }
                   }"
                   class="link-light"
                 >
@@ -339,7 +347,7 @@ onUnmounted(() => {
                       {{ photoItem.rating }}
                     </div>
                   </div>
-                </LocaleRouterLink>
+                </router-link>
               </div>
             </div>
           </div>

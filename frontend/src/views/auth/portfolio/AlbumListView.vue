@@ -110,12 +110,12 @@ onMounted(() => {
   <div class="portfolio-album-list-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <div class="d-flex align-items-center mb-5">
-        <LocaleRouterLink
-          routeName="Portfolio"
+        <router-link
+          :to="{ name: 'Portfolio' }"
           class="link-danger text-decoration-none display-6"
         >
           {{ $t('portfolio.portfolio') }}
-        </LocaleRouterLink>
+        </router-link>
         <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
         <h1 class="display-6 mb-0">
           {{ $t('portfolio.albums') }}
@@ -154,13 +154,15 @@ onMounted(() => {
             </div>
             <div class="card-img-overlay text-light">
               <div class="position-absolute top-50 start-50 translate-middle">
-                <LocaleRouterLink
-                  routeName="PortfolioAlbumDetail"
-                  :routeParams="{ uuid: albumItem.uuid }"
+                <router-link
+                  :to="{
+                    name: 'PortfolioAlbumDetail',
+                    params: { uuid: albumItem.uuid }
+                  }"
                   class="btn btn-outline-light btn-sm"
                 >
                   <i class="fa-solid fa-pen fa-sm"></i>
-                </LocaleRouterLink>
+                </router-link>
                 <button
                   @click="albumUuid = albumItem.uuid"
                   class="btn btn-danger btn-sm ms-1"

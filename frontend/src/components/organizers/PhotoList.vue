@@ -60,12 +60,14 @@ onMounted(() => {
         class="col-12 col-md-6 col-lg-4 col-xl-3"
       >
         <div class="card border border-0 h-100">
-          <LocaleRouterLink
-            routeName="PhotoDetail"
-            :routeParams="{ uuid: photoItem.uuid }"
-            :routeQuery="{
-              from: 'author',
-              author: props.userUUID
+          <router-link
+            :to="{
+              name: 'PhotoDetail',
+              params: { uuid: photoItem.uuid },
+              query: {
+                from: 'author',
+                author: props.userUUID
+              }
             }"
             class="link-light"
           >
@@ -90,7 +92,7 @@ onMounted(() => {
                 {{ photoItem.rating }}
               </div>
             </div>
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
     </div>

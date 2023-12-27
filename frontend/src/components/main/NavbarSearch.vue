@@ -226,9 +226,14 @@ onMounted(() => {
                   >
                     <div class="row g-0">
                       <div class="col-2 d-flex align-items-center">
-                        <LocaleRouterLink
-                          routeName="OrganizerDetail"
-                          :routeParams="{ profile_url: organizer.user.profile_url }"
+                        <router-link
+                          :to="{
+                            name: 'OrganizerDetail',
+                            params: {
+                              locale: $i18n.locale,
+                              profile_url: organizer.user.profile_url
+                            }
+                          }"
                           @click="searchModalBootstrap.hide()"
                         >
                           <UserAvatarExtended
@@ -237,18 +242,23 @@ onMounted(() => {
                             :height="80"
                             :online="organizer.user.status == 'online' ? true : false"
                           />
-                        </LocaleRouterLink>
+                        </router-link>
                       </div>
                       <div class="col-10">
                         <div class="card-body">
-                          <LocaleRouterLink
-                            routeName="OrganizerDetail"
-                            :routeParams="{ profile_url: organizer.user.profile_url }"
+                          <router-link
+                            :to="{
+                              name: 'OrganizerDetail',
+                              params: {
+                                locale: $i18n.locale,
+                                profile_url: organizer.user.profile_url
+                              }
+                            }"
                             @click="searchModalBootstrap.hide()"
                             class="text-decoration-none link-dark"
                           >
                             <h5 class="card-title">{{ organizer.user.name }}</h5>
-                          </LocaleRouterLink>
+                          </router-link>
                           <p
                             v-if="organizer.cost_work"
                             class="card-text"
@@ -275,32 +285,47 @@ onMounted(() => {
                   >
                     <div class="row g-0">
                       <div class="col-4 d-flex align-items-center">
-                        <LocaleRouterLink
-                          routeName="PhotoDetail"
-                          :routeParams="{ uuid: photoItem.uuid }"
+                        <router-link
+                          :to="{
+                            name: 'PhotoDetail',
+                            params: {
+                              locale: $i18n.locale,
+                              uuid: photoItem.uuid
+                            }
+                          }"
                           @click="searchModalBootstrap.hide()"
                         >
                           <img
                             :src="photoItem.thumbnail"
                             class="card-img"
                           >
-                        </LocaleRouterLink>
+                        </router-link>
                       </div>
                       <div class="col-8">
                         <div class="card-body d-flex flex-column h-100">
-                          <LocaleRouterLink
+                          <router-link
                             v-if="photoItem.title"
-                            routeName="PhotoDetail"
-                            :routeParams="{ uuid: photoItem.uuid }"
+                            :to="{
+                              name: 'PhotoDetail',
+                              params: {
+                                locale: $i18n.locale,
+                                uuid: photoItem.uuid
+                              }
+                            }"
                             @click="searchModalBootstrap.hide()"
                             class="text-decoration-none link-dark"
                           >
                             <h5 class="card-title">{{ photoItem.title }}</h5>
-                          </LocaleRouterLink>
+                          </router-link>
                           <div class="d-flex align-items-center mt-auto">
-                            <LocaleRouterLink
-                              routeName="OrganizerDetail"
-                              :routeParams="{ profile_url: photoItem.author.profile_url }"
+                            <router-link
+                              :to="{
+                                name: 'OrganizerDetail',
+                                params: {
+                                  locale: $i18n.locale,
+                                  profile_url: photoItem.author.profile_url
+                                }
+                              }"
                               @click="searchModalBootstrap.hide()"
                             >
                               <UserAvatar
@@ -308,15 +333,20 @@ onMounted(() => {
                                 :width="24"
                                 :height="24"
                               />
-                            </LocaleRouterLink>
-                            <LocaleRouterLink
-                              routeName="OrganizerDetail"
-                              :routeParams="{ profile_url: photoItem.author.profile_url  }"
+                            </router-link>
+                            <router-link
+                              :to="{
+                                name: 'OrganizerDetail',
+                                params: {
+                                  locale: $i18n.locale,
+                                  profile_url: photoItem.author.profile_url
+                                }
+                              }"
                               @click="searchModalBootstrap.hide()"
                               class="text-decoration-none link-dark ms-2"
                             >
                               {{ photoItem.author.name }}
-                            </LocaleRouterLink>
+                            </router-link>
                           </div>
                           <div class="d-flex justify-content-between mt-auto">
                             <div class="text-muted">
@@ -345,9 +375,14 @@ onMounted(() => {
                   >
                     <div class="row g-0">
                       <div class="col-4 d-flex align-items-center">
-                        <LocaleRouterLink
-                          routeName="AlbumDetail"
-                          :routeParams="{ uuid: albumItem.uuid }"
+                        <router-link
+                          :to="{
+                            name: 'AlbumDetail',
+                            params: {
+                              locale: $i18n.locale,
+                              uuid: albumItem.uuid
+                            }
+                          }"
                           @click="searchModalBootstrap.hide()"
                         >
                           <img
@@ -355,22 +390,32 @@ onMounted(() => {
                             class="card-img"
                             :alt="albumItem.title"
                           >
-                        </LocaleRouterLink>
+                        </router-link>
                       </div>
                       <div class="col-8">
                         <div class="card-body d-flex flex-column h-100">
-                          <LocaleRouterLink
-                            routeName="AlbumDetail"
-                            :routeParams="{ uuid: albumItem.uuid }"
+                          <router-link
+                            :to="{
+                              name: 'AlbumDetail',
+                              params: {
+                                locale: $i18n.locale,
+                                uuid: albumItem.uuid
+                              }
+                            }"
                             @click="searchModalBootstrap.hide()"
                             class="text-decoration-none link-dark"
                           >
                             <h5 class="card-title">{{ albumItem.title }}</h5>
-                          </LocaleRouterLink>
+                          </router-link>
                           <div class="d-flex align-items-center mt-auto">
-                            <LocaleRouterLink
-                              routeName="OrganizerDetail"
-                              :routeParams="{ profile_url: albumItem.author.profile_url }"
+                            <router-link
+                              :to="{
+                                name: 'OrganizerDetail',
+                                params: {
+                                  locale: $i18n.locale,
+                                  profile_url: albumItem.author.profile_url
+                                }
+                              }"
                               @click="searchModalBootstrap.hide()"
                             >
                               <UserAvatar
@@ -378,15 +423,20 @@ onMounted(() => {
                                 :width="24"
                                 :height="24"
                               />
-                            </LocaleRouterLink>
-                            <LocaleRouterLink
-                              routeName="OrganizerDetail"
-                              :routeParams="{ profile_url: albumItem.author.profile_url  }"
+                            </router-link>
+                            <router-link
+                              :to="{
+                                name: 'OrganizerDetail',
+                                params: {
+                                  locale: $i18n.locale,
+                                  profile_url: albumItem.author.profile_url
+                                }
+                              }"
                               @click="searchModalBootstrap.hide()"
                               class="text-decoration-none link-dark ms-2"
                             >
                               {{ albumItem.author.name }}
-                            </LocaleRouterLink>
+                            </router-link>
                           </div>
                           <div class="d-flex justify-content-between mt-auto">
                             <div class="text-muted">
@@ -414,9 +464,14 @@ onMounted(() => {
                     class="card border border-light shadow-sm mb-3"
                   >
                     <div class="d-flex align-items-center">
-                      <LocaleRouterLink
-                        routeName="ArticleDetail"
-                        :routeParams="{ slug: article.slug }"
+                      <router-link
+                        :to="{
+                          name: 'ArticleDetail',
+                          params: {
+                            locale: $i18n.locale,
+                            slug: article.slug
+                          }
+                        }"
                         @click="searchModalBootstrap.hide()"
                       >
                         <img
@@ -424,17 +479,22 @@ onMounted(() => {
                           class="img-fluid rounded"
                           :alt="article.translated_title"
                         >
-                      </LocaleRouterLink>
+                      </router-link>
                     </div>
                     <div class="card-body">
-                      <LocaleRouterLink
-                        routeName="ArticleDetail"
-                        :routeParams="{ slug: article.slug }"
+                      <router-link
+                        :to="{
+                          name: 'ArticleDetail',
+                          params: {
+                            locale: $i18n.locale,
+                            slug: article.slug
+                          }
+                        }"
                         @click="searchModalBootstrap.hide()"
                         class="text-decoration-none link-dark"
                       >
                         <h5 class="card-title">{{ article.translated_title }}</h5>
-                      </LocaleRouterLink>
+                      </router-link>
                       <div class="mb-1">
                         <span
                           v-for="category in article.categories"

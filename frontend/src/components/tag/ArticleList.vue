@@ -62,26 +62,30 @@ onMounted(() => {
       >
         <div class="row g-0">
           <div class="col-md-4 d-flex align-items-center">
-            <LocaleRouterLink
-              routeName="ArticleDetail"
-              :routeParams="{ slug: article.slug }"
+            <router-link
+              :to="{
+                name: 'ArticleDetail',
+                params: { slug: article.slug }
+              }"
             >
               <img
                 :src="article.thumbnail"
                 class="img-fluid rounded"
                 :alt="article.translated_title"
               >
-            </LocaleRouterLink>
+            </router-link>
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <LocaleRouterLink
-                routeName="ArticleDetail"
-                :routeParams="{ slug: article.slug }"
+              <router-link
+                :to="{
+                  name: 'ArticleDetail',
+                  params: { slug: article.slug }
+                }"
                 class="text-decoration-none link-dark"
               >
                 <h5 class="card-title">{{ article.translated_title }}</h5>
-              </LocaleRouterLink>
+              </router-link>
               <div class="mb-1">
                 <span
                   v-for="category in article.categories"

@@ -61,10 +61,12 @@ onMounted(() => {
           :key="follow.follower.uuid"
           class="col-12 col-md-6 col-lg-4 col-xl-3 text-center"
         >
-          <LocaleRouterLink
+          <router-link
             v-if="follow.follower.profile_url"
-            routeName="OrganizerDetail"
-            :routeParams="{ profile_url: follow.follower.profile_url }"
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: follow.follower.profile_url }
+            }"
           >
             <UserAvatarExtended
               :src="follow.follower.avatar"
@@ -72,7 +74,7 @@ onMounted(() => {
               :height="180"
               :online="follow.follower.status == 'online' ? true : false"
             />
-          </LocaleRouterLink>
+          </router-link>
           <UserAvatarExtended
             v-else
             :src="follow.follower.avatar"
@@ -80,14 +82,16 @@ onMounted(() => {
             :height="180"
             :online="follow.follower.status == 'online' ? true : false"
           />
-          <LocaleRouterLink
+          <router-link
             v-if="follow.follower.profile_url"
-            routeName="OrganizerDetail"
-            :routeParams="{ profile_url: follow.follower.profile_url }"
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: follow.follower.profile_url }
+            }"
             class="text-decoration-none link-dark"
           >
             <h2 class="fw-normal">{{ follow.follower.name }}</h2>
-          </LocaleRouterLink>
+          </router-link>
           <h2
             v-else
             class="fw-normal"

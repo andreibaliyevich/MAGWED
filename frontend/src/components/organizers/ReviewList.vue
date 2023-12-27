@@ -231,13 +231,15 @@ onMounted(() => {
           class="alert alert-info" role="alert"
         >
           {{ $t('reviews.need_log_in') }}
-          <LocaleRouterLink
-            routeName="Login"
-            :routeQuery="{ redirect: $route.path }"
+          <router-link
+            :to="{
+              name: 'Login',
+              query: { redirect: $route.path }
+            }"
             class="alert-link"
           >
             {{ $t('auth.log_in') }}
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
       <div class="col-lg-6">
@@ -256,10 +258,12 @@ onMounted(() => {
                 v-if="reviewItem.author"
                 class="d-flex gap-3 py-3"
               >
-                <LocaleRouterLink
+                <router-link
                   v-if="reviewItem.author.profile_url"
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: reviewItem.author.profile_url }"
+                  :to="{
+                    name: 'OrganizerDetail',
+                    params: { profile_url: reviewItem.author.profile_url }
+                  }"
                 >
                   <UserAvatarExtended
                     :src="reviewItem.author.avatar"
@@ -267,7 +271,7 @@ onMounted(() => {
                     :height="48"
                     :online="reviewItem.author.status == 'online' ? true : false"
                   />
-                </LocaleRouterLink>
+                </router-link>
                 <UserAvatarExtended
                   v-else
                   :src="reviewItem.author.avatar"
@@ -277,16 +281,18 @@ onMounted(() => {
                 />
                 <div class="flex-grow-1 ms-1">
                   <div class="d-flex justify-content-between">
-                    <LocaleRouterLink
+                    <router-link
                       v-if="reviewItem.author.profile_url"
-                      routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: reviewItem.author.profile_url }"
+                      :to="{
+                        name: 'OrganizerDetail',
+                        params: { profile_url: reviewItem.author.profile_url }
+                      }"
                       class="text-decoration-none link-dark"
                     >
                       <strong class="mb-0">
                         {{ reviewItem.author.name }}
                       </strong>
-                    </LocaleRouterLink>
+                    </router-link>
                     <strong
                       v-else
                       class="mb-0"

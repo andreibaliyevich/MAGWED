@@ -79,15 +79,15 @@ onMounted(() => {
             !$route.query.type ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="Favorites"
+          <router-link
+            :to="{ name: 'Favorites' }"
             :class="[
               'nav-link',
               !$route.query.type ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.all') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -95,16 +95,15 @@ onMounted(() => {
             $route.query.type == 'photo' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="Favorites"
-            :routeQuery="{ type: 'photo' }"
+          <router-link
+            :to="{ query: { type: 'photo' } }"
             :class="[
               'nav-link',
               $route.query.type == 'photo' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.photos') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -112,16 +111,15 @@ onMounted(() => {
             $route.query.type == 'album' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="Favorites"
-            :routeQuery="{ type: 'album' }"
+          <router-link
+            :to="{ query: { type: 'album' } }"
             :class="[
               'nav-link',
               $route.query.type == 'album' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.albums') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -129,16 +127,15 @@ onMounted(() => {
             $route.query.type == 'article' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="Favorites"
-            :routeQuery="{ type: 'article' }"
+          <router-link
+            :to="{ query: { type: 'article' } }"
             :class="[
               'nav-link',
               $route.query.type == 'article' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.articles') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
       </ul>
 
@@ -155,81 +152,93 @@ onMounted(() => {
             v-if="favorite.content_type_model == 'photo'"
             class="card border border-light shadow-sm h-100"
           >
-            <LocaleRouterLink
-              routeName="PhotoDetail"
-              :routeParams="{ uuid: favorite.content_object.uuid }"
+            <router-link
+              :to="{
+                name: 'PhotoDetail',
+                params: { uuid: favorite.content_object.uuid }
+              }"
             >
               <img
                 :src="favorite.content_object.thumbnail"
                 :alt="favorite.content_object.title"
                 class="card-img-top"
               >
-            </LocaleRouterLink>
+            </router-link>
             <div class="card-body">
-              <LocaleRouterLink
-                routeName="PhotoDetail"
-                :routeParams="{ uuid: favorite.content_object.uuid }"
+              <router-link
+                :to="{
+                  name: 'PhotoDetail',
+                  params: { uuid: favorite.content_object.uuid }
+                }"
                 class="text-decoration-none link-dark text-center"
               >
                 <h5 class="card-title">
                   <i class="fa-regular fa-image"></i>
                   {{ favorite.content_object.title }}
                 </h5>
-              </LocaleRouterLink>
+              </router-link>
             </div>
           </div>
           <div
             v-else-if="favorite.content_type_model == 'album'"
             class="card border border-light shadow-sm h-100"
           >
-            <LocaleRouterLink
-              routeName="AlbumDetail"
-              :routeParams="{ uuid: favorite.content_object.uuid }"
+            <router-link
+              :to="{
+                name: 'AlbumDetail',
+                params: { uuid: favorite.content_object.uuid }
+              }"
             >
               <img
                 :src="favorite.content_object.thumbnail"
                 :alt="favorite.content_object.title"
                 class="card-img-top"
               >
-            </LocaleRouterLink>
+            </router-link>
             <div class="card-body">
-              <LocaleRouterLink
-                routeName="AlbumDetail"
-                :routeParams="{ uuid: favorite.content_object.uuid }"
+              <router-link
+                :to="{
+                  name: 'AlbumDetail',
+                  params: { uuid: favorite.content_object.uuid }
+                }"
                 class="text-decoration-none link-dark text-center"
               >
                 <h5 class="card-title">
                   <i class="fa-regular fa-images"></i>
                   {{ favorite.content_object.title }}
                 </h5>
-              </LocaleRouterLink>
+              </router-link>
             </div>
           </div>
           <div
             v-else-if="favorite.content_type_model == 'article'"
             class="card border border-light shadow-sm h-100"
           >
-            <LocaleRouterLink
-              routeName="ArticleDetail"
-              :routeParams="{ slug: favorite.content_object.slug }"
+            <router-link
+              :to="{
+                name: 'ArticleDetail',
+                params: { slug: favorite.content_object.slug }
+              }"
             >
               <img
                 :src="favorite.content_object.thumbnail"
                 :alt="favorite.content_object.translated_title"
                 class="card-img-top"
               >
-            </LocaleRouterLink>
+            </router-link>
             <div class="card-body">
-              <LocaleRouterLink
-                routeName="ArticleDetail"
-                :routeParams="{ slug: favorite.content_object.slug }"
+              <router-link
+                :to="{
+                  name: 'ArticleDetail',
+                  params: { slug: favorite.content_object.slug }
+                }"
                 class="text-decoration-none link-dark text-center"
               >
                 <h5 class="card-title">
                   <i class="fa-regular fa-newspaper"></i>
                   {{ favorite.content_object.translated_title }}
                 </h5>
-              </LocaleRouterLink>
+              </router-link>
             </div>
           </div>
         </div>

@@ -81,12 +81,12 @@ onMounted(() => {
     >
       <p class="fs-6 text-muted">
         {{ $t('auth.registration.have_account') }}
-        <LocaleRouterLink
-          routeName="Login"
+        <router-link
+          :to="{ name: 'Login' }"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.log_in') }}
-        </LocaleRouterLink>
+        </router-link>
       </p>
       <div class="row g-3 mb-3">
         <div class="col-md-12">

@@ -61,9 +61,11 @@ onMounted(() => {
           :key="follow.user.uuid"
           class="col-12 col-md-6 col-lg-4 col-xl-3 text-center"
         >
-          <LocaleRouterLink
-            routeName="OrganizerDetail"
-            :routeParams="{ profile_url: follow.user.profile_url }"
+          <router-link
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: follow.user.profile_url }
+            }"
           >
             <UserAvatarExtended
               :src="follow.user.avatar"
@@ -71,14 +73,16 @@ onMounted(() => {
               :height="180"
               :online="follow.user.status == 'online' ? true : false"
             />
-          </LocaleRouterLink>
-          <LocaleRouterLink
-            routeName="OrganizerDetail"
-            :routeParams="{ profile_url: follow.user.profile_url }"
+          </router-link>
+          <router-link
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: follow.user.profile_url }
+            }"
             class="text-decoration-none link-dark"
           >
             <h2 class="fw-normal">{{ follow.user.name }}</h2>
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
       <div

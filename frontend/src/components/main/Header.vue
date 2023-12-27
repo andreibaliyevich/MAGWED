@@ -1,5 +1,4 @@
 <script setup>
-import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
@@ -128,17 +127,17 @@ const changeCurrency = (event) => {
               v-for="language in LANGUAGES"
               :key="language.value"
             >
-              <RouterLink
-                :to="{ params: { locale: language.value }}"
+              <router-link
+                :to="{ params: { locale: language.value } }"
                 class="dropdown-item"
-                >
+              >
                 <img
                   :src="`/flags/${language.value}.png`"
                   width="20"
                   :alt="language.value"
                 >
                 <span class="ms-1">{{ language.text }}</span>
-              </RouterLink>
+              </router-link>
             </li>
           </ul>
         </div>

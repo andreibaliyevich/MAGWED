@@ -24,7 +24,7 @@ const getYears = () => {
       </button>
       <div class="row">
         <div class="col-lg-8">
-          <RouterView />
+          <router-view></router-view>
         </div>
         <div class="col-lg-4">
           <div
@@ -58,12 +58,14 @@ const getYears = () => {
                     $route.query.category == 'design' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'design',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'design',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -72,7 +74,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.design') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -80,12 +82,14 @@ const getYears = () => {
                     $route.query.category == 'fashion' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'fashion',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'fashion',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -94,7 +98,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.fashion') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -102,12 +106,14 @@ const getYears = () => {
                     $route.query.category == 'inspiration' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'inspiration',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'inspiration',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -116,7 +122,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.inspiration') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -124,12 +130,14 @@ const getYears = () => {
                     $route.query.category == 'journey' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'journey',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'journey',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -138,7 +146,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.journey') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -146,12 +154,14 @@ const getYears = () => {
                     $route.query.category == 'lifestyle' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'lifestyle',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'lifestyle',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -160,7 +170,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.lifestyle') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -168,12 +178,14 @@ const getYears = () => {
                     $route.query.category == 'photography' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'photography',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'photography',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -182,7 +194,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.photography') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -190,12 +202,14 @@ const getYears = () => {
                     $route.query.category == 'technology' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'technology',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'technology',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -204,7 +218,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.technology') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li
                   :class="[
@@ -212,12 +226,14 @@ const getYears = () => {
                     $route.query.category == 'wedding' ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: 'wedding',
-                      year: $route.query.year
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: 'wedding',
+                        year: $route.query.year
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -226,7 +242,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ $t('category_choices.wedding') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
               </ul>
               <hr>
@@ -239,12 +255,14 @@ const getYears = () => {
                     $route.query.year == yearNumber ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="ArticleList"
-                    :routeQuery="{
-                      author: $route.query.author,
-                      category: $route.query.category,
-                      year: yearNumber
+                  <router-link
+                    :to="{
+                      name: 'ArticleList',
+                      query: {
+                        author: $route.query.author,
+                        category: $route.query.category,
+                        year: yearNumber
+                      }
                     }"
                     @click="$refs.filterMenuClose.click()"
                     :class="[
@@ -253,7 +271,7 @@ const getYears = () => {
                     ]"
                   >
                     {{ yearNumber }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
               </ul>
             </div>

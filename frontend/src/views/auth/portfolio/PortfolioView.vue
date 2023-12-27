@@ -8,23 +8,23 @@
       <div class="bg-light rounded-3 p-5">
         <h2>{{ $t('portfolio.albums') }}</h2>
         <p></p>
-        <LocaleRouterLink
-          routeName="PortfolioAlbumList"
+        <router-link
+          :to="{ name: 'PortfolioAlbumList' }"
           class="btn btn-soft-brand"
         >
           {{ $t('portfolio.view_albums') }}
-        </LocaleRouterLink>
+        </router-link>
       </div>
 
       <div class="bg-light rounded-3 p-5 mt-2">
         <h2>{{ $t('portfolio.photos') }}</h2>
         <p></p>
-        <LocaleRouterLink
-          routeName="PortfolioPhotoList"
+        <router-link
+          :to="{ name: 'PortfolioPhotoList' }"
           class="btn btn-soft-brand"
         >
           {{ $t('portfolio.view_photos') }}
-        </LocaleRouterLink>
+        </router-link>
       </div>
 
     </div>

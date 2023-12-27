@@ -73,13 +73,13 @@ const resetPassword = async () => {
       </SubmitButton>
       <hr class="my-4">
       <div class="fs-6 text-center">
-        <LocaleRouterLink
-          routeName="Login"
+        <router-link
+          :to="{ name: 'Login' }"
           class="link-primary text-decoration-none"
         >
           <i class="fa-solid fa-angle-left"></i>
           {{ $t('auth.passwordreset.back_to_login') }}
-        </LocaleRouterLink>
+        </router-link>
       </div>
     </form>
   </div>

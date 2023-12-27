@@ -289,13 +289,15 @@ onUnmounted(() => {
       class="alert alert-info" role="alert"
     >
       {{ $t('comments.need_log_in') }}
-      <LocaleRouterLink
-        routeName="Login"
-        :routeQuery="{ redirect: $route.path }"
+      <router-link
+        :to="{
+          name: 'Login',
+          query: { redirect: $route.path }
+        }"
         class="alert-link"
       >
         {{ $t('auth.log_in') }}
-      </LocaleRouterLink>
+      </router-link>
     </div>
   </div>
 </template>

@@ -59,10 +59,15 @@ onMounted(() => {
         class="col-12 col-md-6 col-lg-4 col-xl-3"
       >
         <div class="card border border-0 h-100">
-          <LocaleRouterLink
-            routeName="PhotoDetail"
-            :routeParams="{ uuid: photoItem.uuid }"
-            :routeQuery="{ from: $route.query.tab }"
+          <router-link
+            :to="{
+              name: 'PhotoDetail',
+              params: { uuid: photoItem.uuid },
+              query: {
+                from: 'tags',
+                tags: tagUUID
+              }
+            }"
             class="link-light"
           >
             <img
@@ -72,23 +77,27 @@ onMounted(() => {
             <div class="card-img-overlay">
               <div class="position-absolute top-0 start-0 ms-2 mt-2">
                 <div class="d-flex align-items-center">
-                  <LocaleRouterLink
-                    routeName="OrganizerDetail"
-                    :routeParams="{ profile_url: photoItem.author.profile_url }"
+                  <router-link
+                    :to="{
+                      name: 'OrganizerDetail',
+                      params: { profile_url: photoItem.author.profile_url }
+                    }"
                   >
                     <UserAvatar
                       :src="photoItem.author.avatar"
                       :width="32"
                       :height="32"
                     />
-                  </LocaleRouterLink>
-                  <LocaleRouterLink
-                    routeName="OrganizerDetail"
-                    :routeParams="{ profile_url: photoItem.author.profile_url  }"
+                  </router-link>
+                  <router-link
+                    :to="{
+                      name: 'OrganizerDetail',
+                      params: { profile_url: photoItem.author.profile_url }
+                    }"
                     class="text-decoration-none link-light ms-2"
                   >
                     {{ photoItem.author.name }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </div>
               </div>
               <div class="position-absolute top-50 start-50 translate-middle">
@@ -107,7 +116,7 @@ onMounted(() => {
                 {{ photoItem.rating }}
               </div>
             </div>
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
     </div>

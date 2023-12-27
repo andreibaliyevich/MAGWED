@@ -62,12 +62,12 @@ const login = async () => {
     <form @submit.prevent="login()">
       <p class="fs-6 text-muted">
         {{ $t('auth.login.have_account') }}
-        <LocaleRouterLink
-          routeName="Registration"
+        <router-link
+          :to="{ name: 'Registration' }"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.register') }}
-        </LocaleRouterLink>
+        </router-link>
       </p>
       <div class="row g-3 mb-3">
         <div class="col-md-12">
@@ -100,12 +100,12 @@ const login = async () => {
       <hr class="my-4">
       <div class="fs-6 text-muted">
         {{ $t('auth.login.forgot_your_password') }}
-        <LocaleRouterLink
-          routeName="PasswordReset"
+        <router-link
+          :to="{ name: 'PasswordReset' }"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.password.reset_password') }}
-        </LocaleRouterLink>
+        </router-link>
       </div>
     </form>
   </div>

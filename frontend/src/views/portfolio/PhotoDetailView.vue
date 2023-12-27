@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
@@ -10,7 +9,6 @@ import NotFound from '@/components/NotFound.vue'
 import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
-const { locale } = useI18n({ useScope: 'global' })
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
@@ -75,6 +73,8 @@ const getPhotoData = async () => {
   } else if (route.query.from == 'author') {
     params.append('author', route.query.author)
     params.append('album_is_null', true)
+  } else if (route.query.from == 'tags') {
+    params.append('tags', route.query.tags)
   } else {
     params.append('ordering', 'rating')
   }
@@ -126,20 +126,12 @@ const dislikePhoto = async () => {
 const keyUpArrowLeftRight = (event) => {
   if (event.keyCode === 37 && photoData.value.prev_photo_uuid) {
     router.push({
-      name: 'PhotoDetail',
-      params: {
-        locale: locale.value,
-        uuid: photoData.value.prev_photo_uuid
-      },
+      params: { uuid: photoData.value.prev_photo_uuid },
       query: route.query
     })
   } else if (event.keyCode === 39 && photoData.value.next_photo_uuid) {
     router.push({
-      name: 'PhotoDetail',
-      params: {
-        locale: locale.value,
-        uuid: photoData.value.next_photo_uuid
-      },
+      params: { uuid: photoData.value.next_photo_uuid },
       query: route.query
     })
   }
@@ -191,27 +183,29 @@ onUnmounted(() => {
               v-if="photoData.prev_photo_uuid"
               class="position-absolute top-50 start-0 translate-middle-y"
             >
-              <LocaleRouterLink
-                routeName="PhotoDetail"
-                :routeParams="{ uuid: photoData.prev_photo_uuid }"
-                :routeQuery="$route.query"
+              <router-link
+                :to="{
+                  params: { uuid: photoData.prev_photo_uuid },
+                  query: $route.query
+                }"
                 class="btn btn-light"
               >
                 <i class="fa-solid fa-chevron-left"></i>
-              </LocaleRouterLink>
+              </router-link>
             </div>
             <div
               v-if="photoData.next_photo_uuid"
               class="position-absolute top-50 end-0 translate-middle-y"
             >
-              <LocaleRouterLink
-                routeName="PhotoDetail"
-                :routeParams="{ uuid: photoData.next_photo_uuid }"
-                :routeQuery="$route.query"
+              <router-link
+                :to="{
+                  params: { uuid: photoData.next_photo_uuid },
+                  query: $route.query
+                }"
                 class="btn btn-light"
               >
                 <i class="fa-solid fa-chevron-right"></i>
-              </LocaleRouterLink>
+              </router-link>
             </div>
           </div>
         </div>
@@ -312,23 +306,27 @@ onUnmounted(() => {
               <div class="row g-1 my-3">
                 <div class="col-lg-6">
                   <div class="d-flex align-items-center justify-content-start">
-                    <LocaleRouterLink
-                      routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: photoData.author.profile_url }"
+                    <router-link
+                      :to="{
+                        name: 'OrganizerDetail',
+                        params: { profile_url: photoData.author.profile_url }
+                      }"
                     >
                       <UserAvatar
                         :src="photoData.author.avatar"
                         :width="32"
                         :height="32"
                       />
-                    </LocaleRouterLink>
-                    <LocaleRouterLink
-                      routeName="OrganizerDetail"
-                      :routeParams="{ profile_url: photoData.author.profile_url  }"
+                    </router-link>
+                    <router-link
+                      :to="{
+                        name: 'OrganizerDetail',
+                        params: { profile_url: photoData.author.profile_url }
+                      }"
                       class="text-decoration-none link-dark ms-2"
                     >
                       {{ photoData.author.name }}
-                    </LocaleRouterLink>
+                    </router-link>
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -336,9 +334,11 @@ onUnmounted(() => {
                     v-if="photoData.album"
                     class="d-flex align-items-center justify-content-start justify-content-lg-end"
                   >
-                    <LocaleRouterLink
-                      routeName="AlbumDetail"
-                      :routeParams="{ uuid: photoData.album.uuid }"
+                    <router-link
+                      :to="{
+                        name: 'AlbumDetail',
+                        params: { uuid: photoData.album.uuid }
+                      }"
                     >
                       <img
                         :src="photoData.album.thumbnail"
@@ -346,14 +346,16 @@ onUnmounted(() => {
                         :height="32"
                         class="rounded-circle"
                       >
-                    </LocaleRouterLink>
-                    <LocaleRouterLink
-                      routeName="AlbumDetail"
-                      :routeParams="{ uuid: photoData.album.uuid  }"
+                    </router-link>
+                    <router-link
+                      :to="{
+                        name: 'AlbumDetail',
+                        params: { uuid: photoData.album.uuid }
+                      }"
                       class="text-decoration-none link-dark ms-2"
                     >
                       {{ photoData.album.title }}
-                    </LocaleRouterLink>
+                    </router-link>
                   </div>
                 </div>
               </div>
@@ -428,14 +430,16 @@ onUnmounted(() => {
                     :key="tag.uuid"
                     class="col"
                   >
-                    <LocaleRouterLink
-                      routeName="TagDetail"
-                      :routeParams="{ uuid: tag.uuid }"
-                      :routeQuery="{ tab: 'photos' }"
+                    <router-link
+                      :to="{
+                        name: 'TagDetail',
+                        params: { uuid: tag.uuid },
+                        query: { tab: 'photos' }
+                      }"
                       class="btn btn-light btn-sm"
                     >
                       #{{ tag.name }}
-                    </LocaleRouterLink>
+                    </router-link>
                   </div>
                 </div>
               </div>

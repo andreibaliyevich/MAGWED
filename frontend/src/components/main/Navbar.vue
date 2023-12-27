@@ -19,24 +19,30 @@ const userStore = useUserStore()
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <LocaleRouterLink
-        routeName="Home"
+      <router-link
+        :to="{
+          name: 'Home',
+          params: { locale: $i18n.locale }
+        }"
         class="navbar-brand d-flex d-sm-none align-items-center me-0"
       >
         <img
           src="/logo-navbar.png"
           width="50"
         >
-      </LocaleRouterLink>
-      <LocaleRouterLink
-        routeName="Home"
+      </router-link>
+      <router-link
+        :to="{
+          name: 'Home',
+          params: { locale: $i18n.locale }
+        }"
         class="navbar-brand d-flex d-none d-sm-inline-flex align-items-center me-0"
       >
         <img
           src="/logo-navbar-full.png"
           width="150"
         >
-      </LocaleRouterLink>
+      </router-link>
       <div
         id="main_menu"
         tabindex="-1"
@@ -62,8 +68,11 @@ const userStore = useUserStore()
         <div class="offcanvas-body">
           <ul class="navbar-nav d-flex align-items-lg-center flex-grow-1 mx-3">
             <li class="nav-item">
-              <LocaleRouterLink
-                routeName="OrganizerList"
+              <router-link
+                :to="{
+                  name: 'OrganizerList',
+                  params: { locale: $i18n.locale }
+                }"
                 @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
@@ -74,7 +83,7 @@ const userStore = useUserStore()
                 ]"
               >
                 {{ $t('nav.organizers') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item dropdown ms-xl-3">
               <a
@@ -101,50 +110,65 @@ const userStore = useUserStore()
                 aria-labelledby="nav_link_albums"
               >
                 <li>
-                  <LocaleRouterLink
-                    routeName="PhotoList"
-                    :routeQuery="{ tab: 'popular' }"
+                  <router-link
+                    :to="{
+                      name: 'PhotoList',
+                      params: { locale: $i18n.locale },
+                      query: { tab: 'popular' }
+                    }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.popular_photos') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li>
-                  <LocaleRouterLink
-                    routeName="PhotoList"
-                    :routeQuery="{ tab: 'fresh' }"
+                  <router-link
+                    :to="{
+                      name: 'PhotoList',
+                      params: { locale: $i18n.locale },
+                      query: { tab: 'fresh' }
+                    }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.fresh_photos') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li>
-                  <LocaleRouterLink
-                    routeName="PhotoList"
-                    :routeQuery="{ tab: 'editors' }"
+                  <router-link
+                    :to="{
+                      name: 'PhotoList',
+                      params: { locale: $i18n.locale },
+                      query: { tab: 'editors' }
+                    }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.editors_choice') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
                 <li>
-                  <LocaleRouterLink
-                    routeName="AlbumList"
-                    :routeQuery="{ tab: 'popular' }"
+                  <router-link
+                    :to="{
+                      name: 'AlbumList',
+                      params: { locale: $i18n.locale },
+                      query: { tab: 'popular' }
+                    }"
                     @click="$refs.offcanvasMenuClose.click()"
                     class="dropdown-item"
                   >
                     {{ $t('nav.photo_albums') }}
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
               </ul>
             </li>
             <li class="nav-item ms-xl-3">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
@@ -152,11 +176,14 @@ const userStore = useUserStore()
                 ]"
               >
                 {{ $t('nav.awards') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item ms-xl-3">
-              <LocaleRouterLink
-                routeName="ArticleList"
+              <router-link
+                :to="{
+                  name: 'ArticleList',
+                  params: { locale: $i18n.locale }
+                }"
                 @click="$refs.offcanvasMenuClose.click()"
                 :class="[
                   'nav-link text-uppercase fw-bold',
@@ -167,7 +194,7 @@ const userStore = useUserStore()
                 ]"
               >
                 {{ $t('nav.blog') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
           </ul>
         </div>
@@ -185,18 +212,24 @@ const userStore = useUserStore()
           v-else
           class="d-flex align-items-center gap-1"
         >
-          <LocaleRouterLink
-            routeName="Login"
+          <router-link
+            :to="{
+              name: 'Login',
+              params: { locale: $i18n.locale }
+            }"
             class="btn btn-outline-brand border-secondary rounded-pill px-3"
           >
             {{ $t('auth.log_in') }}
-          </LocaleRouterLink>
-          <LocaleRouterLink
-            routeName="Registration"
+          </router-link>
+          <router-link
+            :to="{
+              name: 'Registration',
+              params: { locale: $i18n.locale }
+            }"
             class="btn btn-brand rounded-pill d-none d-md-inline-flex px-3"
           >
             {{ $t('auth.register') }}
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
     </div>

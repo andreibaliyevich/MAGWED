@@ -57,12 +57,12 @@ const confirmPasswordReset = async () => {
         {{ $t('auth.passwordresetconfirm.success3') }}
       </p>
       <div class="fs-6 text-center">
-        <LocaleRouterLink
-          routeName="Login"
+        <router-link
+          :to="{ name: 'Login' }"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.log_in') }}
-        </LocaleRouterLink>
+        </router-link>
       </div>
     </div>
 
@@ -91,12 +91,12 @@ const confirmPasswordReset = async () => {
         {{ error }}
       </p>
       <div class="fs-6 text-center">
-        <LocaleRouterLink
-          routeName="PasswordReset"
+        <router-link
+          :to="{ name: 'PasswordReset' }"
           class="link-primary text-decoration-none"
         >
           {{ $t('auth.password.reset_password') }}
-        </LocaleRouterLink>
+        </router-link>
       </div>
     </div>
 

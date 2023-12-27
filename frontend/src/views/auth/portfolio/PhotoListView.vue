@@ -86,12 +86,12 @@ onMounted(() => {
   <div class="portfolio-photo-list-view">
     <div class="px-1 px-lg-3 px-xl-5">
       <div class="d-flex align-items-center mb-5">
-        <LocaleRouterLink
-          routeName="Portfolio"
+        <router-link
+          :to="{ name: 'Portfolio' }"
           class="link-danger text-decoration-none display-6"
         >
           {{ $t('portfolio.portfolio') }}
-        </LocaleRouterLink>
+        </router-link>
         <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
         <h1 class="display-6 mb-0">
           {{ $t('portfolio.photos') }}

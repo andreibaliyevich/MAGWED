@@ -37,10 +37,12 @@ watch(newCommentContent, (newValue) => {
 <template>
   <div class="comment-item">
     <div class="d-flex gap-3">
-      <LocaleRouterLink
+      <router-link
         v-if="commentItem.author.profile_url"
-        routeName="OrganizerDetail"
-        :routeParams="{ profile_url: commentItem.author.profile_url }"
+        :to="{
+          name: 'OrganizerDetail',
+          params: { profile_url: commentItem.author.profile_url }
+        }"
       >
         <UserAvatarExtended
           :src="commentItem.author.avatar"
@@ -48,7 +50,7 @@ watch(newCommentContent, (newValue) => {
           :height="32"
           :online="commentItem.author.status == 'online' ? true : false"
         />
-      </LocaleRouterLink>
+      </router-link>
       <UserAvatarExtended
         v-else
         :src="commentItem.author.avatar"
@@ -58,16 +60,18 @@ watch(newCommentContent, (newValue) => {
       />
       <div class="flex-grow-1 ms-1">
         <div class="d-flex justify-content-between">
-          <LocaleRouterLink
+          <router-link
             v-if="commentItem.author.profile_url"
-            routeName="OrganizerDetail"
-            :routeParams="{ profile_url: commentItem.author.profile_url }"
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: commentItem.author.profile_url }
+            }"
             class="text-decoration-none link-dark"
           >
             <strong class="mb-0">
               {{ commentItem.author.name }}
             </strong>
-          </LocaleRouterLink>
+          </router-link>
           <strong
             v-else
             class="mb-0"

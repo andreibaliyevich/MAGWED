@@ -44,12 +44,12 @@ onMounted(async () => {
           {{ $t('auth.activation.success3') }}
         </p>
         <div class="fs-6 text-center">
-          <LocaleRouterLink
-            routeName="Login"
+          <router-link
+            :to="{ name: 'Login' }"
             class="link-primary text-decoration-none"
           >
             {{ $t('auth.log_in') }}
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
 
@@ -76,12 +76,12 @@ onMounted(async () => {
           {{ error }}
         </p>
         <div class="fs-6 text-center">
-          <LocaleRouterLink
-            routeName="Registration"
+          <router-link
+            :to="{ name: 'Registration' }"
             class="link-primary text-decoration-none"
           >
             {{ $t('auth.register') }}
-          </LocaleRouterLink>
+          </router-link>
         </div>
       </div>
     </div>

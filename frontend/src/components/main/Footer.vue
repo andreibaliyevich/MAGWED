@@ -57,88 +57,118 @@ onMounted(() => {
         <div class="col-md-3 mt-3 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.rules') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.advertising') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.our_logos') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Feedback"
+              <router-link
+                :to="{
+                  name: 'Feedback',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('feedback.feedback') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.more_about_magwed') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
           </ul>
         </div>
         <div class="col-md-3">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.analytics') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.career_at_magwed') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.terms_of_use') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.privacy_policy') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
             <li class="nav-item mb-2">
-              <LocaleRouterLink
-                routeName="Home"
+              <router-link
+                :to="{
+                  name: 'Home',
+                  params: { locale: $i18n.locale }
+                }"
                 class="nav-link p-0 text-white"
               >
                 {{ $t('footer.advertising_and_promotion') }}
-              </LocaleRouterLink>
+              </router-link>
             </li>
           </ul>
         </div>

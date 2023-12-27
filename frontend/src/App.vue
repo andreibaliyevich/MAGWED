@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios'
-import { RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { WS_URL } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
@@ -67,7 +66,7 @@ onMounted(async () => {
   <Header />
   <Navbar />
   <main>
-    <RouterView />
+    <router-view></router-view>
   </main>
   <Footer />
 </template>

@@ -178,13 +178,15 @@ onUnmounted(() => {
       <ul class="list-inline text-body-secondary mt-2 mb-4">
         <li class="list-inline-item">
           {{ $t('blog.author') }}:
-          <LocaleRouterLink
-            routeName="ArticleList"
-            :routeQuery="{ author: articleData.author.uuid }"
+          <router-link
+            :to="{
+              name: 'ArticleList',
+              query: { author: articleData.author.uuid }
+            }"
             class="text-decoration-none link-dark"
           >
             {{ articleData.author.name }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li class="list-inline-item ms-3">
           <i class="fa-regular fa-calendar-days"></i>
@@ -206,14 +208,16 @@ onUnmounted(() => {
             :key="tag.uuid"
             class="col"
           >
-            <LocaleRouterLink
-              routeName="TagDetail"
-              :routeParams="{ uuid: tag.uuid }"
-              :routeQuery="{ tab: 'articles' }"
+            <router-link
+              :to="{
+                name: 'TagDetail',
+                params: { uuid: tag.uuid },
+                query: { tab: 'articles' }
+              }"
               class="btn btn-light btn-sm"
             >
               #{{ tag.name }}
-            </LocaleRouterLink>
+            </router-link>
           </div>
         </div>
       </div>

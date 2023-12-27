@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter, RouterView } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { WS_URL, chatType, messageType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
@@ -336,9 +336,11 @@ onUnmounted(() => {
                     $route.params.uuid == chat.uuid ? 'active' : null
                   ]"
                 >
-                  <LocaleRouterLink
-                    routeName="Chat"
-                    :routeParams="{ uuid: chat.uuid }"
+                  <router-link
+                    :to="{
+                      name: 'Chat',
+                      params: { uuid: chat.uuid }
+                    }"
                     @click="$refs.chatListClose.click()"
                     :class="[
                       'nav-link',
@@ -417,7 +419,7 @@ onUnmounted(() => {
                         </div>
                       </div>
                     </div>
-                  </LocaleRouterLink>
+                  </router-link>
                 </li>
               </ul>
               <div
@@ -440,9 +442,9 @@ onUnmounted(() => {
           </div>
         </div>
         <div class="col-lg-8 py-lg-2">
-          <RouterView
+          <router-view
             @msgViewed="chatList[chatIndex].unviewed_msg_count -= 1"
-          />
+          ></router-view>
         </div>
       </div>
     </div>

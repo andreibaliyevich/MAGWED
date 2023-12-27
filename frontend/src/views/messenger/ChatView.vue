@@ -413,14 +413,16 @@ onUnmounted(() => {
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li v-if="chatData.details.profile_url">
-                <LocaleRouterLink
-                  routeName="OrganizerDetail"
-                  :routeParams="{ profile_url: chatData.details.profile_url }"
+                <router-link
+                  :to="{
+                    name: 'OrganizerDetail',
+                    params: { profile_url: chatData.details.profile_url }
+                  }"
                   class="dropdown-item"
                 >
                   <i class="fa-solid fa-user"></i>
                   {{ $t('user.view_profile') }}
-                </LocaleRouterLink>
+                </router-link>
               </li>
               <li>
                 <ReportDropdownItemModal
@@ -745,10 +747,12 @@ onUnmounted(() => {
                       v-for="user in groupChatData.members"
                       class="list-group-item list-group-item-action"
                     >
-                      <LocaleRouterLink
+                      <router-link
                         v-if="user.profile_url"
-                        routeName="OrganizerDetail"
-                        :routeParams="{ profile_url: user.profile_url }"
+                        :to="{
+                          name: 'OrganizerDetail',
+                          params: { profile_url: user.profile_url }
+                        }"
                         @click="groupDetailModalBootstrap.hide()"
                         class="text-decoration-none link-dark d-flex align-items-center gap-2"
                       >
@@ -765,7 +769,7 @@ onUnmounted(() => {
                           v-if="user.uuid == groupChatData.group_details.owner"
                           class="fa-solid fa-star"
                         ></i>
-                      </LocaleRouterLink>
+                      </router-link>
                       <div
                         v-else
                         class="d-flex align-items-center gap-2"

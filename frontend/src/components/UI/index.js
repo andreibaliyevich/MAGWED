@@ -6,7 +6,6 @@ import FileDragAndDropInputButton from './FileDragAndDropInputButton.vue'
 import FileInputButton from './FileInputButton.vue'
 import ListInput from './ListInput.vue'
 import LoadingIndicator from './LoadingIndicator.vue'
-import LocaleRouterLink from './LocaleRouterLink.vue'
 import NumberRangeInput from './NumberRangeInput.vue'
 import SearchCheckboxMultipleSelect from './SearchCheckboxMultipleSelect.vue'
 import SearchListInputMultipleSelect from './SearchListInputMultipleSelect.vue'
@@ -23,7 +22,6 @@ export default [
   FileInputButton,
   ListInput,
   LoadingIndicator,
-  LocaleRouterLink,
   NumberRangeInput,
   SearchCheckboxMultipleSelect,
   SearchListInputMultipleSelect,

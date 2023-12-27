@@ -59,24 +59,28 @@ onMounted(() => {
         class="col-12 col-md-6 col-lg-4 col-xl-3"
       >
         <div class="card border border-light shadow-sm h-100">
-          <LocaleRouterLink
-            routeName="AlbumDetail"
-            :routeParams="{ uuid: albumItem.uuid }"
+          <router-link
+            :to="{
+              name: 'AlbumDetail',
+              params: { uuid: albumItem.uuid }
+            }"
           >
             <img
               :src="albumItem.thumbnail"
               :alt="albumItem.title"
               class="card-img-top"
             >
-          </LocaleRouterLink>
+          </router-link>
           <div class="card-body">
-            <LocaleRouterLink
-              routeName="AlbumDetail"
-              :routeParams="{ uuid: albumItem.uuid }"
+            <router-link
+              :to="{
+                name: 'AlbumDetail',
+                params: { uuid: albumItem.uuid }
+              }"
               class="text-decoration-none link-dark"
             >
               <h5 class="card-title">{{ albumItem.title }}</h5>
-            </LocaleRouterLink>
+            </router-link>
             <div class="d-flex justify-content-between mt-1">
               <div>
                 <i class="fa-regular fa-eye"></i>

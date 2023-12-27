@@ -15,17 +15,22 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
   <div class="navbar-notice">
     <div class="d-flex gap-3">
 
-      <LocaleRouterLink
+      <router-link
         v-if="notice.initiator.profile_url"
-        routeName="OrganizerDetail"
-        :routeParams="{ profile_url: notice.initiator.profile_url }"
+        :to="{
+          name: 'OrganizerDetail',
+          params: {
+            locale: $i18n.locale,
+            profile_url: notice.initiator.profile_url
+          }
+        }"
       >
         <UserAvatar
           :src="notice.initiator.avatar"
           :width="36"
           :height="36"
         />
-      </LocaleRouterLink>
+      </router-link>
       <UserAvatar
         v-else
         :src="notice.initiator.avatar"
@@ -61,9 +66,14 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ getLocaleDateTimeString(notice.created_at) }}
           </small>
         </div>
-        <LocaleRouterLink
-          routeName="ArticleDetail"
-          :routeParams="{ slug: notice.content_object.slug }"
+        <router-link
+          :to="{
+            name: 'ArticleDetail',
+            params: {
+              locale: $i18n.locale,
+              slug: notice.content_object.slug
+            }
+          }"
         >
           <img
             :src="notice.content_object.thumbnail"
@@ -71,7 +81,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
+        </router-link>
       </div>
       <div
         v-else-if="notice.reason == reasonOfNotification.ALBUM"
@@ -90,9 +100,14 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ getLocaleDateTimeString(notice.created_at) }}
           </small>
         </div>
-        <LocaleRouterLink
-          routeName="AlbumDetail"
-          :routeParams="{ uuid: notice.content_object.uuid }"
+        <router-link
+          :to="{
+            name: 'AlbumDetail',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.uuid
+            }
+          }"
         >
           <img
             :src="notice.content_object.thumbnail"
@@ -100,7 +115,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
+        </router-link>
       </div>
       <div
         v-else-if="notice.reason == reasonOfNotification.PHOTO"
@@ -128,9 +143,14 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ getLocaleDateTimeString(notice.created_at) }}
           </small>
         </div>
-        <LocaleRouterLink
-          routeName="PhotoDetail"
-          :routeParams="{ uuid: notice.content_object.uuid }"
+        <router-link
+          :to="{
+            name: 'PhotoDetail',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.uuid
+            }
+          }"
         >
           <img
             :src="notice.content_object.thumbnail"
@@ -138,7 +158,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
+        </router-link>
       </div>
       <div
         v-else-if="notice.reason == reasonOfNotification.LIKE_ALBUM"
@@ -157,9 +177,14 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ getLocaleDateTimeString(notice.created_at) }}
           </small>
         </div>
-        <LocaleRouterLink
-          routeName="AlbumDetail"
-          :routeParams="{ uuid: notice.content_object.uuid }"
+        <router-link
+          :to="{
+            name: 'AlbumDetail',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.uuid
+            }
+          }"
         >
           <img
             :src="notice.content_object.thumbnail"
@@ -167,7 +192,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
+        </router-link>
       </div>
       <div
         v-else-if="notice.reason == reasonOfNotification.LIKE_PHOTO"
@@ -195,9 +220,14 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ getLocaleDateTimeString(notice.created_at) }}
           </small>
         </div>
-        <LocaleRouterLink
-          routeName="PhotoDetail"
-          :routeParams="{ uuid: notice.content_object.uuid }"
+        <router-link
+          :to="{
+            name: 'PhotoDetail',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.uuid
+            }
+          }"
         >
           <img
             :src="notice.content_object.thumbnail"
@@ -205,7 +235,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
+        </router-link>
       </div>
       <div
         v-else-if="notice.reason == reasonOfNotification.COMMENT"
@@ -304,10 +334,15 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ getLocaleDateTimeString(notice.created_at) }}
           </small>
         </div>
-        <LocaleRouterLink
+        <router-link
           v-if="notice.content_object.content_object.model_name == 'article'"
-          routeName="ArticleDetail"
-          :routeParams="{ slug: notice.content_object.content_object.slug }"
+          :to="{
+            name: 'ArticleDetail',
+            params: {
+              locale: $i18n.locale,
+              slug: notice.content_object.content_object.slug
+            }
+          }"
         >
           <img
             :src="notice.content_object.content_object.thumbnail"
@@ -315,11 +350,16 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
-        <LocaleRouterLink
+        </router-link>
+        <router-link
           v-else-if="notice.content_object.content_object.model_name == 'album'"
-          routeName="AlbumDetail"
-          :routeParams="{ uuid: notice.content_object.content_object.uuid }"
+          :to="{
+            name: 'AlbumDetail',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.content_object.uuid
+            }
+          }"
         >
           <img
             :src="notice.content_object.content_object.thumbnail"
@@ -327,11 +367,16 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
-        <LocaleRouterLink
+        </router-link>
+        <router-link
           v-else-if="notice.content_object.content_object.model_name == 'photo'"
-          routeName="PhotoDetail"
-          :routeParams="{ uuid: notice.content_object.content_object.uuid }"
+          :to="{
+            name: 'PhotoDetail',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.content_object.uuid
+            }
+          }"
         >
           <img
             :src="notice.content_object.content_object.thumbnail"
@@ -339,7 +384,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             width="64"
             height="64"
           >
-        </LocaleRouterLink>
+        </router-link>
       </div>
       <div
         v-else-if="notice.reason == reasonOfNotification.REVIEW"
@@ -358,9 +403,14 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         v-else-if="notice.reason == reasonOfNotification.MESSAGE"
         class="d-flex align-content-between flex-wrap h-100"
       >
-        <LocaleRouterLink
-          routeName="Chat"
-          :routeParams="{ uuid: notice.content_object.chat }"
+        <router-link
+          :to="{
+            name: 'Chat',
+            params: {
+              locale: $i18n.locale,
+              uuid: notice.content_object.chat
+            }
+          }"
           class="text-decoration-none link-dark"
         >
           <p
@@ -384,7 +434,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:
             {{ $t('messenger.files', { n: notice.content_object.content }) }}
           </p>
-        </LocaleRouterLink>
+        </router-link>
         <small class="text-muted">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>

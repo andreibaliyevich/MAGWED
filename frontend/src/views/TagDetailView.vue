@@ -60,17 +60,15 @@ onMounted(() => {
             $route.query.tab == 'photos' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="TagDetail"
-            :routeParams="{ uuid: $route.params.uuid }"
-            :routeQuery="{ tab: 'photos' }"
+          <router-link
+            :to="{ query: { tab: 'photos' } }"
             :class="[
               'nav-link',
               $route.query.tab == 'photos' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.photos') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -78,17 +76,15 @@ onMounted(() => {
             $route.query.tab == 'albums' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="TagDetail"
-            :routeParams="{ uuid: $route.params.uuid }"
-            :routeQuery="{ tab: 'albums' }"
+          <router-link
+            :to="{ query: { tab: 'albums' } }"
             :class="[
               'nav-link',
               $route.query.tab == 'albums' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.photo_albums') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
         <li
           :class="[
@@ -96,17 +92,15 @@ onMounted(() => {
             $route.query.tab == 'articles' ? 'active' : null
           ]"
         >
-          <LocaleRouterLink
-            routeName="TagDetail"
-            :routeParams="{ uuid: $route.params.uuid }"
-            :routeQuery="{ tab: 'articles' }"
+          <router-link
+            :to="{ query: { tab: 'articles' } }"
             :class="[
               'nav-link',
               $route.query.tab == 'articles' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('blog.articles') }}
-          </LocaleRouterLink>
+          </router-link>
         </li>
       </ul>
 
