@@ -1,10 +1,11 @@
 <script setup>
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { LANGUAGES, CURRENCIES } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
 
+const route = useRoute()
 const router = useRouter()
 const currencyStore = useCurrencyStore()
 
@@ -28,7 +29,10 @@ const changeCurrency = (event) => {
 }
 
 const changeLocale = (event) => {
-  router.push({ params: { locale: event.target.value } })
+  router.push({
+    params: { locale: event.target.value },
+    query: route.query
+  })
 }
 
 onMounted(() => {

@@ -128,7 +128,10 @@ const changeCurrency = (event) => {
               :key="language.value"
             >
               <router-link
-                :to="{ params: { locale: language.value } }"
+                :to="{
+                  params: { locale: language.value },
+                  query: $route.query
+                }"
                 class="dropdown-item"
               >
                 <img
