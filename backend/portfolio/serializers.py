@@ -68,7 +68,6 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = [
-            'uuid',
             'image',
             'device',
             'f_number',
@@ -208,7 +207,6 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     view_count = serializers.IntegerField(read_only=True)
     like_count = serializers.SerializerMethodField()
     rating = serializers.IntegerField(read_only=True)
-    photos = PhotoListCreateSerializer(read_only=True, many=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()
@@ -216,7 +214,6 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = [
-            'uuid',
             'image',
             'title',
             'description',
@@ -225,7 +222,6 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
             'view_count',
             'like_count',
             'rating',
-            'photos',
         ]
 
 

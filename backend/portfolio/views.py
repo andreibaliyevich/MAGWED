@@ -30,6 +30,7 @@ class AlbumListCreateView(generics.ListCreateAPIView):
     """ Album List Create View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
     serializer_class = AlbumListCreateSerializer
+    pagination_class = PortfolioPagination
 
     def get_queryset(self):
         return Album.objects.filter(author=self.request.user)
@@ -137,12 +138,12 @@ class PhotoListCreateView(generics.ListCreateAPIView):
     """ Photo List Create View """
     permission_classes = [IsAuthenticated, UserIsOrganizer]
     serializer_class = PhotoListCreateSerializer
+    pagination_class = PortfolioPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PhotoFilter
 
     def get_queryset(self):
-        return Photo.objects.filter(
-            author=self.request.user,
-            album__exact=None,
-        )
+        return Photo.objects.filter(author=self.request.user)
 
     def perform_create(self, serializer):
         extra_data = {
