@@ -1,31 +1,29 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
-defineProps({
-  photoList: {
-    type: Array,
-    required: true
-  }
-})
-const emit = defineEmits(['updatePhoto', 'removePhoto'])
+const route = useRoute()
+
+const photoListLoading = ref(true)
+const photoList = ref([])
+const nextURL = ref(null)
+
+const photosUploadStatus = ref(0)
+const photosUploading = ref(false)
 
 const photoUpdating = ref(false)
-
 const photoUuid = ref(null)
 const photoImage = ref(null)
-
 const photoDevice = ref('')
 const photoFNumber = ref(null)
 const photoExposureTime = ref('')
 const photoFocalLength = ref(null)
 const photoPhotographicSensitivity = ref(null)
-
 const photoTitle = ref('')
 const photoDescription = ref('')
 const photoTags = ref([])
-
 const photoUploadedAt = ref(null)
 const photoViewCount = ref(0)
 const photoLikeCount = ref(0)
@@ -35,8 +33,83 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
 
+const uploadPhotosModal = ref(null)
+const uploadPhotosModalBootstrap = ref(null)
+
 const updatePhotoModal = ref(null)
 const updatePhotoModalBootstrap = ref(null)
+
+const photosUploadStatusRound = computed(() => {
+  return Math.round(photosUploadStatus.value)
+})
+
+const getPhotoList = async () => {
+  let params = new URLSearchParams()
+  if (route.params.uuid) {
+    params.append('album', route.params.uuid)
+  } else {
+    params.append('album_is_null', true)
+  }
+
+  try {
+    const response = await axios.get('/portfolio/photo/author/list-create/', {
+      params: params
+    })
+    photoList.value = response.data.results
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    photoListLoading.value = false
+  }
+}
+
+const getMorePhotoList = async () => {
+  photoListLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    photoList.value = [...photoList.value, ...response.data.results]
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    photoListLoading.value = false
+  }
+}
+
+const uploadPhotos = async (filelist) => {
+  uploadPhotosModalBootstrap.value.show()
+  photosUploading.value = true
+  const uploadStep = 100 / filelist.length
+
+  for (let i = 0; i < filelist.length; i++) {
+    if (photosUploading.value) {
+      let formData = new FormData()
+      if (route.params.uuid) {
+        formData.append('album', route.params.uuid)
+      }
+      formData.append('image', filelist[i], filelist[i].name)
+
+      try {
+        const response = await axios.post(
+          '/portfolio/photo/author/list-create/',
+          formData
+        )
+        photoList.value.unshift(response.data)
+        photosUploadStatus.value += uploadStep
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      break
+    }
+  }
+
+  photosUploading.value = false
+  setTimeout(() => {
+    uploadPhotosModalBootstrap.value.hide()
+  }, 500)
+}
 
 const getPhotoData = async (pUuid) => {
   try {
@@ -45,7 +118,7 @@ const getPhotoData = async (pUuid) => {
         + pUuid
         +'/'
     )
-    photoUuid.value = response.data.uuid
+    photoUuid.value = pUuid
     photoImage.value = response.data.image
 
     photoDevice.value = response.data.device
@@ -96,7 +169,12 @@ const updatePhoto = async () => {
         tags: photoTags.value
       }
     )
-    emit('updatePhoto', photoUuid.value, photoTitle.value)
+
+    const foundIndex = photoList.value.findIndex((element) => {
+      return element.uuid == photoUuid.value
+    })
+    photoList.value[foundIndex].title = photoTitle.value
+
     updatePhotoModalBootstrap.value.hide()
     errors.value = null
   } catch (error) {
@@ -113,7 +191,9 @@ const removePhoto = async () => {
         + photoUuid.value
         +'/'
     )
-    emit('removePhoto', photoUuid.value)
+    photoList.value = photoList.value.filter((element) => {
+      return element.uuid !== photoUuid.value
+    })
   } catch (error) {
     console.error(error)
   } finally {
@@ -122,6 +202,13 @@ const removePhoto = async () => {
 }
 
 onMounted(() => {
+  getPhotoList()
+  uploadPhotosModal.value.addEventListener('hidden.bs.modal', () => {
+    photosUploadStatus.value = 0
+  })
+  uploadPhotosModalBootstrap.value = new bootstrap.Modal(
+    uploadPhotosModal.value
+  )
   updatePhotoModal.value.addEventListener('hidden.bs.modal', () => {
     photoUuid.value = null
     photoImage.value = null
@@ -149,6 +236,19 @@ onMounted(() => {
 
 <template>
   <div class="portfolio-photo-list">
+    <FileDragAndDropInputButton
+      @selectedFiles="uploadPhotos"
+      buttonClass="btn btn-soft-brand"
+      accept="image/*"
+      multiple
+    >
+      <div class="px-2 my-2">{{ $t('portfolio.drag_and_drop_image') }}</div>
+      <template #button>
+        {{ $t('portfolio.upload_photos') }}
+        <i class="fa-solid fa-upload"></i>
+      </template>
+    </FileDragAndDropInputButton>
+
     <div
       v-if="photoList.length > 0"
       class="row g-1 mt-1"
@@ -198,13 +298,71 @@ onMounted(() => {
       </div>
     </div>
     <div
-      v-else
+      v-else-if="!photoListLoading"
       class="lead d-flex justify-content-center py-3"
     >
       {{ $t('portfolio.no_photos') }}
     </div>
+    <div
+      v-if="nextURL"
+      style="min-height: 1px; margin-bottom: 1px;"
+      v-intersection="{
+        'scrollArea': null,
+        'callbackFunction': getMorePhotoList,
+        'functionArguments': []
+      }"
+    ></div>
+    <LoadingIndicator v-if="photoListLoading" />
 
     <Teleport to="body">
+      <div
+        ref="uploadPhotosModal"
+        id="upload_photos_modal"
+        class="modal fade"
+        tabindex="-1"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-labelledby="upload_photos_modal_label"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                id="upload_photos_modal_label"
+                class="modal-title"
+              >
+                {{ $t('portfolio.uploading_photos') }}
+              </h5>
+            </div>
+            <div class="modal-body">
+              <div class="progress">
+                <div
+                  class="progress-bar progress-bar-striped progress-bar-animated"
+                  role="progressbar"
+                  aria-label="Upload status of photos"
+                  :aria-valuenow="photosUploadStatusRound"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  :style="`width: ${photosUploadStatusRound}%`"
+                >{{ photosUploadStatusRound }}%</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                @click="photosUploading = false"
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                {{ $t('btn.cancel') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         ref="updatePhotoModal"
         id="update_photo_modal"

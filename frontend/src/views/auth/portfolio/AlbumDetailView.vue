@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
@@ -8,37 +7,21 @@ import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { locale } = useI18n({ useScope: 'global' })
 
 const albumDataLoading = ref(true)
 const albumDataUpdating = ref(false)
 const albumImageUpdating = ref(false)
 
-const albumUuid = ref(null)
 const albumImage = ref(null)
-
 const albumTitle = ref('')
 const albumDescription = ref('')
 const albumTags = ref([])
-
 const albumCreatedAt = ref(null)
 const albumViewCount = ref(0)
 const albumLikeCount = ref(0)
 const albumRating = ref(0)
 
-const albumPhotoList = ref([])
-
-const albumPhotosUploadStatus = ref(0)
-const albumPhotosUploading = ref(false)
-
 const { getLocaleDateTimeString } = useLocaleDateTime()
-
-const uploadAlbumPhotosModal = ref(null)
-const uploadAlbumPhotosModalBootstrap = ref(null)
-
-const photosUploadStatusRound = computed(() => {
-  return Math.round(albumPhotosUploadStatus.value)
-})
 
 const status = ref(null)
 const errors = ref(null)
@@ -50,19 +33,14 @@ const getAlbumData = async () => {
         + route.params.uuid
         +'/'
     )
-    albumUuid.value = response.data.uuid
     albumImage.value = response.data.image
-
     albumTitle.value = response.data.title
     albumDescription.value = response.data.description
     albumTags.value = response.data.tags
-
     albumCreatedAt.value = response.data.created_at
     albumViewCount.value = response.data.view_count
     albumLikeCount.value = response.data.like_count
     albumRating.value = response.data.rating
-    
-    albumPhotoList.value = response.data.photos
   } catch (error) {
     console.error(error)
   } finally {
@@ -79,7 +57,7 @@ const updateAlbumImage = async (filelist) => {
   try {
     const response = await axios.put(
       '/portfolio/album/author/image-update/'
-        + albumUuid.value
+        + route.params.uuid
         +'/',
       formData
     )
@@ -99,7 +77,7 @@ const updateAlbum = async () => {
   try {
     const response = await axios.put(
       '/portfolio/album/author/rud/'
-        + albumUuid.value
+        + route.params.uuid
         +'/',
       {
         title: albumTitle.value,
@@ -107,10 +85,7 @@ const updateAlbum = async () => {
         tags: albumTags.value
       }
     )
-    router.push({
-      name: 'PortfolioAlbumList',
-      params: { locale: locale.value }
-    })
+    router.push({ name: 'PortfolioAlbumList' })
   } catch (error) {
     status.value = null
     errors.value = error.response.data
@@ -123,71 +98,17 @@ const removeAlbum = async () => {
   try {
     const response = await axios.delete(
       '/portfolio/album/author/rud/'
-        + albumUuid.value
+        + route.params.uuid
         +'/'
     )
-    router.push({
-      name: 'PortfolioAlbumList',
-      params: { locale: locale.value }
-    })
+    router.push({ name: 'PortfolioAlbumList' })
   } catch (error) {
     console.error(error)
   }
 }
 
-const uploadAlbumPhotos = async (filelist) => {
-  uploadAlbumPhotosModalBootstrap.value.show()
-  albumPhotosUploading.value = true
-  const uploadStep = 100 / filelist.length
-
-  for (let i = 0; i < filelist.length; i++) {
-    if (albumPhotosUploading.value) {
-      let formData = new FormData()
-      formData.append('album', albumUuid.value)
-      formData.append('image', filelist[i], filelist[i].name)
-
-      try {
-        const response = await axios.post(
-          '/portfolio/photo/author/list-create/',
-          formData
-        )
-        albumPhotoList.value.unshift(response.data)
-        albumPhotosUploadStatus.value += uploadStep
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      break
-    }
-  }
-
-  albumPhotosUploading.value = false
-  setTimeout(() => {
-    uploadAlbumPhotosModalBootstrap.value.hide()
-  }, 500)
-}
-
-const updateAlbumPhotoList = (pUuid, pTitle) => {
-  const foundIndex = albumPhotoList.value.findIndex((element) => {
-    return element.uuid == pUuid
-  })
-  albumPhotoList.value[foundIndex].title = pTitle
-}
-
-const removeAlbumPhotoList = (pUuid) => {
-  albumPhotoList.value = albumPhotoList.value.filter((element) => {
-    return element.uuid !== pUuid
-  })
-}
-
 onMounted(() => {
   getAlbumData()
-  uploadAlbumPhotosModal.value.addEventListener('hidden.bs.modal', () => {
-    albumPhotosUploadStatus.value = 0
-  })
-  uploadAlbumPhotosModalBootstrap.value = new bootstrap.Modal(
-    uploadAlbumPhotosModal.value
-  )
 })
 </script>
 
@@ -318,27 +239,10 @@ onMounted(() => {
           {{ $t('btn.update') }}
         </SubmitButton>
       </div>
-
       <hr>
-      <FileDragAndDropInputButton
-        @selectedFiles="uploadAlbumPhotos"
-        buttonClass="btn btn-soft-brand"
-        accept="image/*"
-        multiple
-      >
-        <div class="px-2 my-2">{{ $t('portfolio.drag_and_drop_image') }}</div>
-        <template #button>
-          {{ $t('portfolio.upload_photos') }}
-          <i class="fa-solid fa-upload"></i>
-        </template>
-      </FileDragAndDropInputButton>
-
-      <PortfolioPhotoList
-        :photoList="albumPhotoList"
-        @updatePhoto="updateAlbumPhotoList"
-        @removePhoto="removeAlbumPhotoList"
-      />
+      <PortfolioPhotoList />
     </div>
+
     <Teleport to="body">
       <div
         id="remove_album_modal_choice"
@@ -374,54 +278,6 @@ onMounted(() => {
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        ref="uploadAlbumPhotosModal"
-        id="upload_album_photos_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="upload_photos_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="upload_photos_modal_label"
-                class="modal-title"
-              >
-                {{ $t('portfolio.uploading_photos') }}
-              </h5>
-            </div>
-            <div class="modal-body">
-              <div class="progress">
-                <div
-                  class="progress-bar progress-bar-striped progress-bar-animated"
-                  role="progressbar"
-                  aria-label="Upload status of photos"
-                  :aria-valuenow="photosUploadStatusRound"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  :style="`width: ${photosUploadStatusRound}%`"
-                >{{ photosUploadStatusRound }}%</div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                @click="albumPhotosUploading = false"
-                class="btn btn-danger"
-                type="button"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
               </button>
             </div>
           </div>

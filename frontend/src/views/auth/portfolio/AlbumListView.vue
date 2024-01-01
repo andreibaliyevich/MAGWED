@@ -10,6 +10,7 @@ const { locale } = useI18n({ useScope: 'global' })
 
 const albumListLoading = ref(true)
 const albumList = ref([])
+const nextURL = ref(null)
 
 const albumCreating = ref(false)
 const albumUuid = ref(null)
@@ -28,7 +29,21 @@ const albumImg = ref(null)
 const getAlbumList = async () => {
   try {
     const response = await axios.get('/portfolio/album/author/list-create/')
-    albumList.value = response.data
+    albumList.value = response.data.results
+    nextURL.value = response.data.next
+  } catch (error) {
+    console.error(error)
+  } finally {
+    albumListLoading.value = false
+  }
+}
+
+const getMoreAlbumList = async () => {
+  albumListLoading.value = true
+  try {
+    const response = await axios.get(nextURL.value)
+    albumList.value = [...albumList.value, ...response.data.results]
+    nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
   } finally {
@@ -99,8 +114,11 @@ onMounted(() => {
     albumTitle.value = ''
     albumDescription.value = ''
     errors.value = null
-    albumImg.value.src = ''
-    albumImg.value.alt = ''
+
+    if (albumImg.value) {
+      albumImg.value.src = ''
+      albumImg.value.alt = ''
+    }
   })
   createAlbumModalBootstrap.value = new bootstrap.Modal(createAlbumModal.value)
 })
@@ -132,9 +150,8 @@ onMounted(() => {
         <i class="fa-regular fa-square-plus"></i>
       </button>
 
-      <LoadingIndicator v-if="albumListLoading" />
       <div
-        v-else-if="albumList.length > 0"
+        v-if="albumList.length > 0"
         class="row g-1 mt-1"
       >
         <div
@@ -178,12 +195,23 @@ onMounted(() => {
         </div>
       </div>
       <div
-        v-else
+        v-else-if="!albumListLoading"
         class="lead d-flex justify-content-center py-3"
       >
         {{ $t('portfolio.no_albums') }}
       </div>
+      <div
+        v-if="nextURL"
+        style="min-height: 1px; margin-bottom: 1px;"
+        v-intersection="{
+          'scrollArea': null,
+          'callbackFunction': getMoreAlbumList,
+          'functionArguments': []
+        }"
+      ></div>
+      <LoadingIndicator v-if="albumListLoading" />
     </div>
+
     <Teleport to="body">
       <div
         ref="createAlbumModal"
