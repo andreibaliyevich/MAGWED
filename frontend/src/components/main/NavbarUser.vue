@@ -68,7 +68,7 @@ const { logout } = useLogout()
             {{ $t('messenger.messenger') }}
           </router-link>
           <router-link
-            v-if="userStore.userType == userType.ORGANIZER"
+            v-if="userStore.userType === userType.ORGANIZER"
             :to="{
               name: 'Followers',
               params: { locale: $i18n.locale }

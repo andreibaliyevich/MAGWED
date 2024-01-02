@@ -113,11 +113,10 @@ const updateReview = async () => {
       }
     )
     const foundIndex = reviewList.value.findIndex((element) => {
-      return element.uuid == oldReviewUuid.value
+      return element.uuid === oldReviewUuid.value
     })
     reviewList.value[foundIndex].rating = response.data.rating
     reviewList.value[foundIndex].comment = response.data.comment
-    oldReviewErrors.value = null
     updateReviewModalBootstrap.value.hide()
   } catch (error) {
     oldReviewErrors.value = error.response.data
@@ -139,7 +138,7 @@ const removeReview = async () => {
 
 const updateUserStatus = (mutation, state) => {
   reviewList.value.forEach((element) => {
-    if (element.author.uuid == state.user_uuid) {
+    if (element.author.uuid === state.user_uuid) {
       element.author.status = state.status
     }
   })
@@ -157,6 +156,7 @@ onMounted(() => {
     oldReviewUuid.value = null
     oldReviewRating.value = null
     oldReviewComment.value = ''
+    oldReviewErrors.value = null
   })
   updateReviewModalBootstrap.value = new bootstrap.Modal(
     updateReviewModal.value
@@ -269,7 +269,7 @@ onMounted(() => {
                     :src="reviewItem.author.avatar"
                     :width="48"
                     :height="48"
-                    :online="reviewItem.author.status == 'online' ? true : false"
+                    :online="reviewItem.author.status === 'online' ? true : false"
                   />
                 </router-link>
                 <UserAvatarExtended
@@ -277,7 +277,7 @@ onMounted(() => {
                   :src="reviewItem.author.avatar"
                   :width="48"
                   :height="48"
-                  :online="reviewItem.author.status == 'online' ? true : false"
+                  :online="reviewItem.author.status === 'online' ? true : false"
                 />
                 <div class="flex-grow-1 ms-1">
                   <div class="d-flex justify-content-between">
@@ -303,35 +303,35 @@ onMounted(() => {
                       {{ getLocaleDateTimeString(reviewItem.created_at) }}
                     </small>
                   </div>
-                  <div v-if="reviewItem.rating == 1">
+                  <div v-if="reviewItem.rating === 1">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                   </div>
-                  <div v-else-if="reviewItem.rating == 2">
+                  <div v-else-if="reviewItem.rating === 2">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                   </div>
-                  <div v-else-if="reviewItem.rating == 3">
+                  <div v-else-if="reviewItem.rating === 3">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                   </div>
-                  <div v-else-if="reviewItem.rating == 4">
+                  <div v-else-if="reviewItem.rating === 4">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-regular fa-star"></i>
                   </div>
-                  <div v-else-if="reviewItem.rating == 5">
+                  <div v-else-if="reviewItem.rating === 5">
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
@@ -359,7 +359,7 @@ onMounted(() => {
                         :objectUUID="reviewItem.uuid"
                       />
                     </li>
-                    <li v-if="userStore.uuid == reviewItem.author.uuid">
+                    <li v-if="userStore.uuid === reviewItem.author.uuid">
                       <button
                         @click="() => {
                           oldReviewUuid = reviewItem.uuid
@@ -375,7 +375,7 @@ onMounted(() => {
                         {{ $t('btn.edit') }}
                       </button>
                     </li>
-                    <li v-if="userStore.uuid == reviewItem.author.uuid">
+                    <li v-if="userStore.uuid === reviewItem.author.uuid">
                       <button
                         @click="oldReviewUuid = reviewItem.uuid"
                         type="button"

@@ -54,7 +54,6 @@ const addSocialLink = async () => {
     })
     socialLinkList.value.push(response.data)
     organizerLinkModalBootstrap.value.hide()
-    errors.value = null
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -75,10 +74,9 @@ const updateSocialLink = async () => {
       }
     )
     const foundIndex = socialLinkList.value.findIndex((element) => {
-      return element.uuid == socialLinkUuid.value
+      return element.uuid === socialLinkUuid.value
     })
     socialLinkList.value[foundIndex] = response.data
-    errors.value = null
     organizerLinkModalBootstrap.value.hide()
   } catch (error) {
     errors.value = error.response.data
@@ -145,55 +143,55 @@ onMounted(() => {
           <div class="row">
             <div class="col-3 col-md-2">
               <span
-                v-if="socialLinkItem.link_type == 1"
+                v-if="socialLinkItem.link_type === 1"
                 class="badge bg-facebook"
               >
                 {{ $t('auth.sociallinks.facebook') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 2"
+                v-else-if="socialLinkItem.link_type === 2"
                 class="badge bg-twitter"
               >
                 {{ $t('auth.sociallinks.twitter') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 3"
+                v-else-if="socialLinkItem.link_type === 3"
                 class="badge bg-instagram"
               >
                 {{ $t('auth.sociallinks.instagram') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 4"
+                v-else-if="socialLinkItem.link_type === 4"
                 class="badge bg-linkedin"
               >
                 {{ $t('auth.sociallinks.linkedin') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 5"
+                v-else-if="socialLinkItem.link_type === 5"
                 class="badge bg-spotify"
               >
                 {{ $t('auth.sociallinks.spotify') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 6"
+                v-else-if="socialLinkItem.link_type === 6"
                 class="badge bg-youtube"
               >
                 {{ $t('auth.sociallinks.youtube') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 7"
+                v-else-if="socialLinkItem.link_type === 7"
                 class="badge bg-soundcloud"
               >
                 {{ $t('auth.sociallinks.soundcloud') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 8"
+                v-else-if="socialLinkItem.link_type === 8"
                 class="badge bg-pinterest"
               >
                 {{ $t('auth.sociallinks.pinterest') }}
               </span>
               <span
-                v-else-if="socialLinkItem.link_type == 9"
+                v-else-if="socialLinkItem.link_type === 9"
                 class="badge bg-vk"
               >
                 {{ $t('auth.sociallinks.vk') }}

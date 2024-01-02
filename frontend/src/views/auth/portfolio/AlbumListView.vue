@@ -73,7 +73,6 @@ const createAlbum = async () => {
       '/portfolio/album/author/list-create/',
       formData
     )
-    errors.value = null
     createAlbumModalBootstrap.value.hide()
     router.push({
       name: 'PortfolioAlbumDetail',

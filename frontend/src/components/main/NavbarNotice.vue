@@ -39,7 +39,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       />
 
       <div
-        v-if="notice.reason == reasonOfNotification.FOLLOW"
+        v-if="notice.reason === reasonOfNotification.FOLLOW"
         class="d-flex align-content-between flex-wrap h-100"
       >
         <p class="text-dark mb-0">
@@ -50,7 +50,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </small>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.ARTICLE"
+        v-else-if="notice.reason === reasonOfNotification.ARTICLE"
         class="d-flex justify-content-between align-items-center w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -84,7 +84,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </router-link>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.ALBUM"
+        v-else-if="notice.reason === reasonOfNotification.ALBUM"
         class="d-flex justify-content-between align-items-center w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -118,7 +118,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </router-link>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.PHOTO"
+        v-else-if="notice.reason === reasonOfNotification.PHOTO"
         class="d-flex justify-content-between align-items-center w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -161,7 +161,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </router-link>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.LIKE_ALBUM"
+        v-else-if="notice.reason === reasonOfNotification.LIKE_ALBUM"
         class="d-flex justify-content-between align-items-center w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -195,7 +195,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </router-link>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.LIKE_PHOTO"
+        v-else-if="notice.reason === reasonOfNotification.LIKE_PHOTO"
         class="d-flex justify-content-between align-items-center w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
@@ -238,12 +238,12 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </router-link>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.COMMENT"
+        v-else-if="notice.reason === reasonOfNotification.COMMENT"
         class="d-flex justify-content-between align-items-center w-100"
       >
         <div class="d-flex align-content-between flex-wrap h-100">
           <p
-            v-if="notice.content_object.content_type_model == 'article'"
+            v-if="notice.content_object.content_type_model === 'article'"
             class="text-dark mb-0"
           >
             {{
@@ -255,7 +255,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             }}
           </p>
           <p
-            v-else-if="notice.content_object.content_type_model == 'album'"
+            v-else-if="notice.content_object.content_type_model === 'album'"
             class="text-dark mb-0"
           >
             {{
@@ -267,7 +267,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             }}
           </p>
           <p
-            v-else-if="notice.content_object.content_type_model == 'photo'"
+            v-else-if="notice.content_object.content_type_model === 'photo'"
             class="text-dark mb-0"
           >
             <div v-if="notice.content_object.content_object.title">
@@ -289,10 +289,10 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             </div>
           </p>
           <p
-            v-else-if="notice.content_object.content_type_model == 'comment'"
+            v-else-if="notice.content_object.content_type_model === 'comment'"
             class="text-dark mb-0"
           >
-            <div v-if="notice.content_object.content_object.model_name == 'article'">
+            <div v-if="notice.content_object.content_object.model_name === 'article'">
               {{
                 $t('notifications.comment_comment_article', {
                   user_name: notice.initiator.name,
@@ -301,7 +301,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
                 })
               }}
             </div>
-            <div v-else-if="notice.content_object.content_object.model_name == 'album'">
+            <div v-else-if="notice.content_object.content_object.model_name === 'album'">
               {{
                 $t('notifications.comment_comment_album', {
                   user_name: notice.initiator.name,
@@ -310,7 +310,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
                 })
               }}
             </div>
-            <div v-else-if="notice.content_object.content_object.model_name == 'photo'">
+            <div v-else-if="notice.content_object.content_object.model_name === 'photo'">
               <div v-if="notice.content_object.content_object.title">
                 {{
                   $t('notifications.comment_comment_photo_title', {
@@ -335,7 +335,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
           </small>
         </div>
         <router-link
-          v-if="notice.content_object.content_object.model_name == 'article'"
+          v-if="notice.content_object.content_object.model_name === 'article'"
           :to="{
             name: 'ArticleDetail',
             params: {
@@ -352,7 +352,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
           >
         </router-link>
         <router-link
-          v-else-if="notice.content_object.content_object.model_name == 'album'"
+          v-else-if="notice.content_object.content_object.model_name === 'album'"
           :to="{
             name: 'AlbumDetail',
             params: {
@@ -369,7 +369,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
           >
         </router-link>
         <router-link
-          v-else-if="notice.content_object.content_object.model_name == 'photo'"
+          v-else-if="notice.content_object.content_object.model_name === 'photo'"
           :to="{
             name: 'PhotoDetail',
             params: {
@@ -387,7 +387,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </router-link>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.REVIEW"
+        v-else-if="notice.reason === reasonOfNotification.REVIEW"
         class="d-flex align-content-between flex-wrap h-100"
       >
         <p class="text-dark mb-0">
@@ -400,7 +400,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         </small>
       </div>
       <div
-        v-else-if="notice.reason == reasonOfNotification.MESSAGE"
+        v-else-if="notice.reason === reasonOfNotification.MESSAGE"
         class="d-flex align-content-between flex-wrap h-100"
       >
         <router-link
@@ -414,21 +414,21 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
           class="text-decoration-none link-dark"
         >
           <p
-            v-if="notice.content_object.msg_type == messageType.TEXT"
+            v-if="notice.content_object.msg_type === messageType.TEXT"
             class="mb-0"
           >
             {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:
             {{ notice.content_object.content }}
           </p>
           <p
-            v-else-if="notice.content_object.msg_type == messageType.IMAGES"
+            v-else-if="notice.content_object.msg_type === messageType.IMAGES"
             class="mb-0"
           >
             {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:
             {{ $t('messenger.images', { n: notice.content_object.content }) }}
           </p>
           <p
-            v-else-if="notice.content_object.msg_type == messageType.FILES"
+            v-else-if="notice.content_object.msg_type === messageType.FILES"
             class="mb-0"
           >
             {{ $t('notifications.message', { user_name: notice.initiator.name }) }}:

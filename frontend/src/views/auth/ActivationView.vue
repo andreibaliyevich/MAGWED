@@ -37,7 +37,7 @@ onMounted(async () => {
 
     <LoadingIndicator v-if="loadingStatus" />
     <div v-else>
-      <div v-if="status == 204">
+      <div v-if="status === 204">
         <p class="lead fs-3 text-muted">{{ $t('auth.activation.success1') }}</p>
         <p class="lead fs-5">
           {{ $t('auth.activation.success2') }}<br>

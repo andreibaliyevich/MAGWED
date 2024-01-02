@@ -33,7 +33,7 @@ const getSize = (value) => {
 }
 
 onMounted(() => {
-  if (props.msgType == messageType.IMAGES) {
+  if (props.msgType === messageType.IMAGES) {
     const galleryViewer = new Viewer(messageImages.value, {
       url: 'data-original',
       transition: false,
@@ -53,12 +53,12 @@ onMounted(() => {
 <template>
   <div class="message-content">
     <div
-      v-if="msgType == messageType.TEXT"
+      v-if="msgType === messageType.TEXT"
       :class="'text-pre-line ' + textClass"
     >
       {{ msgContent }}
     </div>
-    <div v-else-if="msgType == messageType.IMAGES">
+    <div v-else-if="msgType === messageType.IMAGES">
       <ul
         ref="messageImages"
         class="message-images"
@@ -72,7 +72,7 @@ onMounted(() => {
         </li>
       </ul>
     </div>
-    <div v-else-if="msgType == messageType.FILES">
+    <div v-else-if="msgType === messageType.FILES">
       <div
         v-for="file in msgContent"
         class="row align-items-center gx-3"

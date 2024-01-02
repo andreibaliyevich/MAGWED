@@ -48,7 +48,7 @@ const confirmPasswordReset = async () => {
       {{ $t('auth.passwordresetconfirm.password_reset_confirm') }}
     </h1>
 
-    <div v-if="status == 204">
+    <div v-if="status === 204">
       <p class="lead fs-3 text-muted">
         {{ $t('auth.passwordresetconfirm.success1') }}
       </p>

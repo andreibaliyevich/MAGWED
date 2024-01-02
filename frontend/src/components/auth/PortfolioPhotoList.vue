@@ -169,14 +169,11 @@ const updatePhoto = async () => {
         tags: photoTags.value
       }
     )
-
     const foundIndex = photoList.value.findIndex((element) => {
-      return element.uuid == photoUuid.value
+      return element.uuid === photoUuid.value
     })
     photoList.value[foundIndex].title = photoTitle.value
-
     updatePhotoModalBootstrap.value.hide()
-    errors.value = null
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -212,22 +209,18 @@ onMounted(() => {
   updatePhotoModal.value.addEventListener('hidden.bs.modal', () => {
     photoUuid.value = null
     photoImage.value = null
-
     photoDevice.value = ''
     photoFNumber.value = null
     photoExposureTime.value = ''
     photoFocalLength.value = null
     photoPhotographicSensitivity.value = null
-
     photoTitle.value = ''
     photoDescription.value = ''
     photoTags.value = []
-
     photoUploadedAt.value = null
     photoViewCount.value = 0
     photoLikeCount.value = 0
     photoRating.value = 0
-
     errors.value = null
   })
   updatePhotoModalBootstrap.value = new bootstrap.Modal(updatePhotoModal.value)

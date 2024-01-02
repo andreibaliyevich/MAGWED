@@ -13,10 +13,11 @@ const props = defineProps({
   }
 })
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
+const oldCommentUpdating = ref(false)
+const oldCommentContent = ref('')
+const oldCommentErrors = ref(null)
 
 const replyComment = ref(false)
-
 const {
   newCommentSending,
   newCommentContent,
@@ -24,10 +25,7 @@ const {
   sendComment
 } = useSendComment('comment', props.commentItem.uuid)
 
-const oldCommentUpdating = ref(false)
-const oldCommentContent = ref('')
-
-const oldCommentErrors = ref(null)
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const updateCommentModal = ref(null)
 const updateCommentModalBootstrap = ref(null)
@@ -41,7 +39,6 @@ const updateComment = async () => {
         +'/',
       { content: oldCommentContent.value }
     )
-    oldCommentErrors.value = null
     updateCommentModalBootstrap.value.hide()
   } catch (error) {
     oldCommentErrors.value = error.response.data
@@ -74,6 +71,7 @@ onMounted(() => {
   )
   updateCommentModal.value.addEventListener('hidden.bs.modal', () => {
     oldCommentContent.value = ''
+    oldCommentErrors.value = null
   })
 })
 </script>
@@ -92,7 +90,7 @@ onMounted(() => {
           :src="commentItem.author.avatar"
           :width="32"
           :height="32"
-          :online="commentItem.author.status == 'online' ? true : false"
+          :online="commentItem.author.status === 'online' ? true : false"
         />
       </router-link>
       <UserAvatarExtended
@@ -100,7 +98,7 @@ onMounted(() => {
         :src="commentItem.author.avatar"
         :width="32"
         :height="32"
-        :online="commentItem.author.status == 'online' ? true : false"
+        :online="commentItem.author.status === 'online' ? true : false"
       />
       <div class="flex-grow-1 ms-1">
         <div class="d-flex justify-content-between">

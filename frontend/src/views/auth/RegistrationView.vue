@@ -65,7 +65,7 @@ onMounted(() => {
       {{ $t('auth.registration.registration') }}
     </h1>
     <div
-      v-if="status == 201"
+      v-if="status === 201"
       class="mt-4"
     >
       <p class="lead fs-3 text-muted">{{ $t('auth.registration.success1') }}</p>

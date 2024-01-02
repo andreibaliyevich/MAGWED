@@ -73,21 +73,21 @@ const connectSocket = async () => {
   }
   notificationSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
-    if (data.action == 'created') {
+    if (data.action === 'created') {
       notificationList.value.unshift(data.data)
       notViewedCount.value += 1
-    } else if (data.action == 'updated') {
+    } else if (data.action === 'updated') {
       const foundIndex = notificationList.value.findIndex((element) => {
-        return element.uuid == data.data.uuid
+        return element.uuid === data.data.uuid
       })
-      if (foundIndex != -1) {
+      if (foundIndex !== -1) {
         notificationList.value[foundIndex].content_object = data.data.content_object
       }
-    } else if (data.action == 'deleted') {
+    } else if (data.action === 'deleted') {
       const foundIndex = notificationList.value.findIndex((element) => {
-        return element.uuid == data.data
+        return element.uuid === data.data
       })
-      if (foundIndex != -1) {
+      if (foundIndex !== -1) {
         if (!notificationList.value[foundIndex].viewed) {
           notViewedCount.value -= 1
         }
@@ -95,11 +95,11 @@ const connectSocket = async () => {
           return element.uuid !== data.data
         })
       }
-    } else if (data.action == 'viewed') {
+    } else if (data.action === 'viewed') {
       const foundIndex = notificationList.value.findIndex((element) => {
-        return element.uuid == data.data.uuid
+        return element.uuid === data.data.uuid
       })
-      if (foundIndex != -1) {
+      if (foundIndex !== -1) {
         notificationList.value[foundIndex].viewed = data.data.viewed
         notViewedCount.value -= 1
       }

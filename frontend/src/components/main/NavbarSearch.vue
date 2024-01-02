@@ -24,13 +24,13 @@ const searchItems = async () => {
   searchLoading.value = true
 
   let requestUrl = ''
-  if (searchType.value == 'organizers') {
+  if (searchType.value === 'organizers') {
     requestUrl = '/accounts/organizers/'
-  } else if (searchType.value == 'photos') {
+  } else if (searchType.value === 'photos') {
     requestUrl = '/portfolio/photo/list/'
-  } else if (searchType.value == 'albums') {
+  } else if (searchType.value === 'albums') {
     requestUrl = '/portfolio/album/list/'
-  } else if (searchType.value == 'articles') {
+  } else if (searchType.value === 'articles') {
     requestUrl = '/blog/article/list/'
   }
 
@@ -218,7 +218,7 @@ onMounted(() => {
                 :actionInfo="$t('search.searching')"
               />
               <div v-else-if="searchedItems.length > 0">
-                <div v-if="searchType == 'organizers'">
+                <div v-if="searchType === 'organizers'">
                   <div
                     v-for="organizer in searchedItems"
                     :key="organizer.user.uuid"
@@ -240,7 +240,7 @@ onMounted(() => {
                             :src="organizer.user.avatar"
                             :width="80"
                             :height="80"
-                            :online="organizer.user.status == 'online' ? true : false"
+                            :online="organizer.user.status === 'online' ? true : false"
                           />
                         </router-link>
                       </div>
@@ -277,7 +277,7 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
-                <div v-else-if="searchType == 'photos'">
+                <div v-else-if="searchType === 'photos'">
                   <div
                     v-for="photoItem in searchedItems"
                     :key="photoItem.uuid"
@@ -367,7 +367,7 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
-                <div v-else-if="searchType == 'albums'">
+                <div v-else-if="searchType === 'albums'">
                   <div
                     v-for="albumItem in searchedItems"
                     :key="albumItem.uuid"
@@ -457,7 +457,7 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
-                <div v-else-if="searchType == 'articles'">
+                <div v-else-if="searchType === 'articles'">
                   <div
                     v-for="article in searchedItems"
                     :key="article.slug"

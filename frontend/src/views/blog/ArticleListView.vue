@@ -62,7 +62,7 @@ watch(locale, () => {
 watch(
   () => route.query,
   (newValue) => {
-    if (route.name == 'ArticleList') {
+    if (route.name === 'ArticleList') {
       getArticleList()
     }
   }

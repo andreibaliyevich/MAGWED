@@ -55,7 +55,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'design' ? 'active' : null
+                    $route.query.category === 'design' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -70,7 +70,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'design' ? 'active' : 'text-dark'
+                      $route.query.category === 'design' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.design') }}
@@ -79,7 +79,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'fashion' ? 'active' : null
+                    $route.query.category === 'fashion' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -94,7 +94,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'fashion' ? 'active' : 'text-dark'
+                      $route.query.category === 'fashion' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.fashion') }}
@@ -103,7 +103,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'inspiration' ? 'active' : null
+                    $route.query.category === 'inspiration' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -118,7 +118,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'inspiration' ? 'active' : 'text-dark'
+                      $route.query.category === 'inspiration' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.inspiration') }}
@@ -127,7 +127,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'journey' ? 'active' : null
+                    $route.query.category === 'journey' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -142,7 +142,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'journey' ? 'active' : 'text-dark'
+                      $route.query.category === 'journey' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.journey') }}
@@ -151,7 +151,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'lifestyle' ? 'active' : null
+                    $route.query.category === 'lifestyle' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -166,7 +166,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'lifestyle' ? 'active' : 'text-dark'
+                      $route.query.category === 'lifestyle' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.lifestyle') }}
@@ -175,7 +175,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'photography' ? 'active' : null
+                    $route.query.category === 'photography' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -190,7 +190,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'photography' ? 'active' : 'text-dark'
+                      $route.query.category === 'photography' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.photography') }}
@@ -199,7 +199,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'technology' ? 'active' : null
+                    $route.query.category === 'technology' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -214,7 +214,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'technology' ? 'active' : 'text-dark'
+                      $route.query.category === 'technology' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.technology') }}
@@ -223,7 +223,7 @@ const getYears = () => {
                 <li
                   :class="[
                     'nav-item',
-                    $route.query.category == 'wedding' ? 'active' : null
+                    $route.query.category === 'wedding' ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -238,7 +238,7 @@ const getYears = () => {
                     @click="$refs.filterMenuClose.click()"
                     :class="[
                       'nav-link',
-                      $route.query.category == 'wedding' ? 'active' : 'text-dark'
+                      $route.query.category === 'wedding' ? 'active' : 'text-dark'
                     ]"
                   >
                     {{ $t('category_choices.wedding') }}

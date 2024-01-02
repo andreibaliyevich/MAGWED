@@ -122,7 +122,7 @@ const resetParamsAndGetOrganizers = () => {
 
 const updateUserStatus = (mutation, state) => {
   organizerList.value.forEach((element) => {
-    if (element.user.uuid == state.user_uuid) {
+    if (element.user.uuid === state.user_uuid) {
       element.user.status = state.status
     }
   })
@@ -131,7 +131,7 @@ const updateUserStatus = (mutation, state) => {
 watch(
   () => route.query.role,
   (newValue) => {
-    if (route.name == 'OrganizerList') {
+    if (route.name === 'OrganizerList') {
       getOrganizerList()
     }
   }
@@ -202,14 +202,14 @@ onMounted(() => {
           :key="roleType.value"
           :class="[
             'nav-item',
-            $route.query.role == roleType.value ? 'active' : null
+            $route.query.role === roleType.value ? 'active' : null
           ]"
         >
           <router-link
             :to="{ query: { role: roleType.value } }"
             :class="[
               'nav-link',
-              $route.query.role == roleType.value ? 'active' : 'text-dark'
+              $route.query.role === roleType.value ? 'active' : 'text-dark'
             ]"
           >
             {{ roleType.text }}
@@ -299,8 +299,8 @@ onMounted(() => {
                     !countries.length
                     && !cities.length
                     && !languages.length
-                    && (costWorkMinInCurrency == costWorkMinBorder)
-                    && (costWorkMaxInCurrency == costWorkMaxBorder)
+                    && (costWorkMinInCurrency === costWorkMinBorder)
+                    && (costWorkMaxInCurrency === costWorkMaxBorder)
                   "
                 >
                   {{ $t('btn.reset') }}
@@ -313,8 +313,8 @@ onMounted(() => {
                     !countries.length
                     && !cities.length
                     && !languages.length
-                    && (costWorkMinInCurrency == costWorkMinBorder)
-                    && (costWorkMaxInCurrency == costWorkMaxBorder)
+                    && (costWorkMinInCurrency === costWorkMinBorder)
+                    && (costWorkMaxInCurrency === costWorkMaxBorder)
                   "
                 >
                   {{ $t('btn.show') }}

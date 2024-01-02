@@ -76,7 +76,7 @@ const getOrganizerData = async () => {
 }
 
 const updateUserStatus = (mutation, state) => {
-  if (organizerData.value.user.uuid == state.user_uuid) {
+  if (organizerData.value.user.uuid === state.user_uuid) {
     organizerData.value.user.status = state.status
   }
 }
@@ -117,7 +117,6 @@ const writeMessage = async () => {
       { content: textContent.value }
     )
     writeMessageModalBootstrap.value.hide()
-    textContent.value = ''
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -128,7 +127,7 @@ const writeMessage = async () => {
 watch(
   () => route.params.profile_url,
   (newValue) => {
-    if (route.name == 'OrganizerDetail') {
+    if (route.name === 'OrganizerDetail') {
       getOrganizerData()
     }
   }
@@ -137,6 +136,9 @@ watch(
 onMounted(() => {
   getOrganizerData()
   connectionBusStore.$subscribe(updateUserStatus)
+  writeMessageModal.value.addEventListener('hidden.bs.modal', () => {
+    textContent.value = ''
+  })
   writeMessageModalBootstrap.value = new bootstrap.Modal(
     writeMessageModal.value
   )
@@ -149,7 +151,7 @@ onMounted(() => {
       v-if="organizerLoading"
       class="my-5"
     />
-    <NotFound v-else-if="errorStatus == 404" />
+    <NotFound v-else-if="errorStatus === 404" />
     <div
       v-else
       class="container my-5"
@@ -177,7 +179,7 @@ onMounted(() => {
           <div class="d-inline-block mt-3 ms-lg-3">
             <h1 class="h3">{{ organizerData.user.name }}</h1>
             <span
-              v-if="organizerData.user.status == 'online'"
+              v-if="organizerData.user.status === 'online'"
               class="text-dark"
             >
               <i class="fa-solid fa-circle fa-xs text-success"></i>
@@ -407,13 +409,13 @@ onMounted(() => {
         </div>
       </div>
 
-      <div v-if="mediaDataTab == 'photos'">
+      <div v-if="mediaDataTab === 'photos'">
         <PhotoList :userUUID="organizerData.user.uuid" />
       </div>
-      <div v-else-if="mediaDataTab == 'albums'">
+      <div v-else-if="mediaDataTab === 'albums'">
         <AlbumList :userUUID="organizerData.user.uuid" />
       </div>
-      <div v-else-if="mediaDataTab == 'reviews'">
+      <div v-else-if="mediaDataTab === 'reviews'">
         <ReviewList :userUUID="organizerData.user.uuid" />
       </div>
 

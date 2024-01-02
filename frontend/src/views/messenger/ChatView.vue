@@ -136,7 +136,7 @@ const openChatSocket = async () => {
   }
   chatSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
-    if (data.action == 'new_msg') {
+    if (data.action === 'new_msg') {
       messageList.value.unshift(data.data)
       nextTick(() => {
         messageListArea.value.scrollTo({
@@ -144,11 +144,11 @@ const openChatSocket = async () => {
           behavior: 'smooth'
         })
       })
-    } else if (data.action == 'viewed') {
+    } else if (data.action === 'viewed') {
       const foundIndex = messageList.value.findIndex((element) => {
-        return element.uuid == data.data.msg_uuid
+        return element.uuid === data.data.msg_uuid
       })
-      if (foundIndex != -1) {
+      if (foundIndex !== -1) {
         messageList.value[foundIndex].viewed = data.data.msg_viewed
       }
     }
@@ -313,11 +313,11 @@ const leaveChat = async () => {
 }
 
 const updateUserStatus = (mutation, state) => {
-  if (chatData.value.details.uuid == state.user_uuid) {
+  if (chatData.value.details.uuid === state.user_uuid) {
     chatData.value.details.status = state.status
   }
   messageList.value.forEach((element) => {
-    if (element.author.uuid == state.user_uuid) {
+    if (element.author.uuid === state.user_uuid) {
       element.author.status = state.status
     }
   })
@@ -326,7 +326,7 @@ const updateUserStatus = (mutation, state) => {
 watch(
   () => route.params.uuid,
   (newValue) => {
-    if (route.name == 'Chat') {
+    if (route.name === 'Chat') {
       messageList.value = []
       nextURL.value = null
       errorStatus.value = null
@@ -361,7 +361,7 @@ onUnmounted(() => {
   <div class="chat-view">
     <LoadingIndicator v-if="chatDataLoading" />
     <div
-      v-else-if="errorStatus == 404"
+      v-else-if="errorStatus === 404"
       class="d-flex justify-content-center align-items-center h-100"
       style="min-height: 75vh;"
     >
@@ -375,7 +375,7 @@ onUnmounted(() => {
     >
       <div class="card-header bg-white">
         <div
-          v-if="chatData.chat_type == chatType.DIALOG"
+          v-if="chatData.chat_type === chatType.DIALOG"
           class="d-flex align-items-center"
         >
           <UserAvatar
@@ -386,7 +386,7 @@ onUnmounted(() => {
           <div class="flex-grow-1 ms-3">
             <h6 class="mt-1 mb-0">{{ chatData.details.name }}</h6>
             <span
-              v-if="chatData.details.status == 'online'"
+              v-if="chatData.details.status === 'online'"
               class="text-dark"
             >
               <i class="fa-solid fa-circle fa-xs text-success"></i>
@@ -446,7 +446,7 @@ onUnmounted(() => {
         </div>
 
         <div
-          v-else-if="chatData.chat_type == chatType.GROUP"
+          v-else-if="chatData.chat_type === chatType.GROUP"
           class="d-flex align-items-center"
         >
           <GroupAvatar
@@ -482,7 +482,7 @@ onUnmounted(() => {
                   {{ $t('messenger.view_group_detail') }}
                 </button>
               </li>
-              <li v-if="chatData.details.owner == userStore.uuid">
+              <li v-if="chatData.details.owner === userStore.uuid">
                 <button
                   type="button"
                   class="dropdown-item btn btn-link"
@@ -543,7 +543,7 @@ onUnmounted(() => {
             class="my-3"
           >
             <div
-              v-if="msg.author.uuid == userStore.uuid"
+              v-if="msg.author.uuid === userStore.uuid"
               class="d-flex justify-content-end"
             >
               <div class="my-0">
@@ -575,14 +575,14 @@ onUnmounted(() => {
             >
               <div class="my-0">
                 <div
-                  v-if="chatData.chat_type == chatType.GROUP"
+                  v-if="chatData.chat_type === chatType.GROUP"
                   class="d-flex align-items-start"
                 >
                   <UserAvatarExtended
                     :src="msg.author.avatar"
                     :width="36"
                     :height="36"
-                    :online="msg.author.status == 'online' ? true : false"
+                    :online="msg.author.status === 'online' ? true : false"
                   />
                   <div class="bg-light rounded p-2 ms-2">
                     <p class="fw-bold mb-0">{{ msg.author.name }}</p>
@@ -760,13 +760,13 @@ onUnmounted(() => {
                           :src="user.avatar"
                           :width="32"
                           :height="32"
-                          :online="user.status == 'online' ? true : false"
+                          :online="user.status === 'online' ? true : false"
                         />
                         <span class="fw-medium">
                           {{ user.name }}
                         </span>
                         <i
-                          v-if="user.uuid == groupChatData.group_details.owner"
+                          v-if="user.uuid === groupChatData.group_details.owner"
                           class="fa-solid fa-star"
                         ></i>
                       </router-link>
@@ -778,7 +778,7 @@ onUnmounted(() => {
                           :src="user.avatar"
                           :width="32"
                           :height="32"
-                          :online="user.status == 'online' ? true : false"
+                          :online="user.status === 'online' ? true : false"
                         />
                         <span class="fw-medium">
                           {{ user.name }}

@@ -62,18 +62,18 @@ const getPhotoData = async () => {
   photoLoading.value = true
 
   let params = new URLSearchParams()
-  if (route.query.from == 'popular') {
+  if (route.query.from === 'popular') {
     params.append('ordering', '-rating')
-  } else if (route.query.from == 'fresh') {
+  } else if (route.query.from === 'fresh') {
     params.append('ordering', '-uploaded_at')
-  } else if (route.query.from == 'editors') {
+  } else if (route.query.from === 'editors') {
     params.append('editors_choice', true)
-  } else if (route.query.from == 'album') {
+  } else if (route.query.from === 'album') {
     params.append('album', route.query.album)
-  } else if (route.query.from == 'author') {
+  } else if (route.query.from === 'author') {
     params.append('author', route.query.author)
     params.append('album_is_null', true)
-  } else if (route.query.from == 'tags') {
+  } else if (route.query.from === 'tags') {
     params.append('tags', route.query.tags)
   } else {
     params.append('ordering', 'rating')
@@ -140,7 +140,7 @@ const keyUpArrowLeftRight = (event) => {
 watch(
   () => route.params.uuid,
   (newValue) => {
-    if (route.name == 'PhotoDetail') {
+    if (route.name === 'PhotoDetail') {
       getPhotoData()
     }
   }
@@ -163,7 +163,7 @@ onUnmounted(() => {
       v-if="photoLoading"
       class="my-5"
     />
-    <NotFound v-else-if="errorStatus == 404" />
+    <NotFound v-else-if="errorStatus === 404" />
     <div
       v-else
       class="container my-5"

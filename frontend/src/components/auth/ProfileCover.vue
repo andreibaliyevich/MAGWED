@@ -133,13 +133,13 @@ onMounted(() => {
         >
         <div class="card-body text-center">
           <small
-            v-if="status == 200"
+            v-if="status === 200"
             class="text-success"
           >
             {{ $t('user.cover_updated_successfully') }}
           </small>
           <small
-            v-else-if="status == 204"
+            v-else-if="status === 204"
             class="text-success"
           >
             {{ $t('user.cover_removed_successfully') }}

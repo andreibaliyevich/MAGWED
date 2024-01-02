@@ -54,7 +54,7 @@ watch(locale, () => {
 watch(
   () => route.query.type,
   (newValue) => {
-    if (route.name == 'Favorites') {
+    if (route.name === 'Favorites') {
       getFavoriteList()
     }
   }
@@ -92,14 +92,14 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.type == 'photo' ? 'active' : null
+            $route.query.type === 'photo' ? 'active' : null
           ]"
         >
           <router-link
             :to="{ query: { type: 'photo' } }"
             :class="[
               'nav-link',
-              $route.query.type == 'photo' ? 'active' : 'text-dark'
+              $route.query.type === 'photo' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.photos') }}
@@ -108,14 +108,14 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.type == 'album' ? 'active' : null
+            $route.query.type === 'album' ? 'active' : null
           ]"
         >
           <router-link
             :to="{ query: { type: 'album' } }"
             :class="[
               'nav-link',
-              $route.query.type == 'album' ? 'active' : 'text-dark'
+              $route.query.type === 'album' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.albums') }}
@@ -124,14 +124,14 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.type == 'article' ? 'active' : null
+            $route.query.type === 'article' ? 'active' : null
           ]"
         >
           <router-link
             :to="{ query: { type: 'article' } }"
             :class="[
               'nav-link',
-              $route.query.type == 'article' ? 'active' : 'text-dark'
+              $route.query.type === 'article' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('favorites.articles') }}
@@ -149,7 +149,7 @@ onMounted(() => {
           class="col-12 col-md-6 col-lg-4 col-xl-3"
         >
           <div
-            v-if="favorite.content_type_model == 'photo'"
+            v-if="favorite.content_type_model === 'photo'"
             class="card border border-light shadow-sm h-100"
           >
             <router-link
@@ -180,7 +180,7 @@ onMounted(() => {
             </div>
           </div>
           <div
-            v-else-if="favorite.content_type_model == 'album'"
+            v-else-if="favorite.content_type_model === 'album'"
             class="card border border-light shadow-sm h-100"
           >
             <router-link
@@ -211,7 +211,7 @@ onMounted(() => {
             </div>
           </div>
           <div
-            v-else-if="favorite.content_type_model == 'article'"
+            v-else-if="favorite.content_type_model === 'article'"
             class="card border border-light shadow-sm h-100"
           >
             <router-link

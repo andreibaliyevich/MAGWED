@@ -150,7 +150,7 @@ onMounted(() => {
           >
           <div class="card-body text-center">
             <small
-              v-if="status == 200"
+              v-if="status === 200"
               class="text-success"
             >
               {{ $t('portfolio.image_updated_successfully') }}

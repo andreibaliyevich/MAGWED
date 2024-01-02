@@ -14,11 +14,11 @@ const getAlbumList = async () => {
   albumList.value = []
 
   let params = new URLSearchParams()
-  if (route.query.tab == 'popular') {
+  if (route.query.tab === 'popular') {
     params.append('ordering', '-rating')
-  } else if (route.query.tab == 'fresh') {
+  } else if (route.query.tab === 'fresh') {
     params.append('ordering', '-created_at')
-  } else if (route.query.tab == 'editors') {
+  } else if (route.query.tab === 'editors') {
     params.append('editors_choice', true)
   } else {
     params.append('ordering', 'rating')
@@ -53,7 +53,7 @@ const getMoreAlbumList = async () => {
 watch(
   () => route.query.tab,
   (newValue) => {
-    if (route.name == 'AlbumList') {
+    if (route.name === 'AlbumList') {
       getAlbumList()
     }
   }
@@ -75,8 +75,8 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.tab == 'popular'
-              || $route.query.tab == undefined
+            $route.query.tab === 'popular'
+              || $route.query.tab === undefined
               ? 'active'
               : null
           ]"
@@ -85,8 +85,8 @@ onMounted(() => {
             :to="{ query: { tab: 'popular' } }"
             :class="[
               'nav-link',
-              $route.query.tab == 'popular'
-                || $route.query.tab == undefined
+              $route.query.tab === 'popular'
+                || $route.query.tab === undefined
                 ? 'active'
                 : 'text-dark'
             ]"
@@ -97,14 +97,14 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.tab == 'fresh' ? 'active' : null
+            $route.query.tab === 'fresh' ? 'active' : null
           ]"
         >
           <router-link
             :to="{ query: { tab: 'fresh' } }"
             :class="[
               'nav-link',
-              $route.query.tab == 'fresh' ? 'active' : 'text-dark'
+              $route.query.tab === 'fresh' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.fresh_albums') }}
@@ -113,14 +113,14 @@ onMounted(() => {
         <li
           :class="[
             'nav-item',
-            $route.query.tab == 'editors' ? 'active' : null
+            $route.query.tab === 'editors' ? 'active' : null
           ]"
         >
           <router-link
             :to="{ query: { tab: 'editors' } }"
             :class="[
               'nav-link',
-              $route.query.tab == 'editors' ? 'active' : 'text-dark'
+              $route.query.tab === 'editors' ? 'active' : 'text-dark'
             ]"
           >
             {{ $t('portfolio.editors_choice') }}

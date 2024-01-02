@@ -73,7 +73,7 @@ onMounted(() => {
           </p>
 
           <div
-            v-if="status == 201"
+            v-if="status === 201"
             class="alert alert-success alert-dismissible fade show"
             role="alert"
           >

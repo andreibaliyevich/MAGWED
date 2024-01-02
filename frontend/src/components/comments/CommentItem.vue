@@ -16,16 +16,15 @@ const props = defineProps({
   }
 })
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
-
 const replyComment = ref(false)
-
 const {
   newCommentSending,
   newCommentContent,
   newCommentErrors,
   sendComment
 } = useSendComment('comment', props.commentItem.uuid)
+
+const { getLocaleDateTimeString } = useLocaleDateTime()
 
 watch(newCommentContent, (newValue) => {
   if (!newValue) {
@@ -48,7 +47,7 @@ watch(newCommentContent, (newValue) => {
           :src="commentItem.author.avatar"
           :width="32"
           :height="32"
-          :online="commentItem.author.status == 'online' ? true : false"
+          :online="commentItem.author.status === 'online' ? true : false"
         />
       </router-link>
       <UserAvatarExtended
@@ -56,7 +55,7 @@ watch(newCommentContent, (newValue) => {
         :src="commentItem.author.avatar"
         :width="32"
         :height="32"
-        :online="commentItem.author.status == 'online' ? true : false"
+        :online="commentItem.author.status === 'online' ? true : false"
       />
       <div class="flex-grow-1 ms-1">
         <div class="d-flex justify-content-between">

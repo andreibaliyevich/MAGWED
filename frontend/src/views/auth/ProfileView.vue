@@ -15,12 +15,12 @@ const userStore = useUserStore()
     <div class="px-1 px-lg-3 px-xl-5">
       <h1 class="display-6 mb-5">{{ $t('user.profile_settings') }}</h1>
 
-      <ProfileCover v-if="userStore.userType == userType.ORGANIZER" />
+      <ProfileCover v-if="userStore.userType === userType.ORGANIZER" />
       <ProfileAvatar />
 
-      <AdminProfileForm v-if="userStore.userType == userType.ADMIN" />
-      <CustomerProfileForm v-else-if="userStore.userType == userType.CUSTOMER" />
-      <OrganizerProfileForm v-else-if="userStore.userType == userType.ORGANIZER" />
+      <AdminProfileForm v-if="userStore.userType === userType.ADMIN" />
+      <CustomerProfileForm v-else-if="userStore.userType === userType.CUSTOMER" />
+      <OrganizerProfileForm v-else-if="userStore.userType === userType.ORGANIZER" />
     </div>
   </div>
 </template>

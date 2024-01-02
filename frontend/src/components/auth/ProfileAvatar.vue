@@ -134,13 +134,13 @@ onMounted(() => {
         <div class="col-md-9">
           <div class="card-body text-center">
             <small
-              v-if="status == 200"
+              v-if="status === 200"
               class="text-success"
             >
               {{ $t('user.avatar_updated_successfully') }}
             </small>
             <small
-              v-else-if="status == 204"
+              v-else-if="status === 204"
               class="text-success"
             >
               {{ $t('user.avatar_removed_successfully') }}

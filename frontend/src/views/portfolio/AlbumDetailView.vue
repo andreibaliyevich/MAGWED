@@ -131,7 +131,7 @@ const dislikeAlbum = async () => {
 watch(
   () => route.params.uuid,
   (newValue) => {
-    if (route.name == 'AlbumDetail') {
+    if (route.name === 'AlbumDetail') {
       getAlbumData()
     }
   }
@@ -152,7 +152,7 @@ onUnmounted(() => {
       v-if="albumDataLoading"
       class="my-5"
     />
-    <NotFound v-else-if="errorStatus == 404" />
+    <NotFound v-else-if="errorStatus === 404" />
     <div
       v-else
       class="container my-5"

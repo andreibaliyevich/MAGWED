@@ -35,7 +35,7 @@ const resetPassword = async () => {
       {{ $t('auth.passwordreset.password_reset') }}
     </h1>
     <div
-      v-if="status == 204"
+      v-if="status === 204"
       class="mt-4"
     >
       <p class="lead fs-3 text-muted">

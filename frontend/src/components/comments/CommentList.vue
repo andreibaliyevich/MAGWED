@@ -83,7 +83,7 @@ const getCommentListOfComment = (inList) => {
 
 const addCommentToList = (cList, data) => {
   for (let i = 0; i < cList.length; i++) {
-    if (cList[i].uuid == data.comment_uuid) {
+    if (cList[i].uuid === data.comment_uuid) {
       cList[i].comments.push(data.instance)
       return true
     } else if (cList[i].comments.length > 0) {
@@ -98,7 +98,7 @@ const addCommentToList = (cList, data) => {
 
 const updateCommentFromList = (cList, data) => {
   for (let i = 0; i < cList.length; i++) {
-    if (cList[i].uuid == data.uuid) {
+    if (cList[i].uuid === data.uuid) {
       cList[i].content = data.content
       return true
     } else if (cList[i].comments.length > 0) {
@@ -113,7 +113,7 @@ const updateCommentFromList = (cList, data) => {
 
 const removeCommentFromList = (cList, data) => {
   for (let i = 0; i < cList.length; i++) {
-    if (cList[i].uuid == data) {
+    if (cList[i].uuid === data) {
       return [true, true]
     } else if (cList[i].comments.length > 0) {
       const result = removeCommentFromList(cList[i].comments, data)
@@ -146,16 +146,16 @@ const openCommentSocket = async () => {
   }
   commentSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
-    if (data.action == 'create') {
+    if (data.action === 'create') {
       if (!!data.data.comment_uuid) {
         addCommentToList(commentList.value, data.data)
       } else {
         commentList.value.push(data.data.instance)
         commentCount.value += 1
       }
-    } else if (data.action == 'update') {
+    } else if (data.action === 'update') {
       updateCommentFromList(commentList.value, data.data)
-    } else if (data.action == 'destroy') {
+    } else if (data.action === 'destroy') {
       const result = removeCommentFromList(commentList.value, data.data)
       if (result[0] && result[1]) {
         commentList.value = commentList.value.filter((element) => {
@@ -183,7 +183,7 @@ const closeCommentSocket = () => {
 
 const updateUserStatus = (cList, state) => {
   cList.forEach((element) => {
-    if (element.author.uuid == state.user_uuid) {
+    if (element.author.uuid === state.user_uuid) {
       element.author.status = state.status
     }
     if (element.comments.length > 0) {
@@ -223,7 +223,7 @@ onUnmounted(() => {
           class="list-group-item"
         >
           <AuthorCommentItem
-            v-if="userStore.uuid == commentItem.author.uuid"
+            v-if="userStore.uuid === commentItem.author.uuid"
             :commentItem="commentItem"
           />
           <CommentItem
@@ -242,7 +242,7 @@ onUnmounted(() => {
               class="list-group-item"
             >
               <AuthorCommentItem
-                v-if="userStore.uuid == commentOfCommentItem.author.uuid"
+                v-if="userStore.uuid === commentOfCommentItem.author.uuid"
                 :commentItem="commentOfCommentItem"
               />
               <CommentItem

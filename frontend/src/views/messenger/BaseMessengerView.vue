@@ -52,19 +52,19 @@ const sortedChatList = computed(() => {
 
 const chatIndex = computed(() => {
   return chatList.value.findIndex((element) => {
-    return element.uuid == route.params.uuid
+    return element.uuid === route.params.uuid
   })
 })
 
 const chatCreationDisabled = computed(() => {
   if (
-    selectedChatType.value == chatType.DIALOG &&
+    selectedChatType.value === chatType.DIALOG &&
     selectedMembers.value.length > 0
   ) {
     return false
   }
   if (
-    selectedChatType.value == chatType.GROUP &&
+    selectedChatType.value === chatType.GROUP &&
     selectedMembers.value.length > 0 &&
     groupChatName.value
   ) {
@@ -81,12 +81,12 @@ const openChatListSocket = async () => {
   )
   chatListSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
-    if (data.action == 'new_msg') {
+    if (data.action === 'new_msg') {
       const foundIndex = chatList.value.findIndex((element) => {
-        return element.uuid == data.data.chat_uuid
+        return element.uuid === data.data.chat_uuid
       })
       chatList.value[foundIndex].last_message = data.data.msg
-      if (data.data.author_uuid != userStore.uuid) {
+      if (data.data.author_uuid !== userStore.uuid) {
         chatList.value[foundIndex].unviewed_msg_count += 1
       }
     }
@@ -163,9 +163,9 @@ const createChat = async () => {
   let formData = new FormData()
   formData.append('chat_type', selectedChatType.value)
 
-  if (selectedChatType.value == chatType.DIALOG) {
+  if (selectedChatType.value === chatType.DIALOG) {
     formData.append('members', selectedMembers.value[0])
-  } else if (selectedChatType.value == chatType.GROUP) {
+  } else if (selectedChatType.value === chatType.GROUP) {
     selectedMembers.value.forEach((element) => {
       formData.append('members', element)
     })
@@ -205,9 +205,9 @@ const createChat = async () => {
 }
 
 const changeSelectedMembers = (user_uuid) => {
-  if (selectedChatType.value == chatType.DIALOG) {
+  if (selectedChatType.value === chatType.DIALOG) {
     selectedMembers.value = [user_uuid]
-  } else if (selectedChatType.value == chatType.GROUP) {
+  } else if (selectedChatType.value === chatType.GROUP) {
     if (selectedMembers.value.includes(user_uuid)) {
       selectedMembers.value = selectedMembers.value.filter((element) => {
         return element !== user_uuid
@@ -221,8 +221,8 @@ const changeSelectedMembers = (user_uuid) => {
 const updateUserStatus = (mutation, state) => {
   chatList.value.forEach((element) => {
     if (
-      element.chat_type == chatType.DIALOG &&
-      element.details.uuid == state.user_uuid
+      element.chat_type === chatType.DIALOG &&
+      element.details.uuid === state.user_uuid
     ) {
       element.details.status = state.status
     }
@@ -333,7 +333,7 @@ onUnmounted(() => {
                   :key="chat.uuid"
                   :class="[
                     'nav-item',
-                    $route.params.uuid == chat.uuid ? 'active' : null
+                    $route.params.uuid === chat.uuid ? 'active' : null
                   ]"
                 >
                   <router-link
@@ -344,19 +344,19 @@ onUnmounted(() => {
                     @click="$refs.chatListClose.click()"
                     :class="[
                       'nav-link',
-                      $route.params.uuid == chat.uuid ? 'active' : 'text-dark'
+                      $route.params.uuid === chat.uuid ? 'active' : 'text-dark'
                     ]"
                   >
                     <div class="d-flex gap-3">
                       <UserAvatarExtended
-                        v-if="chat.chat_type == chatType.DIALOG"
+                        v-if="chat.chat_type === chatType.DIALOG"
                         :src="chat.details.avatar"
                         :width="48"
                         :height="48"
-                        :online="chat.details.status == 'online' ? true : false"
+                        :online="chat.details.status === 'online' ? true : false"
                       />
                       <GroupAvatar
-                        v-else-if="chat.chat_type == chatType.GROUP"
+                        v-else-if="chat.chat_type === chatType.GROUP"
                         :src="chat.details.image"
                         :width="48"
                         :height="48"
@@ -371,7 +371,7 @@ onUnmounted(() => {
                       <div class="flex-grow-1">
                         <div class="d-flex justify-content-between align-items-center">
                           <div
-                            v-if="chat.chat_type == chatType.GROUP"
+                            v-if="chat.chat_type === chatType.GROUP"
                             class="d-flex align-items-center"
                           >
                             <i class="fa-solid fa-user-group"></i>
@@ -393,19 +393,19 @@ onUnmounted(() => {
                           class="d-flex align-items-center"
                         >
                           <span
-                            v-if="chat.last_message.msg_type == messageType.TEXT"
+                            v-if="chat.last_message.msg_type === messageType.TEXT"
                             class="mb-0 opacity-75 me-auto"
                           >
                             {{ chat.last_message.content }}
                           </span>
                           <span
-                            v-else-if="chat.last_message.msg_type == messageType.IMAGES"
+                            v-else-if="chat.last_message.msg_type === messageType.IMAGES"
                             class="mb-0 opacity-75 me-auto"
                           >
                             {{ $t('messenger.images', { n: chat.last_message.content }) }}
                           </span>
                           <span
-                            v-else-if="chat.last_message.msg_type == messageType.FILES"
+                            v-else-if="chat.last_message.msg_type === messageType.FILES"
                             class="mb-0 opacity-75 me-auto"
                           >
                             {{ $t('messenger.files', { n: chat.last_message.content }) }}
@@ -520,7 +520,7 @@ onUnmounted(() => {
                   </div>
                 </div>
                 <div
-                  v-if="selectedChatType == chatType.GROUP"
+                  v-if="selectedChatType === chatType.GROUP"
                   class="mb-3"
                 >
                   <BaseInput
@@ -534,7 +534,7 @@ onUnmounted(() => {
                   />
                 </div>
                 <div
-                  v-if="selectedChatType == chatType.GROUP"
+                  v-if="selectedChatType === chatType.GROUP"
                   class="mb-3"
                 >
                   <span v-if="groupChatImage">
@@ -567,7 +567,7 @@ onUnmounted(() => {
                 >
                   <div v-if="relatedUserList.length > 0">
                     <div
-                      v-if="selectedChatType == chatType.DIALOG"
+                      v-if="selectedChatType === chatType.DIALOG"
                       class="list-group list-group-flush"
                     >
                       <label
@@ -587,7 +587,7 @@ onUnmounted(() => {
                           :src="user.avatar"
                           :width="32"
                           :height="32"
-                          :online="user.status == 'online' ? true : false"
+                          :online="user.status === 'online' ? true : false"
                         />
                         <span class="fw-medium">
                           {{ user.name }}
@@ -595,7 +595,7 @@ onUnmounted(() => {
                       </label>
                     </div>
                     <div
-                      v-else-if="selectedChatType == chatType.GROUP"
+                      v-else-if="selectedChatType === chatType.GROUP"
                       class="list-group list-group-flush"
                     >
                       <label
@@ -615,7 +615,7 @@ onUnmounted(() => {
                           :src="user.avatar"
                           :width="32"
                           :height="32"
-                          :online="user.status == 'online' ? true : false"
+                          :online="user.status === 'online' ? true : false"
                         />
                         <span class="fw-medium">
                           {{ user.name }}

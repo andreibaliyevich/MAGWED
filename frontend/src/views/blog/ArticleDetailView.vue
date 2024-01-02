@@ -99,7 +99,7 @@ watch(locale, () => {
 watch(
   () => route.params.slug,
   (newValue) => {
-    if (route.name == 'ArticleDetail') {
+    if (route.name === 'ArticleDetail') {
       getArticleData()
     }
   }
@@ -117,7 +117,7 @@ onUnmounted(() => {
 <template>
   <div class="article-detail-view">
     <LoadingIndicator v-if="articleLoading" />
-    <NotFound v-else-if="errorStatus == 404" />
+    <NotFound v-else-if="errorStatus === 404" />
     <div v-else>
       <div class="d-flex justify-content-center mb-3">
         <img
