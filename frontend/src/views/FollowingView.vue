@@ -2,8 +2,10 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const userStore = useUserStore()
+const connectionBusStore = useConnectionBusStore()
 
 const followingListLoading = ref(true)
 const followingList = ref([])
@@ -40,8 +42,17 @@ const getMoreFollowingList = async () => {
   }
 }
 
+const updateUserStatus = (mutation, state) => {
+  followingList.value.forEach((element) => {
+    if (element.user.uuid === state.user_uuid) {
+      element.user.status = state.status
+    }
+  })
+}
+
 onMounted(() => {
   getFollowingList()
+  connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>
 
@@ -71,7 +82,7 @@ onMounted(() => {
               :src="follow.user.avatar"
               :width="180"
               :height="180"
-              :online="follow.user.status == 'online' ? true : false"
+              :online="follow.user.status === 'online' ? true : false"
             />
           </router-link>
           <router-link

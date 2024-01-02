@@ -2,8 +2,10 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
+import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const userStore = useUserStore()
+const connectionBusStore = useConnectionBusStore()
 
 const followersListLoading = ref(true)
 const followersList = ref([])
@@ -40,8 +42,17 @@ const getMoreFollowersList = async () => {
   }
 }
 
+const updateUserStatus = (mutation, state) => {
+  followersList.value.forEach((element) => {
+    if (element.follower.uuid === state.user_uuid) {
+      element.follower.status = state.status
+    }
+  })
+}
+
 onMounted(() => {
   getFollowersList()
+  connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>
 
@@ -72,7 +83,7 @@ onMounted(() => {
               :src="follow.follower.avatar"
               :width="180"
               :height="180"
-              :online="follow.follower.status == 'online' ? true : false"
+              :online="follow.follower.status === 'online' ? true : false"
             />
           </router-link>
           <UserAvatarExtended
@@ -80,7 +91,7 @@ onMounted(() => {
             :src="follow.follower.avatar"
             :width="180"
             :height="180"
-            :online="follow.follower.status == 'online' ? true : false"
+            :online="follow.follower.status === 'online' ? true : false"
           />
           <router-link
             v-if="follow.follower.profile_url"
