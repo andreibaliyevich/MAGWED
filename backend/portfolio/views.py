@@ -5,6 +5,7 @@ from rest_framework import filters, generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.db.models import F
 from django.shortcuts import get_object_or_404
 from accounts.permissions import UserIsOrganizer
 from .filters import AlbumFilter, PhotoFilter
@@ -99,9 +100,9 @@ class AlbumUpViewCountView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(Album, uuid=kwargs['uuid'])
-        obj.view_count += 1
-        obj.save(update_fields=['view_count'])
+        Album.objects.filter(
+            uuid=kwargs['uuid']).update(
+            view_count=F('view_count') + 1)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -250,9 +251,9 @@ class PhotoUpViewCountView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(Photo, uuid=kwargs['uuid'])
-        obj.view_count += 1
-        obj.save(update_fields=['view_count'])
+        Photo.objects.filter(
+            uuid=kwargs['uuid']).update(
+            view_count=F('view_count') + 1)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 

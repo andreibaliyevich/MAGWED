@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.conf import settings
+from django.db.models import F
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_protect
@@ -46,9 +47,9 @@ class ArticleUpViewCountView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(Article, slug=kwargs['slug'])
-        obj.view_count += 1
-        obj.save(update_fields=['view_count'])
+        Article.objects.filter(
+            slug=kwargs['slug']).update(
+            view_count=F('view_count') + 1)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
