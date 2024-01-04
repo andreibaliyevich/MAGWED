@@ -3,7 +3,7 @@ from channels.layers import get_channel_layer
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import caches
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from blog.models import Article
 from blog.serializers import ArticleShortReadSerializer
@@ -55,8 +55,8 @@ def follow_saved(sender, instance, created, **kwargs):
     )
 
 
-@receiver(post_delete, sender=Follow)
-def follow_deleted(sender, instance, **kwargs):
+@receiver(pre_delete, sender=Follow)
+def follow_deleting(sender, instance, **kwargs):
     """ Delete and send follow notification """
     notice = Notification.objects.filter(
         initiator=instance.follower,
@@ -133,8 +133,8 @@ def article_saved(sender, instance, created, **kwargs):
             )
 
 
-@receiver(post_delete, sender=Article)
-def article_deleted(sender, instance, **kwargs):
+@receiver(pre_delete, sender=Article)
+def article_deleting(sender, instance, **kwargs):
     """ Delete and send article notification """
     notices = Notification.objects.filter(
         initiator=instance.author,
@@ -210,8 +210,8 @@ def album_saved(sender, instance, created, **kwargs):
             )
 
 
-@receiver(post_delete, sender=Album)
-def album_deleted(sender, instance, **kwargs):
+@receiver(pre_delete, sender=Album)
+def album_deleting(sender, instance, **kwargs):
     """ Delete and send album notification """
     notices = Notification.objects.filter(
         initiator=instance.author,
@@ -288,8 +288,8 @@ def photo_saved(sender, instance, created, **kwargs):
                 )
 
 
-@receiver(post_delete, sender=Photo)
-def photo_deleted(sender, instance, **kwargs):
+@receiver(pre_delete, sender=Photo)
+def photo_deleting(sender, instance, **kwargs):
     """ Delete and send photo notification """
     if instance.album is None:
         notices = Notification.objects.filter(
@@ -455,7 +455,7 @@ def comment_saved(sender, instance, created, **kwargs):
 
             notice = Notification.objects.filter(
                 initiator=instance.author,
-                recipient=recipient,
+                recipient=instance.content_object.author,
                 reason=ReasonOfNotification.COMMENT,
                 content_type=ContentType.objects.get_for_model(Comment),
                 object_uuid=instance.uuid,
@@ -463,7 +463,7 @@ def comment_saved(sender, instance, created, **kwargs):
 
             if notice is not None:
                 async_to_sync(channel_layer.group_send)(
-                    f'notification-{recipient.uuid}',
+                    f'notification-{instance.content_object.author.uuid}',
                     {
                         'type': 'send_json_data',
                         'action': 'updated',
@@ -475,13 +475,13 @@ def comment_saved(sender, instance, created, **kwargs):
                 )
 
 
-@receiver(post_delete, sender=Comment)
-def comment_deleted(sender, instance, **kwargs):
+@receiver(pre_delete, sender=Comment)
+def comment_deleting(sender, instance, **kwargs):
     """ Delete and send comment notification """
     if instance.author.uuid != instance.content_object.author.uuid:
         notice = Notification.objects.filter(
             initiator=instance.author,
-            recipient=recipient,
+            recipient=instance.content_object.author,
             reason=ReasonOfNotification.COMMENT,
             content_type=ContentType.objects.get_for_model(Comment),
             object_uuid=instance.uuid,
@@ -490,7 +490,7 @@ def comment_deleted(sender, instance, **kwargs):
             notice_uuid = str(notice.uuid)
             notice.delete()
             async_to_sync(channel_layer.group_send)(
-                f'notification-{recipient.uuid}',
+                f'notification-{instance.content_object.author.uuid}',
                 {
                     'type': 'send_json_data',
                     'action': 'deleted',
@@ -549,8 +549,8 @@ def review_saved(sender, instance, created, **kwargs):
                 )
 
 
-@receiver(post_delete, sender=Review)
-def review_deleted(sender, instance, **kwargs):
+@receiver(pre_delete, sender=Review)
+def review_deleting(sender, instance, **kwargs):
     """ Delete and send review notification """
     if instance.user.uuid != instance.author.uuid:
         notice = Notification.objects.filter(
