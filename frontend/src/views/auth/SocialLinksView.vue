@@ -22,15 +22,15 @@ const organizerLinkModalBootstrap = ref(null)
 
 const setLinkTypeOptions = () => {
   linkTypeOptions.value = [
-    { value: 1, text: t('auth.sociallinks.facebook') },
-    { value: 2, text: t('auth.sociallinks.twitter') },
-    { value: 3, text: t('auth.sociallinks.instagram') },
-    { value: 4, text: t('auth.sociallinks.linkedin') },
-    { value: 5, text: t('auth.sociallinks.spotify') },
-    { value: 6, text: t('auth.sociallinks.youtube') },
-    { value: 7, text: t('auth.sociallinks.soundcloud') },
-    { value: 8, text: t('auth.sociallinks.pinterest') },
-    { value: 9, text: t('auth.sociallinks.vk') }
+    { value: 'facebook', text: t('auth.sociallinks.facebook') },
+    { value: 'twitter', text: t('auth.sociallinks.twitter') },
+    { value: 'instagram', text: t('auth.sociallinks.instagram') },
+    { value: 'linkedin', text: t('auth.sociallinks.linkedin') },
+    { value: 'spotify', text: t('auth.sociallinks.spotify') },
+    { value: 'youtube', text: t('auth.sociallinks.youtube') },
+    { value: 'soundcloud', text: t('auth.sociallinks.soundcloud') },
+    { value: 'pinterest', text: t('auth.sociallinks.pinterest') },
+    { value: 'vk', text: t('auth.sociallinks.vk') }
   ]
 }
 
@@ -85,11 +85,11 @@ const updateSocialLink = async () => {
   }
 }
 
-const removeSocialLink = async (olUuid) => {
+const removeSocialLink = async (slUuid) => {
   try {
-    const response = axios.delete('/social/links/' + olUuid +'/')
+    const response = axios.delete('/social/links/' + slUuid +'/')
     socialLinkList.value = socialLinkList.value.filter((element) => {
-      return element.uuid !== olUuid
+      return element.uuid !== slUuid
     })
   } catch (error) {
     console.error(error)
@@ -142,59 +142,8 @@ onMounted(() => {
         >
           <div class="row">
             <div class="col-3 col-md-2">
-              <span
-                v-if="socialLinkItem.link_type === 1"
-                class="badge bg-facebook"
-              >
-                {{ $t('auth.sociallinks.facebook') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 2"
-                class="badge bg-twitter"
-              >
-                {{ $t('auth.sociallinks.twitter') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 3"
-                class="badge bg-instagram"
-              >
-                {{ $t('auth.sociallinks.instagram') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 4"
-                class="badge bg-linkedin"
-              >
-                {{ $t('auth.sociallinks.linkedin') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 5"
-                class="badge bg-spotify"
-              >
-                {{ $t('auth.sociallinks.spotify') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 6"
-                class="badge bg-youtube"
-              >
-                {{ $t('auth.sociallinks.youtube') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 7"
-                class="badge bg-soundcloud"
-              >
-                {{ $t('auth.sociallinks.soundcloud') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 8"
-                class="badge bg-pinterest"
-              >
-                {{ $t('auth.sociallinks.pinterest') }}
-              </span>
-              <span
-                v-else-if="socialLinkItem.link_type === 9"
-                class="badge bg-vk"
-              >
-                {{ $t('auth.sociallinks.vk') }}
+              <span :class="`badge bg-${socialLinkItem.link_type}`">
+                {{ $t(`auth.sociallinks.${socialLinkItem.link_type}`) }}
               </span>
             </div>
             <div class="col-6 col-md-8 overflow-hidden">
