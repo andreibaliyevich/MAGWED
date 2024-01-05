@@ -2,7 +2,7 @@ import BaseInput from './BaseInput.vue'
 import BaseSelect from './BaseSelect.vue'
 import BaseTextarea from './BaseTextarea.vue'
 import CheckboxMultipleSelect from './CheckboxMultipleSelect.vue'
-import FileDragAndDropInputButton from './FileDragAndDropInputButton.vue'
+import FileDropZoneInputButton from './FileDropZoneInputButton.vue'
 import FileInputButton from './FileInputButton.vue'
 import ListInput from './ListInput.vue'
 import LoadingIndicator from './LoadingIndicator.vue'
@@ -18,7 +18,7 @@ export default [
   BaseSelect,
   BaseTextarea,
   CheckboxMultipleSelect,
-  FileDragAndDropInputButton,
+  FileDropZoneInputButton,
   FileInputButton,
   ListInput,
   LoadingIndicator,

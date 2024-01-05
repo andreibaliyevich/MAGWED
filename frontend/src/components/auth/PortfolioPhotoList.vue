@@ -229,7 +229,7 @@ onMounted(() => {
 
 <template>
   <div class="portfolio-photo-list">
-    <FileDragAndDropInputButton
+    <FileDropZoneInputButton
       @selectedFiles="uploadPhotos"
       buttonClass="btn btn-soft-brand"
       accept="image/*"
@@ -240,7 +240,7 @@ onMounted(() => {
         {{ $t('portfolio.upload_photos') }}
         <i class="fa-solid fa-upload"></i>
       </template>
-    </FileDragAndDropInputButton>
+    </FileDropZoneInputButton>
 
     <div
       v-if="photoList.length > 0"

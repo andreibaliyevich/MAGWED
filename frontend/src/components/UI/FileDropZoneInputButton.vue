@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'FileDragAndDropInputButton',
+  name: 'FileDropZoneInputButton',
   inheritAttrs: false,
   props: {
     buttonClass: {
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-  <div class="file-drag-and-drop-input-button">
+  <div class="file-drop-zone-input-button">
     <div
       ref="dropArea"
       @dragover.prevent="$refs.dropArea.classList.add('drop-area-over')"
