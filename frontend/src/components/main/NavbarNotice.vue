@@ -56,10 +56,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <div class="d-flex align-content-between flex-wrap h-100">
           <p class="text-dark mb-0">
             {{
-              $t('notifications.article', {
-                user_name: notice.initiator.name,
-                article_title: notice.content_object.translated_title
-              })
+              $t('notifications.article', { user_name: notice.initiator.name })
             }}
           </p>
           <small class="text-muted">
@@ -77,7 +74,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         >
           <img
             :src="notice.content_object.thumbnail"
-            :alt="notice.content_object.translated_title"
+            :alt="notice.content_object.slug"
             width="64"
             height="64"
           >
@@ -249,8 +246,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             {{
               $t('notifications.comment_article', {
                 user_name: notice.initiator.name,
-                content: notice.content_object.content,
-                article_title: notice.content_object.content_object.translated_title
+                content: notice.content_object.content
               })
             }}
           </p>
@@ -296,8 +292,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
               {{
                 $t('notifications.comment_comment_article', {
                   user_name: notice.initiator.name,
-                  content: notice.content_object.content,
-                  article_title: notice.content_object.content_object.translated_title
+                  content: notice.content_object.content
                 })
               }}
             </div>
@@ -346,7 +341,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         >
           <img
             :src="notice.content_object.content_object.thumbnail"
-            :alt="notice.content_object.content_object.translated_title"
+            :alt="notice.content_object.content_object.slug"
             width="64"
             height="64"
           >
