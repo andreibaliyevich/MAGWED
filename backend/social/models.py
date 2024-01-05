@@ -21,7 +21,8 @@ class SocialLink(models.Model):
         verbose_name=_('User'),
     )
 
-    link_type = models.PositiveSmallIntegerField(
+    link_type = models.CharField(
+        max_length=16,
         choices=LinkType.choices,
         verbose_name=_('Type of Link'),
     )
