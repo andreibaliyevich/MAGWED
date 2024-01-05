@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import UserShortReadSerializer
 from blog.models import Article
-from blog.serializers import ArticleShortReadSerializer
+from blog.serializers import ArticleBriefReadSerializer
 from portfolio.models import Album, Photo
 from portfolio.serializers import (
     AlbumShortReadSerializer,
@@ -18,7 +18,7 @@ class CommentObjectRelatedField(serializers.RelatedField):
 
     def to_representation(self, value):
         if isinstance(value, Article):
-            serializer_data = ArticleShortReadSerializer(
+            serializer_data = ArticleBriefReadSerializer(
                 value,
                 context=self.context,
             ).data

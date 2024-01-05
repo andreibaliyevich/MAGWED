@@ -5,6 +5,17 @@ from main.serializers import TagSerializer
 from .models import Category, Article
 
 
+class ArticleBriefReadSerializer(serializers.ModelSerializer):
+    """ Article Brief Read Serializer """
+
+    class Meta:
+        model = Article
+        fields = [
+            'slug',
+            'thumbnail',
+        ]
+
+
 class ArticleShortReadSerializer(serializers.ModelSerializer):
     """ Article Short Read Serializer """
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from accounts.serializers import UserShortReadSerializer
 from blog.models import Article
-from blog.serializers import ArticleShortReadSerializer
+from blog.serializers import ArticleBriefReadSerializer
 from comments.models import Comment
 from comments.serializers import CommentShortReadSerializer
 from messenger.models import Message
@@ -41,7 +41,7 @@ class NotificationObjectRelatedField(serializers.RelatedField):
         if isinstance(value, Follow):
             return None
         elif isinstance(value, Article):
-            serializer = ArticleShortReadSerializer(
+            serializer = ArticleBriefReadSerializer(
                 value,
                 context=self.context,
             )

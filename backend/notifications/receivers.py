@@ -6,7 +6,7 @@ from django.core.cache import caches
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from blog.models import Article
-from blog.serializers import ArticleShortReadSerializer
+from blog.serializers import ArticleBriefReadSerializer
 from comments.models import Comment
 from comments.serializers import CommentShortReadSerializer
 from messenger.models import Message
@@ -95,7 +95,7 @@ def article_saved(sender, instance, created, **kwargs):
                 avatar_url = notice_data['initiator']['avatar']
                 notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
 
-            notice_data['content_object'] = ArticleShortReadSerializer(instance).data
+            notice_data['content_object'] = ArticleBriefReadSerializer(instance).data
             thumbnail_url = notice_data['content_object']['thumbnail']
             notice_data['content_object']['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
 
@@ -108,7 +108,7 @@ def article_saved(sender, instance, created, **kwargs):
                 }
             )
     else:
-        content_object_data = ArticleShortReadSerializer(instance).data
+        content_object_data = ArticleBriefReadSerializer(instance).data
         thumbnail_url = content_object_data['thumbnail']
         content_object_data['thumbnail'] = f'{settings.API_URL}{thumbnail_url}'
 
