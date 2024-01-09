@@ -79,8 +79,8 @@ onMounted(() => {
                 {{ $t('report.new_report') }}
               </h5>
               <button
-                class="btn-close"
                 type="button"
+                class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -101,8 +101,8 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                class="btn btn-light"
                 type="button"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.cancel') }}

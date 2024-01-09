@@ -173,6 +173,7 @@ onUnmounted(() => {
         <div class="d-flex justify-content-center">
           <img
             :src="photoData.image"
+            :alt="photoData.title"
             class="card-img"
           >
           <div

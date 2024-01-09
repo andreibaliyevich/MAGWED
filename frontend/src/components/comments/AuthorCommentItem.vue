@@ -219,8 +219,8 @@ onMounted(() => {
                 {{ $t('comments.updating_comment') }}
               </h5>
               <button
-                class="btn-close"
                 type="button"
+                class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -245,8 +245,8 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                class="btn btn-light"
                 type="button"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.cancel') }}
@@ -286,15 +286,15 @@ onMounted(() => {
             <div class="modal-footer flex-nowrap p-0">
               <button
                 @click="removeComment()"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
                 type="button"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
                 data-bs-dismiss="modal"
               >
                 <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
               </button>
               <button
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 type="button"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.no_cancel') }}

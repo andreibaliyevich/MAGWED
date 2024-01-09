@@ -82,8 +82,8 @@ onMounted(() => {
               {{ $t('feedback.status201') }}
             </span>
             <button
-              class="btn-close"
               type="button"
+              class="btn-close"
               data-bs-dismiss="alert"
               aria-label="Close"
             ></button>

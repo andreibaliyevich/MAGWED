@@ -224,8 +224,8 @@ onMounted(() => {
 
       <div class="d-grid d-md-flex justify-content-md-end gap-2 mt-3">
         <button
-          class="btn btn-outline-dark"
           type="button"
+          class="btn btn-outline-dark"
           data-bs-toggle="modal"
           data-bs-target="#remove_album_modal_choice"
         >
@@ -266,15 +266,15 @@ onMounted(() => {
             <div class="modal-footer flex-nowrap p-0">
               <button
                 @click="removeAlbum()"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
                 type="button"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
                 data-bs-dismiss="modal"
               >
                 <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
               </button>
               <button
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 type="button"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.no_cancel') }}

@@ -186,8 +186,8 @@ onMounted(() => {
         {{ $t('auth.sociallinks.do_not_have_social_links') }}
       </div>
       <button
-        class="btn btn-brand mt-4"
         type="button"
+        class="btn btn-brand mt-4"
         data-bs-toggle="modal"
         data-bs-target="#organizer_link_modal"
       >
@@ -224,8 +224,8 @@ onMounted(() => {
                 {{ $t('auth.sociallinks.adding_a_link') }}
               </h5>
               <button
-                class="btn-close"
                 type="button"
+                class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -270,8 +270,8 @@ onMounted(() => {
               <SubmitButton
                 v-if="socialLinkUuid"
                 :loadingStatus="socialLinkListUpdating"
-                form="social_link_form"
                 buttonClass="btn btn-brand"
+                form="social_link_form"
                 :disabled="!socialLinkType || !socialLinkUrl"
               >
                 {{ $t('btn.update') }}
@@ -279,8 +279,8 @@ onMounted(() => {
               <SubmitButton
                 v-else
                 :loadingStatus="socialLinkListUpdating"
-                form="social_link_form"
                 buttonClass="btn btn-brand"
+                form="social_link_form"
                 :disabled="!socialLinkType || !socialLinkUrl"
               >
                 {{ $t('btn.add') }}
