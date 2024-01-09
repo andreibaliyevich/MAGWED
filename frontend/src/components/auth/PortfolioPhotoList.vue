@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 const route = useRoute()
@@ -13,6 +13,7 @@ const nextURL = ref(null)
 const photosUploadStatus = ref(0)
 const photosUploading = ref(false)
 
+const photoLoading = ref(false)
 const photoUpdating = ref(false)
 const photoUuid = ref(null)
 const photoImage = ref(null)
@@ -35,9 +36,13 @@ const errors = ref(null)
 
 const uploadPhotosModal = ref(null)
 const uploadPhotosModalBootstrap = ref(null)
-
 const updatePhotoModal = ref(null)
-const updatePhotoModalBootstrap = ref(null)
+
+const photoIndex = computed(() => {
+  return photoList.value.findIndex((element) => {
+    return element.uuid === photoUuid.value
+  })
+})
 
 const photosUploadStatusRound = computed(() => {
   return Math.round(photosUploadStatus.value)
@@ -112,6 +117,7 @@ const uploadPhotos = async (filelist) => {
 }
 
 const getPhotoData = async (pUuid) => {
+  photoLoading.value = true
   try {
     const response = await axios.get(
       '/portfolio/photo/author/rud/'
@@ -137,6 +143,8 @@ const getPhotoData = async (pUuid) => {
     photoRating.value = response.data.rating
   } catch (error) {
     console.error(error)
+  } finally {
+    photoLoading.value = false
   }
 }
 
@@ -169,11 +177,7 @@ const updatePhoto = async () => {
         tags: photoTags.value
       }
     )
-    const foundIndex = photoList.value.findIndex((element) => {
-      return element.uuid === photoUuid.value
-    })
-    photoList.value[foundIndex].title = photoTitle.value
-    updatePhotoModalBootstrap.value.hide()
+    photoList.value[photoIndex.value].title = photoTitle.value
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -197,6 +201,12 @@ const removePhoto = async () => {
     photoUuid.value = null
   }
 }
+
+watch(photoIndex, (newValue) => {
+  if (newValue === photoList.value.length - 1 && nextURL.value) {
+    getMorePhotoList()
+  }
+})
 
 onMounted(() => {
   getPhotoList()
@@ -223,7 +233,6 @@ onMounted(() => {
     photoRating.value = 0
     errors.value = null
   })
-  updatePhotoModalBootstrap.value = new bootstrap.Modal(updatePhotoModal.value)
 })
 </script>
 
@@ -377,19 +386,50 @@ onMounted(() => {
                 {{ $t('portfolio.updating_photo') }}
               </h5>
               <button
-                class="btn-close"
                 type="button"
+                class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
             <div class="modal-body">
-              <div class="d-flex justify-content-center">
-                <img
-                  :src="photoImage"
-                  :alt="photoTitle"
-                  class="mw-100 max-vh-75"
-                >
+              <LoadingIndicator v-if="photoLoading" />
+              <div
+                v-else
+                class="card border-0"
+              >
+                <div class="d-flex justify-content-center">
+                  <img
+                    :src="photoImage"
+                    :alt="photoTitle"
+                    class="card-img"
+                  >
+                  <div
+                    class="card-img-overlay mx-1"
+                    style="background-color: rgba(33, 37, 41, 0);"
+                  >
+                    <div class="position-absolute top-50 start-0 translate-middle-y">
+                      <button
+                        @click="getPhotoData(photoList[photoIndex - 1].uuid)"
+                        type="button"
+                        class="btn btn-light"
+                        :disabled="photoIndex === 0"
+                      >
+                       <i class="fa-solid fa-chevron-left"></i>
+                      </button>
+                    </div>
+                    <div class="position-absolute top-50 end-0 translate-middle-y">
+                      <button
+                        @click="getPhotoData(photoList[photoIndex + 1].uuid)"
+                        type="button"
+                        class="btn btn-light"
+                        :disabled="photoIndex === photoList.length - 1"
+                      >
+                        <i class="fa-solid fa-chevron-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
               <form
                 @submit.prevent="updatePhoto()"
@@ -507,16 +547,17 @@ onMounted(() => {
             </div>
             <div class="modal-footer">
               <button
-                class="btn btn-light"
                 type="button"
+                class="btn btn-light"
                 data-bs-dismiss="modal"
               >
-                {{ $t('btn.cancel') }}
+                {{ $t('btn.close') }}
               </button>
               <SubmitButton
                 :loadingStatus="photoUpdating"
                 buttonClass="btn btn-brand"
                 form="photo_modal_form"
+                :disabled="photoLoading"
               >
                 {{ $t('btn.update') }}
               </SubmitButton>
@@ -547,15 +588,15 @@ onMounted(() => {
             <div class="modal-footer flex-nowrap p-0">
               <button
                 @click="removePhoto()"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
                 type="button"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
                 data-bs-dismiss="modal"
               >
                 <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
               </button>
               <button
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 type="button"
+                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
                 data-bs-dismiss="modal"
               >
                 {{ $t('btn.no_cancel') }}
@@ -581,6 +622,13 @@ onMounted(() => {
 }
 .modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb:hover {
   background-color: #e72a26;
+}
+
+.card-img {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 75vh;
 }
 
 @media (min-width: 1200px) {
