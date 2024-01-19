@@ -55,8 +55,8 @@ class FileMessageSerializer(serializers.ModelSerializer):
         ]
 
 
-class MessageShortReadSerializer(serializers.ModelSerializer):
-    """ Message Short Read Serializer """
+class MessageBriefReadSerializer(serializers.ModelSerializer):
+    """ Message Brief Read Serializer """
     chat = serializers.PrimaryKeyRelatedField(
         read_only=True,
         pk_field=serializers.UUIDField(format='hex_verbose'),
@@ -84,8 +84,8 @@ class MessageShortReadSerializer(serializers.ModelSerializer):
         ]
 
 
-class MessageBriefReadSerializer(serializers.ModelSerializer):
-    """ Message Brief Read Serializer """
+class MessageShortReadSerializer(serializers.ModelSerializer):
+    """ Message Short Read Serializer """
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
@@ -148,7 +148,10 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
 
 class GroupChatSerializer(serializers.ModelSerializer):
     """ Group Chat Serializer """
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    owner = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        pk_field=serializers.UUIDField(format='hex_verbose'),
+    )
 
     class Meta:
         model = GroupChat
@@ -162,30 +165,30 @@ class GroupChatSerializer(serializers.ModelSerializer):
 class ChatListSerializer(serializers.ModelSerializer):
     """ Chat List Serializer """
     details = serializers.SerializerMethodField()
-    last_message = MessageBriefReadSerializer(read_only=True)
+    last_message = MessageShortReadSerializer(read_only=True)
     unviewed_msg_count = serializers.SerializerMethodField()
 
     def get_details(self, obj):
-        request = self.context['request']
+        user = self.context.get('user', self.context['request'].user)
 
         if obj.chat_type == ChatType.DIALOG:
             return UserBriefReadSerializer(
-                obj.members.exclude(uuid=request.user.uuid).first(),
-                context={'request': request},
+                obj.members.exclude(uuid=user.uuid).first(),
+                context=self.context,
             ).data
 
         if obj.chat_type == ChatType.GROUP:
             return GroupChatSerializer(
                 obj.group_details,
-                context={'request': request},
+                context=self.context,
             ).data
 
         return None
 
     def get_unviewed_msg_count(self, obj):
-        request = self.context['request']
+        user = self.context.get('user', self.context['request'].user)
         return obj.messages.exclude(
-            author=request.user).filter(
+            author=user).filter(
             viewed=False).count()
 
     class Meta:

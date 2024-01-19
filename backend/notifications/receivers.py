@@ -10,7 +10,7 @@ from blog.serializers import ArticleBriefReadSerializer
 from comments.models import Comment
 from comments.serializers import CommentShortReadSerializer
 from messenger.models import Message
-from messenger.serializers import MessageShortReadSerializer
+from messenger.serializers import MessageBriefReadSerializer
 from messenger.signals import msg_saved
 from portfolio.models import Album, Photo
 from portfolio.serializers import (
@@ -591,7 +591,7 @@ def message_saved(sender, instance, **kwargs):
             if notice_data['initiator']['avatar']:
                 avatar_url = notice_data['initiator']['avatar']
                 notice_data['initiator']['avatar'] = f'{settings.API_URL}{avatar_url}'
-            notice_data['content_object'] = MessageShortReadSerializer(instance).data
+            notice_data['content_object'] = MessageBriefReadSerializer(instance).data
 
             async_to_sync(channel_layer.group_send)(
                 f'notification-{notice.recipient.uuid}',

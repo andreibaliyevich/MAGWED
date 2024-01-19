@@ -22,7 +22,7 @@ from .serializers import (
     TextMessageSerializer,
     ImageMessageSerializer,
     FileMessageSerializer,
-    MessageBriefReadSerializer,
+    MessageShortReadSerializer,
     MessageFullReadSerializer,
 )
 from .signals import msg_saved
@@ -78,11 +78,23 @@ class ChatCreateView(APIView):
             chat.members.add(request.user)
             group_chat_serializer.save(chat=chat, owner=request.user)
 
-        chat_data = ChatListSerializer(
-            chat,
-            context={'request': request},
-        ).data
-        return Response(chat_data, status=status.HTTP_201_CREATED)
+        for member in chat.members.all():
+            chat_data = ChatListSerializer(
+                chat,
+                context={
+                    'request': request,
+                    'user': member,
+                },
+            ).data
+            async_to_sync(channel_layer.group_send)(
+                f'chat-list-{member.uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'create_chat',
+                    'data': chat_data,
+                }
+            )
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class ChatRetrieveView(generics.RetrieveAPIView):
@@ -112,6 +124,23 @@ class ChatDestroyView(generics.DestroyAPIView):
 
     def get_queryset(self):
         return Chat.objects.filter(members=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance_uuid = instance.uuid
+        uuid_list = list(instance.members.values_list('uuid', flat=True))
+        self.perform_destroy(instance)
+
+        for member_uuid in uuid_list:
+            async_to_sync(channel_layer.group_send)(
+                f'chat-list-{member_uuid}',
+                {
+                    'type': 'send_json_data',
+                    'action': 'destroy_chat',
+                    'data': str(instance_uuid),
+                }
+            )
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ChatLeaveView(APIView):
@@ -185,7 +214,7 @@ class NewMessageView(APIView):
         chat.last_message = msg
         chat.save(update_fields=['last_message'])
 
-        msg_short_data = MessageBriefReadSerializer(
+        msg_short_data = MessageShortReadSerializer(
             msg,
             context={'request': request},
         ).data
@@ -228,8 +257,9 @@ class WriteMessageView(APIView):
 
         text_serializer = TextMessageSerializer(data=request.data)
         text_serializer.is_valid(raise_exception=True)
-        
+
         chat = None
+        chat_created = False
         dialog_chats = Chat.objects.filter(
             chat_type=ChatType.DIALOG,
             members=request.user,
@@ -242,6 +272,7 @@ class WriteMessageView(APIView):
         if chat is None:
             chat = Chat.objects.create(chat_type=ChatType.DIALOG)
             chat.members.add(request.user, user)
+            chat_created = True
 
         msg = Message.objects.create(
             chat=chat,
@@ -253,28 +284,46 @@ class WriteMessageView(APIView):
         chat.last_message = msg
         chat.save(update_fields=['last_message'])
 
-        msg_short_data = MessageBriefReadSerializer(
-            msg,
-            context={'request': request},
-        ).data
+        if chat_created:
+            for member in chat.members.all():
+                chat_data = ChatListSerializer(
+                    chat,
+                    context={
+                        'request': request,
+                        'user': member,
+                    },
+                ).data
+                async_to_sync(channel_layer.group_send)(
+                    f'chat-list-{member.uuid}',
+                    {
+                        'type': 'send_json_data',
+                        'action': 'create_chat',
+                        'data': chat_data,
+                    }
+                )
+        else:
+            msg_short_data = MessageShortReadSerializer(
+                msg,
+                context={'request': request},
+            ).data
+            for member in chat.members.all():
+                async_to_sync(channel_layer.group_send)(
+                    f'chat-list-{member.uuid}',
+                    {
+                        'type': 'send_json_data',
+                        'action': 'new_msg',
+                        'data': {
+                            'chat_uuid': str(chat.uuid),
+                            'author_uuid': str(msg.author.uuid),
+                            'msg': msg_short_data,
+                        },
+                    }
+                )
+
         msg_full_data = MessageFullReadSerializer(
             msg,
             context={'request': request},
         ).data
-
-        for member in chat.members.all():
-            async_to_sync(channel_layer.group_send)(
-                f'chat-list-{member.uuid}',
-                {
-                    'type': 'send_json_data',
-                    'action': 'new_msg',
-                    'data': {
-                        'chat_uuid': str(chat.uuid),
-                        'author_uuid': str(msg.author.uuid),
-                        'msg': msg_short_data,
-                    },
-                }
-            )
         async_to_sync(channel_layer.group_send)(
             f'chat-{chat.uuid}',
             {
@@ -283,5 +332,6 @@ class WriteMessageView(APIView):
                 'data': msg_full_data,
             }
         )
+
         msg_saved.send(sender=Message, instance=msg)
         return Response(status=status.HTTP_201_CREATED)
