@@ -81,7 +81,19 @@ const openChatListSocket = async () => {
   )
   chatListSocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data)
-    if (data.action === 'new_msg') {
+    if (data.action === 'create_chat') {
+      chatList.value.push(data.data)
+    } else if (data.action === 'destroy_chat') {
+      chatList.value = chatList.value.filter((element) => {
+        return element.uuid !== data.data
+      })
+      if (data.data === route.params.uuid) {
+        router.push({
+          name: 'Messenger',
+          params: { locale: locale.value }
+        })
+      }
+    } else if (data.action === 'new_msg') {
       const foundIndex = chatList.value.findIndex((element) => {
         return element.uuid === data.data.chat_uuid
       })
@@ -177,14 +189,6 @@ const createChat = async () => {
 
   try {
     const response = await axios.post('/messenger/chat/create/', formData)
-    chatList.value.push(response.data)
-    router.push({
-      name: 'Chat',
-      params: {
-        locale: locale.value,
-        uuid: response.data.uuid
-      }
-    })
     createChatModalBootstrap.value.hide()
   } catch (error) {
     if (error.response.data.uuid) {
@@ -444,6 +448,11 @@ onUnmounted(() => {
         <div class="col-lg-8 py-lg-2">
           <router-view
             @msgViewed="chatList[chatIndex].unviewed_msg_count -= 1"
+            @leaveChat="(chatUUID) => {
+              chatList = chatList.filter((element) => {
+                return element.uuid !== chatUUID
+              })
+            }"
           ></router-view>
         </div>
       </div>

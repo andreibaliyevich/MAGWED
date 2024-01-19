@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios'
-import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
 import { WS_URL, chatType, messageType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
@@ -10,9 +11,11 @@ import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
 import MessageContent from '@/components/messenger/MessageContent.vue'
 import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
 
-const emit = defineEmits(['msgViewed'])
+const emit = defineEmits(['msgViewed', 'leaveChat'])
 
 const route = useRoute()
+const router = useRouter()
+const { locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -307,6 +310,11 @@ const leaveChat = async () => {
         + chatData.value.uuid
         +'/'
     )
+    emit('leaveChat', chatData.value.uuid)
+    router.push({
+      name: 'Messenger',
+      params: { locale: locale.value }
+    })
   } catch (error) {
     console.error(error)
   }
