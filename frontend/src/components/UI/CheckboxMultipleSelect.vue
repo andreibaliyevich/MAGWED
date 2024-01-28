@@ -82,7 +82,10 @@ export default {
       class="invalid-feedback"
       aria-live="assertive"
     >
-      <div v-for="error in errors">
+      <div
+        v-for="(error, index) in errors"
+        :key="`${id}_error_${index}`"
+      >
         {{ error }}
       </div>
     </div>

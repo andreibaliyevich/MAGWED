@@ -37,7 +37,6 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
 .user-avatar {
   display: inline-block;
