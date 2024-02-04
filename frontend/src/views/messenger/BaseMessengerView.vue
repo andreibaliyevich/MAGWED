@@ -189,7 +189,9 @@ const createChat = async () => {
 
   try {
     const response = await axios.post('/messenger/chat/create/', formData)
-    createChatModalBootstrap.value.hide()
+    if (response.status === 201) {
+      createChatModalBootstrap.value.hide()
+    }
   } catch (error) {
     if (error.response.data.uuid) {
       router.push({

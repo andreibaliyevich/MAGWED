@@ -107,8 +107,10 @@ const likeAlbum = async () => {
         + route.params.uuid
         + '/'
     )
-    albumData.value.like_count += 1
-    albumData.value.liked = true
+    if (response.status === 204) {
+      albumData.value.like_count += 1
+      albumData.value.liked = true
+    }
   } catch (error) {
     console.error(error)
   }
@@ -121,8 +123,10 @@ const dislikeAlbum = async () => {
         + route.params.uuid
         + '/'
     )
-    albumData.value.like_count -= 1
-    albumData.value.liked = false
+    if (response.status === 204) {
+      albumData.value.like_count -= 1
+      albumData.value.liked = false
+    }
   } catch (error) {
     console.error(error)
   }

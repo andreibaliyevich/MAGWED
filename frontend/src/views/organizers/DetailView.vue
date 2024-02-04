@@ -88,7 +88,9 @@ const followUser = async () => {
         + organizerData.value.user.uuid
         + '/'
     )
-    organizerData.value.user.following = true
+    if (response.status === 201) {
+      organizerData.value.user.following = true
+    }
   } catch (error) {
     console.error(error)
   }
@@ -101,7 +103,9 @@ const unfollowUser = async () => {
         + organizerData.value.user.uuid
         + '/'
     )
-    organizerData.value.user.following = false
+    if (response.status === 204) {
+      organizerData.value.user.following = false
+    }
   } catch (error) {
     console.error(error)
   }

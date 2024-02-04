@@ -23,7 +23,9 @@ const addToFavorites = async () => {
       content_type: props.contentType,
       object_uuid: props.objectUUID
     })
-    emit('updateFavorite', true)
+    if (response.status === 201) {
+      emit('updateFavorite', true)
+    }
   } catch (error) {
     console.error(error)
   }
@@ -37,7 +39,9 @@ const removeFromFavorites = async () => {
         object_uuid: props.objectUUID
       }
     })
-    emit('updateFavorite', false)
+    if (response.status === 204) {
+      emit('updateFavorite', false)
+    }
   } catch (error) {
     console.error(error)
   }

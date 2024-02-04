@@ -102,8 +102,10 @@ const likePhoto = async () => {
         + route.params.uuid
         + '/'
     )
-    photoData.value.like_count += 1
-    photoData.value.liked = true
+    if (response.status === 204) {
+      photoData.value.like_count += 1
+      photoData.value.liked = true
+    }
   } catch (error) {
     console.error(error)
   }
@@ -116,8 +118,10 @@ const dislikePhoto = async () => {
         + route.params.uuid
         + '/'
     )
-    photoData.value.like_count -= 1
-    photoData.value.liked = false
+    if (response.status === 204) {
+      photoData.value.like_count -= 1
+      photoData.value.liked = false
+    }
   } catch (error) {
     console.error(error)
   }

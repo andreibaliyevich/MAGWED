@@ -28,8 +28,10 @@ const sendReport = async () => {
       object_uuid: props.objectUUID,
       comment: reportComment.value
     })
-    errors.value = null
-    sendReportModalBootstrap.value.hide()
+    if (response.status === 201) {
+      errors.value = null
+      sendReportModalBootstrap.value.hide()
+    }
   } catch (error) {
     errors.value = error.response.data
   } finally {

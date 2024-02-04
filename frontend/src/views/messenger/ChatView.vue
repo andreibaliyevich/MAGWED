@@ -217,11 +217,13 @@ const sendTextMessage = async () => {
         + '/',
       { content: textContent.value }
     )
-    textContent.value = ''
-    nextTick(() => {
-      updateTextareaStyles()
-      msgTextarea.value.focus()
-    })
+    if (response.status === 201) {
+      textContent.value = ''
+      nextTick(() => {
+        updateTextareaStyles()
+        msgTextarea.value.focus()
+      })
+    }
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -246,9 +248,11 @@ const sendImageMessage = async (filelist) => {
         + '/',
       formData
     )
-    nextTick(() => {
-      msgTextarea.value.focus()
-    })
+    if (response.status === 201) {
+      nextTick(() => {
+        msgTextarea.value.focus()
+      })
+    }
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -273,9 +277,11 @@ const sendFileMessage = async (filelist) => {
         + '/',
       formData
     )
-    nextTick(() => {
-      msgTextarea.value.focus()
-    })
+    if (response.status === 201) {
+      nextTick(() => {
+        msgTextarea.value.focus()
+      })
+    }
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -293,7 +299,7 @@ const setMessageViewed = (msgUUID) => {
 
 const removeChat = async () => {
   try {
-    const response = await axios.delete(
+    await axios.delete(
       '/messenger/chat/destroy/'
         + chatData.value.uuid
         +'/'
@@ -310,11 +316,13 @@ const leaveChat = async () => {
         + chatData.value.uuid
         +'/'
     )
-    emit('leaveChat', chatData.value.uuid)
-    router.push({
-      name: 'Messenger',
-      params: { locale: locale.value }
-    })
+    if (response.status === 204) {
+      emit('leaveChat', chatData.value.uuid)
+      router.push({
+        name: 'Messenger',
+        params: { locale: locale.value }
+      })
+    }
   } catch (error) {
     console.error(error)
   }
