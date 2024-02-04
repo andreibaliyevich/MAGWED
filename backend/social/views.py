@@ -72,7 +72,7 @@ class FollowCreateDestroyView(APIView):
                 {'detail': _('You have already follow this user.')},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request, *args, **kwargs):
         user = get_object_or_404(UserModel, uuid=kwargs['uuid'])
@@ -141,7 +141,7 @@ class FavoriteCreateDestroyView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request, *args, **kwargs):
         serializer = FavoriteContentObjectSerializer(data=request.data)
