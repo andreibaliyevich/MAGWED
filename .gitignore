@@ -142,6 +142,8 @@ coverage
 *.sln
 *.sw?
 
+*.tsbuildinfo
+
 # Other files
 mockups/
 postgres/data/
