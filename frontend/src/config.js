@@ -9,11 +9,11 @@ export const LANGUAGES = [
 ]
 
 export const CURRENCIES = [
-  { value: 'USD', text: '$' },
-  { value: 'EUR', text: '€' },
-  { value: 'RUB', text: '₽' },
-  { value: 'BYN', text: 'Br' },
-  { value: 'UAH', text: '₴' }
+  { value: 'USD', symbol: '$' },
+  { value: 'EUR', symbol: '€' },
+  { value: 'RUB', symbol: '₽' },
+  { value: 'BYN', symbol: 'Br' },
+  { value: 'UAH', symbol: '₴' }
 ]
 
 export const userType = {

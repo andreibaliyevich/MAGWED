@@ -5,7 +5,7 @@ import { CURRENCIES } from '@/config.js'
 export const useCurrencyStore = defineStore('currencyStore', {
   state: () => ({
     currencyValue: CURRENCIES[0].value,
-    currencyText: CURRENCIES[0].text,
+    currencySymbol: CURRENCIES[0].text,
     conversionRate: 1
   }),
   actions: {
@@ -13,8 +13,8 @@ export const useCurrencyStore = defineStore('currencyStore', {
       this.currencyValue = value
 
       CURRENCIES.forEach((element) => {
-        if (element.value == value) {
-          this.currencyText = element.text
+        if (element.value === value) {
+          this.currencySymbol = element.symbol
         }
       })
 
