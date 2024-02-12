@@ -7,22 +7,13 @@ import { pluralSlavicRule } from './rules.js'
 export const SUPPORT_LOCALES = Array.from(LANGUAGES, element => element.value)
 
 function getStartingLocale() {
-  const navigatorLocale =
-    window.navigator.languages !== undefined
-      ? window.navigator.languages[0]
-      : window.navigator.language
+  const navigatorLocale = window.navigator.language.split('-')[0]
 
-  if (!navigatorLocale) {
-    return SUPPORT_LOCALES[0]
+  if (SUPPORT_LOCALES.includes(navigatorLocale)) {
+    return navigatorLocale
   }
 
-  const trimmedLocale = navigatorLocale.trim().split(/-|_/)[0]
-
-  if (!SUPPORT_LOCALES.includes(trimmedLocale)) {
-    return SUPPORT_LOCALES[0]
-  }
-
-  return trimmedLocale
+  return SUPPORT_LOCALES[0]
 }
 
 export async function loadLocaleMessages(i18n, locale) {
