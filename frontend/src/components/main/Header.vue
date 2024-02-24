@@ -1,150 +1,308 @@
 <script setup>
 import { ref } from 'vue'
-import { LANGUAGES, CURRENCIES } from '@/config.js'
-import { useCurrencyStore } from '@/stores/currency.js'
+import { useUserStore } from '@/stores/user.js'
+import HeaderSearch from './HeaderSearch.vue'
+import HeaderNotifications from './HeaderNotifications.vue'
+import HeaderUser from './HeaderUser.vue'
 
-const currencyStore = useCurrencyStore()
-const currencyLi = ref(null)
-
-const changeCurrency = (event) => {
-  window.localStorage.setItem('currency', event.target.value)
-  currencyStore.setCurrency(event.target.value)
-  currencyLi.value.click()
-}
+const userStore = useUserStore()
+const drawer = ref(false)
 </script>
 
 <template>
-  <header class="bg-dark text-white py-2">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <div class="d-flex align-items-center">
-          <a
-            class="text-white link-facebook"
-            href="https://www.facebook.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a
-            class="text-white link-twitter ms-2"
-            href="https://twitter.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-twitter"></i>
-          </a>
-          <a
-            class="text-white link-instagram ms-2"
-            href="https://www.instagram.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a
-            class="text-white link-linkedin ms-2"
-            href="https://www.linkedin.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-linkedin"></i>
-          </a>
-          <a
-            class="text-white link-spotify ms-2"
-            href="https://www.spotify.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-spotify"></i>
-          </a>
-          <a
-            class="text-white link-youtube ms-2"
-            href="https://www.youtube.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-youtube"></i>
-          </a>
-          <a
-            class="text-white link-soundcloud ms-2"
-            href="https://soundcloud.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-soundcloud"></i>
-          </a>
-          <a
-            class="text-white link-pinterest ms-2"
-            href="https://www.pinterest.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-pinterest"></i>
-          </a>
-          <a
-            class="text-white link-vk ms-2"
-            href="https://vk.com/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-vk"></i>
-          </a>
-        </div>
-        <div class="dropdown d-flex align-items-center">
-          <a
-            id="locale_dropdown"
-            href="#"
-            role="button"
-            class="dropdown-toggle d-flex align-items-center text-decoration-none text-white"
-            data-bs-toggle="dropdown"
-            data-bs-auto-close="true"
-            aria-expanded="false"
-          >
-            <img
-              :src="`/flags/${$i18n.locale}.png`"
-              width="20"
-              :alt="$i18n.locale"
+  <v-app-bar
+    scroll-behavior="elevate"
+    style="border-bottom: 1px solid #E0E0E0;"
+  >
+    <v-app-bar-nav-icon
+      @click.stop="drawer = !drawer"
+      variant="text"
+      class="d-block d-md-none"
+    ></v-app-bar-nav-icon>
+
+    <v-container class="d-flex align-center">
+      <router-link
+        :to="{
+          name: 'Home',
+          params: { locale: $i18n.locale }
+        }"
+        class="me-5"
+      >
+        <img
+          src="/logo-navbar.png"
+          width="50"
+          class="d-block d-sm-none"
+        >
+        <img
+          src="/logo-navbar-full.png"
+          width="150"
+          class="d-none d-sm-block"
+        >
+      </router-link>
+
+      <nav class="d-none d-md-flex align-center">
+        <v-btn
+          :to="{
+            name: 'OrganizerList',
+            params: { locale: $i18n.locale }
+          }"
+          :active="
+            $route.name === 'OrganizerList'
+              || $route.name === 'OrganizerDetail'
+          "
+          variant="text"
+          class="font-weight-bold"
+        >
+          {{ $t('nav.organizers') }}
+        </v-btn>
+        <v-menu
+          open-on-hover
+          :open-delay="100"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              :active="
+                $route.name === 'AlbumList'
+                  || $route.name === 'AlbumDetail'
+                  || $route.name === 'PhotoList'
+                  || $route.name === 'PhotoDetail'
+              "
+              append-icon="mdi-chevron-down"
+              variant="text"
+              class="font-weight-bold"
             >
-            <span class="text-uppercase ms-1">
-              {{ $i18n.locale }} / {{ currencyStore.currencyValue }}
-            </span>
-          </a>
-          <ul
-            class="dropdown-menu dropdown-menu-end border border-light shadow z-index-1050"
-            aria-labelledby="locale_dropdown"
+              {{ $t('nav.photos') }}
+            </v-btn>
+          </template>
+          <v-list density="compact">
+            <v-list-item
+              :to="{
+                name: 'PhotoList',
+                params: { locale: $i18n.locale },
+                query: { tab: 'popular' }
+              }"
+              :active="
+                $route.name === 'PhotoList'
+                  && $route.query.tab === 'popular'
+              "
+            >
+              {{ $t('nav.popular_photos') }}
+            </v-list-item>
+            <v-list-item
+              :to="{
+                name: 'PhotoList',
+                params: { locale: $i18n.locale },
+                query: { tab: 'fresh' }
+              }"
+              :active="
+                $route.name === 'PhotoList'
+                  && $route.query.tab === 'fresh'
+              "
+            >
+              {{ $t('nav.fresh_photos') }}
+            </v-list-item>
+            <v-list-item
+              :to="{
+                name: 'PhotoList',
+                params: { locale: $i18n.locale },
+                query: { tab: 'editors' }
+              }"
+              :active="
+                $route.name === 'PhotoList'
+                  && $route.query.tab === 'editors'
+              "
+            >
+              {{ $t('nav.editors_choice') }}
+            </v-list-item>
+            <v-list-item
+              :to="{
+                name: 'AlbumList',
+                params: { locale: $i18n.locale },
+                query: { tab: 'popular' }
+              }"
+              :active="
+                $route.name === 'AlbumList'
+                  && $route.query.tab === 'popular'
+              "
+            >
+              {{ $t('nav.photo_albums') }}
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-btn
+          :to="{
+            name: 'Home',
+            params: { locale: $i18n.locale }
+          }"
+          :active="$route.name === 'Home'"
+          variant="text"
+          class="font-weight-bold"
+        >
+          {{ $t('nav.awards') }}
+        </v-btn>
+        <v-btn
+          :to="{
+            name: 'ArticleList',
+            params: { locale: $i18n.locale }
+          }"
+          :active="
+            $route.name === 'ArticleList'
+              || $route.name === 'ArticleDetail'
+          "
+          variant="text"
+          class="font-weight-bold"
+        >
+          {{ $t('nav.blog') }}
+        </v-btn>
+      </nav>
+
+      <div class="flex-grow-1">
+        <div class="d-flex align-center justify-end">
+          <HeaderSearch />
+          <div
+            v-if="userStore.isLoggedIn"
+            class="d-flex align-center"
           >
-            <li
-              ref="currencyLi"
-              class="dropdown-item"
+            <HeaderNotifications />
+            <HeaderUser />
+          </div>
+          <div
+            v-else
+            class="d-flex align-center ms-3"
+          >
+            <v-btn
+              :to="{
+                name: 'Login',
+                params: { locale: $i18n.locale }
+              }"
+              variant="outlined"
+              color="primary"
+              rounded="xl"
+              class="text-none"
             >
-              <select
-                :value="currencyStore.currencyValue"
-                @change="changeCurrency"
-                class="form-select"
-              >
-                <option
-                  v-for="currency in CURRENCIES"
-                  :key="currency.value"
-                  :value="currency.value"
-                >
-                  {{ currency.text }} {{ currency.value }}
-                </option>
-              </select>
-            </li>
-            <li
-              v-for="language in LANGUAGES"
-              :key="language.value"
+              {{ $t('auth.log_in') }}
+            </v-btn>
+            <v-btn
+              :to="{
+                name: 'Registration',
+                params: { locale: $i18n.locale }
+              }"
+              variant="tonal"
+              color="primary"
+              rounded="xl"
+              class="d-none d-lg-inline-flex text-none ms-1"
             >
-              <router-link
-                :to="{
-                  params: { locale: language.value },
-                  query: $route.query
-                }"
-                class="dropdown-item"
-              >
-                <img
-                  :src="`/flags/${language.value}.png`"
-                  width="20"
-                  :alt="language.value"
-                >
-                <span class="ms-1">{{ language.text }}</span>
-              </router-link>
-            </li>
-          </ul>
+              {{ $t('auth.register') }}
+            </v-btn>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </v-container>
+  </v-app-bar>
+
+  <v-navigation-drawer
+    v-model="drawer"
+    location="start"
+    temporary
+  >
+    <v-list
+      density="compact"
+      nav
+    >
+      <v-list-item
+        :to="{
+          name: 'OrganizerList',
+          params: { locale: $i18n.locale }
+        }"
+        :active="$route.name === 'OrganizerList'"
+        class="font-weight-bold text-uppercase"
+      >
+        {{ $t('nav.organizers') }}
+      </v-list-item>
+      <v-list-subheader
+        class="font-weight-bold text-uppercase"
+      >
+        {{ $t('nav.photos') }}
+      </v-list-subheader>
+      <v-list-item
+        :to="{
+          name: 'PhotoList',
+          params: { locale: $i18n.locale },
+          query: { tab: 'popular' }
+        }"
+        :active="
+          $route.name === 'PhotoList'
+            && $route.query.tab === 'popular'
+        "
+      >
+        {{ $t('nav.popular_photos') }}
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'PhotoList',
+          params: { locale: $i18n.locale },
+          query: { tab: 'fresh' }
+        }"
+        :active="
+          $route.name === 'PhotoList'
+            && $route.query.tab === 'fresh'
+        "
+      >
+        {{ $t('nav.fresh_photos') }}
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'PhotoList',
+          params: { locale: $i18n.locale },
+          query: { tab: 'editors' }
+        }"
+        :active="
+          $route.name === 'PhotoList'
+            && $route.query.tab === 'editors'
+        "
+      >
+        {{ $t('nav.editors_choice') }}
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'AlbumList',
+          params: { locale: $i18n.locale },
+          query: { tab: 'popular' }
+        }"
+        :active="
+          $route.name === 'AlbumList'
+            && $route.query.tab === 'popular'
+        "
+      >
+        {{ $t('nav.photo_albums') }}
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'Home',
+          params: { locale: $i18n.locale }
+        }"
+        :active="$route.name === 'Home'"
+        class="font-weight-bold text-uppercase"
+      >
+        {{ $t('nav.awards') }}
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'ArticleList',
+          params: { locale: $i18n.locale }
+        }"
+        :active="$route.name === 'ArticleList'"
+        class="font-weight-bold text-uppercase"
+      >
+        {{ $t('nav.blog') }}
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
+
+<style scoped>
+a:hover {
+  color: #e72a26 !important;
+}
+</style>

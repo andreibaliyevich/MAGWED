@@ -6,7 +6,6 @@ import { useCurrencyStore } from '@/stores/currency.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import Header from '@/components/main/Header.vue'
-import Navbar from '@/components/main/Navbar.vue'
 import Footer from '@/components/main/Footer.vue'
 
 const currencyStore = useCurrencyStore()
@@ -63,12 +62,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Header />
-  <Navbar />
-  <main>
-    <router-view></router-view>
-  </main>
-  <Footer />
+  <v-app>
+    <Header />
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+    <Footer />
+  </v-app>
 </template>
 
 <style>

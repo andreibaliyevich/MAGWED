@@ -9,8 +9,12 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: colors.red.base,
-          secondary: colors.grey.darken1
+          primary: colors.red.darken1,
+          secondary: colors.grey.lighten1,
+          success: colors.green.base,
+          info: colors.blue.base,
+          warning: colors.orange.darken1,
+          error: colors.red.darken4
         }
       }
     }
