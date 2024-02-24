@@ -22,6 +22,13 @@
         "ru": "Russian",
         "uk": "Ukrainian"
     },
+    "currencies": {
+        "USD": "USD United States dollar",
+        "EUR": "EUR Euro",
+        "RUB": "RUB Russian ruble",
+        "BYN": "BYN Belarusian ruble",
+        "UAH": "UAH Ukrainian hryvnia"
+    },
     "roles": {
         "1": "Photographer",
         "2": "Videographer",
@@ -73,7 +80,8 @@
         "search1": "Search",
         "search2": "Search...",
         "searching": "Searching...",
-        "enter_your_request": "Enter your request",
+        "results_will_here": "Your search results will appear here",
+        "no_more_results": "No more results!",
         "no_results_found": "No results found"
     },
     "footer": {
@@ -315,6 +323,7 @@
         "notifications": "Notifications",
         "clear_all": "Clear all",
         "no_notifications": "No notifications!",
+        "no_more_notifications": "No more notifications!",
         "follow": "{user_name} starded following you.",
         "article": "{user_name} has posted new article.",
         "album": "{user_name} has created new album “{album_title}”.",

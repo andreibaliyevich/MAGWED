@@ -22,6 +22,13 @@
         "ru": "Руская",
         "uk": "Украінская"
     },
+    "currencies": {
+        "USD": "USD Долар ЗША",
+        "EUR": "EUR Еўра",
+        "RUB": "RUB Расійскі рубель",
+        "BYN": "BYN Беларускі рубель",
+        "UAH": "UAH Украінская грыўня"
+    },
     "roles": {
         "1": "Фатограф",
         "2": "Відэааператар",
@@ -73,7 +80,8 @@
         "search1": "Пошук",
         "search2": "Пошук...",
         "searching": "Ідзе пошук...",
-        "enter_your_request": "Увядзіце ваш запыт",
+        "results_will_here": "Вынікі пошуку з'явяцца тут",
+        "no_more_results": "Вынікаў больш няма!",
         "no_results_found": "Вынікаў не знойдзена"
     },
     "footer": {
@@ -315,6 +323,7 @@
         "notifications": "Апавяшчэнні",
         "clear_all": "Ачысціць усё",
         "no_notifications": "Апавяшчэнняў няма!",
+        "no_more_notifications": "Няма больш апавяшчэнняў!",
         "follow": "{user_name} падпісаўся на вас.",
         "article": "{user_name} апублікаваў новы артыкул.",
         "album": "{user_name} стварыў новы альбом “{album_title}”.",
