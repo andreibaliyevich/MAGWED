@@ -60,80 +60,76 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="feedback-view">
-    <div class="container my-5">
-      <h1 class="display-6 text-center mb-5">
-        {{ $t('feedback.feedback') }}
-      </h1>
+  <v-container class="my-5">
+    <h1 class="text-h3 text-center mb-5">
+      {{ $t('feedback.feedback') }}
+    </h1>
 
-      <div class="row justify-content-center align-items-center">
-        <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-          <p class="lead fs-6">
-            {{ $t('feedback.message1') }}
-          </p>
+    <v-row
+      align="center"
+      justify="center"
+    >
+      <v-col
+        xs="12"
+        sm="10"
+        md="8"
+        lg="6"
+        xl="5"
+        xxl="4"
+      >
+        <p class="text-subtitle-1 mb-5">
+          {{ $t('feedback.message1') }}
+        </p>
 
-          <div
-            v-if="status === 201"
-            class="alert alert-success alert-dismissible fade show"
-            role="alert"
+        <v-alert
+          v-if="status === 201"
+          type="success"
+          variant="tonal"
+          closable
+        >
+          {{ $t('feedback.status201') }}
+        </v-alert>
+
+        <v-form
+          @submit.prevent="sendFeedback()"
+          class="mt-5"
+        >
+          <v-select
+            v-model="subject"
+            :items="subjectOptions"
+            item-title="text"
+            item-value="value"
+            :readonly="loadingStatus"
+            variant="filled"
+            :label="$t('feedback.subject')"
+            :error-messages="errors?.subject ? errors.subject : []"
+          ></v-select>
+          <v-text-field
+            v-model="email"
+            :readonly="loadingStatus"
+            variant="filled"
+            type="email"
+            :label="$t('feedback.email')"
+            :error-messages="errors?.email ? errors.email : []"
+          ></v-text-field>
+          <v-textarea
+            v-model="comment"
+            :label="$t('feedback.comment')"
+            :error-messages="errors?.comment ? errors.comment : []"
+          ></v-textarea>
+          <v-btn
+            :loading="loadingStatus"
+            type="submit"
+            variant="flat"
+            color="primary"
+            size="x-large"
+            block
+            class="mt-2"
           >
-            <i class="fa-solid fa-circle-check"></i>
-            <span class="lead fs-6 ms-2">
-              {{ $t('feedback.status201') }}
-            </span>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            ></button>
-          </div>
-
-          <form @submit.prevent="sendFeedback()">
-            <div class="row g-3 mb-3">
-              <div class="col-md-12">
-                <BaseSelect
-                  v-model="subject"
-                  :options="subjectOptions"
-                  id="id_subject"
-                  name="subject"
-                  :label="$t('feedback.subject')"
-                  :errors="errors?.subject ? errors.subject : []"
-                />
-              </div>
-              <div class="col-md-12">
-                <BaseInput
-                  v-model="email"
-                  type="email"
-                  maxlength="254"
-                  id="id_email"
-                  name="email"
-                  :label="$t('feedback.email')"
-                  :errors="errors?.email ? errors.email : []"
-                />
-              </div>
-              <div class="col-md-12">
-                <BaseTextarea
-                  v-model="comment"
-                  id="id_comment"
-                  name="comment"
-                  :label="$t('feedback.comment')"
-                  :errors="errors?.comment ? errors.comment : []"
-                />
-              </div>
-            </div>
-            <SubmitButton
-              :loadingStatus="loadingStatus"
-              buttonClass="btn btn-brand btn-lg w-100"
-            >
-              {{ $t('btn.send') }}
-            </SubmitButton>
-          </form>
-          <div class="small text-muted mt-2">
-            {{ $t('feedback.message2') }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            {{ $t('btn.send') }}
+          </v-btn>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
