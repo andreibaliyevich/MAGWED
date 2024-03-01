@@ -1,21 +1,34 @@
 <template>
-  <div class="base-auth-view">
-    <div class="container-fluid">
-      <section class="row justify-content-center align-items-center py-5">
-        <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 bg-light border rounded-4 p-4 p-md-5">
+  <v-container
+    fluid
+    style="
+      background-image: url('/bg.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      min-height: 85vh;
+    "
+  >
+    <v-row
+      align="center"
+      justify="center"
+      style="min-height: 85vh;"
+    >
+      <v-col
+        xs="12"
+        sm="8"
+        md="6"
+        lg="4"
+      >
+        <v-sheet
+          :elevation="3"
+          color="white"
+          rounded="lg"
+          class="py-10"
+        >
           <router-view></router-view>
-        </div>
-      </section>
-    </div>
-  </div>
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
-<style scoped>
-section {
-  background-image: url('/bg.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 85vh;
-}
-</style>

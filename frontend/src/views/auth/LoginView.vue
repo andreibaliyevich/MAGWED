@@ -36,77 +36,71 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="login-view">
-    <h1 class="display-6 text-center mb-4">{{ $t('auth.login.login') }}</h1>
+  <div class="mx-10">
+    <h1 class="text-h4 text-md-h3 text-center mb-4">
+      {{ $t('auth.login.login') }}
+    </h1>
+
     <div v-if="errors && errors.non_field_errors">
-      <div
-        class="alert alert-danger d-flex align-items-center alert-dismissible fade show"
-        role="alert"
+      <v-alert
+        type="error"
+        variant="tonal"
       >
-        <i class="fa-solid fa-circle-exclamation"></i>
         <div
           v-for="error in errors.non_field_errors"
           class="ms-3"
         >
           {{ error }}
         </div>
-        <button
-          @click="errors = null"
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
+      </v-alert>
     </div>
-    <form @submit.prevent="login()">
-      <p class="fs-6 text-muted">
-        {{ $t('auth.login.have_account') }}
-        <router-link
-          :to="{ name: 'Registration' }"
-          class="link-primary text-decoration-none"
-        >
-          {{ $t('auth.register') }}
-        </router-link>
-      </p>
-      <div class="row g-3 mb-3">
-        <div class="col-md-12">
-          <BaseInput
-            v-model="username"
-            type="text"
-            id="id_username"
-            name="username"
-            :label="$t('auth.login.username_email')"
-            :errors="errors?.username ? errors.username : []"
-          />
-        </div>
-        <div class="col-md-12">
-          <BaseInput
-            v-model="password"
-            type="password"
-            id="id_password"
-            name="password"
-            :label="$t('auth.password.password')"
-            :errors="errors?.password ? errors.password : []"
-          />
-        </div>
-      </div>
-      <SubmitButton
-        :loadingStatus="loadingStatus"
-        buttonClass="btn btn-brand btn-lg w-100"
+
+    <p class="text-grey-darken-2 mb-5">
+      {{ $t('auth.login.have_account') }}
+      <router-link
+        :to="{ name: 'Registration' }"
+        class="text-decoration-none"
+      >
+        {{ $t('auth.register') }}
+      </router-link>
+    </p>
+    <v-form @submit.prevent="login()">
+      <v-text-field
+        v-model="username"
+        :readonly="loadingStatus"
+        variant="filled"
+        type="text"
+        :label="$t('auth.login.username_email')"
+        :error-messages="errors?.username ? errors.username : []"
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        :readonly="loadingStatus"
+        variant="filled"
+        type="password"
+        :label="$t('auth.password.password')"
+        :error-messages="errors?.password ? errors.password : []"
+      ></v-text-field>
+      <v-btn
+        :loading="loadingStatus"
+        type="submit"
+        variant="flat"
+        color="primary"
+        size="x-large"
+        block
       >
         {{ $t('auth.log_in') }}
-      </SubmitButton>
-      <hr class="my-4">
-      <div class="fs-6 text-muted">
-        {{ $t('auth.login.forgot_your_password') }}
-        <router-link
-          :to="{ name: 'PasswordReset' }"
-          class="link-primary text-decoration-none"
-        >
-          {{ $t('auth.password.reset_password') }}
-        </router-link>
-      </div>
-    </form>
+      </v-btn>
+    </v-form>
+    <v-divider class="my-5"></v-divider>
+    <p class="text-grey-darken-2">
+      {{ $t('auth.login.forgot_your_password') }}
+      <router-link
+        :to="{ name: 'PasswordReset' }"
+        class="text-decoration-none"
+      >
+        {{ $t('auth.password.reset_password') }}
+      </router-link>
+    </p>
   </div>
 </template>

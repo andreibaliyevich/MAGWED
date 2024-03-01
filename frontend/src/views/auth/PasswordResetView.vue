@@ -30,57 +30,73 @@ const resetPassword = async () => {
 </script>
 
 <template>
-  <div class="password-reset-view">
-    <h1 class="display-6 text-center">
+  <div class="mx-10">
+    <h1 class="text-h4 text-md-h3 text-center mb-4">
       {{ $t('auth.passwordreset.password_reset') }}
     </h1>
-    <div
+
+    <v-alert
       v-if="status === 204"
-      class="mt-4"
+      type="success"
+      variant="tonal"
+      :title="$t('auth.passwordreset.success1')"
     >
-      <p class="lead fs-3 text-muted">
-        {{ $t('auth.passwordreset.success1') }}
-      </p>
-      <p class="lead fs-5">
+      <p class="text-body-1 text-grey-darken-1">
         {{ $t('auth.passwordreset.success2') }}<br>
         {{ $t('auth.passwordreset.success3') }}
       </p>
-    </div>
-    <form
-      v-else
-      @submit.prevent="resetPassword()"
-    >
-      <p class="fs-6">{{ $t('auth.passwordreset.help') }}</p>
-      <ul class="fs-6">
-        <li>{{ $t('auth.passwordreset.step1') }}</li>
-        <li>{{ $t('auth.passwordreset.step2') }}</li>
-        <li>{{ $t('auth.passwordreset.step3') }}</li>
-      </ul>
-      <BaseInput
-        v-model="email"
-        type="email"
-        maxlength="254"
-        id="id_email"
-        name="email"
-        :label="$t('auth.passwordreset.email')"
-        :errors="errors?.email ? errors.email : []"
-      />
-      <SubmitButton
-        :loadingStatus="loadingStatus"
-        buttonClass="btn btn-brand btn-lg w-100 mt-3"
-      >
-        {{ $t('auth.password.reset_password') }}
-      </SubmitButton>
-      <hr class="my-4">
-      <div class="fs-6 text-center">
-        <router-link
-          :to="{ name: 'Login' }"
-          class="link-primary text-decoration-none"
+    </v-alert>
+
+    <div v-else>
+      <p class="text-body-1 text-grey-darken-1 mb-5">
+        {{ $t('auth.passwordreset.help') }}
+      </p>
+      <p class="text-body-1 text-grey-darken-1">
+        {{ $t('auth.passwordreset.help') }}
+      </p>
+      <v-list class="text-body-1 text-grey-darken-1">
+        <v-list-item>
+          1. {{ $t('auth.passwordreset.step1') }}
+        </v-list-item>
+        <v-list-item>
+          2. {{ $t('auth.passwordreset.step2') }}
+        </v-list-item>
+        <v-list-item>
+          3. {{ $t('auth.passwordreset.step3') }}
+        </v-list-item>
+      </v-list>
+
+      <v-form @submit.prevent="resetPassword()">
+        <v-text-field
+          v-model="email"
+          :readonly="loadingStatus"
+          variant="filled"
+          type="email"
+          maxlength="254"
+          :label="$t('auth.passwordreset.email')"
+          :error-messages="errors?.email ? errors.email : []"
+        ></v-text-field>
+        <v-btn
+          :loading="loadingStatus"
+          type="submit"
+          variant="flat"
+          color="primary"
+          size="x-large"
+          block
         >
-          <i class="fa-solid fa-angle-left"></i>
-          {{ $t('auth.passwordreset.back_to_login') }}
-        </router-link>
-      </div>
-    </form>
+          {{ $t('auth.password.reset_password') }}
+        </v-btn>
+      </v-form>
+
+      <v-divider class="my-5"></v-divider>
+      <v-btn
+        :to="{ name: 'Login' }"
+        variant="text"
+        prepend-icon="mdi-chevron-left"
+        class="text-none"
+      >
+        {{ $t('auth.passwordreset.back_to_login') }}
+      </v-btn>
+    </div>
   </div>
 </template>
