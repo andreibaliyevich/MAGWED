@@ -3,7 +3,7 @@ export default {
   name: 'AvatarExtended',
   inheritAttrs: false,
   props: {
-    src: String,
+    image: String,
     size: {
       type: Number,
       required: true
@@ -27,18 +27,10 @@ export default {
 <template>
   <div class="avatar-extended">
     <v-avatar
+      :image="image ? image : '/user-avatar.png'"
       :size="size"
       v-bind="$attrs"
-    >
-      <v-img
-        v-if="src"
-        :src="src"
-      ></v-img>
-      <v-img
-        v-else
-        src="/user-avatar.png"
-      ></v-img>
-    </v-avatar>
+    ></v-avatar>
     <span
       :class="[
         'status-indicator',

@@ -3,9 +3,9 @@ export default {
   name: 'FileInputButton',
   inheritAttrs: false,
   props: {
-    buttonClass: {
+    accept: {
       type: String,
-      default: 'btn'
+      default: ''
     }
   },
   methods: {
@@ -24,15 +24,27 @@ export default {
       ref="fileInput"
       @change="changeInput"
       type="file"
-      v-bind="$attrs"
+      :accept="accept"
       class="visually-hidden"
     >
-    <button
+    <v-btn
       @click="$refs.fileInput.click()"
-      type="button"
-      :class="buttonClass"
+      v-bind="$attrs"
     >
       <slot></slot>
-    </button>
+    </v-btn>
   </div>
 </template>
+
+<style scoped>
+.visually-hidden {
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+</style>
