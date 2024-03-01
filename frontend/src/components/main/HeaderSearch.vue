@@ -3,7 +3,6 @@ import axios from 'axios'
 import { ref, watch } from 'vue'
 import { useCurrencyStore } from '@/stores/currency.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-import AvatarExtended from '@/components/AvatarExtended.vue'
 
 const currencyStore = useCurrencyStore()
 
@@ -90,9 +89,9 @@ watch(searchType, () => {
     width="600"
     class="mt-12"
   >
-    <template v-slot:activator="{ props }">
+    <template v-slot:activator="{ props: activatorProps }">
       <v-btn
-        v-bind="props"
+        v-bind="activatorProps"
         icon="mdi-magnify"
       ></v-btn>
     </template>
@@ -160,7 +159,7 @@ watch(searchType, () => {
                     class="text-grey-darken-1 text-decoration-none"
                   >
                     <AvatarExtended
-                      :src="organizer.user.avatar"
+                      :image="organizer.user.avatar"
                       :size="64"
                       :online="organizer.user.status === 'online' ? true : false"
                     />

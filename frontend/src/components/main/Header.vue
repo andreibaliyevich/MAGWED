@@ -6,16 +6,17 @@ import HeaderNotifications from './HeaderNotifications.vue'
 import HeaderUser from './HeaderUser.vue'
 
 const userStore = useUserStore()
-const drawer = ref(false)
+const navDrawer = ref(false)
 </script>
 
 <template>
   <v-app-bar
+    height="64"
     scroll-behavior="elevate"
     style="border-bottom: 1px solid #E0E0E0;"
   >
     <v-app-bar-nav-icon
-      @click.stop="drawer = !drawer"
+      @click.stop="navDrawer = !navDrawer"
       variant="text"
       class="d-block d-md-none"
     ></v-app-bar-nav-icon>
@@ -202,7 +203,7 @@ const drawer = ref(false)
   </v-app-bar>
 
   <v-navigation-drawer
-    v-model="drawer"
+    v-model="navDrawer"
     location="start"
     temporary
   >
