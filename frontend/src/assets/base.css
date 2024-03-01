@@ -13,7 +13,7 @@
 }
 
 main {
-  min-height: 75vh;
+  min-height: 50vh;
 }
 
 .link-facebook:hover {
@@ -67,4 +67,11 @@ main {
 }
 .bg-website {
   background-color: #6c757d !important;
+}
+
+.mw-100 {
+  max-width: 100% !important;
+}
+.max-vh-75 {
+  max-height: 75vh !important;
 }
