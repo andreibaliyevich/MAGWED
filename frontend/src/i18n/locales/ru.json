@@ -224,7 +224,7 @@
         "remove_avatar": "Удалить аватар",
         "you_want_remove_avatar": "Вы уверены, что хотите удалить свой текущий аватар?",
         "avatar_will_be_set_default": "Ваш аватар будет установлен по умолчанию.",
-        "uploading_cover": "Загрузка обложки...",
+        "loading_cover": "Загрузка обложки...",
         "update_cover": "Обновить обложку",
         "updating_cover": "Обновление обложки",
         "remove_cover": "Удалить обложку",

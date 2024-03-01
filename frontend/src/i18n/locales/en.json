@@ -224,7 +224,7 @@
         "remove_avatar": "Remove avatar",
         "you_want_remove_avatar": "Are you sure you want to delete your current avatar?",
         "avatar_will_be_set_default": "Your avatar will be set by default.",
-        "uploading_cover": "Uploading cover...",
+        "loading_cover": "Loading cover...",
         "update_cover": "Update cover",
         "updating_cover": "Updating cover",
         "remove_cover": "Remove cover",
