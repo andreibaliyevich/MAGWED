@@ -90,33 +90,33 @@ onMounted(() => {
         <v-text-field
           v-model="username"
           :readonly="loadingStatus"
-          variant="filled"
           type="text"
+          variant="filled"
           :label="$t('auth.registration.username')"
           :error-messages="errors?.username ? errors.username : []"
         ></v-text-field>
         <v-text-field
           v-model="email"
           :readonly="loadingStatus"
-          variant="filled"
           type="email"
           maxlength="254"
+          variant="filled"
           :label="$t('auth.registration.email')"
           :error-messages="errors?.email ? errors.email : []"
         ></v-text-field>
         <v-text-field
           v-model="password"
           :readonly="loadingStatus"
-          variant="filled"
           type="password"
+          variant="filled"
           :label="$t('auth.password.password')"
           :error-messages="errors?.password ? errors.password : []"
         ></v-text-field>
         <v-text-field
           v-model="password2"
           :readonly="loadingStatus"
-          variant="filled"
           type="password"
+          variant="filled"
           :label="$t('auth.registration.password2')"
           :error-messages="errors?.password2 ? errors.password2 : []"
         ></v-text-field>
@@ -133,8 +133,8 @@ onMounted(() => {
         <v-text-field
           v-model="name"
           :readonly="loadingStatus"
-          variant="filled"
           type="text"
+          variant="filled"
           :label="$t('auth.registration.name')"
           :error-messages="errors?.name ? errors.name : []"
         ></v-text-field>

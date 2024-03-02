@@ -68,16 +68,16 @@ const login = async () => {
       <v-text-field
         v-model="username"
         :readonly="loadingStatus"
-        variant="filled"
         type="text"
+        variant="filled"
         :label="$t('auth.login.username_email')"
         :error-messages="errors?.username ? errors.username : []"
       ></v-text-field>
       <v-text-field
         v-model="password"
         :readonly="loadingStatus"
-        variant="filled"
         type="password"
+        variant="filled"
         :label="$t('auth.password.password')"
         :error-messages="errors?.password ? errors.password : []"
       ></v-text-field>

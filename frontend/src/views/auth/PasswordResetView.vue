@@ -70,9 +70,9 @@ const resetPassword = async () => {
         <v-text-field
           v-model="email"
           :readonly="loadingStatus"
-          variant="filled"
           type="email"
           maxlength="254"
+          variant="filled"
           :label="$t('auth.passwordreset.email')"
           :error-messages="errors?.email ? errors.email : []"
         ></v-text-field>
