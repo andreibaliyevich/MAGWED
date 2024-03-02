@@ -86,7 +86,7 @@ watch(searchType, () => {
 <template>
   <v-dialog
     @update:modelValue="openCloseDialog"
-    width="600"
+    :width="600"
     class="mt-12"
   >
     <template v-slot:activator="{ props: activatorProps }">
@@ -204,8 +204,8 @@ watch(searchType, () => {
               <v-card variant="elevated">
                 <v-row class="me-3">
                   <v-col
-                    cols="12"
-                    sm="4"
+                    :cols="12"
+                    :sm="4"
                   >
                     <router-link
                       :to="{
@@ -219,14 +219,14 @@ watch(searchType, () => {
                     >
                       <v-img
                         :src="photo.thumbnail"
-                        :aspect-ratio="1"
+                        aspect-ratio="1/1"
                         cover
                       ></v-img>
                     </router-link>
                   </v-col>
                   <v-col
-                    cols="12"
-                    sm="8"
+                    :cols="12"
+                    :sm="8"
                     class="my-3"
                   >
                     <div class="d-flex flex-column h-100">
@@ -320,8 +320,8 @@ watch(searchType, () => {
               <v-card variant="elevated">
                 <v-row class="me-3">
                   <v-col
-                    cols="12"
-                    sm="4"
+                    :cols="12"
+                    :sm="4"
                   >
                     <router-link
                       :to="{
@@ -341,8 +341,8 @@ watch(searchType, () => {
                     </router-link>
                   </v-col>
                   <v-col
-                    cols="12"
-                    sm="8"
+                    :cols="12"
+                    :sm="8"
                     class="my-3"
                   >
                     <div class="d-flex flex-column h-100">
@@ -447,7 +447,7 @@ watch(searchType, () => {
                 >
                   <v-img
                     :src="article.thumbnail"
-                    height="200"
+                    :height="200"
                     cover
                     class="align-end text-white"
                   >
@@ -492,7 +492,7 @@ watch(searchType, () => {
           <v-icon
             icon="mdi-feature-search-outline"
             color="secondary"
-            size="150"
+            :size="150"
           ></v-icon>
           <p class="mt-8">{{ $t('search.no_results_found') }}</p>
         </div>
@@ -503,7 +503,7 @@ watch(searchType, () => {
           <v-icon
             icon="mdi-text-box-search-outline"
             color="secondary"
-            size="150"
+            :size="150"
           ></v-icon>
           <p class="mt-8">{{ $t('search.results_will_here') }}</p>
         </div>

@@ -18,11 +18,11 @@ const errors = ref(null)
 
 const setSubjectOptions = () => {
   subjectOptions.value = [
-    { value: 1, text: t('feedback.subject_options.1') },
-    { value: 2, text: t('feedback.subject_options.2') },
-    { value: 3, text: t('feedback.subject_options.3') },
-    { value: 4, text: t('feedback.subject_options.4') },
-    { value: 5, text: t('feedback.subject_options.5') }
+    { value: 1, title: t('feedback.subject_options.1') },
+    { value: 2, title: t('feedback.subject_options.2') },
+    { value: 3, title: t('feedback.subject_options.3') },
+    { value: 4, title: t('feedback.subject_options.4') },
+    { value: 5, title: t('feedback.subject_options.5') }
   ]
 }
 
@@ -97,7 +97,7 @@ onMounted(() => {
           <v-select
             v-model="subject"
             :items="subjectOptions"
-            item-title="text"
+            item-title="title"
             item-value="value"
             :readonly="loadingStatus"
             variant="filled"

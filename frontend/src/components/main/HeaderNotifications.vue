@@ -149,7 +149,7 @@ onMounted(() => {
       </v-btn>
     </template>
     <v-sheet
-      width="350"
+      :width="350"
       class="px-1 py-1"
     >
       <div class="d-flex justify-space-between align-center px-3 pt-2">
@@ -169,7 +169,7 @@ onMounted(() => {
         v-if="notificationList.length > 0"
         mode="intersect"
         @load="getMoreNotificationList"
-        max-height="550"
+        :max-height="550"
       >
         <template
           v-for="(notice, index) in notificationList"

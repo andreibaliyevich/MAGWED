@@ -8,9 +8,9 @@ export function useOptionsOfCountries() {
 
   const setCountryOptions = () => {
     countryOptions.value = [
-      { value: 'BY', text: t('countries.BY') },
-      { value: 'RU', text: t('countries.RU') },
-      { value: 'UA', text: t('countries.UA') }
+      { value: 'BY', title: t('countries.BY') },
+      { value: 'RU', title: t('countries.RU') },
+      { value: 'UA', title: t('countries.UA') }
     ]
   }
 

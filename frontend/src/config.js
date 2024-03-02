@@ -2,10 +2,10 @@ export const API_URL = 'http://localhost:8000'
 export const WS_URL = 'ws://localhost:8000'
 
 export const LANGUAGES = [
-  { value: 'en', text: 'English' },
-  { value: 'ru', text: 'Русский' },
-  { value: 'be', text: 'Беларуская' },
-  { value: 'uk', text: 'Українська' }
+  { value: 'en', title: 'English' },
+  { value: 'ru', title: 'Русский' },
+  { value: 'be', title: 'Беларуская' },
+  { value: 'uk', title: 'Українська' }
 ]
 
 export const CURRENCIES = [

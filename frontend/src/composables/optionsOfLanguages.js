@@ -8,14 +8,14 @@ export function useOptionsOfLanguages() {
 
   const setLanguageOptions = () => {
     languageOptions.value = [
-      { value: 'be', text: t('languages.be') },
-      { value: 'en', text: t('languages.en') },
-      { value: 'fr', text: t('languages.fr') },
-      { value: 'de', text: t('languages.de') },
-      { value: 'pl', text: t('languages.pl') },
-      { value: 'pt', text: t('languages.pt') },
-      { value: 'ru', text: t('languages.ru') },
-      { value: 'uk', text: t('languages.uk') }
+      { value: 'be', title: t('languages.be') },
+      { value: 'en', title: t('languages.en') },
+      { value: 'fr', title: t('languages.fr') },
+      { value: 'de', title: t('languages.de') },
+      { value: 'pl', title: t('languages.pl') },
+      { value: 'pt', title: t('languages.pt') },
+      { value: 'ru', title: t('languages.ru') },
+      { value: 'uk', title: t('languages.uk') }
     ]
   }
 

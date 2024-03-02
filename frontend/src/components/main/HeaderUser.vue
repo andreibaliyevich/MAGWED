@@ -14,7 +14,7 @@ const { logout } = useLogout()
         v-bind="props"
         icon
       >
-        <v-avatar size="32">
+        <v-avatar :size="32">
           <v-img
             v-if="userStore.avatar"
             :src="userStore.avatar"
@@ -24,19 +24,19 @@ const { logout } = useLogout()
             v-else
             icon="mdi-account-circle"
             role="img"
-            size="32"
+            :size="32"
           ></v-icon>
         </v-avatar>
       </v-btn>
     </template>
     <v-sheet
-      min-width="210"
-      max-width="290"
+      :min-width="210"
+      :max-width="290"
     >
       <v-list class="pb-0">
         <v-list-item>
           <template v-slot:prepend>
-            <v-avatar size="48">
+            <v-avatar :size="48">
               <v-img
                 v-if="userStore.avatar"
                 :src="userStore.avatar"
@@ -46,7 +46,7 @@ const { logout } = useLogout()
                 v-else
                 icon="mdi-account-circle"
                 role="img"
-                size="48"
+                :size="48"
               ></v-icon>
             </v-avatar>
           </template>

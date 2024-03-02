@@ -5,16 +5,15 @@ import { ref, computed, watch } from 'vue'
 export function useOptionsOfCities(country) {
   const { t, locale } = useI18n({ useScope: 'global' })
   const cityValues = ref([])
-  const cityOptions = ref([])
 
-  const setCityOptions = () => {
-    cityOptions.value = cityValues.value.map((element) => {
+  const cityOptions = computed(() => {
+    return cityValues.value.map((element) => {
       return {
         value: element.code,
-        text: t(`cities.${element.code}`)
+        title: t(`cities.${element.code}`)
       }
     })
-  }
+  })
 
   const getAndSetCityOptions = async (countryValue) => {
     try {
@@ -24,7 +23,6 @@ export function useOptionsOfCities(country) {
         }
       })
       cityValues.value = response.data
-      setCityOptions()
     } catch (error) {
       console.error(error)
     }
@@ -36,10 +34,6 @@ export function useOptionsOfCities(country) {
     } else {
       cityValues.value = []
     }
-  })
-
-  watch(locale, () => {
-    setCityOptions()
   })
 
   return { cityOptions }

@@ -18,7 +18,7 @@ const currencyOptions = computed(() => {
   return Array.from(CURRENCIES, (element) => {
     return {
       value: element.value,
-      text: t(`currencies.${element.value}`)
+      title: t(`currencies.${element.value}`)
     }
   })
 })
@@ -56,8 +56,8 @@ onMounted(() => {
     <v-container class="pt-10">
       <v-row class="pb-5">
         <v-col
-          cols="12"
-          sm="3"
+          :cols="12"
+          :sm="3"
         >
           <div
             v-if="magazineDataLoading"
@@ -78,8 +78,8 @@ onMounted(() => {
           </a>
         </v-col>
         <v-col
-          cols="12"
-          sm="3"
+          :cols="12"
+          :sm="3"
         >
           <ul class="d-flex flex-column">
             <li>
@@ -140,8 +140,8 @@ onMounted(() => {
           </ul>
         </v-col>
         <v-col
-          cols="12"
-          sm="3"
+          :cols="12"
+          :sm="3"
         >
           <ul class="d-flex flex-column">
             <li>
@@ -202,8 +202,8 @@ onMounted(() => {
           </ul>
         </v-col>
         <v-col
-          cols="12"
-          sm="3"
+          :cols="12"
+          :sm="3"
         >
           <ul class="d-flex flex-column">
             <li>
@@ -211,7 +211,7 @@ onMounted(() => {
                 :model-value="$i18n.locale"
                 @update:modelValue="changeLocale"
                 :items="LANGUAGES"
-                item-title="text"
+                item-title="title"
                 item-value="value"
                 variant="outlined"
                 density="comfortable"
@@ -222,7 +222,7 @@ onMounted(() => {
                 :model-value="currencyStore.currencyValue"
                 @update:modelValue="changeCurrency"
                 :items="currencyOptions"
-                item-title="text"
+                item-title="title"
                 item-value="value"
                 variant="outlined"
                 density="comfortable"
@@ -234,8 +234,8 @@ onMounted(() => {
       <v-divider></v-divider>
       <v-row class="d-flex flex-md-row-reverse pt-5">
         <v-col
-          cols="12"
-          sm="6"
+          :cols="12"
+          :sm="6"
           class="d-flex justify-center justify-md-end"
         >
           <a
@@ -320,8 +320,8 @@ onMounted(() => {
           </a>
         </v-col>
         <v-col
-          cols="12"
-          sm="6"
+          :cols="12"
+          :sm="6"
           class="d-flex justify-center justify-md-start text-secondary"
         >
           Copyright © 2022—{{ new Date().getFullYear() }} MAGWED
