@@ -428,7 +428,6 @@
         "close": "Close"
     },
     "form_help": {
-        "select_option": "Please select",
         "no_options_available": "No options available",
         "input_img": "Upload JPG or PNG image. Required minimum of size {width} x {height}.",
         "list_input": "Hold down 'Ctrl' key and press 'Enter' to add typed text to list.",
