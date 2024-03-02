@@ -2,37 +2,34 @@
 import axios from 'axios'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-import { useI18n } from 'vue-i18n'
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 
-const { t } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 
-const avatarLoading = ref(false)
-
-const avatarCropperModal = ref(null)
-const avatarCropperModalBootstrap = ref(null)
-
+const avatarProcessing = ref(false)
+const avatarReady = ref(false)
+const avatarUpdateDialog = ref(false)
+const avatarRemoveDialog = ref(false)
 const avatarImg = ref(null)
 const avatarCropper = ref(null)
-const avatarCropperReady = ref(false)
 
 const status = ref(null)
 const errors = ref(null)
 
 const loadAvatarImg = async (filelist) => {
+  avatarUpdateDialog.value = true
   const reader = new FileReader()
   reader.readAsDataURL(filelist[0])
   reader.onload = () => {
     avatarImg.value.src = reader.result
     avatarImg.value.alt = filelist[0].name
-    avatarCropperModalBootstrap.value.show()
+    avatarReady.value = true
   }
 }
 
 const updateAvatar = async () => {
-  avatarLoading.value = true
+  avatarProcessing.value = true
 
   const croppedCanvas = avatarCropper.value.getCroppedCanvas({
     width: 500,
@@ -65,13 +62,13 @@ const updateAvatar = async () => {
     status.value = null
     errors.value = error.response.data
   } finally {
-    avatarLoading.value = false
-    avatarCropperModalBootstrap.value.hide()
+    avatarProcessing.value = false
+    avatarUpdateDialog.value = false
   }
 }
 
 const removeAvatar = async () => {
-  avatarLoading.value = true
+  avatarProcessing.value = true
   try {
     const response = await axios.delete('/accounts/auth/avatar/')
     userStore.updateAvatar(null)
@@ -90,198 +87,167 @@ const removeAvatar = async () => {
     status.value = null
     errors.value = error.response.data
   } finally {
-    avatarLoading.value = false
+    avatarProcessing.value = false
+    avatarRemoveDialog.value = false
   }
 }
 
-onMounted(() => {
-  avatarImg.value.addEventListener('ready', () => {
-    avatarCropperReady.value = true
-  })
-  avatarCropperModal.value.addEventListener('shown.bs.modal', () => {
+watch(avatarReady, (newValue) => {
+  if (newValue) {
     avatarCropper.value = new Cropper(avatarImg.value, {
       viewMode: 1,
       dragMode: 'crop',
       aspectRatio: 1 / 1,
       zoomable: false
     })
-  })
-  avatarCropperModal.value.addEventListener('hidden.bs.modal', () => {
+  }
+})
+
+watch(avatarUpdateDialog, (newValue) => {
+  if (!newValue && avatarReady) {
     avatarCropper.value.destroy()
     avatarCropper.value = null
     avatarImg.value.src = ''
     avatarImg.value.alt = ''
-    avatarCropperReady.value = false
-  })
-  avatarCropperModalBootstrap.value = new bootstrap.Modal(
-    avatarCropperModal.value
-  )
+    avatarReady.value = false
+  }
 })
 </script>
 
 <template>
-  <div class="profile-avatar">
-    <div class="card mb-2">
-      <div class="row d-flex align-items-center">
-        <div class="col-md-3">
-          <UserAvatar
-            :src="userStore.avatar"
-            :width="128"
-            :height="128"
-            imgClass="img-fluid rounded-start"
-          />
-        </div>
-        <div class="col-md-9">
-          <div class="card-body text-center">
-            <small
-              v-if="status === 200"
-              class="text-success"
-            >
-              {{ $t('user.avatar_updated_successfully') }}
-            </small>
-            <small
-              v-else-if="status === 204"
-              class="text-success"
-            >
-              {{ $t('user.avatar_removed_successfully') }}
-            </small>
-            <div
-              v-if="errors?.avatar"
-              class="text-danger"
-            >
-              <small v-for="error in errors.avatar">
-                {{ error }}
-              </small>
-            </div>
-            <div class="d-flex justify-content-center">
-              <FileInputButton
-                @selectedFiles="loadAvatarImg"
-                buttonClass="btn btn-soft-brand m-1"
-                accept="image/*"
-              >
-                {{ $t('user.update_avatar') }}
-              </FileInputButton>
-              <button
-                v-if="userStore.avatar"
-                type="button"
-                class="btn btn-outline-dark m-1"
-                data-bs-toggle="modal"
-                data-bs-target="#remove_avatar_modal_choice"
-              >
-                {{ $t('user.remove_avatar') }}
-              </button>
-            </div>
-            <small class="text-muted">
-              {{ $t('form_help.input_img', { width: '500', height: '500' }) }}
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <Teleport to="body">
-      <div
-        ref="avatarCropperModal"
-        id="avatar_cropper_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="avatar_cropper_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+  <v-card class="my-3">
+    <v-row class="d-flex align-center">
+      <v-col
+        :cols="12"
+        :sm="3"
       >
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="avatar_cropper_modal_label"
-                class="modal-title"
-              >
-                {{ $t('user.updating_avatar') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="updateAvatar()"
-                id="avatar_modal_form"
-              >
-                <div class="d-flex justify-content-center">
-                  <img
-                    ref="avatarImg"
-                    src=""
-                    alt=""
-                    class="mw-100 max-vh-75"
-                  >
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="avatarLoading"
-                buttonClass="btn btn-brand"
-                form="avatar_modal_form"
-                :disabled="!avatarCropperReady"
-              >
-                {{ $t('btn.update') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
-      </div>
+        <v-img
+          :src="userStore.avatar ? userStore.avatar : '/user-avatar.png'"
+          aspect-ratio="1/1"
+        ></v-img>
+      </v-col>
 
-      <div
-        id="remove_avatar_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+      <v-col
+        :cols="12"
+        :sm="9"
       >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
-        >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('user.you_want_remove_avatar') }}</h5>
-              <p class="mb-0">{{ $t('user.avatar_will_be_set_default') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removeAvatar()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
+        <div class="text-center">
+          <small
+            v-if="status === 200"
+            class="text-success"
+          >
+            {{ $t('user.avatar_updated_successfully') }}
+          </small>
+          <small
+            v-else-if="status === 204"
+            class="text-success"
+          >
+            {{ $t('user.avatar_removed_successfully') }}
+          </small>
+          <div
+            v-if="errors?.avatar"
+            class="text-danger"
+          >
+            <small v-for="error in errors.avatar">
+              {{ error }}
+            </small>
           </div>
+
+          <div class="d-flex justify-space-evenly py-1">
+            <FileInputButton
+              @selectedFiles="loadAvatarImg"
+              accept="image/*"
+              variant="flat"
+              color="primary"
+              class="text-none"
+            >
+              {{ $t('user.update_avatar') }}
+            </FileInputButton>
+            <v-btn
+              @click="avatarRemoveDialog = true"
+              :disabled="!userStore.avatar"
+              variant="outlined"
+              class="text-none"
+            >
+              {{ $t('user.remove_avatar') }}
+            </v-btn>
+          </div>
+
+          <small class="text-grey-darken-1">
+            {{ $t('form_help.input_img', { width: '500', height: '500' }) }}
+          </small>
         </div>
-      </div>
-    </Teleport>
-  </div>
+      </v-col>
+    </v-row>
+
+    <v-dialog
+      v-model="avatarUpdateDialog"
+      width="auto"
+      persistent
+    >
+      <v-card>
+        <div class="d-flex justify-center align-center">
+          <v-icon
+            v-if="!avatarReady"
+            icon="mdi-account-circle"
+            role="img"
+            color="secondary"
+            :size="150"
+          ></v-icon>
+          <img
+            ref="avatarImg"
+            src=""
+            alt=""
+            class="mw-100 max-vh-75"
+          >
+        </div>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="avatarUpdateDialog = false"
+            class="text-none"
+          >
+            {{ $t('btn.cancel') }}
+          </v-btn>
+          <v-btn
+            @click="updateAvatar()"
+            :loading="avatarProcessing"
+            :disabled="!avatarReady"
+            variant="flat"
+            color="primary"
+            class="text-none"
+          >
+            {{ $t('btn.update') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="avatarRemoveDialog"
+      width="auto"
+      persistent
+    >
+      <v-card>
+        <v-card-title>
+          {{ $t('user.you_want_remove_avatar') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('user.avatar_will_be_set_default') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="avatarRemoveDialog = false">
+            {{ $t('btn.no_cancel') }}
+          </v-btn>
+          <v-btn
+            @click="removeAvatar()"
+            :loading="avatarProcessing"
+          >
+            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-card>
 </template>

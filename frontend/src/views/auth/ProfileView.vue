@@ -11,16 +11,16 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div class="profile-view">
-    <div class="px-1 px-lg-3 px-xl-5">
-      <h1 class="display-6 mb-5">{{ $t('user.profile_settings') }}</h1>
+  <div class="mx-md-10">
+    <h1 class="text-h4 text-md-h3 text-center my-5">
+      {{ $t('user.profile_settings') }}
+    </h1>
 
-      <ProfileCover v-if="userStore.userType === userType.ORGANIZER" />
-      <ProfileAvatar />
+    <ProfileCover v-if="userStore.userType === userType.ORGANIZER" />
+    <ProfileAvatar />
 
-      <AdminProfileForm v-if="userStore.userType === userType.ADMIN" />
-      <CustomerProfileForm v-else-if="userStore.userType === userType.CUSTOMER" />
-      <OrganizerProfileForm v-else-if="userStore.userType === userType.ORGANIZER" />
-    </div>
+    <AdminProfileForm v-if="userStore.userType === userType.ADMIN" />
+    <CustomerProfileForm v-else-if="userStore.userType === userType.CUSTOMER" />
+    <OrganizerProfileForm v-else-if="userStore.userType === userType.ORGANIZER" />
   </div>
 </template>

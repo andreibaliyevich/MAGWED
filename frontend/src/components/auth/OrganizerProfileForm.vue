@@ -129,161 +129,251 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="organizer-profile-form">
-    <LoadingIndicator v-if="profileLoading" />
-    <form
+  <div class="my-9">
+    <div
+      v-if="profileLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+    
+    <v-form
       v-else
       @submit.prevent="updateProfile()"
-      class="row g-3 mt-3"
     >
-      <div class="col-md-12">
-        <BaseInput
-          v-model="name"
-          type="text"
-          maxlength="255"
-          id="id_name"
-          name="name"
-          :label="$t('user.name')"
-          :errors="errors?.user?.name ? errors.user.name : []"
-        />
-      </div>
-      <div class="col-md-6">
-        <BaseSelect
-          v-model="country"
-          :options="countryOptions"
-          id="id_country"
-          name="country"
-          :label="$t('user.country')"
-          :errors="errors?.user?.country ? errors.user.country : []"
-        />
-      </div>
-      <div class="col-md-6">
-        <BaseSelect
-          v-model="city"
-          :options="cityOptions"
-          id="id_city"
-          name="city"
-          :label="$t('user.city')"
-          :errors="errors?.user?.city ? errors.user.city : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <BaseInput
-          v-model="phone"
-          type="tel"
-          maxlength="21"
-          id="id_phone"
-          name="phone"
-          :label="$t('user.phone')"
-          :errors="errors?.user?.phone ? errors.user.phone : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <SearchListInputMultipleSelect
-          v-model="roles"
-          :options="roleTypeOptions"
-          id="id_roles"
-          name="roles"
-          :label="$t('user.roles')"
-          :errors="errors?.roles ? errors.roles : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <BaseTextarea
-          v-model="description"
-          id="id_description"
-          name="description"
-          :label="$t('user.description')"
-          :errors="errors?.description ? errors.description : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <SearchListInputMultipleSelect
-          v-model="countries"
-          :options="countryOptions"
-          id="id_countries"
-          name="countries"
-          :label="$t('user.countries')"
-          :errors="errors?.countries ? errors.countries : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <SearchListInputMultipleSelect
-          v-model="cities"
-          :options="cityOptionsExtra"
-          id="id_cities"
-          name="cities"
-          :label="$t('user.cities')"
-          :errors="errors?.cities ? errors.cities : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <SearchListInputMultipleSelect
-          v-model="languages"
-          :options="languageOptions"
-          id="id_languages"
-          name="languages"
-          :label="$t('user.languages')"
-          :errors="errors?.languages ? errors.languages : []"
-        />
-      </div>
-      <div class="col-md-6">
-        <BaseInput
-          v-model="costWork"
-          type="number"
-          min="0.00"
-          step="0.01"
-          required=""
-          id="id_cost_work"
-          name="cost_work"
-          :label="$t('user.cost_work')"
-          :errors="errors?.cost_work ? errors.cost_work : []"
-        />
-        <div class="form-text">{{ $t('form_help.cost_work') }}</div>
-      </div>
-      <div class="col-md-6">
-        <BaseInput
-          v-model="numberHours"
-          type="number"
-          min="0"
-          required=""
-          id="id_number_hours"
-          name="number_hours"
-          :label="$t('user.number_hours')"
-          :errors="errors?.number_hours ? errors.number_hours : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <BaseInput
-          v-model="website"
-          type="url"
-          maxlength="200"
-          id="id_website"
-          name="website"
-          :label="$t('user.website')"
-          :errors="errors?.website ? errors.website : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <BaseInput
-          v-model="profileURL"
-          type="text"
-          maxlength="64"
-          required=""
-          id="id_profile_url"
-          name="profile_url"
-          :label="$t('user.profile_url')"
-          :errors="errors?.profile_url ? errors.profile_url : []"
-        />
-      </div>
-      <div class="col-12">
-        <SubmitButton
-          :loadingStatus="profileUpdating"
-          buttonClass="btn btn-brand btn-lg"
+      <v-row>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="pb-0"
         >
-          {{ $t('user.update_profile') }}
-        </SubmitButton>
-      </div>
-    </form>
+          <v-text-field
+            v-model="name"
+            :readonly="profileUpdating"
+            type="text"
+            maxlength="255"
+            variant="filled"
+            :label="$t('user.name')"
+            :error-messages="errors?.user?.name ? errors.user.name : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="6"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="country"
+            :items="countryOptions"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            clearable
+            variant="filled"
+            :label="$t('user.country')"
+            :error-messages="errors?.user?.country ? errors.user.country : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="6"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="city"
+            :items="cityOptions"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            clearable
+            variant="filled"
+            :label="$t('user.city')"
+            :error-messages="errors?.user?.city ? errors.user.city : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-text-field
+            v-model="phone"
+            :readonly="profileUpdating"
+            type="tel"
+            maxlength="21"
+            variant="filled"
+            :label="$t('user.phone')"
+            :error-messages="errors?.user?.phone ? errors.user.phone : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-select
+            v-model="roles"
+            :items="roleTypeOptions"
+            item-title="title"
+            item-value="value"
+            :readonly="profileUpdating"
+            multiple
+            clearable
+            variant="filled"
+            :label="$t('user.roles')"
+            :error-messages="errors?.roles ? errors.roles : []"
+          ></v-select>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-textarea
+            v-model="description"
+            :label="$t('user.description')"
+            :error-messages="errors?.description ? errors.description : []"
+          ></v-textarea>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="countries"
+            :items="countryOptions"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            multiple
+            clearable
+            variant="filled"
+            :label="$t('user.countries')"
+            :error-messages="errors?.countries ? errors.countries : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="cities"
+            :items="cityOptionsExtra"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            multiple
+            clearable
+            variant="filled"
+            :label="$t('user.cities')"
+            :error-messages="errors?.cities ? errors.cities : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="languages"
+            :items="languageOptions"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            multiple
+            clearable
+            variant="filled"
+            :label="$t('user.languages')"
+            :error-messages="errors?.languages ? errors.languages : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="6"
+          class="py-0"
+        >
+          <v-text-field
+            v-model="costWork"
+            :readonly="profileUpdating"
+            type="number"
+            min="0.00"
+            step="0.01"
+            variant="filled"
+            :label="$t('user.cost_work')"
+            :error-messages="errors?.cost_work ? errors.cost_work : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="6"
+          class="py-0"
+        >
+          <v-text-field
+            v-model="numberHours"
+            :readonly="profileUpdating"
+            type="number"
+            min="0"
+            variant="filled"
+            :label="$t('user.number_hours')"
+            :error-messages="errors?.number_hours ? errors.number_hours : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-text-field
+            v-model="website"
+            :readonly="profileUpdating"
+            type="url"
+            maxlength="200"
+            variant="filled"
+            :label="$t('user.website')"
+            :error-messages="errors?.website ? errors.website : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-text-field
+            v-model="profileURL"
+            :readonly="profileUpdating"
+            type="text"
+            maxlength="64"
+            variant="filled"
+            :label="$t('user.profile_url')"
+            :error-messages="errors?.profile_url ? errors.profile_url : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+        >
+          <v-btn
+            :loading="profileUpdating"
+            type="submit"
+            variant="flat"
+            color="primary"
+            size="x-large"
+            class="text-none"
+          >
+            {{ $t('user.update_profile') }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
   </div>
 </template>

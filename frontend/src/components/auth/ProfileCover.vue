@@ -2,20 +2,16 @@
 import axios from 'axios'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-import { useI18n } from 'vue-i18n'
-import { ref, onMounted } from 'vue'
-
-const { t } = useI18n({ useScope: 'global' })
+import { ref, watch, onMounted } from 'vue'
 
 const coverLoading = ref(true)
+const coverProcessing = ref(false)
+const coverReady = ref(false)
 const cover = ref(null)
-
-const coverCropperModal = ref(null)
-const coverCropperModalBootstrap = ref(null)
-
+const coverUpdateDialog = ref(false)
+const coverRemoveDialog = ref(false)
 const coverImg = ref(null)
 const coverCropper = ref(null)
-const coverCropperReady = ref(false)
 
 const status = ref(null)
 const errors = ref(null)
@@ -33,17 +29,18 @@ const getCover = async () => {
 }
 
 const loadCoverImg = async (filelist) => {
+  coverUpdateDialog.value = true
   const reader = new FileReader()
   reader.readAsDataURL(filelist[0])
   reader.onload = () => {
     coverImg.value.src = reader.result
     coverImg.value.alt = filelist[0].name
-    coverCropperModalBootstrap.value.show()
+    coverReady.value = true
   }
 }
 
 const updateCover = async (filelist) => {
-  coverLoading.value = true
+  coverProcessing.value = true
 
   const croppedCanvas = coverCropper.value.getCroppedCanvas({
     width: 1500,
@@ -67,13 +64,13 @@ const updateCover = async (filelist) => {
     status.value = null
     errors.value = error.response.data
   } finally {
-    coverLoading.value = false
-    coverCropperModalBootstrap.value.hide()
+    coverProcessing.value = false
+    coverUpdateDialog.value = false
   }
 }
 
 const removeCover = async () => {
-  coverLoading.value = true
+  coverProcessing.value = true
   try {
     const response = await axios.delete('/accounts/auth/cover/')
     cover.value = null
@@ -83,203 +80,170 @@ const removeCover = async () => {
     status.value = null
     errors.value = error.response.data
   } finally {
-    coverLoading.value = false
+    coverProcessing.value = false
+    coverRemoveDialog.value = false
   }
 }
 
-onMounted(() => {
-  getCover()
-  coverImg.value.addEventListener('ready', () => {
-    coverCropperReady.value = true
-  })
-  coverCropperModal.value.addEventListener('shown.bs.modal', () => {
+watch(coverReady, (newValue) => {
+  if (newValue) {
     coverCropper.value = new Cropper(coverImg.value, {
       viewMode: 1,
       dragMode: 'crop',
       aspectRatio: 3 / 1,
       zoomable: false
     })
-  })
-  coverCropperModal.value.addEventListener('hidden.bs.modal', () => {
+  }
+})
+
+watch(coverUpdateDialog, (newValue) => {
+  if (!newValue && coverReady) {
     coverCropper.value.destroy()
     coverCropper.value = null
     coverImg.value.src = ''
     coverImg.value.alt = ''
-    coverCropperReady.value = false
-  })
-  coverCropperModalBootstrap.value = new bootstrap.Modal(
-    coverCropperModal.value
-  )
+    coverReady.value = false
+  }
+})
+
+onMounted(() => {
+  getCover()
 })
 </script>
 
 <template>
-  <div class="profile-cover">
-    <div class="card mb-2">
-      <LoadingIndicator
-        v-if="coverLoading"
-        :actionInfo="$t('user.uploading_cover')"
-      />
-      <div v-else>
-        <img
-          v-if="cover"
-          :src="cover"
-          class="card-img-top"
-        >
-        <img
-          v-else
-          src="/cover.jpg"
-          class="card-img-top"
-        >
-        <div class="card-body text-center">
-          <small
-            v-if="status === 200"
-            class="text-success"
-          >
-            {{ $t('user.cover_updated_successfully') }}
-          </small>
-          <small
-            v-else-if="status === 204"
-            class="text-success"
-          >
-            {{ $t('user.cover_removed_successfully') }}
-          </small>
-          <div
-            v-if="errors?.cover"
-            class="text-danger"
-          >
-            <small v-for="error in errors.cover">
-              {{ error }}
-            </small>
-          </div>
-          <div class="d-flex justify-content-center">
-            <FileInputButton
-              @selectedFiles="loadCoverImg"
-              buttonClass="btn btn-soft-brand m-1"
-              accept="image/*"
-            >
-              {{ $t('user.update_cover') }}
-            </FileInputButton>
-            <button
-              v-if="cover"
-              type="button"
-              class="btn btn-outline-dark m-1"
-              data-bs-toggle="modal"
-              data-bs-target="#remove_cover_modal_choice"
-            >
-              {{ $t('user.remove_cover') }}
-            </button>
-          </div>
-          <small class="text-muted">
-            {{ $t('form_help.input_img', { width: '1500', height: '500' }) }}
-          </small>
-        </div>
-      </div>
+  <v-card class=my-3>
+    <div
+      v-if="coverLoading"
+      class="d-flex justify-center align-center my-10"
+    >
+      <v-progress-circular indeterminate></v-progress-circular>
+      &nbsp;
+      {{ $t('user.loading_cover') }}
     </div>
+    <div
+      v-else
+      class="text-center"
+    >
+      <v-img
+        :src="cover ? cover : '/cover.jpg'"
+        aspect-ratio="3/1"
+      ></v-img>
 
-    <Teleport to="body">
-      <div
-        ref="coverCropperModal"
-        id="cover_cropper_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="cover_cropper_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+      <small
+        v-if="status === 200"
+        class="text-success"
       >
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="cover_cropper_modal_label"
-                class="modal-title"
-              >
-                {{ $t('user.updating_cover') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="updateCover()"
-                id="cover_modal_form"
-              >
-                <div class="d-flex justify-content-center">
-                  <img
-                    ref="coverImg"
-                    src=""
-                    alt=""
-                    class="mw-100 max-vh-75"
-                  >
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="coverLoading"
-                buttonClass="btn btn-brand"
-                form="cover_modal_form"
-                :disabled="!coverCropperReady"
-              >
-                {{ $t('btn.update') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
+        {{ $t('user.cover_updated_successfully') }}
+      </small>
+      <small
+        v-else-if="status === 204"
+        class="text-success"
+      >
+        {{ $t('user.cover_removed_successfully') }}
+      </small>
+      <div
+        v-if="errors?.cover"
+        class="text-danger"
+      >
+        <small v-for="error in errors.cover">
+          {{ error }}
+        </small>
       </div>
 
-      <div
-        id="remove_cover_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
+      <div class="d-flex justify-space-evenly py-1">
+        <FileInputButton
+          @selectedFiles="loadCoverImg"
+          accept="image/*"
+          variant="flat"
+          color="primary"
+          class="text-none"
         >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('user.you_want_remove_cover') }}</h5>
-              <p class="mb-0">{{ $t('user.cover_will_be_set_default') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removeCover()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
-        </div>
+          {{ $t('user.update_cover') }}
+        </FileInputButton>
+        <v-btn
+          @click="coverRemoveDialog = true"
+          :disabled="!cover"
+          variant="outlined"
+          class="text-none"
+        >
+          {{ $t('user.remove_cover') }}
+        </v-btn>
       </div>
-    </Teleport>
-  </div>
+
+      <small class="text-grey-darken-1">
+        {{ $t('form_help.input_img', { width: '1500', height: '500' }) }}
+      </small>
+
+      <v-dialog
+        v-model="coverUpdateDialog"
+        width="auto"
+        persistent
+      >
+        <v-card>
+          <div class="d-flex justify-center align-center">
+            <v-icon
+              v-if="!coverReady"
+              icon="mdi-image-area"
+              role="img"
+              color="secondary"
+              :size="150"
+            ></v-icon>
+            <img
+              ref="coverImg"
+              src=""
+              alt=""
+              class="mw-100 max-vh-75"
+            >
+          </div>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              @click="coverUpdateDialog = false"
+              class="text-none"
+            >
+              {{ $t('btn.cancel') }}
+            </v-btn>
+            <v-btn
+              @click="updateCover()"
+              :loading="coverProcessing"
+              :disabled="!coverReady"
+              variant="flat"
+              color="primary"
+              class="text-none"
+            >
+              {{ $t('btn.update') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog
+        v-model="coverRemoveDialog"
+        width="auto"
+        persistent
+      >
+        <v-card>
+          <v-card-title>
+            {{ $t('user.you_want_remove_cover') }}
+          </v-card-title>
+          <v-card-text>
+            {{ $t('user.cover_will_be_set_default') }}
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="coverRemoveDialog = false">
+              {{ $t('btn.no_cancel') }}
+            </v-btn>
+            <v-btn
+              @click="removeCover()"
+              :loading="coverProcessing"
+            >
+              <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+  </v-card>
 </template>

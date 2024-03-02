@@ -81,63 +81,104 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="admin-profile-form">
-    <LoadingIndicator v-if="profileLoading" />
-    <form
+  <div class="my-9">
+    <div
+      v-if="profileLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+    
+    <v-form
       v-else
       @submit.prevent="updateProfile()"
-      class="row g-3 mt-3"
     >
-      <div class="col-md-12">
-        <BaseInput
-          v-model="name"
-          type="text"
-          maxlength="255"
-          id="id_name"
-          name="name"
-          :label="$t('user.name')"
-          :errors="errors?.name ? errors.name : []"
-        />
-      </div>
-      <div class="col-md-6">
-        <BaseSelect
-          v-model="country"
-          :options="countryOptions"
-          id="id_country"
-          name="country"
-          :label="$t('user.country')"
-          :errors="errors?.country ? errors.country : []"
-        />
-      </div>
-      <div class="col-md-6">
-        <BaseSelect
-          v-model="city"
-          :options="cityOptions"
-          id="id_city"
-          name="city"
-          :label="$t('user.city')"
-          :errors="errors?.city ? errors.city : []"
-        />
-      </div>
-      <div class="col-md-12">
-        <BaseInput
-          v-model="phone"
-          type="tel"
-          maxlength="21"
-          id="id_phone"
-          name="phone"
-          :label="$t('user.phone')"
-          :errors="errors?.phone ? errors.phone : []"
-        />
-      </div>
-      <div class="col-12">
-        <SubmitButton
-          :loadingStatus="profileUpdating"
-          buttonClass="btn btn-brand btn-lg"
+      <v-row>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="pb-0"
         >
-          {{ $t('user.update_profile') }}
-        </SubmitButton>
-      </div>
-    </form>
+          <v-text-field
+            v-model="name"
+            :readonly="profileUpdating"
+            type="text"
+            maxlength="255"
+            variant="filled"
+            :label="$t('user.name')"
+            :error-messages="errors?.name ? errors.name : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="6"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="country"
+            :items="countryOptions"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            clearable
+            variant="filled"
+            :label="$t('user.country')"
+            :error-messages="errors?.country ? errors.country : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="6"
+          class="py-0"
+        >
+          <v-autocomplete
+            v-model="city"
+            :items="cityOptions"
+            item-title="title"
+            item-value="value"
+            :no-data-text="$t('form_help.no_options_available')"
+            :readonly="profileUpdating"
+            clearable
+            variant="filled"
+            :label="$t('user.city')"
+            :error-messages="errors?.city ? errors.city : []"
+          ></v-autocomplete>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+          class="py-0"
+        >
+          <v-text-field
+            v-model="phone"
+            :readonly="profileUpdating"
+            type="tel"
+            maxlength="21"
+            variant="filled"
+            :label="$t('user.phone')"
+            :error-messages="errors?.phone ? errors.phone : []"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          :cols="12"
+          :md="12"
+        >
+          <v-btn
+            :loading="profileUpdating"
+            type="submit"
+            variant="flat"
+            color="primary"
+            size="x-large"
+            class="text-none"
+          >
+            {{ $t('user.update_profile') }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
   </div>
 </template>
