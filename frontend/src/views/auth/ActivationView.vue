@@ -16,10 +16,8 @@ onMounted(async () => {
       uid: route.params.uid,
       token: route.params.token
     })
-    if (response.status === 204) {
-      status.value = 204
-      errors.value = null
-    }
+    status.value = response.status
+    errors.value = null
   } catch (error) {
     status.value = null
     errors.value = error.response.data

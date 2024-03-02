@@ -36,10 +36,8 @@ const registration = async () => {
       user_type: userType.value,
       name: name.value
     })
-    if (response.status === 201) {
-      status.value = 201
-      errors.value = null
-    }
+    status.value = response.status
+    errors.value = null
   } catch (error) {
     status.value = null
     errors.value = error.response.data

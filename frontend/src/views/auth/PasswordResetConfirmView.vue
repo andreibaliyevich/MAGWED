@@ -25,12 +25,10 @@ const confirmPasswordReset = async () => {
         new_password2: newPassword2.value
       }
     )
-    if (response.status === 204) {
-      newPassword.value = ''
-      newPassword2.value = ''
-      status.value = 204
-      errors.value = null
-    }
+    newPassword.value = ''
+    newPassword2.value = ''
+    status.value = response.status
+    errors.value = null
   } catch (error) {
     status.value = null
     errors.value = error.response.data
