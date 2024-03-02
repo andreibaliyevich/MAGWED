@@ -81,7 +81,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="my-9">
+  <div class="mt-9">
     <div
       v-if="profileLoading"
       class="d-flex justify-center align-center my-15"

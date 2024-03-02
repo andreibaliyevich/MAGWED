@@ -112,7 +112,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card class=my-3>
+  <v-card class=my-5>
     <div
       v-if="coverLoading"
       class="d-flex justify-center align-center my-10"

@@ -115,7 +115,7 @@ watch(avatarUpdateDialog, (newValue) => {
 </script>
 
 <template>
-  <v-card class="my-3">
+  <v-card class="my-5">
     <v-row class="d-flex align-center">
       <v-col
         :cols="12"

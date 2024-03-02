@@ -11,7 +11,7 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div class="mx-md-10">
+  <div class="mx-md-10 mb-10">
     <h1 class="text-h4 text-md-h3 text-center my-5">
       {{ $t('user.profile_settings') }}
     </h1>
