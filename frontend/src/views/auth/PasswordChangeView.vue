@@ -25,7 +25,6 @@ const changePassword = async () => {
     currentPassword.value = ''
     newPassword.value = ''
     newPassword2.value = ''
-    // status.value = t('auth.passwordchange.success')
     status.value = response.status
     errors.value = null
   } catch (error) {
@@ -102,7 +101,7 @@ const changePassword = async () => {
         size="x-large"
         class="text-none mt-3"
       >
-        {{ $t('auth.password.change_password') }}
+        {{ $t('auth.passwordchange.change_password') }}
       </v-btn>
     </v-form>
   </div>

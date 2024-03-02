@@ -81,7 +81,7 @@ defineProps({
       prepend-icon="mdi-key-outline"
     >
       <v-list-item-title>
-        {{ $t('auth.password.change_password') }}
+        {{ $t('auth.passwordchange.password_change') }}
       </v-list-item-title>
     </v-list-item>
     <v-list-item
