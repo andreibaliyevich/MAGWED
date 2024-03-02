@@ -37,33 +37,35 @@ const deletingProfile = async () => {
 </script>
 
 <template>
-  <div class="profile-delete-view">
-    <div class="px-1 px-lg-3 px-xl-5">
-      <h1 class="display-6 mb-5">
-        {{ $t('auth.profile_delete.profile_delete') }}
-      </h1>
-      <p class="lead fs-5">
-        {{ $t('auth.profile_delete.advice1') }}<br>
-        {{ $t('auth.profile_delete.advice2') }}
-      </p>
-      <form @submit.prevent="deletingProfile()">
-        <div class="mb-3">
-          <BaseInput
-            v-model="currentPassword"
-            type="password"
-            id="id_current_password"
-            name="current_password"
-            :label="$t('auth.profile_delete.password_confirmation')"
-            :errors="errors?.current_password ? errors.current_password : []"
-          />
-        </div>
-        <SubmitButton
-          :loadingStatus="profileDeleting"
-          buttonClass="btn btn-brand btn-lg"
-        >
-          {{ $t('auth.profile_delete.delete_profile') }}
-        </SubmitButton>
-      </form>
-    </div>
+  <div class="mx-md-10 mb-10">
+    <h1 class="text-h4 text-md-h3 text-center my-5">
+      {{ $t('auth.profile_delete.profile_delete') }}
+    </h1>
+
+    <p class="text-body-1 mb-5">
+      {{ $t('auth.profile_delete.advice1') }}<br>
+      {{ $t('auth.profile_delete.advice2') }}
+    </p>
+
+    <v-form @submit.prevent="deletingProfile()">
+      <v-text-field
+        v-model="currentPassword"
+        :readonly="profileDeleting"
+        type="password"
+        variant="filled"
+        :label="$t('auth.profile_delete.password_confirmation')"
+        :error-messages="errors?.current_password ? errors.current_password : []"
+      ></v-text-field>
+      <v-btn
+        :loading="profileDeleting"
+        type="submit"
+        variant="flat"
+        color="primary"
+        size="x-large"
+        class="text-none mt-3"
+      >
+        {{ $t('auth.profile_delete.delete_profile') }}
+      </v-btn>
+    </v-form>
   </div>
 </template>
