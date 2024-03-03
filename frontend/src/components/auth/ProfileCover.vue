@@ -158,9 +158,8 @@ onMounted(() => {
           variant="flat"
           color="primary"
           class="text-none"
-        >
-          {{ $t('user.update_cover') }}
-        </FileInputButton>
+          :text="$t('user.update_cover')"
+        ></FileInputButton>
         <v-btn
           @click="coverRemoveDialog = true"
           :disabled="!cover"

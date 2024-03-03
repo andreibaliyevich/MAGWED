@@ -160,9 +160,8 @@ watch(avatarUpdateDialog, (newValue) => {
               variant="flat"
               color="primary"
               class="text-none"
-            >
-              {{ $t('user.update_avatar') }}
-            </FileInputButton>
+              :text="$t('user.update_avatar')"
+            ></FileInputButton>
             <v-btn
               @click="avatarRemoveDialog = true"
               :disabled="!userStore.avatar"

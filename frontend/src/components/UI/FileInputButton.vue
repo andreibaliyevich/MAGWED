@@ -6,6 +6,10 @@ export default {
     accept: {
       type: String,
       default: ''
+    },
+    multiple: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -25,26 +29,12 @@ export default {
       @change="changeInput"
       type="file"
       :accept="accept"
+      :multiple="multiple"
       class="visually-hidden"
     >
     <v-btn
       @click="$refs.fileInput.click()"
       v-bind="$attrs"
-    >
-      <slot></slot>
-    </v-btn>
+    ></v-btn>
   </div>
 </template>
-
-<style scoped>
-.visually-hidden {
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-</style>
