@@ -11,4 +11,3 @@ class LinkType(TextChoices):
     YOUTUBE = 'youtube', _('YouTube')
     SOUNDCLOUD = 'soundcloud', _('SoundCloud')
     PINTEREST = 'pinterest', _('Pinterest')
-    VK = 'vk', _('VK')

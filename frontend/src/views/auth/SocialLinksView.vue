@@ -28,8 +28,7 @@ const setLinkTypeOptions = () => {
     { value: 'spotify', title: t('auth.sociallinks.spotify') },
     { value: 'youtube', title: t('auth.sociallinks.youtube') },
     { value: 'soundcloud', title: t('auth.sociallinks.soundcloud') },
-    { value: 'pinterest', title: t('auth.sociallinks.pinterest') },
-    { value: 'vk', title: t('auth.sociallinks.vk') }
+    { value: 'pinterest', title: t('auth.sociallinks.pinterest') }
   ]
 }
 
