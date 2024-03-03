@@ -186,7 +186,7 @@ onMounted(() => {
     </v-btn>
 
     <v-dialog
-      v-model="organizerLinkDialog"
+      :model-value="organizerLinkDialog"
       :width="500"
       persistent
     >

@@ -175,7 +175,7 @@ onMounted(() => {
       </small>
 
       <v-dialog
-        v-model="coverUpdateDialog"
+        :model-value="coverUpdateDialog"
         width="auto"
         persistent
       >
@@ -218,7 +218,7 @@ onMounted(() => {
       </v-dialog>
 
       <v-dialog
-        v-model="coverRemoveDialog"
+        :model-value="coverRemoveDialog"
         width="auto"
         persistent
       >

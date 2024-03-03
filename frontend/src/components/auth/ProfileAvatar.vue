@@ -180,7 +180,7 @@ watch(avatarUpdateDialog, (newValue) => {
     </v-row>
 
     <v-dialog
-      v-model="avatarUpdateDialog"
+      :model-value="avatarUpdateDialog"
       width="auto"
       persistent
     >
@@ -223,7 +223,7 @@ watch(avatarUpdateDialog, (newValue) => {
     </v-dialog>
 
     <v-dialog
-      v-model="avatarRemoveDialog"
+      :model-value="avatarRemoveDialog"
       width="auto"
       persistent
     >
