@@ -3,9 +3,13 @@ export default {
   name: 'FileDropZoneInputButton',
   inheritAttrs: false,
   props: {
-    buttonClass: {
+    buttonText: {
       type: String,
-      default: 'btn'
+      required: true
+    },
+    zoneText: {
+      type: String,
+      required: true
     }
   },
   methods: {
@@ -24,38 +28,40 @@ export default {
 </script>
 
 <template>
-  <div class="file-drop-zone-input-button">
-    <div
-      ref="dropArea"
-      @dragover.prevent="$refs.dropArea.classList.add('drop-area-over')"
-      @dragleave.prevent="$refs.dropArea.classList.remove('drop-area-over')"
-      @drop.prevent="dropHandler"
-      class="d-flex justify-content-center align-items-center rounded-4"
-    >
-      <div class="text-center">
-        <i class="fa-solid fa-cloud-arrow-up fa-2xl"></i>
-        <slot></slot>
-        <input
-          ref="fileInput"
-          @change="changeInput"
-          type="file"
-          v-bind="$attrs"
-          class="visually-hidden"
-        >
-        <button
-          @click="$refs.fileInput.click()"
-          type="button"
-          :class="buttonClass"
-        >
-          <slot name="button"></slot>
-        </button>
-      </div>
+  <div
+    ref="dropArea"
+    @dragover.prevent="$refs.dropArea.classList.add('drop-area-over')"
+    @dragleave.prevent="$refs.dropArea.classList.remove('drop-area-over')"
+    @drop.prevent="dropHandler"
+    class="d-flex justify-center align-center rounded-lg"
+  >
+    <div class="text-center">
+      <v-icon
+        icon="mdi-cloud-upload-outline"
+        :size="48"
+      ></v-icon>
+      <div class="px-2 my-2">{{ zoneText }}</div>
+      <input
+        ref="fileInput"
+        @change="changeInput"
+        type="file"
+        v-bind="$attrs"
+        class="visually-hidden"
+      >
+      <v-btn
+        @click="$refs.fileInput.click()"
+        :text="buttonText"
+        append-icon="mdi-upload"
+        variant="tonal"
+        color="primary"
+        class="text-none"
+      ></v-btn>
     </div>
   </div>
 </template>
 
 <style scoped>
-.d-flex.justify-content-center.align-items-center {
+.d-flex.justify-center.align-center.rounded-lg {
   width: 100%;
   height: 220px;
   background-color: #f8f9fa;
