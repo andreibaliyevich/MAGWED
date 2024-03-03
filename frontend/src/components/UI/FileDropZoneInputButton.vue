@@ -33,7 +33,7 @@ export default {
     @dragover.prevent="$refs.dropArea.classList.add('drop-area-over')"
     @dragleave.prevent="$refs.dropArea.classList.remove('drop-area-over')"
     @drop.prevent="dropHandler"
-    class="d-flex justify-center align-center rounded-lg"
+    class="d-flex justify-center align-center rounded-lg pa-5"
   >
     <div class="text-center">
       <v-icon
@@ -61,9 +61,8 @@ export default {
 </template>
 
 <style scoped>
-.d-flex.justify-center.align-center.rounded-lg {
+.d-flex.justify-center.align-center.rounded-lg.pa-5 {
   width: 100%;
-  height: 220px;
   background-color: #f8f9fa;
   border-width: 3px;
   border-style: dashed;
