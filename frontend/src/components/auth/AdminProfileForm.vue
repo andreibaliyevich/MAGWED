@@ -96,11 +96,10 @@ onMounted(() => {
       v-else
       @submit.prevent="updateProfile()"
     >
-      <v-row>
+      <v-row dense>
         <v-col
           :cols="12"
           :md="12"
-          class="pb-0"
         >
           <v-text-field
             v-model="name"
@@ -115,7 +114,6 @@ onMounted(() => {
         <v-col
           :cols="12"
           :md="6"
-          class="py-0"
         >
           <v-autocomplete
             v-model="country"
@@ -133,7 +131,6 @@ onMounted(() => {
         <v-col
           :cols="12"
           :md="6"
-          class="py-0"
         >
           <v-autocomplete
             v-model="city"
@@ -151,7 +148,6 @@ onMounted(() => {
         <v-col
           :cols="12"
           :md="12"
-          class="py-0"
         >
           <v-text-field
             v-model="phone"

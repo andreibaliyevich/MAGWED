@@ -20,8 +20,8 @@ const errors = ref(null)
 
 const setUserTypeOptions = () => {
   userTypeOptions.value = [
-    { value: 2, text: t('auth.registration.customer') },
-    { value: 3, text: t('auth.registration.organizer') }
+    { value: 2, title: t('auth.registration.customer') },
+    { value: 3, title: t('auth.registration.organizer') }
   ]
 }
 
@@ -121,7 +121,7 @@ onMounted(() => {
         <v-select
           v-model="userType"
           :items="userTypeOptions"
-          item-title="text"
+          item-title="title"
           item-value="value"
           :readonly="loadingStatus"
           variant="filled"
