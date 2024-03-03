@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-21 19:51+0000\n"
+"POT-Creation-Date: 2024-03-03 09:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,7 @@ msgstr "Активний"
 
 #: accounts/models.py:144 accounts/models.py:160 accounts/models.py:194
 #: accounts/models.py:232 reviews/models.py:20 social/models.py:21
-#: social/models.py:60 social/models.py:92
+#: social/models.py:61 social/models.py:93
 msgid "User"
 msgstr "Користувач"
 
@@ -490,7 +490,7 @@ msgstr "Зображення блогу"
 msgid "Images of Blog"
 msgstr "Зображення блогу"
 
-#: blog/views.py:67
+#: blog/views.py:68
 msgid "Form not valid!"
 msgstr "Форма недійсна!"
 
@@ -500,7 +500,7 @@ msgstr "Коментарі"
 
 #: comments/models.py:36 main/models.py:169 messenger/models.py:116
 #: notifications/models.py:43 portfolio/models.py:46 reviews/models.py:38
-#: social/models.py:33 social/models.py:66 social/models.py:102
+#: social/models.py:34 social/models.py:67 social/models.py:103
 #: support/models.py:28 support/models.py:59
 msgid "Created at"
 msgstr "Створено в"
@@ -778,7 +778,7 @@ msgstr "Цей чат не є груповим."
 msgid "You cannot delete this chat."
 msgstr "Ви не можете видалити цей чат."
 
-#: messenger/views.py:181
+#: messenger/views.py:210
 msgid "Not found."
 msgstr "Не знайдено."
 
@@ -914,19 +914,19 @@ msgstr "Фото"
 msgid "Photos"
 msgstr "Фотографії"
 
-#: portfolio/views.py:117
+#: portfolio/views.py:119
 msgid "You already liked this album!"
 msgstr "Вам уже сподобався цей альбом!"
 
-#: portfolio/views.py:129
+#: portfolio/views.py:131
 msgid "You do not like this album!"
 msgstr "Вам не подобається цей альбом!"
 
-#: portfolio/views.py:233
+#: portfolio/views.py:270
 msgid "You already liked this photo!"
 msgstr "Вам вже сподобалося це фото!"
 
-#: portfolio/views.py:245
+#: portfolio/views.py:282
 msgid "You do not like this photo!"
 msgstr "Вам не подобається це фото!"
 
@@ -998,43 +998,39 @@ msgstr "SoundCloud"
 msgid "Pinterest"
 msgstr "Pinterest"
 
-#: social/choices.py:14
-msgid "VK"
-msgstr "VK"
-
-#: social/models.py:26
+#: social/models.py:27
 msgid "Type of Link"
 msgstr "Тип посилання"
 
-#: social/models.py:28
+#: social/models.py:29
 msgid "URL of Link"
 msgstr "URL посилання"
 
-#: social/models.py:37
+#: social/models.py:38
 msgid "Social Link"
 msgstr "Соціальне посилання"
 
-#: social/models.py:38
+#: social/models.py:39
 msgid "Social Links"
 msgstr "Соціальні посилання"
 
-#: social/models.py:54
+#: social/models.py:55
 msgid "Follower"
 msgstr "Передплатник"
 
-#: social/models.py:70
+#: social/models.py:71
 msgid "Follow object"
 msgstr "Об'єкт Follow"
 
-#: social/models.py:71
+#: social/models.py:72
 msgid "Follow objects"
 msgstr "Об'єкти Follow"
 
-#: social/models.py:106
+#: social/models.py:107
 msgid "Favorite"
 msgstr "Вибране"
 
-#: social/models.py:107
+#: social/models.py:108
 msgid "Favorites"
 msgstr "Вибрані"
 
