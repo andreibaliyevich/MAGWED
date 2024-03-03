@@ -15,22 +15,21 @@ const socialLinkUrl = ref('')
 
 const linkTypeOptions = ref([])
 
-const errors = ref(null)
+const organizerLinkDialog = ref(null)
 
-const organizerLinkModal = ref(null)
-const organizerLinkModalBootstrap = ref(null)
+const errors = ref(null)
 
 const setLinkTypeOptions = () => {
   linkTypeOptions.value = [
-    { value: 'facebook', text: t('auth.sociallinks.facebook') },
-    { value: 'twitter', text: t('auth.sociallinks.twitter') },
-    { value: 'instagram', text: t('auth.sociallinks.instagram') },
-    { value: 'linkedin', text: t('auth.sociallinks.linkedin') },
-    { value: 'spotify', text: t('auth.sociallinks.spotify') },
-    { value: 'youtube', text: t('auth.sociallinks.youtube') },
-    { value: 'soundcloud', text: t('auth.sociallinks.soundcloud') },
-    { value: 'pinterest', text: t('auth.sociallinks.pinterest') },
-    { value: 'vk', text: t('auth.sociallinks.vk') }
+    { value: 'facebook', title: t('auth.sociallinks.facebook') },
+    { value: 'twitter', title: t('auth.sociallinks.twitter') },
+    { value: 'instagram', title: t('auth.sociallinks.instagram') },
+    { value: 'linkedin', title: t('auth.sociallinks.linkedin') },
+    { value: 'spotify', title: t('auth.sociallinks.spotify') },
+    { value: 'youtube', title: t('auth.sociallinks.youtube') },
+    { value: 'soundcloud', title: t('auth.sociallinks.soundcloud') },
+    { value: 'pinterest', title: t('auth.sociallinks.pinterest') },
+    { value: 'vk', title: t('auth.sociallinks.vk') }
   ]
 }
 
@@ -53,7 +52,7 @@ const addSocialLink = async () => {
       link_url: socialLinkUrl.value
     })
     socialLinkList.value.push(response.data)
-    organizerLinkModalBootstrap.value.hide()
+    organizerLinkDialog.value = false
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -77,7 +76,7 @@ const updateSocialLink = async () => {
       return element.uuid === socialLinkUuid.value
     })
     socialLinkList.value[foundIndex] = response.data
-    organizerLinkModalBootstrap.value.hide()
+    organizerLinkDialog.value = false
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -87,20 +86,14 @@ const updateSocialLink = async () => {
 
 const removeSocialLink = async (slUuid) => {
   try {
-    const response = axios.delete('/social/links/' + slUuid +'/')
-    socialLinkList.value = socialLinkList.value.filter((element) => {
-      return element.uuid !== slUuid
-    })
+    const response = await axios.delete('/social/links/' + slUuid +'/')
+    if (response.status === 204) {
+      socialLinkList.value = socialLinkList.value.filter((element) => {
+        return element.uuid !== slUuid
+      })
+    }
   } catch (error) {
     console.error(error)
-  }
-}
-
-const submitSocialLinkForm = () => {
-  if (socialLinkUuid.value) {
-    updateSocialLink()
-  } else {
-    addSocialLink()
   }
 }
 
@@ -108,187 +101,169 @@ watch(locale, () => {
   setLinkTypeOptions()
 })
 
-onMounted(() => {
-  setLinkTypeOptions()
-  getSocialLinks()
-  organizerLinkModal.value.addEventListener('hidden.bs.modal', () => {
+watch(organizerLinkDialog, (newValue) => {
+  if (!newValue) {
     socialLinkUuid.value = null
     socialLinkType.value = null
     socialLinkUrl.value = ''
     errors.value = null
-  })
-  organizerLinkModalBootstrap.value = new bootstrap.Modal(
-    organizerLinkModal.value
-  )
+  }
+})
+
+onMounted(() => {
+  setLinkTypeOptions()
+  getSocialLinks()
 })
 </script>
 
 <template>
-  <div class="social-links-view">
-    <div class="px-1 px-lg-3 px-xl-5">
-      <h1 class="display-6 mb-5">
-        {{ $t('auth.sociallinks.social_links') }}
-      </h1>
+  <div class="mx-md-10 mb-10">
+    <h1 class="text-h4 text-md-h3 text-center my-5">
+      {{ $t('auth.sociallinks.social_links') }}
+    </h1>
 
-      <LoadingIndicator v-if="socialLinkListLoading" />
-      <ul
-        v-else-if="socialLinkList.length > 0"
-        class="list-group list-group-flush"
-      >
-        <li
-          v-for="socialLinkItem in socialLinkList"
-          :key="socialLinkItem.uuid"
-          class="list-group-item"
-        >
-          <div class="row">
-            <div class="col-3 col-md-2">
-              <span :class="`badge bg-${socialLinkItem.link_type}`">
-                {{ $t(`auth.sociallinks.${socialLinkItem.link_type}`) }}
-              </span>
-            </div>
-            <div class="col-6 col-md-8 overflow-hidden">
-              <a
-                :href="socialLinkItem.link_url"
-                target="_blank"
-              >
-                {{ socialLinkItem.link_url }}
-              </a>
-            </div>
-            <div class="col-3 col-md-2 d-flex justify-content-end">
-              <button
-                @click="() => {
-                  socialLinkUuid = socialLinkItem.uuid
-                  socialLinkType = socialLinkItem.link_type
-                  socialLinkUrl = socialLinkItem.link_url
-                }"
-                type="button"
-                class="btn btn-light btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#organizer_link_modal"
-              >
-                <i class="fa-solid fa-pen fa-sm"></i>
-              </button>
-              <button
-                @click="removeSocialLink(socialLinkItem.uuid)"
-                type="button"
-                class="btn btn-danger btn-sm ms-1"
-              >
-                <i class="fa-solid fa-trash fa-sm"></i>
-              </button>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div
-        v-else
-        class="lead"
-      >
-        {{ $t('auth.sociallinks.do_not_have_social_links') }}
-      </div>
-      <button
-        type="button"
-        class="btn btn-brand mt-4"
-        data-bs-toggle="modal"
-        data-bs-target="#organizer_link_modal"
-      >
-        {{ $t('auth.sociallinks.add_link') }}
-      </button>
+    <div
+      v-if="socialLinkListLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
     </div>
-    <Teleport to="body">
-      <div
-        ref="organizerLinkModal"
-        id="organizer_link_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="organizer_link_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+
+    <v-list v-else-if="socialLinkList.length > 0">
+      <v-list-item
+        v-for="socialLinkItem in socialLinkList"
+        :key="socialLinkItem.uuid"
+        :prepend-icon="`mdi-${socialLinkItem.link_type}`"
       >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                v-if="socialLinkUuid"
-                id="organizer_link_modal_label"
-                class="modal-title"
-              >
-                {{ $t('auth.sociallinks.changing_the_link') }}
-              </h5>
-              <h5
-                v-else
-                id="organizer_link_modal_label"
-                class="modal-title"
-              >
-                {{ $t('auth.sociallinks.adding_a_link') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="submitSocialLinkForm()"
-                id="social_link_form"
-                class="row g-3"
-              >
-                <div class="col-md-12">
-                  <BaseSelect
-                    v-model="socialLinkType"
-                    :options="linkTypeOptions"
-                    id="id_link_type"
-                    name="link_type"
-                    :label="$t('auth.sociallinks.type_of_link')"
-                    :errors="errors?.link_type ? errors.link_type : []"
-                  />
-                </div>
-                <div class="col-md-12">
-                  <BaseInput
-                    v-model="socialLinkUrl"
-                    type="url"
-                    maxlength="200"
-                    id="id_link_url"
-                    name="link_url"
-                    :label="$t('auth.sociallinks.url_of_link')"
-                    :errors="errors?.link_url ? errors.link_url : []"
-                  />
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                v-if="socialLinkUuid"
-                :loadingStatus="socialLinkListUpdating"
-                buttonClass="btn btn-brand"
-                form="social_link_form"
-                :disabled="!socialLinkType || !socialLinkUrl"
-              >
-                {{ $t('btn.update') }}
-              </SubmitButton>
-              <SubmitButton
-                v-else
-                :loadingStatus="socialLinkListUpdating"
-                buttonClass="btn btn-brand"
-                form="social_link_form"
-                :disabled="!socialLinkType || !socialLinkUrl"
-              >
-                {{ $t('btn.add') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Teleport>
+        <a
+          :href="socialLinkItem.link_url"
+          target="_blank"
+          class="text-indigo"
+        >
+          {{ socialLinkItem.link_url }}
+        </a>
+        <template v-slot:append>
+          <v-btn
+            @click="() => {
+              socialLinkUuid = socialLinkItem.uuid
+              socialLinkType = socialLinkItem.link_type
+              socialLinkUrl = socialLinkItem.link_url
+              organizerLinkDialog = true
+            }"
+            icon="mdi-pencil"
+            variant="text"
+            color="grey-darken-3"
+          ></v-btn>
+          <v-btn
+            @click="removeSocialLink(socialLinkItem.uuid)"
+            icon="mdi-delete"
+            variant="text"
+            color="red-darken-3"
+          ></v-btn>
+        </template>
+      </v-list-item>
+    </v-list>
+
+    <v-alert
+      v-else
+      type="info"
+      variant="tonal"
+    >
+      {{ $t('auth.sociallinks.do_not_have_social_links') }}
+    </v-alert>
+
+    <v-btn
+      @click="organizerLinkDialog = true"
+      append-icon="mdi-plus-circle-outline"
+      variant="flat"
+      color="primary"
+      size="large"
+      class="text-none mt-3"
+    >
+      {{ $t('auth.sociallinks.add_link') }}
+    </v-btn>
+
+    <v-dialog
+      v-model="organizerLinkDialog"
+      :width="500"
+      persistent
+    >
+      <v-card
+        :title="
+          socialLinkUuid
+            ? $t('auth.sociallinks.changing_the_link')
+            : $t('auth.sociallinks.adding_a_link')
+        "
+      >
+        <v-row
+          dense
+          class="px-5 py-5"
+        >
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-select
+              v-model="socialLinkType"
+              :items="linkTypeOptions"
+              item-title="title"
+              item-value="value"
+              :readonly="socialLinkListUpdating"
+              variant="filled"
+              :label="$t('auth.sociallinks.type_of_link')"
+              :error-messages="errors?.link_type ? errors.link_type : []"
+            ></v-select>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-text-field
+              v-model="socialLinkUrl"
+              :readonly="socialLinkListUpdating"
+              type="url"
+              maxlength="200"
+              variant="filled"
+              :label="$t('auth.sociallinks.url_of_link')"
+              :error-messages="errors?.link_url ? errors.link_url : []"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="organizerLinkDialog = false"
+            class="text-none"
+          >
+            {{ $t('btn.cancel') }}
+          </v-btn>
+          <v-btn
+            v-if="socialLinkUuid"
+            @click="updateSocialLink()"
+            :loading="socialLinkListUpdating"
+            :disabled="!socialLinkType || !socialLinkUrl"
+            variant="flat"
+            color="primary"
+            class="text-none"
+          >
+            {{ $t('btn.update') }}
+          </v-btn>
+          <v-btn
+            v-else
+            @click="addSocialLink()"
+            :loading="socialLinkListUpdating"
+            :disabled="!socialLinkType || !socialLinkUrl"
+            variant="flat"
+            color="primary"
+            class="text-none"
+          >
+            {{ $t('btn.add') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
