@@ -8,9 +8,9 @@ const route = useRoute()
 const { locale } = useI18n({ useScope: 'global' })
 
 const loadingStatus = ref(false)
-
 const username = ref('')
 const password = ref('')
+const passwordShow = ref('')
 
 const errors = ref(null)
 
@@ -76,7 +76,9 @@ const login = async () => {
       <v-text-field
         v-model="password"
         :readonly="loadingStatus"
-        type="password"
+        :type="passwordShow ? 'text' : 'password'"
+        :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="passwordShow = !passwordShow"
         variant="filled"
         :label="$t('auth.password.password')"
         :error-messages="errors?.password ? errors.password : []"

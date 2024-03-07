@@ -15,6 +15,9 @@ const password2 = ref('')
 const userType = ref(null)
 const name = ref('')
 
+const passwordShow = ref(false)
+const password2Show = ref(false)
+
 const status = ref(null)
 const errors = ref(null)
 
@@ -105,7 +108,9 @@ onMounted(() => {
         <v-text-field
           v-model="password"
           :readonly="loadingStatus"
-          type="password"
+          :type="passwordShow ? 'text' : 'password'"
+          :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append-inner="passwordShow = !passwordShow"
           variant="filled"
           :label="$t('auth.password.password')"
           :error-messages="errors?.password ? errors.password : []"
@@ -113,7 +118,9 @@ onMounted(() => {
         <v-text-field
           v-model="password2"
           :readonly="loadingStatus"
-          type="password"
+          :type="password2Show ? 'text' : 'password'"
+          :append-inner-icon="password2Show ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append-inner="password2Show = !password2Show"
           variant="filled"
           :label="$t('auth.registration.password2')"
           :error-messages="errors?.password2 ? errors.password2 : []"
