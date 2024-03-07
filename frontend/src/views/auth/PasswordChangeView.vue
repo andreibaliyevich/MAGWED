@@ -11,6 +11,10 @@ const currentPassword = ref('')
 const newPassword = ref('')
 const newPassword2 = ref('')
 
+const currentPasswordShow = ref(false)
+const newPasswordShow = ref(false)
+const newPassword2Show = ref(false)
+
 const status = ref(null)
 const errors = ref(null)
 
@@ -72,7 +76,9 @@ const changePassword = async () => {
       <v-text-field
         v-model="currentPassword"
         :readonly="passwordUpdating"
-        type="password"
+        :type="currentPasswordShow ? 'text' : 'password'"
+        :append-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="currentPasswordShow = !currentPasswordShow"
         variant="filled"
         :label="$t('auth.passwordchange.current_password')"
         :error-messages="errors?.current_password ? errors.current_password : []"
@@ -80,7 +86,9 @@ const changePassword = async () => {
       <v-text-field
         v-model="newPassword"
         :readonly="passwordUpdating"
-        type="password"
+        :type="newPasswordShow ? 'text' : 'password'"
+        :append-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="newPasswordShow = !newPasswordShow"
         variant="filled"
         :label="$t('auth.password.new_password')"
         :error-messages="errors?.new_password ? errors.new_password : []"
@@ -88,7 +96,9 @@ const changePassword = async () => {
       <v-text-field
         v-model="newPassword2"
         :readonly="passwordUpdating"
-        type="password"
+        :type="newPassword2Show ? 'text' : 'password'"
+        :append-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="newPassword2Show = !newPassword2Show"
         variant="filled"
         :label="$t('auth.password.new_password2')"
         :error-messages="errors?.new_password2 ? errors.new_password2 : []"

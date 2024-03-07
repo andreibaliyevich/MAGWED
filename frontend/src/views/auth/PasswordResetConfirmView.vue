@@ -10,6 +10,9 @@ const loadingStatus = ref(false)
 const newPassword = ref('')
 const newPassword2 = ref('')
 
+const newPasswordShow = ref(false)
+const newPassword2Show = ref(false)
+
 const status = ref(null)
 const errors = ref(null)
 
@@ -132,16 +135,20 @@ const confirmPasswordReset = async () => {
         <v-text-field
           v-model="newPassword"
           :readonly="loadingStatus"
+          :type="newPasswordShow ? 'text' : 'password'"
+          :append-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="newPasswordShow = !newPasswordShow"
           variant="filled"
-          type="password"
           :label="$t('auth.password.new_password')"
           :error-messages="errors?.new_password ? errors.new_password : []"
         ></v-text-field>
         <v-text-field
           v-model="newPassword2"
           :readonly="loadingStatus"
+          :type="newPassword2Show ? 'text' : 'password'"
+          :append-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="newPassword2Show = !newPassword2Show"
           variant="filled"
-          type="password"
           :label="$t('auth.password.new_password2')"
           :error-messages="errors?.new_password2 ? errors.new_password2 : []"
         ></v-text-field>
