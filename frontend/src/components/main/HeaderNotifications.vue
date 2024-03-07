@@ -167,8 +167,9 @@ onMounted(() => {
       <v-divider class="my-1"></v-divider>
       <v-infinite-scroll
         v-if="notificationList.length > 0"
-        mode="intersect"
         @load="getMoreNotificationList"
+        mode="intersect"
+        :empty-text="$t('notifications.no_more_notifications')"
         :max-height="550"
       >
         <template
@@ -185,14 +186,6 @@ onMounted(() => {
             v-intersect="setNoticeViewed"
           />
           <v-divider class="my-1"></v-divider>
-        </template>
-        <template v-slot:empty>
-          <v-alert
-            type="warning"
-            variant="tonal"
-          >
-            {{ $t('notifications.no_more_notifications') }}
-          </v-alert>
         </template>
       </v-infinite-scroll>
       <div

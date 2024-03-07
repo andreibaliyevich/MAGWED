@@ -136,8 +136,9 @@ watch(searchType, () => {
 
         <v-infinite-scroll
           v-if="searchedItems.length > 0"
-          mode="intersect"
           @load="getMoreItems"
+          mode="intersect"
+          :empty-text="$t('search.no_more_results')"
         >
           <template v-if="searchType === 'organizers'">
             <div
@@ -475,14 +476,6 @@ watch(searchType, () => {
                 </v-card-text>
               </v-card>
             </div>
-          </template>
-          <template v-slot:empty>
-            <v-alert
-              type="warning"
-              variant="tonal"
-            >
-              {{ $t('search.no_more_results') }}
-            </v-alert>
           </template>
         </v-infinite-scroll>
         <div
