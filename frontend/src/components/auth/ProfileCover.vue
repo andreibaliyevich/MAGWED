@@ -197,10 +197,7 @@ onMounted(() => {
           </div>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              @click="coverUpdateDialog = false"
-              class="text-none"
-            >
+            <v-btn @click="coverUpdateDialog = false">
               {{ $t('btn.cancel') }}
             </v-btn>
             <v-btn
@@ -209,7 +206,6 @@ onMounted(() => {
               :disabled="!coverReady"
               variant="flat"
               color="primary"
-              class="text-none"
             >
               {{ $t('btn.update') }}
             </v-btn>

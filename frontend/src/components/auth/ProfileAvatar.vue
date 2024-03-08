@@ -202,10 +202,7 @@ watch(avatarUpdateDialog, (newValue) => {
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="avatarUpdateDialog = false"
-            class="text-none"
-          >
+          <v-btn @click="avatarUpdateDialog = false">
             {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn
@@ -214,7 +211,6 @@ watch(avatarUpdateDialog, (newValue) => {
             :disabled="!avatarReady"
             variant="flat"
             color="primary"
-            class="text-none"
           >
             {{ $t('btn.update') }}
           </v-btn>

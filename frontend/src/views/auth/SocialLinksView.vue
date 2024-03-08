@@ -199,7 +199,7 @@ onMounted(() => {
       >
         <v-row
           dense
-          class="px-5 py-5"
+          class="pa-5"
         >
           <v-col
             :cols="12"
@@ -233,10 +233,7 @@ onMounted(() => {
         </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="organizerLinkDialog = false"
-            class="text-none"
-          >
+          <v-btn @click="organizerLinkDialog = false">
             {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn
@@ -246,7 +243,6 @@ onMounted(() => {
             :disabled="!socialLinkType || !socialLinkUrl"
             variant="flat"
             color="primary"
-            class="text-none"
           >
             {{ $t('btn.update') }}
           </v-btn>
@@ -257,7 +253,6 @@ onMounted(() => {
             :disabled="!socialLinkType || !socialLinkUrl"
             variant="flat"
             color="primary"
-            class="text-none"
           >
             {{ $t('btn.add') }}
           </v-btn>
