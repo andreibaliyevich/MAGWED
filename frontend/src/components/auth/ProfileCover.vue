@@ -184,9 +184,9 @@ onMounted(() => {
             <v-icon
               v-if="!coverReady"
               icon="mdi-image-area"
+              :size="150"
               role="img"
               color="secondary"
-              :size="150"
             ></v-icon>
             <img
               ref="coverImg"

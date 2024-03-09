@@ -51,10 +51,10 @@ export default {
       <v-btn
         @click="$refs.fileInput.click()"
         :text="buttonText"
-        append-icon="mdi-upload"
         variant="tonal"
         color="primary"
         class="text-none"
+        append-icon="mdi-upload"
       ></v-btn>
     </div>
   </div>

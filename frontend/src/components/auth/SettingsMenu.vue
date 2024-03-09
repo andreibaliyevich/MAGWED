@@ -27,8 +27,8 @@ defineProps({
           <v-icon
             v-else
             icon="mdi-account-circle"
-            role="img"
             :size="128"
+            role="img"
           ></v-icon>
         </v-avatar>
       </div>

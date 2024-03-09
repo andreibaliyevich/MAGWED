@@ -195,11 +195,7 @@ onMounted(() => {
         <v-icon
           icon="mdi-clipboard-outline"
           color="secondary"
-          style="
-            font-size: 100px;
-            height: 100px;
-            width: 100px;
-          "
+          :size="100"
         ></v-icon>
         <p class="mt-3">{{ $t('notifications.no_notifications') }}</p>
       </div>

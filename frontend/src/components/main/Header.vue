@@ -69,9 +69,9 @@ const navDrawer = ref(false)
                   || $route.name === 'PhotoList'
                   || $route.name === 'PhotoDetail'
               "
-              append-icon="mdi-chevron-down"
               variant="text"
               class="font-weight-bold"
+              append-icon="mdi-chevron-down"
             >
               {{ $t('nav.photos') }}
             </v-btn>

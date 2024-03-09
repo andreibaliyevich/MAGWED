@@ -189,9 +189,9 @@ watch(avatarUpdateDialog, (newValue) => {
           <v-icon
             v-if="!avatarReady"
             icon="mdi-account-circle"
+            :size="150"
             role="img"
             color="secondary"
-            :size="150"
           ></v-icon>
           <img
             ref="avatarImg"

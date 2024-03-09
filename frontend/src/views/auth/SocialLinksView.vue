@@ -152,15 +152,15 @@ onMounted(() => {
               socialLinkUrl = socialLinkItem.link_url
               organizerLinkDialog = true
             }"
-            icon="mdi-pencil"
             variant="text"
             color="grey-darken-3"
+            icon="mdi-pencil"
           ></v-btn>
           <v-btn
             @click="removeSocialLink(socialLinkItem.uuid)"
-            icon="mdi-delete"
             variant="text"
             color="red-darken-3"
+            icon="mdi-delete"
           ></v-btn>
         </template>
       </v-list-item>
@@ -176,11 +176,11 @@ onMounted(() => {
 
     <v-btn
       @click="organizerLinkDialog = true"
-      append-icon="mdi-plus-circle-outline"
       variant="flat"
       color="primary"
       size="large"
       class="text-none mt-3"
+      append-icon="mdi-plus-circle-outline"
     >
       {{ $t('auth.sociallinks.add_link') }}
     </v-btn>

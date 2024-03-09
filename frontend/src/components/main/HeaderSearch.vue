@@ -100,9 +100,6 @@ watch(searchType, () => {
         <v-text-field
           v-model="searchQuery"
           :loading="searchLoading"
-          variant="filled"
-          prepend-inner-icon="mdi-magnify"
-          :placeholder="$t('search.search2')"
           type="search"
           autofocus
           autocomplete="off"
@@ -110,6 +107,9 @@ watch(searchType, () => {
           autocapitalize="off"
           enterkeyhint="search"
           spellcheck="false"
+          variant="filled"
+          prepend-inner-icon="mdi-magnify"
+          :placeholder="$t('search.search2')"
           clearable
         ></v-text-field>
 
