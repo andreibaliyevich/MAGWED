@@ -2,14 +2,17 @@
 import axios from 'axios'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const coverLoading = ref(true)
 const coverProcessing = ref(false)
-const coverReady = ref(false)
+
 const cover = ref(null)
+
 const coverUpdateDialog = ref(false)
 const coverRemoveDialog = ref(false)
+
+const coverImgLoading = ref(false)
 const coverImg = ref(null)
 const coverCropper = ref(null)
 
@@ -29,13 +32,25 @@ const getCover = async () => {
 }
 
 const loadCoverImg = async (filelist) => {
+  coverImgLoading.value = true
   coverUpdateDialog.value = true
+
   const reader = new FileReader()
   reader.readAsDataURL(filelist[0])
+
   reader.onload = () => {
     coverImg.value.src = reader.result
     coverImg.value.alt = filelist[0].name
-    coverReady.value = true
+
+    coverCropper.value = new Cropper(coverImg.value, {
+      viewMode: 1,
+      dragMode: 'crop',
+      aspectRatio: 3 / 1,
+      zoomable: false,
+      ready() {
+        coverImgLoading.value = false
+      }
+    })
   }
 }
 
@@ -66,6 +81,8 @@ const updateCover = async (filelist) => {
   } finally {
     coverProcessing.value = false
     coverUpdateDialog.value = false
+    coverCropper.value.destroy()
+    coverCropper.value = null
   }
 }
 
@@ -84,27 +101,6 @@ const removeCover = async () => {
     coverRemoveDialog.value = false
   }
 }
-
-watch(coverReady, (newValue) => {
-  if (newValue) {
-    coverCropper.value = new Cropper(coverImg.value, {
-      viewMode: 1,
-      dragMode: 'crop',
-      aspectRatio: 3 / 1,
-      zoomable: false
-    })
-  }
-})
-
-watch(coverUpdateDialog, (newValue) => {
-  if (!newValue && coverReady) {
-    coverCropper.value.destroy()
-    coverCropper.value = null
-    coverImg.value.src = ''
-    coverImg.value.alt = ''
-    coverReady.value = false
-  }
-})
 
 onMounted(() => {
   getCover()
@@ -181,29 +177,29 @@ onMounted(() => {
       >
         <v-card>
           <div class="d-flex justify-center align-center">
-            <v-icon
-              v-if="!coverReady"
-              icon="mdi-image-area"
-              :size="150"
-              role="img"
-              color="secondary"
-            ></v-icon>
             <img
               ref="coverImg"
-              src=""
-              alt=""
+              src="/loading.gif"
+              alt="loading"
               class="mw-100 max-vh-75"
             >
           </div>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="coverUpdateDialog = false">
+            <v-btn
+              @click="() => {
+                coverUpdateDialog = false
+                coverCropper.destroy()
+                coverCropper = null
+              }"
+              :disabled="coverImgLoading"
+            >
               {{ $t('btn.cancel') }}
             </v-btn>
             <v-btn
               @click="updateCover()"
               :loading="coverProcessing"
-              :disabled="!coverReady"
+              :disabled="coverImgLoading"
               variant="flat"
               color="primary"
             >

@@ -2,15 +2,17 @@
 import axios from 'axios'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 
 const userStore = useUserStore()
 
 const avatarProcessing = ref(false)
-const avatarReady = ref(false)
+
 const avatarUpdateDialog = ref(false)
 const avatarRemoveDialog = ref(false)
+
+const avatarImgLoading = ref(false)
 const avatarImg = ref(null)
 const avatarCropper = ref(null)
 
@@ -18,13 +20,25 @@ const status = ref(null)
 const errors = ref(null)
 
 const loadAvatarImg = async (filelist) => {
+  avatarImgLoading.value = true
   avatarUpdateDialog.value = true
+
   const reader = new FileReader()
   reader.readAsDataURL(filelist[0])
+
   reader.onload = () => {
     avatarImg.value.src = reader.result
     avatarImg.value.alt = filelist[0].name
-    avatarReady.value = true
+
+    avatarCropper.value = new Cropper(avatarImg.value, {
+      viewMode: 1,
+      dragMode: 'crop',
+      aspectRatio: 1 / 1,
+      zoomable: false,
+      ready() {
+        avatarImgLoading.value = false
+      }
+    })
   }
 }
 
@@ -64,6 +78,8 @@ const updateAvatar = async () => {
   } finally {
     avatarProcessing.value = false
     avatarUpdateDialog.value = false
+    avatarCropper.value.destroy()
+    avatarCropper.value = null
   }
 }
 
@@ -91,27 +107,6 @@ const removeAvatar = async () => {
     avatarRemoveDialog.value = false
   }
 }
-
-watch(avatarReady, (newValue) => {
-  if (newValue) {
-    avatarCropper.value = new Cropper(avatarImg.value, {
-      viewMode: 1,
-      dragMode: 'crop',
-      aspectRatio: 1 / 1,
-      zoomable: false
-    })
-  }
-})
-
-watch(avatarUpdateDialog, (newValue) => {
-  if (!newValue && avatarReady) {
-    avatarCropper.value.destroy()
-    avatarCropper.value = null
-    avatarImg.value.src = ''
-    avatarImg.value.alt = ''
-    avatarReady.value = false
-  }
-})
 </script>
 
 <template>
@@ -186,29 +181,29 @@ watch(avatarUpdateDialog, (newValue) => {
     >
       <v-card>
         <div class="d-flex justify-center align-center">
-          <v-icon
-            v-if="!avatarReady"
-            icon="mdi-account-circle"
-            :size="150"
-            role="img"
-            color="secondary"
-          ></v-icon>
           <img
             ref="avatarImg"
-            src=""
-            alt=""
+            src="/loading.gif"
+            alt="loading"
             class="mw-100 max-vh-75"
           >
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="avatarUpdateDialog = false">
+          <v-btn
+            @click="() => {
+              avatarUpdateDialog = false
+              avatarCropper.destroy()
+              avatarCropper = null
+            }"
+            :disabled="avatarImgLoading"
+          >
             {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn
             @click="updateAvatar()"
             :loading="avatarProcessing"
-            :disabled="!avatarReady"
+            :disabled="avatarImgLoading"
             variant="flat"
             color="primary"
           >
