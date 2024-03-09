@@ -57,10 +57,10 @@ const getMoreItems = async ({ done }) => {
       const response = await axios.get(nextURL.value)
       searchedItems.value = [...searchedItems.value, ...response.data.results]
       nextURL.value = response.data.next
+      done('ok')
     } catch (error) {
       console.error(error)
-    } finally {
-      done('ok')
+      done('error')
     }
   } else {
     done('empty')

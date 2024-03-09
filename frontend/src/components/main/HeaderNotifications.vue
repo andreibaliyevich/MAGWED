@@ -40,10 +40,10 @@ const getMoreNotificationList = async ({ done }) => {
         }
       })
       nextURL.value = response.data.next
+      done('ok')
     } catch (error) {
       console.error(error)
-    } finally {
-      done('ok')
+      done('error')
     }
   } else {
     done('empty')
