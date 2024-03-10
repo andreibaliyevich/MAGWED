@@ -11,10 +11,8 @@ const photoList = ref([])
 const nextURL = ref(null)
 
 const photosUploadStatus = ref(0)
-const photosUploading = ref(false)
+const photoProcessing = ref(false)
 
-const photoLoading = ref(false)
-const photoUpdating = ref(false)
 const photoUuid = ref(null)
 const photoImage = ref(null)
 const photoDevice = ref('')
@@ -32,11 +30,11 @@ const photoRating = ref(0)
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
-const errors = ref(null)
+const uploadPhotosDialog = ref(false)
+const photoUpdateDialog = ref(false)
+const photoRemoveDialog = ref(false)
 
-const uploadPhotosModal = ref(null)
-const uploadPhotosModalBootstrap = ref(null)
-const updatePhotoModal = ref(null)
+const errors = ref(null)
 
 const photoIndex = computed(() => {
   return photoList.value.findIndex((element) => {
@@ -69,26 +67,29 @@ const getPhotoList = async () => {
   }
 }
 
-const getMorePhotoList = async () => {
-  photoListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    photoList.value = [...photoList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    photoListLoading.value = false
+const getMorePhotoList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      photoList.value = [...photoList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
 const uploadPhotos = async (filelist) => {
-  uploadPhotosModalBootstrap.value.show()
-  photosUploading.value = true
+  photosUploadStatus.value = 0
+  uploadPhotosDialog.value = true
   const uploadStep = 100 / filelist.length
 
   for (let i = 0; i < filelist.length; i++) {
-    if (photosUploading.value) {
+    if (uploadPhotosDialog.value) {
       let formData = new FormData()
       if (route.params.uuid) {
         formData.append('album', route.params.uuid)
@@ -109,15 +110,10 @@ const uploadPhotos = async (filelist) => {
       break
     }
   }
-
-  photosUploading.value = false
-  setTimeout(() => {
-    uploadPhotosModalBootstrap.value.hide()
-  }, 500)
+  uploadPhotosDialog.value = false
 }
 
 const getPhotoData = async (pUuid) => {
-  photoLoading.value = true
   try {
     const response = await axios.get(
       '/portfolio/photo/author/rud/'
@@ -143,13 +139,11 @@ const getPhotoData = async (pUuid) => {
     photoRating.value = response.data.rating
   } catch (error) {
     console.error(error)
-  } finally {
-    photoLoading.value = false
   }
 }
 
 const updatePhoto = async () => {
-  photoUpdating.value = true
+  photoProcessing.value = true
 
   if (!photoFNumber.value) {
     photoFNumber.value = null
@@ -181,460 +175,427 @@ const updatePhoto = async () => {
   } catch (error) {
     errors.value = error.response.data
   } finally {
-    photoUpdating.value = false
+    photoProcessing.value = false
   }
 }
 
 const removePhoto = async () => {
+  photoProcessing.value = true
   try {
     const response = await axios.delete(
       '/portfolio/photo/author/rud/'
         + photoUuid.value
         +'/'
     )
-    photoList.value = photoList.value.filter((element) => {
-      return element.uuid !== photoUuid.value
-    })
+    if (response.status === 204) {
+      photoList.value = photoList.value.filter((element) => {
+        return element.uuid !== photoUuid.value
+      })
+    }
   } catch (error) {
     console.error(error)
   } finally {
     photoUuid.value = null
+    photoProcessing.value = false
+    photoRemoveDialog.value = false
   }
 }
 
-watch(photoIndex, (newValue) => {
+watch(photoIndex, async (newValue) => {
   if (newValue === photoList.value.length - 1 && nextURL.value) {
-    getMorePhotoList()
+    try {
+      const response = await axios.get(nextURL.value)
+      photoList.value = [...photoList.value, ...response.data.results]
+      nextURL.value = response.data.next
+    } catch (error) {
+      console.error(error)
+    }
   }
 })
 
 onMounted(() => {
   getPhotoList()
-  uploadPhotosModal.value.addEventListener('hidden.bs.modal', () => {
-    photosUploadStatus.value = 0
-  })
-  uploadPhotosModalBootstrap.value = new bootstrap.Modal(
-    uploadPhotosModal.value
-  )
-  updatePhotoModal.value.addEventListener('hidden.bs.modal', () => {
-    photoUuid.value = null
-    photoImage.value = null
-    photoDevice.value = ''
-    photoFNumber.value = null
-    photoExposureTime.value = ''
-    photoFocalLength.value = null
-    photoPhotographicSensitivity.value = null
-    photoTitle.value = ''
-    photoDescription.value = ''
-    photoTags.value = []
-    photoUploadedAt.value = null
-    photoViewCount.value = 0
-    photoLikeCount.value = 0
-    photoRating.value = 0
-    errors.value = null
-  })
 })
 </script>
 
 <template>
-  <div class="portfolio-photo-list">
+  <div class="my-5">
     <FileDropZoneInputButton
       @selectedFiles="uploadPhotos"
-      buttonClass="btn btn-soft-brand"
+      :zoneText="$t('portfolio.drag_and_drop_image')"
+      :buttonText="$t('portfolio.upload_photos')"
       accept="image/*"
       multiple
-    >
-      <div class="px-2 my-2">{{ $t('portfolio.drag_and_drop_image') }}</div>
-      <template #button>
-        {{ $t('portfolio.upload_photos') }}
-        <i class="fa-solid fa-upload"></i>
-      </template>
-    </FileDropZoneInputButton>
+    ></FileDropZoneInputButton>
 
     <div
-      v-if="photoList.length > 0"
-      class="row g-1 mt-1"
+      v-if="photoListLoading"
+      class="d-flex justify-center align-center my-15"
     >
-      <div
-        v-for="photoItem in photoList"
-        :key="photoItem.uuid"
-        class="col-12 col-md-6 col-xl-4"
-      >
-        <div class="card h-100">
-          <img
-            :src="photoItem.thumbnail"
-            :alt="photoItem.title"
-            class="card-img"
-          >
-          <div class="card-img-overlay text-light">
-            <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-              <h5 class="card-title h6 text-center">{{ photoItem.title }}</h5>
-            </div>
-            <div class="position-absolute top-50 start-50 translate-middle">
-              <button
-                @click="getPhotoData(photoItem.uuid)"
-                type="button"
-                class="btn btn-outline-light btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#update_photo_modal"
-              >
-                <i class="fa-solid fa-pen fa-sm"></i>
-              </button>
-              <button
-                @click="photoUuid = photoItem.uuid"
-                class="btn btn-danger btn-sm ms-1"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#remove_photo_modal_choice"
-              >
-                <i class="fa-solid fa-trash fa-sm"></i>
-              </button>
-            </div>
-            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-              <p class="card-text text-center">
-                <small>{{ getLocaleDateTimeString(photoItem.uploaded_at) }}</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
     </div>
-    <div
-      v-else-if="!photoListLoading"
-      class="lead d-flex justify-content-center py-3"
+
+    <v-infinite-scroll
+      v-else-if="photoList.length > 0"
+      @load="getMorePhotoList"
+      mode="intersect"
+      empty-text="&nbsp;"
+    >
+      <v-row
+        dense
+        class="ma-0"
+      >
+        <v-col
+          v-for="photoItem in photoList"
+          :key="photoItem.uuid"
+          :cols="12"
+          :sm="6"
+          :lg="4"
+        >
+          <v-hover v-slot="{ isHovering, props }">
+            <v-card v-bind="props">
+              <v-img
+                :src="photoItem.thumbnail"
+                :alt="photoItem.title"
+                aspect-ratio="1/1"
+                cover
+              ></v-img>
+              <v-overlay
+                :model-value="isHovering"
+                contained
+                scrim="black"
+                :opacity="0.5"
+                content-class="d-flex flex-column text-white text-center w-100 h-100 pa-3"
+              >
+                <h5>{{ photoItem.title }}</h5>
+                <div class="my-auto">
+                  <v-btn
+                    @click="() => {
+                      photoUpdateDialog = true
+                      getPhotoData(photoItem.uuid)
+                    }"
+                    icon="mdi-pencil"
+                    variant="flat"
+                    color="grey-lighten-3"
+                    size="x-small"
+                  ></v-btn>
+                  <v-btn
+                    @click="() => {
+                      photoUuid = photoItem.uuid
+                      photoRemoveDialog = true
+                    }"
+                    icon="mdi-delete"
+                    variant="flat"
+                    color="red-darken-3"
+                    size="x-small"
+                    class="ms-1"
+                  ></v-btn>
+                </div>
+                <small>{{ getLocaleDateTimeString(photoItem.uploaded_at) }}</small>
+              </v-overlay>
+            </v-card>
+          </v-hover>
+        </v-col>
+      </v-row>
+    </v-infinite-scroll>
+
+    <v-alert
+      v-else
+      type="info"
+      variant="tonal"
+      class="my-5"
     >
       {{ $t('portfolio.no_photos') }}
-    </div>
-    <div
-      v-if="nextURL"
-      style="min-height: 1px; margin-bottom: 1px;"
-      v-intersection="{
-        'scrollArea': null,
-        'callbackFunction': getMorePhotoList,
-        'functionArguments': []
-      }"
-    ></div>
-    <LoadingIndicator v-if="photoListLoading" />
+    </v-alert>
 
-    <Teleport to="body">
-      <div
-        ref="uploadPhotosModal"
-        id="upload_photos_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="upload_photos_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="upload_photos_modal_label"
-                class="modal-title"
-              >
-                {{ $t('portfolio.uploading_photos') }}
-              </h5>
-            </div>
-            <div class="modal-body">
-              <div class="progress">
-                <div
-                  class="progress-bar progress-bar-striped progress-bar-animated"
-                  role="progressbar"
-                  aria-label="Upload status of photos"
-                  :aria-valuenow="photosUploadStatusRound"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  :style="`width: ${photosUploadStatusRound}%`"
-                >{{ photosUploadStatusRound }}%</div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                @click="photosUploading = false"
-                type="button"
-                class="btn btn-danger"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-            </div>
-          </div>
+    <v-dialog
+      :model-value="uploadPhotosDialog"
+      :width="500"
+      persistent
+    >
+      <v-card>
+        <v-card-title>
+          {{ $t('portfolio.uploading_photos') }}
+        </v-card-title>
+        <div class="px-3">
+          <v-progress-linear
+            :model-value="photosUploadStatusRound"
+            :height="16"
+            rounded
+            striped
+            color="blue"
+          >
+            <strong>{{ photosUploadStatusRound }}%</strong>
+          </v-progress-linear>
         </div>
-      </div>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="uploadPhotosDialog = false">
+            {{ $t('btn.cancel') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-      <div
-        ref="updatePhotoModal"
-        id="update_photo_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="update_photo_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="update_photo_modal_label"
-                class="modal-title"
+    <v-dialog
+      :model-value="photoUpdateDialog"
+      width="80%"
+      persistent
+    >
+      <v-card>
+        <div class="overflow-y-auto">
+          <v-hover v-slot="{ isHovering, props }">
+            <v-sheet
+              v-bind="props"
+              position="relative"
+            >
+              <v-img
+                :src="photoImage"
+                :alt="photoTitle"
+                class="mw-100 max-vh-75"
+              ></v-img>
+              <v-overlay
+                :model-value="isHovering"
+                contained
+                :opacity="0"
+                content-class="d-flex justify-space-between align-center w-100 h-100 pa-3"
               >
-                {{ $t('portfolio.updating_photo') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <LoadingIndicator v-if="photoLoading" />
-              <div
-                v-else
-                class="card border-0"
-              >
-                <div class="d-flex justify-content-center">
-                  <img
-                    :src="photoImage"
-                    :alt="photoTitle"
-                    class="card-img"
-                  >
-                  <div
-                    class="card-img-overlay mx-1"
-                    style="background-color: rgba(33, 37, 41, 0);"
-                  >
-                    <div class="position-absolute top-50 start-0 translate-middle-y">
-                      <button
-                        @click="getPhotoData(photoList[photoIndex - 1].uuid)"
-                        type="button"
-                        class="btn btn-light"
-                        :disabled="photoIndex === 0"
-                      >
-                       <i class="fa-solid fa-chevron-left"></i>
-                      </button>
-                    </div>
-                    <div class="position-absolute top-50 end-0 translate-middle-y">
-                      <button
-                        @click="getPhotoData(photoList[photoIndex + 1].uuid)"
-                        type="button"
-                        class="btn btn-light"
-                        :disabled="photoIndex === photoList.length - 1"
-                      >
-                        <i class="fa-solid fa-chevron-right"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <form
-                @submit.prevent="updatePhoto()"
-                id="photo_modal_form"
-                class="row g-3 mt-1 px-xl-10"
-              >
-                <div class="col-md-12">
-                  <BaseInput
-                    v-model="photoTitle"
-                    type="text"
-                    maxlength="128"
-                    id="id_title"
-                    name="title"
-                    :label="$t('portfolio.title')"
-                    :errors="errors?.title ? errors.title : []"
-                  />
-                </div>
-                <div class="col-md-12">
-                  <BaseTextarea
-                    v-model="photoDescription"
-                    id="id_description"
-                    name="description"
-                    :label="$t('portfolio.description')"
-                    :errors="errors?.description ? errors.description : []"
-                  />
-                </div>
-                <div class="col-md-12">
-                  <BaseInput
-                    v-model="photoDevice"
-                    type="text"
-                    maxlength="128"
-                    id="id_device"
-                    name="device"
-                    :label="$t('portfolio.device')"
-                    :errors="errors?.device ? errors.device : []"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <BaseInput
-                    v-model="photoFNumber"
-                    type="number"
-                    step="0.01"
-                    id="id_f_number"
-                    name="f_number"
-                    :label="$t('portfolio.f_number')"
-                    :errors="errors?.f_number ? errors.f_number : []"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <BaseInput
-                    v-model="photoExposureTime"
-                    type="text"
-                    maxlength="32"
-                    id="id_exposure_time"
-                    name="exposure_time"
-                    :label="$t('portfolio.exposure_time')"
-                    :errors="errors?.exposure_time ? errors.exposure_time : []"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <BaseInput
-                    v-model="photoFocalLength"
-                    type="number"
-                    step="0.01"
-                    id="id_focal_length"
-                    name="focal_length"
-                    :label="$t('portfolio.focal_length')"
-                    :errors="errors?.focal_length ? errors.focal_length : []"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <BaseInput
-                    v-model="photoPhotographicSensitivity"
-                    type="number"
-                    min="0"
-                    id="id_photographic_sensitivity"
-                    name="photographic_sensitivity"
-                    :label="$t('portfolio.photographic_sensitivity')"
-                    :errors="
-                      errors?.photographic_sensitivity
-                      ? errors.photographic_sensitivity
-                      : []
-                    "
-                  />
-                </div>
-                <div class="col-md-12">
-                  <ListInput
-                    v-model="photoTags"
-                    id="id_tags"
-                    name="tags"
-                    :label="$t('portfolio.tags')"
-                    :errors="errors?.tags ? errors.tags : []"
-                  />
-                </div>
-              </form>
-              <hr>
-              <ul class="list-unstyled my-0 px-xl-10">
-                <li>
-                  {{ $t('portfolio.uploaded_at') }}
-                  {{ getLocaleDateTimeString(photoUploadedAt) }}
-                </li>
-                <li>
-                  {{ $t('portfolio.view_count') }}:
-                  {{ photoViewCount }}
-                </li>
-                <li>
-                  {{ $t('portfolio.likes') }}:
-                  {{ photoLikeCount }}
-                </li>
-                <li>
-                  {{ $t('portfolio.rating') }}:
-                  {{ photoRating }}
-                </li>
-              </ul>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.close') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="photoUpdating"
-                buttonClass="btn btn-brand"
-                form="photo_modal_form"
-                :disabled="photoLoading"
-              >
-                {{ $t('btn.update') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
-      </div>
+                <v-btn
+                  @click="getPhotoData(photoList[photoIndex - 1].uuid)"
+                  :disabled="photoIndex === 0"
+                  icon="mdi-chevron-left"
+                  :elevation="1"
+                ></v-btn>
+                <v-btn
+                  @click="getPhotoData(photoList[photoIndex + 1].uuid)"
+                  :disabled="photoIndex === photoList.length - 1"
+                  icon="mdi-chevron-right"
+                  :elevation="1"
+                ></v-btn>
+              </v-overlay>
+            </v-sheet>
+          </v-hover>
 
-      <div
-        id="remove_photo_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
-        >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('portfolio.you_want_remove_photo') }}</h5>
-              <p class="mb-0">{{ $t('portfolio.photo_information_will_lost') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removePhoto()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
+          <v-row
+            dense
+            class="mx-1 mx-sm-5 mx-md-10 mx-lg-16 my-3"
+          >
+            <v-col
+              :cols="12"
+              :md="12"
+            >
+              <v-text-field
+                v-model="photoTitle"
+                :readonly="photoProcessing"
+                type="text"
+                maxlength="128"
+                variant="filled"
+                :label="$t('portfolio.title')"
+                :error-messages="errors?.title ? errors.title : []"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="12"
+            >
+              <v-textarea
+                v-model="photoDescription"
+                :readonly="photoProcessing"
+                :label="$t('portfolio.description')"
+                :error-messages="errors?.description ? errors.description : []"
+              ></v-textarea>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="12"
+            >
+              <v-text-field
+                v-model="photoDevice"
+                :readonly="photoProcessing"
+                type="text"
+                maxlength="128"
+                variant="filled"
+                :label="$t('portfolio.device')"
+                :error-messages="errors?.device ? errors.device : []"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="6"
+            >
+              <v-text-field
+                v-model="photoFNumber"
+                :readonly="photoProcessing"
+                type="number"
+                step="0.01"
+                variant="filled"
+                :label="$t('portfolio.f_number')"
+                :error-messages="errors?.f_number ? errors.f_number : []"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="6"
+            >
+              <v-text-field
+                v-model="photoExposureTime"
+                :readonly="photoProcessing"
+                type="text"
+                maxlength="32"
+                variant="filled"
+                :label="$t('portfolio.exposure_time')"
+                :error-messages="errors?.exposure_time ? errors.exposure_time : []"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="6"
+            >
+              <v-text-field
+                v-model="photoFocalLength"
+                :readonly="photoProcessing"
+                type="number"
+                step="0.01"
+                variant="filled"
+                :label="$t('portfolio.focal_length')"
+                :error-messages="errors?.focal_length ? errors.focal_length : []"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="6"
+            >
+              <v-text-field
+                v-model="photoPhotographicSensitivity"
+                :readonly="photoProcessing"
+                type="number"
+                min="0"
+                variant="filled"
+                :label="$t('portfolio.photographic_sensitivity')"
+                :error-messages="
+                  errors?.photographic_sensitivity
+                    ? errors.photographic_sensitivity
+                    : []
+                "
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="12"
+            >
+              <v-combobox
+                v-model="photoTags"
+                :readonly="photoProcessing"
+                multiple
+                chips
+                clearable
+                :label="$t('portfolio.tags')"
+                :error-messages="errors?.tags ? errors.tags : []"
+              ></v-combobox>
+            </v-col>
+          </v-row>
+          <v-divider></v-divider>
+          <v-table
+            density="compact"
+            class="mx-1 mx-sm-5 mx-md-10 mx-lg-16 my-3"
+          >
+            <tbody>
+              <tr>
+                <td>{{ $t('portfolio.uploaded_at') }}</td>
+                <td>{{ getLocaleDateTimeString(photoUploadedAt) }}</td>
+              </tr>
+              <tr>
+                <td>{{ $t('portfolio.view_count') }}</td>
+                <td>{{ photoViewCount }}</td>
+              </tr>
+              <tr>
+                <td>{{ $t('portfolio.likes') }}</td>
+                <td>{{ photoLikeCount }}</td>
+              </tr>
+              <tr>
+                <td>{{ $t('portfolio.rating') }}</td>
+                <td>{{ photoRating }}</td>
+              </tr>
+            </tbody>
+          </v-table>
         </div>
-      </div>
-    </Teleport>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="() => {
+              photoUpdateDialog = false
+              photoUuid = null
+              photoImage = null
+              photoDevice = ''
+              photoFNumber = null
+              photoExposureTime = ''
+              photoFocalLength = null
+              photoPhotographicSensitivity = null
+              photoTitle = ''
+              photoDescription = ''
+              photoTags = []
+              photoUploadedAt = null
+              photoViewCount = 0
+              photoLikeCount = 0
+              photoRating = 0
+              errors = null
+            }"
+          >
+            {{ $t('btn.close') }}
+          </v-btn>
+          <v-btn
+            @click="updatePhoto()"
+            :loading="photoProcessing"
+            :disabled="!photoUuid"
+            variant="flat"
+            color="primary"
+          >
+            {{ $t('btn.update') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      :model-value="photoRemoveDialog"
+      width="auto"
+      persistent
+    >
+      <v-card>
+        <v-card-title>
+          {{ $t('portfolio.you_want_remove_photo') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('portfolio.photo_information_will_lost') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="() => {
+              photoUuid = null
+              photoRemoveDialog = false
+            }"
+          >
+            {{ $t('btn.no_cancel') }}
+          </v-btn>
+          <v-btn
+            @click="removePhoto()"
+            :loading="photoProcessing"
+          >
+            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <style scoped>
-.modal-dialog-scrollable .modal-body::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0.3em;
-}
-.modal-dialog-scrollable .modal-body::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-}
-.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 1em;
-}
-.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb:hover {
-  background-color: #e72a26;
-}
-
-.card-img {
-  width: auto;
-  max-width: 100%;
-  height: 100%;
-  max-height: 75vh;
-}
-
-@media (min-width: 1200px) {
-  .px-xl-10 {
-    padding-right: 10rem !important;
-    padding-left: 10rem !important;
-  }
 }
 </style>

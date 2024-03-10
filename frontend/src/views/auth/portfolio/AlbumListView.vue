@@ -12,19 +12,20 @@ const albumListLoading = ref(true)
 const albumList = ref([])
 const nextURL = ref(null)
 
-const albumCreating = ref(false)
+const albumProcessing = ref(false)
 const albumUuid = ref(null)
 const albumImage = ref(null)
 const albumTitle = ref('')
 const albumDescription = ref('')
 
+const albumCreateDialog = ref(false)
+const albumRemoveDialog = ref(false)
+
+const albumImg = ref(null)
+
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
-
-const createAlbumModal = ref(null)
-const createAlbumModalBootstrap = ref(null)
-const albumImg = ref(null)
 
 const getAlbumList = async () => {
   try {
@@ -38,20 +39,23 @@ const getAlbumList = async () => {
   }
 }
 
-const getMoreAlbumList = async () => {
-  albumListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    albumList.value = [...albumList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    albumListLoading.value = false
+const getMoreAlbumList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      albumList.value = [...albumList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
-const loadAlbumImage = async (filelist) => {
+const loadAlbumImg = async (filelist) => {
   albumImage.value = filelist[0]
   const reader = new FileReader()
   reader.readAsDataURL(filelist[0])
@@ -62,7 +66,7 @@ const loadAlbumImage = async (filelist) => {
 }
 
 const createAlbum = async () => {
-  albumCreating.value = true
+  albumProcessing.value = true
   try {
     let formData = new FormData()
     formData.append('image', albumImage.value, albumImage.value.name)
@@ -73,7 +77,7 @@ const createAlbum = async () => {
       '/portfolio/album/author/list-create/',
       formData
     )
-    createAlbumModalBootstrap.value.hide()
+    albumCreateDialog.value = false
     router.push({
       name: 'PortfolioAlbumDetail',
       params: {
@@ -84,11 +88,12 @@ const createAlbum = async () => {
   } catch (error) {
     errors.value = error.response.data
   } finally {
-    albumCreating.value = false
+    albumProcessing.value = false
   }
 }
 
 const removeAlbum = async () => {
+  albumProcessing.value = true
   try {
     const response = await axios.delete(
       '/portfolio/album/author/rud/'
@@ -102,261 +107,234 @@ const removeAlbum = async () => {
     console.error(error)
   } finally {
     albumUuid.value = null
+    albumProcessing.value = false
+    albumRemoveDialog.value = false
   }
 }
 
 onMounted(() => {
   getAlbumList()
-  createAlbumModal.value.addEventListener('hidden.bs.modal', () => {
-    albumUuid.value = null
-    albumImage.value = null
-    albumTitle.value = ''
-    albumDescription.value = ''
-    errors.value = null
-
-    if (albumImg.value) {
-      albumImg.value.src = ''
-      albumImg.value.alt = ''
-    }
-  })
-  createAlbumModalBootstrap.value = new bootstrap.Modal(createAlbumModal.value)
 })
 </script>
 
 <template>
-  <div class="portfolio-album-list-view">
-    <div class="px-1 px-lg-3 px-xl-5">
-      <div class="d-flex align-items-center mb-5">
-        <router-link
-          :to="{ name: 'Portfolio' }"
-          class="link-danger text-decoration-none display-6"
-        >
-          {{ $t('portfolio.portfolio') }}
-        </router-link>
-        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
-        <h1 class="display-6 mb-0">
-          {{ $t('portfolio.albums') }}
-        </h1>
-      </div>
-
-      <button
-        type="button"
-        class="btn btn-soft-brand w-100"
-        data-bs-toggle="modal"
-        data-bs-target="#create_album_modal"
+  <div class="mx-md-10">
+    <div class="d-flex align-center my-5">
+      <router-link
+        :to="{ name: 'Portfolio' }"
+        class="text-h4 text-md-h3 text-primary text-decoration-none"
       >
-        {{ $t('portfolio.create_album') }}
-        <i class="fa-regular fa-square-plus"></i>
-      </button>
+        {{ $t('portfolio.portfolio') }}
+      </router-link>
+      <v-icon
+        icon="mdi-chevron-right"
+        size="x-large"
+      ></v-icon>
+      <h1 class="text-h4 text-md-h3">
+        {{ $t('portfolio.albums') }}
+      </h1>
+    </div>
 
-      <div
-        v-if="albumList.length > 0"
-        class="row g-1 mt-1"
+    <v-btn
+      @click="albumCreateDialog = true"
+      variant="tonal"
+      color="primary"
+      block
+      class="text-none"
+      append-icon="mdi-plus-circle-outline"
+    >
+      {{ $t('portfolio.create_album') }}
+    </v-btn>
+
+    <div
+      v-if="albumListLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
+    <v-infinite-scroll
+      v-else-if="albumList.length > 0"
+      @load="getMoreAlbumList"
+      mode="intersect"
+      empty-text="&nbsp;"
+    >
+      <v-row
+        dense
+        class="ma-0"
       >
-        <div
+        <v-col
           v-for="albumItem in albumList"
           :key="albumItem.uuid"
-          class="col-12 col-md-6 col-xl-4"
+          :cols="12"
+          :sm="6"
+          :lg="4"
         >
-          <div class="card border border-0 shadow-sm h-100">
-            <img
-              :src="albumItem.thumbnail"
-              :alt="albumItem.title"
-              class="card-img-top"
-            >
-            <div class="card-body">
-              <h5 class="card-title">{{ albumItem.title }}</h5>
-              <p class="text-body-secondary">{{ getLocaleDateTimeString(albumItem.created_at) }}</p>
-            </div>
-            <div class="card-img-overlay text-light">
-              <div class="position-absolute top-50 start-50 translate-middle">
-                <router-link
+          <v-hover v-slot="{ isHovering, props }">
+            <v-card v-bind="props">
+              <v-img
+                :src="albumItem.thumbnail"
+                :alt="albumItem.title"
+                aspect-ratio="1/1"
+                cover
+              ></v-img>
+              <v-card-item>
+                <v-card-title>{{ albumItem.title }}</v-card-title>
+                <v-card-subtitle>
+                  {{ getLocaleDateTimeString(albumItem.created_at) }}
+                </v-card-subtitle>
+              </v-card-item>
+              <v-overlay
+                :model-value="isHovering"
+                contained
+                scrim="black"
+                :opacity="0.5"
+                content-class="d-flex justify-center align-center w-100 h-100"
+              >
+                <v-btn
                   :to="{
                     name: 'PortfolioAlbumDetail',
                     params: { uuid: albumItem.uuid }
                   }"
-                  class="btn btn-outline-light btn-sm"
-                >
-                  <i class="fa-solid fa-pen fa-sm"></i>
-                </router-link>
-                <button
-                  @click="albumUuid = albumItem.uuid"
-                  type="button"
-                  class="btn btn-danger btn-sm ms-1"
-                  data-bs-toggle="modal"
-                  data-bs-target="#remove_album_modal_choice"
-                >
-                  <i class="fa-solid fa-trash fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        v-else-if="!albumListLoading"
-        class="lead d-flex justify-content-center py-3"
-      >
-        {{ $t('portfolio.no_albums') }}
-      </div>
-      <div
-        v-if="nextURL"
-        style="min-height: 1px; margin-bottom: 1px;"
-        v-intersection="{
-          'scrollArea': null,
-          'callbackFunction': getMoreAlbumList,
-          'functionArguments': []
-        }"
-      ></div>
-      <LoadingIndicator v-if="albumListLoading" />
-    </div>
+                  icon="mdi-pencil"
+                  variant="flat"
+                  color="grey-lighten-3"
+                  size="x-small"
+                ></v-btn>
+                <v-btn
+                  @click="() => {
+                    albumUuid = albumItem.uuid
+                    albumRemoveDialog = true
+                  }"
+                  icon="mdi-delete"
+                  variant="flat"
+                  color="red-darken-3"
+                  size="x-small"
+                  class="ms-1"
+                ></v-btn>
+              </v-overlay>
+            </v-card>
+          </v-hover>
+        </v-col>
+      </v-row>
+    </v-infinite-scroll>
 
-    <Teleport to="body">
-      <div
-        ref="createAlbumModal"
-        id="create_album_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="create_album_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="create_album_modal_label"
-                class="modal-title"
-              >
-                {{ $t('portfolio.creating_album') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="createAlbum()"
-                id="create_album_form"
-              >
-                <div class="mb-3">
-                  <span v-if="albumImage">
-                    {{ $t('portfolio.chosen_image') }}:
-                  </span>
-                  <div class="d-flex justify-content-center">
-                    <img
-                      ref="albumImg"
-                      src=""
-                      alt=""
-                      class="mw-100 max-vh-75"
-                    >
-                  </div>
-                  <FileInputButton
-                    @selectedFiles="loadAlbumImage"
-                    buttonClass="btn btn-soft-brand w-100"
-                    accept="image/*"
-                  >
-                    {{ $t('portfolio.choose_image') }}
-                    <i class="fa-regular fa-image"></i>
-                  </FileInputButton>
-                  <div
-                    v-if="errors && errors.image"
-                    id="id_image-errors"
-                    class="text-danger"
-                    aria-live="assertive"
-                  >
-                    <small v-for="error in errors.image">
-                      {{ error }}
-                    </small>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <BaseInput
-                    v-model="albumTitle"
-                    type="text"
-                    maxlength="128"
-                    id="id_title"
-                    name="title"
-                    :label="$t('portfolio.title')"
-                    :errors="errors?.title ? errors.title : []"
-                  />
-                </div>
-                <div class="mb-3">
-                  <BaseTextarea
-                    v-model="albumDescription"
-                    id="id_description"
-                    name="description"
-                    :label="$t('portfolio.description')"
-                    :errors="errors?.description ? errors.description : []"
-                  />
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="albumCreating"
-                buttonClass="btn btn-brand"
-                form="create_album_form"
-                :disabled="!albumImage || !albumTitle"
-              >
-                {{ $t('btn.create') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
-      </div>
+    <v-alert
+      v-else
+      type="info"
+      variant="tonal"
+      class="my-5"
+    >
+      {{ $t('portfolio.no_albums') }}
+    </v-alert>
 
-      <div
-        id="remove_album_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
-        >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('portfolio.you_want_remove_album') }}</h5>
-              <p class="mb-0">{{ $t('portfolio.album_information_will_lost') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removeAlbum()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
+    <v-dialog
+      v-model="albumCreateDialog"
+      :width="500"
+      persistent
+    >
+      <v-card :title="$t('portfolio.creating_album')">
+        <div class="overflow-y-auto pa-5">
+          <div class="d-flex justify-center align-center">
+            <img
+              ref="albumImg"
+              src="/placeholder.svg"
+              alt="placeholder"
+              class="mw-100 max-vh-75"
+            >
           </div>
+          <FileInputButton
+            @selectedFiles="loadAlbumImg"
+            accept="image/*"
+            variant="flat"
+            color="primary"
+            block
+            class="text-none mb-5"
+            :text="$t('portfolio.choose_image')"
+          ></FileInputButton>
+
+          <v-text-field
+            v-model="albumTitle"
+            :readonly="albumProcessing"
+            type="text"
+            maxlength="128"
+            variant="filled"
+            :label="$t('portfolio.title')"
+            :error-messages="errors?.title ? errors.title : []"
+          ></v-text-field>
+          <v-textarea
+            v-model="albumDescription"
+            :readonly="albumProcessing"
+            :label="$t('portfolio.description')"
+            :error-messages="errors?.description ? errors.description : []"
+          ></v-textarea>
         </div>
-      </div>
-    </Teleport>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="() => {
+              albumCreateDialog = false
+              albumImage = null
+              albumTitle = ''
+              albumDescription = ''
+              errors = null
+            }"
+          >
+            {{ $t('btn.cancel') }}
+          </v-btn>
+          <v-btn
+            @click="createAlbum()"
+            :loading="albumProcessing"
+            :disabled="!albumImage || !albumTitle"
+            variant="flat"
+            color="primary"
+          >
+            {{ $t('btn.create') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      :model-value="albumRemoveDialog"
+      width="auto"
+      persistent
+    >
+      <v-card>
+        <v-card-title>
+          {{ $t('portfolio.you_want_remove_album') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('portfolio.album_information_will_lost') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="() => {
+              albumUuid = null
+              albumRemoveDialog = false
+            }"
+          >
+            {{ $t('btn.no_cancel') }}
+          </v-btn>
+          <v-btn
+            @click="removeAlbum()"
+            :loading="albumProcessing"
+          >
+            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 0.3em;
+}
+</style>

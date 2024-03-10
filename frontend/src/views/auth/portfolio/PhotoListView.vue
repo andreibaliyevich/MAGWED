@@ -3,21 +3,22 @@ import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
 </script>
 
 <template>
-  <div class="portfolio-photo-list-view">
-    <div class="px-1 px-lg-3 px-xl-5">
-      <div class="d-flex align-items-center mb-5">
-        <router-link
-          :to="{ name: 'Portfolio' }"
-          class="link-danger text-decoration-none display-6"
-        >
-          {{ $t('portfolio.portfolio') }}
-        </router-link>
-        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
-        <h1 class="display-6 mb-0">
-          {{ $t('portfolio.photos') }}
-        </h1>
-      </div>
-      <PortfolioPhotoList />
+  <div class="mx-md-10">
+    <div class="d-flex align-center my-5">
+      <router-link
+        :to="{ name: 'Portfolio' }"
+        class="text-h4 text-md-h3 text-primary text-decoration-none"
+      >
+        {{ $t('portfolio.portfolio') }}
+      </router-link>
+      <v-icon
+        icon="mdi-chevron-right"
+        size="x-large"
+      ></v-icon>
+      <h1 class="text-h4 text-md-h3">
+        {{ $t('portfolio.photos') }}
+      </h1>
     </div>
+    <PortfolioPhotoList />
   </div>
 </template>

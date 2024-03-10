@@ -1,16 +1,17 @@
 <script setup>
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
 
 const route = useRoute()
 const router = useRouter()
 
-const albumDataLoading = ref(true)
-const albumDataUpdating = ref(false)
+const albumLoading = ref(true)
 const albumImageUpdating = ref(false)
+const albumUpdating = ref(false)
+const albumRemoving = ref(false)
 
 const albumImage = ref(null)
 const albumTitle = ref('')
@@ -20,6 +21,8 @@ const albumCreatedAt = ref(null)
 const albumViewCount = ref(0)
 const albumLikeCount = ref(0)
 const albumRating = ref(0)
+
+const albumRemoveDialog = ref(false)
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
@@ -44,7 +47,7 @@ const getAlbumData = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    albumDataLoading.value = false
+    albumLoading.value = false
   }
 }
 
@@ -73,7 +76,7 @@ const updateAlbumImage = async (filelist) => {
 }
 
 const updateAlbum = async () => {
-  albumDataUpdating.value = true
+  albumUpdating.value = true
   try {
     const response = await axios.put(
       '/portfolio/album/author/rud/'
@@ -85,16 +88,19 @@ const updateAlbum = async () => {
         tags: albumTags.value
       }
     )
-    router.push({ name: 'PortfolioAlbumList' })
+    if (response.status === 200) {
+      router.push({ name: 'PortfolioAlbumList' })
+    }
   } catch (error) {
     status.value = null
     errors.value = error.response.data
   } finally {
-    albumDataUpdating.value = false
+    albumUpdating.value = false
   }
 }
 
 const removeAlbum = async () => {
+  albumRemoving.value = true
   try {
     const response = await axios.delete(
       '/portfolio/album/author/rud/'
@@ -104,6 +110,9 @@ const removeAlbum = async () => {
     router.push({ name: 'PortfolioAlbumList' })
   } catch (error) {
     console.error(error)
+  } finally {
+    albumRemoving.value = false
+    albumRemoveDialog.value = false
   }
 }
 
@@ -113,176 +122,180 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="portfolio-album-detail-view">
-    <LoadingIndicator v-if="albumDataLoading" />
-    <div
-      v-else
-      class="px-1 px-lg-3 px-xl-5"
-    >
-      <div class="d-flex align-items-center mb-3">
-        <router-link
-          :to="{ name: 'Portfolio' }"
-          class="link-danger text-decoration-none display-6"
-        >
-          {{ $t('portfolio.portfolio') }}
-        </router-link>
-        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
-        <router-link
-          :to="{ name: 'PortfolioAlbumList' }"
-          class="link-danger text-decoration-none display-6"
-        >
-          {{ $t('portfolio.albums') }}
-        </router-link>
-        <i class="fa-solid fa-chevron-right mt-2 mx-2"></i>
-        <h1 class="display-6 mb-0">
-          {{ albumTitle }}
-        </h1>
-      </div>
-      <div class="card mb-2">
-        <LoadingIndicator
-          v-if="albumImageUpdating"
-          :actionInfo="$t('portfolio.uploading_image')"
-        />
-        <div v-else>
-          <img
-            :src="albumImage"
-            class="card-img-top"
-          >
-          <div class="card-body text-center">
-            <small
-              v-if="status === 200"
-              class="text-success"
-            >
-              {{ $t('portfolio.image_updated_successfully') }}
-            </small>
-            <small
-              v-if="errors && errors.image"
-              v-for="error in errors.image"
-              class="text-danger"
-            >
-              {{ error }}
-            </small>
-            <div class="d-flex justify-content-center">
-              <FileInputButton
-                @selectedFiles="updateAlbumImage"
-                buttonClass="btn btn-soft-brand m-1"
-                accept="image/*"
-              >
-                {{ $t('portfolio.update_image') }}
-              </FileInputButton>
-            </div>
-            <small class="text-muted">
-              {{ $t('form_help.input_img', { width: '1500', height: '500' }) }}
-            </small>
-          </div>
-        </div>
-      </div>
-
-      <form
-        @submit.prevent="updateAlbum()"
-        id="album_form"
-        class="row g-3"
+  <div class="mx-md-10">
+    <div class="d-flex align-center my-5">
+      <router-link
+        :to="{ name: 'Portfolio' }"
+        class="text-h4 text-md-h3 text-primary text-decoration-none"
       >
-        <div class="col-md-12">
-          <BaseInput
-            v-model="albumTitle"
-            type="text"
-            maxlength="128"
-            id="id_title"
-            name="title"
-            :label="$t('portfolio.title')"
-            :errors="errors?.title ? errors.title : []"
-          />
-        </div>
-        <div class="col-md-12">
-          <BaseTextarea
-            v-model="albumDescription"
-            id="id_description"
-            name="description"
-            :label="$t('portfolio.description')"
-            :errors="errors?.description ? errors.description : []"
-          />
-        </div>
-        <div class="col-md-12">
-          <ListInput
-            v-model="albumTags"
-            id="id_tags"
-            name="tags"
-            :label="$t('portfolio.tags')"
-            :errors="errors?.tags ? errors.tags : []"
-          />
-        </div>
-      </form>
+        {{ $t('portfolio.portfolio') }}
+      </router-link>
+      <v-icon
+        icon="mdi-chevron-right"
+        size="x-large"
+      ></v-icon>
+      <router-link
+        :to="{ name: 'PortfolioAlbumList' }"
+        class="text-h4 text-md-h3 text-primary text-decoration-none"
+      >
+        {{ $t('portfolio.albums') }}
+      </router-link>
+      <v-icon
+        icon="mdi-chevron-right"
+        size="x-large"
+      ></v-icon>
+    </div>
+    <h1 class="text-h4 text-md-h3 d-inline-block">
+      {{ albumTitle }}
+    </h1>
 
-      <hr>
-      <ul class="list-unstyled my-0 px-xl-10">
-        <li>{{ $t('portfolio.created_at') }} {{ getLocaleDateTimeString(albumCreatedAt) }}</li>
-        <li>{{ $t('portfolio.view_count') }}: {{ albumViewCount }}</li>
-        <li>{{ $t('portfolio.likes') }}: {{ albumLikeCount }}</li>
-        <li>{{ $t('portfolio.rating') }}: {{ albumRating }}</li>
-      </ul>
-
-      <div class="d-grid d-md-flex justify-content-md-end gap-2 mt-3">
-        <button
-          type="button"
-          class="btn btn-outline-dark"
-          data-bs-toggle="modal"
-          data-bs-target="#remove_album_modal_choice"
-        >
-          {{ $t('btn.delete') }}
-        </button>
-        <SubmitButton
-          :loadingStatus="albumDataUpdating"
-          buttonClass="btn btn-brand w-100"
-          form="album_form"
-        >
-          {{ $t('btn.update') }}
-        </SubmitButton>
-      </div>
-      <hr>
-      <PortfolioPhotoList />
+    <div
+      v-if="albumLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
     </div>
 
-    <Teleport to="body">
-      <div
-        id="remove_album_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
+    <div v-else>
+      <v-card class="text-center my-5">
+        <v-img
+          :src="albumImage"
+        ></v-img>
+
+        <small
+          v-if="status === 200"
+          class="text-success"
         >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('portfolio.you_want_remove_album') }}</h5>
-              <p class="mb-0">{{ $t('portfolio.album_information_will_lost') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removeAlbum()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
+          {{ $t('portfolio.image_updated_successfully') }}
+        </small>
+        <div
+          v-if="errors?.image"
+          class="text-danger"
+        >
+          <small v-for="error in errors.image">
+            {{ error }}
+          </small>
         </div>
-      </div>
-    </Teleport>
+
+        <v-card-actions class="d-flex justify-center">
+          <FileInputButton
+            @selectedFiles="updateAlbumImage"
+            :loading="albumImageUpdating"
+            accept="image/*"
+            variant="tonal"
+            color="primary"
+            class="text-none"
+            :text="$t('user.update_cover')"
+          ></FileInputButton>
+        </v-card-actions>
+      </v-card>
+
+      <v-card class="my-5 pa-5">
+        <v-form @submit.prevent="updateAlbum()">
+          <v-text-field
+            v-model="albumTitle"
+            :readonly="albumUpdating"
+            type="text"
+            maxlength="128"
+            variant="filled"
+            :label="$t('portfolio.title')"
+            :error-messages="errors?.title ? errors.title : []"
+          ></v-text-field>
+          <v-textarea
+            v-model="albumDescription"
+            :readonly="albumUpdating"
+            :label="$t('portfolio.description')"
+            :error-messages="errors?.description ? errors.description : []"
+          ></v-textarea>
+          <v-combobox
+            v-model="albumTags"
+            :readonly="albumUpdating"
+            multiple
+            chips
+            clearable
+            :label="$t('portfolio.tags')"
+            :error-messages="errors?.tags ? errors.tags : []"
+          ></v-combobox>
+          <v-btn
+            :loading="albumUpdating"
+            type="submit"
+            variant="flat"
+            color="primary"
+            size="large"
+            block
+            class="text-none"
+          >
+            {{ $t('btn.update') }}
+          </v-btn>
+        </v-form>
+
+        <v-divider class="my-5"></v-divider>
+
+        <v-table
+          density="compact"
+          class="my-3"
+        >
+          <tbody>
+            <tr>
+              <td>{{ $t('portfolio.created_at') }}</td>
+              <td>{{ getLocaleDateTimeString(albumCreatedAt) }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t('portfolio.view_count') }}</td>
+              <td>{{ albumViewCount }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t('portfolio.likes') }}</td>
+              <td>{{ albumLikeCount }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t('portfolio.rating') }}</td>
+              <td>{{ albumRating }}</td>
+            </tr>
+          </tbody>
+        </v-table>
+
+        <v-btn
+          @click="albumRemoveDialog = true"
+          variant="outlined"
+          size="large"
+          block
+          class="text-none"
+        >
+          {{ $t('btn.delete') }}
+        </v-btn>
+      </v-card>
+    </div>
+    <PortfolioPhotoList />
+
+    <v-dialog
+      :model-value="albumRemoveDialog"
+      width="auto"
+      persistent
+    >
+      <v-card>
+        <v-card-title>
+          {{ $t('portfolio.you_want_remove_album') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('portfolio.album_information_will_lost') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="albumRemoveDialog = false">
+            {{ $t('btn.no_cancel') }}
+          </v-btn>
+          <v-btn
+            @click="removeAlbum()"
+            :loading="albumRemoving"
+          >
+            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
