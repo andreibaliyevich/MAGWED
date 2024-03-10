@@ -148,7 +148,7 @@ const removeAvatar = async () => {
             </small>
           </div>
 
-          <div class="d-flex justify-space-evenly py-1">
+          <v-card-actions class="d-flex justify-space-evenly">
             <FileInputButton
               @selectedFiles="loadAvatarImg"
               accept="image/*"
@@ -165,7 +165,7 @@ const removeAvatar = async () => {
             >
               {{ $t('user.remove_avatar') }}
             </v-btn>
-          </div>
+          </v-card-actions>
 
           <small class="text-grey-darken-1">
             {{ $t('form_help.input_img', { width: '500', height: '500' }) }}

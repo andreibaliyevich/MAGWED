@@ -108,7 +108,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card class=my-5>
+  <v-card class="my-5">
     <div
       v-if="coverLoading"
       class="d-flex justify-center align-center my-10"
@@ -147,7 +147,7 @@ onMounted(() => {
         </small>
       </div>
 
-      <div class="d-flex justify-space-evenly py-1">
+      <v-card-actions class="d-flex justify-space-evenly">
         <FileInputButton
           @selectedFiles="loadCoverImg"
           accept="image/*"
@@ -164,7 +164,7 @@ onMounted(() => {
         >
           {{ $t('user.remove_cover') }}
         </v-btn>
-      </div>
+      </v-card-actions>
 
       <small class="text-grey-darken-1">
         {{ $t('form_help.input_img', { width: '1500', height: '500' }) }}

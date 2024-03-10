@@ -230,6 +230,7 @@ onMounted(() => {
         >
           <v-textarea
             v-model="description"
+            :readonly="profileUpdating"
             :label="$t('user.description')"
             :error-messages="errors?.description ? errors.description : []"
           ></v-textarea>

@@ -23,8 +23,8 @@ const { logout } = useLogout()
           <v-icon
             v-else
             icon="mdi-account-circle"
-            role="img"
             :size="32"
+            role="img"
           ></v-icon>
         </v-avatar>
       </v-btn>
@@ -45,8 +45,8 @@ const { logout } = useLogout()
               <v-icon
                 v-else
                 icon="mdi-account-circle"
-                role="img"
                 :size="48"
+                role="img"
               ></v-icon>
             </v-avatar>
           </template>
