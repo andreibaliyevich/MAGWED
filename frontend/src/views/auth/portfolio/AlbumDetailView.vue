@@ -232,8 +232,6 @@ onMounted(() => {
           </v-btn>
         </v-form>
 
-        <v-divider class="my-5"></v-divider>
-
         <v-table
           density="compact"
           class="my-3"
