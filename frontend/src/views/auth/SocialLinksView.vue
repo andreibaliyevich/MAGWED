@@ -15,7 +15,8 @@ const socialLinkUrl = ref('')
 
 const linkTypeOptions = ref([])
 
-const organizerLinkDialog = ref(null)
+const socialLinkAddDialog = ref(null)
+const socialLinkUpdateDialog = ref(null)
 
 const errors = ref(null)
 
@@ -51,7 +52,10 @@ const addSocialLink = async () => {
       link_url: socialLinkUrl.value
     })
     socialLinkList.value.push(response.data)
-    organizerLinkDialog.value = false
+    socialLinkAddDialog.value = false
+    socialLinkType.value = null
+    socialLinkUrl.value = ''
+    errors.value = null
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -75,7 +79,11 @@ const updateSocialLink = async () => {
       return element.uuid === socialLinkUuid.value
     })
     socialLinkList.value[foundIndex] = response.data
-    organizerLinkDialog.value = false
+    socialLinkUpdateDialog.value = false
+    socialLinkUuid.value = null
+    socialLinkType.value = null
+    socialLinkUrl.value = ''
+    errors.value = null
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -98,15 +106,6 @@ const removeSocialLink = async (slUuid) => {
 
 watch(locale, () => {
   setLinkTypeOptions()
-})
-
-watch(organizerLinkDialog, (newValue) => {
-  if (!newValue) {
-    socialLinkUuid.value = null
-    socialLinkType.value = null
-    socialLinkUrl.value = ''
-    errors.value = null
-  }
 })
 
 onMounted(() => {
@@ -150,7 +149,7 @@ onMounted(() => {
               socialLinkUuid = socialLinkItem.uuid
               socialLinkType = socialLinkItem.link_type
               socialLinkUrl = socialLinkItem.link_url
-              organizerLinkDialog = true
+              socialLinkUpdateDialog = true
             }"
             variant="text"
             color="grey-darken-3"
@@ -175,7 +174,7 @@ onMounted(() => {
     </v-alert>
 
     <v-btn
-      @click="organizerLinkDialog = true"
+      @click="socialLinkAddDialog = true"
       variant="flat"
       color="primary"
       size="large"
@@ -186,17 +185,11 @@ onMounted(() => {
     </v-btn>
 
     <v-dialog
-      :model-value="organizerLinkDialog"
+      :model-value="socialLinkAddDialog"
       :width="500"
       persistent
     >
-      <v-card
-        :title="
-          socialLinkUuid
-            ? $t('auth.sociallinks.changing_the_link')
-            : $t('auth.sociallinks.adding_a_link')
-        "
-      >
+      <v-card :title="$t('auth.sociallinks.adding_a_link')">
         <v-row
           dense
           class="pa-5"
@@ -233,21 +226,17 @@ onMounted(() => {
         </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="organizerLinkDialog = false">
+          <v-btn
+            @click="() => {
+              socialLinkAddDialog = false
+              socialLinkType = null
+              socialLinkUrl = ''
+              errors = null
+            }"
+          >
             {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn
-            v-if="socialLinkUuid"
-            @click="updateSocialLink()"
-            :loading="socialLinkListUpdating"
-            :disabled="!socialLinkType || !socialLinkUrl"
-            variant="flat"
-            color="primary"
-          >
-            {{ $t('btn.update') }}
-          </v-btn>
-          <v-btn
-            v-else
             @click="addSocialLink()"
             :loading="socialLinkListUpdating"
             :disabled="!socialLinkType || !socialLinkUrl"
@@ -255,6 +244,72 @@ onMounted(() => {
             color="primary"
           >
             {{ $t('btn.add') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      :model-value="socialLinkUpdateDialog"
+      :width="500"
+      persistent
+    >
+      <v-card :title="$t('auth.sociallinks.changing_the_link')">
+        <v-row
+          dense
+          class="pa-5"
+        >
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-select
+              v-model="socialLinkType"
+              :items="linkTypeOptions"
+              item-title="title"
+              item-value="value"
+              :readonly="socialLinkListUpdating"
+              variant="filled"
+              :label="$t('auth.sociallinks.type_of_link')"
+              :error-messages="errors?.link_type ? errors.link_type : []"
+            ></v-select>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-text-field
+              v-model="socialLinkUrl"
+              :readonly="socialLinkListUpdating"
+              type="url"
+              maxlength="200"
+              variant="filled"
+              :label="$t('auth.sociallinks.url_of_link')"
+              :error-messages="errors?.link_url ? errors.link_url : []"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="() => {
+              socialLinkUpdateDialog = false
+              socialLinkUuid = null
+              socialLinkType = null
+              socialLinkUrl = ''
+              errors = null
+            }"
+          >
+            {{ $t('btn.cancel') }}
+          </v-btn>
+          <v-btn
+            @click="updateSocialLink()"
+            :loading="socialLinkListUpdating"
+            :disabled="!socialLinkType || !socialLinkUrl"
+            variant="flat"
+            color="primary"
+          >
+            {{ $t('btn.update') }}
           </v-btn>
         </v-card-actions>
       </v-card>
