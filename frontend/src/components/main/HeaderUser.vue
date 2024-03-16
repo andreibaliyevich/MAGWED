@@ -32,6 +32,7 @@ const { logout } = useLogout()
     <v-sheet
       :min-width="210"
       :max-width="290"
+      rounded="lg"
     >
       <v-list class="pb-0">
         <v-list-item>

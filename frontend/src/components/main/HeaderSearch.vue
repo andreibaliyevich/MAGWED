@@ -96,7 +96,7 @@ watch(searchType, () => {
       ></v-btn>
     </template>
     <template v-slot:default="{ isActive }">
-      <v-card>
+      <v-card rounded="lg">
         <v-text-field
           v-model="searchQuery"
           :loading="searchLoading"
@@ -146,7 +146,7 @@ watch(searchType, () => {
               :key="`searchedItem${index}`"
               class="mx-1 my-1"
             >
-              <v-card variant="elevated">
+              <v-card rounded="lg">
                 <template v-slot:prepend>
                   <router-link
                     :to="{
@@ -202,7 +202,7 @@ watch(searchType, () => {
               :key="`searchedItem${index}`"
               class="mx-1 my-1"
             >
-              <v-card variant="elevated">
+              <v-card rounded="lg">
                 <v-row class="me-3">
                   <v-col
                     :cols="12"
@@ -318,7 +318,7 @@ watch(searchType, () => {
               :key="`searchedItem${index}`"
               class="mx-1 my-1"
             >
-              <v-card variant="elevated">
+              <v-card rounded="lg">
                 <v-row class="me-3">
                   <v-col
                     :cols="12"
@@ -434,7 +434,7 @@ watch(searchType, () => {
               :key="`searchedItem${index}`"
               class="mx-1 my-1"
             >
-              <v-card variant="elevated">
+              <v-card rounded="lg">
                 <router-link
                   :to="{
                     name: 'ArticleDetail',

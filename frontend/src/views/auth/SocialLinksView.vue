@@ -189,7 +189,10 @@ onMounted(() => {
       :width="500"
       persistent
     >
-      <v-card :title="$t('auth.sociallinks.adding_a_link')">
+      <v-card
+        :title="$t('auth.sociallinks.adding_a_link')"
+        rounded="lg"
+      >
         <v-row
           dense
           class="pa-5"
@@ -254,7 +257,10 @@ onMounted(() => {
       :width="500"
       persistent
     >
-      <v-card :title="$t('auth.sociallinks.changing_the_link')">
+      <v-card
+        :title="$t('auth.sociallinks.changing_the_link')"
+        rounded="lg"
+      >
         <v-row
           dense
           class="pa-5"

@@ -256,7 +256,10 @@ onMounted(() => {
           :lg="4"
         >
           <v-hover v-slot="{ isHovering, props }">
-            <v-card v-bind="props">
+            <v-card
+              v-bind="props"
+              rounded="lg"
+            >
               <v-img
                 :src="photoItem.thumbnail"
                 :alt="photoItem.title"
@@ -316,7 +319,7 @@ onMounted(() => {
       :width="500"
       persistent
     >
-      <v-card>
+      <v-card rounded="lg">
         <v-card-title>
           {{ $t('portfolio.uploading_photos') }}
         </v-card-title>
@@ -345,7 +348,7 @@ onMounted(() => {
       width="80%"
       persistent
     >
-      <v-card>
+      <v-card rounded="lg">
         <div class="overflow-y-auto">
           <v-hover v-slot="{ isHovering, props }">
             <v-sheet
@@ -565,7 +568,7 @@ onMounted(() => {
       width="auto"
       persistent
     >
-      <v-card>
+      <v-card rounded="lg">
         <v-card-title>
           {{ $t('portfolio.you_want_remove_photo') }}
         </v-card-title>

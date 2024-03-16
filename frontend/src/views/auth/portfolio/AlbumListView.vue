@@ -174,7 +174,10 @@ onMounted(() => {
           :lg="4"
         >
           <v-hover v-slot="{ isHovering, props }">
-            <v-card v-bind="props">
+            <v-card
+              v-bind="props"
+              rounded="lg"
+            >
               <v-img
                 :src="albumItem.thumbnail"
                 :alt="albumItem.title"
@@ -236,7 +239,10 @@ onMounted(() => {
       :width="500"
       persistent
     >
-      <v-card :title="$t('portfolio.creating_album')">
+      <v-card
+        :title="$t('portfolio.creating_album')"
+        rounded="lg"
+      >
         <div class="overflow-y-auto pa-5">
           <div class="d-flex justify-center align-center">
             <img
@@ -304,7 +310,7 @@ onMounted(() => {
       width="auto"
       persistent
     >
-      <v-card>
+      <v-card rounded="lg">
         <v-card-title>
           {{ $t('portfolio.you_want_remove_album') }}
         </v-card-title>

@@ -150,6 +150,7 @@ onMounted(() => {
     </template>
     <v-sheet
       :width="350"
+      rounded="lg"
       class="px-1 py-1"
     >
       <div class="d-flex justify-space-between align-center px-3 pt-2">

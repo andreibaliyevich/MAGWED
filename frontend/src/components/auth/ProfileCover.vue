@@ -108,7 +108,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card class="my-5">
+  <v-card
+    rounded="lg"
+    class="my-5"
+  >
     <div
       v-if="coverLoading"
       class="d-flex justify-center align-center my-10"
@@ -175,7 +178,7 @@ onMounted(() => {
         width="auto"
         persistent
       >
-        <v-card>
+        <v-card rounded="lg">
           <div class="d-flex justify-center align-center">
             <img
               ref="coverImg"
@@ -214,7 +217,7 @@ onMounted(() => {
         width="auto"
         persistent
       >
-        <v-card>
+        <v-card rounded="lg">
           <v-card-title>
             {{ $t('user.you_want_remove_cover') }}
           </v-card-title>

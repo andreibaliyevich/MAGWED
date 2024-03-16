@@ -110,7 +110,10 @@ const removeAvatar = async () => {
 </script>
 
 <template>
-  <v-card class="my-5">
+  <v-card
+    rounded="lg"
+    class="my-5"
+  >
     <v-row class="d-flex align-center">
       <v-col
         :cols="12"
@@ -179,7 +182,7 @@ const removeAvatar = async () => {
       width="auto"
       persistent
     >
-      <v-card>
+      <v-card rounded="lg">
         <div class="d-flex justify-center align-center">
           <img
             ref="avatarImg"
@@ -218,7 +221,7 @@ const removeAvatar = async () => {
       width="auto"
       persistent
     >
-      <v-card>
+      <v-card rounded="lg">
         <v-card-title>
           {{ $t('user.you_want_remove_avatar') }}
         </v-card-title>

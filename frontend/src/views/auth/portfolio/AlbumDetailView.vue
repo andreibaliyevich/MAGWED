@@ -194,7 +194,7 @@ onMounted(() => {
         </v-card-actions>
       </div>
 
-      <div class="elevation-1 rounded-lg text-center my-5 pa-5">
+      <div class="elevation-1 rounded-lg my-5 pa-5">
         <v-form @submit.prevent="updateAlbum()">
           <v-text-field
             v-model="albumTitle"
