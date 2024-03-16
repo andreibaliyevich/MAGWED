@@ -157,7 +157,6 @@ watch(searchType, () => {
                       }
                     }"
                     @click="isActive.value = false"
-                    class="text-grey-darken-1 text-decoration-none"
                   >
                     <AvatarExtended
                       :image="organizer.user.avatar"
@@ -256,7 +255,7 @@ watch(searchType, () => {
                           }"
                           @click="isActive.value = false"
                         >
-                          <v-avatar size="small">
+                          <v-avatar :size="32">
                             <v-img
                               v-if="photo.author.avatar"
                               :src="photo.author.avatar"
@@ -265,7 +264,7 @@ watch(searchType, () => {
                             <v-icon
                               v-else
                               icon="mdi-account-circle"
-                              size="x-large"
+                              :size="32"
                             ></v-icon>
                           </v-avatar>
                         </router-link>
@@ -372,7 +371,7 @@ watch(searchType, () => {
                           }"
                           @click="isActive.value = false"
                         >
-                          <v-avatar size="small">
+                          <v-avatar :size="32">
                             <v-img
                               v-if="album.author.avatar"
                               :src="album.author.avatar"
@@ -381,7 +380,7 @@ watch(searchType, () => {
                             <v-icon
                               v-else
                               icon="mdi-account-circle"
-                              size="x-large"
+                              :size="32"
                             ></v-icon>
                           </v-avatar>
                         </router-link>
