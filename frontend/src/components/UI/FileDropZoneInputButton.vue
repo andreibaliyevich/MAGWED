@@ -46,7 +46,7 @@ export default {
         @change="changeInput"
         type="file"
         v-bind="$attrs"
-        class="visually-hidden"
+        class="hidden-visually"
       >
       <v-btn
         @click="$refs.fileInput.click()"

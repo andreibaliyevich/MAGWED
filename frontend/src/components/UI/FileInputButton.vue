@@ -30,7 +30,7 @@ export default {
       type="file"
       :accept="accept"
       :multiple="multiple"
-      class="visually-hidden"
+      class="hidden-visually"
     >
     <v-btn
       @click="$refs.fileInput.click()"
