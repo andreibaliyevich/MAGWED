@@ -49,7 +49,7 @@ export default {
         class="hidden-visually"
       >
       <v-btn
-        @click="$refs.fileInput.click()"
+        @click.stop="$refs.fileInput.click()"
         :text="buttonText"
         variant="tonal"
         color="primary"

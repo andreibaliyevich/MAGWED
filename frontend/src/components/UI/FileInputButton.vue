@@ -33,7 +33,7 @@ export default {
       class="hidden-visually"
     >
     <v-btn
-      @click="$refs.fileInput.click()"
+      @click.stop="$refs.fileInput.click()"
       v-bind="$attrs"
     ></v-btn>
   </div>
