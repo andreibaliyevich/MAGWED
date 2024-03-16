@@ -15,14 +15,13 @@ const settingsMenuDrawer = ref(false)
       >
         <v-btn
           @click.stop="settingsMenuDrawer = !settingsMenuDrawer"
-          variant="outlined"
           append-icon="mdi-dots-vertical"
+          variant="outlined"
           block
           class="d-inline-flex d-md-none"
         >
           {{ $t('auth.settings_menu') }}
         </v-btn>
-        <SettingsMenu />
         <v-navigation-drawer
           v-model="settingsMenuDrawer"
           location="end"
@@ -30,6 +29,7 @@ const settingsMenuDrawer = ref(false)
         >
           <SettingsMenu drawer />
         </v-navigation-drawer>
+        <SettingsMenu />
       </v-col>
       <v-col
         :cols="12"
