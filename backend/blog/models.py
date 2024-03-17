@@ -54,12 +54,13 @@ class Article(models.Model):
 
     image = models.ImageField(
         upload_to=get_article_path,
+        help_text=_('Required minimum of size 1500 x 300.'),
         verbose_name=_('Image'),
     )
     thumbnail = ThumbnailerImageField(
         upload_to=get_thumbnail_path,
         resize_source={
-            'size': (800, 600),
+            'size': (1000, 200),
             'crop': 'smart',
             'autocrop': True,
             'quality': 100,
