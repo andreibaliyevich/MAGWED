@@ -34,6 +34,7 @@ const settingsMenuDrawer = ref(false)
       <v-col
         :cols="12"
         :md="9"
+        class="px-md-12"
       >
         <router-view></router-view>
       </v-col>

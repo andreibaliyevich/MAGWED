@@ -44,125 +44,123 @@ const confirmPasswordReset = async () => {
 </script>
 
 <template>
-  <div class="mx-10">
-    <h1 class="text-h4 text-md-h3 text-center mb-4">
-      {{ $t('auth.passwordresetconfirm.password_reset_confirm') }}
-    </h1>
+  <h1 class="text-h4 text-md-h3 text-center mb-4">
+    {{ $t('auth.passwordresetconfirm.password_reset_confirm') }}
+  </h1>
 
-    <v-alert
-      v-if="status === 204"
-      type="success"
-      variant="tonal"
-      :title="$t('auth.passwordresetconfirm.success1')"
-    >
-      <p class="text-body-1 text-grey-darken-1">
-        {{ $t('auth.passwordresetconfirm.success2') }}<br>
-        {{ $t('auth.passwordresetconfirm.success3') }}
-      </p>
-      <div class="text-center mt-3">
-        <router-link
-          :to="{ name: 'Login' }"
-          class="text-decoration-none"
-        >
-          {{ $t('auth.log_in') }}
-        </router-link>
-      </div>
-    </v-alert>
-
-    <v-alert
-      v-else-if="errors && (errors.detail || errors.non_field_errors || errors.uid || errors.token)"
-      type="error"
-      variant="tonal"
-      :title="$t('auth.passwordresetconfirm.error')"
-    >
-      <p
-        v-if="errors.detail"
-        class="text-body-1 text-grey-darken-1"
+  <v-alert
+    v-if="status === 204"
+    type="success"
+    variant="tonal"
+    :title="$t('auth.passwordresetconfirm.success1')"
+  >
+    <p class="text-body-1 text-grey-darken-1">
+      {{ $t('auth.passwordresetconfirm.success2') }}<br>
+      {{ $t('auth.passwordresetconfirm.success3') }}
+    </p>
+    <div class="text-center mt-3">
+      <router-link
+        :to="{ name: 'Login' }"
+        class="text-decoration-none"
       >
-        {{ errors.detail }}
-      </p>
-      <p
-        v-if="errors.non_field_errors"
-        class="text-body-1 text-grey-darken-1"
-      >
-        <div v-for="error in errors.non_field_errors">
-          {{ error }}<br>
-        </div>
-      </p>
-      <p
-        v-if="errors.uid"
-        class="text-body-1 text-grey-darken-1"
-      >
-        <div v-for="error in errors.uid">
-          {{ error }}<br>
-        </div>
-      </p>
-      <p
-        v-if="errors.token"
-        class="text-body-1 text-grey-darken-1"
-      >
-        <div v-for="error in errors.token">
-          {{ error }}<br>
-        </div>
-      </p>
-      <div class="text-center mt-3">
-        <router-link
-          :to="{ name: 'PasswordReset' }"
-          class="text-decoration-none"
-        >
-          {{ $t('auth.password.reset_password') }}
-        </router-link>
-      </div>
-    </v-alert>
-
-    <div v-else>
-      <v-list class="text-body-1 text-grey-darken-1">
-        <v-list-item prepend-icon="mdi-circle-small">
-          {{ $t('auth.password.advice1') }}
-        </v-list-item>
-        <v-list-item prepend-icon="mdi-circle-small">
-          {{ $t('auth.password.advice2') }}
-        </v-list-item>
-        <v-list-item prepend-icon="mdi-circle-small">
-          {{ $t('auth.password.advice3') }}
-        </v-list-item>
-        <v-list-item prepend-icon="mdi-circle-small">
-          {{ $t('auth.password.advice4') }}
-        </v-list-item>
-      </v-list>
-
-      <v-form @submit.prevent="confirmPasswordReset()">
-        <v-text-field
-          v-model="newPassword"
-          :readonly="loadingStatus"
-          :type="newPasswordShow ? 'text' : 'password'"
-          :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="newPasswordShow = !newPasswordShow"
-          variant="filled"
-          :label="$t('auth.password.new_password')"
-          :error-messages="errors?.new_password ? errors.new_password : []"
-        ></v-text-field>
-        <v-text-field
-          v-model="newPassword2"
-          :readonly="loadingStatus"
-          :type="newPassword2Show ? 'text' : 'password'"
-          :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="newPassword2Show = !newPassword2Show"
-          variant="filled"
-          :label="$t('auth.password.new_password2')"
-          :error-messages="errors?.new_password2 ? errors.new_password2 : []"
-        ></v-text-field>
-        <v-btn
-          :loading="loadingStatus"
-          type="submit"
-          variant="flat"
-          color="primary"
-          size="x-large"
-          block
-        >
-          {{ $t('auth.passwordresetconfirm.confirm_password_reset') }}
-        </v-btn>
-      </v-form>
+        {{ $t('auth.log_in') }}
+      </router-link>
     </div>
+  </v-alert>
+
+  <v-alert
+    v-else-if="errors && (errors.detail || errors.non_field_errors || errors.uid || errors.token)"
+    type="error"
+    variant="tonal"
+    :title="$t('auth.passwordresetconfirm.error')"
+  >
+    <p
+      v-if="errors.detail"
+      class="text-body-1 text-grey-darken-1"
+    >
+      {{ errors.detail }}
+    </p>
+    <p
+      v-if="errors.non_field_errors"
+      class="text-body-1 text-grey-darken-1"
+    >
+      <div v-for="error in errors.non_field_errors">
+        {{ error }}<br>
+      </div>
+    </p>
+    <p
+      v-if="errors.uid"
+      class="text-body-1 text-grey-darken-1"
+    >
+      <div v-for="error in errors.uid">
+        {{ error }}<br>
+      </div>
+    </p>
+    <p
+      v-if="errors.token"
+      class="text-body-1 text-grey-darken-1"
+    >
+      <div v-for="error in errors.token">
+        {{ error }}<br>
+      </div>
+    </p>
+    <div class="text-center mt-3">
+      <router-link
+        :to="{ name: 'PasswordReset' }"
+        class="text-decoration-none"
+      >
+        {{ $t('auth.password.reset_password') }}
+      </router-link>
+    </div>
+  </v-alert>
+
+  <div v-else>
+    <v-list class="text-body-1 text-grey-darken-1">
+      <v-list-item prepend-icon="mdi-circle-small">
+        {{ $t('auth.password.advice1') }}
+      </v-list-item>
+      <v-list-item prepend-icon="mdi-circle-small">
+        {{ $t('auth.password.advice2') }}
+      </v-list-item>
+      <v-list-item prepend-icon="mdi-circle-small">
+        {{ $t('auth.password.advice3') }}
+      </v-list-item>
+      <v-list-item prepend-icon="mdi-circle-small">
+        {{ $t('auth.password.advice4') }}
+      </v-list-item>
+    </v-list>
+
+    <v-form @submit.prevent="confirmPasswordReset()">
+      <v-text-field
+        v-model="newPassword"
+        :readonly="loadingStatus"
+        :type="newPasswordShow ? 'text' : 'password'"
+        :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="newPasswordShow = !newPasswordShow"
+        variant="filled"
+        :label="$t('auth.password.new_password')"
+        :error-messages="errors?.new_password ? errors.new_password : []"
+      ></v-text-field>
+      <v-text-field
+        v-model="newPassword2"
+        :readonly="loadingStatus"
+        :type="newPassword2Show ? 'text' : 'password'"
+        :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="newPassword2Show = !newPassword2Show"
+        variant="filled"
+        :label="$t('auth.password.new_password2')"
+        :error-messages="errors?.new_password2 ? errors.new_password2 : []"
+      ></v-text-field>
+      <v-btn
+        :loading="loadingStatus"
+        type="submit"
+        variant="flat"
+        color="primary"
+        size="x-large"
+        block
+      >
+        {{ $t('auth.passwordresetconfirm.confirm_password_reset') }}
+      </v-btn>
+    </v-form>
   </div>
 </template>

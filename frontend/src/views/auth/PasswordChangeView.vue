@@ -43,76 +43,77 @@ const changePassword = async () => {
 </script>
 
 <template>
-  <div class="mx-md-10 mb-10">
-    <h1 class="text-h4 text-md-h3 text-center my-5">
-      {{ $t('auth.passwordchange.password_change') }}
-    </h1>
+  <h1 class="text-h4 text-md-h3 text-center my-5">
+    {{ $t('auth.passwordchange.password_change') }}
+  </h1>
 
-    <v-alert
-      v-if="status === 204"
-      type="success"
-      variant="tonal"
-      closable
+  <v-alert
+    v-if="status === 204"
+    type="success"
+    variant="tonal"
+    closable
+  >
+    {{ $t('auth.passwordchange.success') }}
+  </v-alert>
+
+  <v-list class="text-body-1">
+    <v-list-item prepend-icon="mdi-circle-small">
+      {{ $t('auth.password.advice1') }}
+    </v-list-item>
+    <v-list-item prepend-icon="mdi-circle-small">
+      {{ $t('auth.password.advice2') }}
+    </v-list-item>
+    <v-list-item prepend-icon="mdi-circle-small">
+      {{ $t('auth.password.advice3') }}
+    </v-list-item>
+    <v-list-item prepend-icon="mdi-circle-small">
+      {{ $t('auth.password.advice4') }}
+    </v-list-item>
+  </v-list>
+
+  <v-form
+    @submit.prevent="changePassword()"
+    class="mb-10"
+  >
+    <v-text-field
+      v-model="currentPassword"
+      :readonly="passwordUpdating"
+      :type="currentPasswordShow ? 'text' : 'password'"
+      :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="currentPasswordShow = !currentPasswordShow"
+      variant="filled"
+      :label="$t('auth.passwordchange.current_password')"
+      :error-messages="errors?.current_password ? errors.current_password : []"
+    ></v-text-field>
+    <v-text-field
+      v-model="newPassword"
+      :readonly="passwordUpdating"
+      :type="newPasswordShow ? 'text' : 'password'"
+      :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="newPasswordShow = !newPasswordShow"
+      variant="filled"
+      :label="$t('auth.password.new_password')"
+      :error-messages="errors?.new_password ? errors.new_password : []"
+    ></v-text-field>
+    <v-text-field
+      v-model="newPassword2"
+      :readonly="passwordUpdating"
+      :type="newPassword2Show ? 'text' : 'password'"
+      :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="newPassword2Show = !newPassword2Show"
+      variant="filled"
+      :label="$t('auth.password.new_password2')"
+      :error-messages="errors?.new_password2 ? errors.new_password2 : []"
+    ></v-text-field>
+    <v-btn
+      :loading="passwordUpdating"
+      type="submit"
+      variant="flat"
+      color="primary"
+      size="x-large"
+      class="text-none mt-3"
     >
-      {{ $t('auth.passwordchange.success') }}
-    </v-alert>
-
-    <v-list class="text-body-1">
-      <v-list-item prepend-icon="mdi-circle-small">
-        {{ $t('auth.password.advice1') }}
-      </v-list-item>
-      <v-list-item prepend-icon="mdi-circle-small">
-        {{ $t('auth.password.advice2') }}
-      </v-list-item>
-      <v-list-item prepend-icon="mdi-circle-small">
-        {{ $t('auth.password.advice3') }}
-      </v-list-item>
-      <v-list-item prepend-icon="mdi-circle-small">
-        {{ $t('auth.password.advice4') }}
-      </v-list-item>
-    </v-list>
-
-    <v-form @submit.prevent="changePassword()">
-      <v-text-field
-        v-model="currentPassword"
-        :readonly="passwordUpdating"
-        :type="currentPasswordShow ? 'text' : 'password'"
-        :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="currentPasswordShow = !currentPasswordShow"
-        variant="filled"
-        :label="$t('auth.passwordchange.current_password')"
-        :error-messages="errors?.current_password ? errors.current_password : []"
-      ></v-text-field>
-      <v-text-field
-        v-model="newPassword"
-        :readonly="passwordUpdating"
-        :type="newPasswordShow ? 'text' : 'password'"
-        :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="newPasswordShow = !newPasswordShow"
-        variant="filled"
-        :label="$t('auth.password.new_password')"
-        :error-messages="errors?.new_password ? errors.new_password : []"
-      ></v-text-field>
-      <v-text-field
-        v-model="newPassword2"
-        :readonly="passwordUpdating"
-        :type="newPassword2Show ? 'text' : 'password'"
-        :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="newPassword2Show = !newPassword2Show"
-        variant="filled"
-        :label="$t('auth.password.new_password2')"
-        :error-messages="errors?.new_password2 ? errors.new_password2 : []"
-      ></v-text-field>
-      <v-btn
-        :loading="passwordUpdating"
-        type="submit"
-        variant="flat"
-        color="primary"
-        size="x-large"
-        class="text-none mt-3"
-      >
-        {{ $t('auth.passwordchange.change_password') }}
-      </v-btn>
-    </v-form>
-  </div>
+      {{ $t('auth.passwordchange.change_password') }}
+    </v-btn>
+  </v-form>
 </template>

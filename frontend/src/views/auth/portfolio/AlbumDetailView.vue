@@ -122,179 +122,177 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mx-md-10">
-    <div class="d-flex align-center my-5">
-      <router-link
-        :to="{ name: 'Portfolio' }"
-        class="text-h4 text-md-h3 text-primary text-decoration-none"
-      >
-        {{ $t('portfolio.portfolio') }}
-      </router-link>
-      <v-icon
-        icon="mdi-chevron-right"
-        size="x-large"
-      ></v-icon>
-      <router-link
-        :to="{ name: 'PortfolioAlbumList' }"
-        class="text-h4 text-md-h3 text-primary text-decoration-none"
-      >
-        {{ $t('portfolio.albums') }}
-      </router-link>
-      <v-icon
-        icon="mdi-chevron-right"
-        size="x-large"
-      ></v-icon>
-    </div>
-    <h1 class="text-h4 text-md-h3 d-inline-block">
-      {{ albumTitle }}
-    </h1>
-
-    <div
-      v-if="albumLoading"
-      class="d-flex justify-center align-center my-15"
+  <div class="d-flex align-center my-5">
+    <router-link
+      :to="{ name: 'Portfolio' }"
+      class="text-h4 text-md-h3 text-primary text-decoration-none"
     >
-      <v-progress-circular
-        indeterminate
-        :size="80"
-      ></v-progress-circular>
-    </div>
+      {{ $t('portfolio.portfolio') }}
+    </router-link>
+    <v-icon
+      icon="mdi-chevron-right"
+      size="x-large"
+    ></v-icon>
+    <router-link
+      :to="{ name: 'PortfolioAlbumList' }"
+      class="text-h4 text-md-h3 text-primary text-decoration-none"
+    >
+      {{ $t('portfolio.albums') }}
+    </router-link>
+    <v-icon
+      icon="mdi-chevron-right"
+      size="x-large"
+    ></v-icon>
+  </div>
+  <h1 class="text-h4 text-md-h3 d-inline-block">
+    {{ albumTitle }}
+  </h1>
 
-    <div v-else>
-      <div class="elevation-1 rounded-lg text-center my-5">
-        <v-img
-          :src="albumImage"
-          class="rounded-t-lg"
-        ></v-img>
+  <div
+    v-if="albumLoading"
+    class="d-flex justify-center align-center my-15"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="80"
+    ></v-progress-circular>
+  </div>
 
-        <small
-          v-if="status === 200"
-          class="text-success"
-        >
-          {{ $t('portfolio.image_updated_successfully') }}
+  <div v-else>
+    <div class="elevation-1 rounded-lg text-center my-5">
+      <v-img
+        :src="albumImage"
+        class="rounded-t-lg"
+      ></v-img>
+
+      <small
+        v-if="status === 200"
+        class="text-success"
+      >
+        {{ $t('portfolio.image_updated_successfully') }}
+      </small>
+      <div
+        v-if="errors?.image"
+        class="text-danger"
+      >
+        <small v-for="error in errors.image">
+          {{ error }}
         </small>
-        <div
-          v-if="errors?.image"
-          class="text-danger"
-        >
-          <small v-for="error in errors.image">
-            {{ error }}
-          </small>
-        </div>
-
-        <v-card-actions class="d-flex justify-center">
-          <FileInputButton
-            @selectedFiles="updateAlbumImage"
-            :loading="albumImageUpdating"
-            accept="image/*"
-            variant="tonal"
-            color="primary"
-            class="text-none"
-            :text="$t('user.update_cover')"
-          ></FileInputButton>
-        </v-card-actions>
       </div>
 
-      <div class="elevation-1 rounded-lg my-5 pa-5">
-        <v-form @submit.prevent="updateAlbum()">
-          <v-text-field
-            v-model="albumTitle"
-            :readonly="albumUpdating"
-            type="text"
-            maxlength="128"
-            variant="filled"
-            :label="$t('portfolio.title')"
-            :error-messages="errors?.title ? errors.title : []"
-          ></v-text-field>
-          <v-textarea
-            v-model="albumDescription"
-            :readonly="albumUpdating"
-            :label="$t('portfolio.description')"
-            :error-messages="errors?.description ? errors.description : []"
-          ></v-textarea>
-          <v-combobox
-            v-model="albumTags"
-            :readonly="albumUpdating"
-            multiple
-            chips
-            clearable
-            :label="$t('portfolio.tags')"
-            :error-messages="errors?.tags ? errors.tags : []"
-          ></v-combobox>
-          <v-btn
-            :loading="albumUpdating"
-            type="submit"
-            variant="flat"
-            color="primary"
-            size="large"
-            block
-            class="text-none"
-          >
-            {{ $t('btn.update') }}
-          </v-btn>
-        </v-form>
+      <v-card-actions class="d-flex justify-center">
+        <FileInputButton
+          @selectedFiles="updateAlbumImage"
+          :loading="albumImageUpdating"
+          accept="image/*"
+          variant="tonal"
+          color="primary"
+          class="text-none"
+          :text="$t('user.update_cover')"
+        ></FileInputButton>
+      </v-card-actions>
+    </div>
 
-        <v-table
-          density="compact"
-          class="my-3"
-        >
-          <tbody>
-            <tr>
-              <td>{{ $t('portfolio.created_at') }}</td>
-              <td>{{ getLocaleDateTimeString(albumCreatedAt) }}</td>
-            </tr>
-            <tr>
-              <td>{{ $t('portfolio.view_count') }}</td>
-              <td>{{ albumViewCount }}</td>
-            </tr>
-            <tr>
-              <td>{{ $t('portfolio.likes') }}</td>
-              <td>{{ albumLikeCount }}</td>
-            </tr>
-            <tr>
-              <td>{{ $t('portfolio.rating') }}</td>
-              <td>{{ albumRating }}</td>
-            </tr>
-          </tbody>
-        </v-table>
-
+    <div class="elevation-1 rounded-lg my-5 pa-5">
+      <v-form @submit.prevent="updateAlbum()">
+        <v-text-field
+          v-model="albumTitle"
+          :readonly="albumUpdating"
+          type="text"
+          maxlength="128"
+          variant="filled"
+          :label="$t('portfolio.title')"
+          :error-messages="errors?.title ? errors.title : []"
+        ></v-text-field>
+        <v-textarea
+          v-model="albumDescription"
+          :readonly="albumUpdating"
+          :label="$t('portfolio.description')"
+          :error-messages="errors?.description ? errors.description : []"
+        ></v-textarea>
+        <v-combobox
+          v-model="albumTags"
+          :readonly="albumUpdating"
+          multiple
+          chips
+          clearable
+          :label="$t('portfolio.tags')"
+          :error-messages="errors?.tags ? errors.tags : []"
+        ></v-combobox>
         <v-btn
-          @click="albumRemoveDialog = true"
-          variant="outlined"
+          :loading="albumUpdating"
+          type="submit"
+          variant="flat"
+          color="primary"
           size="large"
           block
           class="text-none"
         >
-          {{ $t('btn.delete') }}
+          {{ $t('btn.update') }}
         </v-btn>
-      </div>
-    </div>
-    <PortfolioPhotoList />
+      </v-form>
 
-    <v-dialog
-      :model-value="albumRemoveDialog"
-      width="auto"
-      persistent
-    >
-      <v-card>
-        <v-card-title>
-          {{ $t('portfolio.you_want_remove_album') }}
-        </v-card-title>
-        <v-card-text>
-          {{ $t('portfolio.album_information_will_lost') }}
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="albumRemoveDialog = false">
-            {{ $t('btn.no_cancel') }}
-          </v-btn>
-          <v-btn
-            @click="removeAlbum()"
-            :loading="albumRemoving"
-          >
-            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <v-table
+        density="compact"
+        class="my-3"
+      >
+        <tbody>
+          <tr>
+            <td>{{ $t('portfolio.created_at') }}</td>
+            <td>{{ getLocaleDateTimeString(albumCreatedAt) }}</td>
+          </tr>
+          <tr>
+            <td>{{ $t('portfolio.view_count') }}</td>
+            <td>{{ albumViewCount }}</td>
+          </tr>
+          <tr>
+            <td>{{ $t('portfolio.likes') }}</td>
+            <td>{{ albumLikeCount }}</td>
+          </tr>
+          <tr>
+            <td>{{ $t('portfolio.rating') }}</td>
+            <td>{{ albumRating }}</td>
+          </tr>
+        </tbody>
+      </v-table>
+
+      <v-btn
+        @click="albumRemoveDialog = true"
+        variant="outlined"
+        size="large"
+        block
+        class="text-none"
+      >
+        {{ $t('btn.delete') }}
+      </v-btn>
+    </div>
   </div>
+  <PortfolioPhotoList />
+
+  <v-dialog
+    :model-value="albumRemoveDialog"
+    width="auto"
+    persistent
+  >
+    <v-card>
+      <v-card-title>
+        {{ $t('portfolio.you_want_remove_album') }}
+      </v-card-title>
+      <v-card-text>
+        {{ $t('portfolio.album_information_will_lost') }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="albumRemoveDialog = false">
+          {{ $t('btn.no_cancel') }}
+        </v-btn>
+        <v-btn
+          @click="removeAlbum()"
+          :loading="albumRemoving"
+        >
+          <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>

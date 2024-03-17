@@ -24,7 +24,7 @@
           :elevation="3"
           color="white"
           rounded="lg"
-          class="py-10"
+          class="pa-10"
         >
           <router-view></router-view>
         </v-sheet>

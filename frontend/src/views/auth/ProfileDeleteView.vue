@@ -39,37 +39,38 @@ const deletingProfile = async () => {
 </script>
 
 <template>
-  <div class="mx-md-10 mb-10">
-    <h1 class="text-h4 text-md-h3 text-center my-5">
-      {{ $t('auth.profile_delete.profile_delete') }}
-    </h1>
+  <h1 class="text-h4 text-md-h3 text-center my-5">
+    {{ $t('auth.profile_delete.profile_delete') }}
+  </h1>
 
-    <p class="text-body-1 mb-5">
-      {{ $t('auth.profile_delete.advice1') }}<br>
-      {{ $t('auth.profile_delete.advice2') }}
-    </p>
+  <p class="text-body-1 mb-5">
+    {{ $t('auth.profile_delete.advice1') }}<br>
+    {{ $t('auth.profile_delete.advice2') }}
+  </p>
 
-    <v-form @submit.prevent="deletingProfile()">
-      <v-text-field
-        v-model="currentPassword"
-        :readonly="profileDeleting"
-        :type="currentPasswordShow ? 'text' : 'password'"
-        :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="currentPasswordShow = !currentPasswordShow"
-        variant="filled"
-        :label="$t('auth.profile_delete.password_confirmation')"
-        :error-messages="errors?.current_password ? errors.current_password : []"
-      ></v-text-field>
-      <v-btn
-        :loading="profileDeleting"
-        type="submit"
-        variant="flat"
-        color="primary"
-        size="x-large"
-        class="text-none mt-3"
-      >
-        {{ $t('auth.profile_delete.delete_profile') }}
-      </v-btn>
-    </v-form>
-  </div>
+  <v-form
+    @submit.prevent="deletingProfile()"
+    class="mb-10"
+  >
+    <v-text-field
+      v-model="currentPassword"
+      :readonly="profileDeleting"
+      :type="currentPasswordShow ? 'text' : 'password'"
+      :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="currentPasswordShow = !currentPasswordShow"
+      variant="filled"
+      :label="$t('auth.profile_delete.password_confirmation')"
+      :error-messages="errors?.current_password ? errors.current_password : []"
+    ></v-text-field>
+    <v-btn
+      :loading="profileDeleting"
+      type="submit"
+      variant="flat"
+      color="primary"
+      size="x-large"
+      class="text-none mt-3"
+    >
+      {{ $t('auth.profile_delete.delete_profile') }}
+    </v-btn>
+  </v-form>
 </template>

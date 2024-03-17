@@ -61,104 +61,102 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mx-10">
-    <h1 class="text-h4 text-md-h3 text-center mb-4">
-      {{ $t('auth.registration.registration') }}
-    </h1>
+  <h1 class="text-h4 text-md-h3 text-center mb-4">
+    {{ $t('auth.registration.registration') }}
+  </h1>
 
-    <v-alert
-      v-if="status === 201"
-      type="success"
-      variant="tonal"
-    >
-      {{ $t('auth.registration.success1') }}<br>
-      {{ $t('auth.registration.success2') }}<br>
-      {{ $t('auth.registration.success3') }}
-    </v-alert>
+  <v-alert
+    v-if="status === 201"
+    type="success"
+    variant="tonal"
+  >
+    {{ $t('auth.registration.success1') }}<br>
+    {{ $t('auth.registration.success2') }}<br>
+    {{ $t('auth.registration.success3') }}
+  </v-alert>
 
-    <div v-else>
-      <p class="text-body-1 text-grey-darken-1 mb-5">
-        {{ $t('auth.registration.have_account') }}
-        <router-link
-          :to="{ name: 'Login' }"
-          class="text-decoration-none"
-        >
-          {{ $t('auth.log_in') }}
-        </router-link>
-      </p>
+  <div v-else>
+    <p class="text-body-1 text-grey-darken-1 mb-5">
+      {{ $t('auth.registration.have_account') }}
+      <router-link
+        :to="{ name: 'Login' }"
+        class="text-decoration-none"
+      >
+        {{ $t('auth.log_in') }}
+      </router-link>
+    </p>
 
-      <v-form @submit.prevent="registration()">
-        <v-text-field
-          v-model="username"
-          :readonly="loadingStatus"
-          type="text"
-          variant="filled"
-          :label="$t('auth.registration.username')"
-          :error-messages="errors?.username ? errors.username : []"
-        ></v-text-field>
-        <v-text-field
-          v-model="email"
-          :readonly="loadingStatus"
-          type="email"
-          maxlength="254"
-          variant="filled"
-          :label="$t('auth.registration.email')"
-          :error-messages="errors?.email ? errors.email : []"
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          :readonly="loadingStatus"
-          :type="passwordShow ? 'text' : 'password'"
-          :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="passwordShow = !passwordShow"
-          variant="filled"
-          :label="$t('auth.password.password')"
-          :error-messages="errors?.password ? errors.password : []"
-        ></v-text-field>
-        <v-text-field
-          v-model="password2"
-          :readonly="loadingStatus"
-          :type="password2Show ? 'text' : 'password'"
-          :append-inner-icon="password2Show ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="password2Show = !password2Show"
-          variant="filled"
-          :label="$t('auth.registration.password2')"
-          :error-messages="errors?.password2 ? errors.password2 : []"
-        ></v-text-field>
-        <v-select
-          v-model="userType"
-          :items="userTypeOptions"
-          item-title="title"
-          item-value="value"
-          :readonly="loadingStatus"
-          variant="filled"
-          :label="$t('auth.registration.user_type')"
-          :error-messages="errors?.user_type ? errors.user_type : []"
-        ></v-select>
-        <v-text-field
-          v-model="name"
-          :readonly="loadingStatus"
-          type="text"
-          variant="filled"
-          :label="$t('auth.registration.name')"
-          :error-messages="errors?.name ? errors.name : []"
-        ></v-text-field>
-        <v-btn
-          :loading="loadingStatus"
-          type="submit"
-          variant="flat"
-          color="primary"
-          size="x-large"
-          block
-        >
-          {{ $t('auth.register') }}
-        </v-btn>
-      </v-form>
+    <v-form @submit.prevent="registration()">
+      <v-text-field
+        v-model="username"
+        :readonly="loadingStatus"
+        type="text"
+        variant="filled"
+        :label="$t('auth.registration.username')"
+        :error-messages="errors?.username ? errors.username : []"
+      ></v-text-field>
+      <v-text-field
+        v-model="email"
+        :readonly="loadingStatus"
+        type="email"
+        maxlength="254"
+        variant="filled"
+        :label="$t('auth.registration.email')"
+        :error-messages="errors?.email ? errors.email : []"
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        :readonly="loadingStatus"
+        :type="passwordShow ? 'text' : 'password'"
+        :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="passwordShow = !passwordShow"
+        variant="filled"
+        :label="$t('auth.password.password')"
+        :error-messages="errors?.password ? errors.password : []"
+      ></v-text-field>
+      <v-text-field
+        v-model="password2"
+        :readonly="loadingStatus"
+        :type="password2Show ? 'text' : 'password'"
+        :append-inner-icon="password2Show ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="password2Show = !password2Show"
+        variant="filled"
+        :label="$t('auth.registration.password2')"
+        :error-messages="errors?.password2 ? errors.password2 : []"
+      ></v-text-field>
+      <v-select
+        v-model="userType"
+        :items="userTypeOptions"
+        item-title="title"
+        item-value="value"
+        :readonly="loadingStatus"
+        variant="filled"
+        :label="$t('auth.registration.user_type')"
+        :error-messages="errors?.user_type ? errors.user_type : []"
+      ></v-select>
+      <v-text-field
+        v-model="name"
+        :readonly="loadingStatus"
+        type="text"
+        variant="filled"
+        :label="$t('auth.registration.name')"
+        :error-messages="errors?.name ? errors.name : []"
+      ></v-text-field>
+      <v-btn
+        :loading="loadingStatus"
+        type="submit"
+        variant="flat"
+        color="primary"
+        size="x-large"
+        block
+      >
+        {{ $t('auth.register') }}
+      </v-btn>
+    </v-form>
 
-      <v-divider class="my-3"></v-divider>
-      <p class="text-body-1 text-grey-darken-1">
-        {{ $t('auth.registration.help') }}
-      </p>
-    </div>
+    <v-divider class="my-3"></v-divider>
+    <p class="text-body-1 text-grey-darken-1">
+      {{ $t('auth.registration.help') }}
+    </p>
   </div>
 </template>

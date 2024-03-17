@@ -313,288 +313,288 @@ onMounted(() => {
     >
       {{ $t('portfolio.no_photos') }}
     </v-alert>
-
-    <v-dialog
-      :model-value="uploadPhotosDialog"
-      :width="500"
-      persistent
-    >
-      <v-card rounded="lg">
-        <v-card-title>
-          {{ $t('portfolio.uploading_photos') }}
-        </v-card-title>
-        <div class="px-3">
-          <v-progress-linear
-            :model-value="photosUploadStatusRound"
-            :height="16"
-            rounded
-            striped
-            color="blue"
-          >
-            <strong>{{ photosUploadStatusRound }}%</strong>
-          </v-progress-linear>
-        </div>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="uploadPhotosDialog = false">
-            {{ $t('btn.cancel') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog
-      :model-value="photoUpdateDialog"
-      width="80%"
-      persistent
-    >
-      <v-card rounded="lg">
-        <div class="overflow-y-auto">
-          <v-hover v-slot="{ isHovering, props }">
-            <v-sheet
-              v-bind="props"
-              position="relative"
-            >
-              <v-img
-                :src="photoImage"
-                :alt="photoTitle"
-                class="mw-100 max-vh-75"
-              ></v-img>
-              <v-overlay
-                :model-value="isHovering"
-                contained
-                :opacity="0"
-                content-class="d-flex justify-space-between align-center w-100 h-100 pa-3"
-              >
-                <v-btn
-                  @click="getPhotoData(photoList[photoIndex - 1].uuid)"
-                  :disabled="photoIndex === 0"
-                  icon="mdi-chevron-left"
-                  :elevation="1"
-                ></v-btn>
-                <v-btn
-                  @click="getPhotoData(photoList[photoIndex + 1].uuid)"
-                  :disabled="photoIndex === photoList.length - 1"
-                  icon="mdi-chevron-right"
-                  :elevation="1"
-                ></v-btn>
-              </v-overlay>
-            </v-sheet>
-          </v-hover>
-
-          <v-row
-            dense
-            class="mx-1 mx-sm-5 mx-md-10 mx-lg-16 my-3"
-          >
-            <v-col
-              :cols="12"
-              :md="12"
-            >
-              <v-text-field
-                v-model="photoTitle"
-                :readonly="photoProcessing"
-                type="text"
-                maxlength="128"
-                variant="filled"
-                :label="$t('portfolio.title')"
-                :error-messages="errors?.title ? errors.title : []"
-              ></v-text-field>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="12"
-            >
-              <v-textarea
-                v-model="photoDescription"
-                :readonly="photoProcessing"
-                :label="$t('portfolio.description')"
-                :error-messages="errors?.description ? errors.description : []"
-              ></v-textarea>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="12"
-            >
-              <v-text-field
-                v-model="photoDevice"
-                :readonly="photoProcessing"
-                type="text"
-                maxlength="128"
-                variant="filled"
-                :label="$t('portfolio.device')"
-                :error-messages="errors?.device ? errors.device : []"
-              ></v-text-field>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="6"
-            >
-              <v-text-field
-                v-model="photoFNumber"
-                :readonly="photoProcessing"
-                type="number"
-                step="0.01"
-                variant="filled"
-                :label="$t('portfolio.f_number')"
-                :error-messages="errors?.f_number ? errors.f_number : []"
-              ></v-text-field>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="6"
-            >
-              <v-text-field
-                v-model="photoExposureTime"
-                :readonly="photoProcessing"
-                type="text"
-                maxlength="32"
-                variant="filled"
-                :label="$t('portfolio.exposure_time')"
-                :error-messages="errors?.exposure_time ? errors.exposure_time : []"
-              ></v-text-field>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="6"
-            >
-              <v-text-field
-                v-model="photoFocalLength"
-                :readonly="photoProcessing"
-                type="number"
-                step="0.01"
-                variant="filled"
-                :label="$t('portfolio.focal_length')"
-                :error-messages="errors?.focal_length ? errors.focal_length : []"
-              ></v-text-field>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="6"
-            >
-              <v-text-field
-                v-model="photoPhotographicSensitivity"
-                :readonly="photoProcessing"
-                type="number"
-                min="0"
-                variant="filled"
-                :label="$t('portfolio.photographic_sensitivity')"
-                :error-messages="
-                  errors?.photographic_sensitivity
-                    ? errors.photographic_sensitivity
-                    : []
-                "
-              ></v-text-field>
-            </v-col>
-            <v-col
-              :cols="12"
-              :md="12"
-            >
-              <v-combobox
-                v-model="photoTags"
-                :readonly="photoProcessing"
-                multiple
-                chips
-                clearable
-                :label="$t('portfolio.tags')"
-                :error-messages="errors?.tags ? errors.tags : []"
-              ></v-combobox>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
-          <v-table
-            density="compact"
-            class="mx-1 mx-sm-5 mx-md-10 mx-lg-16 my-3"
-          >
-            <tbody>
-              <tr>
-                <td>{{ $t('portfolio.uploaded_at') }}</td>
-                <td>{{ getLocaleDateTimeString(photoUploadedAt) }}</td>
-              </tr>
-              <tr>
-                <td>{{ $t('portfolio.view_count') }}</td>
-                <td>{{ photoViewCount }}</td>
-              </tr>
-              <tr>
-                <td>{{ $t('portfolio.likes') }}</td>
-                <td>{{ photoLikeCount }}</td>
-              </tr>
-              <tr>
-                <td>{{ $t('portfolio.rating') }}</td>
-                <td>{{ photoRating }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-        </div>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            @click="() => {
-              photoUpdateDialog = false
-              photoUuid = null
-              photoImage = null
-              photoDevice = ''
-              photoFNumber = null
-              photoExposureTime = ''
-              photoFocalLength = null
-              photoPhotographicSensitivity = null
-              photoTitle = ''
-              photoDescription = ''
-              photoTags = []
-              photoUploadedAt = null
-              photoViewCount = 0
-              photoLikeCount = 0
-              photoRating = 0
-              errors = null
-            }"
-          >
-            {{ $t('btn.close') }}
-          </v-btn>
-          <v-btn
-            @click="updatePhoto()"
-            :loading="photoProcessing"
-            :disabled="!photoUuid"
-            variant="flat"
-            color="primary"
-          >
-            {{ $t('btn.update') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog
-      :model-value="photoRemoveDialog"
-      width="auto"
-      persistent
-    >
-      <v-card rounded="lg">
-        <v-card-title>
-          {{ $t('portfolio.you_want_remove_photo') }}
-        </v-card-title>
-        <v-card-text>
-          {{ $t('portfolio.photo_information_will_lost') }}
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            @click="() => {
-              photoUuid = null
-              photoRemoveDialog = false
-            }"
-          >
-            {{ $t('btn.no_cancel') }}
-          </v-btn>
-          <v-btn
-            @click="removePhoto()"
-            :loading="photoProcessing"
-          >
-            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
+
+  <v-dialog
+    :model-value="uploadPhotosDialog"
+    :width="500"
+    persistent
+  >
+    <v-card rounded="lg">
+      <v-card-title>
+        {{ $t('portfolio.uploading_photos') }}
+      </v-card-title>
+      <div class="px-3">
+        <v-progress-linear
+          :model-value="photosUploadStatusRound"
+          :height="16"
+          rounded
+          striped
+          color="blue"
+        >
+          <strong>{{ photosUploadStatusRound }}%</strong>
+        </v-progress-linear>
+      </div>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="uploadPhotosDialog = false">
+          {{ $t('btn.cancel') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog
+    :model-value="photoUpdateDialog"
+    width="80%"
+    persistent
+  >
+    <v-card rounded="lg">
+      <div class="overflow-y-auto">
+        <v-hover v-slot="{ isHovering, props }">
+          <v-sheet
+            v-bind="props"
+            position="relative"
+          >
+            <v-img
+              :src="photoImage"
+              :alt="photoTitle"
+              class="mw-100 max-vh-75"
+            ></v-img>
+            <v-overlay
+              :model-value="isHovering"
+              contained
+              :opacity="0"
+              content-class="d-flex justify-space-between align-center w-100 h-100 pa-3"
+            >
+              <v-btn
+                @click="getPhotoData(photoList[photoIndex - 1].uuid)"
+                :disabled="photoIndex === 0"
+                icon="mdi-chevron-left"
+                :elevation="1"
+              ></v-btn>
+              <v-btn
+                @click="getPhotoData(photoList[photoIndex + 1].uuid)"
+                :disabled="photoIndex === photoList.length - 1"
+                icon="mdi-chevron-right"
+                :elevation="1"
+              ></v-btn>
+            </v-overlay>
+          </v-sheet>
+        </v-hover>
+
+        <v-row
+          dense
+          class="mx-1 mx-sm-5 mx-md-10 mx-lg-16 my-3"
+        >
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-text-field
+              v-model="photoTitle"
+              :readonly="photoProcessing"
+              type="text"
+              maxlength="128"
+              variant="filled"
+              :label="$t('portfolio.title')"
+              :error-messages="errors?.title ? errors.title : []"
+            ></v-text-field>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-textarea
+              v-model="photoDescription"
+              :readonly="photoProcessing"
+              :label="$t('portfolio.description')"
+              :error-messages="errors?.description ? errors.description : []"
+            ></v-textarea>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-text-field
+              v-model="photoDevice"
+              :readonly="photoProcessing"
+              type="text"
+              maxlength="128"
+              variant="filled"
+              :label="$t('portfolio.device')"
+              :error-messages="errors?.device ? errors.device : []"
+            ></v-text-field>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="6"
+          >
+            <v-text-field
+              v-model="photoFNumber"
+              :readonly="photoProcessing"
+              type="number"
+              step="0.01"
+              variant="filled"
+              :label="$t('portfolio.f_number')"
+              :error-messages="errors?.f_number ? errors.f_number : []"
+            ></v-text-field>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="6"
+          >
+            <v-text-field
+              v-model="photoExposureTime"
+              :readonly="photoProcessing"
+              type="text"
+              maxlength="32"
+              variant="filled"
+              :label="$t('portfolio.exposure_time')"
+              :error-messages="errors?.exposure_time ? errors.exposure_time : []"
+            ></v-text-field>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="6"
+          >
+            <v-text-field
+              v-model="photoFocalLength"
+              :readonly="photoProcessing"
+              type="number"
+              step="0.01"
+              variant="filled"
+              :label="$t('portfolio.focal_length')"
+              :error-messages="errors?.focal_length ? errors.focal_length : []"
+            ></v-text-field>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="6"
+          >
+            <v-text-field
+              v-model="photoPhotographicSensitivity"
+              :readonly="photoProcessing"
+              type="number"
+              min="0"
+              variant="filled"
+              :label="$t('portfolio.photographic_sensitivity')"
+              :error-messages="
+                errors?.photographic_sensitivity
+                  ? errors.photographic_sensitivity
+                  : []
+              "
+            ></v-text-field>
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="12"
+          >
+            <v-combobox
+              v-model="photoTags"
+              :readonly="photoProcessing"
+              multiple
+              chips
+              clearable
+              :label="$t('portfolio.tags')"
+              :error-messages="errors?.tags ? errors.tags : []"
+            ></v-combobox>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-table
+          density="compact"
+          class="mx-1 mx-sm-5 mx-md-10 mx-lg-16 my-3"
+        >
+          <tbody>
+            <tr>
+              <td>{{ $t('portfolio.uploaded_at') }}</td>
+              <td>{{ getLocaleDateTimeString(photoUploadedAt) }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t('portfolio.view_count') }}</td>
+              <td>{{ photoViewCount }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t('portfolio.likes') }}</td>
+              <td>{{ photoLikeCount }}</td>
+            </tr>
+            <tr>
+              <td>{{ $t('portfolio.rating') }}</td>
+              <td>{{ photoRating }}</td>
+            </tr>
+          </tbody>
+        </v-table>
+      </div>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="() => {
+            photoUpdateDialog = false
+            photoUuid = null
+            photoImage = null
+            photoDevice = ''
+            photoFNumber = null
+            photoExposureTime = ''
+            photoFocalLength = null
+            photoPhotographicSensitivity = null
+            photoTitle = ''
+            photoDescription = ''
+            photoTags = []
+            photoUploadedAt = null
+            photoViewCount = 0
+            photoLikeCount = 0
+            photoRating = 0
+            errors = null
+          }"
+        >
+          {{ $t('btn.close') }}
+        </v-btn>
+        <v-btn
+          @click="updatePhoto()"
+          :loading="photoProcessing"
+          :disabled="!photoUuid"
+          variant="flat"
+          color="primary"
+        >
+          {{ $t('btn.update') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog
+    :model-value="photoRemoveDialog"
+    width="auto"
+    persistent
+  >
+    <v-card rounded="lg">
+      <v-card-title>
+        {{ $t('portfolio.you_want_remove_photo') }}
+      </v-card-title>
+      <v-card-text>
+        {{ $t('portfolio.photo_information_will_lost') }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="() => {
+            photoUuid = null
+            photoRemoveDialog = false
+          }"
+        >
+          {{ $t('btn.no_cancel') }}
+        </v-btn>
+        <v-btn
+          @click="removePhoto()"
+          :loading="photoProcessing"
+        >
+          <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>

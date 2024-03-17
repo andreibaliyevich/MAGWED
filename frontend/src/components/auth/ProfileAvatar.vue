@@ -176,71 +176,71 @@ const removeAvatar = async () => {
         </div>
       </v-col>
     </v-row>
-
-    <v-dialog
-      :model-value="avatarUpdateDialog"
-      width="auto"
-      persistent
-    >
-      <v-card rounded="lg">
-        <div class="d-flex justify-center align-center">
-          <img
-            ref="avatarImg"
-            src="/loading.gif"
-            alt="loading"
-            class="mw-100 max-vh-75"
-          >
-        </div>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            @click="() => {
-              avatarUpdateDialog = false
-              avatarCropper.destroy()
-              avatarCropper = null
-            }"
-            :disabled="avatarImgLoading"
-          >
-            {{ $t('btn.cancel') }}
-          </v-btn>
-          <v-btn
-            @click="updateAvatar()"
-            :loading="avatarProcessing"
-            :disabled="avatarImgLoading"
-            variant="flat"
-            color="primary"
-          >
-            {{ $t('btn.update') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog
-      :model-value="avatarRemoveDialog"
-      width="auto"
-      persistent
-    >
-      <v-card rounded="lg">
-        <v-card-title>
-          {{ $t('user.you_want_remove_avatar') }}
-        </v-card-title>
-        <v-card-text>
-          {{ $t('user.avatar_will_be_set_default') }}
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="avatarRemoveDialog = false">
-            {{ $t('btn.no_cancel') }}
-          </v-btn>
-          <v-btn
-            @click="removeAvatar()"
-            :loading="avatarProcessing"
-          >
-            <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-card>
+
+  <v-dialog
+    :model-value="avatarUpdateDialog"
+    width="auto"
+    persistent
+  >
+    <v-card rounded="lg">
+      <div class="d-flex justify-center align-center">
+        <img
+          ref="avatarImg"
+          src="/loading.gif"
+          alt="loading"
+          class="mw-100 max-vh-75"
+        >
+      </div>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="() => {
+            avatarUpdateDialog = false
+            avatarCropper.destroy()
+            avatarCropper = null
+          }"
+          :disabled="avatarImgLoading"
+        >
+          {{ $t('btn.cancel') }}
+        </v-btn>
+        <v-btn
+          @click="updateAvatar()"
+          :loading="avatarProcessing"
+          :disabled="avatarImgLoading"
+          variant="flat"
+          color="primary"
+        >
+          {{ $t('btn.update') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog
+    :model-value="avatarRemoveDialog"
+    width="auto"
+    persistent
+  >
+    <v-card rounded="lg">
+      <v-card-title>
+        {{ $t('user.you_want_remove_avatar') }}
+      </v-card-title>
+      <v-card-text>
+        {{ $t('user.avatar_will_be_set_default') }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="avatarRemoveDialog = false">
+          {{ $t('btn.no_cancel') }}
+        </v-btn>
+        <v-btn
+          @click="removeAvatar()"
+          :loading="avatarProcessing"
+        >
+          <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>

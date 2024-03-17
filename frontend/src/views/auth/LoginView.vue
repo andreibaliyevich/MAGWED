@@ -36,73 +36,71 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="mx-10">
-    <h1 class="text-h4 text-md-h3 text-center mb-4">
-      {{ $t('auth.login.login') }}
-    </h1>
+  <h1 class="text-h4 text-md-h3 text-center mb-4">
+    {{ $t('auth.login.login') }}
+  </h1>
 
-    <div v-if="errors && errors.non_field_errors">
-      <v-alert
-        type="error"
-        variant="tonal"
+  <div v-if="errors && errors.non_field_errors">
+    <v-alert
+      type="error"
+      variant="tonal"
+    >
+      <div
+        v-for="error in errors.non_field_errors"
+        class="ms-3"
       >
-        <div
-          v-for="error in errors.non_field_errors"
-          class="ms-3"
-        >
-          {{ error }}
-        </div>
-      </v-alert>
-    </div>
-
-    <p class="text-grey-darken-2 mb-5">
-      {{ $t('auth.login.have_account') }}
-      <router-link
-        :to="{ name: 'Registration' }"
-        class="text-decoration-none"
-      >
-        {{ $t('auth.register') }}
-      </router-link>
-    </p>
-    <v-form @submit.prevent="login()">
-      <v-text-field
-        v-model="username"
-        :readonly="loadingStatus"
-        type="text"
-        variant="filled"
-        :label="$t('auth.login.username_email')"
-        :error-messages="errors?.username ? errors.username : []"
-      ></v-text-field>
-      <v-text-field
-        v-model="password"
-        :readonly="loadingStatus"
-        :type="passwordShow ? 'text' : 'password'"
-        :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="passwordShow = !passwordShow"
-        variant="filled"
-        :label="$t('auth.password.password')"
-        :error-messages="errors?.password ? errors.password : []"
-      ></v-text-field>
-      <v-btn
-        :loading="loadingStatus"
-        type="submit"
-        variant="flat"
-        color="primary"
-        size="x-large"
-        block
-      >
-        {{ $t('auth.log_in') }}
-      </v-btn>
-    </v-form>
-    <v-divider class="my-5"></v-divider>
-    <p class="text-grey-darken-2">
-      {{ $t('auth.login.forgot_your_password') }}
-      <router-link
-        :to="{ name: 'PasswordReset' }"
-        class="text-decoration-none"
-      >
-        {{ $t('auth.password.reset_password') }}
-      </router-link>
-    </p>
+        {{ error }}
+      </div>
+    </v-alert>
   </div>
+
+  <p class="text-grey-darken-2 mb-5">
+    {{ $t('auth.login.have_account') }}
+    <router-link
+      :to="{ name: 'Registration' }"
+      class="text-decoration-none"
+    >
+      {{ $t('auth.register') }}
+    </router-link>
+  </p>
+  <v-form @submit.prevent="login()">
+    <v-text-field
+      v-model="username"
+      :readonly="loadingStatus"
+      type="text"
+      variant="filled"
+      :label="$t('auth.login.username_email')"
+      :error-messages="errors?.username ? errors.username : []"
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      :readonly="loadingStatus"
+      :type="passwordShow ? 'text' : 'password'"
+      :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="passwordShow = !passwordShow"
+      variant="filled"
+      :label="$t('auth.password.password')"
+      :error-messages="errors?.password ? errors.password : []"
+    ></v-text-field>
+    <v-btn
+      :loading="loadingStatus"
+      type="submit"
+      variant="flat"
+      color="primary"
+      size="x-large"
+      block
+    >
+      {{ $t('auth.log_in') }}
+    </v-btn>
+  </v-form>
+  <v-divider class="my-5"></v-divider>
+  <p class="text-grey-darken-2">
+    {{ $t('auth.login.forgot_your_password') }}
+    <router-link
+      :to="{ name: 'PasswordReset' }"
+      class="text-decoration-none"
+    >
+      {{ $t('auth.password.reset_password') }}
+    </router-link>
+  </p>
 </template>

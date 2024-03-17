@@ -23,18 +23,16 @@ export default {
 </script>
 
 <template>
-  <div class="file-input-button">
-    <input
-      ref="fileInput"
-      @change="changeInput"
-      type="file"
-      :accept="accept"
-      :multiple="multiple"
-      class="hidden-visually"
-    >
-    <v-btn
-      @click.stop="$refs.fileInput.click()"
-      v-bind="$attrs"
-    ></v-btn>
-  </div>
+  <input
+    ref="fileInput"
+    @change="changeInput"
+    type="file"
+    :accept="accept"
+    :multiple="multiple"
+    class="hidden-visually"
+  >
+  <v-btn
+    @click.stop="$refs.fileInput.click()"
+    v-bind="$attrs"
+  ></v-btn>
 </template>
