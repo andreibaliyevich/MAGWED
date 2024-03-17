@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-03 09:35+0000\n"
+"POT-Creation-Date: 2024-03-17 11:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,7 +275,7 @@ msgstr "Ролі"
 msgid "Cover"
 msgstr "Вокладка"
 
-#: accounts/models.py:257 blog/models.py:72 blog/models.py:138
+#: accounts/models.py:257 blog/models.py:73 blog/models.py:139
 #: portfolio/models.py:40 portfolio/models.py:155
 msgid "Description"
 msgstr "Апісанне"
@@ -358,7 +358,7 @@ msgstr "Састарэлы токен для дадзенага карыстал
 msgid "The user does not have a password."
 msgstr "У карыстальніка няма пароля."
 
-#: blog/admin.py:43 blog/models.py:57 main/models.py:133 messenger/models.py:79
+#: blog/admin.py:43 blog/models.py:58 main/models.py:133 messenger/models.py:79
 #: portfolio/admin.py:30 portfolio/admin.py:68 portfolio/models.py:27
 #: portfolio/models.py:102
 msgid "Image"
@@ -427,7 +427,7 @@ msgstr "Катэгорыі"
 msgid "Author"
 msgstr "Аўтар"
 
-#: blog/models.py:52 blog/models.py:135 main/models.py:111
+#: blog/models.py:52 blog/models.py:136 main/models.py:111
 #: portfolio/models.py:39 portfolio/models.py:153
 msgid "Title"
 msgstr "Назва"
@@ -436,56 +436,60 @@ msgstr "Назва"
 msgid "Slug"
 msgstr "Слаг"
 
-#: blog/models.py:67 portfolio/models.py:36 portfolio/models.py:111
+#: blog/models.py:57
+msgid "Required minimum of size 1500 x 300."
+msgstr "Патрабаваны мінімум памеру 1500 x 300."
+
+#: blog/models.py:68 portfolio/models.py:36 portfolio/models.py:111
 msgid "Thumbnail"
 msgstr "Эскіз"
 
-#: blog/models.py:74 blog/models.py:140 comments/models.py:31
+#: blog/models.py:75 blog/models.py:141 comments/models.py:31
 msgid "Content"
 msgstr "Змест"
 
-#: blog/models.py:75 main/models.py:177 portfolio/models.py:41
+#: blog/models.py:76 main/models.py:177 portfolio/models.py:41
 #: portfolio/models.py:156
 msgid "Tags"
 msgstr "Тэгі"
 
-#: blog/models.py:80 main/models.py:146
+#: blog/models.py:81 main/models.py:146
 msgid "Published at"
 msgstr "Апублікавана ў"
 
-#: blog/models.py:84 portfolio/models.py:51 portfolio/models.py:166
+#: blog/models.py:85 portfolio/models.py:51 portfolio/models.py:166
 msgid "Count of views"
 msgstr "Колькасць праглядаў"
 
-#: blog/models.py:110 blog/models.py:127
+#: blog/models.py:111 blog/models.py:128
 msgid "Article"
 msgstr "Артыкул"
 
-#: blog/models.py:111
+#: blog/models.py:112
 msgid "Articles"
 msgstr "Артыкулы"
 
-#: blog/models.py:132 main/models.py:98
+#: blog/models.py:133 main/models.py:98
 msgid "Language"
 msgstr "Мова"
 
-#: blog/models.py:143
+#: blog/models.py:144
 msgid "Article Translation"
 msgstr "Пераклад артыкула"
 
-#: blog/models.py:144
+#: blog/models.py:145
 msgid "Article Translations"
 msgstr "Пераклады артыкулаў"
 
-#: blog/models.py:161 main/models.py:140
+#: blog/models.py:162 main/models.py:140
 msgid "File"
 msgstr "Файл"
 
-#: blog/models.py:164
+#: blog/models.py:165
 msgid "Image of Blog"
 msgstr "Выява блога"
 
-#: blog/models.py:165
+#: blog/models.py:166
 msgid "Images of Blog"
 msgstr "Выявы блога"
 
