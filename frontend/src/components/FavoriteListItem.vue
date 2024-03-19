@@ -15,7 +15,7 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(['updateFavorite'])
+const emit = defineEmits(['favoriteUpdated'])
 
 const addToFavorites = async () => {
   try {
@@ -24,7 +24,7 @@ const addToFavorites = async () => {
       object_uuid: props.objectUUID
     })
     if (response.status === 201) {
-      emit('updateFavorite', true)
+      emit('favoriteUpdated', true)
     }
   } catch (error) {
     console.error(error)
@@ -40,7 +40,7 @@ const removeFromFavorites = async () => {
       }
     })
     if (response.status === 204) {
-      emit('updateFavorite', false)
+      emit('favoriteUpdated', false)
     }
   } catch (error) {
     console.error(error)
@@ -49,24 +49,18 @@ const removeFromFavorites = async () => {
 </script>
 
 <template>
-  <div class="favorite-dropdown-item">
-    <button
-      v-if="objFavorite"
-      @click="removeFromFavorites()"
-      type="button"
-      class="dropdown-item btn btn-link"
-    >
-      <i class="fa-solid fa-star"></i>
-      {{ $t('favorites.remove_from_favourites') }}
-    </button>
-    <button
-      v-else
-      @click="addToFavorites()"
-      type="button"
-      class="dropdown-item btn btn-link"
-    >
-      <i class="fa-regular fa-star"></i>
-      {{ $t('favorites.add_to_favourites') }}
-    </button>
-  </div>
+  <v-list-item
+    v-if="objFavorite"
+    @click="removeFromFavorites()"
+    prepend-icon="mdi-star"
+  >
+    {{ $t('favorites.remove_from_favourites') }}
+  </v-list-item>
+  <v-list-item
+    v-else
+    @click="addToFavorites()"
+    prepend-icon="mdi-star-outline"
+  >
+    {{ $t('favorites.add_to_favourites') }}
+  </v-list-item>
 </template>
