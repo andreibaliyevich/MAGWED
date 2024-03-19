@@ -100,6 +100,8 @@ watch(searchType, () => {
         <v-text-field
           v-model="searchQuery"
           :loading="searchLoading"
+          prepend-inner-icon="mdi-magnify"
+          :placeholder="$t('search.search2')"
           type="search"
           autofocus
           autocomplete="off"
@@ -108,8 +110,6 @@ watch(searchType, () => {
           enterkeyhint="search"
           spellcheck="false"
           variant="filled"
-          prepend-inner-icon="mdi-magnify"
-          :placeholder="$t('search.search2')"
           clearable
         ></v-text-field>
 
@@ -454,13 +454,7 @@ watch(searchType, () => {
                     <v-card-title>{{ article.translated_title }}</v-card-title>
                   </v-img>
                 </router-link>
-                <v-card-subtitle class="pt-4">
-                  <v-icon
-                    icon="mdi-calendar-month-outline"
-                    size="default"
-                  ></v-icon>
-                  {{ getLocaleDateString(article.published_at) }}
-                  <br>
+                <v-card-subtitle class="pt-3">
                   <v-chip
                     v-for="(category, index) in article.categories"
                     :key="`${article.slug}-category-${index}`"
@@ -469,6 +463,12 @@ watch(searchType, () => {
                   >
                     {{ $t(`category_choices.${category}`) }}
                   </v-chip>
+                  <br>
+                  <v-icon
+                    icon="mdi-calendar-month-outline"
+                    size="default"
+                  ></v-icon>
+                  {{ getLocaleDateString(article.published_at) }}
                 </v-card-subtitle>
                 <v-card-text>
                   {{ article.translated_description }}
