@@ -142,7 +142,7 @@ onMounted(() => {
   <v-form
     v-else
     @submit.prevent="updateProfile()"
-    class="mt-9"
+    class="mt-9 mb-10"
   >
     <v-row dense>
       <v-col
