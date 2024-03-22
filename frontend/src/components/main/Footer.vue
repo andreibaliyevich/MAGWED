@@ -88,7 +88,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.rules') }}
               </router-link>
@@ -99,7 +99,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.advertising') }}
               </router-link>
@@ -110,7 +110,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.our_logos') }}
               </router-link>
@@ -121,7 +121,7 @@ onMounted(() => {
                   name: 'Feedback',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('feedback.feedback') }}
               </router-link>
@@ -132,7 +132,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.more_about_magwed') }}
               </router-link>
@@ -150,7 +150,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.analytics') }}
               </router-link>
@@ -161,7 +161,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.career_at_magwed') }}
               </router-link>
@@ -172,7 +172,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.terms_of_use') }}
               </router-link>
@@ -183,7 +183,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.privacy_policy') }}
               </router-link>
@@ -194,7 +194,7 @@ onMounted(() => {
                   name: 'Home',
                   params: { locale: $i18n.locale }
                 }"
-                class="text-white"
+                class="d-block text-decoration-none text-white py-1"
               >
                 {{ $t('footer.advertising_and_promotion') }}
               </router-link>
@@ -334,11 +334,6 @@ onMounted(() => {
 <style scoped>
 ul {
   list-style: none;
-}
-ul > li a {
-  display: block;
-  padding: 0.3rem 0.1rem;
-  text-decoration: none;
 }
 ul > li a:focus,
 ul > li a:hover {
