@@ -273,7 +273,7 @@ onUnmounted(() => {
 
   <p
     v-else-if="!commentListLoading"
-    class="text-body-1 my-5"
+    class="text-body-1 mx-1 my-5"
   >
     {{ $t('comments.no_comments_yet') }}
   </p>
