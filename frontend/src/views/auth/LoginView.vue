@@ -76,10 +76,10 @@ const login = async () => {
       v-model="password"
       :readonly="loadingStatus"
       :type="passwordShow ? 'text' : 'password'"
-      :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="passwordShow = !passwordShow"
       variant="filled"
       :label="$t('auth.password.password')"
+      :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="passwordShow = !passwordShow"
       :error-messages="errors?.password ? errors.password : []"
     ></v-text-field>
     <v-btn

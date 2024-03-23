@@ -108,20 +108,20 @@ onMounted(() => {
         v-model="password"
         :readonly="loadingStatus"
         :type="passwordShow ? 'text' : 'password'"
-        :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="passwordShow = !passwordShow"
         variant="filled"
         :label="$t('auth.password.password')"
+        :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="passwordShow = !passwordShow"
         :error-messages="errors?.password ? errors.password : []"
       ></v-text-field>
       <v-text-field
         v-model="password2"
         :readonly="loadingStatus"
         :type="password2Show ? 'text' : 'password'"
-        :append-inner-icon="password2Show ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="password2Show = !password2Show"
         variant="filled"
         :label="$t('auth.registration.password2')"
+        :append-inner-icon="password2Show ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="password2Show = !password2Show"
         :error-messages="errors?.password2 ? errors.password2 : []"
       ></v-text-field>
       <v-select

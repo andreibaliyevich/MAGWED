@@ -79,30 +79,30 @@ const changePassword = async () => {
       v-model="currentPassword"
       :readonly="passwordUpdating"
       :type="currentPasswordShow ? 'text' : 'password'"
-      :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="currentPasswordShow = !currentPasswordShow"
       variant="filled"
       :label="$t('auth.passwordchange.current_password')"
+      :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="currentPasswordShow = !currentPasswordShow"
       :error-messages="errors?.current_password ? errors.current_password : []"
     ></v-text-field>
     <v-text-field
       v-model="newPassword"
       :readonly="passwordUpdating"
       :type="newPasswordShow ? 'text' : 'password'"
-      :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="newPasswordShow = !newPasswordShow"
       variant="filled"
       :label="$t('auth.password.new_password')"
+      :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="newPasswordShow = !newPasswordShow"
       :error-messages="errors?.new_password ? errors.new_password : []"
     ></v-text-field>
     <v-text-field
       v-model="newPassword2"
       :readonly="passwordUpdating"
       :type="newPassword2Show ? 'text' : 'password'"
-      :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="newPassword2Show = !newPassword2Show"
       variant="filled"
       :label="$t('auth.password.new_password2')"
+      :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="newPassword2Show = !newPassword2Show"
       :error-messages="errors?.new_password2 ? errors.new_password2 : []"
     ></v-text-field>
     <v-btn

@@ -302,9 +302,9 @@ onMounted(() => {
           min="0.00"
           step="0.01"
           variant="filled"
+          :label="$t('user.cost_work')"
           prefix="$"
           :hint="$t('form_help.cost_work')"
-          :label="$t('user.cost_work')"
           :error-messages="errors?.cost_work ? errors.cost_work : []"
         ></v-text-field>
       </v-col>

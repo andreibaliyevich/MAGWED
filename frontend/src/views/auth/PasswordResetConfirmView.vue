@@ -135,20 +135,20 @@ const confirmPasswordReset = async () => {
         v-model="newPassword"
         :readonly="loadingStatus"
         :type="newPasswordShow ? 'text' : 'password'"
-        :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="newPasswordShow = !newPasswordShow"
         variant="filled"
         :label="$t('auth.password.new_password')"
+        :append-inner-icon="newPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="newPasswordShow = !newPasswordShow"
         :error-messages="errors?.new_password ? errors.new_password : []"
       ></v-text-field>
       <v-text-field
         v-model="newPassword2"
         :readonly="loadingStatus"
         :type="newPassword2Show ? 'text' : 'password'"
-        :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append-inner="newPassword2Show = !newPassword2Show"
         variant="filled"
         :label="$t('auth.password.new_password2')"
+        :append-inner-icon="newPassword2Show ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="newPassword2Show = !newPassword2Show"
         :error-messages="errors?.new_password2 ? errors.new_password2 : []"
       ></v-text-field>
       <v-btn

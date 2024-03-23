@@ -60,9 +60,13 @@ const sendReport = async () => {
       <v-textarea
         v-model="reportComment"
         :readonly="reportSending"
+        autofocus
+        auto-grow
+        :rows="5"
+        :max-rows="10"
+        variant="filled"
         :label="$t('report.comment')"
         :error-messages="errors?.comment ? errors.comment : []"
-        autofocus
         class="mx-3"
       ></v-textarea>
       <v-card-actions>

@@ -56,10 +56,10 @@ const deletingProfile = async () => {
       v-model="currentPassword"
       :readonly="profileDeleting"
       :type="currentPasswordShow ? 'text' : 'password'"
-      :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append-inner="currentPasswordShow = !currentPasswordShow"
       variant="filled"
       :label="$t('auth.profile_delete.password_confirmation')"
+      :append-inner-icon="currentPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append-inner="currentPasswordShow = !currentPasswordShow"
       :error-messages="errors?.current_password ? errors.current_password : []"
     ></v-text-field>
     <v-btn
