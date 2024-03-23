@@ -4,8 +4,7 @@ import { ref, watch } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
-import SubmitContent from './SubmitContent.vue'
-import ReportDropdownItemModal from '../ReportDropdownItemModal.vue'
+import ReportListItemDialog from '../ReportListItemDialog.vue'
 
 const userStore = useUserStore()
 
@@ -34,101 +33,100 @@ watch(newCommentContent, (newValue) => {
 </script>
 
 <template>
-  <div class="comment-item">
-    <div class="d-flex gap-3">
-      <router-link
-        v-if="commentItem.author.profile_url"
-        :to="{
-          name: 'OrganizerDetail',
-          params: { profile_url: commentItem.author.profile_url }
-        }"
-      >
-        <UserAvatarExtended
-          :src="commentItem.author.avatar"
-          :width="32"
-          :height="32"
-          :online="commentItem.author.status === 'online' ? true : false"
-        />
-      </router-link>
-      <UserAvatarExtended
-        v-else
-        :src="commentItem.author.avatar"
-        :width="32"
-        :height="32"
+  <div class="d-flex ga-3">
+    <router-link
+      v-if="commentItem.author.profile_url"
+      :to="{
+        name: 'OrganizerDetail',
+        params: { profile_url: commentItem.author.profile_url }
+      }"
+    >
+      <AvatarExtended
+        :image="commentItem.author.avatar"
+        :size="32"
         :online="commentItem.author.status === 'online' ? true : false"
       />
-      <div class="flex-grow-1 ms-1">
-        <div class="d-flex justify-content-between">
-          <router-link
-            v-if="commentItem.author.profile_url"
-            :to="{
-              name: 'OrganizerDetail',
-              params: { profile_url: commentItem.author.profile_url }
-            }"
-            class="text-decoration-none link-dark"
-          >
-            <strong class="mb-0">
-              {{ commentItem.author.name }}
-            </strong>
-          </router-link>
-          <strong
-            v-else
-            class="mb-0"
-          >
-            {{ commentItem.author.name }}
-          </strong>
-          <small class="text-secondary">
-            {{ getLocaleDateTimeString(commentItem.created_at) }}
-          </small>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div class="text-pre-line">{{ commentItem.content }}</div>
-          <div class="d-flex justify-content-end">
-            <div class="dropdown">
-              <button
-                type="button"
-                class="btn btn-link link-dark"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="true"
-                aria-expanded="false"
-              >
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li v-if="userStore.isLoggedIn">
-                  <button
-                    @click="replyComment = true"
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                  >
-                    <i class="fa-solid fa-reply"></i>
-                    {{ $t('btn.reply') }}
-                  </button>
-                </li>
-                <li>
-                  <ReportDropdownItemModal
-                    contentType="comment"
-                    :objectUUID="commentItem.uuid"
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <form
-          v-if="replyComment"
-          @submit.prevent="sendComment()"
+    </router-link>
+    <div v-else>
+      <AvatarExtended
+        :image="commentItem.author.avatar"
+        :size="32"
+        :online="commentItem.author.status === 'online' ? true : false"
+      />
+    </div>
+
+    <div class="flex-grow-1">
+      <div class="d-flex justify-space-between">
+        <router-link
+          v-if="commentItem.author.profile_url"
+          :to="{
+            name: 'OrganizerDetail',
+            params: { profile_url: commentItem.author.profile_url }
+          }"
+          class="text-decoration-none text-black"
         >
-          <SubmitContent
-            v-model="newCommentContent"
-            :loadingStatus="newCommentSending"
-            :autofocus="true"
-            :id="`id_new_content_${commentItem.uuid}`"
-            :placeholder="$t('comments.add_comment')"
-            :errors="newCommentErrors?.content ? newCommentErrors.content : []"
-          />
-        </form>
+          <strong>{{ commentItem.author.name }}</strong>
+        </router-link>
+        <strong v-else>
+          {{ commentItem.author.name }}
+        </strong>
+        <small class="text-secondary">
+          {{ getLocaleDateTimeString(commentItem.created_at) }}
+        </small>
       </div>
+
+      <div class="d-flex justify-space-between">
+        <div class="text-pre-line">{{ commentItem.content }}</div>
+        <v-menu
+          v-if="userStore.isLoggedIn"
+          location="start"
+          :close-on-content-click="false"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              icon="mdi-dots-horizontal"
+              variant="text"
+              size="small"
+            ></v-btn>
+          </template>
+          <template v-slot:default="{ isActive }">
+            <v-list density="compact">
+              <v-list-item
+                @click="() => {
+                  isActive.value = false
+                  replyComment = true
+                }"
+                prepend-icon="mdi-reply"
+              >
+                {{ $t('btn.reply') }}
+              </v-list-item>
+              <ReportListItemDialog
+                contentType="comment"
+                :objectUUID="commentItem.uuid"
+                @reportSent="isActive.value = false"
+              />
+            </v-list>
+          </template>
+        </v-menu>
+      </div>
+
+      <v-textarea
+        v-if="replyComment"
+        v-model="newCommentContent"
+        :loading="newCommentSending"
+        :readonly="newCommentSending"
+        :append-inner-icon="newCommentContent ? 'mdi-send' : ''"
+        @click:append-inner="sendComment()"
+        :rows="1"
+        :max-rows="10"
+        auto-grow
+        autofocus
+        variant="solo-filled"
+        flat
+        :placeholder="$t('comments.add_comment')"
+        :error-messages="newCommentErrors?.content ? newCommentErrors.content : []"
+      ></v-textarea>
     </div>
   </div>
 </template>

@@ -1,10 +1,9 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 import { useSendComment } from '@/composables/sendComment.js'
-import SubmitContent from './SubmitContent.vue'
-import ReportDropdownItemModal from '../ReportDropdownItemModal.vue'
+import ReportListItemDialog from '../ReportListItemDialog.vue'
 
 const props = defineProps({
   commentItem: {
@@ -13,7 +12,7 @@ const props = defineProps({
   }
 })
 
-const oldCommentUpdating = ref(false)
+const oldCommentProcessing = ref(false)
 const oldCommentContent = ref('')
 const oldCommentErrors = ref(null)
 
@@ -27,11 +26,12 @@ const {
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
-const updateCommentModal = ref(null)
-const updateCommentModalBootstrap = ref(null)
+const commentMenu = ref(false)
+const commentUpdateDialog = ref(false)
+const commentRemoveDialog = ref(false)
 
 const updateComment = async () => {
-  oldCommentUpdating.value = true
+  oldCommentProcessing.value = true
   try {
     const response = await axios.put(
       '/comments/'
@@ -39,23 +39,35 @@ const updateComment = async () => {
         +'/',
       { content: oldCommentContent.value }
     )
-    updateCommentModalBootstrap.value.hide()
+    if (response.status === 200) {
+      commentUpdateDialog.value = false
+      commentMenu.value = false
+      oldCommentContent.value = ''
+      oldCommentErrors.value = null
+    }
   } catch (error) {
     oldCommentErrors.value = error.response.data
   } finally {
-    oldCommentUpdating.value = false
+    oldCommentProcessing.value = false
   }
 }
 
 const removeComment = async () => {
+  oldCommentProcessing.value = true
   try {
     const response = axios.delete(
       '/comments/'
         + props.commentItem.uuid
         +'/'
     )
+    if (response.status === 204) {
+      commentRemoveDialog.value = false
+      commentMenu.value = false
+    }
   } catch (error) {
     console.error(error)
+  } finally {
+    oldCommentProcessing.value = false
   }
 }
 
@@ -64,247 +76,190 @@ watch(newCommentContent, (newValue) => {
     replyComment.value = false
   }
 })
-
-onMounted(() => {
-  updateCommentModalBootstrap.value = new bootstrap.Modal(
-    updateCommentModal.value
-  )
-  updateCommentModal.value.addEventListener('hidden.bs.modal', () => {
-    oldCommentContent.value = ''
-    oldCommentErrors.value = null
-  })
-})
 </script>
 
 <template>
-  <div class="comment-item">
-    <div class="d-flex gap-3">
-      <router-link
-        v-if="commentItem.author.profile_url"
-        :to="{
-          name: 'OrganizerDetail',
-          params: { profile_url: commentItem.author.profile_url }
-        }"
-      >
-        <UserAvatarExtended
-          :src="commentItem.author.avatar"
-          :width="32"
-          :height="32"
-          :online="commentItem.author.status === 'online' ? true : false"
-        />
-      </router-link>
-      <UserAvatarExtended
-        v-else
-        :src="commentItem.author.avatar"
-        :width="32"
-        :height="32"
+  <div class="d-flex ga-3">
+    <router-link
+      v-if="commentItem.author.profile_url"
+      :to="{
+        name: 'OrganizerDetail',
+        params: { profile_url: commentItem.author.profile_url }
+      }"
+    >
+      <AvatarExtended
+        :image="commentItem.author.avatar"
+        :size="32"
         :online="commentItem.author.status === 'online' ? true : false"
       />
-      <div class="flex-grow-1 ms-1">
-        <div class="d-flex justify-content-between">
-          <router-link
-            v-if="commentItem.author.profile_url"
-            :to="{
-              name: 'OrganizerDetail',
-              params: { profile_url: commentItem.author.profile_url }
-            }"
-            class="text-decoration-none link-dark"
-          >
-            <strong class="mb-0">
-              {{ commentItem.author.name }}
-            </strong>
-          </router-link>
-          <strong
-            v-else
-            class="mb-0"
-          >
-            {{ commentItem.author.name }}
-          </strong>
-          <small class="text-secondary">
-            {{ getLocaleDateTimeString(commentItem.created_at) }}
-          </small>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div class="text-pre-line">{{ commentItem.content }}</div>
-          <div class="d-flex justify-content-end">
-            <div class="dropdown">
-              <button
-                type="button"
-                class="btn btn-link link-dark"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="true"
-                aria-expanded="false"
-              >
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <button
-                    @click="replyComment = true"
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                  >
-                    <i class="fa-solid fa-reply"></i>
-                    {{ $t('btn.reply') }}
-                  </button>
-                </li>
-                <li>
-                  <ReportDropdownItemModal
-                    contentType="comment"
-                    :objectUUID="commentItem.uuid"
-                  />
-                </li>
-                <li>
-                  <button
-                    @click="oldCommentContent = commentItem.content"
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                    data-bs-toggle="modal"
-                    :data-bs-target="`#update_comment_modal_${commentItem.uuid}`"
-                  >
-                    <i class="fa-solid fa-pen"></i>
-                    {{ $t('btn.edit') }}
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="dropdown-item btn btn-link"
-                    data-bs-toggle="modal"
-                    :data-bs-target="`#remove_comment_modal_choice_${commentItem.uuid}`"
-                  >
-                    <i class="fa-solid fa-trash"></i>
-                    {{ $t('btn.delete') }}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <form
-          v-if="replyComment"
-          @submit.prevent="sendComment()"
-        >
-          <SubmitContent
-            v-model="newCommentContent"
-            :loadingStatus="newCommentSending"
-            :autofocus="true"
-            :id="`id_new_content_${commentItem.uuid}`"
-            :placeholder="$t('comments.add_comment')"
-            :errors="newCommentErrors?.content ? newCommentErrors.content : []"
-          />
-        </form>
-      </div>
+    </router-link>
+    <div v-else>
+      <AvatarExtended
+        :image="commentItem.author.avatar"
+        :size="32"
+        :online="commentItem.author.status === 'online' ? true : false"
+      />
     </div>
 
-    <Teleport to="body">
-      <div
-        ref="updateCommentModal"
-        :id="`update_comment_modal_${commentItem.uuid}`"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        :aria-labelledby="`update_comment_modal_label_${commentItem.uuid}`"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                :id="`update_comment_modal_label_${commentItem.uuid}`"
-                class="modal-title"
-              >
-                {{ $t('comments.updating_comment') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="updateComment()"
-                :id="`review_modal_form_${commentItem.uuid}`"
-              >
-                <BaseTextarea
-                  v-model="oldCommentContent"
-                  :id="`id_old_comment_${commentItem.uuid}`"
-                  name="comment"
-                  :label="$t('comments.content')"
-                  :errors="
-                    oldCommentErrors?.content
-                    ? oldCommentErrors.content
-                    : []
-                  "
-                />
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="oldCommentUpdating"
-                buttonClass="btn btn-brand"
-                :form="`review_modal_form_${commentItem.uuid}`"
-                :disabled="!oldCommentContent"
-              >
-                {{ $t('btn.update') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
+    <div class="flex-grow-1">
+      <div class="d-flex justify-space-between">
+        <router-link
+          v-if="commentItem.author.profile_url"
+          :to="{
+            name: 'OrganizerDetail',
+            params: { profile_url: commentItem.author.profile_url }
+          }"
+          class="text-decoration-none text-black"
+        >
+          <strong>{{ commentItem.author.name }}</strong>
+        </router-link>
+        <strong v-else>
+          {{ commentItem.author.name }}
+        </strong>
+        <small class="text-secondary">
+          {{ getLocaleDateTimeString(commentItem.created_at) }}
+        </small>
       </div>
 
-      <div
-        :id="`remove_comment_modal_choice_${commentItem.uuid}`"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
+      <div class="d-flex justify-space-between">
+        <div class="text-pre-line">{{ commentItem.content }}</div>
+        <v-menu
+          v-model="commentMenu"
+          location="start"
+          :close-on-content-click="false"
         >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('comments.you_want_remove_comment') }}</h5>
-              <p class="mb-0">{{ $t('comments.you_can_update_this_comment') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removeComment()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
-        </div>
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              icon="mdi-dots-horizontal"
+              variant="text"
+              size="small"
+            ></v-btn>
+          </template>
+          <v-list density="compact">
+            <v-list-item
+              @click="() => {
+                commentMenu = false
+                replyComment = true
+              }"
+              prepend-icon="mdi-reply"
+            >
+              {{ $t('btn.reply') }}
+            </v-list-item>
+            <ReportListItemDialog
+              contentType="comment"
+              :objectUUID="commentItem.uuid"
+              @reportSent="commentMenu = false"
+            />
+            <v-list-item
+              @click="() => {
+                oldCommentContent = commentItem.content
+                commentUpdateDialog = true
+              }"
+              prepend-icon="mdi-pencil"
+            >
+              {{ $t('btn.edit') }}
+            </v-list-item>
+            <v-list-item
+              @click="commentRemoveDialog = true"
+              prepend-icon="mdi-delete"
+            >
+              {{ $t('btn.delete') }}
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
-    </Teleport>
+
+      <v-textarea
+        v-if="replyComment"
+        v-model="newCommentContent"
+        :loading="newCommentSending"
+        :readonly="newCommentSending"
+        autofocus
+        auto-grow
+        :rows="1"
+        :max-rows="10"
+        variant="solo-filled"
+        flat
+        :placeholder="$t('comments.add_comment')"
+        :append-inner-icon="newCommentContent ? 'mdi-send' : ''"
+        @click:append-inner="sendComment()"
+        :error-messages="newCommentErrors?.content ? newCommentErrors.content : []"
+      ></v-textarea>
+    </div>
   </div>
+
+  <v-dialog
+    :model-value="commentUpdateDialog"
+    :width="500"
+    persistent
+  >
+    <v-card
+      :title="$t('comments.updating_comment')"
+      rounded="lg"
+    >
+      <v-textarea
+        v-model="oldCommentContent"
+        :readonly="oldCommentProcessing"
+        autofocus
+        auto-grow
+        :rows="1"
+        :max-rows="10"
+        variant="filled"
+        :label="$t('comments.content')"
+        :error-messages="oldCommentErrors?.content ? oldCommentErrors.content : []"
+        class="mx-3"
+      ></v-textarea>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="() => {
+            commentUpdateDialog = false
+            oldCommentContent = ''
+            oldCommentErrors = null
+          }"
+        >
+          {{ $t('btn.cancel') }}
+        </v-btn>
+        <v-btn
+          @click="updateComment()"
+          :loading="oldCommentProcessing"
+          :disabled="!oldCommentContent"
+          variant="flat"
+          color="primary"
+        >
+          {{ $t('btn.update') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog
+    :model-value="commentRemoveDialog"
+    width="auto"
+    persistent
+  >
+    <v-card rounded="lg">
+      <v-card-title>
+        {{ $t('comments.you_want_remove_comment') }}
+      </v-card-title>
+      <v-card-text>
+        {{ $t('comments.you_can_update_this_comment') }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="commentRemoveDialog = false">
+          {{ $t('btn.no_cancel') }}
+        </v-btn>
+        <v-btn
+          @click="removeComment()"
+          :loading="oldCommentProcessing"
+        >
+          <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>

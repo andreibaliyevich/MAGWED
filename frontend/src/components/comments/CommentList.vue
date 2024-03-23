@@ -7,7 +7,6 @@ import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import { useSendComment } from '@/composables/sendComment.js'
 import AuthorCommentItem from './AuthorCommentItem.vue'
 import CommentItem from './CommentItem.vue'
-import SubmitContent from './SubmitContent.vue'
 
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
@@ -206,114 +205,104 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="comment-list">
-    <h1 class="h5 text-center">
-      {{ $t('comments.comments') }} ({{ commentCount }})
-    </h1>
+  <h6 class="text-h6 text-md-h5 my-5 text-center">
+    {{ $t('comments.comments') }} ({{ commentCount }})
+  </h6>
 
-    <div v-if="commentList.length > 0">
+  <TransitionGroup
+    v-if="commentList.length > 0"
+    tag="ul"
+    name="list-group"
+    class="list-group"
+  >
+    <li
+      v-for="commentItem in commentList"
+      :key="commentItem.uuid"
+      class="list-group-item"
+    >
+      <AuthorCommentItem
+        v-if="userStore.uuid === commentItem.author.uuid"
+        :commentItem="commentItem"
+      />
+      <CommentItem
+        v-else
+        :commentItem="commentItem"
+      />
       <TransitionGroup
+        v-if="commentItem.comments.length > 0"
         tag="ul"
         name="list-group"
-        class="list-group list-group-flush"
+        class="list-group"
       >
         <li
-          v-for="commentItem in commentList"
-          :key="commentItem.uuid"
+          v-for="commentOfCommentItem in getCommentListOfComment(commentItem.comments)"
+          :key="commentOfCommentItem.uuid"
           class="list-group-item"
         >
           <AuthorCommentItem
-            v-if="userStore.uuid === commentItem.author.uuid"
-            :commentItem="commentItem"
+            v-if="userStore.uuid === commentOfCommentItem.author.uuid"
+            :commentItem="commentOfCommentItem"
           />
           <CommentItem
             v-else
-            :commentItem="commentItem"
+            :commentItem="commentOfCommentItem"
           />
-          <TransitionGroup
-            v-if="commentItem.comments.length > 0"
-            tag="ul"
-            name="list-group"
-            class="list-group list-group-flush"
-          >
-            <li
-              v-for="commentOfCommentItem in getCommentListOfComment(commentItem.comments)"
-              :key="commentOfCommentItem.uuid"
-              class="list-group-item"
-            >
-              <AuthorCommentItem
-                v-if="userStore.uuid === commentOfCommentItem.author.uuid"
-                :commentItem="commentOfCommentItem"
-              />
-              <CommentItem
-                v-else
-                :commentItem="commentOfCommentItem"
-              />
-            </li>
-          </TransitionGroup>
         </li>
       </TransitionGroup>
-    </div>
-    <div
-      v-else-if="!commentListLoading"
-      class="lead d-flex justify-content-center py-3"
-    >
-      {{ $t('comments.no_comments_yet') }}
-    </div>
-    <div
-      v-if="nextURL"
-      style="min-height: 1px; margin-bottom: 1px;"
-      v-intersection="{
-        'scrollArea': null,
-        'callbackFunction': getMoreCommentList,
-        'functionArguments': []
-      }"
-    ></div>
-    <LoadingIndicator v-if="commentListLoading" />
+    </li>
+  </TransitionGroup>
 
-    <form
-      v-if="userStore.isLoggedIn"
-      @submit.prevent="sendComment()"
-      class="mt-3 mx-lg-5"
+  <v-textarea
+    v-if="userStore.isLoggedIn"
+    v-model="newCommentContent"
+    :loading="newCommentSending"
+    :readonly="newCommentSending"
+    auto-grow
+    :rows="1"
+    :max-rows="10"
+    variant="solo-filled"
+    flat
+    :placeholder="$t('comments.add_comment')"
+    :append-inner-icon="newCommentContent ? 'mdi-send' : ''"
+    @click:append-inner="sendComment()"
+    :error-messages="newCommentErrors?.content ? newCommentErrors.content : []"
+  ></v-textarea>
+
+  <v-alert
+    v-else
+    type="info"
+    variant="tonal"
+    class="my-5"
+  >
+    {{ $t('comments.need_log_in') }}
+    <router-link
+      :to="{
+        name: 'Login',
+        query: { redirect: $route.path }
+      }"
+      class="font-weight-bold"
     >
-      <SubmitContent
-        v-model="newCommentContent"
-        :loadingStatus="newCommentSending"
-        id="id_new_content"
-        :placeholder="$t('comments.add_comment')"
-        :errors="newCommentErrors?.content ? newCommentErrors.content : []"
-      />
-    </form>
-    <div
-      v-else
-      class="alert alert-info" role="alert"
-    >
-      {{ $t('comments.need_log_in') }}
-      <router-link
-        :to="{
-          name: 'Login',
-          query: { redirect: $route.path }
-        }"
-        class="alert-link"
-      >
-        {{ $t('auth.log_in') }}
-      </router-link>
-    </div>
-  </div>
+      {{ $t('auth.log_in') }}
+    </router-link>
+  </v-alert>
 </template>
 
 <style scoped>
 .list-group-enter-active,
 .list-group-leave-active {
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
+  transition: all 0.5s ease;
 }
 .list-group-enter-from,
 .list-group-leave-to {
   opacity: 0;
-  transform: translateY(+30px);
+  transform: translateX(30px);
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #212529;
+  text-decoration: none;
 }
 </style>
