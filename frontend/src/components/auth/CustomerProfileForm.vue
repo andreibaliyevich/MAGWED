@@ -59,17 +59,19 @@ const updateProfile = async () => {
       },
       date_of_wedding: dateOfWedding.value
     })
-    userStore.updateName(name.value)
-    window.localStorage.setItem('user', JSON.stringify({
-      uuid: userStore.uuid,
-      username: userStore.username,
-      email: userStore.email,
-      user_type: userStore.userType,
-      name: name.value,
-      avatar: userStore.avatar,
-      token: userStore.token
-    }))
-    errors.value = null
+    if (response.status === 204) {
+      userStore.updateName(name.value)
+      window.localStorage.setItem('user', JSON.stringify({
+        uuid: userStore.uuid,
+        username: userStore.username,
+        email: userStore.email,
+        user_type: userStore.userType,
+        name: name.value,
+        avatar: userStore.avatar,
+        token: userStore.token
+      }))
+      errors.value = null
+    }
   } catch (error) {
     errors.value = error.response.data
   } finally {
