@@ -5,10 +5,10 @@ import { useRoute } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
-import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
-import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
+import FavoriteListItem from '@/components/FavoriteListItem.vue'
+import ReportListItemDialog from '@/components/ReportListItemDialog.vue'
+import CommentList from '@/components/comments/CommentList.vue'
 
 const route = useRoute()
 const { locale } = useI18n({ useScope: 'global' })
@@ -115,116 +115,130 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="article-detail-view">
-    <LoadingIndicator v-if="articleLoading" />
-    <NotFound v-else-if="errorStatus === 404" />
-    <div v-else>
-      <div class="d-flex justify-content-center mb-3">
-        <img
-          :src="articleData.image"
-          class="card-img-top rounded-3"
-        >
-      </div>
-      <h1 class="h3">{{ articleData.translated_title }}</h1>
-      <div class="d-lg-flex align-items-lg-center text-center">
-        <div class="row g-1">
-          <div
-            v-for="categoryValue in articleData.categories"
-            :key="categoryValue"
-            class="col"
-          >
-            <span class="badge text-bg-light">
-              {{ $t(`category_choices.${categoryValue}`) }}
-            </span>
-          </div>
-        </div>
-        <div
-          v-if="userStore.isLoggedIn"
-          class="ms-lg-auto mt-2"
-        >
-          <div class="d-flex justify-content-end">
-            <div class="dropdown">
-              <button
-                type="button"
-                class="btn btn-light ms-2"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="true"
-                aria-expanded="false"
-              >
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <FavoriteDropdownItem
-                    :objFavorite="articleData.favorite"
-                    contentType="article"
-                    :objectUUID="articleData.uuid"
-                    @updateFavorite="(status) => {
-                      articleData.favorite = status
-                    }"
-                  />
-                </li>
-                <li>
-                  <ReportDropdownItemModal
-                    contentType="article"
-                    :objectUUID="articleData.uuid"
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ul class="list-inline text-body-secondary mt-2 mb-4">
-        <li class="list-inline-item">
-          {{ $t('blog.author') }}:
-          <router-link
-            :to="{
-              name: 'ArticleList',
-              query: { author: articleData.author.uuid }
-            }"
-            class="text-decoration-none link-dark"
-          >
-            {{ articleData.author.name }}
-          </router-link>
-        </li>
-        <li class="list-inline-item ms-3">
-          <i class="fa-regular fa-calendar-days"></i>
-          {{ getLocaleDateString(articleData.published_at) }}
-        </li>
-        <li class="list-inline-item ms-3">
-          <i class="fa-regular fa-eye"></i>
-          {{ articleData.view_count }}
-        </li>
-      </ul>
-      <div v-html="articleData.translated_content"></div>
-      <div
-        v-if="articleData.tags.length > 0"
-        class="d-inline-block my-3"
+  <div
+    v-if="articleLoading"
+    class="d-flex justify-center align-center my-15"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="80"
+    ></v-progress-circular>
+  </div>
+
+  <NotFound v-else-if="errorStatus === 404" />
+
+  <div
+    v-else
+    class="my-5"
+  >
+    <v-img
+      :src="articleData.image"
+      :height="300"
+      cover
+      rounded="lg"
+    ></v-img>
+    <h1 class="text-h4 text-md-h3 my-5">{{ articleData.translated_title }}</h1>
+
+    <div class="d-flex flex-wrap">
+      <v-chip
+        v-for="(category, index) in articleData.categories"
+        :key="`${articleData.uuid}-category-${index}`"
+        class="ma-1"
       >
-        <div class="row g-1">
-          <div
-            v-for="tag in articleData.tags"
-            :key="tag.uuid"
-            class="col"
-          >
-            <router-link
-              :to="{
-                name: 'TagDetail',
-                params: { uuid: tag.uuid },
-                query: { tab: 'articles' }
+        {{ $t(`category_choices.${category}`) }}
+      </v-chip>
+
+      <v-menu
+        v-if="userStore.isLoggedIn"
+        location="start"
+        :close-on-content-click="false"
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon="mdi-dots-horizontal"
+            variant="text"
+            class="ms-auto"
+          ></v-btn>
+        </template>
+        <template v-slot:default="{ isActive }">
+          <v-list density="compact">
+            <FavoriteListItem
+              :objFavorite="articleData.favorite"
+              contentType="article"
+              :objectUUID="articleData.uuid"
+              @favoriteUpdated="(status) => {
+                articleData.favorite = status
+                isActive.value = false
               }"
-              class="btn btn-light btn-sm"
-            >
-              #{{ tag.name }}
-            </router-link>
-          </div>
-        </div>
-      </div>
-      <CommentList
-        contentType="article"
-        :objectUUID="articleData.uuid"
-      />
+            />
+            <ReportListItemDialog
+              contentType="article"
+              :objectUUID="articleData.uuid"
+              @reportSent="isActive.value = false"
+            />
+          </v-list>
+        </template>
+      </v-menu>
     </div>
+
+    <div class="d-flex flex-wrap mb-5">
+      <div class="d-flex align-center">
+        <span class="text-grey-darken-1">
+          {{ $t('blog.author') }}:
+        </span>
+        <router-link
+          :to="{
+            name: 'ArticleList',
+            query: { author: articleData.author.uuid }
+          }"
+          class="text-decoration-none text-grey-darken-4 ms-1"
+        >
+          {{ articleData.author.name }}
+        </router-link>
+      </div>
+      <div class="d-flex align-center text-grey-darken-1 ms-3">
+        <v-icon
+          icon="mdi-calendar-month-outline"
+          :size="24"
+          class="me-1"
+        ></v-icon>
+        {{ getLocaleDateString(articleData.published_at) }}
+      </div>
+      <div class="d-flex align-center text-grey-darken-1 ms-3">
+        <v-icon
+          icon="mdi-eye-outline"
+          :size="24"
+          class="me-1"
+        ></v-icon>
+        {{ articleData.view_count }}
+      </div>
+    </div>
+
+    <div v-html="articleData.translated_content"></div>
+
+    <div
+      v-if="articleData.tags.length > 0"
+      class="d-flex flex-wrap my-5"
+    >
+      <v-btn
+        v-for="tag in articleData.tags"
+        :key="tag.uuid"
+        :to="{
+          name: 'TagDetail',
+          params: { uuid: tag.uuid },
+          query: { tab: 'articles' }
+        }"
+        variant="tonal"
+        class="text-none ma-1"
+      >
+        #{{ tag.name }}
+      </v-btn>
+    </div>
+
+    <CommentList
+      contentType="article"
+      :objectUUID="articleData.uuid"
+    />
   </div>
 </template>

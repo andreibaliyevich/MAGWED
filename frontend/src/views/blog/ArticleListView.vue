@@ -42,16 +42,19 @@ const getArticleList = async () => {
   }
 }
 
-const getMoreArticleList = async () => {
-  articleListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    articleList.value = [...articleList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    articleListLoading.value = false
+const getMoreArticleList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      articleList.value = [...articleList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -74,78 +77,80 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="article-list-view">
-    <h1 class="display-6 text-center mb-5">
-      {{ $t('blog.articles') }}
-    </h1>
-    <div v-if="articleList.length > 0">
-      <div
-        v-for="article in articleList"
-        :key="article.slug"
-        class="card border border-light shadow-sm mb-3"
-      >
-        <div class="row g-0">
-          <div class="col-md-4 d-flex align-items-center">
-            <router-link
-              :to="{
-                name: 'ArticleDetail',
-                params: { slug: article.slug }
-              }"
-            >
-              <img
-                :src="article.thumbnail"
-                class="img-fluid rounded"
-                :alt="article.translated_title"
-              >
-            </router-link>
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <router-link
-                :to="{
-                  name: 'ArticleDetail',
-                  params: { slug: article.slug }
-                }"
-                class="text-decoration-none link-dark"
-              >
-                <h5 class="card-title">{{ article.translated_title }}</h5>
-              </router-link>
-              <div class="mb-1">
-                <span
-                  v-for="category in article.categories"
-                  :key="category"
-                  class="badge text-bg-light ms-1"
-                >
-                  {{ $t(`category_choices.${category}`) }}
-                </span>
-              </div>
-              <p class="card-text">{{ article.translated_description }}</p>
-              <p class="card-text">
-                <small class="text-body-secondary">
-                  <i class="fa-regular fa-calendar-days"></i>
-                  {{ getLocaleDateString(article.published_at) }}
-                </small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      v-else-if="!articleListLoading"
-      class="lead fs-3 d-flex justify-content-center py-3"
-    >
-      {{ $t('blog.no_articles') }}
-    </div>
-    <div
-      v-if="nextURL"
-      style="min-height: 1px; margin-bottom: 1px;"
-      v-intersection="{
-        'scrollArea': null,
-        'callbackFunction': getMoreArticleList,
-        'functionArguments': []
-      }"
-    ></div>
-    <LoadingIndicator v-if="articleListLoading" />
+  <h1 class="text-h4 text-md-h3 text-center my-5">
+    {{ $t('blog.articles') }}
+  </h1>
+
+  <div
+    v-if="articleListLoading"
+    class="d-flex justify-center align-center my-15"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="80"
+    ></v-progress-circular>
   </div>
+
+  <v-infinite-scroll
+    v-else-if="articleList.length > 0"
+    @load="getMoreArticleList"
+    mode="intersect"
+    :empty-text="$t('blog.no_more_articles')"
+  >
+    <div
+      v-for="(article, index) in articleList"
+      :key="`searchedItem${index}`"
+      class="mx-1 my-1"
+    >
+      <v-card rounded="lg">
+        <router-link
+          :to="{
+            name: 'ArticleDetail',
+            params: {
+              locale: $i18n.locale,
+              slug: article.slug
+            }
+          }"
+          class="text-black text-decoration-none"
+        >
+          <v-img
+            :src="article.thumbnail"
+            :height="200"
+            cover
+            class="align-end text-white"
+          >
+            <v-card-title>{{ article.translated_title }}</v-card-title>
+          </v-img>
+        </router-link>
+        <v-card-subtitle class="pt-3">
+          <v-chip
+            v-for="(category, index) in article.categories"
+            :key="`${article.slug}-category-${index}`"
+            density="compact"
+            class="ma-1"
+          >
+            {{ $t(`category_choices.${category}`) }}
+          </v-chip>
+          <br>
+          <v-icon
+            icon="mdi-calendar-month-outline"
+            size="default"
+          ></v-icon>
+          {{ getLocaleDateString(article.published_at) }}
+        </v-card-subtitle>
+        <v-card-text>
+          {{ article.translated_description }}
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-infinite-scroll>
+
+  <v-alert
+    v-else
+    type="info"
+    variant="tonal"
+    class="my-5"
+  >
+    {{ $t('blog.no_articles') }}
+  </v-alert>
 </template>
