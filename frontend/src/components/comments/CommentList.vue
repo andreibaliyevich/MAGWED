@@ -28,7 +28,7 @@ const commentCount = ref(0)
 const nextURL = ref(null)
 
 const commentSocket = ref(null)
-const commentSocketConnect = ref(null)
+const commentSocketConnect = ref(false)
 
 const {
   newCommentSending,
@@ -55,16 +55,19 @@ const getCommentList = async () => {
   }
 }
 
-const getMoreCommentList = async () => {
-  commentListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    commentList.value = [...commentList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    commentListLoading.value = false
+const getMoreCommentList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      commentList.value = [...commentList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -209,48 +212,64 @@ onUnmounted(() => {
     {{ $t('comments.comments') }} ({{ commentCount }})
   </h6>
 
-  <TransitionGroup
-    v-if="commentList.length > 0"
-    tag="ul"
-    name="list-group"
-    class="list-group"
+  <div
+    v-if="commentListLoading"
+    class="d-flex justify-center align-center my-15"
   >
-    <li
-      v-for="commentItem in commentList"
-      :key="commentItem.uuid"
-      class="list-group-item"
+    <v-progress-circular
+      indeterminate
+      :size="80"
+    ></v-progress-circular>
+  </div>
+
+  <v-infinite-scroll
+    v-else-if="commentList.length > 0"
+    @load="getMoreCommentList"
+    mode="intersect"
+    empty-text="&nbsp;"
+  >
+    <TransitionGroup
+      tag="ul"
+      name="list-group"
+      class="list-group"
     >
-      <AuthorCommentItem
-        v-if="userStore.uuid === commentItem.author.uuid"
-        :commentItem="commentItem"
-      />
-      <CommentItem
-        v-else
-        :commentItem="commentItem"
-      />
-      <TransitionGroup
-        v-if="commentItem.comments.length > 0"
-        tag="ul"
-        name="list-group"
-        class="list-group"
+      <li
+        v-for="commentItem in commentList"
+        :key="commentItem.uuid"
+        class="list-group-item"
       >
-        <li
-          v-for="commentOfCommentItem in getCommentListOfComment(commentItem.comments)"
-          :key="commentOfCommentItem.uuid"
-          class="list-group-item"
+        <AuthorCommentItem
+          v-if="userStore.uuid === commentItem.author.uuid"
+          :commentItem="commentItem"
+        />
+        <CommentItem
+          v-else
+          :commentItem="commentItem"
+        />
+        <TransitionGroup
+          v-if="commentItem.comments.length > 0"
+          tag="ul"
+          name="list-group"
+          class="list-group"
         >
-          <AuthorCommentItem
-            v-if="userStore.uuid === commentOfCommentItem.author.uuid"
-            :commentItem="commentOfCommentItem"
-          />
-          <CommentItem
-            v-else
-            :commentItem="commentOfCommentItem"
-          />
-        </li>
-      </TransitionGroup>
-    </li>
-  </TransitionGroup>
+          <li
+            v-for="commentOfCommentItem in getCommentListOfComment(commentItem.comments)"
+            :key="commentOfCommentItem.uuid"
+            class="list-group-item"
+          >
+            <AuthorCommentItem
+              v-if="userStore.uuid === commentOfCommentItem.author.uuid"
+              :commentItem="commentOfCommentItem"
+            />
+            <CommentItem
+              v-else
+              :commentItem="commentOfCommentItem"
+            />
+          </li>
+        </TransitionGroup>
+      </li>
+    </TransitionGroup>
+  </v-infinite-scroll>
 
   <v-textarea
     v-if="userStore.isLoggedIn"
@@ -295,7 +314,7 @@ onUnmounted(() => {
 .list-group-enter-from,
 .list-group-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateY(30px);
 }
 
 .list-group-item {
