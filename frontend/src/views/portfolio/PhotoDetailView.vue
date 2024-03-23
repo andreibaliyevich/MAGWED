@@ -4,10 +4,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
-import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
-import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
+import FavoriteListItem from '@/components/FavoriteListItem.vue'
+import ReportListItemDialog from '@/components/ReportListItemDialog.vue'
+import CommentList from '@/components/comments/CommentList.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -162,317 +162,348 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="photo-detail-view">
-    <LoadingIndicator
+  <v-container>
+    <div
       v-if="photoLoading"
-      class="my-5"
-    />
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
     <NotFound v-else-if="errorStatus === 404" />
+
     <div
       v-else
-      class="container my-5"
+      class="my-5"
     >
-
-      <div class="card border-0">
-        <div class="d-flex justify-content-center">
-          <img
+      <v-hover v-slot="{ isHovering, props }">
+        <v-sheet
+          v-bind="props"
+          position="relative"
+          style="z-index: 0;"
+        >
+          <v-img
             :src="photoData.image"
             :alt="photoData.title"
-            class="card-img"
+            max-width="100%"
+            max-height="75vh"
+          ></v-img>
+          <v-overlay
+            :model-value="isHovering"
+            contained
+            :opacity="0"
+            content-class="d-flex justify-space-between align-center w-100 h-100 pa-3"
           >
-          <div
-            class="card-img-overlay mx-1"
-            style="background-color: rgba(33, 37, 41, 0);"
-          >
-            <div
-              v-if="photoData.prev_photo_uuid"
-              class="position-absolute top-50 start-0 translate-middle-y"
-            >
-              <router-link
-                :to="{
-                  params: { uuid: photoData.prev_photo_uuid },
-                  query: $route.query
-                }"
-                class="btn btn-light"
+            <v-btn
+              :to="{
+                params: { uuid: photoData.prev_photo_uuid },
+                query: $route.query
+              }"
+              :disabled="!photoData.prev_photo_uuid"
+              icon="mdi-chevron-left"
+              :elevation="1"
+            ></v-btn>
+            <v-btn
+              :to="{
+                params: { uuid: photoData.next_photo_uuid },
+                query: $route.query
+              }"
+              :disabled="!photoData.next_photo_uuid"
+              icon="mdi-chevron-right"
+              :elevation="1"
+            ></v-btn>
+          </v-overlay>
+        </v-sheet>
+      </v-hover>
+
+      <v-row
+        dense
+        class="my-3"
+      >
+        <v-col
+          :cols="12"
+          :lg="7"
+        >
+          <v-card class="pa-5">
+            <v-row dense>
+              <v-col
+                :cols="12"
+                :md="8"
               >
-                <i class="fa-solid fa-chevron-left"></i>
-              </router-link>
-            </div>
-            <div
-              v-if="photoData.next_photo_uuid"
-              class="position-absolute top-50 end-0 translate-middle-y"
-            >
-              <router-link
-                :to="{
-                  params: { uuid: photoData.next_photo_uuid },
-                  query: $route.query
-                }"
-                class="btn btn-light"
-              >
-                <i class="fa-solid fa-chevron-right"></i>
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-3 mt-3">
-        <div class="col-xl-7">
-          <div class="card border border-light shadow-sm">
-            <div class="card-body mx-3 mx-lg-1">
-
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="d-flex justify-content-center justify-content-lg-start">
-                    <div class="d-inline-block">
-                      <h1
-                        v-if="photoData.title"
-                        class="h3"
-                      >
-                        {{ photoData.title }}
-                      </h1>
-                      <ul class="list-inline text-body-secondary mb-2">
-                        <li class="list-inline-item">
-                          <i class="fa-regular fa-calendar-days"></i>
-                          {{ $t('portfolio.uploaded') }}
-                          {{ getLocaleDateString(photoData.uploaded_at) }}
-                        </li>
-                        <li class="list-inline-item ms-3">
-                          <i class="fa-regular fa-eye"></i>
-                          {{ photoData.view_count }}
-                        </li>
-                        <li class="list-inline-item ms-3">
-                          <i class="fa-regular fa-star"></i>
-                          {{ photoData.rating }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div
-                    v-if="userStore.isLoggedIn"
-                    class="d-flex justify-content-center justify-content-lg-end"
-                  >
-                    <button
-                      v-if="photoData.liked"
-                      @click="dislikePhoto()"
-                      type="button"
-                      class="btn btn-brand"
+                <div class="d-flex justify-center justify-md-start">
+                  <div class="d-inline-block">
+                    <h1
+                      v-if="photoData.title"
+                      class="text-h5"
                     >
-                      <i class="fa-regular fa-heart"></i>
-                      {{ photoData.like_count }}
-                    </button>
-                    <button
-                      v-else
-                      @click="likePhoto()"
-                      type="button"
-                      class="btn btn-outline-brand"
-                    >
-                      <i class="fa-regular fa-heart"></i>
-                      {{ photoData.like_count }}
-                    </button>
+                      {{ photoData.title }}
+                    </h1>
 
-                    <div class="d-flex justify-content-end">
-                      <div class="dropdown">
-                        <button
-                          type="button"
-                          class="btn btn-light ms-2"
-                          data-bs-toggle="dropdown"
-                          data-bs-auto-close="true"
-                          aria-expanded="false"
-                        >
-                          <i class="fa-solid fa-ellipsis"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                          <li>
-                            <FavoriteDropdownItem
-                              :objFavorite="photoData.favorite"
-                              contentType="photo"
-                              :objectUUID="$route.params.uuid"
-                              @updateFavorite="(status) => {
-                                photoData.favorite = status
-                              }"
-                            />
-                          </li>
-                          <li>
-                            <ReportDropdownItemModal
-                              contentType="photo"
-                              :objectUUID="$route.params.uuid"
-                            />
-                          </li>
-                        </ul>
+                    <div class="d-flex flex-wrap mt-3">
+                      <div class="d-flex align-center text-grey-darken-1">
+                        <v-icon
+                          icon="mdi-calendar-month-outline"
+                          :size="24"
+                          class="me-1"
+                        ></v-icon>
+                        {{ $t('portfolio.uploaded') }}
+                        {{ getLocaleDateString(photoData.uploaded_at) }}
+                      </div>
+                      <div class="d-flex align-center text-grey-darken-1 ms-3">
+                        <v-icon
+                          icon="mdi-eye-outline"
+                          :size="24"
+                          class="me-1"
+                        ></v-icon>
+                        {{ photoData.view_count }}
+                      </div>
+                      <div class="d-flex align-center text-grey-darken-1 ms-3">
+                        <v-icon
+                          icon="mdi-star-outline"
+                          :size="24"
+                          class="me-1"
+                        ></v-icon>
+                        {{ photoData.rating }}
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div class="row g-1 my-3">
-                <div class="col-lg-6">
-                  <div class="d-flex align-items-center justify-content-start">
-                    <router-link
-                      :to="{
-                        name: 'OrganizerDetail',
-                        params: { profile_url: photoData.author.profile_url }
-                      }"
-                    >
-                      <UserAvatar
-                        :src="photoData.author.avatar"
-                        :width="32"
-                        :height="32"
-                      />
-                    </router-link>
-                    <router-link
-                      :to="{
-                        name: 'OrganizerDetail',
-                        params: { profile_url: photoData.author.profile_url }
-                      }"
-                      class="text-decoration-none link-dark ms-2"
-                    >
-                      {{ photoData.author.name }}
-                    </router-link>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div
-                    v-if="photoData.album"
-                    class="d-flex align-items-center justify-content-start justify-content-lg-end"
-                  >
-                    <router-link
-                      :to="{
-                        name: 'AlbumDetail',
-                        params: { uuid: photoData.album.uuid }
-                      }"
-                    >
-                      <img
-                        :src="photoData.album.thumbnail"
-                        :width="32"
-                        :height="32"
-                        class="rounded-circle"
-                      >
-                    </router-link>
-                    <router-link
-                      :to="{
-                        name: 'AlbumDetail',
-                        params: { uuid: photoData.album.uuid }
-                      }"
-                      class="text-decoration-none link-dark ms-2"
-                    >
-                      {{ photoData.album.title }}
-                    </router-link>
-                  </div>
-                </div>
-              </div>
-
-              <p
-                v-if="photoData.description"
-                class="card-text lead"
+              </v-col>
+              <v-col
+                :cols="12"
+                :md="4"
               >
-                {{ photoData.description }}
-              </p>
+                <div
+                  v-if="userStore.isLoggedIn"
+                  class="d-flex justify-center justify-md-end align-center"
+                >
+                  <v-tooltip
+                    location="start"
+                    :text="`${photoData.like_count}`"
+                  >
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        :icon="photoData.liked ? 'mdi-heart' : 'mdi-heart-outline'"
+                        @click="photoData.liked ? dislikePhoto() : likePhoto()"
+                        variant="text"
+                        color="primary"
+                      ></v-btn>
+                    </template>
+                  </v-tooltip>
+                  
+                  <v-menu
+                    v-if="userStore.isLoggedIn"
+                    location="start"
+                    :close-on-content-click="false"
+                  >
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        icon="mdi-dots-horizontal"
+                        variant="text"
+                      ></v-btn>
+                    </template>
+                    <template v-slot:default="{ isActive }">
+                      <v-list density="compact">
+                        <FavoriteListItem
+                          :objFavorite="photoData.favorite"
+                          contentType="photo"
+                          :objectUUID="$route.params.uuid"
+                          @favoriteUpdated="(status) => {
+                            photoData.favorite = status
+                            isActive.value = false
+                          }"
+                        />
+                        <ReportListItemDialog
+                          contentType="photo"
+                          :objectUUID="$route.params.uuid"
+                          @reportSent="isActive.value = false"
+                        />
+                      </v-list>
+                    </template>
+                  </v-menu>
+                </div>
+              </v-col>
+            </v-row>
 
-            </div>
-          </div>
+            <v-row dense>
+              <v-col
+                :cols="12"
+                :md="6"
+              >
+                <div class="d-flex justify-center justify-md-start align-center">
+                  <router-link
+                    :to="{
+                      name: 'OrganizerDetail',
+                      params: { profile_url: photoData.author.profile_url }
+                    }"
+                  >
+                    <v-avatar :size="32">
+                      <v-img
+                        v-if="photoData.author.avatar"
+                        :src="photoData.author.avatar"
+                      ></v-img>
+                      <v-icon
+                        v-else
+                        icon="mdi-account-circle"
+                        :size="32"
+                        role="img"
+                      ></v-icon>
+                    </v-avatar>
+                  </router-link>
+                  <router-link
+                    :to="{
+                      name: 'OrganizerDetail',
+                      params: { profile_url: photoData.author.profile_url }
+                    }"
+                    class="text-body-1 text-decoration-none text-black ms-1"
+                  >
+                    {{ photoData.author.name }}
+                  </router-link>
+                </div>
+              </v-col>
+              <v-col
+                :cols="12"
+                :md="6"
+              >
+                <div
+                  v-if="photoData.album"
+                  class="d-flex justify-center justify-md-end align-center"
+                >
+                  <router-link
+                    :to="{
+                      name: 'AlbumDetail',
+                      params: { uuid: photoData.album.uuid }
+                    }"
+                  >
+                    <v-img
+                      :src="photoData.album.thumbnail"
+                      :width="32"
+                      aspect-ratio="1/1"
+                      cover
+                      class="rounded-circle"
+                    ></v-img>
+                  </router-link>
+                  <router-link
+                    :to="{
+                      name: 'AlbumDetail',
+                      params: { uuid: photoData.album.uuid }
+                    }"
+                    class="text-body-1 text-decoration-none text-black ms-1"
+                  >
+                    {{ photoData.album.title }}
+                  </router-link>
+                </div>
+              </v-col>
+            </v-row>
 
-          <div
+            <p
+              v-if="photoData.description"
+              class="text-body-1 mt-3"
+            >
+              {{ photoData.description }}
+            </p>
+          </v-card>
+
+          <v-card
             v-if="photoData.device"
-            class="card border border-light shadow-sm mt-2"
+            class="pa-5 my-2"
           >
-            <div class="card-body mx-3 mx-lg-1">
-              <div>
-                <i class="fa-solid fa-camera"></i>
-                {{ photoData.device }}
-              </div>
-              <div
-                v-if="photoData.f_number
+            <div class="d-flex align-center">
+              <v-icon
+                icon="mdi-camera"
+                :size="24"
+                class="me-1"
+              ></v-icon>
+              {{ photoData.device }}
+            </div>
+            <div
+              v-if="
+                photoData.f_number
                   || photoData.exposure_time
                   || photoData.focal_length
-                  || photoData.photographic_sensitivity"
-                class="mt-2"
+                  || photoData.photographic_sensitivity
+              "
+              class="d-flex flex-wrap"
+            >
+              <span
+                v-if="photoData.f_number"
+                :class="{
+                  'me-3': photoData.exposure_time
+                    || photoData.focal_length
+                    || photoData.photographic_sensitivity
+                }"
               >
-                <span
-                  v-if="photoData.f_number"
-                  :class="{
-                    'me-3': photoData.exposure_time
-                      || photoData.focal_length
-                      || photoData.photographic_sensitivity
-                  }"
-                >
-                  f/{{ photoData.f_number }}
-                </span>
-                <span
-                  v-if="photoData.exposure_time"
-                  :class="{
-                    'me-3': photoData.focal_length
-                      || photoData.photographic_sensitivity
-                  }"
-                >
-                  {{ photoData.exposure_time }}s
-                </span>
-                <span
-                  v-if="photoData.focal_length"
-                  :class="{ 'me-3': photoData.photographic_sensitivity }"
-                >
-                  {{ photoData.focal_length }}mm
-                </span>
-                <span v-if="photoData.photographic_sensitivity">
-                  ISO {{ photoData.photographic_sensitivity }}
-                </span>
-              </div>
+                f/{{ photoData.f_number }}
+              </span>
+              <span
+                v-if="photoData.exposure_time"
+                :class="{
+                  'me-3': photoData.focal_length
+                    || photoData.photographic_sensitivity
+                }"
+              >
+                {{ photoData.exposure_time }}s
+              </span>
+              <span
+                v-if="photoData.focal_length"
+                :class="{ 'me-3': photoData.photographic_sensitivity }"
+              >
+                {{ photoData.focal_length }}mm
+              </span>
+              <span v-if="photoData.photographic_sensitivity">
+                ISO {{ photoData.photographic_sensitivity }}
+              </span>
             </div>
-          </div>
+          </v-card>
 
-          <div
+          <v-card
             v-if="photoData.tags.length > 0"
-            class="card border border-light shadow-sm mt-2"
+            class="pa-5 my-2"
           >
-            <div class="card-body mx-3 mx-lg-1">
-              <div class="d-inline-block">
-                <div class="row g-1">
-                  <div
-                    v-for="tag in photoData.tags"
-                    :key="tag.uuid"
-                    class="col"
-                  >
-                    <router-link
-                      :to="{
-                        name: 'TagDetail',
-                        params: { uuid: tag.uuid },
-                        query: { tab: 'photos' }
-                      }"
-                      class="btn btn-light btn-sm"
-                    >
-                      #{{ tag.name }}
-                    </router-link>
-                  </div>
-                </div>
-              </div>
+            <div class="d-flex flex-wrap">
+              <v-btn
+                v-for="tag in photoData.tags"
+                :key="tag.uuid"
+                :to="{
+                  name: 'TagDetail',
+                  params: { uuid: tag.uuid },
+                  query: { tab: 'photos' }
+                }"
+                prepend-icon="mdi-pound"
+                variant="tonal"
+                class="text-none ma-1"
+              >
+                {{ tag.name }}
+              </v-btn>
             </div>
-          </div>
-        </div>
-
-        <div class="col-xl-5">
-          <div class="card border border-light shadow-sm">
-            <div class="card-body mx-3 mx-lg-1">
-              <CommentList
-                contentType="photo"
-                :objectUUID="$route.params.uuid"
-              />
-            </div>
-          </div>
-        </div>
-
-      </div>
+          </v-card>
+        </v-col>
+        <v-col
+          :cols="12"
+          :lg="5"
+        >
+          <v-card
+            max-height="75vh"
+            class="overflow-y-auto pa-3"
+          >
+            <CommentList
+              contentType="photo"
+              :objectUUID="$route.params.uuid"
+            />
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <style scoped>
-.card-img {
-  width: auto;
-  max-width: 100%;
-  height: 100%;
-  max-height: 75vh;
+::-webkit-scrollbar {
+  width: 0.3em;
 }
 </style>
