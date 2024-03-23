@@ -208,7 +208,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <h6 class="text-h6 text-md-h5 my-5 text-center">
+  <h6 class="text-h6 text-center my-5">
     {{ $t('comments.comments') }} ({{ commentCount }})
   </h6>
 

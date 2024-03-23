@@ -229,10 +229,11 @@ onUnmounted(() => {
           params: { uuid: tag.uuid },
           query: { tab: 'articles' }
         }"
+        prepend-icon="mdi-pound"
         variant="tonal"
         class="text-none ma-1"
       >
-        #{{ tag.name }}
+        {{ tag.name }}
       </v-btn>
     </div>
 
