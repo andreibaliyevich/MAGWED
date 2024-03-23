@@ -69,13 +69,6 @@ main {
   background-color: #6c757d !important;
 }
 
-.mw-100 {
-  max-width: 100% !important;
-}
-.max-vh-75 {
-  max-height: 75vh !important;
-}
-
 .hidden-visually {
   position: absolute;
   overflow: hidden;

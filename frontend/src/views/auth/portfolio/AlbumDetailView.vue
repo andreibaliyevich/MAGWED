@@ -162,7 +162,7 @@ onMounted(() => {
     <div class="elevation-1 rounded-lg text-center my-5">
       <v-img
         :src="albumImage"
-        class="rounded-t-lg"
+        rounded="t-lg"
       ></v-img>
 
       <small

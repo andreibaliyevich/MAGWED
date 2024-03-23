@@ -359,7 +359,8 @@ onMounted(() => {
             <v-img
               :src="photoImage"
               :alt="photoTitle"
-              class="mw-100 max-vh-75"
+              max-width="100%"
+              max-height="75vh"
             ></v-img>
             <v-overlay
               :model-value="isHovering"
