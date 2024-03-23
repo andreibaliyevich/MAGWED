@@ -271,6 +271,13 @@ onUnmounted(() => {
     </TransitionGroup>
   </v-infinite-scroll>
 
+  <p
+    v-else-if="!commentListLoading"
+    class="text-body-1 my-5"
+  >
+    {{ $t('comments.no_comments_yet') }}
+  </p>
+
   <v-textarea
     v-if="userStore.isLoggedIn"
     v-model="newCommentContent"
