@@ -415,6 +415,13 @@ onUnmounted(() => {
               </v-col>
             </v-row>
           </v-infinite-scroll>
+
+          <p
+            v-else-if="!photoListLoading"
+            class="text-body-1 mx-1 my-5"
+          >
+            {{ $t('portfolio.no_photos') }}
+          </p>
         </v-col>
         <v-col
           :cols="12"
