@@ -180,17 +180,15 @@ onMounted(() => {
         </small>
       </div>
 
-      <v-card-actions class="d-flex justify-center">
-        <FileInputButton
-          @selectedFiles="updateAlbumImage"
-          :loading="albumImageUpdating"
-          accept="image/*"
-          variant="tonal"
-          color="primary"
-          class="text-none"
-          :text="$t('user.update_cover')"
-        ></FileInputButton>
-      </v-card-actions>
+      <FileInputButton
+        @selectedFiles="updateAlbumImage"
+        :loading="albumImageUpdating"
+        accept="image/*"
+        variant="tonal"
+        color="primary"
+        class="text-none my-1"
+        :text="$t('user.update_cover')"
+      ></FileInputButton>
     </div>
 
     <div class="elevation-1 rounded-lg my-5 pa-5">

@@ -137,6 +137,7 @@ onMounted(() => {
                 aspect-ratio="1/1"
                 cover
               ></v-img>
+
               <v-overlay
                 :model-value="isHovering"
                 contained
@@ -175,9 +176,11 @@ onMounted(() => {
                       {{ photoItem.author.name }}
                     </div>
                   </router-link>
+
                   <h5 class="text-h6 text-center my-auto">
                     {{ photoItem.title }}
                   </h5>
+
                   <div class="d-flex justify-space-between">
                     <small>
                       <v-icon icon="mdi-eye-outline"></v-icon>
@@ -214,7 +217,7 @@ onMounted(() => {
 <style scoped>
 @media (max-width: 600px) {
   .v-btn-group > a {
-    font-size: 0.75rem;
+    font-size: 0.70rem;
     min-width: 50px;
     padding: 0 12px;
   }

@@ -227,7 +227,7 @@ onUnmounted(() => {
           :cols="12"
           :lg="7"
         >
-          <v-card class="pa-5">
+          <div class="elevation-1 rounded-lg pa-5">
             <v-row dense>
               <v-col
                 :cols="12"
@@ -296,7 +296,6 @@ onUnmounted(() => {
                   </v-tooltip>
                   
                   <v-menu
-                    v-if="userStore.isLoggedIn"
                     location="start"
                     :close-on-content-click="false"
                   >
@@ -407,11 +406,11 @@ onUnmounted(() => {
             >
               {{ photoData.description }}
             </p>
-          </v-card>
+          </div>
 
-          <v-card
+          <div
             v-if="photoData.device"
-            class="pa-5 my-2"
+            class="elevation-1 rounded-lg pa-5 my-2"
           >
             <div class="d-flex align-center">
               <v-icon
@@ -459,11 +458,11 @@ onUnmounted(() => {
                 ISO {{ photoData.photographic_sensitivity }}
               </span>
             </div>
-          </v-card>
+          </div>
 
-          <v-card
+          <div
             v-if="photoData.tags.length > 0"
-            class="pa-5 my-2"
+            class="elevation-1 rounded-lg pa-5 my-2"
           >
             <div class="d-flex flex-wrap">
               <v-btn
@@ -481,21 +480,21 @@ onUnmounted(() => {
                 {{ tag.name }}
               </v-btn>
             </div>
-          </v-card>
+          </div>
         </v-col>
         <v-col
           :cols="12"
           :lg="5"
         >
-          <v-card
-            max-height="75vh"
-            class="overflow-y-auto pa-3"
+          <div
+            class="elevation-1 rounded-lg overflow-y-auto pa-3"
+            style="max-height: 75vh;"
           >
             <CommentList
               contentType="photo"
               :objectUUID="$route.params.uuid"
             />
-          </v-card>
+          </div>
         </v-col>
       </v-row>
     </div>
