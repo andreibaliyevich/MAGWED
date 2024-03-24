@@ -4,10 +4,10 @@ import { useRoute } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-import CommentList from '@/components/comments/CommentList.vue'
 import NotFound from '@/components/NotFound.vue'
-import FavoriteDropdownItem from '@/components/FavoriteDropdownItem.vue'
-import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
+import FavoriteListItem from '@/components/FavoriteListItem.vue'
+import ReportListItemDialog from '@/components/ReportListItemDialog.vue'
+import CommentList from '@/components/comments/CommentList.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -56,16 +56,19 @@ const getPhotoList = async () => {
   }
 }
 
-const getMorePhotoList = async () => {
-  photoListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    photoList.value = [...photoList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    photoListLoading.value = false
+const getMorePhotoList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      photoList.value = [...photoList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -151,234 +154,289 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="album-detail-view">
-    <LoadingIndicator
+  <v-container>
+    <div
       v-if="albumDataLoading"
-      class="my-5"
-    />
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
     <NotFound v-else-if="errorStatus === 404" />
+
     <div
       v-else
-      class="container my-5"
+      class="my-5"
     >
-      <div class="card border border-light shadow-sm">
-        <img
+      <div class="elevation-1 rounded-lg pb-5">
+        <v-img
           :src="albumData.image"
-          class="card-img-top"
-        >
-        <div class="card-body mx-3 mx-lg-5">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="d-flex justify-content-center justify-content-lg-start">
-                <div class="d-inline-block">
-                  <h1 class="h3">{{ albumData.title }}</h1>
-                  <ul class="list-inline text-body-secondary mb-2">
-                    <li class="list-inline-item">
-                      <i class="fa-regular fa-calendar-days"></i>
-                      {{ $t('portfolio.created') }}
-                      {{ getLocaleDateString(albumData.created_at) }}
-                    </li>
-                    <li class="list-inline-item ms-3">
-                      <i class="fa-regular fa-eye"></i>
-                      {{ albumData.view_count }}
-                    </li>
-                    <li class="list-inline-item ms-3">
-                      <i class="fa-regular fa-star"></i>
-                      {{ albumData.rating }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div
-                v-if="userStore.isLoggedIn"
-                class="d-flex justify-content-center justify-content-lg-end"
-              >
-                <button
-                  v-if="albumData.liked"
-                  @click="dislikeAlbum()"
-                  type="button"
-                  class="btn btn-brand"
-                >
-                  <i class="fa-regular fa-heart"></i>
-                  {{ albumData.like_count }}
-                </button>
-                <button
-                  v-else
-                  @click="likeAlbum()"
-                  type="button"
-                  class="btn btn-outline-brand"
-                >
-                  <i class="fa-regular fa-heart"></i>
-                  {{ albumData.like_count }}
-                </button>
+          rounded="t-lg"
+        ></v-img>
 
-                <div class="d-flex justify-content-end">
-                  <div class="dropdown">
-                    <button
-                      type="button"
-                      class="btn btn-light ms-2"
-                      data-bs-toggle="dropdown"
-                      data-bs-auto-close="true"
-                      aria-expanded="false"
-                    >
-                      <i class="fa-solid fa-ellipsis"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li>
-                        <FavoriteDropdownItem
-                          :objFavorite="albumData.favorite"
-                          contentType="album"
-                          :objectUUID="$route.params.uuid"
-                          @updateFavorite="(status) => {
-                            albumData.favorite = status
-                          }"
-                        />
-                      </li>
-                      <li>
-                        <ReportDropdownItemModal
-                          contentType="album"
-                          :objectUUID="$route.params.uuid"
-                        />
-                      </li>
-                    </ul>
+        <v-row
+          dense
+          class="mx-5 my-3"
+        >
+          <v-col
+            :cols="12"
+            :md="8"
+          >
+            <div class="d-flex justify-center justify-md-start">
+              <div class="d-inline-block">
+                <h1 class="text-h5">{{ albumData.title }}</h1>
+
+                <div class="d-flex flex-wrap mt-3">
+                  <div class="d-flex align-center text-grey-darken-1">
+                    <v-icon
+                      icon="mdi-calendar-month-outline"
+                      :size="24"
+                      class="me-1"
+                    ></v-icon>
+                    {{ $t('portfolio.created') }}
+                    {{ getLocaleDateString(albumData.created_at) }}
+                  </div>
+                  <div class="d-flex align-center text-grey-darken-1 ms-3">
+                    <v-icon
+                      icon="mdi-eye-outline"
+                      :size="24"
+                      class="me-1"
+                    ></v-icon>
+                    {{ albumData.view_count }}
+                  </div>
+                  <div class="d-flex align-center text-grey-darken-1 ms-3">
+                    <v-icon
+                      icon="mdi-star-outline"
+                      :size="24"
+                      class="me-1"
+                    ></v-icon>
+                    {{ albumData.rating }}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="d-flex align-items-center mb-3">
-            <router-link
-              :to="{
-                name: 'OrganizerDetail',
-                params: { profile_url: albumData.author.profile_url }
-              }"
-            >
-              <UserAvatar
-                :src="albumData.author.avatar"
-                :width="32"
-                :height="32"
-              />
-            </router-link>
-            <router-link
-              :to="{
-                name: 'OrganizerDetail',
-                params: { profile_url: albumData.author.profile_url  }
-              }"
-              class="text-decoration-none link-dark ms-2"
-            >
-              {{ albumData.author.name }}
-            </router-link>
-          </div>
-
-          <p
-            v-if="albumData.description"
-            class="card-text lead"
-          >
-            {{ albumData.description }}
-          </p>
-
-          <div
-            v-if="albumData.tags.length > 0"
-            class="d-inline-block"
-          >
-            <div class="row g-1">
-              <div
-                v-for="tag in albumData.tags"
-                :key="tag.uuid"
-                class="col"
-              >
-                <router-link
-                  :to="{
-                    name: 'TagDetail',
-                    params: { uuid: tag.uuid },
-                    query: { tab: 'albums' }
-                  }"
-                  class="btn btn-light btn-sm"
-                >
-                  #{{ tag.name }}
-                </router-link>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="row g-3 mt-3">
-        <div class="col-xl-7">
-          <div
-            v-if="photoList.length > 0"
-            class="row g-3"
+          </v-col>
+          <v-col
+            :cols="12"
+            :md="4"
           >
             <div
-              v-for="photoItem in photoList"
-              :key="photoItem.uuid"
-              class="col-12 col-md-6 col-lg-4 col-xl-4"
+              v-if="userStore.isLoggedIn"
+              class="d-flex justify-center justify-md-end align-center"
             >
-              <div class="card border border-0 h-100">
-                <router-link
-                  :to="{
-                    name: 'PhotoDetail',
-                    params: { uuid: photoItem.uuid },
-                    query: {
-                      from: 'album',
-                      album: $route.params.uuid
-                    }
-                  }"
-                  class="link-light"
-                >
-                  <img
-                    :src="photoItem.thumbnail"
-                    class="card-img"
-                  >
-                  <div class="card-img-overlay">
-                    <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                      <h5 class="card-title text-center">{{ photoItem.title }}</h5>
-                    </div>
-                    <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-                      <i class="fa-regular fa-eye"></i>
-                      {{ photoItem.view_count }}
-                    </div>
-                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-                      <i class="fa-regular fa-heart"></i>
-                      {{ photoItem.like_count }}
-                    </div>
-                    <div class="position-absolute bottom-0 end-0 me-2 mb-2">
-                      <i class="fa-regular fa-star"></i>
-                      {{ photoItem.rating }}
-                    </div>
-                  </div>
-                </router-link>
-              </div>
+              <v-tooltip
+                location="start"
+                :text="`${albumData.like_count}`"
+              >
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    :icon="albumData.liked ? 'mdi-heart' : 'mdi-heart-outline'"
+                    @click="albumData.liked ? dislikeAlbum() : likeAlbum()"
+                    variant="text"
+                    color="primary"
+                  ></v-btn>
+                </template>
+              </v-tooltip>
+              
+              <v-menu
+                location="start"
+                :close-on-content-click="false"
+              >
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    icon="mdi-dots-horizontal"
+                    variant="text"
+                  ></v-btn>
+                </template>
+                <template v-slot:default="{ isActive }">
+                  <v-list density="compact">
+                    <FavoriteListItem
+                      :objFavorite="albumData.favorite"
+                      contentType="album"
+                      :objectUUID="$route.params.uuid"
+                      @favoriteUpdated="(status) => {
+                        albumData.favorite = status
+                        isActive.value = false
+                      }"
+                    />
+                    <ReportListItemDialog
+                      contentType="album"
+                      :objectUUID="$route.params.uuid"
+                      @reportSent="isActive.value = false"
+                    />
+                  </v-list>
+                </template>
+              </v-menu>
             </div>
-          </div>
-          <div
-            v-else-if="!photoListLoading"
-            class="lead d-flex justify-content-center py-3"
-          >
-            {{ $t('portfolio.no_photos') }}
-          </div>
-          <div
-            v-if="nextURL"
-            style="min-height: 1px; margin-bottom: 1px;"
-            v-intersection="{
-              'scrollArea': null,
-              'callbackFunction': getMorePhotoList,
-              'functionArguments': []
+          </v-col>
+        </v-row>
+
+        <div class="d-flex justify-center justify-md-start align-center mx-5 my-3">
+          <router-link
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: albumData.author.profile_url }
             }"
-          ></div>
-          <LoadingIndicator v-if="photoListLoading" />
+          >
+            <v-avatar :size="32">
+              <v-img
+                v-if="albumData.author.avatar"
+                :src="albumData.author.avatar"
+              ></v-img>
+              <v-icon
+                v-else
+                icon="mdi-account-circle"
+                :size="32"
+                role="img"
+              ></v-icon>
+            </v-avatar>
+          </router-link>
+          <router-link
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: albumData.author.profile_url }
+            }"
+            class="text-body-1 text-decoration-none text-black ms-1"
+          >
+            {{ albumData.author.name }}
+          </router-link>
         </div>
-        <div class="col-xl-5">
-          <CommentList
-            contentType="album"
-            :objectUUID="$route.params.uuid"
-          />
+
+        <p
+          v-if="albumData.description"
+          class="text-body-1 mx-5 my-3"
+        >
+          {{ albumData.description }}
+        </p>
+
+        <div
+          v-if="albumData.tags.length > 0"
+          class="d-flex flex-wrap mx-5"
+        >
+          <v-btn
+            v-for="tag in albumData.tags"
+            :key="tag.uuid"
+            :to="{
+              name: 'TagDetail',
+              params: { uuid: tag.uuid },
+              query: { tab: 'albums' }
+            }"
+            prepend-icon="mdi-pound"
+            variant="tonal"
+            class="text-none ma-1"
+          >
+            {{ tag.name }}
+          </v-btn>
         </div>
       </div>
+
+      <v-row
+        dense
+        class="my-3"
+      >
+        <v-col
+          :cols="12"
+          :lg="7"
+        >
+          <v-infinite-scroll
+            v-if="photoList.length > 0"
+            @load="getMorePhotoList"
+            mode="intersect"
+            empty-text="&nbsp;"
+          >
+            <v-row
+              dense
+              class="ma-0"
+            >
+              <v-col
+                v-for="photoItem in photoList"
+                :key="photoItem.uuid"
+                :cols="12"
+                :sm="6"
+                :lg="4"
+              >
+                <v-hover v-slot="{ isHovering, props }">
+                  <v-card
+                    v-bind="props"
+                    rounded="lg"
+                  >
+                    <v-img
+                      :src="photoItem.thumbnail"
+                      :alt="photoItem.title"
+                      aspect-ratio="1/1"
+                      cover
+                    ></v-img>
+
+                    <v-overlay
+                      :model-value="isHovering"
+                      contained
+                      scrim="black"
+                      :opacity="0.5"
+                      content-class="w-100 h-100"
+                    >
+                      <router-link
+                        :to="{
+                          name: 'PhotoDetail',
+                          params: { uuid: photoItem.uuid },
+                          query: {
+                            from: 'album',
+                            album: $route.params.uuid
+                          }
+                        }"
+                        class="d-flex flex-column text-decoration-none text-white w-100 h-100 pa-3"
+                      >
+                        <h5 class="text-center mb-auto">
+                          {{ photoItem.title }}
+                        </h5>
+
+                        <div class="d-flex justify-space-between">
+                          <small>
+                            <v-icon icon="mdi-eye-outline"></v-icon>
+                            {{ photoItem.view_count }}
+                          </small>
+                          <small>
+                            <v-icon icon="mdi-heart-outline "></v-icon>
+                            {{ photoItem.like_count }}
+                          </small>
+                          <small>
+                            <v-icon icon="mdi-star-outline"></v-icon>
+                            {{ photoItem.rating }}
+                          </small>
+                        </div>
+                      </router-link>
+                    </v-overlay>
+                  </v-card>
+                </v-hover>
+              </v-col>
+            </v-row>
+          </v-infinite-scroll>
+        </v-col>
+        <v-col
+          :cols="12"
+          :lg="5"
+        >
+          <div
+            class="overflow-y-auto pa-3"
+            style="max-height: 75vh;"
+          >
+            <CommentList
+              contentType="album"
+              :objectUUID="$route.params.uuid"
+            />
+          </div>
+        </v-col>
+      </v-row>
     </div>
-  </div>
+  </v-container>
 </template>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 0.3em;
+}
+</style>
