@@ -73,29 +73,32 @@ onMounted(() => {
       {{ $t('portfolio.photos') }}
     </h1>
 
-    <v-btn-group class="d-flex justify-center mb-5">
+    <div class="text-center mb-5">
       <v-btn
         :to="{ query: { tab: 'popular' } }"
         :active="
           $route.query.tab === 'popular'
             || $route.query.tab === undefined
         "
+        variant="text"
       >
         {{ $t('portfolio.popular_photos') }}
       </v-btn>
       <v-btn
         :to="{ query: { tab: 'fresh' } }"
         :active="$route.query.tab === 'fresh'"
+        variant="text"
       >
         {{ $t('portfolio.fresh_photos') }}
       </v-btn>
       <v-btn
         :to="{ query: { tab: 'editors' } }"
         :active="$route.query.tab === 'editors'"
+        variant="text"
       >
         {{ $t('portfolio.editors_choice') }}
       </v-btn>
-    </v-btn-group>
+    </div>
 
     <div
       v-if="photoListLoading"
@@ -213,13 +216,3 @@ onMounted(() => {
     </v-alert>
   </v-container>
 </template>
-
-<style scoped>
-@media (max-width: 600px) {
-  .v-btn-group > a {
-    font-size: 0.70rem;
-    min-width: 50px;
-    padding: 0 12px;
-  }
-}
-</style>

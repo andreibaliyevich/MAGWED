@@ -171,7 +171,11 @@ onUnmounted(() => {
       v-else
       class="my-5"
     >
-      <div class="elevation-1 rounded-lg pb-5">
+      <v-sheet
+        :elevation="1"
+        rounded="lg"
+        class="pb-5"
+      >
         <v-img
           :src="albumData.image"
           rounded="t-lg"
@@ -333,7 +337,7 @@ onUnmounted(() => {
             {{ tag.name }}
           </v-btn>
         </div>
-      </div>
+      </v-sheet>
 
       <v-row
         dense

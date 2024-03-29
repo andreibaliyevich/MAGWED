@@ -13,7 +13,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 
 <template>
   <div
-    class="d-flex my-1"
+    class="d-flex ma-1"
     :data-uuid="notice.uuid"
   >
 

@@ -159,7 +159,11 @@ onMounted(() => {
   </div>
 
   <div v-else>
-    <div class="elevation-1 rounded-lg text-center my-5">
+    <v-sheet
+      :elevation="1"
+      rounded="lg"
+      class="text-center my-5"
+    >
       <v-img
         :src="albumImage"
         rounded="t-lg"
@@ -189,9 +193,13 @@ onMounted(() => {
         class="text-none my-1"
         :text="$t('user.update_cover')"
       ></FileInputButton>
-    </div>
+    </v-sheet>
 
-    <div class="elevation-1 rounded-lg my-5 pa-5">
+    <v-sheet
+      :elevation="1"
+      rounded="lg"
+      class="my-5 pa-5"
+    >
       <v-form @submit.prevent="updateAlbum()">
         <v-text-field
           v-model="albumTitle"
@@ -263,7 +271,7 @@ onMounted(() => {
       >
         {{ $t('btn.delete') }}
       </v-btn>
-    </div>
+    </v-sheet>
   </div>
   <PortfolioPhotoList />
 
