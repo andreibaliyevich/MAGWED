@@ -26,6 +26,9 @@ const blogFiltersDrawer = ref(false)
         {{ $t('blog.categories') }}
       </h6>
       <CategoriesFilter />
+
+      <v-divider class="my-5"></v-divider>
+
       <h6 class="text-h6 text-center mt-3">
         {{ $t('blog.years') }}
       </h6>
@@ -52,7 +55,9 @@ const blogFiltersDrawer = ref(false)
             {{ $t('blog.categories') }}
           </h6>
           <CategoriesFilter />
+
           <v-divider class="my-5"></v-divider>
+
           <h6 class="text-h6">
             {{ $t('blog.years') }}
           </h6>
