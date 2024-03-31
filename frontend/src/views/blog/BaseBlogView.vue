@@ -43,28 +43,21 @@ const blogFiltersDrawer = ref(false)
         :cols="12"
         :md="4"
       >
-        <div class="d-none d-md-block position-sticky mt-5">
-          <v-sheet
-            :elevation="1"
-            rounded="lg"
-            class="pa-3"
-          >
-            <h6 class="text-h6">
-              {{ $t('blog.categories') }}
-            </h6>
-            <CategoriesFilter />
-          </v-sheet>
-          <v-sheet
-            :elevation="1"
-            rounded="lg"
-            class="mt-3 pa-3"
-          >
-            <h6 class="text-h6">
-              {{ $t('blog.years') }}
-            </h6>
-            <YearsFilter />
-          </v-sheet>
-        </div>
+        <v-sheet
+          :elevation="1"
+          rounded="lg"
+          class="d-none d-md-block position-sticky mt-5 pa-3"
+        >
+          <h6 class="text-h6">
+            {{ $t('blog.categories') }}
+          </h6>
+          <CategoriesFilter />
+          <v-divider class="my-5"></v-divider>
+          <h6 class="text-h6">
+            {{ $t('blog.years') }}
+          </h6>
+          <YearsFilter />
+        </v-sheet>
       </v-col>
     </v-row>
   </v-container>
