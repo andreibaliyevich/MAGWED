@@ -49,7 +49,7 @@ const navDrawer = ref(false)
           }"
           :active="
             $route.name === 'OrganizerList'
-              || $route.name === 'OrganizerDetail'
+            || $route.name === 'OrganizerDetail'
           "
           variant="text"
           class="font-weight-bold"
@@ -65,9 +65,9 @@ const navDrawer = ref(false)
               v-bind="props"
               :active="
                 $route.name === 'AlbumList'
-                  || $route.name === 'AlbumDetail'
-                  || $route.name === 'PhotoList'
-                  || $route.name === 'PhotoDetail'
+                || $route.name === 'AlbumDetail'
+                || $route.name === 'PhotoList'
+                || $route.name === 'PhotoDetail'
               "
               variant="text"
               class="font-weight-bold"
@@ -84,10 +84,10 @@ const navDrawer = ref(false)
                 query: { tab: 'popular' }
               }"
               :active="
-                $route.name === 'PhotoList'
-                  && $route.query.tab === 'popular'
-                  || $route.name === 'PhotoDetail'
-                  && $route.query.from === 'popular'
+                ($route.name === 'PhotoList'
+                  && $route.query.tab === 'popular')
+                || ($route.name === 'PhotoDetail'
+                  && $route.query.from === 'popular')
               "
             >
               {{ $t('nav.popular_photos') }}
@@ -99,10 +99,10 @@ const navDrawer = ref(false)
                 query: { tab: 'fresh' }
               }"
               :active="
-                $route.name === 'PhotoList'
-                  && $route.query.tab === 'fresh'
-                  || $route.name === 'PhotoDetail'
-                  && $route.query.from === 'fresh'
+                ($route.name === 'PhotoList'
+                  && $route.query.tab === 'fresh')
+                || ($route.name === 'PhotoDetail'
+                  && $route.query.from === 'fresh')
               "
             >
               {{ $t('nav.fresh_photos') }}
@@ -114,10 +114,10 @@ const navDrawer = ref(false)
                 query: { tab: 'editors' }
               }"
               :active="
-                $route.name === 'PhotoList'
-                  && $route.query.tab === 'editors'
-                  || $route.name === 'PhotoDetail'
-                  && $route.query.from === 'editors'
+                ($route.name === 'PhotoList'
+                  && $route.query.tab === 'editors')
+                || ($route.name === 'PhotoDetail'
+                  && $route.query.from === 'editors')
               "
             >
               {{ $t('nav.editors_choice') }}
@@ -130,7 +130,9 @@ const navDrawer = ref(false)
               }"
               :active="
                 $route.name === 'AlbumList'
-                  || $route.name === 'AlbumDetail'
+                || $route.name === 'AlbumDetail'
+                || ($route.name === 'PhotoDetail'
+                  && $route.query.from === 'album')
               "
             >
               {{ $t('nav.photo_albums') }}
@@ -155,7 +157,7 @@ const navDrawer = ref(false)
           }"
           :active="
             $route.name === 'ArticleList'
-              || $route.name === 'ArticleDetail'
+            || $route.name === 'ArticleDetail'
           "
           variant="text"
           class="font-weight-bold"
@@ -239,8 +241,10 @@ const navDrawer = ref(false)
           query: { tab: 'popular' }
         }"
         :active="
-          $route.name === 'PhotoList'
-            && $route.query.tab === 'popular'
+          ($route.name === 'PhotoList'
+            && $route.query.tab === 'popular')
+          || ($route.name === 'PhotoDetail'
+            && $route.query.from === 'popular')
         "
       >
         {{ $t('nav.popular_photos') }}
@@ -252,8 +256,10 @@ const navDrawer = ref(false)
           query: { tab: 'fresh' }
         }"
         :active="
-          $route.name === 'PhotoList'
-            && $route.query.tab === 'fresh'
+          ($route.name === 'PhotoList'
+            && $route.query.tab === 'fresh')
+          || ($route.name === 'PhotoDetail'
+            && $route.query.from === 'fresh')
         "
       >
         {{ $t('nav.fresh_photos') }}
@@ -265,8 +271,10 @@ const navDrawer = ref(false)
           query: { tab: 'editors' }
         }"
         :active="
-          $route.name === 'PhotoList'
-            && $route.query.tab === 'editors'
+          ($route.name === 'PhotoList'
+            && $route.query.tab === 'editors')
+          || ($route.name === 'PhotoDetail'
+            && $route.query.from === 'editors')
         "
       >
         {{ $t('nav.editors_choice') }}
@@ -279,7 +287,9 @@ const navDrawer = ref(false)
         }"
         :active="
           $route.name === 'AlbumList'
-            && $route.query.tab === 'popular'
+          || $route.name === 'AlbumDetail'
+          || ($route.name === 'PhotoDetail'
+            && $route.query.from === 'album')
         "
       >
         {{ $t('nav.photo_albums') }}
@@ -299,7 +309,10 @@ const navDrawer = ref(false)
           name: 'ArticleList',
           params: { locale: $i18n.locale }
         }"
-        :active="$route.name === 'ArticleList'"
+        :active="
+          $route.name === 'ArticleList'
+          || $route.name === 'ArticleDetail'
+        "
         class="font-weight-bold text-uppercase"
       >
         {{ $t('nav.blog') }}
