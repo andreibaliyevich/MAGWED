@@ -86,6 +86,8 @@ const navDrawer = ref(false)
               :active="
                 $route.name === 'PhotoList'
                   && $route.query.tab === 'popular'
+                  || $route.name === 'PhotoDetail'
+                  && $route.query.from === 'popular'
               "
             >
               {{ $t('nav.popular_photos') }}
@@ -99,6 +101,8 @@ const navDrawer = ref(false)
               :active="
                 $route.name === 'PhotoList'
                   && $route.query.tab === 'fresh'
+                  || $route.name === 'PhotoDetail'
+                  && $route.query.from === 'fresh'
               "
             >
               {{ $t('nav.fresh_photos') }}
@@ -112,6 +116,8 @@ const navDrawer = ref(false)
               :active="
                 $route.name === 'PhotoList'
                   && $route.query.tab === 'editors'
+                  || $route.name === 'PhotoDetail'
+                  && $route.query.from === 'editors'
               "
             >
               {{ $t('nav.editors_choice') }}
@@ -124,7 +130,7 @@ const navDrawer = ref(false)
               }"
               :active="
                 $route.name === 'AlbumList'
-                  && $route.query.tab === 'popular'
+                  || $route.name === 'AlbumDetail'
               "
             >
               {{ $t('nav.photo_albums') }}
