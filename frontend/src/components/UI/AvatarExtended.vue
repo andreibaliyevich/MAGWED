@@ -48,6 +48,7 @@ export default {
 
 <style scoped>
 .avatar-extended {
+  display: inline-block;
   position: relative;
 }
 .status-indicator {

@@ -47,13 +47,12 @@ watch(newCommentContent, (newValue) => {
         :online="commentItem.author.status === 'online' ? true : false"
       />
     </router-link>
-    <div v-else>
-      <AvatarExtended
-        :image="commentItem.author.avatar"
-        :size="32"
-        :online="commentItem.author.status === 'online' ? true : false"
-      />
-    </div>
+    <AvatarExtended
+      v-else
+      :image="commentItem.author.avatar"
+      :size="32"
+      :online="commentItem.author.status === 'online' ? true : false"
+    />
 
     <div class="flex-grow-1">
       <div class="d-flex justify-space-between">
