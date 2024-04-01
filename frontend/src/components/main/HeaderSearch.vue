@@ -186,7 +186,7 @@ watch(searchType, () => {
                     {{ $t('organizers.per_hour') }}
                     <small
                       v-if="organizer.number_hours"
-                      class="text-grey-darken-1"
+                      class="text-secondary"
                     >
                       {{ $t('organizers.min_number_hours', { n: organizer.number_hours }) }}
                     </small>

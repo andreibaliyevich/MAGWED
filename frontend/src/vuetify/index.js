@@ -10,7 +10,7 @@ export default createVuetify({
         dark: false,
         colors: {
           primary: colors.red.darken1,
-          secondary: colors.grey.lighten1,
+          secondary: colors.grey.darken1,
           success: colors.green.base,
           info: colors.blue.base,
           warning: colors.orange.darken1,

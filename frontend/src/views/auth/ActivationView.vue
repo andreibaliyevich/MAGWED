@@ -48,7 +48,7 @@ onMounted(async () => {
     variant="tonal"
     :title="$t('auth.activation.success1')"
   >
-    <p class="text-body-1 text-grey-darken-1">
+    <p class="text-body-1 text-secondary">
       {{ $t('auth.activation.success2') }}<br>
       {{ $t('auth.activation.success3') }}
     </p>
@@ -70,13 +70,13 @@ onMounted(async () => {
   >
     <p
       v-if="errors.detail"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       {{ errors.detail }}
     </p>
     <p
       v-if="errors.non_field_errors"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       <div v-for="error in errors.non_field_errors">
         {{ error }}<br>
@@ -84,7 +84,7 @@ onMounted(async () => {
     </p>
     <p
       v-if="errors.uid"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       <div v-for="error in errors.uid">
         {{ error }}<br>
@@ -92,7 +92,7 @@ onMounted(async () => {
     </p>
     <p
       v-if="errors.token"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       <div v-for="error in errors.token">
         {{ error }}<br>

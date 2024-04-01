@@ -38,20 +38,20 @@ const resetPassword = async () => {
     variant="tonal"
     :title="$t('auth.passwordreset.success1')"
   >
-    <p class="text-body-1 text-grey-darken-1">
+    <p class="text-body-1 text-secondary">
       {{ $t('auth.passwordreset.success2') }}<br>
       {{ $t('auth.passwordreset.success3') }}
     </p>
   </v-alert>
 
   <div v-else>
-    <p class="text-body-1 text-grey-darken-1 mb-5">
+    <p class="text-body-1 text-secondary mb-5">
       {{ $t('auth.passwordreset.help') }}
     </p>
-    <p class="text-body-1 text-grey-darken-1">
+    <p class="text-body-1 text-secondary">
       {{ $t('auth.passwordreset.help') }}
     </p>
-    <v-list class="text-body-1 text-grey-darken-1">
+    <v-list class="text-body-1 text-secondary">
       <v-list-item>
         1. {{ $t('auth.passwordreset.step1') }}
       </v-list-item>

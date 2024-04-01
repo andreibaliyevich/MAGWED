@@ -54,7 +54,7 @@ const confirmPasswordReset = async () => {
     variant="tonal"
     :title="$t('auth.passwordresetconfirm.success1')"
   >
-    <p class="text-body-1 text-grey-darken-1">
+    <p class="text-body-1 text-secondary">
       {{ $t('auth.passwordresetconfirm.success2') }}<br>
       {{ $t('auth.passwordresetconfirm.success3') }}
     </p>
@@ -76,13 +76,13 @@ const confirmPasswordReset = async () => {
   >
     <p
       v-if="errors.detail"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       {{ errors.detail }}
     </p>
     <p
       v-if="errors.non_field_errors"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       <div v-for="error in errors.non_field_errors">
         {{ error }}<br>
@@ -90,7 +90,7 @@ const confirmPasswordReset = async () => {
     </p>
     <p
       v-if="errors.uid"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       <div v-for="error in errors.uid">
         {{ error }}<br>
@@ -98,7 +98,7 @@ const confirmPasswordReset = async () => {
     </p>
     <p
       v-if="errors.token"
-      class="text-body-1 text-grey-darken-1"
+      class="text-body-1 text-secondary"
     >
       <div v-for="error in errors.token">
         {{ error }}<br>
@@ -115,7 +115,7 @@ const confirmPasswordReset = async () => {
   </v-alert>
 
   <div v-else>
-    <v-list class="text-body-1 text-grey-darken-1">
+    <v-list class="text-body-1 text-secondary">
       <v-list-item prepend-icon="mdi-circle-small">
         {{ $t('auth.password.advice1') }}
       </v-list-item>

@@ -184,7 +184,7 @@ onUnmounted(() => {
 
     <div class="d-flex flex-wrap mb-5">
       <div class="d-flex align-center">
-        <span class="text-grey-darken-1">
+        <span class="text-secondary">
           {{ $t('blog.author') }}:
         </span>
         <router-link
@@ -197,7 +197,7 @@ onUnmounted(() => {
           {{ articleData.author.name }}
         </router-link>
       </div>
-      <div class="d-flex align-center text-grey-darken-1 ms-3">
+      <div class="d-flex align-center text-secondary ms-3">
         <v-icon
           icon="mdi-calendar-month-outline"
           :size="24"
@@ -205,7 +205,7 @@ onUnmounted(() => {
         ></v-icon>
         {{ getLocaleDateString(articleData.published_at) }}
       </div>
-      <div class="d-flex align-center text-grey-darken-1 ms-3">
+      <div class="d-flex align-center text-secondary ms-3">
         <v-icon
           icon="mdi-eye-outline"
           :size="24"

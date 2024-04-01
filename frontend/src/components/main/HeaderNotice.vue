@@ -63,7 +63,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       <p>
         {{ $t('notifications.follow', { user_name: notice.initiator.name }) }}
       </p>
-      <small class="text-grey-darken-1">
+      <small class="text-secondary">
         {{ getLocaleDateTimeString(notice.created_at) }}
       </small>
     </div>
@@ -78,7 +78,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             $t('notifications.article', { user_name: notice.initiator.name })
           }}
         </p>
-        <small class="text-grey-darken-1">
+        <small class="text-secondary">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
       </div>
@@ -113,7 +113,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             })
           }}
         </p>
-        <small class="text-grey-darken-1">
+        <small class="text-secondary">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
       </div>
@@ -151,7 +151,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <p v-else>
           {{ $t('notifications.photo', { user_name: notice.initiator.name }) }}
         </p>
-        <small class="text-grey-darken-1">
+        <small class="text-secondary">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
       </div>
@@ -186,7 +186,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             })
           }}
         </p>
-        <small class="text-grey-darken-1">
+        <small class="text-secondary">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
       </div>
@@ -226,7 +226,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             $t('notifications.like_photo', { user_name: notice.initiator.name })
           }}
         </p>
-        <small class="text-grey-darken-1">
+        <small class="text-secondary">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
       </div>
@@ -327,7 +327,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
             </div>
           </div>
         </p>
-        <small class="text-grey-darken-1">
+        <small class="text-secondary">
           {{ getLocaleDateTimeString(notice.created_at) }}
         </small>
       </div>
@@ -393,7 +393,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         ({{ $t('reviews.rating_options', { n: notice.content_object.rating }) }}):
         {{ notice.content_object.comment }}
       </p>
-      <small class="text-grey-darken-1">
+      <small class="text-secondary">
         {{ getLocaleDateTimeString(notice.created_at) }}
       </small>
     </div>
@@ -425,7 +425,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
           {{ $t('messenger.files', { n: notice.content_object.content }) }}
         </p>
       </router-link>
-      <small class="text-grey-darken-1">
+      <small class="text-secondary">
         {{ getLocaleDateTimeString(notice.created_at) }}
       </small>
     </div>

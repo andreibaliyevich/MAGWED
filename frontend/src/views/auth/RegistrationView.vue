@@ -76,7 +76,7 @@ onMounted(() => {
   </v-alert>
 
   <div v-else>
-    <p class="text-body-1 text-grey-darken-1 mb-5">
+    <p class="text-body-1 text-secondary mb-5">
       {{ $t('auth.registration.have_account') }}
       <router-link
         :to="{ name: 'Login' }"
@@ -155,7 +155,7 @@ onMounted(() => {
     </v-form>
 
     <v-divider class="my-3"></v-divider>
-    <p class="text-body-1 text-grey-darken-1">
+    <p class="text-body-1 text-secondary">
       {{ $t('auth.registration.help') }}
     </p>
   </div>

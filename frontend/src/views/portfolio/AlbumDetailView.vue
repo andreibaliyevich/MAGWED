@@ -194,7 +194,7 @@ onUnmounted(() => {
                 <h1 class="text-h5">{{ albumData.title }}</h1>
 
                 <div class="d-flex flex-wrap mt-3">
-                  <div class="d-flex align-center text-grey-darken-1">
+                  <div class="d-flex align-center text-secondary">
                     <v-icon
                       icon="mdi-calendar-month-outline"
                       :size="24"
@@ -203,7 +203,7 @@ onUnmounted(() => {
                     {{ $t('portfolio.created') }}
                     {{ getLocaleDateString(albumData.created_at) }}
                   </div>
-                  <div class="d-flex align-center text-grey-darken-1 ms-3">
+                  <div class="d-flex align-center text-secondary ms-3">
                     <v-icon
                       icon="mdi-eye-outline"
                       :size="24"
@@ -211,7 +211,7 @@ onUnmounted(() => {
                     ></v-icon>
                     {{ albumData.view_count }}
                   </div>
-                  <div class="d-flex align-center text-grey-darken-1 ms-3">
+                  <div class="d-flex align-center text-secondary ms-3">
                     <v-icon
                       icon="mdi-star-outline"
                       :size="24"

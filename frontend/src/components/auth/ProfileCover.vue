@@ -169,7 +169,7 @@ onMounted(() => {
         </v-btn>
       </v-card-actions>
 
-      <small class="text-grey-darken-1">
+      <small class="text-secondary">
         {{ $t('form_help.input_img', { width: '1500', height: '500' }) }}
       </small>
     </div>
