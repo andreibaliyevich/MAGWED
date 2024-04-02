@@ -188,7 +188,7 @@ onMounted(() => {
                     {{ albumItem.view_count }}
                   </span>
                   <span>
-                    <v-icon icon="mdi-heart-outline "></v-icon>
+                    <v-icon icon="mdi-heart-outline"></v-icon>
                     {{ albumItem.like_count }}
                   </span>
                   <span>

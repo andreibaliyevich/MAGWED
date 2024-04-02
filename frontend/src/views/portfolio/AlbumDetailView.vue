@@ -404,7 +404,7 @@ onUnmounted(() => {
                             {{ photoItem.view_count }}
                           </small>
                           <small>
-                            <v-icon icon="mdi-heart-outline "></v-icon>
+                            <v-icon icon="mdi-heart-outline"></v-icon>
                             {{ photoItem.like_count }}
                           </small>
                           <small>
