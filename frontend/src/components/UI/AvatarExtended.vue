@@ -25,7 +25,13 @@ export default {
 </script>
 
 <template>
-  <div class="avatar-extended">
+  <div
+    class="avatar-extended"
+    :style="{
+      'width': size + 'px',
+      'height': size + 'px'
+    }"
+  >
     <v-avatar
       :image="image ? image : '/user-avatar.png'"
       :size="size"
@@ -48,7 +54,6 @@ export default {
 
 <style scoped>
 .avatar-extended {
-  display: inline-block;
   position: relative;
 }
 .status-indicator {

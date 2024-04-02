@@ -236,7 +236,7 @@ onUnmounted(() => {
       <li
         v-for="commentItem in commentList"
         :key="commentItem.uuid"
-        class="list-group-item"
+        class="d-block my-3 mx-5"
       >
         <AuthorCommentItem
           v-if="userStore.uuid === commentItem.author.uuid"
@@ -255,7 +255,7 @@ onUnmounted(() => {
           <li
             v-for="commentOfCommentItem in getCommentListOfComment(commentItem.comments)"
             :key="commentOfCommentItem.uuid"
-            class="list-group-item"
+            class="d-block my-3 mx-5"
           >
             <AuthorCommentItem
               v-if="userStore.uuid === commentOfCommentItem.author.uuid"
@@ -328,7 +328,5 @@ onUnmounted(() => {
   position: relative;
   display: block;
   padding: 0.5rem 1rem;
-  color: #212529;
-  text-decoration: none;
 }
 </style>

@@ -67,7 +67,7 @@ const sendReport = async () => {
         variant="filled"
         :label="$t('report.comment')"
         :error-messages="errors?.comment ? errors.comment : []"
-        class="mx-3"
+        class="mt-3 mx-3"
       ></v-textarea>
       <v-card-actions>
         <v-spacer></v-spacer>

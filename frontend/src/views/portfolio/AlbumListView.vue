@@ -213,13 +213,3 @@ onMounted(() => {
     </v-alert>
   </v-container>
 </template>
-
-<style scoped>
-@media (max-width: 600px) {
-  .v-btn-group > a {
-    font-size: 0.70rem;
-    min-width: 50px;
-    padding: 0 12px;
-  }
-}
-</style>
