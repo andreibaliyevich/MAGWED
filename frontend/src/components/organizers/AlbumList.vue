@@ -29,16 +29,19 @@ const getAlbumList = async () => {
   }
 }
 
-const getMoreAlbumList = async () => {
-  albumListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    albumList.value = [...albumList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    albumListLoading.value = false
+const getMoreAlbumList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      albumList.value = [...albumList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -48,72 +51,91 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="album-list">
-    <div
-      v-if="albumList.length > 0"
-      class="row g-3 mt-3"
+  <div
+    v-if="albumListLoading"
+    class="d-flex justify-center align-center my-15"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="80"
+    ></v-progress-circular>
+  </div>
+
+  <v-infinite-scroll
+    v-else-if="albumList.length > 0"
+    @load="getMoreAlbumList"
+    mode="intersect"
+    empty-text="&nbsp;"
+  >
+    <v-row
+      dense
+      class="ma-0"
     >
-      <div
+      <v-col
         v-for="albumItem in albumList"
         :key="albumItem.uuid"
-        class="col-12 col-md-6 col-lg-4 col-xl-3"
+        :cols="12"
+        :sm="6"
+        :md="4"
+        :lg="3"
+        :xl="2"
       >
-        <div class="card border border-light shadow-sm h-100">
+        <v-card rounded="lg">
           <router-link
             :to="{
               name: 'AlbumDetail',
               params: { uuid: albumItem.uuid }
             }"
           >
-            <img
+            <v-img
               :src="albumItem.thumbnail"
               :alt="albumItem.title"
-              class="card-img-top"
-            >
+              aspect-ratio="1/1"
+              cover
+            ></v-img>
           </router-link>
-          <div class="card-body">
-            <router-link
-              :to="{
-                name: 'AlbumDetail',
-                params: { uuid: albumItem.uuid }
-              }"
-              class="text-decoration-none link-dark"
-            >
-              <h5 class="card-title">{{ albumItem.title }}</h5>
-            </router-link>
-            <div class="d-flex justify-content-between mt-1">
-              <div>
-                <i class="fa-regular fa-eye"></i>
-                {{ albumItem.view_count }}
+
+          <v-card-item>
+            <v-card-title>
+              <router-link
+                :to="{
+                  name: 'AlbumDetail',
+                  params: { uuid: albumItem.uuid }
+                }"
+                class="text-decoration-none text-black"
+              >
+                {{ albumItem.title }}
+              </router-link>
+            </v-card-title>
+
+            <v-card-subtitle>
+              <div class="d-flex justify-space-between">
+                <span>
+                  <v-icon icon="mdi-eye-outline"></v-icon>
+                  {{ albumItem.view_count }}
+                </span>
+                <span>
+                  <v-icon icon="mdi-heart-outline"></v-icon>
+                  {{ albumItem.like_count }}
+                </span>
+                <span>
+                  <v-icon icon="mdi-star-outline"></v-icon>
+                  {{ albumItem.rating }}
+                </span>
               </div>
-              <div>
-                <i class="fa-regular fa-heart"></i>
-                {{ albumItem.like_count }}
-              </div>
-              <div>
-                <i class="fa-regular fa-star"></i>
-                {{ albumItem.rating }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      v-else-if="!albumListLoading"
-      class="lead d-flex justify-content-center py-3"
-    >
-      {{ $t('portfolio.no_albums') }}
-    </div>
-    <div
-      v-if="nextURL"
-      style="min-height: 1px; margin-bottom: 1px;"
-      v-intersection="{
-        'scrollArea': null,
-        'callbackFunction': getMoreAlbumList,
-        'functionArguments': []
-      }"
-    ></div>
-    <LoadingIndicator v-if="albumListLoading" />
-  </div>
+            </v-card-subtitle>
+          </v-card-item>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-infinite-scroll>
+
+  <v-alert
+    v-else
+    type="info"
+    variant="tonal"
+    class="my-5"
+  >
+    {{ $t('portfolio.no_albums') }}
+  </v-alert>
 </template>

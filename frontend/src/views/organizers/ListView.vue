@@ -22,15 +22,14 @@ const cities = ref([])
 const languages = ref([])
 const costWorkMin = ref(0)
 const costWorkMax = ref(0)
-const costWorkMinInCurrency = ref(0)
-const costWorkMaxInCurrency = ref(0)
+const costWorkInCurrency = ref([0, 0])
 
 const { roleTypeOptions } = useOptionsOfRoleTypes('plural_roles')
 const { countryOptions } = useOptionsOfCountries()
 const { cityOptionsExtra } = useOptionsOfCitiesExtra(countries)
 const { languageOptions } = useOptionsOfLanguages()
 
-const filterMenuClose = ref(null)
+const filterMenuDrawer = ref(false)
 
 const costWorkMinBorder = computed(() => {
   return Math.floor(costWorkMin.value * currencyStore.conversionRate)
@@ -42,6 +41,7 @@ const costWorkMaxBorder = computed(() => {
 const getOrganizerList = async () => {
   organizerListLoading.value = true
   organizerList.value = []
+  filterMenuDrawer.value = false
 
   let params = new URLSearchParams()
   if (route.query.role) {
@@ -50,14 +50,14 @@ const getOrganizerList = async () => {
   countries.value.forEach((element) => params.append('countries', element))
   cities.value.forEach((element) => params.append('cities', element))
   languages.value.forEach((element) => params.append('languages', element))
-  if (costWorkMinInCurrency.value) {
+  if (costWorkInCurrency.value[0]) {
     params.append('cost_work_min', Math.floor(
-      costWorkMinInCurrency.value / currencyStore.conversionRate
+      costWorkInCurrency.value[0] / currencyStore.conversionRate
     ))
   }
-  if (costWorkMaxInCurrency.value) {
+  if (costWorkInCurrency.value[1]) {
     params.append('cost_work_max', Math.ceil(
-      costWorkMaxInCurrency.value / currencyStore.conversionRate
+      costWorkInCurrency.value[1] / currencyStore.conversionRate
     ))
   }
 
@@ -71,23 +71,23 @@ const getOrganizerList = async () => {
     console.error(error)
   } finally {
     organizerListLoading.value = false
-    if (window.innerWidth < 992) {
-      filterMenuClose.value.click()
-    }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 
-const getMoreOrganizerList = async () => {
-  organizerListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    organizerList.value = [...organizerList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    organizerListLoading.value = false
+const getMoreOrganizerList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      organizerList.value = [...organizerList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -96,10 +96,10 @@ const getCostWorkMinMax = async () => {
     const response = await axios.get('/accounts/organizers/cost-work-min-max/')
     costWorkMin.value = response.data.cost_work_min
     costWorkMax.value = response.data.cost_work_max
-    costWorkMinInCurrency.value = Math.floor(
+    costWorkInCurrency.value[0] = Math.floor(
       response.data.cost_work_min * currencyStore.conversionRate
     )
-    costWorkMaxInCurrency.value = Math.ceil(
+    costWorkInCurrency.value[1] = Math.ceil(
       response.data.cost_work_max * currencyStore.conversionRate
     )
   } catch (error) {
@@ -111,10 +111,10 @@ const resetParamsAndGetOrganizers = () => {
   countries.value = []
   cities.value = []
   languages.value = []
-  costWorkMinInCurrency.value = Math.floor(
+  costWorkInCurrency.value[0] = Math.floor(
     costWorkMin.value * currencyStore.conversionRate
   )
-  costWorkMaxInCurrency.value = Math.ceil(
+  costWorkInCurrency.value[1] = Math.ceil(
     costWorkMax.value * currencyStore.conversionRate
   )
   getOrganizerList()
@@ -150,16 +150,16 @@ watch(
   () => currencyStore.conversionRate,
   (newValue, oldValue) => {
     const newCostWorkMinInCurrency = Math.floor(
-      costWorkMinInCurrency.value * newValue / oldValue
+      costWorkInCurrency.value[0] * newValue / oldValue
     )
-    costWorkMinInCurrency.value =
+    costWorkInCurrency.value[0] =
       newCostWorkMinInCurrency < costWorkMinBorder.value
         ? costWorkMinBorder.value
         : newCostWorkMinInCurrency
     const newCostWorkMaxInCurrency = Math.ceil(
-      costWorkMaxInCurrency.value * newValue / oldValue
+      costWorkInCurrency.value[1] * newValue / oldValue
     )
-    costWorkMaxInCurrency.value =
+    costWorkInCurrency.value[1] =
       newCostWorkMaxInCurrency > costWorkMaxBorder.value
         ? costWorkMaxBorder.value
         : newCostWorkMaxInCurrency
@@ -174,176 +174,396 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="organizer-list-view">
-    <div class="container my-5">
-      <h1 class="display-6 text-center mb-5">
-        {{ $t('organizers.organizers') }}
-      </h1>
+  <v-container>
+    <h1 class="text-h4 text-md-h3 text-center my-5">
+      {{ $t('organizers.organizers') }}
+    </h1>
 
-      <ul class="nav nav-pills justify-content-center mb-3">
-        <li
-          :class="[
-            'nav-item',
-            !$route.query.role ? 'active' : null
-          ]"
+    <v-slide-group
+      :model-value="$route.query.role"
+      show-arrows
+    >
+      <v-slide-group-item>
+        <v-btn
+          :to="{ name: 'OrganizerList' }"
+          :active="!$route.query.role"
+          variant="text"
+          :value="undefined"
         >
-          <router-link
-            :to="{ name: 'OrganizerList' }"
-            :class="[
-              'nav-link',
-              !$route.query.role ? 'active' : 'text-dark'
-            ]"
-          >
-            {{ $t('organizers.all') }}
-          </router-link>
-        </li>
-        <li
-          v-for="roleType in roleTypeOptions"
-          :key="roleType.value"
-          :class="[
-            'nav-item',
-            $route.query.role === roleType.value ? 'active' : null
-          ]"
-        >
-          <router-link
-            :to="{ query: { role: roleType.value } }"
-            :class="[
-              'nav-link',
-              $route.query.role === roleType.value ? 'active' : 'text-dark'
-            ]"
-          >
-            {{ roleType.text }}
-          </router-link>
-        </li>
-      </ul>
-
-      <button
-        type="button"
-        class="btn btn-light border w-100 mb-5 d-lg-none"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#filter_menu"
-        aria-controls="filter_menu"
+          {{ $t('organizers.all') }}
+        </v-btn>
+      </v-slide-group-item>
+      <v-slide-group-item
+        v-for="roleType in roleTypeOptions"
+        :key="roleType.value"
+        :value="roleType.value"
       >
-        {{ $t('organizers.filters') }}
-        <i class="fa-solid fa-filter"></i>
-      </button>
+        <v-btn
+          :to="{ query: { role: roleType.value } }"
+          :active="$route.query.role == roleType.value"
+          variant="text"
+        >
+          {{ roleType.title }}
+        </v-btn>
+      </v-slide-group-item>
+    </v-slide-group>
 
-      <div class="row">
-        <div class="col-lg-3">
-          <div
-            id="filter_menu"
-            tabindex="-1"
-            class="offcanvas-lg offcanvas-end"
-            aria-labelledby="filter_menu_label"
-          >
-            <div class="offcanvas-header border-bottom">
-              <h5
-                id="filter_menu_label"
-                class="offcanvas-title"
-              >
-                {{ $t('organizers.filters') }}
-              </h5>
-              <button
-                ref="filterMenuClose"
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                data-bs-target="#filter_menu"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="offcanvas-body border border-light rounded shadow-sm d-lg-block py-lg-4 px-4">
-              <SearchCheckboxMultipleSelect
+    <v-row class="mt-3">
+      <v-col
+        :cols="12"
+        :md="3"
+      >
+        <v-btn
+          @click.stop="filterMenuDrawer = !filterMenuDrawer"
+          append-icon="mdi-filter-outline"
+          variant="outlined"
+          block
+          class="d-inline-flex d-md-none"
+        >
+          {{ $t('organizers.filters') }}
+        </v-btn>
+        <v-navigation-drawer
+          v-model="filterMenuDrawer"
+          location="end"
+          temporary
+        >
+          <div class="pa-3">
+            <h5 class="text-h6">{{ $t('organizers.filters') }}</h5>
+
+            <p class="text-subtitle-1 mt-5 mb-2">{{ $t('user.countries') }}</p>
+            <v-sheet
+              :max-height="230"
+              class="overflow-y-auto"
+            >
+              <v-checkbox
+                v-for="country in countryOptions"
+                :key="country.value"
                 v-model="countries"
-                :options="countryOptions"
-                id="id_countries"
-                name="countries"
-                :label="$t('user.countries')"
-              />
-              <br v-if="countries.length > 0">
-              <CheckboxMultipleSelect
-                v-if="countries.length > 0"
+                :value="country.value"
+                :label="country.title"
+                :readonly="organizerListLoading"
+                multiple
+                density="compact"
+                hide-details
+              ></v-checkbox>
+            </v-sheet>
+
+            <p
+              v-if="countries.length > 0"
+              class="text-subtitle-1 mt-5 mb-2"
+            >
+              {{ $t('user.cities') }}
+            </p>
+            <v-sheet
+              v-if="countries.length > 0"
+              :max-height="230"
+              class="overflow-y-auto"
+            >
+              <v-checkbox
+                v-for="city in cityOptionsExtra"
+                :key="city.value"
                 v-model="cities"
-                :options="cityOptionsExtra"
-                id="id_cities"
-                name="cities"
-                :label="$t('user.cities')"
-              />
-              <br>
-              <CheckboxMultipleSelect
+                :value="city.value"
+                :label="city.title"
+                :readonly="organizerListLoading"
+                multiple
+                density="compact"
+                hide-details
+              ></v-checkbox>
+            </v-sheet>
+
+            <p class="text-subtitle-1 mt-5 mb-2">{{ $t('user.languages') }}</p>
+            <v-sheet
+              :max-height="230"
+              class="overflow-y-auto"
+            >
+              <v-checkbox
+                v-for="language in languageOptions"
+                :key="language.value"
                 v-model="languages"
-                :options="languageOptions"
-                id="id_languages"
-                name="languages"
-                :label="$t('user.languages')"
-              />
-              <br>
-              <NumberRangeInput
-                v-model:minValue="costWorkMinInCurrency"
-                v-model:maxValue="costWorkMaxInCurrency"
-                :min="costWorkMinBorder"
-                :max="costWorkMaxBorder"
-                id="id_cost_work"
-                name="cost_work"
-                :label="$t('user.cost_work')"
-                :minLabel="currencyStore.currencyText"
-                :maxLabel="currencyStore.currencyText"
-              />
-              <br>
-              <div class="d-flex justify-content-end">
-                <button
+                :value="language.value"
+                :label="language.title"
+                :readonly="organizerListLoading"
+                multiple
+                density="compact"
+                hide-details
+              ></v-checkbox>
+            </v-sheet>
+
+            <p class="text-subtitle-1 mt-5 mb-2">{{ $t('user.cost_work') }}</p>
+            <v-row dense>
+              <v-col
+                :cols="12"
+                :md="6"
+              >
+                <v-text-field
+                  v-model="costWorkInCurrency[0]"
+                  type="number"
+                  :min="costWorkMinBorder"
+                  :max="costWorkInCurrency[1]"
+                  :readonly="organizerListLoading"
+                  variant="solo-filled"
+                  density="compact"
+                  flat
+                ></v-text-field>
+              </v-col>
+              <v-col
+                :cols="12"
+                :md="6"
+              >
+                <v-text-field
+                  v-model="costWorkInCurrency[1]"
+                  type="number"
+                  :min="costWorkInCurrency[0]"
+                  :max="costWorkMaxBorder"
+                  :readonly="organizerListLoading"
+                  variant="solo-filled"
+                  density="compact"
+                  flat
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row dense>
+              <v-col
+                :cols="12"
+                :lg="6"
+              >
+                <v-btn
                   @click="resetParamsAndGetOrganizers()"
-                  type="button"
-                  class="btn btn-light btn-sm"
+                  variant="flat"
+                  block
+                  class="text-none"
                   :disabled="
                     !countries.length
-                    && !cities.length
-                    && !languages.length
-                    && (costWorkMinInCurrency === costWorkMinBorder)
-                    && (costWorkMaxInCurrency === costWorkMaxBorder)
+                      && !cities.length
+                      && !languages.length
+                      && (costWorkInCurrency[0] === costWorkMinBorder)
+                      && (costWorkInCurrency[1] === costWorkMaxBorder)
                   "
                 >
                   {{ $t('btn.reset') }}
-                </button>
-                <button
+                </v-btn>
+              </v-col>
+              <v-col
+                :cols="12"
+                :lg="6"
+              >
+                <v-btn
                   @click="getOrganizerList()"
-                  type="button"
-                  class="btn btn-brand btn-sm ms-1"
+                  variant="flat"
+                  color="primary"
+                  block
+                  class="text-none"
                   :disabled="
                     !countries.length
-                    && !cities.length
-                    && !languages.length
-                    && (costWorkMinInCurrency === costWorkMinBorder)
-                    && (costWorkMaxInCurrency === costWorkMaxBorder)
+                      && !cities.length
+                      && !languages.length
+                      && (costWorkInCurrency[0] === costWorkMinBorder)
+                      && (costWorkInCurrency[1] === costWorkMaxBorder)
                   "
                 >
                   {{ $t('btn.show') }}
-                </button>
-              </div>
-            </div>
+                </v-btn>
+              </v-col>
+            </v-row>
           </div>
-        </div>
-        <div class="col-lg-9">
-          <div
-            v-if="organizerList.length > 0"
-            class="row"
+        </v-navigation-drawer>
+
+        <v-sheet
+          :elevation="1"
+          rounded="lg"
+          class="d-none d-md-block position-sticky pa-3"
+        >
+          <h5 class="text-h6">{{ $t('organizers.filters') }}</h5>
+
+          <p class="text-subtitle-1 mt-5 mb-2">{{ $t('user.countries') }}</p>
+          <v-sheet
+            :max-height="230"
+            class="overflow-y-auto"
           >
-            <div
+            <v-checkbox
+              v-for="country in countryOptions"
+              :key="country.value"
+              v-model="countries"
+              :value="country.value"
+              :label="country.title"
+              :readonly="organizerListLoading"
+              multiple
+              density="compact"
+              hide-details
+            ></v-checkbox>
+          </v-sheet>
+
+          <p
+            v-if="countries.length > 0"
+            class="text-subtitle-1 mt-5 mb-2"
+          >
+            {{ $t('user.cities') }}
+          </p>
+          <v-sheet
+            v-if="countries.length > 0"
+            :max-height="230"
+            class="overflow-y-auto"
+          >
+            <v-checkbox
+              v-for="city in cityOptionsExtra"
+              :key="city.value"
+              v-model="cities"
+              :value="city.value"
+              :label="city.title"
+              :readonly="organizerListLoading"
+              multiple
+              density="compact"
+              hide-details
+            ></v-checkbox>
+          </v-sheet>
+
+          <p class="text-subtitle-1 mt-5 mb-2">{{ $t('user.languages') }}</p>
+          <v-sheet
+            :max-height="230"
+            class="overflow-y-auto"
+          >
+            <v-checkbox
+              v-for="language in languageOptions"
+              :key="language.value"
+              v-model="languages"
+              :value="language.value"
+              :label="language.title"
+              :readonly="organizerListLoading"
+              multiple
+              density="compact"
+              hide-details
+            ></v-checkbox>
+          </v-sheet>
+
+          <p class="text-subtitle-1 mt-5 mb-2">{{ $t('user.cost_work') }}</p>
+          <v-row dense>
+            <v-col
+              :cols="12"
+              :md="6"
+            >
+              <v-text-field
+                v-model="costWorkInCurrency[0]"
+                type="number"
+                :min="costWorkMinBorder"
+                :max="costWorkInCurrency[1]"
+                :readonly="organizerListLoading"
+                variant="solo-filled"
+                density="compact"
+                flat
+              ></v-text-field>
+            </v-col>
+            <v-col
+              :cols="12"
+              :md="6"
+            >
+              <v-text-field
+                v-model="costWorkInCurrency[1]"
+                type="number"
+                :min="costWorkInCurrency[0]"
+                :max="costWorkMaxBorder"
+                :readonly="organizerListLoading"
+                variant="solo-filled"
+                density="compact"
+                flat
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-range-slider
+            v-model="costWorkInCurrency"
+            :min="costWorkMinBorder"
+            :max="costWorkMaxBorder"
+            :step="1"
+          ></v-range-slider>
+
+          <v-row dense>
+            <v-col
+              :cols="12"
+              :lg="6"
+            >
+              <v-btn
+                @click="resetParamsAndGetOrganizers()"
+                variant="flat"
+                block
+                class="text-none"
+                :disabled="
+                  !countries.length
+                    && !cities.length
+                    && !languages.length
+                    && (costWorkInCurrency[0] === costWorkMinBorder)
+                    && (costWorkInCurrency[1] === costWorkMaxBorder)
+                "
+              >
+                {{ $t('btn.reset') }}
+              </v-btn>
+            </v-col>
+            <v-col
+              :cols="12"
+              :lg="6"
+            >
+              <v-btn
+                @click="getOrganizerList()"
+                variant="flat"
+                color="primary"
+                block
+                class="text-none"
+                :disabled="
+                  !countries.length
+                    && !cities.length
+                    && !languages.length
+                    && (costWorkInCurrency[0] === costWorkMinBorder)
+                    && (costWorkInCurrency[1] === costWorkMaxBorder)
+                "
+              >
+                {{ $t('btn.show') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-sheet>
+      </v-col>
+      <v-col
+        :cols="12"
+        :md="9"
+      >
+        <div
+          v-if="organizerListLoading"
+          class="d-flex justify-center align-center my-15"
+        >
+          <v-progress-circular
+            indeterminate
+            :size="80"
+          ></v-progress-circular>
+        </div>
+
+        <v-infinite-scroll
+          v-else-if="organizerList.length > 0"
+          @load="getMoreOrganizerList"
+          mode="intersect"
+          :empty-text="$t('organizers.no_more_organizers')"
+        >
+          <v-row class="ma-0">
+            <v-col
               v-for="organizer in organizerList"
               :key="organizer.user.uuid"
-              class="col-12 col-sm-6 col-xl-4 text-center"
+              :cols="12"
+              :sm="12"
+              :md="6"
+              :lg="4"
+              :xl="2"
+              class="text-center"
             >
               <router-link
                 :to="{
                   name: 'OrganizerDetail',
                   params: { profile_url: organizer.user.profile_url }
                 }"
+                class="d-inline-block"
               >
-                <UserAvatarExtended
-                  :src="organizer.user.avatar"
-                  :width="180"
-                  :height="180"
-                  :online="organizer.user.status == 'online' ? true : false"
+                <AvatarExtended
+                  :image="organizer.user.avatar"
+                  :size="180"
+                  :online="organizer.user.status === 'online' ? true : false"
                 />
               </router-link>
               <router-link
@@ -351,40 +571,42 @@ onMounted(() => {
                   name: 'OrganizerDetail',
                   params: { profile_url: organizer.user.profile_url }
                 }"
-                class="text-decoration-none link-dark"
+                class="text-black text-decoration-none"
               >
-                <h2 class="fw-normal">{{ organizer.user.name }}</h2>
+                <h2 class="text-h5">{{ organizer.user.name }}</h2>
               </router-link>
               <p v-if="organizer.cost_work">
-                {{ currencyStore.currencyText }}{{ currencyStore.convertCurrency(organizer.cost_work) }}
+                {{ currencyStore.currencySymbol }}{{ currencyStore.convertCurrency(organizer.cost_work) }}
                 {{ $t('organizers.per_hour') }}
-                <span
+                <small
                   v-if="organizer.number_hours"
-                  class="small text-muted"
+                  class="text-secondary"
                 >
                   {{ $t('organizers.min_number_hours', { n: organizer.number_hours }) }}
-                </span>
+                </small>
               </p>
-            </div>
-          </div>
-          <div
-            v-else-if="!organizerListLoading"
-            class="lead fs-3 d-flex justify-content-center py-3"
-          >
-            {{ $t('organizers.no_organizers_available') }}
-          </div>
-          <div
-            v-if="nextURL"
-            style="min-height: 1px; margin-bottom: 1px;"
-            v-intersection="{
-              'scrollArea': null,
-              'callbackFunction': getMoreOrganizerList,
-              'functionArguments': []
-            }"
-          ></div>
-          <LoadingIndicator v-if="organizerListLoading" />
-        </div>
-      </div>
-    </div>
-  </div>
+            </v-col>
+          </v-row>
+        </v-infinite-scroll>
+
+        <v-alert
+          v-else
+          type="info"
+          variant="tonal"
+          class="my-5"
+        >
+          {{ $t('organizers.no_organizers_available') }}
+        </v-alert>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 0.2em;
+}
+.d-none.d-md-block.position-sticky {
+  top: 82px;
+}
+</style>

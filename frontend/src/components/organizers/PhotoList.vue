@@ -30,16 +30,19 @@ const getPhotoList = async () => {
   }
 }
 
-const getMorePhotoList = async () => {
-  photoListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    photoList.value = [...photoList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    photoListLoading.value = false
+const getMorePhotoList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      photoList.value = [...photoList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -49,68 +52,97 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="photo-list">
-    <div
-      v-if="photoList.length > 0"
-      class="row g-3 mt-3"
+  <div
+    v-if="photoListLoading"
+    class="d-flex justify-center align-center my-15"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="80"
+    ></v-progress-circular>
+  </div>
+
+  <v-infinite-scroll
+    v-else-if="photoList.length > 0"
+    @load="getMorePhotoList"
+    mode="intersect"
+    empty-text="&nbsp;"
+  >
+    <v-row
+      dense
+      class="ma-0"
     >
-      <div
+      <v-col
         v-for="photoItem in photoList"
         :key="photoItem.uuid"
-        class="col-12 col-md-6 col-lg-4 col-xl-3"
+        :cols="12"
+        :sm="6"
+        :md="4"
+        :lg="3"
+        :xl="2"
       >
-        <div class="card border border-0 h-100">
-          <router-link
-            :to="{
-              name: 'PhotoDetail',
-              params: { uuid: photoItem.uuid },
-              query: {
-                from: 'author',
-                author: props.userUUID
-              }
-            }"
-            class="link-light"
+        <v-hover v-slot="{ isHovering, props }">
+          <v-card
+            v-bind="props"
+            rounded="lg"
           >
-            <img
+            <v-img
               :src="photoItem.thumbnail"
-              class="card-img"
+              :alt="photoItem.title"
+              aspect-ratio="1/1"
+              cover
+            ></v-img>
+
+            <v-overlay
+              :model-value="isHovering"
+              contained
+              scrim="black"
+              :opacity="0.5"
+              content-class="w-100 h-100"
             >
-            <div class="card-img-overlay">
-              <div class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                <h5 class="card-title text-center">{{ photoItem.title }}</h5>
-              </div>
-              <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-                <i class="fa-regular fa-eye"></i>
-                {{ photoItem.view_count }}
-              </div>
-              <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
-                <i class="fa-regular fa-heart"></i>
-                {{ photoItem.like_count }}
-              </div>
-              <div class="position-absolute bottom-0 end-0 me-2 mb-2">
-                <i class="fa-regular fa-star"></i>
-                {{ photoItem.rating }}
-              </div>
-            </div>
-          </router-link>
-        </div>
-      </div>
-    </div>
-    <div
-      v-else-if="!photoListLoading"
-      class="lead d-flex justify-content-center py-3"
-    >
-      {{ $t('portfolio.no_photos') }}
-    </div>
-    <div
-      v-if="nextURL"
-      style="min-height: 1px; margin-bottom: 1px;"
-      v-intersection="{
-        'scrollArea': null,
-        'callbackFunction': getMorePhotoList,
-        'functionArguments': []
-      }"
-    ></div>
-    <LoadingIndicator v-if="photoListLoading" />
-  </div>
+              <router-link
+                :to="{
+                  name: 'PhotoDetail',
+                  params: { uuid: photoItem.uuid },
+                  query: {
+                    from: 'author',
+                    author: userUUID
+                  }
+                }"
+                class="d-flex flex-column text-decoration-none text-white w-100 h-100 pa-3"
+              >
+                <h5 class="text-h6 text-center mb-auto">
+                  {{ photoItem.title }}
+                </h5>
+
+                <div class="d-flex justify-space-between">
+                  <small>
+                    <v-icon icon="mdi-eye-outline"></v-icon>
+                    {{ photoItem.view_count }}
+                  </small>
+                  <small>
+                    <v-icon icon="mdi-heart-outline"></v-icon>
+                    {{ photoItem.like_count }}
+                  </small>
+                  <small>
+                    <v-icon icon="mdi-star-outline"></v-icon>
+                    {{ photoItem.rating }}
+                  </small>
+                </div>
+              </router-link>
+            </v-overlay>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
+  </v-infinite-scroll>
+
+  <v-alert
+    v-else
+    type="info"
+    variant="tonal"
+    class="my-5"
+  >
+    {{ $t('portfolio.no_photos') }}
+  </v-alert>
 </template>

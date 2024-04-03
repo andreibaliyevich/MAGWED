@@ -42,18 +42,16 @@ const organizerData = ref({
   rating: 0.0
 })
 
+const writeMessageDialog = ref(false)
 const messageSending = ref(false)
 const textContent = ref('')
 
-const mediaDataTab = ref('photos')
+const mediaToggle = ref('photos')
 
 const { getLocaleDateString, getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
 const errorStatus = ref(null)
-
-const writeMessageModal = ref(null)
-const writeMessageModalBootstrap = ref(null)
 
 const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]
@@ -120,7 +118,10 @@ const writeMessage = async () => {
         + '/',
       { content: textContent.value }
     )
-    writeMessageModalBootstrap.value.hide()
+    if (response.status === 201) {
+      writeMessageDialog.value = false
+      textContent.value = ''
+    }
   } catch (error) {
     errors.value = error.response.data
   } finally {
@@ -140,357 +141,341 @@ watch(
 onMounted(() => {
   getOrganizerData()
   connectionBusStore.$subscribe(updateUserStatus)
-  writeMessageModal.value.addEventListener('hidden.bs.modal', () => {
-    textContent.value = ''
-  })
-  writeMessageModalBootstrap.value = new bootstrap.Modal(
-    writeMessageModal.value
-  )
 })
 </script>
 
 <template>
-  <div class="organizer-detail-view">
-    <LoadingIndicator
+  <v-container>
+    <div
       v-if="organizerLoading"
-      class="my-5"
-    />
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
     <NotFound v-else-if="errorStatus === 404" />
+
     <div
       v-else
-      class="container my-5"
+      class="my-5"
     >
-      <div class="card border border-light shadow-sm">
-        <img
-          v-if="organizerData.cover"
-          :src="organizerData.cover"
-          class="card-img-top"
-        >
-        <img
-          v-else
-          src="/cover.jpg"
-          class="card-img-top"
-        >
-        <div class="d-lg-flex align-items-lg-start text-center mx-3 mx-lg-5 mb-3">
-          <div class="position-relative" style="margin-top: -5rem;">
-            <UserAvatar
-              :src="organizerData.user.avatar"
-              :width="180"
-              :height="180"
-              class="border border-light border-3"
-            />
-          </div>
-          <div class="d-inline-block mt-3 ms-lg-3">
-            <h1 class="h3">{{ organizerData.user.name }}</h1>
+      <v-sheet
+        :elevation="1"
+        rounded="lg"
+        class="pb-5"
+      >
+        <v-img
+          :src="organizerData.cover ? organizerData.cover : '/cover.jpg'"
+          aspect-ratio="3/1"
+          cover
+          rounded="t-lg"
+        ></v-img>
+        <div class="d-md-flex justify-md-start text-center mx-3 mx-md-5 mx-lg-8">
+          <v-avatar
+            :image="
+              organizerData.user.avatar
+                ? organizerData.user.avatar
+                : '/user-avatar.png'
+            "
+            :size="180"
+            class="position-relative"
+            style="
+              margin-top: -80px;
+              border: 3px solid white;
+            "
+          ></v-avatar>
+
+          <div class="d-inline-block mt-3 ms-md-3">
+            <h1 class="text-h3">{{ organizerData.user.name }}</h1>
+
             <span
               v-if="organizerData.user.status === 'online'"
-              class="text-dark"
+              class="d-flex align-center text-black"
             >
-              <i class="fa-solid fa-circle fa-xs text-success"></i>
+              <v-icon
+                icon="mdi-circle"
+                :size="16"
+                color="green-darken-3"
+                class="me-1"
+              ></v-icon>
               {{ $t('user.online') }}
             </span>
+
             <span
               v-else
-              class="text-secondary"
+              class="d-flex align-center text-secondary"
             >
-              <i class="fa-solid fa-circle fa-xs"></i>
+              <v-icon
+                icon="mdi-circle"
+                :size="16"
+                class="me-1"
+              ></v-icon>
               {{ $t('user.last_visit') }}
               {{ getLocaleDateTimeString(organizerData.user.status) }}
             </span>
-            <div class="row g-1 mt-1">
-              <div
-                v-for="roleValue in organizerData.roles"
-                :key="roleValue"
-                class="col"
-              >
-                <span class="badge text-bg-light">
-                  {{ $t(`roles.${roleValue}`) }}
-                </span>
-              </div>
-            </div>
           </div>
           <div
-            v-if="userStore.isLoggedIn && userStore.uuid != organizerData.user.uuid"
-            class="d-flex justify-content-center mt-3 ms-lg-auto"
+            v-if="
+              userStore.isLoggedIn
+                && userStore.uuid != organizerData.user.uuid
+            "
+            class="d-md-flex ms-md-auto text-center mt-3"
           >
-            <button
-              v-if="organizerData.user.following"
-              @click="unfollowUser()"
-              type="button"
-              class="btn btn-brand"
+            <v-btn
+              :prepend-icon="
+                organizerData.user.following
+                  ? 'mdi-account-minus'
+                  : 'mdi-account-plus'
+              "
+              @click="
+                organizerData.user.following
+                  ? unfollowUser()
+                  : followUser()
+              "
+              :text="
+                organizerData.user.following
+                  ? $t('follow.unfollow')
+                  : $t('follow.follow')
+              "
+              :variant="organizerData.user.following ? 'flat' : 'outlined'"
+              color="primary"
+              class="me-1"
+            ></v-btn>
+
+            <v-dialog
+              v-model="writeMessageDialog"
+              :max-width="500"
             >
-              <i class="fa-solid fa-user-minus"></i>
-              {{ $t('follow.unfollow') }}
-            </button>
-            <button
-              v-else
-              @click="followUser()"
-              type="button"
-              class="btn btn-outline-brand"
-            >
-              <i class="fa-solid fa-user-plus"></i>
-              {{ $t('follow.follow') }}
-            </button>
-            <button
-              type="button"
-              class="btn btn-light ms-2"
-              data-bs-toggle="modal"
-              data-bs-target="#write_message_modal"
-            >
-              <i class="fa-solid fa-pen"></i>
-              {{ $t('messenger.write') }}
-            </button>
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  prepend-icon="mdi-pen"
+                  variant="tonal"
+                >
+                  {{ $t('messenger.write') }}
+                </v-btn>
+              </template>
+
+              <v-card
+                :title="$t('messenger.new_message')"
+                rounded="lg"
+              >
+                <v-textarea
+                  v-model="textContent"
+                  :readonly="messageSending"
+                  autofocus
+                  auto-grow
+                  :rows="5"
+                  :max-rows="10"
+                  variant="filled"
+                  :label="$t('messenger.content')"
+                  :error-messages="errors?.content ? errors.content : []"
+                  class="mt-3 mx-3"
+                ></v-textarea>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn @click="writeMessageDialog = false">
+                    {{ $t('btn.cancel') }}
+                  </v-btn>
+                  <v-btn
+                    @click="writeMessage()"
+                    :loading="messageSending"
+                    :disabled="!textContent"
+                    variant="flat"
+                    color="primary"
+                  >
+                    {{ $t('btn.send') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </div>
         </div>
-        <ul class="list-inline text-center text-lg-start mx-3 mx-lg-5 mb-4">
-          <li class="list-inline-item">
-            <i class="fa-regular fa-calendar-plus me-1"></i>
+
+        <div class="d-flex flex-wrap mt-3 mx-3 mx-md-5 mx-lg-8">
+          <v-chip
+            v-for="roleValue in organizerData.roles"
+            :key="roleValue"
+            class="ma-1"
+          >
+            {{ $t(`roles.${roleValue}`) }}
+          </v-chip>
+        </div>
+
+        <div class="d-flex flex-wrap mt-3 mx-3 mx-md-5 mx-lg-8">
+          <div class="d-flex align-center">
+            <v-icon
+              icon="mdi-calendar-plus-outline"
+              :size="24"
+              class="me-1"
+            ></v-icon>
             {{ $t('user.joined_on') }}
             {{ getLocaleDateString(organizerData.user.date_joined) }}
-          </li>
-          <li
+          </div>
+          <div
             v-if="organizerData.user.city"
-            class="list-inline-item ms-3"
+            class="d-flex align-center ms-3"
           >
-            <i class="fa-solid fa-location-dot me-1"></i>
+            <v-icon
+              icon="mdi-map-marker-outline"
+              :size="24"
+              class="me-1"
+            ></v-icon>
             {{ $t(`cities.${organizerData.user.city}`) }},
             {{ $t(`countries.${organizerData.user.country}`) }}
-          </li>
-          <li
+          </div>
+          <div
             v-else-if="organizerData.user.country"
-            class="list-inline-item ms-3"
+            class="d-flex align-center ms-3"
           >
-            <i class="fa-solid fa-location-dot me-1"></i>
+            <v-icon
+              icon="mdi-map-marker-outline"
+              :size="24"
+              class="me-1"
+            ></v-icon>
             {{ $t(`countries.${organizerData.user.country}`) }}
-          </li>
-          <li
+          </div>
+          <div
             v-if="organizerData.user.phone"
-            class="list-inline-item ms-3"
+            class="d-flex align-center ms-3"
           >
-            <i class="fa-solid fa-phone me-1"></i>
+            <v-icon
+              icon="mdi-phone-outline"
+              :size="24"
+              class="me-1"
+            ></v-icon>
             <a
               :href="`tel:${organizerData.user.phone}`"
-              class="text-decoration-none link-dark"
+              class="text-decoration-none text-black"
             >
               {{ organizerData.user.phone }}
             </a>
-          </li>
-          <li
+          </div>
+          <div
             v-if="organizerData.website"
-            class="list-inline-item ms-3"
+            class="d-flex align-center ms-3"
           >
-            <i class="fa-solid fa-globe me-1"></i>
+            <v-icon
+              icon="mdi-web"
+              :size="24"
+              class="me-1"
+            ></v-icon>
             <a
               :href="organizerData.website"
-              target="_blank"
-              class="text-decoration-none link-dark"
+              class="text-decoration-none text-black"
             >
               {{ organizerWebsiteShort }}
             </a>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </div>
+      </v-sheet>
 
-      <div class="card border border-light shadow-sm mt-3 py-4 px-3 px-lg-5">
+      <v-sheet
+        :elevation="1"
+        rounded="lg"
+        class="my-5 pa-3 pa-md-5"
+      >
         <p
           v-if="organizerData.description"
-          class="lead"
+          class="text-body-1"
         >
           {{ organizerData.description }}
         </p>
-        <ul class="list-group list-group-flush">
-          <li
+
+        <v-list>
+          <v-list-item
             v-if="organizerData.countries.length"
-            class="list-group-item"
+            prepend-icon="mdi-earth"
           >
-            <i class="fa-solid fa-earth-europe"></i>
             {{ $t('user.countries') }}:
-            <span
+            <v-chip
               v-for="countryValue in organizerData.countries"
               :key="countryValue"
-              class="badge text-bg-light fw-normal ms-1"
+              size="small"
+              class="ma-1"
             >
               {{ $t(`countries.${countryValue}`) }}
-            </span>
-          </li>
-          <li
+            </v-chip>
+          </v-list-item>
+          <v-list-item
             v-if="organizerData.cities.length"
-            class="list-group-item"
+            prepend-icon="mdi-city-variant-outline"
           >
-            <i class="fa-solid fa-city"></i>
             {{ $t('user.cities') }}:
-            <span
+            <v-chip
               v-for="cityValue in organizerData.cities"
               :key="cityValue"
-              class="badge text-bg-light fw-normal ms-1"
+              size="small"
+              class="ma-1"
             >
               {{ $t(`cities.${cityValue}`) }}
-            </span>
-          </li>
-          <li
+            </v-chip>
+          </v-list-item>
+          <v-list-item
             v-if="organizerData.languages.length"
-            class="list-group-item"
+            prepend-icon="mdi-translate"
           >
-            <i class="fa-solid fa-language"></i>
             {{ $t('user.languages') }}:
-            <span
+            <v-chip
               v-for="languageValue in organizerData.languages"
               :key="languageValue"
-              class="badge text-bg-light fw-normal ms-1"
+              size="small"
+              class="ma-1"
             >
               {{ $t(`languages.${languageValue}`) }}
-            </span>
-          </li>
-          <li
+            </v-chip>
+          </v-list-item>
+          <v-list-item
             v-if="organizerData.cost_work"
-            class="list-group-item"
+            prepend-icon="mdi-cash-multiple"
           >
-            <i class="fa-solid fa-money-bills"></i>
             {{ $t('user.cost_work') }}:
-            {{ currencyStore.currencyText }}{{ currencyStore.convertCurrency(organizerData.cost_work) }}
-          </li>
-          <li
+            {{ currencyStore.currencySymbol }}{{ currencyStore.convertCurrency(organizerData.cost_work) }}
+          </v-list-item>
+          <v-list-item
             v-if="organizerData.number_hours"
-            class="list-group-item"
+            prepend-icon="mdi-clock-outline"
           >
-            <i class="fa-solid fa-clock"></i>
             {{ $t('user.number_hours') }}:
             {{ organizerData.number_hours }}
-          </li>
-        </ul>
-      </div>
+          </v-list-item>
+        </v-list>
+      </v-sheet>
 
-      <div class="d-flex justify-content-center mt-5">
-        <div
-          role="group"
-          class="btn-group"
-          aria-label="Media Data Tab"
+      <div class="text-center my-5">
+        <v-btn-toggle
+          v-model="mediaToggle"
+          mandatory
+          :rounded="0"
         >
-          <input
-            v-model="mediaDataTab"
-            value="photos"
-            id="id_radio_tab_photos"
-            name="radio_tab"
-            type="radio"
-            class="btn-check"
-          >
-          <label
-            for="id_radio_tab_photos"
-            class="btn btn-outline-dark"
-          >
+          <v-btn value="photos">
             {{ $t('portfolio.photos') }}
-          </label>
-
-          <input
-            v-model="mediaDataTab"
-            value="albums"
-            id="id_radio_tab_albums"
-            name="radio_tab"
-            type="radio"
-            class="btn-check"
-          >
-          <label
-            for="id_radio_tab_albums"
-            class="btn btn-outline-dark"
-          >
+          </v-btn>
+          <v-btn value="albums">
             {{ $t('portfolio.photo_albums') }}
-          </label>
-
-          <input
-            v-model="mediaDataTab"
-            value="reviews"
-            id="id_radio_tab_reviews"
-            name="radio_tab"
-            type="radio"
-            class="btn-check"
-          >
-          <label
-            for="id_radio_tab_reviews"
-            class="btn btn-outline-dark"
-          >
+          </v-btn>
+          <v-btn value="reviews">
             {{ $t('reviews.reviews') }}
-          </label>
-        </div>
+          </v-btn>
+        </v-btn-toggle>
       </div>
 
-      <div v-if="mediaDataTab === 'photos'">
-        <PhotoList :userUUID="organizerData.user.uuid" />
-      </div>
-      <div v-else-if="mediaDataTab === 'albums'">
-        <AlbumList :userUUID="organizerData.user.uuid" />
-      </div>
-      <div v-else-if="mediaDataTab === 'reviews'">
-        <ReviewList :userUUID="organizerData.user.uuid" />
-      </div>
-
+      <PhotoList
+        v-if="mediaToggle === 'photos'"
+        :userUUID="organizerData.user.uuid"
+      />
+      <AlbumList
+        v-else-if="mediaToggle === 'albums'"
+        :userUUID="organizerData.user.uuid"
+      />
+      <ReviewList
+        v-else-if="mediaToggle === 'reviews'"
+        :userUUID="organizerData.user.uuid"
+      />
     </div>
-
-    <Teleport to="body">
-      <div
-        ref="writeMessageModal"
-        id="write_message_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="write_message_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="write_message_modal_label"
-                class="modal-title"
-              >
-                {{ $t('messenger.new_message') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="writeMessage()"
-                id="write_message_modal_form"
-              >
-                <BaseTextarea
-                  v-model="textContent"
-                  id="id_content"
-                  name="content"
-                  :label="$t('messenger.content')"
-                  :errors="
-                    errors?.content
-                    ? errors.content
-                    : []
-                  "
-                />
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="messageSending"
-                buttonClass="btn btn-brand"
-                form="write_message_modal_form"
-                :disabled="!textContent"
-              >
-                {{ $t('btn.send') }}
-              </SubmitButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Teleport>
-  </div>
+  </v-container>
 </template>
