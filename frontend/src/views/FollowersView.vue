@@ -29,16 +29,19 @@ const getFollowersList = async () => {
   }
 }
 
-const getMoreFollowersList = async () => {
-  followersListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    followersList.value = [...followersList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    followersListLoading.value = false
+const getMoreFollowersList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      followersList.value = [...followersList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -57,20 +60,37 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="followers-view">
-    <div class="container my-5">
-      <h1 class="display-6 text-center mb-5">
-        {{ $t('follow.followers') }} ({{ followersCount }})
-      </h1>
+  <v-container>
+    <h1 class="text-h4 text-md-h3 text-center my-5">
+      {{ $t('follow.followers') }} ({{ followersCount }})
+    </h1>
 
-      <div
-        v-if="followersList.length > 0"
-        class="row g-3"
-      >
-        <div
+    <div
+      v-if="followersListLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
+    <v-infinite-scroll
+      v-else-if="followersList.length > 0"
+      @load="getMoreFollowersList"
+      mode="intersect"
+      empty-text="&nbsp;"
+    >
+      <v-row class="ma-0">
+        <v-col
           v-for="follow in followersList"
           :key="follow.follower.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3 text-center"
+          :cols="12"
+          :sm="6"
+          :md="4"
+          :lg="3"
+          :xl="2"
+          class="text-center"
         >
           <router-link
             v-if="follow.follower.profile_url"
@@ -78,55 +98,52 @@ onMounted(() => {
               name: 'OrganizerDetail',
               params: { profile_url: follow.follower.profile_url }
             }"
+            class="d-inline-block"
           >
-            <UserAvatarExtended
-              :src="follow.follower.avatar"
-              :width="180"
-              :height="180"
+            <AvatarExtended
+              :image="follow.follower.avatar"
+              :size="180"
               :online="follow.follower.status === 'online' ? true : false"
             />
           </router-link>
-          <UserAvatarExtended
+          <div
             v-else
-            :src="follow.follower.avatar"
-            :width="180"
-            :height="180"
-            :online="follow.follower.status === 'online' ? true : false"
-          />
+            class="d-inline-block"
+          >
+            <AvatarExtended
+              :image="follow.follower.avatar"
+              :size="180"
+              :online="follow.follower.status === 'online' ? true : false"
+            />
+          </div>
+
           <router-link
             v-if="follow.follower.profile_url"
             :to="{
               name: 'OrganizerDetail',
               params: { profile_url: follow.follower.profile_url }
             }"
-            class="text-decoration-none link-dark"
+            class="text-black text-decoration-none"
           >
-            <h2 class="fw-normal">{{ follow.follower.name }}</h2>
+            <h2 class="text-h5">{{ follow.follower.name }}</h2>
           </router-link>
           <h2
             v-else
-            class="fw-normal"
+            class="text-h5"
           >
             {{ follow.follower.name }}
           </h2>
-        </div>
-      </div>
-      <div
-        v-else-if="!followersListLoading"
-        class="lead fs-3 d-flex justify-content-center py-3"
-      >
-        {{ $t('follow.no_followers') }}
-      </div>
-      <div
-        v-if="nextURL"
-        style="min-height: 1px; margin-bottom: 1px;"
-        v-intersection="{
-          'scrollArea': null,
-          'callbackFunction': getMoreFollowersList,
-          'functionArguments': []
-        }"
-      ></div>
-      <LoadingIndicator v-if="followersListLoading" />
-    </div>
-  </div>
+        </v-col>
+      </v-row>
+    </v-infinite-scroll>
+
+    <v-alert
+      v-else
+      type="info"
+      variant="tonal"
+      class="my-5"
+    >
+      {{ $t('follow.no_followers') }}
+    </v-alert>
+  </v-container>
 </template>

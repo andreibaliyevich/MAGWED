@@ -29,16 +29,19 @@ const getFollowingList = async () => {
   }
 }
 
-const getMoreFollowingList = async () => {
-  followingListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    followingList.value = [...followingList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    followingListLoading.value = false
+const getMoreFollowingList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      followingList.value = [...followingList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -57,61 +60,72 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="following-view">
-    <div class="container my-5">
-      <h1 class="display-6 text-center mb-5">
-        {{ $t('follow.following') }} ({{ followingCount }})
-      </h1>
+  <v-container>
+    <h1 class="text-h4 text-md-h3 text-center my-5">
+      {{ $t('follow.following') }} ({{ followingCount }})
+    </h1>
 
-      <div
-        v-if="followingList.length > 0"
-        class="row g-3"
-      >
-        <div
+    <div
+      v-if="followingListLoading"
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
+    <v-infinite-scroll
+      v-else-if="followingList.length > 0"
+      @load="getMoreFollowingList"
+      mode="intersect"
+      empty-text="&nbsp;"
+    >
+      <v-row class="ma-0">
+        <v-col
           v-for="follow in followingList"
           :key="follow.user.uuid"
-          class="col-12 col-md-6 col-lg-4 col-xl-3 text-center"
+          :cols="12"
+          :sm="6"
+          :md="4"
+          :lg="3"
+          :xl="2"
+          class="text-center"
         >
           <router-link
             :to="{
               name: 'OrganizerDetail',
               params: { profile_url: follow.user.profile_url }
             }"
+            class="d-inline-block"
           >
-            <UserAvatarExtended
-              :src="follow.user.avatar"
-              :width="180"
-              :height="180"
+            <AvatarExtended
+              :image="follow.user.avatar"
+              :size="180"
               :online="follow.user.status === 'online' ? true : false"
             />
           </router-link>
+
           <router-link
             :to="{
               name: 'OrganizerDetail',
               params: { profile_url: follow.user.profile_url }
             }"
-            class="text-decoration-none link-dark"
+            class="text-black text-decoration-none"
           >
-            <h2 class="fw-normal">{{ follow.user.name }}</h2>
+            <h2 class="text-h5">{{ follow.user.name }}</h2>
           </router-link>
-        </div>
-      </div>
-      <div
-        v-else-if="!followingListLoading"
-        class="lead fs-3 d-flex justify-content-center py-3"
-      >
-        {{ $t('follow.no_following') }}
-      </div>
-      <div
-        v-if="nextURL"
-        style="min-height: 1px; margin-bottom: 1px;"
-        v-intersection="{
-          'scrollArea': null,
-          'callbackFunction': getMoreFollowingList,
-          'functionArguments': []
-        }"
-      ></div>
-      <LoadingIndicator v-if="followingListLoading" />
-    </div>
-  </div>
+        </v-col>
+      </v-row>
+    </v-infinite-scroll>
+
+    <v-alert
+      v-else
+      type="info"
+      variant="tonal"
+      class="my-5"
+    >
+      {{ $t('follow.no_following') }}
+    </v-alert>
+  </v-container>
 </template>
