@@ -139,11 +139,10 @@ onUnmounted(() => {
     ></v-img>
     <h1 class="text-h4 text-md-h3 my-5">{{ articleData.translated_title }}</h1>
 
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-wrap ga-1">
       <v-chip
         v-for="categoryValue in articleData.categories"
         :key="categoryValue"
-        class="ma-1"
       >
         {{ $t(`category_choices.${categoryValue}`) }}
       </v-chip>
@@ -182,7 +181,7 @@ onUnmounted(() => {
       </v-menu>
     </div>
 
-    <div class="d-flex flex-wrap mb-5">
+    <div class="d-flex flex-wrap ga-5 mb-5">
       <div class="d-flex align-center">
         <span class="text-secondary">
           {{ $t('blog.author') }}:
@@ -197,7 +196,7 @@ onUnmounted(() => {
           {{ articleData.author.name }}
         </router-link>
       </div>
-      <div class="d-flex align-center text-secondary ms-3">
+      <div class="d-flex align-center text-secondary">
         <v-icon
           icon="mdi-calendar-month-outline"
           :size="24"
@@ -205,7 +204,7 @@ onUnmounted(() => {
         ></v-icon>
         {{ getLocaleDateString(articleData.published_at) }}
       </div>
-      <div class="d-flex align-center text-secondary ms-3">
+      <div class="d-flex align-center text-secondary">
         <v-icon
           icon="mdi-eye-outline"
           :size="24"

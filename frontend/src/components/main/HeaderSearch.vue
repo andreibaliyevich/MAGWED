@@ -454,16 +454,16 @@ watch(searchType, () => {
                     <v-card-title>{{ article.translated_title }}</v-card-title>
                   </v-img>
                 </router-link>
-                <v-card-subtitle class="pt-3">
-                  <v-chip
-                    v-for="categoryValue in article.categories"
-                    :key="`${article.slug}-category-${categoryValue}`"
-                    density="compact"
-                    class="ma-1"
-                  >
-                    {{ $t(`category_choices.${categoryValue}`) }}
-                  </v-chip>
-                  <br>
+                <v-card-subtitle>
+                  <div class="d-flex flex-wrap ga-1 py-2">
+                    <v-chip
+                      v-for="categoryValue in article.categories"
+                      :key="`${article.slug}-category-${categoryValue}`"
+                      density="compact"
+                    >
+                      {{ $t(`category_choices.${categoryValue}`) }}
+                    </v-chip>
+                  </div>
                   <v-icon
                     icon="mdi-calendar-month-outline"
                     size="default"

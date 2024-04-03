@@ -242,7 +242,7 @@ onUnmounted(() => {
                       {{ photoData.title }}
                     </h1>
 
-                    <div class="d-flex flex-wrap mt-3">
+                    <div class="d-flex flex-wrap ga-5 mt-3">
                       <div class="d-flex align-center text-secondary">
                         <v-icon
                           icon="mdi-calendar-month-outline"
@@ -252,7 +252,7 @@ onUnmounted(() => {
                         {{ $t('portfolio.uploaded') }}
                         {{ getLocaleDateString(photoData.uploaded_at) }}
                       </div>
-                      <div class="d-flex align-center text-secondary ms-3">
+                      <div class="d-flex align-center text-secondary">
                         <v-icon
                           icon="mdi-eye-outline"
                           :size="24"
@@ -260,7 +260,7 @@ onUnmounted(() => {
                         ></v-icon>
                         {{ photoData.view_count }}
                       </div>
-                      <div class="d-flex align-center text-secondary ms-3">
+                      <div class="d-flex align-center text-secondary">
                         <v-icon
                           icon="mdi-star-outline"
                           :size="24"
@@ -427,31 +427,15 @@ onUnmounted(() => {
                   || photoData.focal_length
                   || photoData.photographic_sensitivity
               "
-              class="d-flex flex-wrap"
+              class="d-flex flex-wrap ga-3"
             >
-              <span
-                v-if="photoData.f_number"
-                :class="{
-                  'me-3': photoData.exposure_time
-                    || photoData.focal_length
-                    || photoData.photographic_sensitivity
-                }"
-              >
+              <span v-if="photoData.f_number">
                 f/{{ photoData.f_number }}
               </span>
-              <span
-                v-if="photoData.exposure_time"
-                :class="{
-                  'me-3': photoData.focal_length
-                    || photoData.photographic_sensitivity
-                }"
-              >
+              <span v-if="photoData.exposure_time">
                 {{ photoData.exposure_time }}s
               </span>
-              <span
-                v-if="photoData.focal_length"
-                :class="{ 'me-3': photoData.photographic_sensitivity }"
-              >
+              <span v-if="photoData.focal_length">
                 {{ photoData.focal_length }}mm
               </span>
               <span v-if="photoData.photographic_sensitivity">
@@ -464,7 +448,7 @@ onUnmounted(() => {
             v-if="photoData.tags.length > 0"
             class="elevation-1 rounded-lg pa-5 my-2"
           >
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap ga-2">
               <v-btn
                 v-for="tag in photoData.tags"
                 :key="tag.uuid"
@@ -475,7 +459,7 @@ onUnmounted(() => {
                 }"
                 prepend-icon="mdi-pound"
                 variant="tonal"
-                class="text-none ma-1"
+                class="text-none"
               >
                 {{ tag.name }}
               </v-btn>

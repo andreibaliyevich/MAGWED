@@ -296,17 +296,16 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="d-flex flex-wrap mt-3 mx-3 mx-md-5 mx-lg-8">
+        <div class="d-flex flex-wrap ga-1 mt-3 mx-3 mx-md-5 mx-lg-8">
           <v-chip
             v-for="roleValue in organizerData.roles"
             :key="roleValue"
-            class="ma-1"
           >
             {{ $t(`roles.${roleValue}`) }}
           </v-chip>
         </div>
 
-        <div class="d-flex flex-wrap mt-3 mx-3 mx-md-5 mx-lg-8">
+        <div class="d-flex flex-wrap ga-3 mt-3 mx-3 mx-md-5 mx-lg-8">
           <div class="d-flex align-center">
             <v-icon
               icon="mdi-calendar-plus-outline"
@@ -318,7 +317,7 @@ onMounted(() => {
           </div>
           <div
             v-if="organizerData.user.city"
-            class="d-flex align-center ms-3"
+            class="d-flex align-center"
           >
             <v-icon
               icon="mdi-map-marker-outline"
@@ -330,7 +329,7 @@ onMounted(() => {
           </div>
           <div
             v-else-if="organizerData.user.country"
-            class="d-flex align-center ms-3"
+            class="d-flex align-center"
           >
             <v-icon
               icon="mdi-map-marker-outline"
@@ -341,7 +340,7 @@ onMounted(() => {
           </div>
           <div
             v-if="organizerData.user.phone"
-            class="d-flex align-center ms-3"
+            class="d-flex align-center"
           >
             <v-icon
               icon="mdi-phone-outline"
@@ -357,7 +356,7 @@ onMounted(() => {
           </div>
           <div
             v-if="organizerData.website"
-            class="d-flex align-center ms-3"
+            class="d-flex align-center"
           >
             <v-icon
               icon="mdi-web"

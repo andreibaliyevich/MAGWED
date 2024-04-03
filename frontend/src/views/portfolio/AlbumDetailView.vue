@@ -193,7 +193,7 @@ onUnmounted(() => {
               <div class="d-inline-block">
                 <h1 class="text-h5">{{ albumData.title }}</h1>
 
-                <div class="d-flex flex-wrap mt-3">
+                <div class="d-flex flex-wrap ga-5 mt-3">
                   <div class="d-flex align-center text-secondary">
                     <v-icon
                       icon="mdi-calendar-month-outline"
@@ -203,7 +203,7 @@ onUnmounted(() => {
                     {{ $t('portfolio.created') }}
                     {{ getLocaleDateString(albumData.created_at) }}
                   </div>
-                  <div class="d-flex align-center text-secondary ms-3">
+                  <div class="d-flex align-center text-secondary">
                     <v-icon
                       icon="mdi-eye-outline"
                       :size="24"
@@ -211,7 +211,7 @@ onUnmounted(() => {
                     ></v-icon>
                     {{ albumData.view_count }}
                   </div>
-                  <div class="d-flex align-center text-secondary ms-3">
+                  <div class="d-flex align-center text-secondary">
                     <v-icon
                       icon="mdi-star-outline"
                       :size="24"
@@ -320,7 +320,7 @@ onUnmounted(() => {
 
         <div
           v-if="albumData.tags.length > 0"
-          class="d-flex flex-wrap mx-5"
+          class="d-flex flex-wrap ga-2 mx-5"
         >
           <v-btn
             v-for="tag in albumData.tags"
@@ -332,7 +332,7 @@ onUnmounted(() => {
             }"
             prepend-icon="mdi-pound"
             variant="tonal"
-            class="text-none ma-1"
+            class="text-none"
           >
             {{ tag.name }}
           </v-btn>
