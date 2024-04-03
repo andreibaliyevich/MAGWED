@@ -134,19 +134,12 @@ onMounted(() => {
     <template v-slot:activator="{ props }">
       <v-btn
         v-bind="props"
-        icon
-      >
-        <v-icon
-          v-if="notViewedCount > 0"
-          icon="mdi-bell-badge-outline"
-          size="default"
-        ></v-icon>
-        <v-icon
-          v-else
-          icon="mdi-bell-outline"
-          size="default"
-        ></v-icon>
-      </v-btn>
+        :icon="
+          notViewedCount > 0
+            ? 'mdi-bell-badge-outline'
+            : 'mdi-bell-outline'
+        "
+      ></v-btn>
     </template>
     <v-sheet
       :width="350"

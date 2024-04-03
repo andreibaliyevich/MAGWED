@@ -209,7 +209,7 @@ watch(newCommentContent, (newValue) => {
         variant="filled"
         :label="$t('comments.content')"
         :error-messages="oldCommentErrors?.content ? oldCommentErrors.content : []"
-        class="mx-3"
+        class="mt-3 mx-3"
       ></v-textarea>
       <v-card-actions>
         <v-spacer></v-spacer>
