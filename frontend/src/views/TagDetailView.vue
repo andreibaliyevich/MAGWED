@@ -2,9 +2,9 @@
 import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
-import AlbumList from '@/components/tag/AlbumList.vue'
-import ArticleList from '@/components/tag/ArticleList.vue'
-import PhotoList from '@/components/tag/PhotoList.vue'
+import AlbumList from '@/components/tags/AlbumList.vue'
+import ArticleList from '@/components/tags/ArticleList.vue'
+import PhotoList from '@/components/tags/PhotoList.vue'
 import NotFound from '@/components/NotFound.vue'
 
 const route = useRoute()
@@ -21,7 +21,7 @@ const getTagData = async () => {
   tagLoading.value = true
   try {
     const response = await axios.get(
-      '/main/tag/'
+      '/main/tags/'
         + route.params.uuid
         + '/'
     )
@@ -39,81 +39,63 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="tag-detail-view">
-    <LoadingIndicator
+  <v-container>
+    <div
       v-if="tagLoading"
-      class="my-5"
-    />
+      class="d-flex justify-center align-center my-15"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+      ></v-progress-circular>
+    </div>
+
     <NotFound v-else-if="errorStatus == 404" />
+
     <div
       v-else
-      class="container my-5"
+      class="my-5"
     >
-      <h1 class="display-6 text-center mb-5">
+      <h1 class="text-h4 text-md-h3 text-center">
         #{{ tagData.name }}
       </h1>
 
-      <ul class="nav nav-pills justify-content-center mb-3">
-        <li
-          :class="[
-            'nav-item',
-            $route.query.tab == 'photos' ? 'active' : null
-          ]"
+      <div class="text-center my-5">
+        <v-btn
+          :to="{ query: { tab: 'photos' } }"
+          :active="$route.query.tab == 'photos'"
+          variant="text"
         >
-          <router-link
-            :to="{ query: { tab: 'photos' } }"
-            :class="[
-              'nav-link',
-              $route.query.tab == 'photos' ? 'active' : 'text-dark'
-            ]"
-          >
-            {{ $t('portfolio.photos') }}
-          </router-link>
-        </li>
-        <li
-          :class="[
-            'nav-item',
-            $route.query.tab == 'albums' ? 'active' : null
-          ]"
+          {{ $t('portfolio.photos') }}
+        </v-btn>
+        <v-btn
+          :to="{ query: { tab: 'albums' } }"
+          :active="$route.query.tab == 'albums'"
+          variant="text"
         >
-          <router-link
-            :to="{ query: { tab: 'albums' } }"
-            :class="[
-              'nav-link',
-              $route.query.tab == 'albums' ? 'active' : 'text-dark'
-            ]"
-          >
-            {{ $t('portfolio.photo_albums') }}
-          </router-link>
-        </li>
-        <li
-          :class="[
-            'nav-item',
-            $route.query.tab == 'articles' ? 'active' : null
-          ]"
+          {{ $t('portfolio.photo_albums') }}
+        </v-btn>
+        <v-btn
+          :to="{ query: { tab: 'articles' } }"
+          :active="$route.query.tab == 'articles'"
+          variant="text"
         >
-          <router-link
-            :to="{ query: { tab: 'articles' } }"
-            :class="[
-              'nav-link',
-              $route.query.tab == 'articles' ? 'active' : 'text-dark'
-            ]"
-          >
-            {{ $t('blog.articles') }}
-          </router-link>
-        </li>
-      </ul>
-
-      <div v-if="$route.query.tab == 'photos'">
-        <PhotoList :tagUUID="$route.params.uuid" />
+          {{ $t('blog.articles') }}
+        </v-btn>
       </div>
-      <div v-else-if="$route.query.tab == 'albums'">
-        <AlbumList :tagUUID="$route.params.uuid" />
-      </div>
-      <div v-else-if="$route.query.tab == 'articles'">
-        <ArticleList :tagUUID="$route.params.uuid" />
-      </div>
-
     </div>
-  </div>
+
+    <PhotoList
+      v-if="$route.query.tab == 'photos'"
+      :tagUUID="$route.params.uuid"
+    />
+    <AlbumList
+      v-else-if="$route.query.tab == 'albums'"
+      :tagUUID="$route.params.uuid"
+    />
+    <ArticleList
+      v-else-if="$route.query.tab == 'articles'"
+      :tagUUID="$route.params.uuid"
+    />
+  </v-container>
 </template>

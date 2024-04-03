@@ -78,7 +78,7 @@ const router = createRouter({
           ]
         },
         {
-          path: 'tag/:uuid',
+          path: 'tags/:uuid',
           name: 'TagDetail',
           component: () => import('@/views/TagDetailView.vue')
         },
