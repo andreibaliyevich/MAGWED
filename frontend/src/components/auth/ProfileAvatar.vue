@@ -121,7 +121,8 @@ const removeAvatar = async () => {
       >
         <v-img
           :src="userStore.avatar ? userStore.avatar : '/user-avatar.png'"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
+          cover
         ></v-img>
       </v-col>
 

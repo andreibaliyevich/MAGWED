@@ -94,7 +94,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -129,7 +129,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -167,7 +167,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -202,7 +202,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -242,7 +242,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -344,7 +344,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -361,7 +361,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>
@@ -378,7 +378,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
         <v-img
           :src="notice.content_object.content_object.thumbnail"
           :width="64"
-          aspect-ratio="1/1"
+          :aspect-ratio="1/1"
           cover
         ></v-img>
       </router-link>

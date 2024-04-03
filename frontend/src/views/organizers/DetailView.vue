@@ -169,7 +169,7 @@ onMounted(() => {
       >
         <v-img
           :src="organizerData.cover ? organizerData.cover : '/cover.jpg'"
-          aspect-ratio="3/1"
+          :aspect-ratio="3/1"
           cover
           rounded="t-lg"
         ></v-img>

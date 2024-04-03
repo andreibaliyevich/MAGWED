@@ -382,7 +382,7 @@ onUnmounted(() => {
                     <v-img
                       :src="photoData.album.thumbnail"
                       :width="32"
-                      aspect-ratio="1/1"
+                      :aspect-ratio="1/1"
                       cover
                       class="rounded-circle"
                     ></v-img>

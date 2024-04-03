@@ -180,7 +180,7 @@ onMounted(() => {
             <v-img
               :src="albumItem.thumbnail"
               :alt="albumItem.title"
-              aspect-ratio="1/1"
+              :aspect-ratio="1/1"
               cover
             ></v-img>
             <v-card-item>

@@ -126,7 +126,8 @@ onMounted(() => {
     >
       <v-img
         :src="cover ? cover : '/cover.jpg'"
-        aspect-ratio="3/1"
+        :aspect-ratio="3/1"
+        cover
       ></v-img>
 
       <small

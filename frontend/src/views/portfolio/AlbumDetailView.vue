@@ -372,7 +372,7 @@ onUnmounted(() => {
                     <v-img
                       :src="photoItem.thumbnail"
                       :alt="photoItem.title"
-                      aspect-ratio="1/1"
+                      :aspect-ratio="1/1"
                       cover
                     ></v-img>
 
