@@ -142,8 +142,8 @@ watch(searchType, () => {
         >
           <template v-if="searchType === 'organizers'">
             <div
-              v-for="(organizer, index) in searchedItems"
-              :key="`searchedItem${index}`"
+              v-for="organizer in searchedItems"
+              :key="organizer.user.uuid"
               class="mx-1 my-1"
             >
               <v-card rounded="lg">
@@ -197,8 +197,8 @@ watch(searchType, () => {
           </template>
           <template v-else-if="searchType === 'photos'">
             <div
-              v-for="(photo, index) in searchedItems"
-              :key="`searchedItem${index}`"
+              v-for="photo in searchedItems"
+              :key="photo.uuid"
               class="mx-1 my-1"
             >
               <v-card rounded="lg">
@@ -313,8 +313,8 @@ watch(searchType, () => {
           </template>
           <template v-else-if="searchType === 'albums'">
             <div
-              v-for="(album, index) in searchedItems"
-              :key="`searchedItem${index}`"
+              v-for="album in searchedItems"
+              :key="album.uuid"
               class="mx-1 my-1"
             >
               <v-card rounded="lg">
@@ -429,8 +429,8 @@ watch(searchType, () => {
           </template>
           <template v-else-if="searchType === 'articles'">
             <div
-              v-for="(article, index) in searchedItems"
-              :key="`searchedItem${index}`"
+              v-for="article in searchedItems"
+              :key="article.slug"
               class="mx-1 my-1"
             >
               <v-card rounded="lg">
@@ -456,12 +456,12 @@ watch(searchType, () => {
                 </router-link>
                 <v-card-subtitle class="pt-3">
                   <v-chip
-                    v-for="(category, index) in article.categories"
-                    :key="`${article.slug}-category-${index}`"
+                    v-for="categoryValue in article.categories"
+                    :key="`${article.slug}-category-${categoryValue}`"
                     density="compact"
                     class="ma-1"
                   >
-                    {{ $t(`category_choices.${category}`) }}
+                    {{ $t(`category_choices.${categoryValue}`) }}
                   </v-chip>
                   <br>
                   <v-icon

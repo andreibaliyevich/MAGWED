@@ -141,11 +141,11 @@ onUnmounted(() => {
 
     <div class="d-flex flex-wrap">
       <v-chip
-        v-for="(category, index) in articleData.categories"
-        :key="`${articleData.uuid}-category-${index}`"
+        v-for="categoryValue in articleData.categories"
+        :key="categoryValue"
         class="ma-1"
       >
-        {{ $t(`category_choices.${category}`) }}
+        {{ $t(`category_choices.${categoryValue}`) }}
       </v-chip>
 
       <v-menu

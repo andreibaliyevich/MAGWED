@@ -174,8 +174,8 @@ onMounted(() => {
         :max-height="550"
       >
         <template
-          v-for="(notice, index) in notificationList"
-          :key="`notice${index}`"
+          v-for="notice in notificationList"
+          :key="notice.uuid"
         >
           <HeaderNotice
             v-if="notice.viewed || !notificationSocketConnect"

@@ -236,10 +236,10 @@ onUnmounted(() => {
       <li
         v-for="commentItem in commentList"
         :key="commentItem.uuid"
-        class="d-block my-3 mx-5"
+        class="d-block my-3"
       >
         <AuthorCommentItem
-          v-if="userStore.uuid === commentItem.author.uuid"
+          v-if="commentItem.author.uuid === userStore.uuid"
           :commentItem="commentItem"
         />
         <CommentItem
@@ -258,7 +258,7 @@ onUnmounted(() => {
             class="d-block my-3 mx-5"
           >
             <AuthorCommentItem
-              v-if="userStore.uuid === commentOfCommentItem.author.uuid"
+              v-if="commentOfCommentItem.author.uuid === userStore.uuid"
               :commentItem="commentOfCommentItem"
             />
             <CommentItem
@@ -272,7 +272,7 @@ onUnmounted(() => {
   </v-infinite-scroll>
 
   <p
-    v-else-if="!commentListLoading"
+    v-else
     class="text-body-1 mx-1 my-5"
   >
     {{ $t('comments.no_comments_yet') }}
@@ -314,6 +314,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.list-group-move,
 .list-group-enter-active,
 .list-group-leave-active {
   transition: all 0.5s ease;
@@ -323,10 +324,7 @@ onUnmounted(() => {
   opacity: 0;
   transform: translateY(30px);
 }
-
-.list-group-item {
-  position: relative;
-  display: block;
-  padding: 0.5rem 1rem;
+.list-group-leave-active {
+  position: absolute;
 }
 </style>

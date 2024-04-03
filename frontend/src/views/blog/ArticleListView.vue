@@ -98,8 +98,8 @@ onMounted(() => {
     :empty-text="$t('blog.no_more_articles')"
   >
     <div
-      v-for="(article, index) in articleList"
-      :key="`searchedItem${index}`"
+      v-for="article in articleList"
+      :key="article.slug"
       class="mx-1 my-1"
     >
       <v-card rounded="lg">
@@ -124,12 +124,12 @@ onMounted(() => {
         </router-link>
         <v-card-subtitle class="pt-3">
           <v-chip
-            v-for="(category, index) in article.categories"
-            :key="`${article.slug}-category-${index}`"
+            v-for="categoryValue in article.categories"
+            :key="`${article.slug}-category-${categoryValue}`"
             density="compact"
             class="ma-1"
           >
-            {{ $t(`category_choices.${category}`) }}
+            {{ $t(`category_choices.${categoryValue}`) }}
           </v-chip>
           <br>
           <v-icon

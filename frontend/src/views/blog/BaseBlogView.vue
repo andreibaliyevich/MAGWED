@@ -40,7 +40,7 @@ const blogFiltersDrawer = ref(false)
         :cols="12"
         :md="8"
       >
-        <router-view></router-view>
+        <router-view />
       </v-col>
       <v-col
         :cols="12"

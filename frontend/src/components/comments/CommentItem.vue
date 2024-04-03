@@ -1,5 +1,4 @@
 <script setup>
-import axios from 'axios'
 import { ref, watch } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
@@ -75,7 +74,9 @@ watch(newCommentContent, (newValue) => {
       </div>
 
       <div class="d-flex justify-space-between">
-        <div class="text-pre-line">{{ commentItem.content }}</div>
+        <div style="white-space: pre-line;">
+          {{ commentItem.content }}
+        </div>
         <v-menu
           v-if="userStore.isLoggedIn"
           location="start"
@@ -129,9 +130,3 @@ watch(newCommentContent, (newValue) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.text-pre-line {
-  white-space: pre-line;
-}
-</style>

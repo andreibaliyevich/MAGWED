@@ -26,7 +26,7 @@
           rounded="lg"
           class="pa-10"
         >
-          <router-view></router-view>
+          <router-view />
         </v-sheet>
       </v-col>
     </v-row>

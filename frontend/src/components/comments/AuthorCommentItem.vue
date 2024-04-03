@@ -55,7 +55,7 @@ const updateComment = async () => {
 const removeComment = async () => {
   oldCommentProcessing.value = true
   try {
-    const response = axios.delete(
+    const response = await axios.delete(
       '/comments/'
         + props.commentItem.uuid
         +'/'
@@ -93,13 +93,12 @@ watch(newCommentContent, (newValue) => {
         :online="commentItem.author.status === 'online' ? true : false"
       />
     </router-link>
-    <div v-else>
-      <AvatarExtended
-        :image="commentItem.author.avatar"
-        :size="32"
-        :online="commentItem.author.status === 'online' ? true : false"
-      />
-    </div>
+    <AvatarExtended
+      v-else
+      :image="commentItem.author.avatar"
+      :size="32"
+      :online="commentItem.author.status === 'online' ? true : false"
+    />
 
     <div class="flex-grow-1">
       <div class="d-flex justify-space-between">
@@ -122,7 +121,9 @@ watch(newCommentContent, (newValue) => {
       </div>
 
       <div class="d-flex justify-space-between">
-        <div class="text-pre-line">{{ commentItem.content }}</div>
+        <div style="white-space: pre-line;">
+          {{ commentItem.content }}
+        </div>
         <v-menu
           v-model="commentMenu"
           location="start"
@@ -261,9 +262,3 @@ watch(newCommentContent, (newValue) => {
     </v-card>
   </v-dialog>
 </template>
-
-<style scoped>
-.text-pre-line {
-  white-space: pre-line;
-}
-</style>
