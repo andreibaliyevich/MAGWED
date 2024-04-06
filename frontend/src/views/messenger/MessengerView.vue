@@ -1,13 +1,16 @@
 <template>
-  <div class="messenger-view">
-    <div
-      class="d-flex justify-content-center align-items-center h-100"
-      style="min-height: 75vh;"
-    >
-      <div class="text-center">
-        <i class="fa-regular fa-comments fa-2xl"></i>
-        <p class="lead mt-3">{{ $t('messenger.select_chat') }}</p>
-      </div>
+  <v-sheet
+    height="100%"
+    min-height="75vh"
+    class="d-flex justify-center align-center"
+  >
+    <div class="text-center">
+      <v-icon
+        icon="mdi-chat-outline"
+        :size="150"
+        color="secondary"
+      ></v-icon>
+      <p class="text-h5 mt-3">{{ $t('messenger.select_chat') }}</p>
     </div>
-  </div>
+  </v-sheet>
 </template>

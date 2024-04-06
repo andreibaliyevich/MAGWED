@@ -1,17 +1,14 @@
 <script setup>
 import axios from 'axios'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-import { WS_URL, chatType, messageType } from '@/config.js'
+import { WS_URL, chatType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
-import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
+import ChatList from '@/components/messenger/ChatList.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -31,24 +28,10 @@ const selectedMembers = ref([])
 const groupChatName = ref('')
 const groupChatImage = ref(null)
 
-const { getLocaleDateTimeString } = useLocaleDateTime()
-
 const errors = ref(null)
 
-const chatListArea = ref(null)
-const createChatModal = ref(null)
-const createChatModalBootstrap = ref(null)
-const relatedUserArea = ref(null)
-
-const sortedChatList = computed(() => {
-  return [...chatList.value].sort((chat1, chat2) => {
-    return new Date(
-      chat2.last_message?.created_at ? chat2.last_message.created_at : Date()
-    ) - new Date(
-      chat1.last_message?.created_at ? chat1.last_message.created_at : Date()
-    )
-  })
-})
+const chatListDrawer = ref(false)
+const createChatDialog = ref(false)
 
 const chatIndex = computed(() => {
   return chatList.value.findIndex((element) => {
@@ -88,10 +71,7 @@ const openChatListSocket = async () => {
         return element.uuid !== data.data
       })
       if (data.data === route.params.uuid) {
-        router.push({
-          name: 'Messenger',
-          params: { locale: locale.value }
-        })
+        router.push({ name: 'Messenger' })
       }
     } else if (data.action === 'new_msg') {
       const foundIndex = chatList.value.findIndex((element) => {
@@ -130,16 +110,19 @@ const getChatList = async () => {
   }
 }
 
-const getMoreChatList = async () => {
-  chatListLoading.value = true
-  try {
-    const response = await axios.get(nextURL.value)
-    chatList.value = [...chatList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    chatListLoading.value = false
+const getMoreChatList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      chatList.value = [...chatList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -156,16 +139,19 @@ const getRelatedUserList = async () => {
   }
 }
 
-const getMoreRelatedUserList = async () => {
-  relatedUserListLoading.value = true
-  try {
-    const response = await axios.get(relatedUserListNextURL.value)
-    relatedUserList.value = [...relatedUserList.value, ...response.data.results]
-    relatedUserListNextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    relatedUserListLoading.value = false
+const getMoreRelatedUserList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(relatedUserListNextURL.value)
+      relatedUserList.value = [...relatedUserList.value, ...response.data.results]
+      relatedUserListNextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -190,18 +176,15 @@ const createChat = async () => {
   try {
     const response = await axios.post('/messenger/chat/create/', formData)
     if (response.status === 201) {
-      createChatModalBootstrap.value.hide()
+      createChatDialog.value = false
     }
   } catch (error) {
     if (error.response.data.uuid) {
       router.push({
         name: 'Chat',
-        params: {
-          locale: locale.value,
-          uuid: error.response.data.uuid
-        }
+        params: { uuid: error.response.data.uuid }
       })
-      createChatModalBootstrap.value.hide()
+      createChatDialog.value = false
     } else {
       errors.value = error.response.data
     }
@@ -245,19 +228,6 @@ watch(selectedChatType, (newValue) => {
 onMounted(() => {
   getChatList()
   connectionBusStore.$subscribe(updateUserStatus)
-  createChatModal.value.addEventListener('show.bs.modal', () => {
-    getRelatedUserList()
-  })
-  createChatModal.value.addEventListener('hidden.bs.modal', () => {
-    selectedChatType.value = chatType.DIALOG
-    selectedMembers.value = []
-    groupChatName.value = ''
-    groupChatImage.value = null
-    relatedUserList.value = []
-    relatedUserListNextURL.value = null
-    errors.value = null
-  })
-  createChatModalBootstrap.value = new bootstrap.Modal(createChatModal.value)
 })
 
 onUnmounted(() => {
@@ -266,459 +236,282 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="base-messenger-view">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 py-3">
-          <div class="d-flex justify-content-evenly d-lg-none">
-            <button
-              type="button"
-              class="btn btn-light border"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#chat_list"
-              aria-controls="chat_list"
-            >
-              <i class="fa-regular fa-comments"></i>
-              {{ $t('messenger.chat_list') }}
-            </button>
-            <button
-              type="button"
-              class="btn btn-light border"
-              data-bs-toggle="modal"
-              data-bs-target="#create_chat_modal"
-            >
-              {{ $t('messenger.create_chat') }}
-              <i class="fa-regular fa-square-plus"></i>
-            </button>
-          </div>
-          <div class="d-none d-lg-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
-            <div class="d-inline-block text-uppercase fw-bolder text-secondary">
-              {{ $t('messenger.chats') }}
-            </div>
-            <button
-              type="button"
-              class="btn btn-light btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#create_chat_modal"
-            >
-              <i class="fa-regular fa-square-plus"></i>
-            </button>
-          </div>
-          <div
-            id="chat_list"
-            tabindex="-1"
-            class="offcanvas-lg offcanvas-start"
-            aria-labelledby="chat_list_label"
-          >
-            <div class="offcanvas-header border-bottom">
-              <h5
-                id="chat_list_label"
-                class="offcanvas-title"
-              >
-                {{ $t('messenger.chats') }}
-              </h5>
-              <button
-                ref="chatListClose"
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                data-bs-target="#chat_list"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div
-              ref="chatListArea"
-              class="offcanvas-body overflow-y-auto d-lg-block"
-            >
-              <ul
-                v-if="chatList.length > 0"
-                class="nav nav-pills flex-column px-1"
-              >
-                <li
-                  v-for="chat in sortedChatList"
-                  :key="chat.uuid"
-                  :class="[
-                    'nav-item',
-                    $route.params.uuid === chat.uuid ? 'active' : null
-                  ]"
-                >
-                  <router-link
-                    :to="{
-                      name: 'Chat',
-                      params: { uuid: chat.uuid }
-                    }"
-                    @click="$refs.chatListClose.click()"
-                    :class="[
-                      'nav-link',
-                      $route.params.uuid === chat.uuid ? 'active' : 'text-dark'
-                    ]"
-                  >
-                    <div class="d-flex gap-3">
-                      <UserAvatarExtended
-                        v-if="chat.chat_type === chatType.DIALOG"
-                        :src="chat.details.avatar"
-                        :width="48"
-                        :height="48"
-                        :online="chat.details.status === 'online' ? true : false"
-                      />
-                      <GroupAvatar
-                        v-else-if="chat.chat_type === chatType.GROUP"
-                        :src="chat.details.image"
-                        :width="48"
-                        :height="48"
-                      />
-                      <img
-                        v-else
-                        src="/chat.jpg"
-                        class="rounded-circle"
-                        width="48"
-                        height="48"
-                      >
-                      <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div
-                            v-if="chat.chat_type === chatType.GROUP"
-                            class="d-flex align-items-center"
-                          >
-                            <i class="fa-solid fa-user-group"></i>
-                            &nbsp;
-                            <strong class="mb-0">{{ chat.details.name }}</strong>
-                          </div>
-                          <strong
-                            v-else
-                            class="mb-0"
-                          >
-                            {{ chat.details.name }}
-                          </strong>
-                          <small v-if="chat.last_message">
-                            {{ getLocaleDateTimeString(chat.last_message.created_at) }}
-                          </small>
-                        </div>
-                        <div
-                          v-if="chat.last_message"
-                          class="d-flex align-items-center"
-                        >
-                          <span
-                            v-if="chat.last_message.msg_type === messageType.TEXT"
-                            class="mb-0 opacity-75 me-auto"
-                          >
-                            {{ chat.last_message.content }}
-                          </span>
-                          <span
-                            v-else-if="chat.last_message.msg_type === messageType.IMAGES"
-                            class="mb-0 opacity-75 me-auto"
-                          >
-                            {{ $t('messenger.images', { n: chat.last_message.content }) }}
-                          </span>
-                          <span
-                            v-else-if="chat.last_message.msg_type === messageType.FILES"
-                            class="mb-0 opacity-75 me-auto"
-                          >
-                            {{ $t('messenger.files', { n: chat.last_message.content }) }}
-                          </span>
-                          <span
-                            v-if="chat.unviewed_msg_count > 0"
-                            class="badge text-bg-primary rounded-pill"
-                          >
-                            {{ chat.unviewed_msg_count }}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </li>
-              </ul>
-              <div
-                v-else-if="!chatListLoading"
-                class="lead d-flex justify-content-center py-3"
-              >
-                {{ $t('messenger.no_chats') }}
-              </div>
-              <div
-                v-if="nextURL"
-                style="min-height: 1px; margin-bottom: 1px;"
-                v-intersection="{
-                  'scrollArea': chatListArea,
-                  'callbackFunction': getMoreChatList,
-                  'functionArguments': []
-                }"
-              ></div>
-              <LoadingIndicator v-if="chatListLoading" />
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8 py-lg-2">
-          <router-view
-            @msgViewed="chatList[chatIndex].unviewed_msg_count -= 1"
-            @leaveChat="(chatUUID) => {
-              chatList = chatList.filter((element) => {
-                return element.uuid !== chatUUID
-              })
-            }"
-          ></router-view>
-        </div>
-      </div>
-    </div>
-
-    <Teleport to="body">
-      <div
-        ref="createChatModal"
-        id="create_chat_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="create_chat_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+  <v-container>
+    <v-row class="border rounded-lg elevation-1">
+      <v-col
+        :cols="12"
+        :md="4"
       >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="create_chat_modal_label"
-                class="modal-title"
-              >
-                {{ $t('messenger.creating_chat') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+        <div class="d-flex justify-space-evenly d-md-none">
+          <v-btn
+            @click.stop="chatListDrawer = true"
+            variant="tonal"
+            prepend-icon="mdi-format-list-bulleted"
+          >
+            {{ $t('messenger.chat_list') }}
+          </v-btn>
+          <v-navigation-drawer
+            v-model="chatListDrawer"
+            location="start"
+            temporary
+          >
+            <div
+              v-if="chatListLoading"
+              class="d-flex justify-center align-center my-15"
+            >
+              <v-progress-circular
+                indeterminate
+                :size="50"
+              ></v-progress-circular>
             </div>
-            <div class="modal-body">
-              <form
-                @submit.prevent="createChat()"
-                id="create_chat_form"
-              >
-                <div class="d-flex justify-content-center mb-3">
-                  <div
-                    role="group"
-                    class="btn-group"
-                    aria-label="Chat Type"
-                  >
-                    <input
-                      v-model="selectedChatType"
-                      :value="chatType.DIALOG"
-                      id="id_chat_type_1"
-                      name="chat_type"
-                      type="radio"
-                      class="btn-check"
-                    >
-                    <label
-                      for="id_chat_type_1"
-                      class="btn btn-outline-dark"
-                    >
-                      {{ $t('messenger.dialog') }}
-                    </label>
 
-                    <input
-                      v-model="selectedChatType"
-                      :value="chatType.GROUP"
-                      id="id_chat_type_2"
-                      name="chat_type"
-                      type="radio"
-                      class="btn-check"
-                    >
-                    <label
-                      for="id_chat_type_2"
-                      class="btn btn-outline-dark"
-                    >
-                      {{ $t('messenger.group') }}
-                    </label>
-                  </div>
-                </div>
-                <div
-                  v-if="selectedChatType === chatType.GROUP"
-                  class="mb-3"
-                >
-                  <BaseInput
-                    v-model="groupChatName"
-                    type="text"
-                    maxlength="150"
-                    id="id_name"
-                    name="name"
-                    :label="$t('messenger.group_name')"
-                    :errors="errors?.name ? errors.name : []"
-                  />
-                </div>
-                <div
-                  v-if="selectedChatType === chatType.GROUP"
-                  class="mb-3"
-                >
-                  <span v-if="groupChatImage">
-                    {{ $t('messenger.chosen_image') }}:
-                    {{ groupChatImage.name }}
-                  </span>
-                  <FileInputButton
-                    @selectedFiles="(filelist) => groupChatImage = filelist[0]"
-                    buttonClass="btn btn-soft-brand w-100"
-                    accept="image/*"
-                  >
-                    {{ $t('messenger.choose_image') }}
-                    <i class="fa-regular fa-image"></i>
-                  </FileInputButton>
-                  <div
-                    v-if="errors && errors.image"
-                    id="id_image-errors"
-                    class="text-danger"
-                    aria-live="assertive"
-                  >
-                    <small v-for="error in errors.image">
-                      {{ error }}
-                    </small>
-                  </div>
-                </div>
-                
-                <div
-                  ref="relatedUserArea"
-                  class="border rounded overflow-y-auto"
-                >
-                  <div v-if="relatedUserList.length > 0">
-                    <div
-                      v-if="selectedChatType === chatType.DIALOG"
-                      class="list-group list-group-flush"
-                    >
-                      <label
-                        v-for="user in relatedUserList"
-                        class="list-group-item d-flex align-items-center gap-2"
-                      >
-                        <input
-                          :value="user.uuid"
-                          :checked="selectedMembers.includes(user.uuid)"
-                          @change="changeSelectedMembers(user.uuid)"
-                          type="radio"
-                          name="dialog_members"
-                          :id="`dialog_member_${user.uuid}`"
-                          class="form-check-input"
-                        >
-                        <UserAvatarExtended
-                          :src="user.avatar"
-                          :width="32"
-                          :height="32"
-                          :online="user.status === 'online' ? true : false"
-                        />
-                        <span class="fw-medium">
-                          {{ user.name }}
-                        </span>
-                      </label>
-                    </div>
-                    <div
-                      v-else-if="selectedChatType === chatType.GROUP"
-                      class="list-group list-group-flush"
-                    >
-                      <label
-                        v-for="user in relatedUserList"
-                        class="list-group-item d-flex align-items-center gap-2"
-                      >
-                        <input
-                          :value="user.uuid"
-                          :checked="selectedMembers.includes(user.uuid)"
-                          @change="changeSelectedMembers(user.uuid)"
-                          type="checkbox"
-                          name="group_members"
-                          :id="`group_member_${user.uuid}`"
-                          class="form-check-input"
-                        >
-                        <UserAvatarExtended
-                          :src="user.avatar"
-                          :width="32"
-                          :height="32"
-                          :online="user.status === 'online' ? true : false"
-                        />
-                        <span class="fw-medium">
-                          {{ user.name }}
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                  <div
-                    v-else-if="!relatedUserListLoading"
-                    class="lead d-flex justify-content-center py-3"
-                  >
-                    {{ $t('follow.no_followers_and_following') }}
-                  </div>
-                  <div
-                    v-if="relatedUserListNextURL"
-                    style="min-height: 1px; margin-bottom: 1px;"
-                    v-intersection="{
-                      'scrollArea': relatedUserArea,
-                      'callbackFunction': getMoreRelatedUserList,
-                      'functionArguments': []
-                    }"
-                  ></div>
-                  <LoadingIndicator v-if="relatedUserListLoading" />
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.cancel') }}
-              </button>
-              <SubmitButton
-                :loadingStatus="chatCreating"
-                buttonClass="btn btn-brand"
-                form="create_chat_form"
-                :disabled="chatCreationDisabled"
-              >
-                {{ $t('btn.create') }}
-              </SubmitButton>
-            </div>
+            <v-infinite-scroll
+              v-else-if="chatList.length > 0"
+              @load="getMoreChatList"
+              mode="intersect"
+              empty-text="&nbsp;"
+            >
+              <ChatList :chatList="chatList" />
+            </v-infinite-scroll>
+
+            <v-alert
+              v-else
+              type="info"
+              variant="tonal"
+              class="my-5"
+            >
+              {{ $t('messenger.no_chats') }}
+            </v-alert>
+          </v-navigation-drawer>
+
+          <v-btn
+            @click="() => {
+              getRelatedUserList()
+              createChatDialog = true
+            }"
+            variant="tonal"
+            append-icon="mdi-plus-circle-outline"
+          >
+            {{ $t('messenger.create_chat') }}
+          </v-btn>
+        </div>
+        <div class="d-none d-md-block">
+          <div class="d-flex justify-space-between align-center border-b-sm">
+            <h2 class="text-h5">{{ $t('messenger.chats') }}</h2>
+            <v-btn
+              @click="() => {
+                getRelatedUserList()
+                createChatDialog = true
+              }"
+              variant="text"
+              icon="mdi-plus-circle-outline"
+            ></v-btn>
           </div>
+
+          <div
+            v-if="chatListLoading"
+            class="d-flex justify-center align-center my-15"
+          >
+            <v-progress-circular
+              indeterminate
+              :size="50"
+            ></v-progress-circular>
+          </div>
+
+          <v-infinite-scroll
+            v-else-if="chatList.length > 0"
+            @load="getMoreChatList"
+            mode="intersect"
+            height="75vh"
+            empty-text="&nbsp;"
+          >
+            <ChatList :chatList="chatList" />
+          </v-infinite-scroll>
+
+          <v-alert
+            v-else
+            type="info"
+            variant="tonal"
+            class="my-5"
+          >
+            {{ $t('messenger.no_chats') }}
+          </v-alert>
+        </div>
+      </v-col>
+      <v-col
+        :cols="12"
+        :md="8"
+      >
+        <router-view
+          @msgViewed="chatList[chatIndex].unviewed_msg_count -= 1"
+          @leaveChat="(chatUUID) => {
+            chatList = chatList.filter((element) => {
+              return element.uuid !== chatUUID
+            })
+          }"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
+
+  <v-dialog
+    v-model="createChatDialog"
+    :width="500"
+    persistent
+  >
+    <v-card
+      rounded="lg"
+      :title="$t('messenger.creating_chat')"
+    >
+      <div class="text-center my-3">
+        <v-btn-toggle v-model="selectedChatType">
+          <v-btn :value="chatType.DIALOG">
+            {{ $t('messenger.dialog') }}
+          </v-btn>
+          <v-btn :value="chatType.GROUP">
+            {{ $t('messenger.group') }}
+          </v-btn>
+        </v-btn-toggle>
+      </div>
+
+      <div
+        v-if="selectedChatType === chatType.GROUP"
+        class="mx-3"
+      >
+        <v-text-field
+          v-model="groupChatName"
+          :readonly="chatCreating"
+          type="text"
+          maxlength="150"
+          variant="filled"
+          :label="$t('messenger.group_name')"
+          :error-messages="errors?.name ? errors.name : []"
+        ></v-text-field>
+
+        <span v-if="groupChatImage">
+          {{ $t('messenger.chosen_image') }}:
+          {{ groupChatImage.name }}
+        </span>
+        <FileInputButton
+          @selectedFiles="(filelist) => groupChatImage = filelist[0]"
+          accept="image/*"
+          variant="tonal"
+          color="primary"
+          block
+          class="text-none"
+          :text="$t('messenger.choose_image')"
+        ></FileInputButton>
+        <div
+          v-if="errors && errors.image"
+          class="text-error"
+        >
+          <small v-for="error in errors.image">
+            {{ error }}
+          </small>
         </div>
       </div>
-    </Teleport>
-  </div>
+
+      <div
+        v-if="relatedUserListLoading"
+        class="d-flex justify-center align-center my-15"
+      >
+        <v-progress-circular
+          indeterminate
+          :size="50"
+        ></v-progress-circular>
+      </div>
+
+      <v-infinite-scroll
+        v-else-if="relatedUserList.length > 0"
+        @load="getMoreRelatedUserList"
+        mode="intersect"
+        :max-height="500"
+        empty-text="&nbsp;"
+      >
+        <v-list class="mx-3">
+          <v-list-item v-for="user in relatedUserList">
+            <template v-slot:prepend>
+              <v-list-item-action>
+                <input
+                  :value="user.uuid"
+                  :checked="selectedMembers.includes(user.uuid)"
+                  @change="changeSelectedMembers(user.uuid)"
+                  :type="selectedChatType === chatType.DIALOG ? 'radio' : 'checkbox'"
+                  class=""
+                >
+              </v-list-item-action>
+            </template>
+            <div class="d-flex align-center ga-1">
+              <AvatarExtended
+                :image="user.avatar"
+                :size="32"
+                :online="user.status === 'online' ? true : false"
+              />
+              <span class="text-subtitle-1 font-weight-medium">
+                {{ user.name }}
+              </span>
+            </div>
+          </v-list-item>
+        </v-list>
+      </v-infinite-scroll>
+
+      <v-alert
+        v-else
+        type="info"
+        variant="tonal"
+        class="my-5 mx-3"
+      >
+        {{ $t('follow.no_followers_and_following') }}
+      </v-alert>
+
+      <template v-slot:actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="() => {
+            createChatDialog = false
+            selectedChatType = chatType.DIALOG
+            selectedMembers = []
+            groupChatName = ''
+            groupChatImage = null
+            relatedUserList = []
+            relatedUserListNextURL = null
+            errors = null
+          }"
+        >
+          {{ $t('btn.cancel') }}
+        </v-btn>
+        <v-btn
+          @click="createChat()"
+          :loading="chatCreating"
+          :disabled="chatCreationDisabled"
+          variant="flat"
+          color="primary"
+        >
+          {{ $t('btn.create') }}
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>
-.border.rounded.overflow-y-auto {
-  max-height: 50vh;
-}
-.offcanvas-body.overflow-y-auto::-webkit-scrollbar,
-.border.rounded.overflow-y-auto::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0.3em;
 }
-.offcanvas-body.overflow-y-auto::-webkit-scrollbar-track,
-.border.rounded.overflow-y-auto::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
+
+input[type="radio"],
+input[type="checkbox"] {
+  width: 1.15em;
+  height: 1.15em;
+  accent-color: black;
 }
-.offcanvas-body.overflow-y-auto::-webkit-scrollbar-thumb,
-.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 1em;
-}
-.offcanvas-body.overflow-y-auto::-webkit-scrollbar-thumb:hover,
-.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background-color: #e72a26;
+input[type="radio"]:hover,
+input[type="checkbox"]:hover {
+  cursor: pointer;
 }
 
-strong,
-small,
-.mb-0.opacity-75 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-@media(min-width: 992px) {
-  .container > .row {
-    border: 1px solid #dee2e6;
-    border-radius: 0.375rem;
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem
-  }
-  .offcanvas-body.overflow-y-auto {
-    height: 73vh;
-  }
-  .col-lg-4.py-3 {
+@media(min-width: 960px) {
+  .v-col-12.v-col-md-4 {
     border-right: 1px solid #dee2e6;
   }
 }
