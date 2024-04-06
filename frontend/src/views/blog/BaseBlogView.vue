@@ -10,10 +10,10 @@ const blogFiltersDrawer = ref(false)
   <v-container>
     <v-btn
       @click.stop="blogFiltersDrawer = !blogFiltersDrawer"
-      append-icon="mdi-filter-outline"
       variant="outlined"
       block
       class="d-inline-flex d-md-none"
+      append-icon="mdi-filter-outline"
     >
       {{ $t('blog.filters') }}
     </v-btn>

@@ -306,7 +306,7 @@ onMounted(() => {
 
   <v-dialog
     :model-value="albumRemoveDialog"
-    width="auto"
+    :width="500"
     persistent
   >
     <v-card rounded="lg">

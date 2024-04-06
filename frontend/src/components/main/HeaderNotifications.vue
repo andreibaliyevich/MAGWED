@@ -163,8 +163,8 @@ onMounted(() => {
         v-if="notificationList.length > 0"
         @load="getMoreNotificationList"
         mode="intersect"
-        :empty-text="$t('notifications.no_more_notifications')"
         :max-height="550"
+        :empty-text="$t('notifications.no_more_notifications')"
       >
         <template
           v-for="notice in notificationList"

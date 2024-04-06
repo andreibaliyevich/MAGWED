@@ -218,7 +218,7 @@ onUnmounted(() => {
   >
     <v-progress-circular
       indeterminate
-      :size="80"
+      :size="50"
     ></v-progress-circular>
   </div>
 

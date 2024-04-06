@@ -483,8 +483,8 @@ watch(searchType, () => {
         >
           <v-icon
             icon="mdi-feature-search-outline"
-            color="secondary"
             :size="150"
+            color="secondary"
           ></v-icon>
           <p class="mt-8">{{ $t('search.no_results_found') }}</p>
         </div>
@@ -494,8 +494,8 @@ watch(searchType, () => {
         >
           <v-icon
             icon="mdi-text-box-search-outline"
-            color="secondary"
             :size="150"
+            color="secondary"
           ></v-icon>
           <p class="mt-8">{{ $t('search.results_will_here') }}</p>
         </div>

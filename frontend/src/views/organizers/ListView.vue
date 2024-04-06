@@ -215,10 +215,10 @@ onMounted(() => {
       >
         <v-btn
           @click.stop="filterMenuDrawer = !filterMenuDrawer"
-          append-icon="mdi-filter-outline"
           variant="outlined"
           block
           class="d-inline-flex d-md-none"
+          append-icon="mdi-filter-outline"
         >
           {{ $t('organizers.filters') }}
         </v-btn>
@@ -547,8 +547,8 @@ onMounted(() => {
               v-for="organizer in organizerList"
               :key="organizer.user.uuid"
               :cols="12"
-              :sm="12"
-              :md="6"
+              :xs="12"
+              :sm="6"
               :lg="4"
               :xl="2"
               class="text-center"
