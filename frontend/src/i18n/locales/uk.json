@@ -145,7 +145,6 @@
         "password": {
             "password": "Пароль",
             "reset_password": "Скинути пароль",
-            "change_password": "Змінити пароль",
             "new_password": "Новий пароль",
             "new_password2": "Підтвердження нового пароля",
             "advice1": "Ваш пароль не може бути схожим на іншу особисту інформацію.",
@@ -191,11 +190,11 @@
             "spotify": "Spotify",
             "youtube": "YouTube",
             "soundcloud": "SoundCloud",
-            "pinterest": "Pinterest",
-            "vk": "VK"
+            "pinterest": "Pinterest"
         },
         "passwordchange": {
             "password_change": "Зміна пароля",
+            "change_password": "Змінити пароль",
             "current_password": "Поточний пароль",
             "success": "Ваш пароль було успішно змінено."
         },
@@ -258,9 +257,10 @@
         "group_chat_details": "Подробиці групового чату",
         "member_count": "0 учасників | 1 учасник | {n} учасники | {n} учасників",
         "members": "Учасники",
+        "member_list_empty": "Список учасників порожній!",
         "group_name": "Назва групи",
         "choose_image": "Вибрати зображення",
-        "chosen_image": "Вибрано зображення",
+        "chosen_image": "Вибране зображення",
         "no_chats": "У вас немає чатів!",
         "no_messages": "Немає повідомлень!",
         "select_chat": "Виберіть чат",
@@ -309,7 +309,7 @@
     },
     "reviews": {
         "reviews": "Відгуки",
-        "no_reviews_yet": "Поки що немає відгуків!",
+        "no_reviews_yet": "Відгуків поки що немає!",
         "write_review": "Написати відгук",
         "updating_review": "Оновлення відгуку",
         "rating": "Рейтинг",
@@ -349,6 +349,7 @@
         "filters": "Фільтри",
         "per_hour": "в годину",
         "min_number_hours": "мінімум 0 годин | мінімум 1 година | мінімум {n} години | мінімум {n} годин",
+        "no_more_organizers": "Нема більше організаторів!",
         "no_organizers_available": "Нема доступних організаторів!"
     },
     "portfolio": {
@@ -366,17 +367,17 @@
         "view_photos": "Переглянути фотографії",
         "no_albums": "Немає альбомів!",
         "no_photos": "Немає фотографій!",
+        "no_more_albums": "Альбомів більше нема!",
+        "no_more_photos": "Фотографій більше немає!",
         "create_album": "Створити альбом",
         "drag_and_drop_image": "Перетягуйте сюди одне або кілька зображень для завантаження або натисніть",
         "upload_photos": "Завантажити фотографії",
         "creating_album": "Створення альбому",
         "uploading_photos": "Завантаження фотографій...",
         "choose_image": "Вибрати зображення",
-        "chosen_image": "Вибрано зображення",
         "update_image": "Оновити зображення",
         "uploading_image": "Завантаження зображення...",
         "image_updated_successfully": "Зображення успішно оновлено!",
-        "updating_photo": "Оновлення фото",
         "title": "Назва",
         "description": "Опис",
         "tags": "Теги",
@@ -401,6 +402,7 @@
         "blog": "Блог",
         "articles": "Статті",
         "no_articles": "Немає статей!",
+        "no_more_articles": "Більше немає статей!",
         "filters": "Фільтри",
         "categories": "Категорії",
         "years": "Року",
@@ -430,9 +432,7 @@
     "form_help": {
         "no_options_available": "Немає доступних варіантів",
         "input_img": "Завантажте зображення JPG або PNG. Необхідний мінімальний розмір {width} x {height}.",
-        "list_input": "Утримуючи натискання клавіші 'Ctrl', натисніть 'Enter', щоб додати введений текст до списку.",
-        "cost_work": "Будь ласка, введіть у доларах США ($)",
-        "textarea_message": "Утримуючи натиснутою клавішу Ctrl, натисніть Enter, щоб відправити повідомлення."
+        "cost_work": "Будь ласка, введіть у доларах США ($)"
     },
     "errors": {
         "page_not_found": "Сторінку не знайдено (404)",

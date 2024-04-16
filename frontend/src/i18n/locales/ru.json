@@ -145,7 +145,6 @@
         "password": {
             "password": "Пароль",
             "reset_password": "Сбросить пароль",
-            "change_password": "Изменить пароль",
             "new_password": "Новый пароль",
             "new_password2": "Подтверждение нового пароля",
             "advice1": "Ваш пароль не может быть слишком похож на другую вашу личную информацию.",
@@ -191,11 +190,11 @@
             "spotify": "Spotify",
             "youtube": "YouTube",
             "soundcloud": "SoundCloud",
-            "pinterest": "Pinterest",
-            "vk": "ВКонтакте"
+            "pinterest": "Pinterest"
         },
         "passwordchange": {
             "password_change": "Изменение пароля",
+            "change_password": "Изменить пароль",
             "current_password": "Текущий пароль",
             "success": "Ваш пароль был успешно изменен."
         },
@@ -258,9 +257,10 @@
         "group_chat_details": "Подробности группового чата",
         "member_count": "0 участников | 1 участник | {n} участника | {n} участников",
         "members": "Участники",
+        "member_list_empty": "Список участников пуст!",
         "group_name": "Название группы",
         "choose_image": "Выбрать изображение",
-        "chosen_image": "Выбрано изображение",
+        "chosen_image": "Выбранное изображение",
         "no_chats": "У вас нет чатов!",
         "no_messages": "Нет сообщений!",
         "select_chat": "Выберите чат",
@@ -309,7 +309,7 @@
     },
     "reviews": {
         "reviews": "Отзывы",
-        "no_reviews_yet": "Пока нет отзывов!",
+        "no_reviews_yet": "Отзывов пока нет!",
         "write_review": "Написать отзыв",
         "updating_review": "Обновление отзыва",
         "rating": "Рейтинг",
@@ -349,6 +349,7 @@
         "filters": "Фильтры",
         "per_hour": "в час",
         "min_number_hours": "минимум 0 часов | минимум 1 час | минимум {n} часа | минимум {n} часов",
+        "no_more_organizers": "Нет больше организаторов!",
         "no_organizers_available": "Нет доступных организаторов!"
     },
     "portfolio": {
@@ -366,17 +367,17 @@
         "view_photos": "Посмотреть фотографии",
         "no_albums": "Нет альбомов!",
         "no_photos": "Нет фотографий!",
+        "no_more_albums": "Альбомов больше нет!",
+        "no_more_photos": "Фотографий больше нет!",
         "create_album": "Создать альбом",
         "drag_and_drop_image": "Перетащите сюда одно или несколько изображений для загрузки или нажмите",
         "upload_photos": "Загрузить фотографии",
         "creating_album": "Создание альбома",
         "uploading_photos": "Загрузка фотографий...",
         "choose_image": "Выбрать изображение",
-        "chosen_image": "Выбрано изображение",
         "update_image": "Обновить изображение",
         "uploading_image": "Загрузка изображения...",
         "image_updated_successfully": "Изображение успешно обновлено!",
-        "updating_photo": "Обновление фото",
         "title": "Название",
         "description": "Описание",
         "tags": "Теги",
@@ -401,6 +402,7 @@
         "blog": "Блог",
         "articles": "Статьи",
         "no_articles": "Нет статей!",
+        "no_more_articles": "Больше нет статей!",
         "filters": "Фильтры",
         "categories": "Категории",
         "years": "Года",
@@ -430,9 +432,7 @@
     "form_help": {
         "no_options_available": "Нет доступных вариантов",
         "input_img": "Загрузите изображение в формате JPG или PNG. Требуемый минимальный размер {width} x {height}.",
-        "list_input": "Удерживая нажатой клавишу 'Ctrl', нажмите 'Enter', чтобы добавить введенный текст в список.",
-        "cost_work": "Пожалуйста, введите в долларах США ($)",
-        "textarea_message": "Удерживая нажатой клавишу 'Ctrl', нажмите 'Enter', чтобы отправить сообщение."
+        "cost_work": "Пожалуйста, введите в долларах США ($)"
     },
     "errors": {
         "page_not_found": "Страница не найдена (404)",
