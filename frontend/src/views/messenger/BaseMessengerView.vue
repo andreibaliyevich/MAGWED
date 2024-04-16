@@ -177,6 +177,13 @@ const createChat = async () => {
     const response = await axios.post('/messenger/chat/create/', formData)
     if (response.status === 201) {
       createChatDialog.value = false
+      selectedChatType.value = chatType.DIALOG
+      selectedMembers.value = []
+      groupChatName.value = ''
+      groupChatImage.value = null
+      relatedUserList.value = []
+      relatedUserListNextURL.value = null
+      errors.value = null
     }
   } catch (error) {
     if (error.response.data.uuid) {
@@ -257,7 +264,7 @@ onUnmounted(() => {
           >
             <div
               v-if="chatListLoading"
-              class="d-flex justify-center align-center my-15"
+              class="d-flex justify-center align-center my-10"
             >
               <v-progress-circular
                 indeterminate
@@ -310,7 +317,7 @@ onUnmounted(() => {
 
           <div
             v-if="chatListLoading"
-            class="d-flex justify-center align-center my-15"
+            class="d-flex justify-center align-center my-10"
           >
             <v-progress-circular
               indeterminate
@@ -322,7 +329,7 @@ onUnmounted(() => {
             v-else-if="chatList.length > 0"
             @load="getMoreChatList"
             mode="intersect"
-            height="75vh"
+            height="73vh"
             empty-text="&nbsp;"
           >
             <ChatList :chatList="chatList" />
@@ -413,7 +420,7 @@ onUnmounted(() => {
 
       <div
         v-if="relatedUserListLoading"
-        class="d-flex justify-center align-center my-15"
+        class="d-flex justify-center align-center my-10"
       >
         <v-progress-circular
           indeterminate
@@ -429,28 +436,32 @@ onUnmounted(() => {
         empty-text="&nbsp;"
       >
         <v-list class="mx-3">
-          <v-list-item v-for="user in relatedUserList">
+          <v-list-item
+            v-for="user in relatedUserList"
+            :key="user.uuid"
+          >
             <template v-slot:prepend>
+              <AvatarExtended
+                :image="user.avatar"
+                :size="32"
+                :online="user.status === 'online' ? true : false"
+              />
+            </template>
+            <template v-slot:title>
+              <span class="text-subtitle-1 font-weight-medium mx-3">
+                {{ user.name }}
+              </span>
+            </template>
+            <template v-slot:append>
               <v-list-item-action>
                 <input
                   :value="user.uuid"
                   :checked="selectedMembers.includes(user.uuid)"
                   @change="changeSelectedMembers(user.uuid)"
                   :type="selectedChatType === chatType.DIALOG ? 'radio' : 'checkbox'"
-                  class=""
                 >
               </v-list-item-action>
             </template>
-            <div class="d-flex align-center ga-1">
-              <AvatarExtended
-                :image="user.avatar"
-                :size="32"
-                :online="user.status === 'online' ? true : false"
-              />
-              <span class="text-subtitle-1 font-weight-medium">
-                {{ user.name }}
-              </span>
-            </div>
           </v-list-item>
         </v-list>
       </v-infinite-scroll>
@@ -464,7 +475,7 @@ onUnmounted(() => {
         {{ $t('follow.no_followers_and_following') }}
       </v-alert>
 
-      <template v-slot:actions>
+      <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
           @click="() => {
@@ -489,7 +500,7 @@ onUnmounted(() => {
         >
           {{ $t('btn.create') }}
         </v-btn>
-      </template>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -510,8 +521,12 @@ input[type="checkbox"]:hover {
   cursor: pointer;
 }
 
+.v-col-12.v-col-md-4 {
+  border-bottom: 1px solid #dee2e6;
+}
 @media(min-width: 960px) {
   .v-col-12.v-col-md-4 {
+    border-bottom: none;
     border-right: 1px solid #dee2e6;
   }
 }

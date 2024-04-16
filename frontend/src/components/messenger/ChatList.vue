@@ -75,7 +75,7 @@ const sortedChatList = computed(() => {
                   v-if="chat.chat_type === chatType.GROUP"
                   class="d-flex"
                 >
-                  <v-icon icon="mdi-account-supervisor"></v-icon>
+                  <v-icon icon="mdi-account-group"></v-icon>
                   <strong class="ms-1">{{ chat.details.name }}</strong>
                 </div>
                 <strong v-else>

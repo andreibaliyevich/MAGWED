@@ -101,7 +101,7 @@ const { logout } = useLogout()
             params: { locale: $i18n.locale }
           }"
           :active="$route.name === 'Followers'"
-          prepend-icon="mdi-account-group"
+          prepend-icon="mdi-account-supervisor"
         >
           <v-list-item-title>
             {{ $t('follow.followers') }}
