@@ -1,25 +1,24 @@
 <script setup>
 import axios from 'axios'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { WS_URL, chatType, messageType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
-import GroupAvatar from '@/components/messenger/GroupAvatar.vue'
-import MessageContent from '@/components/messenger/MessageContent.vue'
-import ReportDropdownItemModal from '@/components/ReportDropdownItemModal.vue'
+import AuthorMessageItem from '@/components/messenger/AuthorMessageItem.vue'
+import MessageItem from '@/components/messenger/MessageItem.vue'
+import ReportListItemDialog from '@/components/ReportListItemDialog.vue'
 
 const emit = defineEmits(['msgViewed', 'leaveChat'])
 
 const route = useRoute()
 const router = useRouter()
-const { locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
 const chatDataLoading = ref(false)
+const chatDataProcessing = ref(false)
 const chatData = ref({
   uuid: '',
   chat_type: null,
@@ -58,29 +57,16 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 const errors = ref(null)
 const errorStatus = ref(null)
 
-const messageListArea = ref(null)
 const msgTextarea = ref(null)
 
-const groupDetailModal = ref(null)
-const groupDetailModalBootstrap = ref(null)
-const removeChatModalChoice = ref(null)
-const leaveChatModalChoice = ref(null)
+const chatMenu = ref(false)
+const groupDetailDialog = ref(false)
+const removeChatDialog = ref(false)
+const leaveChatDialog = ref(false)
 
 const reversedMessages = computed(() => {
   return [...messageList.value].reverse()
 })
-
-const updateTextareaStyles = () => {
-  const { style } = msgTextarea.value
-  style.height = style.minHeight = 'auto'
-  style.minHeight = `${
-    Math.min(
-      msgTextarea.value.scrollHeight,
-      parseInt(style.maxHeight)
-    )
-  }px`
-  style.height = `${msgTextarea.value.scrollHeight}px`
-}
 
 const getMessageList = async () => {
   messageListLoading.value = true
@@ -96,33 +82,23 @@ const getMessageList = async () => {
     console.error(error)
   } finally {
     messageListLoading.value = false
-    nextTick(() => {
-      messageListArea.value.scrollTo({
-        top: messageListArea.value.scrollHeight,
-        behavior: 'instant'
-      })
-      msgTextarea.value.focus()
-    })
+    msgTextarea.value.focus()
   }
 }
 
-const getMoreMessageList = async () => {
-  messageListLoading.value = true
-  const scrollHeight = messageListArea.value.scrollHeight
-  try {
-    const response = await axios.get(nextURL.value)
-    messageList.value = [...messageList.value, ...response.data.results]
-    nextURL.value = response.data.next
-  } catch (error) {
-    console.error(error)
-  } finally {
-    messageListLoading.value = false
-    nextTick(() => {
-      messageListArea.value.scrollTo({
-        top: messageListArea.value.scrollHeight - scrollHeight,
-        behavior: 'instant'
-      })
-    })
+const getMoreMessageList = async ({ done }) => {
+  if (nextURL.value) {
+    try {
+      const response = await axios.get(nextURL.value)
+      messageList.value = [...messageList.value, ...response.data.results]
+      nextURL.value = response.data.next
+      done('ok')
+    } catch (error) {
+      console.error(error)
+      done('error')
+    }
+  } else {
+    done('empty')
   }
 }
 
@@ -141,12 +117,6 @@ const openChatSocket = async () => {
     const data = JSON.parse(event.data)
     if (data.action === 'new_msg') {
       messageList.value.unshift(data.data)
-      nextTick(() => {
-        messageListArea.value.scrollTo({
-          top: messageListArea.value.scrollHeight,
-          behavior: 'smooth'
-        })
-      })
     } else if (data.action === 'viewed') {
       const foundIndex = messageList.value.findIndex((element) => {
         return element.uuid === data.data.msg_uuid
@@ -219,10 +189,7 @@ const sendTextMessage = async () => {
     )
     if (response.status === 201) {
       textContent.value = ''
-      nextTick(() => {
-        updateTextareaStyles()
-        msgTextarea.value.focus()
-      })
+      msgTextarea.value.focus()
     }
   } catch (error) {
     errors.value = error.response.data
@@ -249,9 +216,7 @@ const sendImageMessage = async (filelist) => {
       formData
     )
     if (response.status === 201) {
-      nextTick(() => {
-        msgTextarea.value.focus()
-      })
+      msgTextarea.value.focus()
     }
   } catch (error) {
     errors.value = error.response.data
@@ -278,9 +243,7 @@ const sendFileMessage = async (filelist) => {
       formData
     )
     if (response.status === 201) {
-      nextTick(() => {
-        msgTextarea.value.focus()
-      })
+      msgTextarea.value.focus()
     }
   } catch (error) {
     errors.value = error.response.data
@@ -289,23 +252,32 @@ const sendFileMessage = async (filelist) => {
   }
 }
 
-const setMessageViewed = (msgUUID) => {
-  chatSocket.value.send(JSON.stringify({
-    action: 'viewed',
-    msg_uuid: msgUUID
-  }))
-  emit('msgViewed')
+const setMessageViewed = (isIntersecting, entries, observer) => {
+  if (isIntersecting) {
+    chatSocket.value.send(JSON.stringify({
+      action: 'viewed',
+      msg_uuid: entries[0].target.dataset.uuid
+    }))
+    emit('msgViewed')
+  }
 }
 
 const removeChat = async () => {
+  chatDataProcessing.value = true
   try {
-    await axios.delete(
+    const response = await axios.delete(
       '/messenger/chat/destroy/'
         + chatData.value.uuid
         +'/'
     )
+    if (response.status === 204) {
+      removeChatDialog.value = false
+      chatMenu.value = false
+    }
   } catch (error) {
     console.error(error)
+  } finally {
+    chatDataProcessing.value = false
   }
 }
 
@@ -317,11 +289,10 @@ const leaveChat = async () => {
         +'/'
     )
     if (response.status === 204) {
+      leaveChatDialog.value = false
+      chatMenu.value = false
       emit('leaveChat', chatData.value.uuid)
-      router.push({
-        name: 'Messenger',
-        params: { locale: locale.value }
-      })
+      router.push({ name: 'Messenger' })
     }
   } catch (error) {
     console.error(error)
@@ -352,20 +323,9 @@ watch(
   }
 )
 
-watch(textContent, (newValue) => {
-  updateTextareaStyles()
-})
-
 onMounted(() => {
-  updateTextareaStyles()
   getChatData()
   connectionBusStore.$subscribe(updateUserStatus)
-  groupDetailModal.value.addEventListener('show.bs.modal', () => {
-    getGroupChatData()
-  })
-  groupDetailModalBootstrap.value = new bootstrap.Modal(
-    groupDetailModal.value
-  )
 })
 
 onUnmounted(() => {
@@ -374,577 +334,476 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="chat-view">
-    <LoadingIndicator v-if="chatDataLoading" />
-    <div
-      v-else-if="errorStatus === 404"
-      class="d-flex justify-content-center align-items-center h-100"
-      style="min-height: 75vh;"
-    >
-      <div class="text-center">
-        <h3>{{ $t('errors.chat_not_found') }}</h3>
-      </div>
+  <div
+    v-if="chatDataLoading"
+    class="d-flex justify-center align-center my-10"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="50"
+    ></v-progress-circular>
+  </div>
+
+  <v-sheet
+    v-else-if="errorStatus === 404"
+    height="100%"
+    min-height="75vh"
+    class="d-flex justify-center align-center"
+  >
+    <div class="text-center">
+      <v-icon
+        icon="mdi-chat-question-outline"
+        :size="150"
+        color="secondary"
+      ></v-icon>
+      <p class="text-h5 mt-3">{{ $t('errors.chat_not_found') }}</p>
     </div>
+  </v-sheet>
+
+  <div v-else>
+    <div
+      v-if="chatData.chat_type === chatType.DIALOG"
+      class="d-flex align-center ga-3 border-b-sm"
+    >
+      <v-avatar
+        :image="
+          chatData.details.avatar
+            ? chatData.details.avatar
+            : '/user-avatar.png'
+        "
+        :size="48"
+      ></v-avatar>
+      <div class="d-inline-block">
+        <h6 class="text-h6">{{ chatData.details.name }}</h6>
+        <span
+          v-if="chatData.details.status === 'online'"
+          class="d-flex align-center text-black"
+        >
+          <v-icon
+            icon="mdi-circle"
+            :size="16"
+            color="green-darken-3"
+            class="me-1"
+          ></v-icon>
+          {{ $t('user.online') }}
+        </span>
+        <span
+          v-else
+          class="d-flex align-center text-secondary"
+        >
+          <v-icon
+            icon="mdi-circle"
+            :size="16"
+            class="me-1"
+          ></v-icon>
+          {{ $t('user.last_visit') }}
+          {{ getLocaleDateTimeString(chatData.details.status) }}
+        </span>
+      </div>
+      <v-menu
+        v-model="chatMenu"
+        location="start"
+        :close-on-content-click="false"
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon="mdi-dots-vertical"
+            variant="text"
+            class="ms-auto"
+          ></v-btn>
+        </template>
+        <v-list density="compact">
+          <v-list-item
+            v-if="chatData.details.profile_url"
+            :to="{
+              name: 'OrganizerDetail',
+              params: { profile_url: chatData.details.profile_url }
+            }"
+            prepend-icon="mdi-account"
+          >
+            {{ $t('user.view_profile') }}
+          </v-list-item>
+          <ReportListItemDialog
+            contentType="user"
+            :objectUUID="chatData.details.uuid"
+            @reportSent="chatMenu = false"
+          />
+          <v-list-item
+            @click="removeChatDialog = true"
+            prepend-icon="mdi-delete"
+          >
+            {{ $t('messenger.delete_chat') }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
+
+    <div
+      v-else-if="chatData.chat_type === chatType.GROUP"
+      class="d-flex align-center ga-3 border-b-sm"
+    >
+      <v-avatar
+        :image="
+          chatData.details.image
+            ? chatData.details.image
+            : '/group-avatar.jpg'
+        "
+        :size="48"
+      ></v-avatar>
+      <div class="d-inline-block">
+        <h6 class="text-h6">{{ chatData.details.name }}</h6>
+        <span class="text-secondary">
+          {{ $t('messenger.member_count', {n: chatData.details.member_count}) }}
+        </span>
+      </div>
+      <v-menu
+        v-model="chatMenu"
+        location="start"
+        :close-on-content-click="false"
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon="mdi-dots-vertical"
+            variant="text"
+            class="ms-auto"
+          ></v-btn>
+        </template>
+        <v-list density="compact">
+          <v-list-item
+            @click="() => {
+              getGroupChatData()
+              groupDetailDialog = true
+            }"
+            prepend-icon="mdi-account-group"
+          >
+            {{ $t('messenger.view_group_detail') }}
+          </v-list-item>
+          <v-list-item
+            v-if="chatData.details.owner === userStore.uuid"
+            @click="removeChatDialog = true"
+            prepend-icon="mdi-delete"
+          >
+            {{ $t('messenger.delete_chat') }}
+          </v-list-item>
+          <v-list-item
+            v-else
+            @click="leaveChatDialog = true"
+            prepend-icon="mdi-delete"
+          >
+            {{ $t('messenger.leave_group') }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
+
     <div
       v-else
-      class="card border-0"
+      class="d-flex align-center ga-3 border-b-sm"
     >
-      <div class="card-header bg-white">
-        <div
-          v-if="chatData.chat_type === chatType.DIALOG"
-          class="d-flex align-items-center"
-        >
-          <UserAvatar
-            :src="chatData.details.avatar"
-            :width="48"
-            :height="48"
-          />
-          <div class="flex-grow-1 ms-3">
-            <h6 class="mt-1 mb-0">{{ chatData.details.name }}</h6>
-            <span
-              v-if="chatData.details.status === 'online'"
-              class="text-dark"
-            >
-              <i class="fa-solid fa-circle fa-xs text-success"></i>
-              {{ $t('user.online') }}
-            </span>
-            <span
-              v-else
-              class="text-secondary"
-            >
-              <i class="fa-solid fa-circle fa-xs"></i>
-              {{ $t('user.last_visit') }}
-              {{ getLocaleDateTimeString(chatData.details.status) }}
-            </span>
-          </div>
-          <div class="dropdown">
-            <button
-              type="button"
-              class="btn btn-light btn-sm"
-              data-bs-toggle="dropdown"
-              data-bs-auto-close="true"
-              aria-expanded="false"
-            >
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li v-if="chatData.details.profile_url">
-                <router-link
-                  :to="{
-                    name: 'OrganizerDetail',
-                    params: { profile_url: chatData.details.profile_url }
-                  }"
-                  class="dropdown-item"
-                >
-                  <i class="fa-solid fa-user"></i>
-                  {{ $t('user.view_profile') }}
-                </router-link>
-              </li>
-              <li>
-                <ReportDropdownItemModal
-                  contentType="user"
-                  :objectUUID="chatData.details.uuid"
-                />
-              </li>
-              <li>
-                <button
-                  type="button"
-                  class="dropdown-item btn btn-link"
-                  data-bs-toggle="modal"
-                  data-bs-target="#remove_chat_modal_choice"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                  {{ $t('messenger.delete_chat') }}
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div
-          v-else-if="chatData.chat_type === chatType.GROUP"
-          class="d-flex align-items-center"
-        >
-          <GroupAvatar
-            :src="chatData.details.image"
-            :width="48"
-            :height="48"
-          />
-          <div class="flex-grow-1 ms-3">
-            <h6 class="mt-1 mb-0">{{ chatData.details.name }}</h6>
-            <span class="text-secondary">
-              {{ $t('messenger.member_count', {n: chatData.details.member_count}) }}
-            </span>
-          </div>
-          <div class="dropdown">
-            <button
-              type="button"
-              class="btn btn-light btn-sm"
-              data-bs-toggle="dropdown"
-              data-bs-auto-close="true"
-              aria-expanded="false"
-            >
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <button
-                  type="button"
-                  class="dropdown-item btn btn-link"
-                  data-bs-toggle="modal"
-                  data-bs-target="#group_detail_modal"
-                >
-                  <i class="fa-solid fa-user-group"></i>
-                  {{ $t('messenger.view_group_detail') }}
-                </button>
-              </li>
-              <li v-if="chatData.details.owner === userStore.uuid">
-                <button
-                  type="button"
-                  class="dropdown-item btn btn-link"
-                  data-bs-toggle="modal"
-                  data-bs-target="#remove_chat_modal_choice"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                  {{ $t('messenger.delete_and_leave_group') }}
-                </button>
-              </li>
-              <li v-else>
-                <button
-                  type="button"
-                  class="dropdown-item btn btn-link"
-                  data-bs-toggle="modal"
-                  data-bs-target="#leave_chat_modal_choice"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                  {{ $t('messenger.leave_group') }}
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div
-          v-else
-          class="d-flex align-items-center"
-        >
-          <img
-            src="/chat.jpg"
-            class="rounded-circle"
-            width="48"
-            height="48"
-          >
-        </div>
-      </div>
-      <div
-        ref="messageListArea"
-        class="card-body overflow-y-auto"
-      >
-        <LoadingIndicator v-if="messageListLoading" />
-        <div
-          v-if="nextURL"
-          style="min-height: 1px; margin-top: 1px;"
-          v-intersection="{
-            'scrollArea': messageListArea,
-            'callbackFunction': getMoreMessageList,
-            'functionArguments': []
-          }"
-        ></div>
-        <div
-          v-if="messageList.length > 0"
-          class="my-3"
-        >
-          <div
-            v-for="msg in reversedMessages"
-            class="my-3"
-          >
-            <div
-              v-if="msg.author.uuid === userStore.uuid"
-              class="d-flex justify-content-end"
-            >
-              <div class="my-0">
-                <div class="bg-primary rounded p-2">
-                  <MessageContent
-                    :msgType="msg.msg_type"
-                    :msgContent="msg.content"
-                    textClass="fs-6 text-white"
-                  />
-                  <div class="d-flex justify-content-end text-white mt-2">
-                    <i
-                      v-if="msg.viewed"
-                      class="fa-solid fa-check-double fa-sm"
-                    ></i>
-                    <i
-                      v-else
-                      class="fa-solid fa-check fa-sm"
-                    ></i>
-                  </div>
-                </div>
-                <small class="d-flex justify-content-end text-muted">
-                  {{ getLocaleDateTimeString(msg.created_at) }}
-                </small>
-              </div>
-            </div>
-            <div
-              v-else
-              class="d-flex justify-content-start"
-            >
-              <div class="my-0">
-                <div
-                  v-if="chatData.chat_type === chatType.GROUP"
-                  class="d-flex align-items-start"
-                >
-                  <UserAvatarExtended
-                    :src="msg.author.avatar"
-                    :width="36"
-                    :height="36"
-                    :online="msg.author.status === 'online' ? true : false"
-                  />
-                  <div class="bg-light rounded p-2 ms-2">
-                    <p class="fw-bold mb-0">{{ msg.author.name }}</p>
-                    <MessageContent
-                      v-if="msg.viewed || !chatSocketConnect"
-                      :msgType="msg.msg_type"
-                      :msgContent="msg.content"
-                    />
-                    <MessageContent
-                      v-else
-                      :msgType="msg.msg_type"
-                      :msgContent="msg.content"
-                      v-intersection="{
-                        'scrollArea': null,
-                        'callbackFunction': setMessageViewed,
-                        'functionArguments': [msg.uuid]
-                      }"
-                    />
-                  </div>
-                </div>
-                <div
-                  v-else
-                  class="bg-light rounded p-2"
-                >
-                  <MessageContent
-                    v-if="msg.viewed || !chatSocketConnect"
-                    :msgType="msg.msg_type"
-                    :msgContent="msg.content"
-                  />
-                  <MessageContent
-                    v-else
-                    :msgType="msg.msg_type"
-                    :msgContent="msg.content"
-                    v-intersection="{
-                      'scrollArea': null,
-                      'callbackFunction': setMessageViewed,
-                      'functionArguments': [msg.uuid]
-                    }"
-                  />
-                </div>
-                <small class="text-muted">
-                  {{ getLocaleDateTimeString(msg.created_at) }}
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          v-else-if="!messageListLoading"
-          class="d-flex justify-content-center align-items-center h-100"
-        >
-          <div class="text-center">
-            <i class="fa-regular fa-message fa-2xl"></i>
-            <p class="lead mt-3">{{ $t('messenger.no_messages') }}</p>
-          </div>
-        </div>
-        <div
-          v-if="messageSending"
-          class="d-flex justify-content-end"
-        >
-          <div
-            role="status"
-            class="spinner-border spinner-border-sm"
-          >
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer bg-white">
-        <div class="d-flex align-items-end gap-2">
-          <FileInputButton
-            @selectedFiles="sendImageMessage"
-            buttonClass="btn btn-light"
-            accept="image/*"
-            multiple
-          >
-            <i class="fa-solid fa-file-image"></i>
-          </FileInputButton>
-          <FileInputButton
-            @selectedFiles="sendFileMessage"
-            buttonClass="btn btn-light"
-            multiple
-          >
-            <i class="fa-solid fa-file"></i>
-          </FileInputButton>
-          <div class="d-flex align-items-center border rounded w-100">
-            <textarea
-              ref="msgTextarea"
-              v-model="textContent"
-              @keyup.ctrl.enter="sendTextMessage()"
-              :placeholder="$t('messenger.type_message')"
-              rows="1"
-              class="form-control border-0"
-              style="max-height: 150px;"
-            ></textarea>
-            <button
-              @click="sendTextMessage()"
-              type="button"
-              class="btn btn-link"
-              :disabled="!textContent"
-            >
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-          </div>
-        </div>
-        <small>{{ $t('form_help.textarea_message') }}</small>
-      </div>
+      <v-avatar
+        image="/chat.jpg"
+        :size="48"
+      ></v-avatar>
     </div>
 
-    <Teleport to="body">
+    <v-sheet height="65vh">
       <div
-        ref="groupDetailModal"
-        id="group_detail_modal"
-        class="modal fade"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        aria-labelledby="group_detail_modal_label"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+        v-if="messageListLoading"
+        class="d-flex justify-center align-center h-100"
       >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="group_detail_modal_label"
-                class="modal-title"
-              >
-                {{ $t('messenger.group_chat_details') }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <LoadingIndicator v-if="groupChatDataLoading" />
-              <div v-else>
-                <div class="d-flex align-items-center">
-                  <GroupAvatar
-                    :src="groupChatData.group_details.image"
-                    :width="64"
-                    :height="64"
-                  />
-                  <div class="ms-3">
-                    <p class="h4 mb-0">{{ groupChatData.group_details.name }}</p>
-                    <span class="text-secondary">
-                      {{ $t('messenger.member_count', {n: groupChatData.members.length}) }}
-                    </span>
-                  </div>
-                </div>
-
-                <p class="lead mt-3">{{ $t('messenger.members') }}:</p>
-                <div class="border rounded overflow-y-auto">
-                  <div
-                    v-if="groupChatData.members.length > 0"
-                    class="list-group list-group-flush"
-                  >
-                    <label
-                      v-for="user in groupChatData.members"
-                      class="list-group-item list-group-item-action"
-                    >
-                      <router-link
-                        v-if="user.profile_url"
-                        :to="{
-                          name: 'OrganizerDetail',
-                          params: { profile_url: user.profile_url }
-                        }"
-                        @click="groupDetailModalBootstrap.hide()"
-                        class="text-decoration-none link-dark d-flex align-items-center gap-2"
-                      >
-                        <UserAvatarExtended
-                          :src="user.avatar"
-                          :width="32"
-                          :height="32"
-                          :online="user.status === 'online' ? true : false"
-                        />
-                        <span class="fw-medium">
-                          {{ user.name }}
-                        </span>
-                        <i
-                          v-if="user.uuid === groupChatData.group_details.owner"
-                          class="fa-solid fa-star"
-                        ></i>
-                      </router-link>
-                      <div
-                        v-else
-                        class="d-flex align-items-center gap-2"
-                      >
-                        <UserAvatarExtended
-                          :src="user.avatar"
-                          :width="32"
-                          :height="32"
-                          :online="user.status === 'online' ? true : false"
-                        />
-                        <span class="fw-medium">
-                          {{ user.name }}
-                        </span>
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    v-else
-                    class="lead d-flex justify-content-center py-3"
-                  >
-                    {{ $t('follow.no_followers_and_following') }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.close') }}
-              </button>
-            </div>
-          </div>
-        </div>
+        <v-progress-circular
+          indeterminate
+          :size="50"
+        ></v-progress-circular>
       </div>
 
-      <div
-        ref="removeChatModalChoice"
-        id="remove_chat_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+      <v-infinite-scroll
+        v-else-if="messageList.length > 0"
+        @load="getMoreMessageList"
+        mode="intersect"
+        side="start"
+        height="100%"
+        empty-text="&nbsp;"
       >
         <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
+          v-for="msg in reversedMessages"
+          class="my-5 mx-1"
         >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('messenger.you_want_remove_chat') }}</h5>
-              <p class="mb-0">{{ $t('messenger.chat_messages_will_lost') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="removeChat()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
+          <AuthorMessageItem
+            v-if="msg.author.uuid === userStore.uuid"
+            :msg="msg"
+          />
+          <MessageItem
+            v-else-if="msg.viewed || !chatSocketConnect"
+            :chatTypeData="chatData.chat_type"
+            :msg="msg"
+          />
+          <MessageItem
+            v-else
+            :chatTypeData="chatData.chat_type"
+            :msg="msg"
+            v-intersect="setMessageViewed"
+          />
         </div>
-      </div>
+      </v-infinite-scroll>
 
       <div
-        ref="leaveChatModalChoice"
-        id="leave_chat_modal_choice"
-        class="modal fade"
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
+        v-else
+        class="d-flex flex-column justify-center align-center h-100"
       >
-        <div
-          class="modal-dialog modal-dialog-centered"
-          role="document"
-        >
-          <div class="modal-content rounded-3 shadow">
-            <div class="modal-body p-4 text-center">
-              <h5 class="mb-0">{{ $t('messenger.you_want_leave_chat') }}</h5>
-              <p class="mb-0">{{ $t('messenger.you_will_lose_access_chat_messages') }}</p>
-            </div>
-            <div class="modal-footer flex-nowrap p-0">
-              <button
-                @click="leaveChat()"
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-                data-bs-dismiss="modal"
-              >
-                <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
-              </button>
-              <button
-                type="button"
-                class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('btn.no_cancel') }}
-              </button>
-            </div>
-          </div>
-        </div>
+        <v-icon
+          icon="mdi-message-outline"
+          :size="150"
+          color="secondary"
+        ></v-icon>
+        <p class="text-h5 mt-3">{{ $t('messenger.no_messages') }}</p>
       </div>
-    </Teleport>
+    </v-sheet>
+
+    <v-progress-linear
+      v-if="messageSending"
+      indeterminate
+    ></v-progress-linear>
+    <div class="d-flex justify-center align-center ga-1 border-t-sm pt-1">
+      <FileInputButton
+        @selectedFiles="sendImageMessage"
+        accept="image/*"
+        multiple
+        variant="text"
+        icon="mdi-file-image-outline"
+      ></FileInputButton>
+      <FileInputButton
+        @selectedFiles="sendFileMessage"
+        multiple
+        variant="text"
+        icon="mdi-file-outline"
+      ></FileInputButton>
+      <v-textarea
+        ref="msgTextarea"
+        v-model="textContent"
+        :readonly="messageSending"
+        auto-grow
+        :rows="1"
+        :max-rows="10"
+        variant="solo-filled"
+        flat
+        :placeholder="$t('messenger.type_message')"
+        :append-inner-icon="textContent ? 'mdi-send' : ''"
+        @click:append-inner="sendTextMessage()"
+        @keyup.ctrl.enter="sendTextMessage()"
+        :hide-details="!errors?.content"
+        :error-messages="errors?.content ? errors.content : []"
+      ></v-textarea>
+    </div>
   </div>
+
+  <v-dialog
+    v-model="groupDetailDialog"
+    :width="500"
+  >
+    <v-card
+      rounded="lg"
+      :title="$t('messenger.group_chat_details')"
+    >
+      <div
+        v-if="groupChatDataLoading"
+        class="d-flex justify-center align-center my-10"
+      >
+        <v-progress-circular
+          indeterminate
+          :size="50"
+        ></v-progress-circular>
+      </div>
+
+      <div
+        v-else
+        class="mt-3 mx-3"
+      >
+        <div class="d-flex align-center ga-3">
+          <v-avatar
+            :image="
+              groupChatData.group_details.image
+                ? groupChatData.group_details.image
+                : '/group-avatar.jpg'
+            "
+            :size="64"
+          ></v-avatar>
+          <div class="d-inline-block">
+            <h6 class="text-h6">{{ groupChatData.group_details.name }}</h6>
+            <span class="text-secondary">
+              {{ $t('messenger.member_count', {n: groupChatData.members.length}) }}
+            </span>
+          </div>
+        </div>
+
+        <p class="text-subtitle-1 mt-3">{{ $t('messenger.members') }}:</p>
+        <v-list v-if="groupChatData.members.length > 0">
+          <v-list-item
+            v-for="user in groupChatData.members"
+            :key="user.uuid"
+          >
+            <template v-slot:prepend>
+              <router-link
+                v-if="user.profile_url"
+                :to="{
+                  name: 'OrganizerDetail',
+                  params: { profile_url: user.profile_url }
+                }"
+                class="me-3"
+              >
+                <v-avatar
+                  :image="user.avatar ? user.avatar : '/user-avatar.png'"
+                  :size="48"
+                ></v-avatar>
+              </router-link>
+              <div
+                v-else
+                class="me-3"
+              >
+                <v-avatar
+                  :image="user.avatar ? user.avatar : '/user-avatar.png'"
+                  :size="48"
+                ></v-avatar>
+              </div>
+            </template>
+
+            <v-list-item-title>
+              <router-link
+                v-if="user.profile_url"
+                :to="{
+                  name: 'OrganizerDetail',
+                  params: { profile_url: user.profile_url }
+                }"
+                class="text-decoration-none text-black"
+              >
+                <span class="text-subtitle-1 font-weight-medium">
+                  {{ user.name }}
+                </span>
+              </router-link>
+              <span
+                v-else
+                class="text-subtitle-1 font-weight-medium"
+              >
+                {{ user.name }}
+              </span>
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <span
+                v-if="user.status === 'online'"
+                class="d-flex align-center"
+              >
+                <v-icon
+                  icon="mdi-circle"
+                  :size="16"
+                  color="green-darken-3"
+                  class="me-1"
+                ></v-icon>
+                {{ $t('user.online') }}
+              </span>
+              <span
+                v-else
+                class="d-flex align-center"
+              >
+                <v-icon
+                  icon="mdi-circle"
+                  :size="16"
+                  class="me-1"
+                ></v-icon>
+                {{ $t('user.last_visit') }}
+                {{ getLocaleDateTimeString(user.status) }}
+              </span>
+            </v-list-item-subtitle>
+
+            <template
+              v-if="user.uuid === groupChatData.group_details.owner"
+              v-slot:append
+            >
+              <v-icon
+                icon="mdi-star"
+                color="orange-darken-1"
+              ></v-icon>
+            </template>
+          </v-list-item>
+        </v-list>
+
+        <v-alert
+          v-else
+          type="info"
+          variant="tonal"
+          class="my-1"
+        >
+          {{ $t('messenger.member_list_empty') }}
+        </v-alert>
+      </div>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="groupDetailDialog = false">
+          {{ $t('btn.close') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog
+    :model-value="removeChatDialog"
+    width="auto"
+    persistent
+  >
+    <v-card rounded="lg">
+      <v-card-title>
+        {{ $t('messenger.you_want_remove_chat') }}
+      </v-card-title>
+      <v-card-text>
+        {{ $t('messenger.chat_messages_will_lost') }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="removeChatDialog = false">
+          {{ $t('btn.no_cancel') }}
+        </v-btn>
+        <v-btn
+          @click="removeChat()"
+          :loading="chatDataProcessing"
+        >
+          <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog
+    :model-value="leaveChatDialog"
+    width="auto"
+    persistent
+  >
+    <v-card rounded="lg">
+      <v-card-title>
+        {{ $t('messenger.you_want_leave_chat') }}
+      </v-card-title>
+      <v-card-text>
+        {{ $t('messenger.you_will_lose_access_chat_messages') }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="leaveChatDialog = false">
+          {{ $t('btn.no_cancel') }}
+        </v-btn>
+        <v-btn
+          @click="leaveChat()"
+          :loading="chatDataProcessing"
+        >
+          <strong>{{ $t('btn.yes_i_am_sure') }}</strong>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>
-.card-body.overflow-y-auto {
-  height: 65vh;
-}
-.border.rounded.overflow-y-auto {
-  max-height: 50vh;
-}
-.card-body.overflow-y-auto::-webkit-scrollbar,
-.border.rounded.overflow-y-auto::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0.3em;
-}
-textarea {
-  resize: none;
-}
-textarea::-webkit-scrollbar {
-  width: 0.2em;
-}
-.card-body.overflow-y-auto::-webkit-scrollbar-track,
-.border.rounded.overflow-y-auto::-webkit-scrollbar-track,
-textarea::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-}
-.card-body.overflow-y-auto::-webkit-scrollbar-thumb,
-.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb,
-textarea::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 1em;
-}
-.card-body.overflow-y-auto::-webkit-scrollbar-thumb:hover,
-.border.rounded.overflow-y-auto::-webkit-scrollbar-thumb:hover,
-textarea::-webkit-scrollbar-thumb:hover {
-  background-color: #e72a26;
-}
-
-.d-flex.align-items-center.border.rounded.w-100:hover,
-.d-flex.align-items-center.border.rounded.w-100:focus-within {
-  border-color: #e72a26 !important;
 }
 </style>
