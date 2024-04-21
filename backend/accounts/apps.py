@@ -6,3 +6,8 @@ class AccountsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'accounts'
     verbose_name = _('Accounts')
+
+    def ready(self):
+        from .models import ConnectionHistory
+
+        ConnectionHistory.objects.update(online=False)
