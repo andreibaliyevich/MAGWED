@@ -18,7 +18,6 @@ const tagData = ref({
 const errorStatus = ref(null)
 
 const getTagData = async () => {
-  tagLoading.value = true
   try {
     const response = await axios.get(
       '/main/tags/'
@@ -83,19 +82,19 @@ onMounted(() => {
           {{ $t('blog.articles') }}
         </v-btn>
       </div>
-    </div>
 
-    <PhotoList
-      v-if="$route.query.tab == 'photos'"
-      :tagUUID="$route.params.uuid"
-    />
-    <AlbumList
-      v-else-if="$route.query.tab == 'albums'"
-      :tagUUID="$route.params.uuid"
-    />
-    <ArticleList
-      v-else-if="$route.query.tab == 'articles'"
-      :tagUUID="$route.params.uuid"
-    />
+      <PhotoList
+        v-if="$route.query.tab == 'photos'"
+        :tagUUID="$route.params.uuid"
+      />
+      <AlbumList
+        v-else-if="$route.query.tab == 'albums'"
+        :tagUUID="$route.params.uuid"
+      />
+      <ArticleList
+        v-else-if="$route.query.tab == 'articles'"
+        :tagUUID="$route.params.uuid"
+      />
+    </div>
   </v-container>
 </template>

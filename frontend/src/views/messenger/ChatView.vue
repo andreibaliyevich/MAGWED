@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
 import { WS_URL, chatType, messageType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
@@ -57,6 +57,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
 const errors = ref(null)
 const errorStatus = ref(null)
 
+const messageListArea = ref(null)
 const msgTextarea = ref(null)
 
 const chatMenu = ref(false)
@@ -117,6 +118,12 @@ const openChatSocket = async () => {
     const data = JSON.parse(event.data)
     if (data.action === 'new_msg') {
       messageList.value.unshift(data.data)
+      nextTick(() => {
+        messageListArea.value.$el.scrollTo({
+          top: messageListArea.value.$el.scrollHeight,
+          behavior: 'smooth'
+        })
+      })
     } else if (data.action === 'viewed') {
       const foundIndex = messageList.value.findIndex((element) => {
         return element.uuid === data.data.msg_uuid
@@ -520,6 +527,7 @@ onUnmounted(() => {
       </div>
 
       <v-infinite-scroll
+        ref="messageListArea"
         v-else-if="messageList.length > 0"
         @load="getMoreMessageList"
         mode="intersect"

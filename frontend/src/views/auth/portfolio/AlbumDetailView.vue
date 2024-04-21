@@ -169,19 +169,19 @@ onMounted(() => {
         rounded="t-lg"
       ></v-img>
 
-      <small
+      <p
         v-if="status === 200"
-        class="text-success"
+        class="text-caption text-success"
       >
         {{ $t('portfolio.image_updated_successfully') }}
-      </small>
+      </p>
       <div
         v-if="errors?.image"
-        class="text-danger"
+        class="text-caption text-danger"
       >
-        <small v-for="error in errors.image">
+        <p v-for="error in errors.image">
           {{ error }}
-        </small>
+        </p>
       </div>
 
       <FileInputButton

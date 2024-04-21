@@ -16,17 +16,6 @@ const imgIndex = computed(() => {
     return element.uuid === imgUuid.value
   })
 })
-
-const getName = (path) => {
-  return path.split('/').at(-1)
-}
-
-const getSize = (value) => {
-  if (value === 0) return '0 Bytes'
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-  const i = Math.floor(Math.log(value) / Math.log(1024))
-  return parseFloat((value / Math.pow(1024, i)).toFixed(1)) + ' ' + sizes[i]
-}
 </script>
 
 <template>

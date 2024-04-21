@@ -187,7 +187,10 @@ onMounted(() => {
           ref="coverImg"
           src="/loading.gif"
           alt="loading"
-          class="mw-100 max-vh-75"
+          style="
+            max-width: 100%;
+            max-height: 75vh;
+          "
         >
       </div>
       <v-card-actions>
