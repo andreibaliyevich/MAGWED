@@ -311,7 +311,9 @@ TINYMCE_DEFAULT_CONFIG = {
     'automatic_upload': True,
     'paste_data_images': False,
     'images_upload_credentials': False,
+    'convert_urls': False,
     'relative_urls': False,
+    'remove_script_host': False,
     'force_p_newlines': False,
     'force_br_newlines': True,
     'forced_root_block': 'div',
@@ -338,7 +340,7 @@ TINYMCE_CALLBACKS = {
         xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
         xhr.open('POST', '/en/blog/upload/image/');
-        xhr.setRequestHeader("X-CSRFToken",csrftoken)
+        xhr.setRequestHeader("X-CSRFToken",csrftoken);
 
         xhr.onload = function() {
             var json;
