@@ -17,6 +17,18 @@ class NotificationListView(generics.ListAPIView):
         return Notification.objects.filter(recipient=self.request.user)
 
 
+class NotViewedCountView(APIView):
+    """ Not Viewed Count View """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        not_viewed_count = Notification.objects.filter(
+            recipient=request.user,
+            viewed=False,
+        ).count()
+        return Response(not_viewed_count, status=status.HTTP_200_OK)
+
+
 class NotificationListDestroyView(APIView):
     """ Notification List Destroy View """
     permission_classes = [IsAuthenticated]

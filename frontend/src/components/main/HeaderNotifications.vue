@@ -1,12 +1,13 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { WS_URL } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 import HeaderNotice from './HeaderNotice.vue'
 
 const userStore = useUserStore()
 
+const notificationLoading = ref(false)
 const notificationList = ref([])
 const nextURL = ref(null)
 const notViewedCount = ref(0)
@@ -14,18 +15,18 @@ const notViewedCount = ref(0)
 const notificationSocket = ref(null)
 const notificationSocketConnect = ref(null)
 
+const notificationMenu = ref(false)
+
 const getNotificationList = async () => {
+  notificationLoading.value = true
   try {
     const response = await axios.get('/notifications/')
     notificationList.value = response.data.results
-    notificationList.value.forEach(element => {
-      if (!element.viewed) {
-        notViewedCount.value += 1
-      }
-    })
     nextURL.value = response.data.next
   } catch (error) {
     console.error(error)
+  } finally {
+    notificationLoading.value = false
   }
 }
 
@@ -34,11 +35,6 @@ const getMoreNotificationList = async ({ done }) => {
     try {
       const response = await axios.get(nextURL.value)
       notificationList.value = [...notificationList.value, ...response.data.results]
-      response.data.results.forEach(element => {
-        if (!element.viewed) {
-          notViewedCount.value += 1
-        }
-      })
       nextURL.value = response.data.next
       done('ok')
     } catch (error) {
@@ -50,15 +46,31 @@ const getMoreNotificationList = async ({ done }) => {
   }
 }
 
+const getNotViewedCount = async () => {
+  notificationLoading.value = true
+  try {
+    const response = await axios.get('/notifications/not-viewed-count/')
+    notViewedCount.value = response.data
+  } catch (error) {
+    console.error(error)
+  } finally {
+    notificationLoading.value = false
+  }
+}
+
 const removeAllNotifications = async () => {
+  notificationLoading.value = true
   try {
     const response = await axios.delete('/notifications/list-destroy/')
     if (response.status === 204) {
       notificationList.value = []
       nextURL.value = null
+      notViewedCount.value = 0
     }
   } catch (error) {
     console.error(error)
+  } finally {
+    notificationLoading.value = false
   }
 }
 
@@ -123,24 +135,45 @@ const setNoticeViewed = (isIntersecting, entries, observer) => {
   }
 }
 
+watch(notificationMenu, (newValue) => {
+  if (newValue) {
+    getNotificationList()
+  } else {
+    notificationList.value = []
+    nextURL.value = null
+  }
+})
+
 onMounted(() => {
-  getNotificationList()
+  getNotViewedCount()
   connectSocket()
 })
 </script>
 
 <template>
-  <v-menu location="start">
+  <v-menu
+    v-model="notificationMenu"
+    location="start"
+  >
     <template v-slot:activator="{ props }">
       <v-btn
         v-bind="props"
-        :icon="
-          notViewedCount > 0
-            ? 'mdi-bell-badge-outline'
-            : 'mdi-bell-outline'
-        "
-      ></v-btn>
+        icon
+      >
+        <v-badge
+          v-if="notViewedCount"
+          :content="notViewedCount < 10 ? notViewedCount : '9+'"
+          color="red-accent-4"
+        >
+          <v-icon icon="mdi-bell-outline"></v-icon>
+        </v-badge>
+        <v-icon
+          v-else
+          icon="mdi-bell-outline"
+        ></v-icon>
+      </v-btn>
     </template>
+
     <v-sheet
       :width="350"
       rounded="lg"
@@ -158,9 +191,21 @@ onMounted(() => {
           {{ $t('notifications.clear_all') }}
         </v-btn>
       </div>
+
       <v-divider class="my-1"></v-divider>
+
+      <div
+        v-if="notificationLoading"
+        class="d-flex justify-center align-center my-15"
+      >
+        <v-progress-circular
+          indeterminate
+          :size="50"
+        ></v-progress-circular>
+      </div>
+
       <v-infinite-scroll
-        v-if="notificationList.length > 0"
+        v-else-if="notificationList.length > 0"
         @load="getMoreNotificationList"
         mode="intersect"
         :max-height="550"
@@ -177,11 +222,15 @@ onMounted(() => {
           <HeaderNotice
             v-else
             :notice="notice"
-            v-intersect="setNoticeViewed"
+            v-intersect="{
+              handler: setNoticeViewed,
+              options: { threshold: 1.0 }
+            }"
           />
           <v-divider class="my-1"></v-divider>
         </template>
       </v-infinite-scroll>
+
       <div
         v-else
         class="text-center my-5"
