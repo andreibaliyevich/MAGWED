@@ -552,7 +552,10 @@ onUnmounted(() => {
             v-else
             :chatTypeData="chatData.chat_type"
             :msg="msg"
-            v-intersect="setMessageViewed"
+            v-intersect="{
+              handler: setMessageViewed,
+              options: { threshold: 1.0 }
+            }"
           />
         </div>
       </v-infinite-scroll>
