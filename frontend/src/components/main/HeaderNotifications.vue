@@ -159,6 +159,7 @@ onMounted(() => {
       <v-btn
         v-bind="props"
         icon
+        style="letter-spacing: normal;"
       >
         <v-badge
           v-if="notViewedCount"
