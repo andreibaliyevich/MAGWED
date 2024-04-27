@@ -145,6 +145,7 @@ watch(
   () => route.params.uuid,
   (newValue) => {
     if (route.name === 'PhotoDetail') {
+      errorStatus.value = null
       getPhotoData()
     }
   }

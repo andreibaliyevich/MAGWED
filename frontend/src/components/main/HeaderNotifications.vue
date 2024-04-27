@@ -111,7 +111,7 @@ const connectSocket = async () => {
       const foundIndex = notificationList.value.findIndex((element) => {
         return element.uuid === data.data.uuid
       })
-      if (foundIndex !== -1) {
+      if (foundIndex !== -1 && !notificationList.value[foundIndex].viewed) {
         notificationList.value[foundIndex].viewed = data.data.viewed
         notViewedCount.value -= 1
       }
