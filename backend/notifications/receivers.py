@@ -214,8 +214,6 @@ def album_saved(sender, instance, created, **kwargs):
 def album_deleting(sender, instance, **kwargs):
     """ Delete and send album notification """
     notices = Notification.objects.filter(
-        initiator=instance.author,
-        reason=ReasonOfNotification.ALBUM,
         content_type=ContentType.objects.get_for_model(Album),
         object_uuid=instance.uuid,
     )
@@ -293,8 +291,6 @@ def photo_deleting(sender, instance, **kwargs):
     """ Delete and send photo notification """
     if instance.album is None:
         notices = Notification.objects.filter(
-            initiator=instance.author,
-            reason=ReasonOfNotification.PHOTO,
             content_type=ContentType.objects.get_for_model(Photo),
             object_uuid=instance.uuid,
         )
