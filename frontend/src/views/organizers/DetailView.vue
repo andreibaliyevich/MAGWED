@@ -133,6 +133,7 @@ watch(
   () => route.params.profile_url,
   (newValue) => {
     if (route.name === 'OrganizerDetail') {
+      errorStatus.value = null
       getOrganizerData()
     }
   }

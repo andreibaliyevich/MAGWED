@@ -100,6 +100,7 @@ watch(
   () => route.params.slug,
   (newValue) => {
     if (route.name === 'ArticleDetail') {
+      errorStatus.value = null
       getArticleData()
     }
   }

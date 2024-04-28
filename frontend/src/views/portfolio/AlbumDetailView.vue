@@ -139,6 +139,7 @@ watch(
   () => route.params.uuid,
   (newValue) => {
     if (route.name === 'AlbumDetail') {
+      errorStatus.value = null
       getAlbumData()
     }
   }
