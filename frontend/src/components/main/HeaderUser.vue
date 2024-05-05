@@ -8,7 +8,7 @@ const { logout } = useLogout()
 </script>
 
 <template>
-  <v-menu location="start">
+  <v-menu location="bottom end">
     <template v-slot:activator="{ props }">
       <v-btn
         v-bind="props"

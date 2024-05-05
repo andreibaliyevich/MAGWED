@@ -153,7 +153,7 @@ onMounted(() => {
 <template>
   <v-menu
     v-model="notificationMenu"
-    location="start"
+    location="bottom end"
   >
     <template v-slot:activator="{ props }">
       <v-btn
