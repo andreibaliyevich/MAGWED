@@ -8,6 +8,10 @@ class AccountsConfig(AppConfig):
     verbose_name = _('Accounts')
 
     def ready(self):
+        from django.db import connection
         from .models import ConnectionHistory
 
-        ConnectionHistory.objects.update(online=False)
+        table_names = connection.introspection.table_names()
+
+        if 'accounts_connectionhistory' in table_names:
+            ConnectionHistory.objects.update(online=False)
