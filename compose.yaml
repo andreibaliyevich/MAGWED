@@ -9,6 +9,8 @@ services:
       - ./postgres/data/:/var/lib/postgresql/data/
     env_file:
       - ./postgres/.env
+    expose:
+      - 5432
   redis:
     container_name: magwed-redis
     restart: always
@@ -23,10 +25,10 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend/:/usr/src/app/
-    ports:
-      - 8000:8000
     env_file:
       - ./backend/.env
+    ports:
+      - 8000:8000
     depends_on:
       - postgres
       - redis
@@ -39,9 +41,9 @@ services:
     volumes:
       - ./frontend/:/usr/src/app/
       - /usr/src/app/node_modules/
-    ports:
-      - 3000:3000
     env_file:
       - ./frontend/.env
+    ports:
+      - 3000:3000
     depends_on:
       - backend
