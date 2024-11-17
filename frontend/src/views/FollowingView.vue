@@ -7,7 +7,6 @@ import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 
 const { t } = useI18n({ useScope: 'global' })
-
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
