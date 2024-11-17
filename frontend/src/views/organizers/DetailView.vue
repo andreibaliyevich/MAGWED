@@ -59,8 +59,8 @@ const organizerWebsiteShort = computed(() => {
 })
 
 useSeoMeta({
-  title: () => `${organizerData.value.user.name} | MAGWED`,
-  ogTitle: () => `${organizerData.value.user.name} | MAGWED`,
+  title: () => organizerData.value.user.name,
+  ogTitle: () => organizerData.value.user.name,
   description: () => organizerData.value.description,
   ogDescription: () => organizerData.value.description
 })

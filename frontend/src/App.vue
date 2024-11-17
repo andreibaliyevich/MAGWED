@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { ref, onMounted } from 'vue'
 import { WS_URL } from '@/config.js'
 import { useCurrencyStore } from '@/stores/currency.js'
@@ -7,6 +8,12 @@ import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import Header from '@/components/main/Header.vue'
 import Footer from '@/components/main/Footer.vue'
+
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} | MAGWED` : 'MAGWED';
+  }
+})
 
 const currencyStore = useCurrencyStore()
 const userStore = useUserStore()

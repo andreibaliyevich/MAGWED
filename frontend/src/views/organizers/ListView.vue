@@ -42,8 +42,8 @@ const costWorkMaxBorder = computed(() => {
 })
 
 useSeoMeta({
-  title: () => `${t('seo_meta.organizer_list.title')} | MAGWED`,
-  ogTitle: () => `${t('seo_meta.organizer_list.title')} | MAGWED`,
+  title: () => t('seo_meta.organizer_list.title'),
+  ogTitle: () => t('seo_meta.organizer_list.title'),
   description: () => t('seo_meta.organizer_list.description'),
   ogDescription: () => t('seo_meta.organizer_list.description'),
   keywords: () => t('seo_meta.organizer_list.keywords'),

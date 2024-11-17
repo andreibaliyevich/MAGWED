@@ -39,8 +39,8 @@ const upViewCountTimeout = ref(null)
 const errorStatus = ref(null)
 
 useSeoMeta({
-  title: () => `${articleData.value.translated_title} | MAGWED`,
-  ogTitle: () => `${articleData.value.translated_title} | MAGWED`,
+  title: () => articleData.value.translated_title,
+  ogTitle: () => articleData.value.translated_title,
   description: () => articleData.value.translated_description,
   ogDescription: () => articleData.value.translated_description
 })
