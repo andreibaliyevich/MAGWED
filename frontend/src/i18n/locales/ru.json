@@ -1,4 +1,26 @@
 {
+    "seo_meta": {
+        "article_list": {
+            "title": "Статьи Блог",
+            "description": "Статьи Блог",
+            "keywords": "Статьи, Блог"
+        },
+        "organizer_list": {
+            "title": "Организаторы",
+            "description": "Организаторы",
+            "keywords": "Организаторы"
+        },
+        "album_list": {
+            "title": "Альбомы",
+            "description": "Альбомы",
+            "keywords": "Альбомы"
+        },
+        "photo_list": {
+            "title": "Фотографии",
+            "description": "Фотографии",
+            "keywords": "Фотографии"
+        }
+    },
     "countries": {
         "BY": "Беларусь",
         "RU": "Россия",
@@ -437,17 +459,5 @@
     "errors": {
         "page_not_found": "Страница не найдена (404)",
         "chat_not_found": "Чат не найден (404)"
-    },
-    "seo_meta": {
-        "article_list": {
-            "title": "Статьи Блог",
-            "description": "Статьи Блог",
-            "keywords": "Статьи, Блог"
-        },
-        "organizer_list": {
-            "title": "Организаторы",
-            "description": "Организаторы",
-            "keywords": "Организаторы"
-        }
     }
 }

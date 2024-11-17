@@ -1,13 +1,25 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, watch, onMounted } from 'vue'
 
 const route = useRoute()
+const { t } = useI18n({ useScope: 'global' })
 
 const photoListLoading = ref(true)
 const photoList = ref([])
 const nextURL = ref(null)
+
+useSeoMeta({
+  title: () => t('seo_meta.photo_list.title'),
+  ogTitle: () => t('seo_meta.photo_list.title'),
+  description: () => t('seo_meta.photo_list.description'),
+  ogDescription: () => t('seo_meta.photo_list.description'),
+  keywords: () => t('seo_meta.photo_list.keywords'),
+  ogKeywords: () => t('seo_meta.photo_list.keywords')
+})
 
 const getPhotoList = async () => {
   photoListLoading.value = true

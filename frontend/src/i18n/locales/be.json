@@ -1,4 +1,26 @@
 {
+    "seo_meta": {
+        "article_list": {
+            "title": "Артыкулы Блог",
+            "description": "Артыкулы Блог",
+            "keywords": "Артыкулы, Блог"
+        },
+        "organizer_list": {
+            "title": "Арганізатары",
+            "description": "Арганізатары",
+            "keywords": "Арганізатары"
+        },
+        "album_list": {
+            "title": "Альбомы",
+            "description": "Альбомы",
+            "keywords": "Альбомы"
+        },
+        "photo_list": {
+            "title": "Фатаграфіі",
+            "description": "Фатаграфіі",
+            "keywords": "Фатаграфіі"
+        }
+    },
     "countries": {
         "BY": "Беларусь",
         "RU": "Расія",
@@ -437,17 +459,5 @@
     "errors": {
         "page_not_found": "Старонка не знойдзена (404)",
         "chat_not_found": "Чат не знойдзены (404)"
-    },
-    "seo_meta": {
-        "article_list": {
-            "title": "Артыкулы Блог",
-            "description": "Артыкулы Блог",
-            "keywords": "Артыкулы, Блог"
-        },
-        "organizer_list": {
-            "title": "Арганізатары",
-            "description": "Арганізатары",
-            "keywords": "Арганізатары"
-        }
     }
 }

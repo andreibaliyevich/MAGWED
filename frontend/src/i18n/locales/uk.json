@@ -1,4 +1,26 @@
 {
+    "seo_meta": {
+        "article_list": {
+            "title": "Статті Блог",
+            "description": "Статті Блог",
+            "keywords": "Статті, Блог"
+        },
+        "organizer_list": {
+            "title": "Організатори",
+            "description": "Організатори",
+            "keywords": "Організатори"
+        },
+        "album_list": {
+            "title": "Альбоми",
+            "description": "Альбоми",
+            "keywords": "Альбоми"
+        },
+        "photo_list": {
+            "title": "Фотографії",
+            "description": "Фотографії",
+            "keywords": "Фотографії"
+        }
+    },
     "countries": {
         "BY": "Білорусь",
         "RU": "Росія",
@@ -437,17 +459,5 @@
     "errors": {
         "page_not_found": "Сторінку не знайдено (404)",
         "chat_not_found": "Чат не знайдено (404)"
-    },
-    "seo_meta": {
-        "article_list": {
-            "title": "Статті Блог",
-            "description": "Статті Блог",
-            "keywords": "Статті, Блог"
-        },
-        "organizer_list": {
-            "title": "Організатори",
-            "description": "Організатори",
-            "keywords": "Організатори"
-        }
     }
 }

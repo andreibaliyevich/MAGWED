@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
@@ -11,6 +13,7 @@ import CommentList from '@/components/comments/CommentList.vue'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 
 const photoLoading = ref(true)
@@ -44,6 +47,29 @@ const { getLocaleDateString } = useLocaleDateTime()
 
 const upViewCountTimeout = ref(null)
 const errorStatus = ref(null)
+
+useSeoMeta({
+  title: () => {
+    return photoData.value.title
+      ? photoData.value.title
+      : t('seo_meta.photo_list.title')
+  },
+  ogTitle: () => {
+    return photoData.value.title
+      ? photoData.value.title
+      : t('seo_meta.photo_list.title')
+  },
+  description: () => {
+    return photoData.value.description
+      ? photoData.value.description
+      : t('seo_meta.photo_list.description')
+  },
+  ogDescription: () => {
+    return photoData.value.description
+      ? photoData.value.description
+      : t('seo_meta.photo_list.description')
+  }
+})
 
 const upPhotoViewCount = async () => {
   try {

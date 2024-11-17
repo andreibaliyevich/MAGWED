@@ -1,13 +1,25 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, watch, onMounted } from 'vue'
 
 const route = useRoute()
+const { t } = useI18n({ useScope: 'global' })
 
 const albumListLoading = ref(true)
 const albumList = ref([])
 const nextURL = ref(null)
+
+useSeoMeta({
+  title: () => t('seo_meta.album_list.title'),
+  ogTitle: () => t('seo_meta.album_list.title'),
+  description: () => t('seo_meta.album_list.description'),
+  ogDescription: () => t('seo_meta.album_list.description'),
+  keywords: () => t('seo_meta.album_list.keywords'),
+  ogKeywords: () => t('seo_meta.album_list.keywords')
+})
 
 const getAlbumList = async () => {
   albumListLoading.value = true
