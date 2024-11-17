@@ -38,6 +38,13 @@ const { getLocaleDateString } = useLocaleDateTime()
 const upViewCountTimeout = ref(null)
 const errorStatus = ref(null)
 
+useSeoMeta({
+  title: () => `${articleData.value.translated_title} | MAGWED`,
+  ogTitle: () => `${articleData.value.translated_title} | MAGWED`,
+  description: () => articleData.value.translated_description,
+  ogDescription: () => articleData.value.translated_description
+})
+
 const upArticleViewCount = async () => {
   try {
     const response = await axios.post(
@@ -61,13 +68,6 @@ const getArticleData = async () => {
     )
     articleData.value = response.data
     upViewCountTimeout.value = setTimeout(upArticleViewCount, 3000)
-
-    useSeoMeta({
-      title: `${articleData.value.translated_title} | MAGWED`,
-      ogTitle: `${articleData.value.translated_title} | MAGWED`,
-      description: articleData.value.translated_description,
-      ogDescription: articleData.value.translated_description
-    })
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {

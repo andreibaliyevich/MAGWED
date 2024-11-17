@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { ref, computed, watch } from 'vue'
 
 export function useOptionsOfCitiesExtra(countries) {
-  const { t, locale } = useI18n({ useScope: 'global' })
+  const { t } = useI18n({ useScope: 'global' })
   const cityValuesExtra = ref([])
 
   const cityOptionsExtra = computed(() => {

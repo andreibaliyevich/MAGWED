@@ -15,17 +15,14 @@ const nextURL = ref(null)
 
 const { getLocaleDateString } = useLocaleDateTime()
 
-const setSeoMeta = () => {
-  useSeoMeta({
-    title: `${t('seo_meta.article_list.title')} | MAGWED`,
-    ogTitle: `${t('seo_meta.article_list.title')} | MAGWED`,
-    description: t('seo_meta.article_list.description'),
-    ogDescription: t('seo_meta.article_list.description'),
-    keywords: t('seo_meta.article_list.keywords'),
-    ogKeywords: t('seo_meta.article_list.keywords')
-  })
-}
-setSeoMeta()
+useSeoMeta({
+  title: () => `${t('seo_meta.article_list.title')} | MAGWED`,
+  ogTitle: () => `${t('seo_meta.article_list.title')} | MAGWED`,
+  description: () => t('seo_meta.article_list.description'),
+  ogDescription: () => t('seo_meta.article_list.description'),
+  keywords: () => t('seo_meta.article_list.keywords'),
+  ogKeywords: () => t('seo_meta.article_list.keywords')
+})
 
 const getArticleList = async () => {
   articleListLoading.value = true
@@ -72,7 +69,6 @@ const getMoreArticleList = async ({ done }) => {
 }
 
 watch(locale, () => {
-  setSeoMeta()
   getArticleList()
 })
 
