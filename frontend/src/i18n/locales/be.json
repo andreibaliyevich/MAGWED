@@ -443,6 +443,11 @@
             "title": "Артыкулы Блог",
             "description": "Артыкулы Блог",
             "keywords": "Артыкулы, Блог"
+        },
+        "organizer_list": {
+            "title": "Арганізатары",
+            "description": "Арганізатары",
+            "keywords": "Арганізатары"
         }
     }
 }

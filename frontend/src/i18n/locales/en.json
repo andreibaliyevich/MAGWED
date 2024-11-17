@@ -443,6 +443,11 @@
             "title": "Articles Blog",
             "description": "Articles Blog",
             "keywords": "Articles, Blog"
+        },
+        "organizer_list": {
+            "title": "Organizers",
+            "description": "Organizers",
+            "keywords": "Organizers"
         }
     }
 }

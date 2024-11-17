@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useCurrencyStore } from '@/stores/currency.js'
@@ -10,6 +12,7 @@ import { useOptionsOfCitiesExtra } from '@/composables/optionsOfCitiesExtra.js'
 import { useOptionsOfLanguages } from '@/composables/optionsOfLanguages.js'
 
 const route = useRoute()
+const { t } = useI18n({ useScope: 'global' })
 const currencyStore = useCurrencyStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -36,6 +39,15 @@ const costWorkMinBorder = computed(() => {
 })
 const costWorkMaxBorder = computed(() => {
   return Math.ceil(costWorkMax.value * currencyStore.conversionRate)
+})
+
+useSeoMeta({
+  title: () => `${t('seo_meta.organizer_list.title')} | MAGWED`,
+  ogTitle: () => `${t('seo_meta.organizer_list.title')} | MAGWED`,
+  description: () => t('seo_meta.organizer_list.description'),
+  ogDescription: () => t('seo_meta.organizer_list.description'),
+  keywords: () => t('seo_meta.organizer_list.keywords'),
+  ogKeywords: () => t('seo_meta.organizer_list.keywords')
 })
 
 const getOrganizerList = async () => {

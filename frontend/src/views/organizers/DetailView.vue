@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
 import { useRoute } from 'vue-router'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useCurrencyStore } from '@/stores/currency.js'
@@ -55,6 +56,13 @@ const errorStatus = ref(null)
 
 const organizerWebsiteShort = computed(() => {
   return organizerData.value.website.split('://')[1]
+})
+
+useSeoMeta({
+  title: () => `${organizerData.value.user.name} | MAGWED`,
+  ogTitle: () => `${organizerData.value.user.name} | MAGWED`,
+  description: () => organizerData.value.description,
+  ogDescription: () => organizerData.value.description
 })
 
 const getOrganizerData = async () => {
