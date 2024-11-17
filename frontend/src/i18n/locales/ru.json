@@ -1,5 +1,20 @@
 {
     "seo_meta": {
+        "home": {
+            "title": "Главная",
+            "description": "Главная",
+            "keywords": "Главная"
+        },
+        "about": {
+            "title": "О нас",
+            "description": "О нас",
+            "keywords": "О, нас"
+        },
+        "feedback": {
+            "title": "Обратная связь",
+            "description": "Обратная связь",
+            "keywords": "Обратная, связь"
+        },
         "article_list": {
             "title": "Статьи Блог",
             "description": "Статьи Блог",
@@ -19,6 +34,18 @@
             "title": "Фотографии",
             "description": "Фотографии",
             "keywords": "Фотографии"
+        },
+        "followers": {
+            "title": "Подписчики"
+        },
+        "following": {
+            "title": "Подписки"
+        },
+        "favorites": {
+            "title": "Избранное"
+        },
+        "not_found": {
+            "title": "Страница не найдена"
         }
     },
     "countries": {

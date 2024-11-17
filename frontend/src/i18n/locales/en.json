@@ -1,5 +1,20 @@
 {
     "seo_meta": {
+        "home": {
+            "title": "Home",
+            "description": "Home",
+            "keywords": "Home"
+        },
+        "about": {
+            "title": "About",
+            "description": "About",
+            "keywords": "About"
+        },
+        "feedback": {
+            "title": "Feedback",
+            "description": "Feedback",
+            "keywords": "Feedback"
+        },
         "article_list": {
             "title": "Articles Blog",
             "description": "Articles Blog",
@@ -19,6 +34,18 @@
             "title": "Photos",
             "description": "Photos",
             "keywords": "Photos"
+        },
+        "followers": {
+            "title": "Followers"
+        },
+        "following": {
+            "title": "Following"
+        },
+        "favorites": {
+            "title": "Favorites"
+        },
+        "not_found": {
+            "title": "Page not found"
         }
     },
     "countries": {

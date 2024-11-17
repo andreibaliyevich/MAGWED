@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ref, watch, onMounted } from 'vue'
 
@@ -15,6 +16,15 @@ const subjectOptions = ref([])
 
 const status = ref(null)
 const errors = ref(null)
+
+useSeoMeta({
+  title: () => t('seo_meta.feedback.title'),
+  ogTitle: () => t('seo_meta.feedback.title'),
+  description: () => t('seo_meta.feedback.description'),
+  ogDescription: () => t('seo_meta.feedback.description'),
+  keywords: () => t('seo_meta.feedback.keywords'),
+  ogKeywords: () => t('seo_meta.feedback.keywords')
+})
 
 const setSubjectOptions = () => {
   subjectOptions.value = [

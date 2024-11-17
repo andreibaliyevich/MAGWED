@@ -129,7 +129,7 @@ onMounted(() => {
             <li>
               <router-link
                 :to="{
-                  name: 'Home',
+                  name: 'About',
                   params: { locale: $i18n.locale }
                 }"
                 class="d-block text-decoration-none text-white py-1"

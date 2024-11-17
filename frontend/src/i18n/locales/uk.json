@@ -1,5 +1,20 @@
 {
     "seo_meta": {
+        "home": {
+            "title": "Головна",
+            "description": "Головна",
+            "keywords": "Головна"
+        },
+        "about": {
+            "title": "Про нас",
+            "description": "Про нас",
+            "keywords": "Про, нас"
+        },
+        "feedback": {
+            "title": "Зворотній зв'язок",
+            "description": "Зворотній зв'язок",
+            "keywords": "Зворотній, зв'язок"
+        },
         "article_list": {
             "title": "Статті Блог",
             "description": "Статті Блог",
@@ -19,6 +34,18 @@
             "title": "Фотографії",
             "description": "Фотографії",
             "keywords": "Фотографії"
+        },
+        "followers": {
+            "title": "Підписувачі"
+        },
+        "following": {
+            "title": "Підписки"
+        },
+        "favorites": {
+            "title": "Вибране"
+        },
+        "not_found": {
+            "title": "Сторінку не знайдено"
         }
     },
     "countries": {

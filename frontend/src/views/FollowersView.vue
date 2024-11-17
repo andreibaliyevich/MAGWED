@@ -1,8 +1,12 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
@@ -11,6 +15,10 @@ const followersListLoading = ref(true)
 const followersList = ref([])
 const followersCount = ref(0)
 const nextURL = ref(null)
+
+useHead({
+  title: () => t('seo_meta.followers.title')
+})
 
 const getFollowersList = async () => {
   try {

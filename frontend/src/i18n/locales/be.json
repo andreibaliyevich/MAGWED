@@ -1,5 +1,20 @@
 {
     "seo_meta": {
+        "home": {
+            "title": "Галоўная",
+            "description": "Галоўная",
+            "keywords": "Галоўная"
+        },
+        "about": {
+            "title": "Пра нас",
+            "description": "Пра нас",
+            "keywords": "Пра, нас"
+        },
+        "feedback": {
+            "title": "Зваротная сувязь",
+            "description": "Зваротная сувязь",
+            "keywords": "Зваротная, сувязь"
+        },
         "article_list": {
             "title": "Артыкулы Блог",
             "description": "Артыкулы Блог",
@@ -19,6 +34,18 @@
             "title": "Фатаграфіі",
             "description": "Фатаграфіі",
             "keywords": "Фатаграфіі"
+        },
+        "followers": {
+            "title": "Падпісчыкі"
+        },
+        "following": {
+            "title": "Падпіскі"
+        },
+        "favorites": {
+            "title": "Выбранае"
+        },
+        "not_found": {
+            "title": "Старонка не знойдзена"
         }
     },
     "countries": {

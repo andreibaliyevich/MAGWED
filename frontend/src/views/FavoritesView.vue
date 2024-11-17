@@ -1,16 +1,21 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, watch, onMounted } from 'vue'
 
 const route = useRoute()
-const { locale } = useI18n({ useScope: 'global' })
+const { t, locale } = useI18n({ useScope: 'global' })
 
 const favoriteListLoading = ref(false)
 const favoriteList = ref([])
 const favoriteCount = ref(0)
 const nextURL = ref(null)
+
+useHead({
+  title: () => t('seo_meta.favorites.title')
+})
 
 const getFavoriteList = async () => {
   favoriteListLoading.value = true
