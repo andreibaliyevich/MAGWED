@@ -437,5 +437,12 @@
     "errors": {
         "page_not_found": "Страница не найдена (404)",
         "chat_not_found": "Чат не найден (404)"
+    },
+    "seo_meta": {
+        "article_list": {
+            "title": "Статьи Блог",
+            "description": "Статьи Блог",
+            "keywords": "Статьи, Блог"
+        }
     }
 }

@@ -65,6 +65,7 @@ class ArticleRetrieveSerializer(serializers.ModelSerializer):
             'categories',
             'translated_title',
             'image',
+            'translated_description',
             'translated_content',
             'tags',
             'published_at',

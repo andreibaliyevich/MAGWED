@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, watch, onMounted, onUnmounted } from 'vue'
@@ -24,6 +25,7 @@ const articleData = ref({
   categories: [],
   translated_title: '',
   image: null,
+  translated_description: '',
   translated_content: '',
   tags: [],
   published_at: null,
@@ -59,6 +61,13 @@ const getArticleData = async () => {
     )
     articleData.value = response.data
     upViewCountTimeout.value = setTimeout(upArticleViewCount, 3000)
+
+    useSeoMeta({
+      title: `${articleData.value.translated_title} | MAGWED`,
+      ogTitle: `${articleData.value.translated_title} | MAGWED`,
+      description: articleData.value.translated_description,
+      ogDescription: articleData.value.translated_description
+    })
   } catch (error) {
     errorStatus.value = error.response.status
   } finally {

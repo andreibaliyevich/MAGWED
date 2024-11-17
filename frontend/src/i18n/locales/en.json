@@ -437,5 +437,12 @@
     "errors": {
         "page_not_found": "Page Not Found (404)",
         "chat_not_found": "Chat Not Found (404)"
+    },
+    "seo_meta": {
+        "article_list": {
+            "title": "Articles Blog",
+            "description": "Articles Blog",
+            "keywords": "Articles, Blog"
+        }
     }
 }

@@ -1,18 +1,31 @@
 <script setup>
 import axios from 'axios'
+import { useSeoMeta } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, watch, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 const route = useRoute()
-const { locale } = useI18n({ useScope: 'global' })
+const { t, locale } = useI18n({ useScope: 'global' })
 
 const articleListLoading = ref(true)
 const articleList = ref([])
 const nextURL = ref(null)
 
 const { getLocaleDateString } = useLocaleDateTime()
+
+const setSeoMeta = () => {
+  useSeoMeta({
+    title: `${t('seo_meta.article_list.title')} | MAGWED`,
+    ogTitle: `${t('seo_meta.article_list.title')} | MAGWED`,
+    description: t('seo_meta.article_list.description'),
+    ogDescription: t('seo_meta.article_list.description'),
+    keywords: t('seo_meta.article_list.keywords'),
+    ogKeywords: t('seo_meta.article_list.keywords')
+  })
+}
+setSeoMeta()
 
 const getArticleList = async () => {
   articleListLoading.value = true
@@ -59,6 +72,7 @@ const getMoreArticleList = async ({ done }) => {
 }
 
 watch(locale, () => {
+  setSeoMeta()
   getArticleList()
 })
 
