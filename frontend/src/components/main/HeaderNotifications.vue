@@ -77,8 +77,8 @@ const removeAllNotifications = async () => {
 const connectSocket = async () => {
   notificationSocket.value = new WebSocket(
     WS_URL
-    + '/ws/notifications/?'
-    + userStore.token
+      + '/ws/notifications/?'
+      + userStore.token
   )
   notificationSocket.value.onopen = (event) => {
     notificationSocketConnect.value = true
