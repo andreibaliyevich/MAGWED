@@ -1,5 +1,7 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { WS_URL, chatType } from '@/config.js'
@@ -9,6 +11,7 @@ import ChatList from '@/components/messenger/ChatList.vue'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 const connectionBusStore = useConnectionBusStore()
 
@@ -54,6 +57,10 @@ const chatCreationDisabled = computed(() => {
     return false
   }
   return true
+})
+
+useHead({
+  title: () => t('seo_meta.messenger.title')
 })
 
 const openChatListSocket = async () => {

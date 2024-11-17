@@ -35,6 +35,9 @@
             "description": "Фотографии",
             "keywords": "Фотографии"
         },
+        "messenger": {
+            "title": "Мессенджер"
+        },
         "followers": {
             "title": "Подписчики"
         },

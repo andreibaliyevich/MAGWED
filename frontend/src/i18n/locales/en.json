@@ -35,6 +35,9 @@
             "description": "Photos",
             "keywords": "Photos"
         },
+        "messenger": {
+            "title": "Messenger"
+        },
         "followers": {
             "title": "Followers"
         },
