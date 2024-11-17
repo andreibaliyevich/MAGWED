@@ -1,11 +1,12 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 
 const route = useRoute()
-const { locale } = useI18n({ useScope: 'global' })
+const { t, locale } = useI18n({ useScope: 'global' })
 
 const loadingStatus = ref(false)
 const username = ref('')
@@ -13,6 +14,10 @@ const password = ref('')
 const passwordShow = ref('')
 
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.login.title')
+})
 
 const login = async () => {
   loadingStatus.value = true

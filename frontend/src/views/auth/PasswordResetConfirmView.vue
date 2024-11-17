@@ -1,9 +1,12 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 
 const route = useRoute()
+const { t } = useI18n({ useScope: 'global' })
 
 const loadingStatus = ref(false)
 
@@ -15,6 +18,10 @@ const newPassword2Show = ref(false)
 
 const status = ref(null)
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.password_reset_confirm.title')
+})
 
 const confirmPasswordReset = async () => {
   loadingStatus.value = true

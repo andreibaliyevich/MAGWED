@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ref, watch, onMounted } from 'vue'
 
@@ -19,6 +20,10 @@ const socialLinkAddDialog = ref(null)
 const socialLinkUpdateDialog = ref(null)
 
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.social_links.title')
+})
 
 const setLinkTypeOptions = () => {
   linkTypeOptions.value = [

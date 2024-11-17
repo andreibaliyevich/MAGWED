@@ -1,4 +1,6 @@
 <script setup>
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { userType } from '@/config.js'
 import { useUserStore } from '@/stores/user.js'
 import ProfileAvatar from '@/components/auth/ProfileAvatar.vue'
@@ -7,7 +9,12 @@ import AdminProfileForm from '@/components/auth/AdminProfileForm.vue'
 import CustomerProfileForm from '@/components/auth/CustomerProfileForm.vue'
 import OrganizerProfileForm from '@/components/auth/OrganizerProfileForm.vue'
 
+const { t } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
+
+useHead({
+  title: () => t('seo_meta.profile.title')
+})
 </script>
 
 <template>

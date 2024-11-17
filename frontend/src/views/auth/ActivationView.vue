@@ -1,14 +1,21 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
 const route = useRoute()
+const { t } = useI18n({ useScope: 'global' })
 
 const loadingStatus = ref(true)
 
 const status = ref(null)
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.activation.title')
+})
 
 onMounted(async () => {
   try {

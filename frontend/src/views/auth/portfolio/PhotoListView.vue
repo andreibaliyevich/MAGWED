@@ -1,5 +1,13 @@
 <script setup>
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import PortfolioPhotoList from '@/components/auth/PortfolioPhotoList.vue'
+
+const { t } = useI18n({ useScope: 'global' })
+
+useHead({
+  title: () => t('seo_meta.portfolio_photo_list.title')
+})
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ref, watch, onMounted } from 'vue'
 
@@ -20,6 +21,10 @@ const password2Show = ref(false)
 
 const status = ref(null)
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.registration.title')
+})
 
 const setUserTypeOptions = () => {
   userTypeOptions.value = [

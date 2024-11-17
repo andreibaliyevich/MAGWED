@@ -1,12 +1,13 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { useLocaleDateTime } from '@/composables/localeDateTime.js'
 
 const router = useRouter()
-const { locale } = useI18n({ useScope: 'global' })
+const { t, locale } = useI18n({ useScope: 'global' })
 
 const albumListLoading = ref(true)
 const albumList = ref([])
@@ -26,6 +27,10 @@ const albumImg = ref(null)
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.portfolio_album_list.title')
+})
 
 const getAlbumList = async () => {
   try {

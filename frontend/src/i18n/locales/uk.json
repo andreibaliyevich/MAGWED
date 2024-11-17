@@ -35,6 +35,45 @@
             "description": "Фотографії",
             "keywords": "Фотографії"
         },
+        "login": {
+            "title": "Авторизація"
+        },
+        "registration": {
+            "title": "Реєстрація"
+        },
+        "activation": {
+            "title": "Активація"
+        },
+        "password_reset": {
+            "title": "Скидання пароля"
+        },
+        "password_reset_confirm": {
+            "title": "Підтвердження скидання пароля"
+        },
+        "profile": {
+            "title": "Налаштування профілю"
+        },
+        "profile_delete": {
+            "title": "Видалення профілю"
+        },
+        "password_change": {
+            "title": "Зміна пароля"
+        },
+        "social_links": {
+            "title": "Соціальні посилання"
+        },
+        "portfolio": {
+            "title": "Портфоліо"
+        },
+        "portfolio_album_list": {
+            "title": "Альбоми - Портфоліо"
+        },
+        "portfolio_album_detail": {
+            "title": "Редагування альбому - Портфоліо"
+        },
+        "portfolio_photo_list": {
+            "title": "Фотографії - Портфоліо"
+        },
         "messenger": {
             "title": "Месенджер"
         },

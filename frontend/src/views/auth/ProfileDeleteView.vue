@@ -1,12 +1,13 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 
 const router = useRouter()
-const { locale } = useI18n({ useScope: 'global' })
+const { t, locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
 
 const profileDeleting = ref(false)
@@ -14,6 +15,10 @@ const currentPassword = ref('')
 const currentPasswordShow = ref(false)
 
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.profile_delete.title')
+})
 
 const deletingProfile = async () => {
   profileDeleting.value = true

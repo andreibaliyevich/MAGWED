@@ -35,6 +35,45 @@
             "description": "Фотографии",
             "keywords": "Фотографии"
         },
+        "login": {
+            "title": "Авторизация"
+        },
+        "registration": {
+            "title": "Регистрация"
+        },
+        "activation": {
+            "title": "Активация"
+        },
+        "password_reset": {
+            "title": "Сброс пароля"
+        },
+        "password_reset_confirm": {
+            "title": "Подтверждение сброса пароля"
+        },
+        "profile": {
+            "title": "Настройки профиля"
+        },
+        "profile_delete": {
+            "title": "Удаление профиля"
+        },
+        "password_change": {
+            "title": "Изменение пароля"
+        },
+        "social_links": {
+            "title": "Социальные ссылки"
+        },
+        "portfolio": {
+            "title": "Портфолио"
+        },
+        "portfolio_album_list": {
+            "title": "Альбомы - Портфолио"
+        },
+        "portfolio_album_detail": {
+            "title": "Редактирование альбома - Портфолио"
+        },
+        "portfolio_photo_list": {
+            "title": "Фотографии - Портфолио"
+        },
         "messenger": {
             "title": "Мессенджер"
         },

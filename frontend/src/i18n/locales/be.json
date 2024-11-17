@@ -35,6 +35,45 @@
             "description": "Фатаграфіі",
             "keywords": "Фатаграфіі"
         },
+        "login": {
+            "title": "Аўтарызацыя"
+        },
+        "registration": {
+            "title": "Рэгістрацыя"
+        },
+        "activation": {
+            "title": "Актывацыя"
+        },
+        "password_reset": {
+            "title": "Скід пароля"
+        },
+        "password_reset_confirm": {
+            "title": "Пацвярджэнне скіду пароля"
+        },
+        "profile": {
+            "title": "Наладкі профілю"
+        },
+        "profile_delete": {
+            "title": "Выдаленне профілю"
+        },
+        "password_change": {
+            "title": "Змена пароля"
+        },
+        "social_links": {
+            "title": "Сацыяльныя спасылкі"
+        },
+        "portfolio": {
+            "title": "Партфоліё"
+        },
+        "portfolio_album_list": {
+            "title": "Альбомы - Партфоліё"
+        },
+        "portfolio_album_detail": {
+            "title": "Рэдагаванне альбома - Партфоліё"
+        },
+        "portfolio_photo_list": {
+            "title": "Фатаграфіі - Партфоліё"
+        },
         "messenger": {
             "title": "Месенджэр"
         },

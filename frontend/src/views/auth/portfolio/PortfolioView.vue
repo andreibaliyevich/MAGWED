@@ -1,3 +1,14 @@
+<script setup>
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n({ useScope: 'global' })
+
+useHead({
+  title: () => t('seo_meta.portfolio.title')
+})
+</script>
+
 <template>
   <h1 class="text-h4 text-md-h3 text-center my-5">
     {{ $t('portfolio.portfolio') }}

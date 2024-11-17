@@ -1,12 +1,20 @@
 <script setup>
 import axios from 'axios'
+import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const loadingStatus = ref(false)
 const email = ref('')
 
 const status = ref(null)
 const errors = ref(null)
+
+useHead({
+  title: () => t('seo_meta.password_reset.title')
+})
 
 const resetPassword = async () => {
   loadingStatus.value = true

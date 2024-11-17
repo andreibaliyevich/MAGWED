@@ -35,6 +35,45 @@
             "description": "Photos",
             "keywords": "Photos"
         },
+        "login": {
+            "title": "Login"
+        },
+        "registration": {
+            "title": "Registration"
+        },
+        "activation": {
+            "title": "Activation"
+        },
+        "password_reset": {
+            "title": "Password reset"
+        },
+        "password_reset_confirm": {
+            "title": "Password reset confirmation"
+        },
+        "profile": {
+            "title": "Profile settings"
+        },
+        "profile_delete": {
+            "title": "Profile delete"
+        },
+        "password_change": {
+            "title": "Password change"
+        },
+        "social_links": {
+            "title": "Social links"
+        },
+        "portfolio": {
+            "title": "Portfolio"
+        },
+        "portfolio_album_list": {
+            "title": "Albums - Portfolio"
+        },
+        "portfolio_album_detail": {
+            "title": "Editing album - Portfolio"
+        },
+        "portfolio_photo_list": {
+            "title": "Photos - Portfolio"
+        },
         "messenger": {
             "title": "Messenger"
         },
