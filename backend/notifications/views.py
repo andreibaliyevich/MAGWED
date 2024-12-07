@@ -34,5 +34,5 @@ class NotificationListDestroyView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
-        Notification.objects.filter(recipient=self.request.user).delete()
+        Notification.objects.filter(recipient=request.user).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

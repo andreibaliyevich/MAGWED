@@ -148,7 +148,7 @@ class ChatLeaveView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
-        queryset = Chat.objects.filter(members=self.request.user)
+        queryset = Chat.objects.filter(members=request.user)
         obj = get_object_or_404(queryset, uuid=kwargs['uuid'])
         obj.members.remove(request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -171,7 +171,7 @@ class NewMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        chats = Chat.objects.filter(members=self.request.user)
+        chats = Chat.objects.filter(members=request.user)
         chat = get_object_or_404(chats, uuid=kwargs['chat_uuid'])
 
         if kwargs['msg_type'] == MessageType.TEXT:

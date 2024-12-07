@@ -5,7 +5,7 @@ import { CURRENCIES } from '@/config.js'
 export const useCurrencyStore = defineStore('currencyStore', {
   state: () => ({
     currencyValue: CURRENCIES[0].value,
-    currencySymbol: CURRENCIES[0].text,
+    currencySymbol: CURRENCIES[0].symbol,
     conversionRate: 1
   }),
   actions: {
