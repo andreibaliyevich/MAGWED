@@ -63,10 +63,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def receive_json(self, content):
         if content['action'] == 'viewed':
-            msg_viewed = await self.set_message_viewed(content['msg_uuid'])
+            await self.set_message_viewed(content['msg_uuid'])
             data = {
                 'msg_uuid': content['msg_uuid'],
-                'msg_viewed': msg_viewed,
+                'msg_viewed_by': str(self.user.uuid),
             }
 
         await self.channel_layer.group_send(
@@ -103,8 +103,4 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         except Message.DoesNotExist:
             return None
 
-        if self.user != msg.author:
-            msg.viewed = True
-            msg.save(update_fields=['viewed'])
-
-        return msg.viewed
+        msg.viewed_by.add(self.user)

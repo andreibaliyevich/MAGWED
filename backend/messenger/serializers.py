@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from accounts.serializers import (
     UserBriefReadSerializer,
@@ -141,7 +142,7 @@ class MessageFullReadSerializer(serializers.ModelSerializer):
             'author',
             'msg_type',
             'created_at',
-            'viewed',
+            'viewed_by',
             'content',
         ]
 
@@ -189,7 +190,7 @@ class ChatListSerializer(serializers.ModelSerializer):
         user = self.context.get('user', self.context['request'].user)
         return obj.messages.exclude(
             author=user).filter(
-            viewed=False).count()
+            ~Q(viewed_by=user)).count()
 
     class Meta:
         model = Chat

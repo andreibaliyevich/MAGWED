@@ -102,6 +102,7 @@ class Message(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name="messages",
         verbose_name=_('Author'),
     )
 
@@ -120,7 +121,12 @@ class Message(models.Model):
         verbose_name=_('Updated at'),
     )
 
-    viewed = models.BooleanField(default=False, verbose_name=_('Viewed'))
+    viewed_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name="viewed_messages",
+        verbose_name=_('Viewed by'),
+    )
 
     class Meta:
         verbose_name = _('Message')
