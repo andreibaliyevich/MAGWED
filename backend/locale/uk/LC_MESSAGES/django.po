@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-17 11:41+0000\n"
+"POT-Creation-Date: 2024-12-09 20:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -423,7 +423,7 @@ msgstr "Категорія"
 msgid "Categories"
 msgstr "Категорії"
 
-#: blog/models.py:44 comments/models.py:28 messenger/models.py:105
+#: blog/models.py:44 comments/models.py:28 messenger/models.py:106
 #: portfolio/models.py:24 portfolio/models.py:91 reviews/models.py:26
 msgid "Author"
 msgstr "Автор"
@@ -502,14 +502,14 @@ msgstr "Форма недійсна!"
 msgid "Comments"
 msgstr "Коментарі"
 
-#: comments/models.py:36 main/models.py:169 messenger/models.py:116
+#: comments/models.py:36 main/models.py:169 messenger/models.py:117
 #: notifications/models.py:43 portfolio/models.py:46 reviews/models.py:38
 #: social/models.py:34 social/models.py:67 social/models.py:103
 #: support/models.py:28 support/models.py:59
 msgid "Created at"
 msgstr "Створено в"
 
-#: comments/models.py:40 messenger/models.py:120 reviews/models.py:42
+#: comments/models.py:40 messenger/models.py:121 reviews/models.py:42
 msgid "Updated at"
 msgstr "Оновлено у"
 
@@ -721,56 +721,56 @@ msgstr "Груповий чат"
 msgid "Group Chats"
 msgstr "Групові чати"
 
-#: messenger/models.py:110
+#: messenger/models.py:111
 msgid "Message type"
 msgstr "Тип повідомлення"
 
-#: messenger/models.py:123 notifications/models.py:45
-msgid "Viewed"
+#: messenger/models.py:128
+msgid "Viewed by"
 msgstr "Переглянуто"
 
-#: messenger/models.py:126 messenger/models.py:138 messenger/models.py:159
-#: messenger/models.py:183
+#: messenger/models.py:132 messenger/models.py:144 messenger/models.py:165
+#: messenger/models.py:189
 msgid "Message"
 msgstr "Повідомлення"
 
-#: messenger/models.py:127
+#: messenger/models.py:133
 msgid "Messages"
 msgstr "Повідомлення"
 
-#: messenger/models.py:140
+#: messenger/models.py:146
 msgid "Text content"
 msgstr "Текстовий вміст"
 
-#: messenger/models.py:143
+#: messenger/models.py:149
 msgid "Text Message"
 msgstr "Текстове повідомлення"
 
-#: messenger/models.py:144
+#: messenger/models.py:150
 msgid "Text Messages"
 msgstr "Текстові повідомлення"
 
-#: messenger/models.py:163
+#: messenger/models.py:169
 msgid "Image content"
 msgstr "Зміст зображення"
 
-#: messenger/models.py:167
+#: messenger/models.py:173
 msgid "Image Message"
 msgstr "Зображення повідомлення"
 
-#: messenger/models.py:168
+#: messenger/models.py:174
 msgid "Image Messages"
 msgstr "Зображення повідомлень"
 
-#: messenger/models.py:187
+#: messenger/models.py:193
 msgid "File content"
 msgstr "Вміст файлу"
 
-#: messenger/models.py:191
+#: messenger/models.py:197
 msgid "File Message"
 msgstr "Файлове повідомлення"
 
-#: messenger/models.py:192
+#: messenger/models.py:198
 msgid "File Messages"
 msgstr "Файлові повідомлення"
 
@@ -849,6 +849,10 @@ msgstr "Одержувач"
 #: notifications/models.py:33
 msgid "Reason"
 msgstr "Причина"
+
+#: notifications/models.py:45
+msgid "Viewed"
+msgstr "Переглянуто"
 
 #: notifications/models.py:48
 msgid "Notification"
