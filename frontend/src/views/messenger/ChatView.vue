@@ -129,7 +129,7 @@ const openChatSocket = async () => {
         return element.uuid === data.data.msg_uuid
       })
       if (foundIndex !== -1) {
-        messageList.value[foundIndex].viewed = data.data.msg_viewed
+        messageList.value[foundIndex].viewed_by.push(data.data.msg_viewed_by)
       }
     }
   }
@@ -537,14 +537,14 @@ onUnmounted(() => {
       >
         <div
           v-for="msg in reversedMessages"
-          class="my-5 mx-1"
+          class="my-1 mx-1"
         >
           <AuthorMessageItem
             v-if="msg.author.uuid === userStore.uuid"
             :msg="msg"
           />
           <MessageItem
-            v-else-if="msg.viewed || !chatSocketConnect"
+            v-else-if="msg.viewed_by.includes(userStore.uuid) || !chatSocketConnect"
             :chatTypeData="chatData.chat_type"
             :msg="msg"
           />

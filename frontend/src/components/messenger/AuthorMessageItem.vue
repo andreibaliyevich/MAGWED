@@ -37,7 +37,7 @@ const { getLocaleDateTimeString } = useLocaleDateTime()
       />
       <div class="d-flex justify-end">
         <v-icon
-          :icon="msg.viewed ? 'mdi-check-all' : 'mdi-check'"
+          :icon="msg.viewed_by.length ? 'mdi-check-all' : 'mdi-check'"
           :size="16"
         ></v-icon>
       </div>
