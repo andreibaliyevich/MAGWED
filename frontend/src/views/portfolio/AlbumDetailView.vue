@@ -30,7 +30,7 @@ const albumData = ref({
   view_count: 0,
   like_count: 0,
   liked: null,
-  rating: 0,
+  rating: 0.0,
   favorite: null
 })
 
@@ -244,7 +244,7 @@ onUnmounted(() => {
                       :size="24"
                       class="me-1"
                     ></v-icon>
-                    {{ albumData.rating }}
+                    {{ albumData.rating.toFixed(1) }}
                   </div>
                 </div>
               </div>
@@ -436,7 +436,7 @@ onUnmounted(() => {
                           </small>
                           <small>
                             <v-icon icon="mdi-star-outline"></v-icon>
-                            {{ photoItem.rating }}
+                            {{ photoItem.rating.toFixed(1) }}
                           </small>
                         </div>
                       </router-link>

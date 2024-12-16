@@ -26,7 +26,7 @@ const photoTags = ref([])
 const photoUploadedAt = ref(null)
 const photoViewCount = ref(0)
 const photoLikeCount = ref(0)
-const photoRating = ref(0)
+const photoRating = ref(0.0)
 
 const { getLocaleDateTimeString } = useLocaleDateTime()
 
@@ -522,7 +522,7 @@ onMounted(() => {
             </tr>
             <tr>
               <td>{{ $t('portfolio.rating') }}</td>
-              <td>{{ photoRating }}</td>
+              <td>{{ photoRating.toFixed(1) }}</td>
             </tr>
           </tbody>
         </v-table>
@@ -546,7 +546,7 @@ onMounted(() => {
             photoUploadedAt = null
             photoViewCount = 0
             photoLikeCount = 0
-            photoRating = 0
+            photoRating = 0.0
             errors = null
           }"
         >

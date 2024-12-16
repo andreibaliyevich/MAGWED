@@ -207,7 +207,7 @@ onMounted(() => {
                     </small>
                     <small>
                       <v-icon icon="mdi-star-outline"></v-icon>
-                      {{ photoItem.rating }}
+                      {{ photoItem.rating.toFixed(1) }}
                     </small>
                   </div>
                 </router-link>

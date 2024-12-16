@@ -23,7 +23,7 @@ const albumTags = ref([])
 const albumCreatedAt = ref(null)
 const albumViewCount = ref(0)
 const albumLikeCount = ref(0)
-const albumRating = ref(0)
+const albumRating = ref(0.0)
 
 const albumRemoveDialog = ref(false)
 
@@ -264,7 +264,7 @@ onMounted(() => {
           </tr>
           <tr>
             <td>{{ $t('portfolio.rating') }}</td>
-            <td>{{ albumRating }}</td>
+            <td>{{ albumRating.toFixed(1) }}</td>
           </tr>
         </tbody>
       </v-table>

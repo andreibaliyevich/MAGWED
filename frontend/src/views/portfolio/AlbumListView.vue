@@ -205,7 +205,7 @@ onMounted(() => {
                   </span>
                   <span>
                     <v-icon icon="mdi-star-outline"></v-icon>
-                    {{ albumItem.rating }}
+                    {{ albumItem.rating.toFixed(1) }}
                   </span>
                 </div>
               </v-card-subtitle>

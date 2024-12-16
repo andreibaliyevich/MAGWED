@@ -37,7 +37,7 @@ const photoData = ref({
   view_count: 0,
   like_count: 0,
   liked: null,
-  rating: 0,
+  rating: 0.0,
   favorite: null,
   prev_photo_uuid: null,
   next_photo_uuid: null
@@ -293,7 +293,7 @@ onUnmounted(() => {
                           :size="24"
                           class="me-1"
                         ></v-icon>
-                        {{ photoData.rating }}
+                        {{ photoData.rating.toFixed(1) }}
                       </div>
                     </div>
                   </div>
