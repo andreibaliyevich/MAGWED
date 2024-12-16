@@ -60,7 +60,7 @@ class PhotoRUDSerializer(serializers.ModelSerializer):
     uploaded_at = serializers.DateTimeField(read_only=True)
     view_count = serializers.IntegerField(read_only=True)
     like_count = serializers.SerializerMethodField()
-    rating = serializers.IntegerField(read_only=True)
+    rating = serializers.FloatField(read_only=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()
@@ -206,7 +206,7 @@ class AlbumRUDSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(read_only=True)
     view_count = serializers.IntegerField(read_only=True)
     like_count = serializers.SerializerMethodField()
-    rating = serializers.IntegerField(read_only=True)
+    rating = serializers.FloatField(read_only=True)
 
     def get_like_count(self, obj):
         return obj.likes.count()

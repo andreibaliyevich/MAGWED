@@ -56,7 +56,7 @@ class Album(models.Model):
         related_name='album_likes',
         verbose_name=_('Likes'),
     )
-    rating = models.PositiveIntegerField(
+    rating = models.FloatField(
         default=0,
         verbose_name=_('Rating'),
     )
@@ -67,6 +67,11 @@ class Album(models.Model):
 
     comments = GenericRelation(
         'comments.Comment',
+        content_type_field='content_type',
+        object_id_field='object_uuid',
+    )
+    favorites = GenericRelation(
+        'social.Favorite',
         content_type_field='content_type',
         object_id_field='object_uuid',
     )
@@ -171,7 +176,7 @@ class Photo(models.Model):
         related_name='photo_likes',
         verbose_name=_('Likes'),
     )
-    rating = models.PositiveIntegerField(
+    rating = models.FloatField(
         default=0,
         verbose_name=_('Rating'),
     )
@@ -182,6 +187,11 @@ class Photo(models.Model):
 
     comments = GenericRelation(
         'comments.Comment',
+        content_type_field='content_type',
+        object_id_field='object_uuid',
+    )
+    favorites = GenericRelation(
+        'social.Favorite',
         content_type_field='content_type',
         object_id_field='object_uuid',
     )
