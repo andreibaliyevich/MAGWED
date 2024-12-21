@@ -239,7 +239,8 @@ class PhotoRetrieveView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        obj = get_object_or_404(queryset, uuid=kwargs['uuid'])
+        obj = get_object_or_404(queryset, uuid=kwargs[self.lookup_field])
+        self.check_object_permissions(self.request, obj)
         serializer = self.get_serializer(obj)
         data = serializer.data
         data.update(self.get_prev_and_next(queryset, obj))

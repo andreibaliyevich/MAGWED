@@ -63,20 +63,20 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def receive_json(self, content):
         if content['action'] == 'viewed':
-            await self.set_message_viewed(content['msg_uuid'])
-            data = {
-                'msg_uuid': content['msg_uuid'],
-                'msg_viewed_by': str(self.user.uuid),
-            }
+            viewed = await self.set_message_viewed(content['msg_uuid'])
 
-        await self.channel_layer.group_send(
-            self.chat_group_name,
-            {
-                'type': 'send_json_data',
-                'action': content['action'],
-                'data': data,
-            }
-        )
+            if viewed:
+                await self.channel_layer.group_send(
+                    self.chat_group_name,
+                    {
+                        'type': 'send_json_data',
+                        'action': content['action'],
+                        'data': {
+                            'msg_uuid': content['msg_uuid'],
+                            'msg_viewed_by': str(self.user.uuid),
+                        },
+                    }
+                )
 
     async def send_json_data(self, event):
         await self.send_json({
@@ -104,3 +104,4 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             return None
 
         msg.viewed_by.add(self.user)
+        return True

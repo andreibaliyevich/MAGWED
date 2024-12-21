@@ -527,8 +527,8 @@ onUnmounted(() => {
       </div>
 
       <v-infinite-scroll
-        ref="messageListArea"
         v-else-if="messageList.length > 0"
+        ref="messageListArea"
         @load="getMoreMessageList"
         mode="intersect"
         side="start"
