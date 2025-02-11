@@ -11,7 +11,7 @@ const { t, locale } = useI18n({ useScope: 'global' })
 const loadingStatus = ref(false)
 const username = ref('')
 const password = ref('')
-const passwordShow = ref('')
+const passwordShow = ref(false)
 
 const errors = ref(null)
 
