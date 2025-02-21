@@ -1,13 +1,11 @@
-import axios from 'axios'
 import { useI18n } from 'vue-i18n'
-import { ref, watch, onMounted } from 'vue'
+import { computed } from 'vue'
 
 export function useOptionsOfLanguages() {
-  const { t, locale } = useI18n({ useScope: 'global' })
-  const languageOptions = ref([])
+  const { t } = useI18n({ useScope: 'global' })
 
-  const setLanguageOptions = () => {
-    languageOptions.value = [
+  const languageOptions = computed(() => {
+    return [
       { value: 'be', title: t('languages.be') },
       { value: 'en', title: t('languages.en') },
       { value: 'fr', title: t('languages.fr') },
@@ -17,14 +15,6 @@ export function useOptionsOfLanguages() {
       { value: 'ru', title: t('languages.ru') },
       { value: 'uk', title: t('languages.uk') }
     ]
-  }
-
-  watch(locale, () => {
-    setLanguageOptions()
-  })
-
-  onMounted(() => {
-    setLanguageOptions()
   })
 
   return { languageOptions }

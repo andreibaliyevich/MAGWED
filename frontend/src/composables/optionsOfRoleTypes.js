@@ -1,12 +1,11 @@
 import { useI18n } from 'vue-i18n'
-import { ref, watch, onMounted } from 'vue'
+import { computed } from 'vue'
 
 export function useOptionsOfRoleTypes(translationKey) {
-  const { t, locale } = useI18n({ useScope: 'global' })
-  const roleTypeOptions = ref([])
+  const { t } = useI18n({ useScope: 'global' })
 
-  const setRoleTypeOptions = () => {
-    roleTypeOptions.value = [
+  const roleTypeOptions = computed(() => {
+    return [
       { value: 1, title: t(`${translationKey}.1`) },
       { value: 2, title: t(`${translationKey}.2`) },
       { value: 3, title: t(`${translationKey}.3`) },
@@ -19,14 +18,6 @@ export function useOptionsOfRoleTypes(translationKey) {
       { value: 10, title: t(`${translationKey}.10`) },
       { value: 11, title: t(`${translationKey}.11`) }
     ]
-  }
-
-  watch(locale, () => {
-    setRoleTypeOptions()
-  })
-
-  onMounted(() => {
-    setRoleTypeOptions()
   })
 
   return { roleTypeOptions }
