@@ -117,8 +117,8 @@ const removeAlbum = async () => {
   }
 }
 
-onMounted(() => {
-  getAlbumList()
+onMounted(async () => {
+  await getAlbumList()
 })
 </script>
 

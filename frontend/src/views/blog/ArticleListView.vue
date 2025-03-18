@@ -68,21 +68,21 @@ const getMoreArticleList = async ({ done }) => {
   }
 }
 
-watch(locale, () => {
-  getArticleList()
+watch(locale, async () => {
+  await getArticleList()
 })
 
 watch(
   () => route.query,
-  (newValue) => {
+  async () => {
     if (route.name === 'ArticleList') {
-      getArticleList()
+      await getArticleList()
     }
   }
 )
 
-onMounted(() => {
-  getArticleList()
+onMounted(async () => {
+  await getArticleList()
 })
 </script>
 

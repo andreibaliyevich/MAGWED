@@ -67,18 +67,18 @@ const getMoreItems = async ({ done }) => {
   }
 }
 
-watch(searchQuery, (newValue) => {
+watch(searchQuery, async (newValue) => {
   if (newValue) {
-    searchItems()
+    await searchItems()
   } else {
     searchedItems.value = []
   }
 })
 
-watch(searchType, () => {
+watch(searchType, async () => {
   if (searchQuery.value) {
     searchedItems.value = []
-    searchItems()
+    await searchItems()
   }
 })
 </script>

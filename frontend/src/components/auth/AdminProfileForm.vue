@@ -77,8 +77,8 @@ watch(country, (newValue, oldValue) => {
   }
 })
 
-onMounted(() => {
-  getProfileData()
+onMounted(async () => {
+  await getProfileData()
 })
 </script>
 
@@ -92,7 +92,7 @@ onMounted(() => {
       :size="80"
     ></v-progress-circular>
   </div>
-  
+
   <v-form
     v-else
     @submit.prevent="updateProfile()"

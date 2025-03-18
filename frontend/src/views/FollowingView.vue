@@ -60,8 +60,8 @@ const updateUserStatus = (mutation, state) => {
   })
 }
 
-onMounted(() => {
-  getFollowingList()
+onMounted(async () => {
+  await getFollowingList()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>

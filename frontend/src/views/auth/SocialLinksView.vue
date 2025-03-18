@@ -113,9 +113,9 @@ watch(locale, () => {
   setLinkTypeOptions()
 })
 
-onMounted(() => {
+onMounted(async () => {
   setLinkTypeOptions()
-  getSocialLinks()
+  await getSocialLinks()
 })
 </script>
 

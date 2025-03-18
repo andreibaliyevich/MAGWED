@@ -123,8 +123,8 @@ const removeAlbum = async () => {
   }
 }
 
-onMounted(() => {
-  getAlbumData()
+onMounted(async () => {
+  await getAlbumData()
 })
 </script>
 

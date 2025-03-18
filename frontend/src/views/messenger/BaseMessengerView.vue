@@ -63,7 +63,7 @@ useHead({
   title: () => t('seo_meta.messenger.title')
 })
 
-const openChatListSocket = async () => {
+const openChatListSocket = () => {
   chatListSocket.value = new WebSocket(
     WS_URL
       + '/ws/chat-list/?'
@@ -232,15 +232,15 @@ const updateUserStatus = (mutation, state) => {
   })
 }
 
-watch(selectedChatType, (newValue) => {
+watch(selectedChatType, () => {
   selectedMembers.value = []
   groupChatName.value = ''
   groupChatImage.value = null
   errors.value = null
 })
 
-onMounted(() => {
-  getChatList()
+onMounted(async () => {
+  await getChatList()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 

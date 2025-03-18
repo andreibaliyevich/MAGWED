@@ -51,7 +51,7 @@ if (userString) {
   userStore.setUserData(userData)
 }
 
-onMounted(async () => {
+onMounted(() => {
   let connectionSocketURL = `${WS_URL}/ws/connection/${deviceUUID.value}/`
   if (userStore.isLoggedIn) {
     connectionSocketURL += `?${userStore.token}`

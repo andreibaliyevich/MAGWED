@@ -163,16 +163,16 @@ const dislikeAlbum = async () => {
 
 watch(
   () => route.params.uuid,
-  (newValue) => {
+  async () => {
     if (route.name === 'AlbumDetail') {
       errorStatus.value = null
-      getAlbumData()
+      await getAlbumData()
     }
   }
 )
 
-onMounted(() => {
-  getAlbumData()
+onMounted(async () => {
+  await getAlbumData()
 })
 
 onUnmounted(() => {
@@ -272,7 +272,7 @@ onUnmounted(() => {
                   ></v-btn>
                 </template>
               </v-tooltip>
-              
+
               <v-menu
                 location="start"
                 :close-on-content-click="false"

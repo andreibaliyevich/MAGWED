@@ -119,7 +119,7 @@ const getCostWorkMinMax = async () => {
   }
 }
 
-const resetParamsAndGetOrganizers = () => {
+const resetParamsAndGetOrganizers = async () => {
   countries.value = []
   cities.value = []
   languages.value = []
@@ -142,9 +142,9 @@ const updateUserStatus = (mutation, state) => {
 
 watch(
   () => route.query.role,
-  (newValue) => {
+  async () => {
     if (route.name === 'OrganizerList') {
-      getOrganizerList()
+      await getOrganizerList()
     }
   }
 )
@@ -178,9 +178,9 @@ watch(
   }
 )
 
-onMounted(() => {
-  getOrganizerList()
-  getCostWorkMinMax()
+onMounted(async () => {
+  await getOrganizerList()
+  await getCostWorkMinMax()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>

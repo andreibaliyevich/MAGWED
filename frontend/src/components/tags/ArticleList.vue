@@ -48,8 +48,8 @@ const getMoreArticleList = async ({ done }) => {
   }
 }
 
-onMounted(() => {
-  getArticleList()
+onMounted(async () => {
+  await getArticleList()
 })
 </script>
 

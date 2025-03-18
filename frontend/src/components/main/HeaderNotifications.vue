@@ -74,7 +74,7 @@ const removeAllNotifications = async () => {
   }
 }
 
-const connectSocket = async () => {
+const connectSocket = () => {
   notificationSocket.value = new WebSocket(
     WS_URL
       + '/ws/notifications/?'
@@ -135,18 +135,18 @@ const setNoticeViewed = (isIntersecting, entries, observer) => {
   }
 }
 
-watch(notificationMenu, (newValue) => {
+watch(notificationMenu, async (newValue) => {
   if (newValue) {
-    getNotificationList()
+    await getNotificationList()
   } else {
     notificationList.value = []
     nextURL.value = null
   }
 })
 
-onMounted(() => {
-  getNotViewedCount()
-  connectSocket()
+onMounted(async () => {
+  await getNotViewedCount()
+  await connectSocket()
 })
 </script>
 

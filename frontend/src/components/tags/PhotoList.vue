@@ -45,8 +45,8 @@ const getMorePhotoList = async ({ done }) => {
   }
 }
 
-onMounted(() => {
-  getPhotoList()
+onMounted(async () => {
+  await getPhotoList()
 })
 </script>
 

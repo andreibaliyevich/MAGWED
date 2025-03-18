@@ -169,16 +169,16 @@ const keyUpArrowLeftRight = (event) => {
 
 watch(
   () => route.params.uuid,
-  (newValue) => {
+  async () => {
     if (route.name === 'PhotoDetail') {
       errorStatus.value = null
-      getPhotoData()
+      await getPhotoData()
     }
   }
 )
 
-onMounted(() => {
-  getPhotoData()
+onMounted(async () => {
+  await getPhotoData()
   window.addEventListener('keyup', keyUpArrowLeftRight)
 })
 
@@ -321,7 +321,7 @@ onUnmounted(() => {
                       ></v-btn>
                     </template>
                   </v-tooltip>
-                  
+
                   <v-menu
                     location="start"
                     :close-on-content-click="false"

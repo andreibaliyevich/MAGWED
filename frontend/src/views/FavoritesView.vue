@@ -55,21 +55,21 @@ const getMoreFavoriteList = async ({ done }) => {
   }
 }
 
-watch(locale, () => {
-  getFavoriteList()
+watch(locale, async () => {
+  await getFavoriteList()
 })
 
 watch(
   () => route.query.type,
-  (newValue) => {
+  async () => {
     if (route.name === 'Favorites') {
-      getFavoriteList()
+      await getFavoriteList()
     }
   }
 )
 
-onMounted(() => {
-  getFavoriteList()
+onMounted(async () => {
+  await getFavoriteList()
 })
 </script>
 

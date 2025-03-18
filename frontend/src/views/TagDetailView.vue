@@ -32,8 +32,8 @@ const getTagData = async () => {
   }
 }
 
-onMounted(() => {
-  getTagData()
+onMounted(async () => {
+  await getTagData()
 })
 </script>
 

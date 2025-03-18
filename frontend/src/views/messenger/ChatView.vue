@@ -103,7 +103,7 @@ const getMoreMessageList = async ({ done }) => {
   }
 }
 
-const openChatSocket = async () => {
+const openChatSocket = () => {
   chatSocket.value = new WebSocket(
     WS_URL
       + '/ws/chat/'
@@ -319,19 +319,19 @@ const updateUserStatus = (mutation, state) => {
 
 watch(
   () => route.params.uuid,
-  (newValue) => {
+  async () => {
     if (route.name === 'Chat') {
       messageList.value = []
       nextURL.value = null
       errorStatus.value = null
       closeChatSocket()
-      getChatData()
+      await getChatData()
     }
   }
 )
 
-onMounted(() => {
-  getChatData()
+onMounted(async () => {
+  await getChatData()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 

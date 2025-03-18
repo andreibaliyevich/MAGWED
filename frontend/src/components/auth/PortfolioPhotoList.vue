@@ -213,8 +213,8 @@ watch(photoIndex, async (newValue) => {
   }
 })
 
-onMounted(() => {
-  getPhotoList()
+onMounted(async () => {
+  await getPhotoList()
 })
 </script>
 

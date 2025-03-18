@@ -24,11 +24,11 @@ export function useOptionsOfCitiesExtra(countries) {
     }
   }
 
-  watch(countries, (newValue) => {
+  watch(countries, async (newValue) => {
     if (newValue.length > 0) {
       let params = new URLSearchParams()
       newValue.forEach((element) => params.append('country', element))
-      getAndSetCityOptionsExtra(params)
+      await getAndSetCityOptionsExtra(params)
     } else {
       cityValuesExtra.value = []
     }

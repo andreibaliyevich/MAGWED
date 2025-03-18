@@ -75,48 +75,22 @@ const getArticleData = async () => {
   }
 }
 
-const addArticleToFavorites = async () => {
-  try {
-    const response = await axios.post('/social/favorite/', {
-      content_type: 'article',
-      object_uuid: articleData.value.uuid
-    })
-    articleData.value.favorite = true
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const removeArticleFromFavorites = async () => {
-  try {
-    const response = await axios.delete('/social/favorite/', {
-      data: {
-        content_type: 'article',
-        object_uuid: articleData.value.uuid
-      }
-    })
-    articleData.value.favorite = false
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-watch(locale, () => {
-  getArticleData()
+watch(locale, async () => {
+  await getArticleData()
 })
 
 watch(
   () => route.params.slug,
-  (newValue) => {
+  async () => {
     if (route.name === 'ArticleDetail') {
       errorStatus.value = null
-      getArticleData()
+      await getArticleData()
     }
   }
 )
 
-onMounted(() => {
-  getArticleData()
+onMounted(async () => {
+  await getArticleData()
 })
 
 onUnmounted(() => {

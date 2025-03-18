@@ -139,16 +139,16 @@ const writeMessage = async () => {
 
 watch(
   () => route.params.profile_url,
-  (newValue) => {
+  async () => {
     if (route.name === 'OrganizerDetail') {
       errorStatus.value = null
-      getOrganizerData()
+      await getOrganizerData()
     }
   }
 )
 
-onMounted(() => {
-  getOrganizerData()
+onMounted(async () => {
+  await getOrganizerData()
   connectionBusStore.$subscribe(updateUserStatus)
 })
 </script>

@@ -102,8 +102,8 @@ const removeCover = async () => {
   }
 }
 
-onMounted(() => {
-  getCover()
+onMounted(async () => {
+  await getCover()
 })
 </script>
 

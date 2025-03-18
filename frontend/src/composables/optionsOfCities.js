@@ -28,9 +28,9 @@ export function useOptionsOfCities(country) {
     }
   }
 
-  watch(country, (newValue) => {
+  watch(country, async (newValue) => {
     if (newValue) {
-      getAndSetCityOptions(newValue)
+      await getAndSetCityOptions(newValue)
     } else {
       cityValues.value = []
     }

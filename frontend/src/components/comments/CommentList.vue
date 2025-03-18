@@ -134,7 +134,7 @@ const removeCommentFromList = (cList, data) => {
   return [false, false]
 }
 
-const openCommentSocket = async () => {
+const openCommentSocket = () => {
   commentSocket.value = new WebSocket(
     WS_URL
       + '/ws/comments/'
@@ -194,9 +194,9 @@ const updateUserStatus = (cList, state) => {
   })
 }
 
-onMounted(() => {
-  getCommentList()
-  openCommentSocket()
+onMounted(async () => {
+  await getCommentList()
+  await openCommentSocket()
   connectionBusStore.$subscribe((mutation, state) => {
     updateUserStatus(commentList.value, state)
   })

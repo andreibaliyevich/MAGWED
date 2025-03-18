@@ -67,15 +67,15 @@ const getMorePhotoList = async ({ done }) => {
 
 watch(
   () => route.query.tab,
-  (newValue) => {
+  async () => {
     if (route.name === 'PhotoList') {
-      getPhotoList()
+      await getPhotoList()
     }
   }
 )
 
-onMounted(() => {
-  getPhotoList()
+onMounted(async () => {
+  await getPhotoList()
 })
 </script>
 

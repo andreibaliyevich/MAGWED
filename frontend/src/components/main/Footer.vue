@@ -46,8 +46,8 @@ const changeCurrency = (value) => {
   currencyStore.setCurrency(value)
 }
 
-onMounted(() => {
-  getMagazine()
+onMounted(async () => {
+  await getMagazine()
 })
 </script>
 

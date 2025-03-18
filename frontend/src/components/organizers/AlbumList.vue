@@ -45,8 +45,8 @@ const getMoreAlbumList = async ({ done }) => {
   }
 }
 
-onMounted(() => {
-  getAlbumList()
+onMounted(async () => {
+  await getAlbumList()
 })
 </script>
 

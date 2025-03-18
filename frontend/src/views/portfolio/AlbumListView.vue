@@ -67,15 +67,15 @@ const getMoreAlbumList = async ({ done }) => {
 
 watch(
   () => route.query.tab,
-  (newValue) => {
+  async () => {
     if (route.name === 'AlbumList') {
-      getAlbumList()
+      await getAlbumList()
     }
   }
 )
 
-onMounted(() => {
-  getAlbumList()
+onMounted(async () => {
+  await getAlbumList()
 })
 </script>
 
@@ -168,7 +168,7 @@ onMounted(() => {
                   {{ albumItem.title }}
                 </router-link>
               </v-card-title>
-              
+
               <router-link
                 :to="{
                   name: 'OrganizerDetail',
