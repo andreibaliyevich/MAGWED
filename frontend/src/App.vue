@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/user.js'
 import { useConnectionBusStore } from '@/stores/connectionBus.js'
 import Header from '@/components/main/Header.vue'
 import Footer from '@/components/main/Footer.vue'
+import ScrollTopButton from '@/components/main/ScrollTopButton.vue'
 
 useHead({
   titleTemplate: (titleChunk) => {
@@ -75,6 +76,7 @@ onMounted(() => {
       <router-view />
     </v-main>
     <Footer />
+    <ScrollTopButton />
   </v-app>
 </template>
 
