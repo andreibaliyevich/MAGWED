@@ -53,9 +53,6 @@ const resetPassword = async () => {
   </v-alert>
 
   <div v-else>
-    <p class="text-body-1 text-secondary mb-5">
-      {{ $t('auth.passwordreset.help') }}
-    </p>
     <p class="text-body-1 text-secondary">
       {{ $t('auth.passwordreset.help') }}
     </p>
