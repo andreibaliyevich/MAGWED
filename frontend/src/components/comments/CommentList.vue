@@ -196,7 +196,7 @@ const updateUserStatus = (cList, state) => {
 
 onMounted(async () => {
   await getCommentList()
-  await openCommentSocket()
+  openCommentSocket()
   connectionBusStore.$subscribe((mutation, state) => {
     updateUserStatus(commentList.value, state)
   })

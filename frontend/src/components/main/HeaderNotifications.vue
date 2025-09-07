@@ -146,7 +146,7 @@ watch(notificationMenu, async (newValue) => {
 
 onMounted(async () => {
   await getNotViewedCount()
-  await connectSocket()
+  connectSocket()
 })
 </script>
 
